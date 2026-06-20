@@ -1,0 +1,51 @@
+id: dev.tabularis.Tabularis
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: tabularis
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK database client: network for remote databases and the
+  # built-in AI/MCP features; dri for hardware-accelerated WebKit rendering.
+  # Kept to the tightest set that still works — no --filesystem=home; SQLite
+  # files are opened through the file-chooser portal.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Save connection credentials via the Secret Service (libsecret) and post
+  # desktop notifications.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: tabularis
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 tabularis-wrapper /app/bin/tabularis
+      - install -Dm644 dev.tabularis.Tabularis.desktop /app/share/applications/dev.tabularis.Tabularis.desktop
+      - install -Dm644 dev.tabularis.Tabularis.metainfo.xml /app/share/metainfo/dev.tabularis.Tabularis.metainfo.xml
+      - install -Dm644 dev.tabularis.Tabularis.png /app/share/icons/hicolor/512x512/apps/dev.tabularis.Tabularis.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tabularis.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/TabularisDB/tabularis/releases/download/v0.13.2/tabularis_0.13.2_amd64.deb
+        sha256: 8c65e99f20a85e0fa367c79a75c411311b171bacae2167c1c3981ffe1e20de73
+        size: 16542516
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tabularis-wrapper
+      - type: file
+        path: dev.tabularis.Tabularis.desktop
+      - type: file
+        path: dev.tabularis.Tabularis.metainfo.xml
+      - type: file
+        path: dev.tabularis.Tabularis.png

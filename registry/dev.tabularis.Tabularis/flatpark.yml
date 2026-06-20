@@ -1,0 +1,23 @@
+id: dev.tabularis.Tabularis
+name: Tabularis
+summary: Open-source database client for PostgreSQL, MySQL/MariaDB and SQLite
+website: https://tabularis.dev
+source_url: https://github.com/TabularisDB/tabularis
+build:
+  manifest: dev.tabularis.Tabularis.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - Database
+    - SQL
+    - PostgreSQL
+    - MySQL
+    - SQLite
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

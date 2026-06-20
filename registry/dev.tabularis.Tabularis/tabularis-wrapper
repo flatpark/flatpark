@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# tabularis is a single Tauri (WebKitGTK) binary staged by apply_extra to
+# /app/extra/tabularis. It links only against libraries in org.gnome.Platform
+# (webkit2gtk-4.1, gtk-3, libsoup-3, libsecret). Flatpak redirects $HOME into
+# the per-app data dir, so the app's config and saved connections stay in the
+# sandbox with no redirection needed.
+
+# WebKitGTK's DMABUF renderer renders a blank window under many drivers inside
+# the Flatpak sandbox; the compositing path is the reliable default here.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/tabularis "$@"
