@@ -1,0 +1,20 @@
+id: com.interactivebrokers.ibkrdesktop
+name: IBKR Desktop
+summary: Interactive Brokers desktop trading platform
+website: https://www.interactivebrokers.com/
+build:
+  manifest: com.interactivebrokers.ibkrdesktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags:
+    - Trading
+    - Markets
+    - Workstation
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

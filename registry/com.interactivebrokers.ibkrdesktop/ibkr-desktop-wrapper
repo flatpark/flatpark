@@ -1,0 +1,90 @@
+#!/bin/sh
+set -eu
+
+# Keep everything inside the per-app data dir; the real home is never touched
+# (no --filesystem=home in finish-args, and HOME is redirected here).
+export HOME="$XDG_DATA_HOME/home"
+mkdir -p "$HOME" "$XDG_DATA_HOME/ntws"
+
+# IBKR bundles its own Qt; this Flatpak grants X11 (not Wayland), so force the
+# xcb platform plugin (Qt otherwise auto-selects wayland from WAYLAND_DISPLAY,
+# which it doesn't ship, and aborts).
+export QT_QPA_PLATFORM=xcb
+
+jre_home=/app/extra/jre
+export INSTALL4J_JAVA_HOME_OVERRIDE="$jre_home"
+export LD_LIBRARY_PATH="$jre_home/lib:$jre_home/lib/server${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+app_dir="$XDG_DATA_HOME/ibkr"
+
+# First launch: install IBKR Desktop into the writable data dir using the
+# bundled JRE. install4j then manages its own jar downloads/updates there (the
+# app has network); /app stays read-only. This mirrors the setup install4j
+# needs to run inside the sandbox (proven by the build-time installer run).
+if [ ! -x "$app_dir/ntws" ]; then
+    work="${XDG_CACHE_HOME:-$HOME/.cache}/ibkr-install"
+    rm -rf "$work"; mkdir -p "$work/bin" "$work/fc-cache" "$XDG_CACHE_HOME/install4j"
+    cp /app/extra/ntws-installer.sh "$work/installer.sh"
+
+    # The bundled JRE runs directly under the runtime's loader, so no java
+    # prefix is needed (unlike the build sandbox); INSTALL4J_JAVA_HOME_OVERRIDE
+    # + the cache seed below are enough for install4j to find it.
+
+    # Pre-seed install4j's JRE cache so it accepts the bundled JRE instead of
+    # scanning the system (the sandbox has none) — without this it can't locate
+    # java and the installer fails to start.
+    java_mtime="$(date -r "$jre_home/bin/java" +%s 2>/dev/null || stat -c %Y "$jre_home/bin/java" 2>/dev/null || echo 0)"
+    printf 'JRE_VERSION\t%s\t17\t0\t10\t0\nJRE_INFO\t%s\t1\t%s\t1\n' \
+        "$jre_home" "$jre_home" "$java_mtime" > "$XDG_CACHE_HOME/install4j/jre_version"
+
+    # The installer is a Java GUI app; give fontconfig a writable cache dir.
+    cat > "$work/fonts.conf" <<EOF
+<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+<fontconfig>
+  <dir>/usr/share/fonts</dir>
+  <dir>/run/host/fonts</dir>
+  <cachedir>$work/fc-cache</cachedir>
+</fontconfig>
+EOF
+
+    # install4j's pre-install `df -k` space check can choke on the sandbox
+    # overlay fs (non-numeric output -> false "no space"); normalize that query.
+    cat > "$work/bin/df" <<'DF'
+#!/bin/sh
+set -eu
+real=/usr/bin/df; [ -x "$real" ] || real=/bin/df
+if [ "${1:-}" = "-k" ] && [ "$#" -ge 2 ]; then
+    for a in "$@"; do t="$a"; done
+    line="$("$real" -Pk "$t" 2>/dev/null | sed -n '2p')" || line=
+    set -- $line
+    if [ "$#" -ge 4 ]; then
+        case "$2$3$4" in *[!0-9]*) exec "$real" -k "$t";; esac
+        printf 'Filesystem 1K-blocks Used Available Use%% Mounted on\n'
+        printf 'flatpak %s %s %s 0%% %s\n' "$2" "$3" "$4" "${6:-$t}"
+        exit 0
+    fi
+    exec "$real" -k "$t"
+fi
+exec "$real" "$@"
+DF
+    chmod +x "$work/bin/df"
+
+    PATH="$work/bin:$PATH" \
+    FONTCONFIG_FILE="$work/fonts.conf" \
+    INSTALL4J_ADD_VM_PARAMS="-Duser.home=$HOME" \
+        sh "$work/installer.sh" -q -dir "$app_dir" -overwrite
+
+    # Run the installed launcher with our JRE (drop any baked-in java prefix).
+    sed -i 's|^INSTALL4J_JAVA_PREFIX=.*|INSTALL4J_JAVA_PREFIX=|' "$app_dir/ntws" || true
+    rm -rf "$work"
+fi
+
+extra_vm_params="-Duser.home=$HOME -DappConfigDir=$XDG_DATA_HOME/ntws"
+if [ "${INSTALL4J_ADD_VM_PARAMS:-}" ]; then
+    export INSTALL4J_ADD_VM_PARAMS="$INSTALL4J_ADD_VM_PARAMS $extra_vm_params"
+else
+    export INSTALL4J_ADD_VM_PARAMS="$extra_vm_params"
+fi
+
+exec "$app_dir/ntws" "$@"
