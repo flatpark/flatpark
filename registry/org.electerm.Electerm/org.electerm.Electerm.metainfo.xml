@@ -21,6 +21,12 @@
       <li>Browse your whole home directory in the SFTP manager: <code>flatpak override --user --filesystem=home org.electerm.Electerm</code></li>
     </ul>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>electerm in action</caption>
+      <image>https://raw.githubusercontent.com/electerm/electerm-resource/master/static/images/electerm.gif</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">org.electerm.Electerm.desktop</launchable>
   <categories>
     <category>Network</category>
