@@ -14,7 +14,7 @@ const { repo } = loadCatalog();
 const { Content } = await render(page);
 ---
 
-<Base title={`${page.data.title} — ${repo.title}`}>
+<Base title={`${page.data.title} — ${repo.title}`} description={page.data.description}>
   <Topbar repo={repo} />
   <main class="mx-auto max-w-3xl px-5 py-12">
     <article class="prose">

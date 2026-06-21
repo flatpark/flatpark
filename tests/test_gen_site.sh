@@ -99,6 +99,7 @@ assert_contains "$setup" "flatpak --user remote-add --if-not-exists flatpark htt
 about="$tmp/site/about/index.html"
 assert_file "$about"
 assert_contains "$about" "About FlatPark"
+assert_contains "$about" '<meta name="description"'
 # The global footer renders on every page — check it on the catalog index.
 assert_contains "$index" "/about/"
 assert_contains "$index" "community Flatpak hub"
@@ -120,5 +121,6 @@ assert_contains "$tmp/site/conduct/index.html" "Code of conduct"
 assert_contains "$index" "/conduct/"
 assert_file "$tmp/site/legal/index.html"
 assert_contains "$tmp/site/legal/index.html" "no accounts"
+assert_contains "$tmp/site/legal/index.html" "without warranty"
 assert_contains "$index" "/legal/"
 echo "test_gen_site: PASS"

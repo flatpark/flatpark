@@ -78,6 +78,7 @@ body {
 
 /* Rendered markdown for content pages. Hand-rolled (no typography plugin). */
 .prose { @apply max-w-none text-[15px] leading-relaxed text-ink/90; }
+/* h1 is injected by the [...slug].astro layout from frontmatter, not the markdown body */
 .prose h1 { @apply text-3xl font-extrabold tracking-tight text-ink; }
 .prose h2 { @apply mt-8 text-xl font-bold text-ink; }
 .prose h3 { @apply mt-6 text-lg font-bold text-ink; }
