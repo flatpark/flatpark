@@ -8,7 +8,10 @@ import { loadCatalog } from '../lib/data.mjs';
 const { repo, apps } = loadCatalog();
 ---
 
-<Base title={repo.title}>
+<Base
+  title={repo.title}
+  description="FlatPark is a community Flatpak hub for Linux apps that aren't on Flathub — official downloads repackaged as signed, sandboxed, one-line installs."
+>
   <Topbar repo={repo} />
   <main>
     <Hero count={apps.length} />

@@ -19,9 +19,12 @@ fi
 # 3. Enrich each app file from the developer repo (manifest/metainfo/flatpark.yml).
 ( cd "$SITE_DIR" && node tools/enrich.mjs )
 
-# 4. Build the static site into PAGES_DIR.
+# 4. Build the static site into PAGES_DIR. SITE_URL feeds the sitemap and
+# canonical/absolute URLs; keep it single-sourced from REPO_HOMEPAGE.
 log "building site -> $PAGES_DIR"
-( cd "$SITE_DIR" && SITE_OUT_DIR="$PAGES_DIR" npm run build )
+( cd "$SITE_DIR" \
+    && SITE_OUT_DIR="$PAGES_DIR" SITE_URL="${REPO_HOMEPAGE:-https://flatpark.org}" \
+        npm run build )
 
 # Keep R2 lean: publish only what must be self-hosted. Detail pages are
 # pre-rendered, so the per-app JSON is build-time only — strip it from the

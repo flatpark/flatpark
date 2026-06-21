@@ -30,6 +30,28 @@ node scripts/read-descriptor.mjs registry/com.example.App/flatpark.yml
 ./scripts/publish.sh --verify com.example.App
 ```
 
+### Test without polluting your everyday Flatpak
+
+`publish.sh --verify` adds a local `file://` remote named `flatpark` to your
+**`--user`** installation and installs the app there. The scratch repo
+(`out/repo`) is rebuilt on every run, so its commits drift from whatever you
+have installed — and if you _also_ run the real FlatPark remote in that same
+installation, `flatpak update` eventually fails with `Update is older than
+current version` and leaves orphaned refs. Keep test builds in a separate,
+throwaway installation so they never touch your normal Flatpak state:
+
+```sh
+# one-time: create an isolated installation named "test"
+sudo install -d /etc/flatpak/installations.d
+printf '[Installation "test"]\nPath=%s/.local/share/flatpak-test\nDisplayName=FlatPark test\n' \
+  "$HOME" | sudo tee /etc/flatpak/installations.d/test.conf >/dev/null
+
+# install the freshly built app into it, then wipe it when done
+flatpak --installation=test remote-add --no-gpg-verify flatpark "file://$PWD/out/repo"
+flatpak --installation=test install flatpark com.example.App
+flatpak --installation=test uninstall --all
+```
+
 Open a PR. `pr-checks` validates the descriptor, runs the test suite, checks for
 dead links, and (for same-repo PRs) builds the app. On merge, `publish` builds
 and publishes it.

@@ -29,7 +29,10 @@ const buildSteps = (flag) => [
 ];
 ---
 
-<Base title={`Set up — ${repo.title}`}>
+<Base
+  title={`Set up — ${repo.title}`}
+  description={`Set up the ${repo.title} Flatpak remote and start installing signed apps in one command — per-user or system-wide, with Flathub for runtimes.`}
+>
   <Topbar repo={repo} />
   <main class="mx-auto max-w-3xl px-5 py-12">
     <a href="/" class="text-sm text-muted hover:text-ink">&larr; All apps</a>
