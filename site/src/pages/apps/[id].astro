@@ -108,6 +108,13 @@ const hasShots = (app.screenshots?.length ?? 0) > 0;
                 </span>
               </a>
             </div>
+            <p
+              data-install-hint
+              hidden
+              class="absolute top-[calc(100%+0.5rem)] right-0 z-30 w-64 rounded-xl border border-line bg-surface px-3 py-2 text-left text-xs text-muted shadow-lg"
+            >
+              Copied! Paste it into a terminal and press Enter to install.
+            </p>
           </div>
           <a href="/setup/" class="text-xs text-muted hover:text-brand">First time? Set up {repo.title} &rarr;</a>
         </div>

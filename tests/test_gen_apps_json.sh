@@ -59,7 +59,7 @@ assert_file "$one"
 assert_file "$two"
 assert_file "$data/icons/io.flatpark.TestOne.svg"
 assert_file "$data/icons/io.flatpark.TestTwo.png"
-assert_contains "$one" "\"installCmd\": \"flatpak --user install flatpark io.flatpark.TestOne\""
+assert_contains "$one" "\"installCmd\": \"flatpak install flatpark io.flatpark.TestOne\""
 assert_contains "$one" "\"_manifest\": \"$one_dir/test-one.yml\""
 assert_contains "$one" "\"_srcDir\": \"$one_dir\""
 # Packaging recipe link is auto-derived from PACKAGING_REPO_URL/BRANCH + app id.

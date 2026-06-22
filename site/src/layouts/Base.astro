@@ -148,16 +148,32 @@ const { title, description } = Astro.props;
 
       // Detail-page install split button: the main button (and the menu item)
       // copy the install command; the caret toggles a menu with the download.
+      // The button only copies, so reveal a hint telling people the next step —
+      // paste it into a terminal — which is otherwise easy to miss.
       for (const btn of document.querySelectorAll('[data-install-copy]')) {
+        const root = btn.closest('[data-install]');
+        const hint = root?.querySelector('[data-install-hint]');
+        const menu = root?.querySelector('[data-install-menu]');
+        const label = btn.querySelector('[data-install-label]');
+        const original = label?.textContent || 'Install';
+        let labelTimer, hintTimer;
         btn.addEventListener('click', async () => {
+          let ok = true;
           try {
             await navigator.clipboard.writeText(btn.dataset.installCopy || '');
-          } catch {}
-          const label = btn.querySelector('[data-install-label]');
+          } catch {
+            ok = false;
+          }
           if (label) {
-            const prev = label.textContent;
-            label.textContent = 'Copied!';
-            setTimeout(() => { label.textContent = prev; }, 1200);
+            label.textContent = ok ? 'Copied!' : 'Copy failed';
+            clearTimeout(labelTimer);
+            labelTimer = setTimeout(() => { label.textContent = original; }, 1500);
+          }
+          if (ok && hint) {
+            if (menu) menu.hidden = true; // hint and menu share an anchor
+            hint.hidden = false;
+            clearTimeout(hintTimer);
+            hintTimer = setTimeout(() => { hint.hidden = true; }, 6000);
           }
         });
       }

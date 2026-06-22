@@ -107,7 +107,10 @@ remote_cmd="flatpak --user remote-add --if-not-exists $REMOTE_NAME $REPO_FILE_UR
 for app_id in "${apps[@]}"; do
     load_app "$app_id"
     icon="$(icon_url_for_app)"
-    install_cmd="flatpak --user install $REMOTE_NAME $APP_ID"
+    # No --user: flatpak routes to whichever single remote the user configured
+    # (system or user). Forcing --user would break a system-only setup. The
+    # /setup page still teaches the explicit per-user vs system commands.
+    install_cmd="flatpak install $REMOTE_NAME $APP_ID"
     packaging_url="${PACKAGING_REPO_URL%/}/tree/$PACKAGING_BRANCH/registry/$APP_ID"
     {
         printf '{\n'
