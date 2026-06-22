@@ -12,9 +12,9 @@ listed.
 ## What we host
 
 Any app with an official, prebuilt download at a stable public URL — an
-installer, AppImage, `.deb`, `.rpm`, or tarball. FlatPark fetches it at build,
-pins it by checksum, and signs the result. It never builds from source and never
-re-hosts the binary.
+installer, `.deb`, `.rpm`, or tarball. FlatPark fetches it at build, pins it by
+checksum, and signs the result. It never builds from source and never re-hosts
+the binary. (AppImage is not accepted.)
 
 ## Requirements
 
@@ -34,9 +34,26 @@ quality — not on how they were written.
 
 ## Review
 
-Every submission is reviewed (AI-assisted) weighing provenance, the requested
-permissions, and overall quality. The packaging is a small, auditable set of
-files per app, which keeps review tractable.
+Every submission is reviewed (AI-assisted) against a published
+[review runbook](https://github.com/jing2uo/flatpark/blob/main/docs/pr-review.md).
+The trust question is **where the bytes you run come from**, not the license:
+
+- FlatPark either verifies source-built packages against their public source, or
+  repackages an **official upstream prebuilt unmodified** — the bytes you run are
+  the vendor's own.
+- Official prebuilts must come from the real upstream/vendor release channel. A
+  binary hosted on a submitter's personal account or a mirror, or one rebuilt or
+  patched during packaging, is rejected.
+- Every download is pinned by `sha256` (and size), so a build cannot silently
+  swap it.
+- Sandbox-escape permissions (host filesystem, the Flatpak control bus) are
+  rejected; broad grants must be justified.
+- **Non-FOSS is allowed** — openness is not the bar. We reject on purpose, not
+  license: piracy, malware, trademark impersonation, or anything illegal to
+  distribute.
+
+We don't claim every open-source prebuilt is byte-for-byte source-verified — only
+that it is an official upstream build, pinned and unmodified.
 
 ## De-listing
 

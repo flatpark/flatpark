@@ -135,10 +135,10 @@ repo="owner/name"
 rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         "https://api.github.com/repos/$repo/releases/latest")"
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
-url="$(jq -r '.assets[]|select(.name|test("x86_64.*\\.AppImage$")).browser_download_url' <<<"$rel")"
+url="$(jq -r '.assets[]|select(.name|test("linux.*x86_64.*\\.tar\\.gz$")).browser_download_url' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v,releaseDate:$d,sources:[{filename:"app.AppImage",url:$u}]}'
+  '{version:$v,releaseDate:$d,sources:[{filename:"app.tar.gz",url:$u}]}'
 ```
 
 A vendor JSON endpoint (version in one field, URL in another):
@@ -169,3 +169,34 @@ jq -n --arg v "$version" \
 Prefer the tightest `finish-args` that still work. Avoid `--filesystem=home` and
 other broad grants; FlatPark surfaces permissions on each app's detail page, and
 broad grants will be questioned in review.
+
+## What we review (and what gets a PR rejected)
+
+Every PR is checked against the full
+[review runbook](https://github.com/jing2uo/flatpark/blob/main/docs/pr-review.md).
+To pre-empt the common rejections, make sure your submission:
+
+- **Pins every remote source** — `extra-data`/`archive` need `sha256` (and
+  `extra-data` a non-zero `size`); `git` needs an immutable `commit`. (`type:
+  file` packaging files need no pin.)
+- **Downloads only from the official channel** — the vendor's own domain or the
+  genuine upstream repo, never a personal account or a mirror.
+- **Repackages the official build unmodified** — `build-commands` only install
+  the wrapper/desktop/metainfo/icon and an `apply_extra` that unpacks the
+  download; don't patch, recompile, or change the app's behavior.
+- **Uses a plain resolver** — `update.command` is a simple relative script path
+  like `./resolve-update.sh` (it runs in CI).
+- **Declares its `policy`** — set `proprietary` honestly and list any high-risk
+  permissions in `dangerous_permissions`.
+- **Doesn't fetch-and-run arbitrary code** — a vendor's own self-updater writing
+  into the app's data directory is fine; downloading and executing unpinned
+  third-party code is not.
+- **Avoids sandbox-escape permissions** — no `--filesystem=host`,
+  `--filesystem=/`, or `--talk-name=org.freedesktop.Flatpak`.
+- **Ships an accepted artifact** — tarball, `.deb`, `.rpm`, zip, or an official
+  installer. **AppImage is not accepted.**
+- **Has a legitimate purpose** — non-FOSS is fine; piracy, malware, and trademark
+  impersonation are not.
+
+Non-FOSS commercial apps (e.g. brokers) are welcome on the same bar: official
+source, unmodified, pinned.

@@ -1,0 +1,10 @@
+id: com.example.App
+name: Example App
+summary: A test app
+build:
+  manifest: manifest.yml
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

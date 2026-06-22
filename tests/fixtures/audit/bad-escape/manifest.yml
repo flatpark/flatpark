@@ -1,0 +1,13 @@
+app-id: com.example.App
+finish-args:
+  - --share=network
+  - --filesystem=host
+modules:
+  - name: example
+    buildsystem: simple
+    sources:
+      - type: extra-data
+        filename: app.tar.gz
+        url: https://example.com/app.tar.gz
+        sha256: 0000000000000000000000000000000000000000000000000000000000000000
+        size: 12345

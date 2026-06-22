@@ -28,6 +28,14 @@ jobs:
             echo "validate $d"
             node scripts/read-descriptor.mjs "$d" >/dev/null
           done
+      - name: Audit every registry descriptor (review-bar guardrails)
+        run: |
+          set -e
+          shopt -s nullglob
+          for d in registry/*/flatpark.yml; do
+            echo "audit $d"
+            node scripts/audit-descriptor.mjs "$d"   # exit 1 on hard fail; warnings print but pass
+          done
       - name: Install site deps
         working-directory: site
         run: npm ci || npm install --no-audit --no-fund
@@ -35,6 +43,50 @@ jobs:
         run: bash tests/run-tests.sh
       - name: Dead-link check (hotlinked screenshots etc.)
         run: ./scripts/check-links.sh
+
+  # Tripwire: a PR that touches CI-executed automation (.github, scripts,
+  # registry resolvers, a descriptor's update.command) is gated. These surfaces
+  # run on a repo-write token in update-check.yml — a malicious resolver is a
+  # real automation surface even though it never reaches the signing key. The
+  # threat is an *external* contributor sneaking such a change in, so the gate
+  # hard-fails only for untrusted authors; for a trusted author (OWNER / MEMBER /
+  # COLLABORATOR) it just surfaces a notice and passes, so the maintainer's own
+  # infra PRs aren't blocked. No secrets; read-only token.
+  guard-infra:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gate infra / resolver / update.command changes
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          assoc="${{ github.event.pull_request.author_association }}"
+          flagged=""
+          while IFS= read -r f; do
+            [ -n "$f" ] || continue
+            case "$f" in
+              .github/*|scripts/*|registry/*/resolve-update.sh) flagged="${flagged}  - ${f}"$'\n';;
+            esac
+          done < <(git diff --name-only "$base" HEAD)
+          # An added/removed `command:` line in any descriptor = an update.command change.
+          if git diff "$base" HEAD -- 'registry/*/flatpark.yml' | grep -qE '^[+-][[:space:]]*command:'; then
+            flagged="${flagged}  - registry/*/flatpark.yml (update.command)"$'\n'
+          fi
+          if [ -z "$flagged" ]; then
+            echo "No infra/resolver/update.command changes."
+            exit 0
+          fi
+          printf 'Flagged changes:\n%s\n' "$flagged"
+          case "$assoc" in
+            OWNER|MEMBER|COLLABORATOR)
+              echo "::notice::Infra/automation change by a trusted author ($assoc) — surfaced for review, not blocking." ;;
+            *)
+              echo "::error::Infra/automation change by an external author ($assoc). A maintainer must review per docs/pr-review.md (Phase 1 high-scrutiny) before merge."
+              exit 1 ;;
+          esac
 
   # Build the changed apps to catch manifest breakage BEFORE merge, and upload an
   # installable single-file bundle per app so the change can be test-installed

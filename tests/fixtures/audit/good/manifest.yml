@@ -1,0 +1,17 @@
+app-id: com.example.App
+runtime: org.gnome.Platform
+sdk: org.gnome.Sdk
+finish-args:
+  - --share=network
+  - --socket=wayland
+modules:
+  - name: example
+    buildsystem: simple
+    build-commands:
+      - install -D apply_extra /app/bin/apply_extra
+    sources:
+      - type: extra-data
+        filename: app.tar.gz
+        url: https://example.com/app.tar.gz
+        sha256: 0000000000000000000000000000000000000000000000000000000000000000
+        size: 12345
