@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# cc-switch is a single Tauri (WebKitGTK) binary staged by apply_extra to
+# /app/extra/cc-switch. It links only against libraries in org.gnome.Platform
+# (webkit2gtk-4.1, gtk-3, libsoup-3) plus libayatana-appindicator, which the
+# binary dlopen-s for its tray icon and which the manifest builds into /app/lib
+# (the GNOME runtime does not ship it). The live CLI configs in the real home
+# are reached via the scoped --filesystem grants to the CLI config paths.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox — this is the same blank-screen failure some users hit running
+# the upstream .deb/AppImage directly. Disabling it is the reliable default.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/cc-switch "$@"

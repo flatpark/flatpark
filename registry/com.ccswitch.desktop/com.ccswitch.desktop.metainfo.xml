@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.ccswitch.desktop</id>
+  <name>CC Switch</name>
+  <summary>All-in-One assistant for switching Claude Code, Codex and Gemini CLI configs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.ccswitch">
+    <name>farion1231</name>
+  </developer>
+  <url type="homepage">https://github.com/farion1231/cc-switch</url>
+  <url type="bugtracker">https://github.com/farion1231/cc-switch/issues</url>
+  <url type="vcs-browser">https://github.com/farion1231/cc-switch</url>
+  <description>
+    <p>This is a community package of CC Switch, maintained independently.</p>
+    <p>CC Switch is a cross-platform desktop app for managing and switching provider configurations for Claude Code, Codex, and Gemini CLI.</p>
+    <ul>
+      <li>Manage multiple provider configurations and endpoints</li>
+      <li>One-click switch and sync to client live configurations</li>
+      <li>MCP servers and Prompt/Skills management</li>
+    </ul>
+    <p>This package is granted access only to the CLI config files it manages (~/.cc-switch, ~/.claude, ~/.claude.json, ~/.codex, ~/.gemini, ~/.config/opencode, ~/.openclaw) — the rest of your home stays private. If you point cc-switch at a custom config directory outside these paths, grant it with "flatpak override --filesystem=...".</p>
+  </description>
+  <launchable type="desktop-id">com.ccswitch.desktop.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>claude</keyword>
+    <keyword>codex</keyword>
+    <keyword>gemini</keyword>
+    <keyword>cli</keyword>
+    <keyword>config</keyword>
+    <keyword>provider</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>cc-switch</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Managing provider configurations</caption>
+      <image>https://raw.githubusercontent.com/farion1231/cc-switch/main/assets/screenshots/main-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Adding a provider</caption>
+      <image>https://raw.githubusercontent.com/farion1231/cc-switch/main/assets/screenshots/add-en.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.16.3" date="2026-06-14" />
+  </releases>
+</component>

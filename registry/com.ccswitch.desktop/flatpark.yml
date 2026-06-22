@@ -1,0 +1,23 @@
+id: com.ccswitch.desktop
+name: CC Switch
+summary: All-in-One assistant for switching Claude Code, Codex and Gemini CLI configs
+website: https://github.com/farion1231/cc-switch
+source_url: https://github.com/farion1231/cc-switch
+build:
+  manifest: com.ccswitch.desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - CLI
+    - Claude
+    - Codex
+    - Gemini
+    - Configuration
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

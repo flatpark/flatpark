@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=CC Switch
+Comment=All-in-One Assistant for Claude Code, Codex & Gemini CLI
+Exec=cc-switch %u
+Icon=com.ccswitch.desktop
+Terminal=false
+Categories=Development;Utility;
+StartupWMClass=cc-switch
+StartupNotify=true
+MimeType=x-scheme-handler/ccswitch;
+Keywords=claude;codex;gemini;cli;config;switch;provider;
