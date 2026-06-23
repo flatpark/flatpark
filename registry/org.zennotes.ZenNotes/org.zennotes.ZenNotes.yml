@@ -1,0 +1,66 @@
+id: org.zennotes.ZenNotes
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
+# base is a prebuilt ref merged into the app at build time; the app stays
+# self-contained.
+base: org.electronjs.Electron2.BaseApp
+base-version: "25.08"
+command: zennotes
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) Markdown notes app. The prebuilt app bundles Chromium and
+  # its own ffmpeg/ANGLE; the GTK3, NSS, CUPS, ATK and X11 stacks it links come
+  # from the runtime (org.freedesktop.Platform 25.08 ships them — verified
+  # against the binary's NEEDED set, 0 missing).
+  - --share=ipc
+  # Online features: MCP integration and update checks.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Desktop notifications (reminders).
+  - --talk-name=org.freedesktop.Notifications
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # The app is local-first; a new vault lives inside the per-app HOME, and files
+  # opened/saved elsewhere go through the file portal. Reusing an existing notes
+  # vault stored outside the sandbox is NOT granted by default — opt in per the
+  # metainfo notes:
+  #   --filesystem=home   -> open/keep a vault anywhere under $HOME
+modules:
+  - name: zennotes
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 zennotes-wrapper /app/bin/zennotes
+      - install -Dm644 org.zennotes.ZenNotes.desktop /app/share/applications/org.zennotes.ZenNotes.desktop
+      - install -Dm644 org.zennotes.ZenNotes.metainfo.xml /app/share/metainfo/org.zennotes.ZenNotes.metainfo.xml
+      - install -Dm644 org.zennotes.ZenNotes.png /app/share/icons/hicolor/512x512/apps/org.zennotes.ZenNotes.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: zennotes.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/ZenNotes/zennotes/releases/download/v2.5.0/ZenNotes-2.5.0-linux-amd64.deb
+        sha256: 12cdbec69f47dc2273e0ab6be0a83238e676e2e5c54969b69738f2ba482f67b4
+        size: 135032072
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: zennotes-wrapper
+      - type: file
+        path: org.zennotes.ZenNotes.desktop
+      - type: file
+        path: org.zennotes.ZenNotes.metainfo.xml
+      - type: file
+        path: org.zennotes.ZenNotes.png

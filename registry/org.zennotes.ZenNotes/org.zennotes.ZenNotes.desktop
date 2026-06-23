@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=ZenNotes
+Comment=Keyboard-first local Markdown notes with Vim motions and diagrams
+Exec=zennotes %U
+Icon=org.zennotes.ZenNotes
+Terminal=false
+Categories=Office;Utility;
+StartupWMClass=ZenNotes
+MimeType=text/markdown;x-scheme-handler/zennotes;
+Keywords=notes;markdown;vim;zettelkasten;editor;

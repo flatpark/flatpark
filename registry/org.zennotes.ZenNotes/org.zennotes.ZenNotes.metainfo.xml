@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.zennotes.ZenNotes</id>
+  <name>ZenNotes</name>
+  <summary>Keyboard-first local Markdown notes with Vim motions and diagrams</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="org.zennotes">
+    <name>Adib Hanna and ZenNotes contributors</name>
+  </developer>
+  <url type="homepage">https://zennotes.org</url>
+  <url type="bugtracker">https://github.com/ZenNotes/zennotes/issues</url>
+  <url type="vcs-browser">https://github.com/ZenNotes/zennotes</url>
+  <description>
+    <p>This is a community package of ZenNotes, maintained independently.</p>
+    <p>ZenNotes is a keyboard-first, local-first Markdown notes app: a folder-based vault with Vim motions, wiki links and tags, tasks and daily notes, KaTeX math and JSXGraph/Mermaid diagrams, fuzzy search, and MCP integration. Your notes are plain Markdown files on disk.</p>
+    <p>Permissions: by default this package keeps a tight sandbox — network (for MCP and update checks), display and notifications. A new vault lives inside the sandbox, and notes opened or saved elsewhere go through the file portal. To keep a vault anywhere under your home directory, enable the optional capability with "flatpak override":</p>
+    <ul>
+      <li>Open and keep an existing notes vault outside the sandbox: <code>flatpak override --user --filesystem=home org.zennotes.ZenNotes</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing a Markdown note with rendered math diagrams</caption>
+      <image>https://zennotes.org/images/app.webp</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">org.zennotes.ZenNotes.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>notes</keyword>
+    <keyword>markdown</keyword>
+    <keyword>vim</keyword>
+    <keyword>zettelkasten</keyword>
+    <keyword>editor</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>zennotes</binary>
+  </provides>
+  <releases>
+    <release version="2.5.0" date="2026-06-22" />
+  </releases>
+</component>

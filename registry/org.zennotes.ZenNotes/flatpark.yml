@@ -1,0 +1,23 @@
+id: org.zennotes.ZenNotes
+name: ZenNotes
+summary: Keyboard-first local Markdown notes with Vim motions and diagrams
+website: https://zennotes.org
+source_url: https://github.com/ZenNotes/zennotes
+build:
+  manifest: org.zennotes.ZenNotes.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Markdown
+    - Notes
+    - Editor
+    - Vim
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
