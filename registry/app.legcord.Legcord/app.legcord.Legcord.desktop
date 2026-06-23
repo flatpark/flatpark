@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Legcord
+Comment=Lightweight, customizable Discord client
+Exec=legcord %U
+Icon=app.legcord.Legcord
+Terminal=false
+Categories=Network;InstantMessaging;
+StartupWMClass=legcord
+MimeType=x-scheme-handler/discord;
+Keywords=discord;chat;voice;vencord;

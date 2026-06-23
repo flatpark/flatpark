@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.legcord.Legcord</id>
+  <name>Legcord</name>
+  <summary>Lightweight, customizable Discord client</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>OSL-3.0</project_license>
+  <developer id="app.legcord">
+    <name>Legcord Contributors</name>
+  </developer>
+  <url type="homepage">https://legcord.app</url>
+  <url type="bugtracker">https://github.com/Legcord/Legcord/issues</url>
+  <url type="vcs-browser">https://github.com/Legcord/Legcord</url>
+  <description>
+    <p>This is a community package of Legcord, maintained independently and unaffiliated with Legcord or Discord.</p>
+    <p>Legcord is a lightweight, customizable Discord client built on Electron. It bundles Shelter, Vencord, Equicord and Venmic for client mods, themes and desktop-audio sharing, and aims to use fewer resources than the official client.</p>
+    <p>Permissions: by default this package keeps a tight sandbox — network, display, audio and notifications — which is enough for chatting, voice calls and screen sharing through the desktop portal. The app's own config lives inside the sandbox. A couple of optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Webcam for video calls: <code>flatpak override --user --device=all app.legcord.Legcord</code></li>
+      <li>Share application audio while screen sharing (Venmic/PipeWire): <code>flatpak override --user --filesystem=xdg-run/pipewire-0 app.legcord.Legcord</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Legcord settings</caption>
+      <image>https://raw.githubusercontent.com/Legcord/Legcord/77e2ccafb221936a99654c237cb385d486780bc7/assets/screenshots/settings.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Shelter plugin configuration</caption>
+      <image>https://raw.githubusercontent.com/Legcord/Legcord/77e2ccafb221936a99654c237cb385d486780bc7/assets/screenshots/shelter.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Custom keybind settings</caption>
+      <image>https://raw.githubusercontent.com/Legcord/Legcord/77e2ccafb221936a99654c237cb385d486780bc7/assets/screenshots/keybinds.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">app.legcord.Legcord.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+  </categories>
+  <keywords>
+    <keyword>discord</keyword>
+    <keyword>chat</keyword>
+    <keyword>voice</keyword>
+    <keyword>vencord</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+  </content_rating>
+  <provides>
+    <binary>legcord</binary>
+  </provides>
+  <releases>
+    <release version="1.2.4" date="2026-04-15" />
+  </releases>
+</component>

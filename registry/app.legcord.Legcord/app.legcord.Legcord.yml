@@ -1,0 +1,71 @@
+id: app.legcord.Legcord
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
+# base is a prebuilt ref merged into the app at build time; the app stays
+# self-contained.
+base: org.electronjs.Electron2.BaseApp
+base-version: "25.08"
+command: legcord
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) Discord client. The prebuilt app bundles Chromium and
+  # its own ffmpeg/ANGLE; the GTK3, NSS, CUPS, ATK, ALSA and X11 stacks it links
+  # come from the runtime (org.freedesktop.Platform 25.08 ships them — verified
+  # against the binary's NEEDED set, 0 missing).
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Voice chat: microphone in / audio out.
+  - --socket=pulseaudio
+  - --device=dri
+  # Desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Encrypt the stored Discord token (Electron safeStorage) via the Secret
+  # Service when a keyring is present.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Screen sharing (video) works out of the box through the desktop portal.
+  # Deliberately NOT granted by default (the app works without them; users opt in
+  # per the metainfo notes via `flatpak override`):
+  #   --device=all                       -> webcam for video calls
+  #   --filesystem=xdg-run/pipewire-0    -> share application audio while screen
+  #                                         sharing (Venmic talks to PipeWire)
+modules:
+  - name: legcord
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 legcord-wrapper /app/bin/legcord
+      - install -Dm644 app.legcord.Legcord.desktop /app/share/applications/app.legcord.Legcord.desktop
+      - install -Dm644 app.legcord.Legcord.metainfo.xml /app/share/metainfo/app.legcord.Legcord.metainfo.xml
+      - install -Dm644 app.legcord.Legcord.png /app/share/icons/hicolor/512x512/apps/app.legcord.Legcord.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: legcord.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Legcord/Legcord/releases/download/v1.2.4/Legcord-1.2.4-linux-amd64.deb
+        sha256: 049902f0bec426374148e8b15cd5d741c6c51813cad162a585d66eb5da4c4226
+        size: 107140020
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: legcord-wrapper
+      - type: file
+        path: app.legcord.Legcord.desktop
+      - type: file
+        path: app.legcord.Legcord.metainfo.xml
+      - type: file
+        path: app.legcord.Legcord.png
