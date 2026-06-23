@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=HMCL
+Comment=Hello Minecraft! Launcher
+Exec=hmcl
+Icon=net.huangyuhui.hmcl
+Terminal=false
+Categories=Game;
+Keywords=mc;minecraft;launcher;
+StartupWMClass=org.jackhuang.hmcl.Launcher
+StartupNotify=false

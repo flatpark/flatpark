@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.huangyuhui.hmcl</id>
+  <name>HMCL</name>
+  <summary>Multi-functional, cross-platform Minecraft launcher</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="net.huangyuhui">
+    <name>HMCL Team</name>
+  </developer>
+  <url type="homepage">https://hmcl.huangyuhui.net</url>
+  <url type="bugtracker">https://github.com/HMCL-dev/HMCL/issues</url>
+  <url type="vcs-browser">https://github.com/HMCL-dev/HMCL</url>
+  <description>
+    <p>This is a community package of HMCL (Hello Minecraft! Launcher), maintained independently and unaffiliated with Mojang or Microsoft.</p>
+    <p>HMCL is a popular, cross-platform Minecraft launcher: it installs and manages game versions, mod loaders (Forge, NeoForge, Fabric, Quilt, LiteLoader, OptiFine), modpacks, mods and resource packs, supports Microsoft and offline accounts, and handles Java automatically.</p>
+    <p>How this package works: a self-contained Java runtime is bundled to run the launcher. On first launch HMCL downloads the JavaFX UI components and, when you install a game version, the matching Minecraft Java runtime — so the first run needs a network connection. Everything HMCL downloads, plus your games and configuration, stays inside the sandbox under your home directory.</p>
+    <p>By default the game directory lives in the sandbox (~/.local/share/hmcl). To use a Minecraft directory you keep elsewhere, enable the optional capability with "flatpak override":</p>
+    <ul>
+      <li>Use an existing game directory anywhere under your home: <code>flatpak override --user --filesystem=home net.huangyuhui.hmcl</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Installing a Minecraft version with mod loaders</caption>
+      <image>https://hmcl.huangyuhui.net/assets/img/installer_page.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Personalization and appearance settings</caption>
+      <image>https://hmcl.huangyuhui.net/assets/img/personalization_page.webp</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">net.huangyuhui.hmcl.desktop</launchable>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>minecraft</keyword>
+    <keyword>launcher</keyword>
+    <keyword>mc</keyword>
+    <keyword>mod</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>hmcl</binary>
+  </provides>
+  <releases>
+    <release version="3.14.1" date="2026-05-15" />
+  </releases>
+</component>

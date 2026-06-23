@@ -1,0 +1,63 @@
+id: net.huangyuhui.hmcl
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: hmcl
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # HMCL is a JavaFX desktop launcher that downloads and runs Minecraft. The JVM
+  # comes from the bundled Temurin JRE (extra-data); HMCL fetches JavaFX and the
+  # per-version Minecraft JREs itself at runtime, so it needs network and the
+  # GPU/audio a game needs. Mirrors the Prism Launcher (Flathub) permission set.
+  - --share=ipc
+  - --share=network
+  # JavaFX's GTK backend is reliable on X11 (XWayland); the wrapper forces
+  # GDK_BACKEND=x11. Wayland is kept for the launched game (LWJGL/GLFW).
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  # GPU for the game's OpenGL, plus game controllers. Broad by necessity for a
+  # Minecraft launcher; declared in policy.dangerous_permissions.
+  - --device=all
+  # Game files live in the per-app HOME by default (HMCL_USER_HOME ->
+  # ~/.local/share/hmcl). Pointing HMCL at a .minecraft outside the sandbox is
+  # opt-in per the metainfo notes:
+  #   --filesystem=home   -> use an existing game directory anywhere under $HOME
+modules:
+  - name: hmcl
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hmcl-wrapper /app/bin/hmcl
+      - install -Dm644 net.huangyuhui.hmcl.desktop /app/share/applications/net.huangyuhui.hmcl.desktop
+      - install -Dm644 net.huangyuhui.hmcl.metainfo.xml /app/share/metainfo/net.huangyuhui.hmcl.metainfo.xml
+      - install -Dm644 net.huangyuhui.hmcl.png /app/share/icons/hicolor/256x256/apps/net.huangyuhui.hmcl.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: hmcl.jar
+        only-arches:
+          - x86_64
+        url: https://github.com/HMCL-dev/HMCL/releases/download/v3.14.1/HMCL-3.14.1.jar
+        sha256: 8fcf8f21b3724a5c042ca29db1841ee77fbec3dcee9ca68df5346a66af8ba582
+        size: 9786994
+      - type: extra-data
+        filename: jre.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.11%2B10/OpenJDK21U-jre_x64_linux_hotspot_21.0.11_10.tar.gz
+        sha256: e5038aae3ca9ff670bc696496b0728dbd23d280026bad30291cb919221ecfdcb
+        size: 52099793
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hmcl-wrapper
+      - type: file
+        path: net.huangyuhui.hmcl.desktop
+      - type: file
+        path: net.huangyuhui.hmcl.metainfo.xml
+      - type: file
+        path: net.huangyuhui.hmcl.png

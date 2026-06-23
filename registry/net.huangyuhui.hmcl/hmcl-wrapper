@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+# HMCL is a JavaFX jar launched with the bundled Temurin JRE staged by
+# apply_extra at /app/extra/jre.
+#
+# Pin HMCL's working, data and dependency dirs into the persistent per-app data
+# home, the same way upstream's own launcher does. Without this, HMCL defaults
+# HMCL_LOCAL_HOME (and the JavaFX dependency cache under it) to a cwd-relative
+# ".hmcl", and the game dir to a cwd-relative ".minecraft". Under Flatpak the
+# process cwd is an unmounted, non-persistent path, so HMCL would re-download
+# JavaFX — and lose game installs — on every launch. cd into $HOME (the per-app
+# data home) and set the dirs explicitly so everything persists in the sandbox.
+cd "$HOME"
+export HMCL_USER_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/hmcl"
+export HMCL_LOCAL_HOME="$HMCL_USER_HOME/local-stable"
+export HMCL_DEPENDENCIES_DIR="$HMCL_USER_HOME/dependencies"
+
+# JavaFX's glass-gtk backend renders reliably on X11 (via XWayland) but is
+# unstable on pure Wayland; force X11 so the launcher UI doesn't blank/crash.
+export JAVA_HOME=/app/extra/jre
+export PATH="/app/extra/jre/bin:$PATH"
+export GDK_BACKEND=x11
+exec /app/extra/jre/bin/java -jar /app/extra/hmcl.jar "$@"

@@ -1,0 +1,23 @@
+id: net.huangyuhui.hmcl
+name: HMCL
+summary: Multi-functional, cross-platform Minecraft launcher
+website: https://hmcl.huangyuhui.net
+source_url: https://github.com/HMCL-dev/HMCL
+build:
+  manifest: net.huangyuhui.hmcl.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  tags:
+    - Minecraft
+    - Launcher
+    - Game
+    - Java
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --device=all
