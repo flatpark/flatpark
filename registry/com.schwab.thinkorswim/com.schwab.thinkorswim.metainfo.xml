@@ -15,6 +15,20 @@
     <p>thinkorswim is a desktop trading platform for Charles Schwab brokerage accounts, with charting, analysis, and order entry for stocks, options, and futures. A paperMoney simulated-trading mode is included.</p>
     <p>HiDPI note: if the interface looks too small on a high-resolution display, set the UI_SCALE environment variable to scale it — for example, run <code>flatpak override --user --env=UI_SCALE=2 com.schwab.thinkorswim</code> for 200% scaling.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The thinkorswim desktop workspace with charts, watchlists, and trading tools</caption>
+      <image>https://toslc.thinkorswim.com/center/howToTos/thinkManual/Getting-Started/Workspaces/main/images/0/image/dark</image>
+    </screenshot>
+    <screenshot>
+      <caption>Charting and analysis layout</caption>
+      <image>https://toslc.thinkorswim.com/center/howToTos/thinkManual/Getting-Started/Workspaces/main/images/04/image/dark</image>
+    </screenshot>
+    <screenshot>
+      <caption>Multi-gadget trading workspace</caption>
+      <image>https://toslc.thinkorswim.com/center/howToTos/thinkManual/Getting-Started/Workspaces/main/images/03/image/dark</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.schwab.thinkorswim.desktop</launchable>
   <categories>
     <category>Finance</category>

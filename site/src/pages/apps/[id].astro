@@ -147,7 +147,7 @@ const ld = {
       </div>
 
       <div class="mt-5 flex flex-wrap gap-2">
-        <span class="chip">{app.category}</span>
+        <span class="chip">{app.section || app.category}</span>
         {app.license ? <span class="chip">{app.license.label}</span> : null}
         {latest ? <span class="chip">v{latest.version}</span> : null}
       </div>

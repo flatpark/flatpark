@@ -8,7 +8,7 @@ build:
   branch: stable
   mode: extra-data
 catalog:
-  category: Network
+  category: Development
   tags:
     - SSH
     - Terminal

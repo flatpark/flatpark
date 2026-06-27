@@ -16,8 +16,12 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <caption>IBKR Desktop</caption>
-      <image>https://www.interactivebrokers.com/images/dam/ibkr-desktop/hero-ibkr-desktop-laptop.png</image>
+      <caption>Connections view in IBKR Desktop</caption>
+      <image>https://www.ibkrguides.com/releasenotes/resources/images/desktop-v1-connections.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Time &amp; Sales widget in IBKR Desktop</caption>
+      <image>https://www.ibkrguides.com/releasenotes/resources/images/desktop-v1-1.jpg</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">com.interactivebrokers.ibkrdesktop.desktop</launchable>
