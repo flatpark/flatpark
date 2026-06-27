@@ -11,6 +11,7 @@ site/.astro/
 site/public/catalog.json
 site/public/apps/
 site/public/icons/
+site/public/screenshots/
 
 # brainstorm visual-companion scratch
 .superpowers/brainstorm/

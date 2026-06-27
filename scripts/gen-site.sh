@@ -29,7 +29,9 @@ log "building site -> $PAGES_DIR"
 # Keep R2 lean: publish only what must be self-hosted. Detail pages are
 # pre-rendered, so the per-app JSON is build-time only — strip it from the
 # output. catalog.json stays (drives client-side search). Screenshots are
-# hotlinked from upstream, never stored here.
+# downloaded + recompressed to webp under public/screenshots/ by enrich, so
+# Astro copies them into the published tree (fast local serving, no upstream
+# timeouts); only a failed fetch falls back to a hotlink.
 rm -f "$PAGES_DIR/apps/"*.json
 # Astro's content layer leaves empty module stubs in the output root; they are
 # never linked from any page, so drop them from the published tree.

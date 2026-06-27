@@ -2,11 +2,12 @@
 // parsed from the developer repo's Flatpak manifest, AppStream metainfo, and
 // flatpark.yml. Best-effort: a missing or malformed source is skipped, never
 // fatal, so the build always proceeds.
-import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
 import YAML from 'yaml';
 import { XMLParser } from 'fast-xml-parser';
+import sharp from 'sharp';
 
 // Curated top-level sections. Raw AppStream/descriptor categories map into this
 // fixed set so the catalog filter stays small no matter how many raw categories
@@ -41,6 +42,39 @@ function gitUpdated(srcDir) {
 
 const dataDir = process.env.FLATPARK_DATA_DIR || 'public';
 const appsDir = join(dataDir, 'apps');
+const shotsDir = join(dataDir, 'screenshots');
+
+// Hotlinked upstream screenshots are slow and frequently time out. Download
+// each once, downscale + recompress to webp, and serve locally. Cached by
+// filename so reruns are cheap; on any fetch/decode failure we keep the
+// original remote URL (best-effort, never fatal).
+// ponytail: existsSync cache never refreshes a changed upstream shot — `rm -rf
+// public/screenshots` to force a re-pull; add a hash check only if churn bites.
+async function cacheScreenshots(id, shots) {
+  if (!shots.length) return shots;
+  mkdirSync(shotsDir, { recursive: true });
+  const out = [];
+  for (let i = 0; i < shots.length; i += 1) {
+    const s = shots[i];
+    const name = `${id}-${i}.webp`;
+    const dest = join(shotsDir, name);
+    const localUrl = `/screenshots/${name}`;
+    if (existsSync(dest)) { out.push({ ...s, url: localUrl }); continue; }
+    try {
+      const res = await fetch(s.url, { signal: AbortSignal.timeout(20000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await sharp(Buffer.from(await res.arrayBuffer()))
+        .resize({ width: 1280, withoutEnlargement: true })
+        .webp({ quality: 78 })
+        .toFile(dest);
+      out.push({ ...s, url: localUrl });
+    } catch (e) {
+      console.warn(`[enrich] ${id}: screenshot ${i} cache failed (${e.message}); hotlinking`);
+      out.push(s);
+    }
+  }
+  return out;
+}
 
 const toArray = (x) => (x == null ? [] : Array.isArray(x) ? x : [x]);
 const textOf = (x) => (x == null ? '' : typeof x === 'object' ? String(x['#text'] ?? '') : String(x)).trim();
@@ -188,7 +222,7 @@ function describePermission(arg) {
   }
 }
 
-function enrichOne(file) {
+async function enrichOne(file) {
   const path = join(appsDir, file);
   const base = JSON.parse(readFileSync(path, 'utf8'));
   const srcDir = base._srcDir;
@@ -279,6 +313,8 @@ function enrichOne(file) {
     console.warn(`[enrich] ${base.id}: flatpark.yml parse failed: ${e.message}`);
   }
 
+  out.screenshots = await cacheScreenshots(out.id, out.screenshots);
+
   if (!out.website) out.website = out.urls.homepage || '';
   if (out.license?.label === 'Proprietary') out.proprietary = true;
 
@@ -299,7 +335,7 @@ const files = readdirSync(appsDir).filter((f) => f.endsWith('.json'));
 let n = 0;
 for (const f of files) {
   try {
-    enrichOne(f);
+    await enrichOne(f);
     n += 1;
   } catch (e) {
     console.warn(`[enrich] ${f}: ${e.message}`);
