@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=DBX
+Comment=Lightweight cross-platform database management tool
+Exec=dbx %u
+Icon=com.dbxio.dbx
+Terminal=false
+Categories=Development;Database;
+StartupWMClass=dbx
+StartupNotify=true
+MimeType=application/sql;x-scheme-handler/dbx;
+Keywords=database;sql;mysql;postgresql;sqlite;redis;mongodb;client;

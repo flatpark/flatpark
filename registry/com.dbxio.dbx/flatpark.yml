@@ -1,0 +1,25 @@
+id: com.dbxio.dbx
+name: DBX
+summary: Lightweight cross-platform database client
+website: https://dbxio.com
+source_url: https://github.com/t8y2/dbx
+build:
+  manifest: com.dbxio.dbx.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - Database
+    - SQL
+    - MySQL
+    - PostgreSQL
+    - SQLite
+    - Redis
+    - MongoDB
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

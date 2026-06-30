@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# dbx is a single Tauri (WebKitGTK) binary staged by apply_extra to
+# /app/extra/dbx. It links only against libraries in org.gnome.Platform
+# (webkit2gtk-4.1, gtk-3, libsoup-3) plus libayatana-appindicator, which the
+# binary dlopen-s for its tray icon and which the manifest builds into /app/lib
+# (the GNOME runtime does not ship it).
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox — the same blank-screen failure users hit running the upstream
+# .deb/AppImage directly. Disabling it is the reliable default. dbx itself checks
+# this env var (it ships the workaround for the bare .deb too).
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/dbx "$@"

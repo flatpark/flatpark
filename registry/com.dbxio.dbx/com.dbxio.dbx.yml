@@ -1,0 +1,143 @@
+id: com.dbxio.dbx
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: dbx
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK database client (MySQL, PostgreSQL, SQLite, Redis, MongoDB,
+  # DuckDB, ClickHouse, SQL Server, ...). network is the core function — it talks
+  # to remote/local DB servers; dri for hardware-accelerated WebKit rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # System tray (Tauri tray-icon).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # No --filesystem=home: dbx's own settings live in its private per-app dir, and
+  # local file databases (SQLite/DuckDB) and .sql scripts are opened through the
+  # file-chooser portal. To keep a local-file connection working across restarts
+  # (the portal grant is per-pick), grant the path with
+  # `flatpak override --user --filesystem=/path/to/db com.dbxio.dbx`.
+modules:
+  # dbx's Tauri tray-icon dlopen-s libayatana-appindicator3.so.1 at startup (via
+  # libappindicator-sys) and the GNOME runtime does not ship it. Build the Ayatana
+  # stack from the Flathub-maintained shared-modules recipe
+  # (flathub/shared-modules/libayatana-appindicator), which carries the build-fix
+  # patches the modern toolchain needs (intltool perl5.26, libdbusmenu valgrind,
+  # ayatana-ido introspection). Git sources are pinned to immutable commits.
+  - name: intltool
+    cleanup:
+      - "*"
+    sources:
+      - type: archive
+        url: https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
+        sha256: 67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd
+      - type: patch
+        path: intltool-perl5.26-regex-fixes.patch
+  - name: libdbusmenu
+    buildsystem: autotools
+    build-options:
+      cflags: -Wno-error
+    cleanup:
+      - "*.la"
+      - /include
+      - /lib/pkgconfig
+      - /libexec
+      - /share/doc
+      - /share/gtk-doc
+    config-opts:
+      - --with-gtk=3
+      - --disable-dumper
+      - --disable-static
+      - --disable-tests
+      - --disable-gtk-doc
+      - --enable-introspection=no
+      - --disable-vala
+    sources:
+      - type: archive
+        url: https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
+        sha256: b9cc4a2acd74509435892823607d966d424bd9ad5d0b00938f27240a1bfa878a
+      - type: patch
+        paths:
+          - 0001-Fix-HAVE_VALGRIND-AM_CONDITIONAL.patch
+  - name: ayatana-ido
+    buildsystem: cmake-ninja
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+    config-opts:
+      - -DENABLE_INTROSPECTION=OFF
+      # Force /app/lib (not lib64): newer cmake defaults LIBDIR to lib64 on
+      # x86_64, but pkg-config only searches /app/lib/pkgconfig, so the next
+      # module would not find this one's .pc. Keep the whole stack in /app/lib.
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    sources:
+      - type: git
+        url: https://github.com/AyatanaIndicators/ayatana-ido.git
+        tag: "0.10.4"
+        commit: f968079b09e2310fefc3fc307359025f1c74b3eb
+      - type: patch
+        paths:
+          - 0001-Make-introspection-configurable.patch
+  - name: libayatana-indicator
+    buildsystem: cmake-ninja
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /libexec
+      - /share
+    config-opts:
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    sources:
+      - type: git
+        url: https://github.com/AyatanaIndicators/libayatana-indicator.git
+        tag: "0.9.4"
+        commit: 611bb384b73fa6311777ba4c41381a06f5b99dad
+  - name: libayatana-appindicator
+    buildsystem: cmake-ninja
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+    config-opts:
+      - -DENABLE_BINDINGS_MONO=NO
+      - -DENABLE_BINDINGS_VALA=NO
+      - -DENABLE_GTKDOC=NO
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    sources:
+      - type: git
+        url: https://github.com/AyatanaIndicators/libayatana-appindicator.git
+        tag: "0.5.94"
+        commit: 31e8bb083b307e1cc96af4874a94707727bd1e79
+  - name: dbx
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dbx-wrapper /app/bin/dbx
+      - install -Dm644 com.dbxio.dbx.desktop /app/share/applications/com.dbxio.dbx.desktop
+      - install -Dm644 com.dbxio.dbx.metainfo.xml /app/share/metainfo/com.dbxio.dbx.metainfo.xml
+      - install -Dm644 com.dbxio.dbx.png /app/share/icons/hicolor/256x256/apps/com.dbxio.dbx.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: dbx.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/t8y2/dbx/releases/download/v0.5.41/DBX_0.5.41_amd64.deb
+        sha256: 9319ee4ada0b796f545d2e1be004364825e12d39e1ec8cca1059e48508bd5811
+        size: 26681004
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dbx-wrapper
+      - type: file
+        path: com.dbxio.dbx.desktop
+      - type: file
+        path: com.dbxio.dbx.metainfo.xml
+      - type: file
+        path: com.dbxio.dbx.png

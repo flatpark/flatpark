@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.dbxio.dbx</id>
+  <name>DBX</name>
+  <summary>Lightweight cross-platform database client</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="com.dbxio">
+    <name>t8y2</name>
+  </developer>
+  <url type="homepage">https://dbxio.com</url>
+  <url type="bugtracker">https://github.com/t8y2/dbx/issues</url>
+  <url type="vcs-browser">https://github.com/t8y2/dbx</url>
+  <description>
+    <p>This is a community package of DBX, maintained independently.</p>
+    <p>DBX is a lightweight, fast desktop database client and management tool for relational, document, key-value, vector and analytical databases.</p>
+    <ul>
+      <li>Supports MySQL, PostgreSQL, SQLite, SQL Server, Redis, MongoDB, DuckDB, ClickHouse and more</li>
+      <li>Query editor with executable-statement markers, result-source tracking and export</li>
+      <li>Data grid with filtering, navigation and in-cell editing; ER diagrams and table-structure editing</li>
+    </ul>
+    <p>This package talks to databases over the network. Its own settings live in its private per-app directory. Local file databases (SQLite/DuckDB) and .sql scripts are opened through the file-chooser portal; to keep a local-file connection working across restarts, grant the path with "flatpak override --user --filesystem=/path/to/db com.dbxio.dbx".</p>
+  </description>
+  <launchable type="desktop-id">com.dbxio.dbx.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>database</keyword>
+    <keyword>sql</keyword>
+    <keyword>mysql</keyword>
+    <keyword>postgresql</keyword>
+    <keyword>sqlite</keyword>
+    <keyword>redis</keyword>
+    <keyword>mongodb</keyword>
+    <keyword>client</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>dbx</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browsing data with the data grid</caption>
+      <image>https://dl.dbxio.com/assets/screenshot-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Exploring relationships with the ER diagram</caption>
+      <image>https://dl.dbxio.com/assets/screenshot-er.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing and filtering the data grid</caption>
+      <image>https://dl.dbxio.com/assets/screenshot-grid.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.5.41" date="2026-06-29" />
+  </releases>
+</component>
