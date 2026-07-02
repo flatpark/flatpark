@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Folia
+Comment=Lyrics-focused online and local music player
+Exec=folia %U
+Icon=top.izuna.foliamajor
+Terminal=false
+Categories=AudioVideo;Audio;Player;
+StartupWMClass=Folia
+Keywords=music;lyrics;player;netease;navidrome;

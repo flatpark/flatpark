@@ -1,0 +1,22 @@
+id: top.izuna.foliamajor
+name: Folia
+summary: Lyrics-focused online and local music player
+website: https://folia-site.vercel.app
+source_url: https://github.com/chthollyphile/folia-major
+build:
+  manifest: top.izuna.foliamajor.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Music
+    - Lyrics
+    - Player
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

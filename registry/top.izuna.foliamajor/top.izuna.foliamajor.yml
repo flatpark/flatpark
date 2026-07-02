@@ -1,0 +1,64 @@
+id: top.izuna.foliamajor
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox instead of running with --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "25.08"
+command: folia
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron music player. Network is needed for online music/lyrics sources
+  # and account-backed services; audio output uses PulseAudio/PipeWire; dri is
+  # for accelerated Chromium rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=dri
+  # Desktop notifications / media status notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Let Electron safeStorage use the Secret Service if Folia stores credentials
+  # through Electron's encrypted storage path.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary and
+  # zypak child processes always start as the GUI app.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Local music folders are expected to be selected through the file chooser
+  # portal. Broad home/music filesystem access is deliberately not granted by
+  # default; users can opt in with flatpak override if their library workflow
+  # needs direct persistent paths.
+modules:
+  - name: folia
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 folia-wrapper /app/bin/folia
+      - install -Dm644 top.izuna.foliamajor.desktop /app/share/applications/top.izuna.foliamajor.desktop
+      - install -Dm644 top.izuna.foliamajor.metainfo.xml /app/share/metainfo/top.izuna.foliamajor.metainfo.xml
+      - install -Dm644 top.izuna.foliamajor.png /app/share/icons/hicolor/512x512/apps/top.izuna.foliamajor.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: folia-major.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/chthollyphile/folia-major/releases/download/v0.5.17/folia-major-0.5.17-linux-amd64.deb
+        sha256: 3e05fc7586f91c1c7fbae6c43e6163c03f1f19b74e6aa4340781a8ca2631efba
+        size: 121778228
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: folia-wrapper
+      - type: file
+        path: top.izuna.foliamajor.desktop
+      - type: file
+        path: top.izuna.foliamajor.metainfo.xml
+      - type: file
+        path: top.izuna.foliamajor.png
