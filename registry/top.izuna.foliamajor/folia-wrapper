@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Folia is an Electron app staged by apply_extra to /app/extra/folia. Run it
+# through zypak-wrapper (from org.electronjs.Electron2.BaseApp) so Chromium's
+# internal sandbox is redirected onto the Flatpak sandbox. Flatpak redirects
+# $HOME, so Folia's config and local indexes stay under the per-app data dir.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/folia/folia-major --ozone-platform-hint=auto "$@"

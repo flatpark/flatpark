@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>top.izuna.foliamajor</id>
+  <name>Folia</name>
+  <summary>Lyrics-focused online and local music player</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="top.izuna">
+    <name>chthollyphile and contributors</name>
+  </developer>
+  <url type="homepage">https://folia-site.vercel.app</url>
+  <url type="bugtracker">https://github.com/chthollyphile/folia-major/issues</url>
+  <url type="vcs-browser">https://github.com/chthollyphile/folia-major</url>
+  <description>
+    <p>This is a community package of Folia, maintained independently and unaffiliated with the Folia project.</p>
+    <p>Folia is a fullscreen lyrics-first music player built on Electron. It supports online music playback, local music libraries, lyrics matching, LRC file recognition, Now Playing integration and AI-generated visual themes.</p>
+    <p>Permissions: by default this package grants network, display, audio, graphics acceleration, notifications and optional Secret Service access. Local music folders are expected to be selected through the file chooser portal; broad home or music-directory access is not granted by default. If a library workflow needs direct persistent filesystem paths, enable it with "flatpak override":</p>
+    <ul>
+      <li>Music directory access: <code>flatpak override --user --filesystem=xdg-music:ro top.izuna.foliamajor</code></li>
+      <li>Whole home library access: <code>flatpak override --user --filesystem=home:ro top.izuna.foliamajor</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Fume theme</caption>
+      <image>https://raw.githubusercontent.com/chthollyphile/folia-major/v0.5.17/img/preview-fume.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Lumi theme</caption>
+      <image>https://raw.githubusercontent.com/chthollyphile/folia-major/v0.5.17/img/preview-lumi.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Cad theme</caption>
+      <image>https://raw.githubusercontent.com/chthollyphile/folia-major/v0.5.17/img/preview-cad.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">top.izuna.foliamajor.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>lyrics</keyword>
+    <keyword>player</keyword>
+    <keyword>netease</keyword>
+    <keyword>navidrome</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>folia</binary>
+  </provides>
+  <releases>
+    <release version="0.5.17" date="2026-07-01" />
+  </releases>
+</component>
