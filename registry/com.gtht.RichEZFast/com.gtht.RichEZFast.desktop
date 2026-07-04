@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=RichEZFast
+Name[zh_CN]=国泰海通富易
+Comment=Guotai Haitong RichEZFast trading platform.
+Comment[zh_CN]=国泰海通富易交易终端。
+Exec=richeasy
+Icon=com.gtht.RichEZFast
+Categories=Finance;
+Keywords=trading;stocks;markets;finance;
+StartupWMClass=RichEZFast

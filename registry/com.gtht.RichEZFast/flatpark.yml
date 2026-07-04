@@ -1,0 +1,21 @@
+id: com.gtht.RichEZFast
+name: RichEZFast
+summary: Guotai Haitong RichEZFast trading platform
+website: https://www.gtht.com/download
+build:
+  manifest: com.gtht.RichEZFast.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags:
+    - Trading
+    - Markets
+    - Investing
+    - Stocks
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

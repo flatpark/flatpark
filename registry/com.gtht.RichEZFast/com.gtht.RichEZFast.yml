@@ -1,0 +1,48 @@
+id: com.gtht.RichEZFast
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: richeasy
+separate-locales: false
+build-options:
+  no-debuginfo: true
+tags:
+  - proprietary
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=pulseaudio
+  - --socket=cups
+  - --device=dri
+  - --filesystem=xdg-download
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: richeasy
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 richeasy-wrapper /app/bin/richeasy
+      - install -Dm644 com.gtht.RichEZFast.desktop /app/share/applications/com.gtht.RichEZFast.desktop
+      - install -Dm644 com.gtht.RichEZFast.metainfo.xml /app/share/metainfo/com.gtht.RichEZFast.metainfo.xml
+      - install -Dm644 com.gtht.RichEZFast.png /app/share/icons/hicolor/256x256/apps/com.gtht.RichEZFast.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: richeasy.deb
+        only-arches:
+          - x86_64
+        url: https://dl2.app.gtja.com/public/fy-pro/linux/richeasy_4.21.5.1030_amd64.deb
+        sha256: 950778ea78d822c522b35430cc285b543332fe920ac7f2972b9d31fea4947cd7
+        size: 359450744
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: richeasy-wrapper
+      - type: file
+        path: com.gtht.RichEZFast.desktop
+      - type: file
+        path: com.gtht.RichEZFast.metainfo.xml
+      - type: file
+        path: com.gtht.RichEZFast.png

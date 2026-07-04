@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+
+readonly app_dir="/app/extra/richeasy"
+readonly data_dir="${XDG_DATA_HOME:-$HOME/.local/share}/RichEZFast"
+
+[ -x "$app_dir/RichEZFast" ] || { echo "RichEZFast is not installed in /app/extra" >&2; exit 1; }
+
+export HOME="${XDG_DATA_HOME:-$HOME/.local/share}/home"
+mkdir -p "$HOME"
+mkdir -p "$data_dir/Log" "$data_dir/cache" "$data_dir/grpc_flag" "$data_dir/userdata"
+if [ -d "$app_dir/userdata.dist" ] && [ ! -e "$data_dir/userdata/.flatpark-defaults-copied" ]; then
+    cp -a "$app_dir/userdata.dist/." "$data_dir/userdata/"
+    : > "$data_dir/userdata/.flatpark-defaults-copied"
+fi
+
+export LD_LIBRARY_PATH="$app_dir/lib:$app_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export FONTCONFIG_FILE=/etc/fonts/fonts.conf
+export QT_PLUGIN_PATH="$app_dir/plugins"
+export QML2_IMPORT_PATH="$app_dir/qml"
+export QTWEBENGINEPROCESS_PATH="$app_dir/libexec/QtWebEngineProcess"
+export QTWEBENGINE_DISABLE_SANDBOX=1
+export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+
+cd "$app_dir"
+exec ./RichEZFast "$@"

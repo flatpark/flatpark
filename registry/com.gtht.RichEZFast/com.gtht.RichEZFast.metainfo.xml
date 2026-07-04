@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.gtht.RichEZFast</id>
+  <name>RichEZFast</name>
+  <project_license>LicenseRef-proprietary=https://www.gtht.com/</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <developer_name>Guotai Haitong Securities</developer_name>
+  <summary>Guotai Haitong RichEZFast trading platform</summary>
+  <launchable type="desktop-id">com.gtht.RichEZFast.desktop</launchable>
+  <url type="homepage">https://www.gtht.com/</url>
+  <url type="help">https://www.gtht.com/download</url>
+  <description>
+    <p>This wrapper is not verified by, affiliated with, or supported by Guotai Haitong Securities.</p>
+    <p>RichEZFast is a proprietary desktop trading client distributed by Guotai Haitong Securities for Linux systems.</p>
+  </description>
+  <categories>
+    <category>Finance</category>
+  </categories>
+  <releases>
+    <release version="4.21.5.1030" date="2026-01-14" />
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>
