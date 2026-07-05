@@ -9,6 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Utility
+  featured: true
   tags:
     - Discord
     - Export
