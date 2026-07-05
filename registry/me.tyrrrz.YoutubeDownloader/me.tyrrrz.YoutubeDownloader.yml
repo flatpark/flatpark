@@ -1,0 +1,71 @@
+id: me.tyrrrz.YoutubeDownloader
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: youtubedownloader
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # YoutubeDownloader is a self-contained .NET / Avalonia app: the upstream zip
+  # bundles its own CoreCLR (libcoreclr.so) and SkiaSharp, so only X11, libGL,
+  # fontconfig, libstdc++ and ICU are resolved from the runtime. Avalonia's
+  # Linux backend is X11/Skia, so --socket=x11 (not fallback-x11) is used
+  # deliberately: on Wayland hosts it runs through XWayland, while fallback-x11
+  # would withhold X11 there and leave the app headless.
+  - --share=ipc
+  # Fetches video metadata and streams from YouTube; the bundled ffmpeg only
+  # muxes locally.
+  - --share=network
+  - --socket=x11
+  - --device=dri
+  # Saved videos go to a folder the user picks each time; the file/folder picker
+  # runs through the desktop portal, which grants access to the chosen location
+  # without a static filesystem grant. xdg-videos/xdg-download are pre-granted
+  # so the common default targets work out of the box; anywhere else the portal
+  # covers on selection. The settings file lives under the per-app HOME (Flatpak
+  # redirects $HOME), so no grant is needed for it.
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-download
+modules:
+  - name: youtubedownloader
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ytd-wrapper /app/bin/youtubedownloader
+      - install -Dm644 me.tyrrrz.YoutubeDownloader.desktop /app/share/applications/me.tyrrrz.YoutubeDownloader.desktop
+      - install -Dm644 me.tyrrrz.YoutubeDownloader.metainfo.xml /app/share/metainfo/me.tyrrrz.YoutubeDownloader.metainfo.xml
+      - install -Dm644 me.tyrrrz.YoutubeDownloader.png /app/share/icons/hicolor/256x256/apps/me.tyrrrz.YoutubeDownloader.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ytd.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/Tyrrrz/YoutubeDownloader/releases/download/1.16.4/YoutubeDownloader.linux-x64.zip
+        sha256: 54fef775b723772a0433341fbfe65d14b0e0c3341404a5d9973b94cecf1b9a1a
+        size: 52780348
+      # END MANAGED EXTRA-DATA
+      # FFmpeg is not bundled in the app zip — at startup YoutubeDownloader probes
+      # AppContext.BaseDirectory (and PATH) for an `ffmpeg` binary and, if missing,
+      # prompts to download this exact archive from the developer's own FFmpegBin
+      # repo. We fetch it as extra-data and stage `ffmpeg` next to the app so it is
+      # found on first launch — no runtime download, no user prompt. Pinned to the
+      # FFmpeg version YoutubeDownloader 1.16.4 targets (FFmpeg.Version = "8.1").
+      - type: extra-data
+        filename: ffmpeg.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/Tyrrrz/FFmpegBin/releases/download/8.1/ffmpeg-linux-x64.zip
+        sha256: 96a532be85c55598be1cd953a7a9857ccb8fc1d80ff051c4632323cc375d2197
+        size: 85731241
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ytd-wrapper
+      - type: file
+        path: me.tyrrrz.YoutubeDownloader.desktop
+      - type: file
+        path: me.tyrrrz.YoutubeDownloader.metainfo.xml
+      - type: file
+        path: me.tyrrrz.YoutubeDownloader.png

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>me.tyrrrz.YoutubeDownloader</id>
+  <name>YoutubeDownloader</name>
+  <summary>Download videos and playlists from YouTube</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="me.tyrrrz">
+    <name>Oleksii Holub</name>
+  </developer>
+  <url type="homepage">https://github.com/Tyrrrz/YoutubeDownloader</url>
+  <url type="bugtracker">https://github.com/Tyrrrz/YoutubeDownloader/issues</url>
+  <url type="vcs-browser">https://github.com/Tyrrrz/YoutubeDownloader</url>
+  <!-- Packaged and published with the upstream developer's permission (grant
+       covers Tyrrrz's Avalonia desktop apps):
+       https://github.com/Tyrrrz/DiscordChatExporter/discussions/1562#discussioncomment-17532679 -->
+  <description>
+    <p>This is a community package of YoutubeDownloader, maintained independently and published with the permission of its developer; unaffiliated with YouTube.</p>
+    <p>YoutubeDownloader downloads videos, playlists and channels from YouTube. You paste a video, playlist, channel or search query, pick a format and quality, and it saves the result — muxing audio and video with a bundled FFmpeg and optionally embedding subtitles, tags and language-specific audio tracks.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Download single videos, whole playlists, channels or search results</li>
+      <li>Choose container and quality, including audio-only (MP3/OGG) extraction</li>
+      <li>Injects subtitles, media tags and multi-language audio when available</li>
+      <li>Ships with FFmpeg — no separate download or system install needed</li>
+    </ul>
+    <p>Downloading may be against YouTube's Terms of Service. Use it only for content you are permitted to download.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Resolving a query into downloadable videos</caption>
+      <image>https://raw.githubusercontent.com/Tyrrrz/YoutubeDownloader/1.16.4/.assets/list.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Downloading multiple videos at once</caption>
+      <image>https://raw.githubusercontent.com/Tyrrrz/YoutubeDownloader/1.16.4/.assets/multiple.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">me.tyrrrz.YoutubeDownloader.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>youtube</keyword>
+    <keyword>video</keyword>
+    <keyword>download</keyword>
+    <keyword>playlist</keyword>
+    <keyword>media</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>youtubedownloader</binary>
+  </provides>
+  <releases>
+    <release version="1.16.4" date="2026-04-22" />
+  </releases>
+</component>
