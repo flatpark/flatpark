@@ -1,0 +1,23 @@
+id: me.tyrrrz.YoutubeDownloader
+name: YoutubeDownloader
+summary: Download videos and playlists from YouTube
+website: https://github.com/Tyrrrz/YoutubeDownloader
+source_url: https://github.com/Tyrrrz/YoutubeDownloader
+build:
+  manifest: me.tyrrrz.YoutubeDownloader.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - YouTube
+    - Video
+    - Download
+    - Media
+    - Utility
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

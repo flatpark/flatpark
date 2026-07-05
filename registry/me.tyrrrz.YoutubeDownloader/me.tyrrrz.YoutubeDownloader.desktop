@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=YoutubeDownloader
+Comment=Download videos and playlists from YouTube
+Exec=youtubedownloader
+Icon=me.tyrrrz.YoutubeDownloader
+Terminal=false
+Categories=AudioVideo;Video;Network;
+StartupWMClass=YoutubeDownloader
+StartupNotify=true
+Keywords=youtube;video;download;playlist;media;
