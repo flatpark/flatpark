@@ -2,8 +2,9 @@
 // parsed from the developer repo's Flatpak manifest, AppStream metainfo, and
 // flatpark.yml. Best-effort: a missing or malformed source is skipped, never
 // fatal, so the build always proceeds.
-import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync } from 'node:fs';
 import { execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import YAML from 'yaml';
 import { XMLParser } from 'fast-xml-parser';
@@ -44,21 +45,27 @@ const dataDir = process.env.FLATPARK_DATA_DIR || 'public';
 const appsDir = join(dataDir, 'apps');
 const shotsDir = join(dataDir, 'screenshots');
 
+// Every cache filename produced this run, so orphans from removed/changed
+// screenshots can be pruned once all apps enrich cleanly (keeps R2 lean).
+const keptShots = new Set();
+
 // Hotlinked upstream screenshots are slow and frequently time out. Download
-// each once, downscale + recompress to webp, and serve locally. Cached by
-// filename so reruns are cheap; on any fetch/decode failure we keep the
-// original remote URL (best-effort, never fatal).
-// ponytail: existsSync cache never refreshes a changed upstream shot — `rm -rf
-// public/screenshots` to force a re-pull; add a hash check only if churn bites.
+// each once, downscale + recompress to webp, and serve locally. The cache
+// filename embeds a hash of the upstream URL, so when a metainfo swaps in a
+// different screenshot the name changes and we re-pull automatically — a bare
+// `${id}-${i}` key silently served the stale shot forever. On any fetch/decode
+// failure we keep the original remote URL (best-effort, never fatal).
 async function cacheScreenshots(id, shots) {
   if (!shots.length) return shots;
   mkdirSync(shotsDir, { recursive: true });
   const out = [];
   for (let i = 0; i < shots.length; i += 1) {
     const s = shots[i];
-    const name = `${id}-${i}.webp`;
+    const h = createHash('sha1').update(s.url).digest('hex').slice(0, 10);
+    const name = `${id}-${i}-${h}.webp`;
     const dest = join(shotsDir, name);
     const localUrl = `/screenshots/${name}`;
+    keptShots.add(name);
     if (existsSync(dest)) { out.push({ ...s, url: localUrl }); continue; }
     try {
       const res = await fetch(s.url, { signal: AbortSignal.timeout(20000) });
@@ -388,3 +395,18 @@ for (const f of files) {
   }
 }
 console.log(`[enrich] enriched ${n}/${files.length} app file(s) in ${appsDir}`);
+
+// Drop cached webps no longer referenced by any app (renamed after an upstream
+// screenshot swap, or a removed app). Only when every app enriched cleanly —
+// a skipped app keeps its old JSON pointing at its old files, so pruning them
+// would break its detail page.
+if (n === files.length && existsSync(shotsDir)) {
+  let pruned = 0;
+  for (const f of readdirSync(shotsDir)) {
+    if (f.endsWith('.webp') && !keptShots.has(f)) {
+      rmSync(join(shotsDir, f));
+      pruned += 1;
+    }
+  }
+  if (pruned) console.log(`[enrich] pruned ${pruned} orphaned screenshot(s)`);
+}
