@@ -8,12 +8,20 @@
 # artifact. Inside flatpark.yml only `id` and the `build:` block feed the
 # build; name/summary/catalog/policy edits feed the site and discovery files,
 # which every publish regenerates for the full catalog anyway — no rebuild.
-# Usage: changed-apps.sh <base-ref> [head-ref]
+# With --any-change, ANY file change in the app dir counts (still limited to
+# apps that exist) — for consumers that care about site-facing edits too, like
+# the PR dead-link check.
+# Usage: changed-apps.sh [--any-change] <base-ref> [head-ref]
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
 load_config "$ROOT"
 need git
-base="${1:?usage: changed-apps.sh <base-ref> [head-ref]}"
+any_change=0
+if [ "${1:-}" = "--any-change" ]; then
+    any_change=1
+    shift
+fi
+base="${1:?usage: changed-apps.sh [--any-change] <base-ref> [head-ref]}"
 head="${2:-HEAD}"
 
 # The build-relevant projection of a descriptor at a git rev: the id line plus
@@ -33,6 +41,10 @@ git -C "$ROOT" diff --name-only "$base" "$head" -- registry/ \
     | sort -u \
     | while IFS= read -r id; do
         [ -f "$REGISTRY_DIR/$id/flatpark.yml" ] || continue
+        if [ "$any_change" = "1" ]; then
+            printf '%s\n' "$id"
+            continue
+        fi
         # No grep -q here: with pipefail, grep -q closing the pipe early can
         # fail the whole pipeline on SIGPIPE even when it matched.
         non_descriptor="$(git -C "$ROOT" diff --name-only "$base" "$head" -- "registry/$id/" \

@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # the dead-link check diffs against the PR base
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -41,8 +43,19 @@ jobs:
         run: npm ci || npm install --no-audit --no-fund
       - name: Shell test suite (build steps self-skip without flatpak-builder)
         run: bash tests/run-tests.sh
-      - name: Dead-link check (hotlinked screenshots etc.)
-        run: ./scripts/check-links.sh
+      # Scoped to the apps this PR touches (any file, not just build inputs):
+      # a full-catalog sweep per PR is O(catalog) upstream fetches and lets an
+      # unrelated flaky upstream block the PR. The weekly link-check workflow
+      # still sweeps everything.
+      - name: Dead-link check (changed apps only)
+        run: |
+          ids="$(./scripts/changed-apps.sh --any-change \
+                   "${{ github.event.pull_request.base.sha }}" HEAD | tr '\n' ' ')"
+          if [ -z "$ids" ]; then
+            echo "no app changes; skipping link check"
+          else
+            ./scripts/check-links.sh $ids
+          fi
 
   # Tripwire: a PR that touches CI-executed automation (.github, scripts,
   # registry resolvers, a descriptor's update.command) is gated. These surfaces
@@ -102,16 +115,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: site/package-lock.json
-      - name: Install flatpak-builder
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder ostree
-          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      # Decide first, install after: a PR with no build-relevant app changes
+      # skips the whole toolchain setup (changed-apps.sh only needs git+awk).
       - name: Determine changed apps
         id: changed
         run: |
@@ -119,6 +124,18 @@ jobs:
           ids="$(./scripts/changed-apps.sh "$base" HEAD | tr '\n' ' ')"
           echo "ids=$ids" >> "$GITHUB_OUTPUT"
           echo "changed apps: ${ids:-<none>}"
+      - uses: actions/setup-node@v4
+        if: steps.changed.outputs.ids != ''
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install flatpak-builder
+        if: steps.changed.outputs.ids != ''
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder ostree
+          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Build changed apps (throwaway signing key, no publish)
         if: steps.changed.outputs.ids != ''
         run: |

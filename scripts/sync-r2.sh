@@ -35,9 +35,14 @@ rclone copy "$repo" "$dest" --max-depth 1 --checksum --header-upload "$MUTABLE" 
     --include "config" --include "*.flatpakrepo" --include "*.flatpakref" --include "*.pub.asc"
 
 log "sync summary -> $dest (LAST, revalidate)"
-rclone copy "$repo" "$dest" --max-depth 1 --checksum --header-upload "$MUTABLE" "${FLAGS[@]}" \
-    --include "summary" --include "summary.sig" --include "summary.idx"
+# Referenced blobs before the pointers that name them: a client that reads a
+# fresh summary.idx must find every summaries/<digest>.gz it lists, so the
+# digested summaries (and the signature) go up first and the idx strictly last.
 [ -d "$repo/summaries" ] && rclone copy "$repo/summaries" "$dest/summaries" --checksum --header-upload "$MUTABLE" "${FLAGS[@]}"
+rclone copy "$repo" "$dest" --max-depth 1 --checksum --header-upload "$MUTABLE" "${FLAGS[@]}" \
+    --include "summary" --include "summary.sig"
+rclone copy "$repo" "$dest" --max-depth 1 --checksum --header-upload "$MUTABLE" "${FLAGS[@]}" \
+    --include "summary.idx"
 
 if [ -n "${RECLAIM_LIST:-}" ] && [ -s "$RECLAIM_LIST" ]; then
     n="$(wc -l < "$RECLAIM_LIST")"

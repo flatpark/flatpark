@@ -108,17 +108,25 @@ jobs:
           REBUILD_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.rebuild_all }}
           BEFORE: ${{ github.event.before }}
         run: |
+          # Diff base: the last successfully PUBLISHED commit, recorded in R2 at
+          # the end of every publish. Diffing from it (not from this push's
+          # BEFORE) means a failed run's apps are picked up by the next one,
+          # and a manual dispatch re-publishes cheaply instead of rebuilding
+          # everything. BEFORE stays as the fallback until the marker exists.
+          base=""
+          [ -f "$REPO_DIR/.published-sha" ] && base="$(cat "$REPO_DIR/.published-sha")"
+          git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1 || base="$BEFORE"
           if [ "$REBUILD_ALL" = "true" ]; then
             ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # full rebuild
           # A published repo always has a signed summary; its absence after the
           # R2 sync means a cold start (or wiped bucket) => full rebuild.
-          elif [ -f "$REPO_DIR/summary" ] && git rev-parse --verify -q "${BEFORE}^{commit}" >/dev/null 2>&1; then
-            ids="$(./scripts/changed-apps.sh "$BEFORE" "$GITHUB_SHA" | tr '\n' ' ')"
+          elif [ -f "$REPO_DIR/summary" ] && git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1; then
+            ids="$(./scripts/changed-apps.sh "$base" "$GITHUB_SHA" | tr '\n' ' ')"
           else
             ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # cold start / unknown base
           fi
           echo "ids=$ids" >> "$GITHUB_OUTPUT"
-          echo "building: ${ids:-<none>}"
+          echo "building: ${ids:-<none>} (diff base: ${base:-<none>})"
 
       - name: Build changed apps into the repo
         if: steps.apps.outputs.ids != ''
@@ -163,3 +171,13 @@ jobs:
           echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "- Site: https://flatpark.org" >> "$GITHUB_STEP_SUMMARY"
           echo "- Repo: https://dl.flatpark.org/flatpark.flatpakrepo" >> "$GITHUB_STEP_SUMMARY"
+
+      # Everything is live: record this commit as the diff base for the next
+      # publish. Written last on purpose — if any step above failed, the marker
+      # keeps its old value and the next run rebuilds this push's apps too.
+      # Also written locally so the repo cache saved from this job matches R2.
+      - name: Record published commit
+        run: |
+          printf '%s\n' "$GITHUB_SHA" > "$REPO_DIR/.published-sha"
+          printf '%s\n' "$GITHUB_SHA" | rclone rcat "r2:$R2_BUCKET/.published-sha" \
+            --header-upload "Cache-Control: public, max-age=0, must-revalidate"

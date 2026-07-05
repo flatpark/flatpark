@@ -41,11 +41,12 @@ base="$(g rev-parse HEAD)"
 changed() { "$tmp/scripts/changed-apps.sh" "$base" HEAD; }
 snap() { g -c user.name=t -c user.email=t@t commit -qam "$1"; }
 
-# 1. catalog-only descriptor edit -> no rebuild
+# 1. catalog-only descriptor edit -> no rebuild, but --any-change still sees it
 sed -i 's/category: Finance/category: Office/' "$app/flatpark.yml"
 printf '  featured: true\n' >> "$app/flatpark.yml"
 snap catalog-edit
 assert_eq "$(changed)" ""
+assert_eq "$("$tmp/scripts/changed-apps.sh" --any-change "$base" HEAD)" "io.flatpark.TestOne"
 
 # 2. build block edit in the descriptor -> rebuild
 sed -i 's/branch: stable/branch: beta/' "$app/flatpark.yml"
