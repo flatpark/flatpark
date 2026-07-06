@@ -4,10 +4,9 @@ runtime-version: "25.08"
 sdk: org.freedesktop.Sdk
 # Electron app: use the Electron base app, which ships zypak. zypak redirects
 # Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
-# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
-# base is a prebuilt ref merged into the app at build time; the app stays
-# self-contained. This also sidesteps upstream's own flatpak launch bug
-# (TriliumNext/Trilium#5516: chrome-sandbox SUID misconfig forcing --no-sandbox).
+# sandbox, run through zypak's default entrypoint (the wrapper execs
+# zypak-wrapper). The base is a prebuilt ref merged into the app at build time;
+# the app stays self-contained.
 base: org.electronjs.Electron2.BaseApp
 base-version: "25.08"
 command: trilium
