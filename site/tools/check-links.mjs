@@ -59,6 +59,18 @@ async function check(entry) {
     if (!res || [403, 405, 501].includes(res.status)) {
       res = await request('GET', entry.url);
     }
+    // A 403 that survives the GET fallback means the host answered but refuses
+    // automated clients — Cloudflare-style bot/region gating that a real browser
+    // clears (a dead host fails earlier with ENOTFOUND/ECONNREFUSED/timeout, and
+    // often varies by the runner's region). Treat it as reachable-but-blocked for
+    // informational links (website, docs, license), where the URL only has to
+    // open in the user's browser. Keep it a hard failure for screenshots: those
+    // are hotlinked into our own pages, so a 403 there is a genuinely broken
+    // image, not a false positive.
+    if (res.status === 403 && entry.type !== 'screenshot') {
+      try { await res.body?.cancel(); } catch {}
+      return { ...entry, status: 403, ok: true, warn: true };
+    }
     const out = { ...entry, status: res.status, ok: res.ok };
     try { await res.body?.cancel(); } catch {}
     return out;
@@ -93,7 +105,7 @@ if (asJson) {
 } else {
   console.log(`[check-links] checked ${results.length} link(s)`);
   if (warned.length > 0) {
-    console.log(`[check-links] ${warned.length} reachable but skipped (client TLS policy, OK in browsers):`);
+    console.log(`[check-links] ${warned.length} reachable but skipped (bot/region-gated or client TLS policy; OK in browsers):`);
     for (const w of warned) console.log(`  ~ ${w.app}  [${w.type}]  ${w.status}  ${w.url}`);
   }
   if (broken.length === 0) {
