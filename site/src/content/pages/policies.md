@@ -13,8 +13,15 @@ listed.
 
 Any app with an official, prebuilt download at a stable public URL — an
 installer, `.deb`, `.rpm`, or tarball. FlatPark fetches it at build, pins it by
-checksum, and signs the result. It never builds from source and never re-hosts
-the binary. (AppImage is not accepted.)
+checksum, and signs the result. It never builds the app itself from source and
+never re-hosts the binary. (AppImage is not accepted.) A package may build
+supporting libraries the runtime lacks from pinned source — the application is
+always the vendor's own binary.
+
+Toolkit and license don't gate a listing. **Electron and Tauri apps are welcome**
+— the registry already ships both — and so are **closed-source apps**. If
+upstream publishes a `.deb`, `.rpm`, tarball, zip, or official installer, it can
+be packaged here.
 
 ## Requirements
 
@@ -22,8 +29,16 @@ the binary. (AppImage is not accepted.)
 - An **AppStream metainfo** file (`<id>.metainfo.xml`) with id, name, summary,
   license, and at least one description paragraph.
 - The **id matches reverse-DNS** and the registry directory name.
-- The **tightest `finish-args`** that still work — broad grants such as
-  `--filesystem=home` are questioned in review.
+- The **current runtime major**, matching the rest of the catalog. Pinning an
+  older major to work around a build break is not accepted — one straggler makes
+  every user keep a second runtime on disk.
+- The **tightest `finish-args`** that still work. Optional capabilities are **not
+  granted by default**: leave them out and document the `flatpak override`
+  command that enables them in the app's description, so each user decides. A
+  permission the app truly needs to function stays in `finish-args` and is
+  justified in the PR.
+- **Tested locally before the PR** — the submitter has built the app, installed
+  it with `flatpak install`, launched it, and confirmed the core feature works.
 - A stated **license** for the app.
 
 ## Vibe-coded apps
@@ -44,8 +59,8 @@ The trust question is **where the bytes you run come from**, not the license:
 - Official prebuilts must come from the real upstream/vendor release channel. A
   binary hosted on a submitter's personal account or a mirror, or one rebuilt or
   patched during packaging, is rejected.
-- Every download is pinned by `sha256` (and size), so a build cannot silently
-  swap it.
+- Every download is pinned by `sha256` (and size), and any git source by an
+  immutable commit, so a build cannot silently swap it.
 - Sandbox-escape permissions (host filesystem, the Flatpak control bus) are
   rejected; broad grants must be justified.
 - **Non-FOSS is allowed** — openness is not the bar. We reject on purpose, not

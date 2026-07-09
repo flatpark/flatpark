@@ -18,7 +18,9 @@ and the other should be updated to match.
 ## 0. Golden rules (read every time)
 
 1. **Repackage the official binary, unmodified.** extra-data only — fetch the vendor's
-   own release, unpack it, wrap it. Never patch, recompile, or change behavior.
+   own release, unpack it, wrap it. Never patch or recompile the payload. Adapting it to
+   the sandbox from the *outside* — wrapper env, extra modules for missing libs, `PATH`
+   shims — is fine; the bytes that run must still be the vendor's.
 2. **Rank by fit, not stars.** Not-on-Flathub + clean sandbox/extra-data + maintained +
    genuinely useful. >~200 stars is already "popular enough."
 3. **Describe only what *our* package does.** Do **not** claim upstream is broken, needs a
@@ -29,11 +31,14 @@ and the other should be updated to match.
    **(a) opening a PR to this repo, (b) posting anything to an upstream repo.** Prepare
    everything, **present the draft, then wait.** Internal steps (branch, commit, push,
    local build/test) don't need the gate.
-5. **Never post upstream until the package is live and smoke-tested.** A 404 install link
+5. **Never open a PR for an app you haven't run.** Build it, `flatpak install` it into the
+   isolated test installation, launch it, exercise the core feature (§4). A manifest that
+   only validates is not tested.
+6. **Never post upstream until the package is live and smoke-tested.** A 404 install link
    or a crash-on-launch is worse than staying silent — especially with maintainers already
    sensitive about AI-assisted work.
-6. **Never self-merge.** Open the PR; leave the merge to the maintainer.
-7. **De-list on request, no argument.** If an upstream says "please don't," remove it right
+7. **Never self-merge.** Open the PR; leave the merge to the maintainer.
+8. **De-list on request, no argument.** If an upstream says "please don't," remove it right
    away and don't re-post.
 
 ---
@@ -65,15 +70,19 @@ The hard gates (detail in [`discovery-pipeline.md`](discovery-pipeline.md) §3):
 1. **Not on Flathub.** Verify by **name** via Flathub search **and** `/api/v2/appstream/<id>`
    404 — don't trust a guessed app-id (PixiEditor slipped through once by only checking the
    `com.` variant).
-2. **Self-contained official Linux binary — prefer `.deb`/`.tar.gz` over AppImage.** deb/tar
-   unpack offline with the runtime's `bsdtar`/`tar`. AppImage needs libfuse (not in the
-   runtime) → **flag and ask** before committing to it.
+2. **Self-contained official Linux binary — `.deb`/`.rpm`/`.tar.gz`/zip/official installer.**
+   These unpack offline with the runtime's `bsdtar`/`tar`. **AppImage is not accepted**
+   (needs libfuse, not in the runtime); AppImage-only upstream → drop the candidate.
 3. **Self-contained for its CORE feature.** Reject if the headline function shells out to a
    host toolchain/daemon not in the sandbox (killed: NetPad→.NET SDK, quickgui→qemu).
 4. **No Linux caps `finish-args` can't grant** (`CAP_NET_RAW`/`CAP_NET_ADMIN` → packet
    capture / VPN are structurally impossible).
 5. **License / content policy.** Proprietary is fine *with* the `policy.proprietary` flag;
    streaming/downloader/content apps are P2 (ToS/copyright review first).
+
+Neither the toolkit nor the license is a gate: Electron and Tauri apps are welcome
+(recipes in §3), as are closed-source ones. Upstream shipping a `.deb`/`.rpm`/tarball/zip/
+official installer is what qualifies an app.
 
 ## 3. Package
 
@@ -83,14 +92,30 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   `readelf -d` NEEDED against the runtime's coverage, locate the icon / `.desktop` / metainfo,
   find the largest icon available.
 - **Pick the runtime.** `org.freedesktop.Platform//25.08` by default; `org.gnome.Platform//50`
-  for GTK / WebKitGTK / Tauri.
+  for GTK / WebKitGTK / Tauri. **Always the major the rest of the catalog is on** — match what
+  the existing manifests pin, never an older major to dodge a build break. A single straggler
+  forces every user to keep a second runtime major on disk. If an app genuinely can't run on the
+  current major, that's a **flag-and-ask**, not a quiet downgrade.
 - **Tech recipes.**
   - **Electron** → `base: org.electronjs.Electron2.BaseApp//<ver>`, run via `zypak-wrapper`
     so Chromium keeps its **internal sandbox through Zypak's default entrypoint** (do **not**
     reach for `--no-sandbox`), plus `--unset-env=ELECTRON_RUN_AS_NODE`. Template:
     [`registry/pro.affine.AFFiNE`](../registry/pro.affine.AFFiNE),
     [`registry/org.electerm.Electerm`](../registry/org.electerm.Electerm).
-  - **Tauri / WebKitGTK** → `WEBKIT_DISABLE_DMABUF_RENDERER=1` (else blank window).
+  - **Tauri / WebKitGTK** → `WEBKIT_DISABLE_DMABUF_RENDERER=1` in the wrapper (else blank
+    window). If the app has a **tray icon**, Tauri's `tray-icon` `dlopen`s
+    libayatana-appindicator and *panics* when it's absent — the GNOME runtime doesn't ship
+    it, so build the Ayatana stack (intltool → libdbusmenu → ayatana-ido →
+    libayatana-indicator → libayatana-appindicator) from Flathub's `shared-modules` recipe,
+    git sources pinned to commits. Reference:
+    [`registry/com.ccswitch.desktop`](../registry/com.ccswitch.desktop).
+  - **Host-dependent behavior** (the app shells out to host tools or probes `/proc`) → adapt
+    from the *outside*, never by patching the payload: wrapper env, `PATH` shims that
+    `flatpak-spawn --host` the tool, an `LD_PRELOAD` shim. Reference:
+    [`registry/io.enpass.Enpass`](../registry/io.enpass.Enpass) (`lsof`/`readlink`/`cat`
+    shims + a `getpid` override for browser-extension validation). This costs
+    `--talk-name=org.freedesktop.Flatpak` — declare it in `policy.dangerous_permissions`,
+    justify it, and expect human review; it is otherwise an auto-reject.
   - **Bundled JRE** (JavaFX/Java apps) → [`registry/net.huangyuhui.hmcl`](../registry/net.huangyuhui.hmcl).
   - Version-stamped top dir → rename to a stable path in `apply_extra`.
 - **Descriptor set** under `registry/<app-id>/`: `flatpark.yml`, `<id>.yml`, `<id>.metainfo.xml`,
@@ -99,7 +124,10 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   document optional caps (`~/.ssh`, `--device=all`, `--filesystem=home`) as opt-in
   `flatpak override` in the **metainfo**, not in `finish-args`.
 - **metainfo:** mark it a **community package** ("repackages the official upstream build
-  unmodified"), honest `project_license`, screenshots **hotlinked from upstream** (no R2).
+  unmodified"), honest `project_license`, screenshot `<image>` URLs pointing **at upstream**
+  (never upload to R2). The site's `enrich` step downloads those and serves recompressed webp
+  from Pages — a CDN win, and it drops the upstream fetch from page load — falling back to the
+  upstream hotlink only if the fetch fails.
 
 ## 4. Test / verify — every run, no exceptions
 
@@ -137,8 +165,11 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   - **Why this fills a gap** — not-on-Flathub / abandoned Flathub entry / rejected Flathub PR;
     the demand you found in §1.
   - **Packaging** — runtime, extra-data source, recipe (Electron/zypak/etc.), app-id choice.
-  - **Sandbox** — the `finish-args` and what's deliberately withheld.
-  - **Verification** — the §4 checklist as ticked items, plus what's still unverified.
+  - **Sandbox** — the `finish-args` and what's deliberately withheld. Justify anything
+    broad you kept; for what you withheld, point at the `flatpak override` lines in the
+    metainfo that let a user opt in.
+  - **Verification** — the §4 checklist as ticked items (the local `flatpak install` +
+    launch is mandatory before the PR), plus what's still unverified.
   - If you walk back a claim later, add a short **Correction** footer pointing at the fix PR.
 - **Footer:** `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
 - **Review gate:** draft the PR body, **present it, open (`gh pr create`) only on approval.**
@@ -221,5 +252,9 @@ said no.
 - **Re-crawl (§1) periodically** to catch new releases and freshly-rejected Flathub PRs.
 - Each app's `resolve-update.sh` already lets FlatPark re-pin & rebuild on new upstream releases —
   no manual version bumps.
+- **Runtime majors are NOT bumped by CI.** `update-check` only re-pins extra-data and the metainfo
+  release; `runtime-version` / `base-version` are hand-pinned per manifest. When a new major lands,
+  the maintainer kicks off an **AI-led batch update** that bumps and re-tests the whole catalog at
+  once — so the catalog never splits across two majors (see §3, "Pick the runtime").
 - The §1–§2 crawl + §2 gates are scriptable into a shortlist; §3 packaging is templated per recipe.
   Keep the **review gate** on the two outward-facing actions (§0.4) even as the rest automates.

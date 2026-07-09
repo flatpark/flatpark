@@ -40,8 +40,12 @@ tier:
   domain or genuine upstream repo, not the submitter's account or a mirror;
   (2) **unmodified repackage** — `build-commands` only install the wrapper/
   desktop/metainfo/icon + an `apply_extra` that unpacks the official download; no
-  patch/`sed`/recompile/behavior change; shipped artifact == what the official
-  URL serves; (3) **pinned bytes** — sha256 (+ size for extra-data).
+  patch/`sed`/recompile of the payload; shipped artifact == what the official
+  URL serves. *External* sandbox adaptation is allowed and does not break Tier 2:
+  wrapper env vars, extra modules supplying libraries the runtime lacks, `PATH`
+  shims, an `LD_PRELOAD` shim (`com.ccswitch.desktop`, `io.enpass.Enpass`) —
+  review those as code, since they run. (3) **pinned bytes** — sha256 (+ size for
+  extra-data).
 - **Tier 3 — opaque third-party / submitter-built binary.** Neither
   source-verifiable nor a pinned official-upstream release (PR #13). **Reject.**
 
@@ -74,8 +78,17 @@ artifact provenance tier (1/2/3).
   non-zero `size`; `file` → local, reviewed as part of the PR; other → NEEDS-HUMAN.
 - **finish-args risk scan:** near-auto-reject on escape perms
   (`--talk-name=org.freedesktop.Flatpak`, `--filesystem=host`, `--filesystem=/`)
-  unless declared in `policy.dangerous_permissions` (then a reviewed exemption →
-  warn); warn on `--device=all`, `--filesystem=home`, needless `--share=network`.
+  unless declared in `policy.dangerous_permissions` **with a justification** (then
+  it is not an auto-reject but a reviewed exemption → NEEDS-HUMAN, never a silent
+  pass); warn on `--device=all`, `--filesystem=home`, needless `--share=network`.
+- **Optional capabilities are opt-in, not pre-granted:** a broad permission that
+  the app's *core* feature doesn't need must be absent from `finish-args` and
+  instead documented as a `flatpak override` command in the metainfo description
+  (see `org.electerm.Electerm`). A broad grant kept in `finish-args` needs a
+  written justification in the PR body → warn if missing.
+- **Local-test attestation:** the PR body states the submitter built, `flatpak
+  install`ed, and launched the app, with the core feature exercised and the gaps
+  named. Missing → warn (the reviewer never runs it; see Phase 0).
 - **`policy:` block vs reality:** `proprietary` accurate; `dangerous_permissions`
   covers the high-risk finish-args actually used (hard enforcement deferred — see
   guardrail G2(b)).
@@ -131,13 +144,16 @@ Reviewer recommends only — a human merges.
 
 **AUTO-REJECT (any one):**
 - Compliance / legality violation (piracy, malware, trademark, illegal-to-distribute).
-- Sandbox-escape permission (`--talk-name=org.freedesktop.Flatpak`, `--filesystem=host`/`/`).
+- Sandbox-escape permission (`--talk-name=org.freedesktop.Flatpak`, `--filesystem=host`/`/`)
+  **not** declared in `policy.dangerous_permissions` with a justification (declared → NEEDS-HUMAN).
 - Unpinned / mutable source for its type (git without commit; archive/extra-data
   without sha256; extra-data `size: 0`).
 - Tier 3 provenance (opaque third-party / submitter-built binary).
 - [Tier 1] shipped code ≠ public source.
-- [Tier 2] download source not official, OR packaging modifies the payload /
-  behavior, OR shipped artifact ≠ official download.
+- [Tier 2] download source not official, OR packaging patches/recompiles the
+  payload, OR shipped artifact ≠ official download. (External adaptation —
+  wrapper env, extra library modules, `PATH`/`LD_PRELOAD` shims — is not a
+  modification; review it as code.)
 - AppImage artifact.
 - Runtime fetch-and-exec of arbitrary / unpinned code as a core mechanism (the
   vendor self-updater exception does not count).
@@ -171,13 +187,15 @@ source-verifiable · 2 = official prebuilt · ★ = all.
 | 2.5 | Provenance | Trust tier: established / unknown-plausible / throwaway-suspicious | ★ | | |
 | 2.6 | Provenance | Artifact provenance tier: 1 source-verifiable / 2 official prebuilt / 3 opaque (→reject) | ★ | | |
 | 3.1 | Manifest | Sources pinned per type (git→commit; archive/extra-data→sha256; extra-data size≠0; file→local) | ★ | | |
-| 3.2 | Manifest | finish-args has no escape perms; broad perms justified | ★ | | |
+| 3.2 | Manifest | finish-args has no escape perms (or: declared in `dangerous_permissions` + justified → needs-human); broad perms justified | ★ | | |
 | 3.3 | Manifest | `policy:` block honest: `proprietary` accurate, `dangerous_permissions` vs actual (warn until schema) | ★ | | |
-| 3.4 | Manifest | build-commands install-only; no patch/alter of vendor payload or behavior | ★ | | |
+| 3.4 | Manifest | build-commands install-only; no patch/recompile of vendor payload (external wrapper/module/shim adaptation OK, reviewed as code) | ★ | | |
 | 3.5 | Manifest | source URLs = genuine upstream (no lookalike / fork) | ★ | | |
 | 3.6 | Manifest | `app-id` reverse-DNS matches real vendor (no impersonation) | ★ | | |
 | 3.7 | Manifest | `update.command` is a simple relative script path | ★ | | |
 | 3.8 | Manifest | download host = official vendor domain / upstream, not submitter account | 2 | | |
+| 3.9 | Manifest | Optional caps not pre-granted: documented as `flatpak override` in metainfo; any broad grant kept in `finish-args` justified in the PR | ★ | | |
+| 3.10 | Manifest | PR body attests to a local build + `flatpak install` + launch smoke-test, with gaps named | ★ | | |
 | 4.1 | Runtime | No runtime fetch-and-exec of arbitrary/unpinned code (vendor self-updater to data dir, behavior unpatched = OK) | ★ | | |
 | 4.2 | Runtime | `update.command` / resolve script reviewed as code (runs on CI, repo-write) | ★ | | |
 | 4.3 | Runtime | Network endpoints noted; no broad filesystem×network combo | ★ | | |

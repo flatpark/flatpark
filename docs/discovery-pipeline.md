@@ -44,10 +44,11 @@ the go/no-go decision and the upstream comment in §5.
 
 ## 3. Feasibility filter — the hard gates (apply BEFORE packaging)
 1. **Not already on Flathub.** Verify: Flathub search + `https://flathub.org/api/v2/appstream/<id>` 404.
-2. **Self-contained official Linux binary — prefer `.deb` / `.tar.gz` over AppImage.**
-   deb/tar unpack offline with the runtime's `bsdtar`/`tar`; an **AppImage must be
-   cracked at install time and its runtime wants libfuse (not in the runtime) —
-   this failed for Sniffnet.** AppImage-only → flag and ask first.
+2. **Self-contained official Linux binary — `.deb`, `.rpm`, `.tar.gz`, zip, or an official
+   installer.** These unpack offline with the runtime's `bsdtar`/`tar`. **AppImage is not
+   accepted** (it must be cracked at install time and its runtime wants libfuse, which the
+   runtime doesn't ship — this failed for Sniffnet): AppImage-only upstream → drop the
+   candidate. Toolkit is not a gate — Electron and Tauri are both fine.
 3. **Self-contained for its CORE feature.** Reject apps whose headline function
    shells out to a **host toolchain/daemon** not in the sandbox — the GUI merely
    launching is not enough (killed: NetPad→.NET SDK, quickgui→qemu, Guitar→git).
@@ -59,9 +60,8 @@ the go/no-go decision and the upstream comment in §5.
 6. **Rank by fit, not stars.** >~200 stars is "popular enough"; pick by these gates.
 
 ## 4. Package & submit
-- **Inspect the artifact:** extract (`ar`+`tar`/`bsdtar` for deb, `tar` for tarball,
-  `--appimage-extract` for AppImage), `readelf -d` NEEDED vs runtime coverage,
-  locate icon/.desktop/metainfo.
+- **Inspect the artifact:** extract (`ar`+`tar`/`bsdtar` for deb, `tar` for tarball),
+  `readelf -d` NEEDED vs runtime coverage, locate icon/.desktop/metainfo.
 - **Pick the runtime:** `org.freedesktop.Platform//25.08` by default (it ships
   GTK3/NSS/CUPS too); `org.gnome.Platform//50` for **GTK / WebKitGTK / Tauri**.
 - **Tech recipes:**
@@ -87,7 +87,8 @@ the go/no-go decision and the upstream comment in §5.
   `Co-Authored-By` trailer; **rebase onto `origin/main`**; push. Then **draft the PR (house-style
   "Packaging notes" — numbered sections + collapsible files + validation table)
   and STOP — present it; open it (`gh pr create`) only after approval** (review
-  gate). Screenshots hotlinked from upstream (no R2); a GIF/webp is fine
+  gate). Screenshot `<image>` URLs point at upstream (never upload to R2; the site
+  re-serves them as webp from Pages, for CDN delivery); a GIF/webp is fine
   (appstreamcli accepts it; Flathub wouldn't).
 
 ## 5. Engage upstream

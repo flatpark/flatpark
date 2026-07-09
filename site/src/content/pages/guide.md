@@ -23,11 +23,16 @@ runtime remote.
 `--user` from both commands for a system-wide install (requires root). You can
 use either; `--user` is the simplest if you are not sure.
 
-## Updates and the single runtime
+## Updates and runtimes
 
-FlatPark continuously rebuilds each app against the newest runtime, so a normal
-`flatpak update` keeps every app current and you only ever need one, latest copy
-of the runtime installed:
+A daily check watches each app's upstream release channel and opens a pull
+request to re-pin new versions, so a normal `flatpak update` keeps everything
+current.
+
+Runtimes move in step. Every app targets the current major of its runtime — the
+catalog is never split across, say, GNOME 49 and 50 — so you don't end up
+carrying an old major on disk just for one straggler app. When a new major lands,
+the whole catalog is rebuilt and tested against it together:
 
 ```sh
 flatpak --user update
@@ -38,6 +43,25 @@ flatpak --user update
 Every app page lists the exact sandbox permissions it requests, with a
 plain-language risk label. Check these before installing — see
 [Trust & safety](/trust/) for what the model guarantees.
+
+## Granting an optional permission
+
+Packages ship with the tightest sandbox that still lets the app work, so some
+optional capabilities are switched off on purpose. When an app has one, its page
+spells out the exact command to enable it, and you decide whether to run it:
+
+```sh
+flatpak override --user --filesystem=~/.ssh:ro org.electerm.Electerm
+```
+
+Review what a grant opens up before applying it — `--filesystem=home`, for
+instance, exposes your whole home directory to the app. To see what you have
+changed, or to undo it:
+
+```sh
+flatpak override --user --show org.electerm.Electerm
+flatpak override --user --reset org.electerm.Electerm
+```
 
 ## Uninstalling
 
