@@ -85,6 +85,39 @@ flatpak --installation=test install flatpark com.example.App
 flatpak --installation=test uninstall --all
 ```
 
+No root, or you would rather not touch `/etc`? Install into your normal `--user`
+installation under a **remote name of its own**. The conflict the paragraph above
+warns about comes from sharing the `flatpark` remote name with the real one, not
+from the installation itself:
+
+```sh
+flatpak --user remote-add --if-not-exists --no-gpg-verify test-tmp "file://$PWD/out/repo"
+flatpak --user install -y test-tmp com.example.App
+# ... launch it, exercise the core feature ...
+flatpak kill com.example.App
+flatpak --user uninstall -y com.example.App
+flatpak --user remote-delete test-tmp
+rm -rf ~/.var/app/com.example.App
+```
+
+> **Do not reach for `FLATPAK_USER_DIR` to get isolation.** It does produce a
+> throwaway installation, but that installation is not registered in
+> `/etc/flatpak/installations.d`, so the **host's Flatpak portal does not know it
+> exists**. Anything that relies on `flatpak-spawn` then fails with
+> `app/<id>/x86_64/stable ... not installed` — and that includes **glycin**, the
+> image decoder behind gdk-pixbuf in the GNOME 48+ runtimes, which decodes in a
+> sub-sandbox it spawns for itself. The app aborts on startup:
+>
+> ```
+> Gtk:ERROR:../gtk/gtkiconhelper.c:495:ensure_surface_for_gicon: assertion failed
+> (error == NULL): Failed to load .../image-missing.png:
+> Loader process exited early with status '1'
+> ```
+>
+> This looks exactly like the packaged app crashing. It is not — the same build
+> starts fine from a registered installation. Use `--installation=test`, or the
+> temporary-remote recipe above.
+
 Open a PR. `pr-checks` validates the descriptor, runs the test suite, checks for
 dead links, and builds the changed app — including from a fork, once a maintainer
 approves the workflow run (fork builds get no secrets and are signed with a
