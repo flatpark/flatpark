@@ -30,6 +30,7 @@ that PR link in the table — the PR itself is the evidence.
 | Folia | `top.izuna.foliamajor` | [chthollyphile/folia-site#3](https://github.com/chthollyphile/folia-site/issues/3) | 2026-07-10 |
 | GSE Profiler | `io.github.todevelopers.GseProfiler` | Approved by construction — submitted and maintained by its own developer ([flatpark#83](https://github.com/flatpark/flatpark/pull/83)) | 2026-07-10 |
 | AeroFTP | `com.aeroftp.AeroFTP` | Maintainer co-maintains the package: [flatpark#98](https://github.com/flatpark/flatpark/pull/98) and [axpdev-lab/aeroftp#388](https://github.com/axpdev-lab/aeroftp/issues/388) — "I took the recipe on from our side to co-maintain it" | 2026-07-10 |
+| DBX | `com.dbxio.dbx` | [t8y2/dbx#3225](https://github.com/t8y2/dbx/issues/3225) — maintainer replied "感谢 辛苦提个pr吧～" to the FlatPark listing + docs offer | 2026-07-12 |
 
 ## Not approved
 
