@@ -9,7 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Office
-  upstream_approved: true
+  upstream_approved: false
   tags:
     - Markdown
     - Editor
