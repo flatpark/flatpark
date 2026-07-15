@@ -1,0 +1,106 @@
+id: com.tencent.wemeet
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: wemeetapp
+separate-locales: false
+rename-icon: wemeet
+rename-desktop-file: wemeet.desktop
+finish-args:
+  # Tencent Meeting (腾讯会议). Repackages the official upstream .deb unmodified.
+  #
+  # WeMeet is forced onto XWayland (QT_QPA_PLATFORM=xcb) and its screen-sharing
+  # is restored by LD_PRELOAD-ing wemeet-wayland-screenshare's libhook.so, which
+  # drives the X11 SHM capture path. This is required on wlroots/Hyprland-style
+  # sessions where the app's native-Wayland screenshare does not work; the hook
+  # only matters once the app is on XWayland, so --socket=wayland is withheld.
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=pulseaudio
+  # Camera + microphone + GPU for the call. Declared in policy.dangerous_permissions.
+  - --device=all
+  - --filesystem=xdg-run/pipewire-0
+  - --talk-name=org.gnome.Shell.Screencast
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --env=XDG_SESSION_TYPE=x11
+  - --env=QT_QPA_PLATFORM=xcb
+  - --env=LD_PRELOAD=/app/lib/wemeet/libhook.so
+  - --unset-env=WAYLAND_DISPLAY
+  # Hidpi scale
+  - --env=QT_AUTO_SCREEN_SCALE_FACTOR=1
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - /share/doc
+  - /share/man
+
+modules:
+  # OpenCV (core + imgproc). The hook dlopen()s libopencv_core.so and
+  # libopencv_imgproc.so by their UNVERSIONED soname the moment screen sharing
+  # starts (via its OpencvDLFCNSingleton). libhook.so therefore has no opencv
+  # DT_NEEDED, but screen sharing crashes ("Failed to open library
+  # libopencv_core.so") without these in /app/lib — so we ship them. This is the
+  # generic, reusable opencv-imgproc release, not a wemeet-specific bundle.
+  # Both prebuilt once against org.freedesktop.Sdk//25.08 by
+  # https://github.com/flatpark/prebuilt (manifests at the release tags record
+  # exact sources/pins). No opencv recompile per build.
+  - name: opencv-imgproc
+    buildsystem: simple
+    only-arches: [x86_64]
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/opencv-imgproc-v1/opencv-imgproc-opencv-imgproc-v1-fd-25.08-x86_64.tar.xz
+        sha256: 853c61fe34d0a6d51ce296ea3bb394b0b80a24eae7fcb55d84b890245f18df7f
+
+  # libportal + wemeet-wayland-screenshare libhook.so (opencv is dlopen'd from
+  # the module above, so this archive ships none). Replaces the inline
+  # libportal/opencv/hook modules.
+  - name: wemeet-screenshare-hook
+    buildsystem: simple
+    only-arches: [x86_64]
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/wemeet-screenshare-hook-v1/wemeet-screenshare-hook-wemeet-screenshare-hook-v1-fd-25.08-x86_64.tar.xz
+        sha256: 3b226342829c600d458a7ca16b7c1b2566b8dca1758fae4aedd7408541de3f20
+
+  - name: wemeet
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 wemeet-wrapper /app/bin/wemeetapp
+      - install -Dm644 com.tencent.wemeet.metainfo.xml -t /app/share/metainfo
+      - install -Dm644 wemeet.svg -t /app/share/icons/hicolor/scalable/apps
+      - install -Dm644 wemeet.desktop /app/share/applications/wemeet.desktop
+      # WeMeet's own launch script calls desktop-file-edit at runtime to register
+      # the wemeet: URL handler; the Platform runtime has no desktop-file-utils,
+      # so ship the SDK copy.
+      - install -D /usr/bin/desktop-file-edit -t /app/bin/
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: wemeet.deb
+        only-arches:
+          - x86_64
+        url: https://updatecdn.meeting.qq.com/cos/72e0e0023e1d1e6d4123fba28821aea1/TencentMeeting_0300000000_3.26.10.401_x86_64_default.publish.officialwebsite.deb
+        sha256: 70f37b029209c0ef91be9813eebf6650c6cb9a00f7c718490158773e2fe6acaf
+        size: 197268516
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: wemeet-wrapper
+      - type: file
+        path: com.tencent.wemeet.metainfo.xml
+      - type: file
+        path: wemeet.svg
+      - type: file
+        path: wemeet.desktop

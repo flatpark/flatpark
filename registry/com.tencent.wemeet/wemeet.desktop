@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=WemeetApp
+Name[zh_CN]=腾讯会议
+Keywords=wemeet;tencent;meeting;
+Exec=wemeetapp %u
+Icon=/opt/wemeet/wemeet.svg
+Type=Application
+Terminal=false
+Categories=Office;
+MimeType=x-scheme-handler/wemeet;

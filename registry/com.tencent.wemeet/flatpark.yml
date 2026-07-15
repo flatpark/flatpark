@@ -1,0 +1,27 @@
+id: com.tencent.wemeet
+name: WeMeet
+summary: Tencent Meeting (腾讯会议) cloud HD video-conferencing client
+website: https://meeting.tencent.com/
+source_url: https://meeting.tencent.com/
+build:
+  manifest: com.tencent.wemeet.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Meeting
+    - Conference
+    - Video
+    - Tencent
+    - Chat
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions:
+    # A video-conferencing client needs camera, microphone and GPU. --device=all
+    # is the pragmatic grant WeMeet's own build uses; scoping to --device=dri
+    # would drop camera/mic access that the core feature requires.
+    - --device=all

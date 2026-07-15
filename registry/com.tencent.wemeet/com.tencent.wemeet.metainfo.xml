@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.tencent.wemeet</id>
+  <name>Wemeet</name>
+  <name xml:lang="zh-Hans">腾讯会议</name>
+  <summary>A cloud-based HD conferencing product leveraging Tencent's 20+ years of experience in audiovisual communications</summary>
+  <summary xml:lang="zh-Hans">腾讯20余年音视频通讯经验积累 匠心而成的云视频会议产品</summary>
+  <developer_name>Tencent</developer_name>
+  <launchable type="desktop-id">com.tencent.wemeet.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://meeting.tencent.com/</project_license>
+  <description>
+    <p>This is a community package that repackages the official upstream WeMeet
+    (Tencent Meeting) build unmodified. It is not verified by, affiliated with,
+    or supported by Tencent, Inc.</p>
+    <p>Tencent Meeting, An Expert in Conferencing. Across any device.</p>
+    <p>Cloud meeting solutions covering 100+ countries and regions.</p>
+    <p>This package installs the official client of Tencent Meeting, Chinese
+    version, provided by Tencent, Inc.</p>
+    <p>This build forces the app onto XWayland and restores screen sharing on
+    Wayland sessions (e.g. wlroots/Hyprland) via an LD_PRELOAD hook. To opt out
+    of the default device access, restrict it with:
+    flatpak override --user --nodevice=all com.tencent.wemeet</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://meeting.tencent.com/packages/meeting-public/first-page/web/bg_2_2x.png</image>
+      <caption>WeMeet home screen</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://meeting.tencent.com/packages/meeting-public/first-page/web/bg_3_2x.png</image>
+      <caption>In a meeting</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://meeting.tencent.com/packages/meeting-public/first-page/web/tabs_3_2x.png</image>
+      <caption>Meeting features</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.26.10.401" date="2025-11-05">
+      <description/>
+    </release>
+  </releases>
+  <url type="homepage">https://meeting.tencent.com/</url>
+  <url type="help">https://meeting.tencent.com/</url>
+  <categories>
+    <category>Office</category>
+    <category>Chat</category>
+    <category>Audio</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+</component>

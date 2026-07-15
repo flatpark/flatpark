@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# WeMeet's official payload is staged by apply_extra to /app/extra/opt/wemeet/.
+# Launch its own start script; the XWayland forcing, hidpi scale and the
+# LD_PRELOAD of /app/lib/wemeet/libhook.so (the wayland-screenshare hook) are all
+# set as --env in finish-args, so they reach the app process here unchanged.
+exec /app/extra/opt/wemeet/wemeetapp.sh "$@"
