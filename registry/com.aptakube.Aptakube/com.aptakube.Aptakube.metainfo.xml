@@ -45,6 +45,7 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.18.5" date="2026-07-14" />
     <release version="1.18.4" date="2026-07-07">
       <url>https://github.com/aptakube/aptakube/releases/tag/1.18.4</url>
     </release>

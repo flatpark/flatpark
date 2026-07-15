@@ -52,9 +52,9 @@ modules:
         filename: electerm.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/electerm/electerm/releases/download/v3.15.128/electerm-3.15.128-linux-x64.tar.gz
-        sha256: cf934f6382c7374ede700fea7b6080191a7730b7d5bfc3509cb5183c6788f4f1
-        size: 107842470
+        url: https://github.com/electerm/electerm/releases/download/v3.15.138/electerm-3.15.138-linux-x64.tar.gz
+        sha256: 9f32c4e85fe6df90c163faa5fc12248625680aef4705a074bec0fa0781e6b472
+        size: 107847370
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
