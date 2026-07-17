@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>now.alma.Alma</id>
+  <name>Alma</name>
+  <summary>AI assistant with memory, skills and multi-provider support</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://alma.now</project_license>
+  <developer id="now.alma">
+    <name>yetone</name>
+  </developer>
+  <url type="homepage">https://alma.now</url>
+  <url type="bugtracker">https://feedback.alma.now</url>
+  <url type="vcs-browser">https://github.com/yetone/alma-releases</url>
+  <description>
+    <p>This is a community package of Alma, maintained independently and unaffiliated with its developer. It repackages the official Linux Debian package unmodified.</p>
+    <p>Alma is an AI assistant desktop app by yetone. One interface for OpenAI, Anthropic, Google Gemini and custom providers, with a persistent memory system that carries your preferences and context across conversations, built-in web search, and an extensible skill system for tasks such as reading files, running tools, scheduling and voice conversations.</p>
+    <p>Permissions: this package grants network, display, GPU, audio, notifications and keyring access, which covers chat, memory, web search and voice. Skills that read or write files, or run terminal commands, operate on the app's sandboxed private home by default. Opt in to more with "flatpak override":</p>
+    <ul>
+      <li>Let file and terminal skills act on your real home directory: <code>flatpak override --user --filesystem=home now.alma.Alma</code></li>
+      <li>Webcam for camera-based skills: <code>flatpak override --user --device=all now.alma.Alma</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Chat with markdown rendering and code highlighting</caption>
+      <image>https://alma.now/assets/features/chat.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Memory carried across conversations</caption>
+      <image>https://alma.now/assets/features/use-memory.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Tool use for complex tasks</caption>
+      <image>https://alma.now/assets/features/tool-use.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Built-in web search</caption>
+      <image>https://alma.now/assets/features/web-search.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Memory management dashboard</caption>
+      <image>https://alma.now/assets/features/memory-list.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">now.alma.Alma.desktop</launchable>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>assistant</keyword>
+    <keyword>chat</keyword>
+    <keyword>llm</keyword>
+    <keyword>openai</keyword>
+    <keyword>anthropic</keyword>
+    <keyword>gemini</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">800</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>alma</binary>
+  </provides>
+  <releases>
+    <release version="0.0.876" date="2026-07-15" />
+  </releases>
+</component>

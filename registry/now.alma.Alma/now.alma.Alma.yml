@@ -1,0 +1,71 @@
+id: now.alma.Alma
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
+# base is a prebuilt ref merged into the app at build time; the official
+# upstream application tree is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "25.08"
+command: alma
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) AI assistant. The prebuilt app bundles Chromium and its
+  # own ffmpeg/ANGLE; the GTK3, NSS, X11 and libsecret stacks it links come
+  # from the Freedesktop runtime.
+  - --share=ipc
+  # Talks to the configured AI providers (OpenAI, Anthropic, Gemini, custom
+  # endpoints) and its web-search integration.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Voice conversations: microphone in / speech out (bundled sherpa-onnx).
+  - --socket=pulseaudio
+  # Desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Encrypt stored provider API keys (Electron safeStorage / libsecret) with
+  # the session keyring when one is present.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately NOT granted by default (the chat/memory/tool core works
+  # without them; users opt in per the metainfo notes via `flatpak override`):
+  #   --filesystem=home -> let the agent's file and terminal skills act on real
+  #                        files instead of the sandboxed private home
+  #   --device=all      -> webcam for the camera-based skills
+modules:
+  - name: alma
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 alma-wrapper /app/bin/alma
+      - install -Dm644 now.alma.Alma.desktop /app/share/applications/now.alma.Alma.desktop
+      - install -Dm644 now.alma.Alma.metainfo.xml /app/share/metainfo/now.alma.Alma.metainfo.xml
+      - install -Dm644 now.alma.Alma.png /app/share/icons/hicolor/512x512/apps/now.alma.Alma.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: alma.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/yetone/alma-releases/releases/download/v0.0.876/alma-0.0.876-linux-amd64.deb
+        sha256: 8ddc0b36664c52a984b526391f0affda24ba085cbe8712472f294f4db2e3d446
+        size: 311818234
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: alma-wrapper
+      - type: file
+        path: now.alma.Alma.desktop
+      - type: file
+        path: now.alma.Alma.metainfo.xml
+      - type: file
+        path: now.alma.Alma.png

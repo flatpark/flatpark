@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Alma
+Comment=AI assistant with memory, skills and multi-provider support
+Exec=alma %U
+Terminal=false
+Type=Application
+Icon=now.alma.Alma
+StartupWMClass=alma
+Categories=Utility;
+Keywords=AI;assistant;chat;LLM;OpenAI;Anthropic;Gemini;
