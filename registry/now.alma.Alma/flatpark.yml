@@ -1,0 +1,23 @@
+id: now.alma.Alma
+name: Alma
+summary: AI assistant with memory, skills and multi-provider support
+website: https://alma.now
+source_url: https://github.com/yetone/alma-releases
+build:
+  manifest: now.alma.Alma.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - AI
+    - Assistant
+    - Chat
+    - Productivity
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []
