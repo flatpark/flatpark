@@ -109,13 +109,31 @@ node scripts/read-descriptor.mjs registry/com.example.App/flatpark.yml
 
 ### Test without polluting your everyday Flatpak
 
-`publish.sh --verify` adds a local `file://` remote named `flatpark` to your
-**`--user`** installation and installs the app there. The scratch repo
-(`out/repo`) is rebuilt on every run, so its commits drift from whatever you
-have installed — and if you _also_ run the real FlatPark remote in that same
-installation, `flatpak update` eventually fails with `Update is older than
-current version` and leaves orphaned refs. Keep test builds in a separate,
-throwaway installation so they never touch your normal Flatpak state:
+`publish.sh --verify` adds a **temporary** local `file://` remote named
+`flatpark-local` to your **`--user`** installation, installs the app from it to
+prove the built repo is installable, then uninstalls the app and deletes the
+remote again — your real `flatpark` remote is never touched (the script refuses
+to run if the two names collide). If an app under verify was already installed
+from another remote, verify moves it aside with `--reinstall` and restores it
+from its original remote during cleanup.
+
+To keep the app installed after verify for manual runtime testing, set
+`FLATPARK_VERIFY_KEEP=1`:
+
+```sh
+FLATPARK_VERIFY_KEEP=1 ./scripts/publish.sh --verify com.example.App
+flatpak --user run com.example.App
+# ... exercise the core feature, then clean up:
+flatpak --user uninstall -y com.example.App
+flatpak --user remote-delete --force flatpark-local
+rm -rf ~/.var/app/com.example.App
+```
+
+The scratch repo (`out/repo`) is rebuilt on every run, so its commits drift from
+whatever you have installed — with `FLATPARK_VERIFY_KEEP=1`, don't leave the
+`flatpark-local` remote around between sessions. For longer-lived manual
+testing, keep builds in a separate, throwaway installation so they never touch
+your normal Flatpak state:
 
 ```sh
 # one-time: create an isolated installation named "test"
