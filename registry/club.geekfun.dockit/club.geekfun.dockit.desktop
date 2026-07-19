@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=DocKit
+Comment=Desktop GUI client for Elasticsearch, OpenSearch, DynamoDB and MongoDB
+Exec=dockit %u
+Icon=club.geekfun.dockit
+Terminal=false
+Categories=Development;Database;
+StartupWMClass=DocKit
+StartupNotify=true
+MimeType=x-scheme-handler/dockit;
+Keywords=database;nosql;elasticsearch;opensearch;mongodb;dynamodb;client;

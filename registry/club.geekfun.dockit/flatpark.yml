@@ -1,0 +1,24 @@
+id: club.geekfun.dockit
+name: DocKit
+summary: Desktop GUI client for Elasticsearch, OpenSearch, DynamoDB and MongoDB
+website: https://www.geekfun.club/products/dockit/
+source_url: https://github.com/geek-fun/dockit
+build:
+  manifest: club.geekfun.dockit.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - Database
+    - NoSQL
+    - Elasticsearch
+    - OpenSearch
+    - MongoDB
+    - DynamoDB
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

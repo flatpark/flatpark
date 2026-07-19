@@ -1,0 +1,54 @@
+id: club.geekfun.dockit
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: dockit
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK NoSQL client (Elasticsearch, OpenSearch, DynamoDB, MongoDB,
+  # EasySearch). network is the core function — it talks to remote search/DB
+  # clusters and, for the optional AI assistant, to the LLM endpoint the user
+  # configures (including a local Ollama on 127.0.0.1); dri for
+  # hardware-accelerated WebKit rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # No --filesystem grants at all: DocKit keeps its connection store and settings
+  # in its private per-app directory, and the files it reads or writes — saved
+  # query files, index import/export dumps — are picked through the
+  # file-chooser portal. To keep a path available across restarts (the portal
+  # grant is per-pick), grant it with
+  # `flatpak override --user --filesystem=/path/to/dir club.geekfun.dockit`.
+modules:
+  - name: dockit
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dockit-wrapper /app/bin/dockit
+      - install -Dm644 club.geekfun.dockit.desktop /app/share/applications/club.geekfun.dockit.desktop
+      - install -Dm644 club.geekfun.dockit.metainfo.xml /app/share/metainfo/club.geekfun.dockit.metainfo.xml
+      - install -Dm644 club.geekfun.dockit.png /app/share/icons/hicolor/256x256/apps/club.geekfun.dockit.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: dockit.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/geek-fun/dockit/releases/download/v1.2.0/DocKit_1.2.0_amd64.deb
+        sha256: e0b018c743436c01c5f269f096531d6ad82b25eeba4584c4ddda68b68bfa3a59
+        size: 26732822
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dockit-wrapper
+      - type: file
+        path: club.geekfun.dockit.desktop
+      - type: file
+        path: club.geekfun.dockit.metainfo.xml
+      - type: file
+        path: club.geekfun.dockit.png

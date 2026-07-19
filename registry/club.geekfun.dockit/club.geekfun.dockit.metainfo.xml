@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>club.geekfun.dockit</id>
+  <name>DocKit</name>
+  <summary>Desktop GUI client for Elasticsearch, OpenSearch, DynamoDB and MongoDB</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="club.geekfun">
+    <name>geek-fun</name>
+  </developer>
+  <url type="homepage">https://www.geekfun.club/products/dockit/</url>
+  <url type="bugtracker">https://github.com/geek-fun/dockit/issues</url>
+  <url type="vcs-browser">https://github.com/geek-fun/dockit</url>
+  <description>
+    <p>This is a community package of DocKit, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>DocKit is a cross-platform desktop client for search and document databases, built on Tauri. It replaces browser consoles such as Kibana and the AWS console with a single native app, and can also work as an agent: describe what you need in natural language and it produces runnable queries.</p>
+    <ul>
+      <li>Supports Elasticsearch, OpenSearch, EasySearch, DynamoDB and MongoDB</li>
+      <li>Monaco-powered editors for Elasticsearch DSL, PartiQL and MongoDB queries, with autocomplete and query history</li>
+      <li>Visual index, collection and table management, plus cluster monitoring</li>
+      <li>DynamoDB query builder with primary-key filtering and import/export</li>
+      <li>Bring-your-own-key AI providers — OpenAI, Anthropic, DeepSeek, and local Ollama or LM Studio</li>
+    </ul>
+    <p>This package talks to database clusters over the network, and to whichever LLM endpoint you configure if you use the AI assistant. Its connection store and settings live in its private per-app directory, and files it reads or writes — saved queries, index dumps — are picked through the file-chooser dialog, so no host directory is granted by default.</p>
+    <p>To keep a directory available across restarts (the file-chooser grant is per-pick), grant it explicitly: <code>flatpak override --user --filesystem=/path/to/dir club.geekfun.dockit</code></p>
+    <p>DocKit's built-in self-updater cannot replace a Flatpak install. New upstream releases are picked up by FlatPark and delivered through "flatpak update" instead.</p>
+  </description>
+  <launchable type="desktop-id">club.geekfun.dockit.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>database</keyword>
+    <keyword>nosql</keyword>
+    <keyword>elasticsearch</keyword>
+    <keyword>opensearch</keyword>
+    <keyword>mongodb</keyword>
+    <keyword>dynamodb</keyword>
+    <keyword>client</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>dockit</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Running a query against a cluster in the DocKit workspace</caption>
+      <image>https://www.geekfun.club/dockit-client-ui.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.2.0" date="2026-06-30" />
+    <release version="1.1.1" date="2026-06-05" />
+    <release version="1.1.0" date="2026-06-04" />
+    <release version="1.0.1" date="2026-05-11" />
+    <release version="1.0.0" date="2026-05-07" />
+    <release version="0.9.10" date="2026-04-29" />
+    <release version="0.9.9" date="2026-04-28" />
+    <release version="0.9.8" date="2026-04-22" />
+    <release version="0.9.7" date="2026-04-20" />
+    <release version="0.9.6" date="2026-04-14" />
+  </releases>
+</component>
