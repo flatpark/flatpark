@@ -1,0 +1,69 @@
+id: cn.com._10jqka.THS
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: ths
+separate-locales: false
+build-options:
+  no-debuginfo: true
+tags:
+  - proprietary
+finish-args:
+  - --share=ipc
+  - --share=network
+  # Avalonia 0.10 ships no Wayland backend, so the app is X11-only (XWayland).
+  - --socket=x11
+  - --socket=pulseaudio
+  - --device=dri
+  - --filesystem=xdg-download
+modules:
+  # The payload is a self-contained .NET 5 application. Its crypto layer dlopens
+  # libssl by soname and only knows the 1.0.x/1.1 names — .NET did not learn to
+  # load OpenSSL 3 until .NET 6 — so on this runtime it aborts at startup with
+  # "No usable version of libssl was found" before drawing a window.
+  #
+  # The shim is FlatPark's audited prebuilt stack from flatpark/prebuilt, pinned
+  # by sha256, rather than an OpenSSL compiled here. It lands in /app/lib/openssl-1.1,
+  # which only this app's wrapper puts on LD_LIBRARY_PATH — and last, so nothing
+  # else in the sandbox (CEF carries its own BoringSSL) resolves against it and
+  # the runtime's OpenSSL 3 stays the default everywhere else.
+  #
+  # Caveat worth restating on every version bump: the 1.1.1 series went end of
+  # life in September 2023, so this shim receives no upstream security fixes.
+  # It should be dropped the moment upstream ships a .NET 6+ build.
+  - name: openssl-1.1-compat
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/openssl-1.1-compat-v1/openssl-1.1-compat-openssl-1.1-compat-v1-fd-25.08-x86_64.tar.xz
+        sha256: bedbd934a059322af7644676e89f9ccc510747917101e386c1a784a0a03d3939
+  - name: ths
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ths-wrapper /app/bin/ths
+      - install -Dm644 cn.com._10jqka.THS.desktop /app/share/applications/cn.com._10jqka.THS.desktop
+      - install -Dm644 cn.com._10jqka.THS.metainfo.xml /app/share/metainfo/cn.com._10jqka.THS.metainfo.xml
+      - install -Dm644 cn.com._10jqka.THS.svg /app/share/icons/hicolor/scalable/apps/cn.com._10jqka.THS.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ths.deb
+        only-arches:
+          - x86_64
+        url: https://sp.thsi.cn/staticS3/mobileweb-upload-static-server.file/app_6/downloadcenter/cn.com.10jqka_kylin_2.9.1.2_amd64.deb
+        sha256: d64b4e4f4c5dbfc510184b7a122d56ead8ada44f2231dd50667a15647ea58e64
+        size: 112800916
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ths-wrapper
+      - type: file
+        path: cn.com._10jqka.THS.desktop
+      - type: file
+        path: cn.com._10jqka.THS.metainfo.xml
+      - type: file
+        path: cn.com._10jqka.THS.svg

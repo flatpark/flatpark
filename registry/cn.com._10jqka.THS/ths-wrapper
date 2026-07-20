@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+readonly app_dir="/app/extra/ths"
+readonly data_dir="${XDG_DATA_HOME:-$HOME/.local/share}/THS"
+
+[ -x "$app_dir/HevoNext.B2CApp" ] || { echo "THS is not installed in /app/extra" >&2; exit 1; }
+
+# Keep any stray dotfile the .NET runtime or CEF writes inside the per-app data
+# directory rather than in the user's real home.
+export HOME="${XDG_DATA_HOME:-$HOME/.local/share}/home"
+mkdir -p "$HOME"
+
+mkdir -p "$data_dir/hevoLog" "$data_dir/hevoConfig" "$data_dir/workspace"
+for seeded in hevoConfig workspace; do
+    if [ -d "$app_dir/$seeded.dist" ] && [ ! -e "$data_dir/$seeded/.flatpark-defaults-copied" ]; then
+        cp -a "$app_dir/$seeded.dist/." "$data_dir/$seeded/"
+        : > "$data_dir/$seeded/.flatpark-defaults-copied"
+    fi
+done
+
+# /app/lib/openssl-1.1 goes last: it exists only so the bundled .NET 5 runtime
+# can dlopen libssl.so.1.1, and must never take precedence over the runtime's own
+# libraries. See the openssl-1.1-compat module in the manifest.
+export LD_LIBRARY_PATH="$app_dir:$app_dir/lib:$app_dir/cef/Release${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}:/app/lib/openssl-1.1"
+export FONTCONFIG_FILE=/etc/fonts/fonts.conf
+export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb
+
+cd "$app_dir"
+# CEF's own namespace sandbox cannot nest inside the Flatpak sandbox, which is
+# the security boundary here; without this the render and GPU processes abort.
+exec ./HevoNext.B2CApp --no-sandbox "$@"

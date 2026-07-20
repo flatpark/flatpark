@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=THS
+Name[zh_CN]=同花顺
+Comment=Hithink RoyalFlush stock market quotes and analysis
+Comment[zh_CN]=同花顺炒股软件，提供行情、资讯与分析。
+Exec=ths %U
+Icon=cn.com._10jqka.THS
+Categories=Finance;
+Keywords=stocks;markets;quotes;trading;finance;
+Keywords[zh_CN]=同花顺;行情;股票;炒股;
+Terminal=false
+StartupWMClass=HevoNext.B2CApp

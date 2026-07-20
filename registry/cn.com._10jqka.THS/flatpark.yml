@@ -1,0 +1,22 @@
+id: cn.com._10jqka.THS
+name: THS
+summary: Hithink RoyalFlush (同花顺) stock market quotes and analysis
+website: https://www.10jqka.com.cn/
+build:
+  manifest: cn.com._10jqka.THS.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags:
+    - Stocks
+    - Markets
+    - Quotes
+    - Trading
+    - Investing
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

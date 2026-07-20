@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>cn.com._10jqka.THS</id>
+  <name>THS</name>
+  <project_license>LicenseRef-proprietary=https://www.10jqka.com.cn/</project_license>
+  <metadata_license>CC0-1.0</metadata_license>
+  <developer_name>Hithink RoyalFlush Information Network</developer_name>
+  <summary>Hithink RoyalFlush (THS) stock market quotes and analysis</summary>
+  <launchable type="desktop-id">cn.com._10jqka.THS.desktop</launchable>
+  <url type="homepage">https://www.10jqka.com.cn/</url>
+  <url type="help">https://activity.10jqka.com.cn/acmake/cache/1380.html</url>
+  <description>
+    <p>This wrapper is not verified by, affiliated with, or supported by Hithink RoyalFlush Information Network.</p>
+    <p>THS (同花顺) is a proprietary desktop client for Chinese A-share market quotes, charting, news and portfolio tracking, distributed by Hithink RoyalFlush for Linux systems.</p>
+    <p>This package repackages the vendor's official Kylin Linux build unmodified.</p>
+  </description>
+  <categories>
+    <category>Finance</category>
+  </categories>
+  <releases>
+    <release version="2.9.1.2" date="2026-04-23" />
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>
