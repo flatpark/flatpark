@@ -51,6 +51,7 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.7.7" date="2026-07-20" />
     <release version="0.7.1" date="2026-07-07">
       <url>https://github.com/rowboatlabs/rowboat/releases/tag/v0.7.1</url>
     </release>
