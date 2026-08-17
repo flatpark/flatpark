@@ -17,10 +17,15 @@ const fallback = (app.name.match(/[A-Za-z0-9]/g) ?? []).slice(0, 2).join('').toU
 // English build stays byte-identical to its pre-i18n output; other locales use
 // Intl.RelativeTimeFormat, which gets pluralisation right where a hand-coded
 // table cannot (Chinese has no plural form at all).
-function ago(iso) {
-  if (!iso) return '';
+function daysSince(iso) {
+  if (!iso) return null;
   const days = Math.floor((Date.now() - Date.parse(iso)) / 86400000);
-  if (!Number.isFinite(days) || days < 0) return '';
+  return Number.isFinite(days) && days >= 0 ? days : null;
+}
+
+function ago(iso) {
+  const days = daysSince(iso);
+  if (days === null) return '';
   if (lang === defaultLang) {
     if (days === 0) return 'today';
     if (days < 7) return `${days}d ago`;
@@ -36,6 +41,15 @@ function ago(iso) {
   return rtf.format(-Math.floor(days / 365), 'year');
 }
 const updatedLabel = ago(app.updated);
+
+// Newly listed apps lead with when they arrived instead of when upstream last
+// released. The grid is sorted by listing date by default, and a first card
+// reading "updated 3mo ago" reads as a bug rather than as an explanation of why
+// it is first. The window is evaluated at build time, which is fine: every
+// publish rebuilds the site, so a card ages out on the next run.
+const NEW_FOR_DAYS = 30;
+const addedDays = daysSince(app.added);
+const addedLabel = addedDays !== null && addedDays < NEW_FOR_DAYS ? ago(app.added) : '';
 ---
 
 <a
@@ -76,7 +90,11 @@ const updatedLabel = ago(app.updated);
     <p class="line-clamp-2 text-sm text-muted">{app.summary}</p>
     <div class="mt-2 flex flex-wrap items-center gap-2">
       <span class="chip chip-mode">{sectionText}</span>
-      {updatedLabel && <span class="text-xs text-muted">{t('appcard.updated', { label: updatedLabel })}</span>}
+      {addedLabel ? (
+        <span class="text-xs font-semibold text-brand">{t('appcard.added', { label: addedLabel })}</span>
+      ) : (
+        updatedLabel && <span class="text-xs text-muted">{t('appcard.updated', { label: updatedLabel })}</span>
+      )}
     </div>
   </div>
 </a>

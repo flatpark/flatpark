@@ -101,6 +101,7 @@
   "setup.outro.tail": ".\n",
 
   "appcard.updated": "updated {label}",
+  "appcard.added": "added {label}",
   "appcard.approved": "Published with the developer's approval",
 
   "panel.details": "Details",
