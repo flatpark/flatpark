@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Motrix
+GenericName=Download Manager
+Comment=Full-featured download manager
+Exec=motrix %U
+Icon=app.motrix.native
+Terminal=false
+StartupNotify=true
+# Chromium derives the Wayland app_id and the X11 WM_CLASS instance from the
+# launcher's own name, which is "motrix" here — verified against a running
+# window rather than copied from the .deb's entry, so the compositor matches
+# the window to this desktop file and shows the right icon.
+StartupWMClass=motrix
+Categories=Network;FileTransfer;
+Keywords=download;bittorrent;magnet;aria2;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;x-scheme-handler/mo;x-scheme-handler/motrix;
