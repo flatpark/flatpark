@@ -5,7 +5,10 @@ sdk: org.gnome.Sdk
 command: subtitleedit
 separate-locales: false
 build-options:
+  # no-debuginfo alone only suppresses the .Debug extension; it leaves the DWARF
+  # inside mpv-stack's copied libraries. ~10 MB of this ref was debug sections.
   no-debuginfo: true
+  strip: true
 finish-args:
   # Display
   - --share=ipc
@@ -27,9 +30,6 @@ finish-args:
   - --share=network
   # Audio (video playback via mpv)
   - --socket=pulseaudio
-cleanup:
-  - "*.la"
-  - "*.a"
 modules:
   # Subtitle Edit loads libmpv.so.2 via dlopen and never spawns the `mpv` CLI,
   # so the 10 MB /app/bin/mpv the stack ships is dead weight for this app.
@@ -49,254 +49,6 @@ modules:
   # replaces the prebuilt stack's older 0.17.3 at the shared libass.so.9
   # soname (ABI-compatible, so libmpv's already-linked binary keeps working
   # against it). post-install drops the now-orphaned 0.17.3 file.
-  - name: libass
-    buildsystem: autotools
-    config-opts:
-      - --libdir=/app/lib
-      - --disable-static
-      - --enable-asm
-      - --enable-fontconfig
-    post-install:
-      - rm -f /app/lib/libass.so.9.3.1
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-    sources:
-      - type: git
-        url: https://github.com/libass/libass.git
-        tag: "0.17.4"
-        commit: bbb3c7f1570a4a021e52683f3fbdf74fe492ae84
-
-  # Subtitle Edit's burn-in shells out to ffmpeg with an `ass` filter, and offers
-  # a fixed encoder list (VideoEncodingItem.cs): libx264, libx265, libvpx-vp9,
-  # prores_ks, h264/hevc_nvenc, h264/hevc_amf, h264/hevc_qsv, with aac, ac3, mp3,
-  # libopus and libvorbis audio. The SDK's ffmpeg has no libass at all, so every
-  # burn-in dies at filter-graph parse time. Build one that covers that list.
-  # The SDK already ships ffnvcodec headers, libvpx, libopus and libvorbis.
-  - name: x264
-    buildsystem: simple
-    build-commands:
-      - ./configure --prefix=/app --libdir=/app/lib --disable-cli --enable-shared
-      - make -j$(nproc)
-      - make install
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - "*.a"
-    sources:
-      - type: git
-        url: https://code.videolan.org/videolan/x264.git
-        commit: 0480cb05fa188d37ae87e8f4fd8f1aea3711f7ee
-
-  - name: x265
-    buildsystem: cmake-ninja
-    subdir: source
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_INSTALL_LIBDIR=lib
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-      - -DENABLE_SHARED=ON
-      - -DENABLE_CLI=OFF
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - "*.a"
-    sources:
-      - type: git
-        url: https://bitbucket.org/multicoreware/x265_git.git
-        tag: "4.2"
-        commit: e7a37608685a1ea61c59342cb19208d688928287
-
-  - name: lame
-    buildsystem: autotools
-    config-opts:
-      - --libdir=/app/lib
-      - --disable-static
-      - --disable-frontend
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /share/doc
-    sources:
-      - type: archive
-        url: https://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
-        sha256: ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
-
-  - name: rubberband
-    buildsystem: meson
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-    sources:
-      - type: git
-        url: https://github.com/breakfastquay/rubberband.git
-        tag: v4.0.0
-        commit: 1d95888bec3ae0a17c0c4af791810d5a63f6bc35
-
-  # Headers only — the AMF runtime itself comes from the user's AMD driver.
-  - name: amf-headers
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/include/AMF
-      - cp -a amf/public/include/. /app/include/AMF/
-    cleanup:
-      - "*"
-    sources:
-      - type: git
-        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git
-        tag: v1.5.2
-        commit: eae4a4b7efc35f8b0a3977a0984c0d642efc4e63
-
-  # QSV dispatcher; the Intel media driver comes from the host/runtime.
-  - name: libvpl
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DCMAKE_INSTALL_LIBDIR=lib
-      - -DBUILD_TESTS=OFF
-      - -DBUILD_EXAMPLES=OFF
-      - -DINSTALL_EXAMPLE_CODE=OFF
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /share
-    sources:
-      - type: git
-        url: https://github.com/intel/libvpl.git
-        tag: v2.15.0
-        commit: c45b5d786bf7cdabbe49ff1bab78693ad78feb78
-
-  # Matches upstream Subtitle Edit's own flathub manifest (n9.0, shared), with
-  # the extra encoders added. FFmpeg 9's libav* sonames differ from the runtime's
-  # that the prebuilt mpv-stack links, so these do not shadow them.
-  - name: ffmpeg
-    buildsystem: autotools
-    config-opts:
-      - --disable-debug
-      - --disable-doc
-      - --disable-static
-      - --enable-shared
-      - --enable-gnutls
-      - --enable-gpl
-      - --enable-version3
-      - --enable-libass
-      - --enable-libdav1d
-      - --enable-libfreetype
-      - --enable-libmp3lame
-      - --enable-libopus
-      - --enable-librubberband
-      - --enable-libtheora
-      - --enable-libv4l2
-      - --enable-libvorbis
-      - --enable-libvpx
-      - --enable-libwebp
-      - --enable-libx264
-      - --enable-libxml2
-      - --enable-vulkan
-      - --enable-encoder=png
-      # Beyond upstream's set: the encoders Subtitle Edit's Linux dropdown
-      # offers but their manifest cannot provide (VideoEncodingItem.cs).
-      - --enable-libx265
-      - --enable-vaapi
-      - --enable-nvenc
-      - --enable-amf
-      - --enable-libvpl
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /share/ffmpeg/examples
-    sources:
-      - type: git
-        url: https://github.com/FFmpeg/FFmpeg.git
-        tag: n9.0
-        commit: 5b9252abfe2fda0ccb71ed45cd7a954cc45d2b6f
-
-  # Charset detection when opening subtitle files in an unknown encoding.
-  - name: uchardet
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_STATIC=0
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-    cleanup:
-      - /bin
-      - /include
-      - /lib/pkgconfig
-      - /share/man
-    sources:
-      - type: archive
-        url: https://www.freedesktop.org/software/uchardet/releases/uchardet-0.0.8.tar.xz
-        sha256: e97a60cfc00a1c147a674b097bb1422abd9fa78a2d9ce3f3fdcc2e78a34ac5f0
-
-  # OCR of image-based subtitles (VobSub/Blu-ray SUP).
-  - name: leptonica
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_SHARED_LIBS=ON
-      - -DBUILD_PROG=OFF
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /lib/cmake
-    sources:
-      - type: archive
-        url: https://github.com/DanBloomberg/leptonica/releases/download/1.85.0/leptonica-1.85.0.tar.gz
-        sha256: 3745ae3bf271a6801a2292eead83ac926e3a9bc1bf622e9cd4dd0f3786e17205
-
-  - name: tesseract
-    buildsystem: cmake-ninja
-    builddir: true
-    config-opts:
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DBUILD_SHARED_LIBS=ON
-      - -DBUILD_TRAINING_TOOLS=OFF
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-      - /lib/cmake
-    sources:
-      - type: archive
-        url: https://github.com/tesseract-ocr/tesseract/archive/refs/tags/5.5.1.tar.gz
-        sha256: a7a3f2a7420cb6a6a94d80c24163e183cf1d2f1bed2df3bbc397c81808a57237
-
-  - name: tessdata-eng
-    buildsystem: simple
-    build-commands:
-      - install -Dm644 eng.traineddata /app/share/tessdata/eng.traineddata
-    sources:
-      - type: file
-        url: https://github.com/tesseract-ocr/tessdata/raw/4.1.0/eng.traineddata
-        sha256: daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047
-
-  # Subtitle Edit unpacks .7z downloads (Whisper builds, OCR data) with this.
-  - name: sevenzip
-    buildsystem: simple
-    build-commands:
-      - make -C CPP/7zip/Bundles/Alone7z -f makefile.gcc
-      - install -Dm755 CPP/7zip/Bundles/Alone7z/_o/7zr /app/bin/7zr
-    sources:
-      - type: archive
-        url: https://github.com/ip7z/7zip/releases/download/25.01/7z2501-src.tar.xz
-        sha256: ed087f83ee789c1ea5f39c464c55a5c9d4008deb0efe900814f2df262b82c36e
-        strip-components: 0
-
-  # Numeric backend some Subtitle Edit tooling links against.
-  - name: openblas
-    buildsystem: simple
-    build-commands:
-      - make DYNAMIC_ARCH=1 USE_OPENMP=1 NUM_THREADS=64 NO_STATIC=1 NO_LAPACK=1 NO_LAPACKE=1 -j $FLATPAK_BUILDER_N_JOBS
-      - make PREFIX=/app NO_STATIC=1 NO_LAPACK=1 NO_LAPACKE=1 install
-    cleanup:
-      - /include
-      - /lib/cmake
-      - /lib/pkgconfig
-    sources:
-      - type: archive
-        url: https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.34/OpenBLAS-0.3.34.tar.gz
-        sha256: cd7e129868320cc2d033afa920e31202dfe0b8066a5b66661900ccc0f197dfed
-
   - name: subtitleedit
     buildsystem: simple
     build-commands:
@@ -306,6 +58,101 @@ modules:
       - install -Dm644 dk.nikse.subtitleedit.metainfo.xml /app/share/metainfo/dk.nikse.subtitleedit.metainfo.xml
       - install -Dm644 dk.nikse.subtitleedit.png /app/share/icons/hicolor/256x256/apps/dk.nikse.subtitleedit.png
     sources:
+      # Everything this app needs beyond the runtime is a prebuilt stack from
+      # https://github.com/flatpark/prebuilt, fetched from its GitHub release at
+      # install time rather than built here — so none of it is committed into
+      # FlatPark's OSTree repository, which is a bucket the project pays for and
+      # which every publish has to sync in full. apply_extra unpacks each to its
+      # own /app/extra/<name>/ and the wrapper names them on LD_LIBRARY_PATH and
+      # PATH: directories the loader does not search by default, so none of this
+      # shadows what the runtime provides.
+      #
+      # ffmpeg is why most of them are here. The runtime's own ffmpeg is built
+      # without libass, so the `ass` and `subtitles` filters do not exist and
+      # burn-in fails at filter-graph parse time. ffmpeg-full links
+      # x264/x265/lame/rubberband/libass and ships none of them, which is why
+      # each is pinned separately: an app wanting only the encoder can take it,
+      # and a bump to one does not re-cut the others.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: x264.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/x264-v1/x264-x264-v1-gnome-50-x86_64.tar.xz
+        sha256: f6d5ecf8620a60164d191aeb83ae9ba371e17fb0b3f217cce3d371f260c5f63f
+        size: 564664
+      - type: extra-data
+        filename: x265.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/x265-v1/x265-x265-v1-gnome-50-x86_64.tar.xz
+        sha256: 0e11378f93862669a832cfb58ae016d039aa65d2acbb8c64fc2a5a9db41a337e
+        size: 1051268
+      - type: extra-data
+        filename: lame.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/lame-v1/lame-lame-v1-gnome-50-x86_64.tar.xz
+        sha256: cf65e7f57f5532f692ed7107af0cafb36afb2277f31c7cb749da206f56f0b396
+        size: 143068
+      - type: extra-data
+        filename: rubberband.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/rubberband-v1/rubberband-rubberband-v1-gnome-50-x86_64.tar.xz
+        sha256: 8f88a7640b9eba33cba667d14f72b1261934e28fa6ba9dfbaa1396eac0c63f5f
+        size: 218688
+      - type: extra-data
+        filename: libass.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/libass-v1/libass-libass-v1-gnome-50-x86_64.tar.xz
+        sha256: 2b246bd7d9f658b0678e366c8196d40daf1088433daeab9a01b06c15884b375d
+        size: 114504
+      - type: extra-data
+        filename: ffmpeg-full.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v1/ffmpeg-full-ffmpeg-full-v1-gnome-50-x86_64.tar.xz
+        sha256: 220c5aa8b691ddec31fc4a7148fd33169a59012045cb1e5bf339ddc5f7b25465
+        size: 11446284
+      - type: extra-data
+        filename: leptonica.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/leptonica-v1/leptonica-leptonica-v1-gnome-50-x86_64.tar.xz
+        sha256: 150639275c0b5487d530289610a62f9626e9e74c51aa45cba865461937a7bead
+        size: 1155844
+      - type: extra-data
+        filename: tesseract.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/tesseract-v1/tesseract-tesseract-v1-gnome-50-x86_64.tar.xz
+        sha256: 5ee03744ac7bf1d688bcd6905da4c4fb788ce99caf0641bcc3ffe0499cc25ef8
+        size: 1627480
+      - type: extra-data
+        filename: uchardet.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/uchardet-v1/uchardet-uchardet-v1-gnome-50-x86_64.tar.xz
+        sha256: a6affdd2b5a451bc26afa067360c709fc9cfcbe6cf2955aec65f8936c59cded6
+        size: 70268
+      - type: extra-data
+        filename: sevenzip.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/sevenzip-v1/sevenzip-sevenzip-v1-gnome-50-x86_64.tar.xz
+        sha256: b7b7f202c528d0eb200fe609f143177d50dc646bd71309a13284a535b69185e9
+        size: 463620
+      - type: extra-data
+        filename: eng.traineddata
+        only-arches:
+          - x86_64
+        url: https://github.com/tesseract-ocr/tessdata/raw/4.1.0/eng.traineddata
+        sha256: daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047
+        size: 23466654
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: subtitleedit.tar.gz

@@ -6,7 +6,34 @@ set -eu
 export DOTNET_BUNDLE_EXTRACT_BASE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/subtitleedit/dotnet-bundle"
 mkdir -p "$DOTNET_BUNDLE_EXTRACT_BASE_DIR"
 
-# Subtitle Edit dlopen()s libmpv.so.2 for the video preview; it lives in /app/lib.
-export LD_LIBRARY_PATH="/app/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Every library and tool this app needs beyond the runtime is a prebuilt stack
+# from https://github.com/flatpark/prebuilt, carried as extra-data and unpacked
+# by apply_extra into its own directory under /app/extra. None of those is on
+# the loader's default search path, which is the point: the app sees exactly
+# what is named here, and nothing else in the sandbox is shadowed by them.
+X=/app/extra
+
+# The stacks come BEFORE /app/lib, and the order is load-bearing. mpv-stack
+# still ships its own libass.so.9 into /app/lib and ffmpeg links that same
+# soname: with /app/lib first, ffmpeg binds mpv-stack's libass 0.17.3 instead of
+# the 0.17.4 pinned in the manifest — ffmpeg reports whichever it loaded, and it
+# reports whichever comes first. Stacks first gives every process in the sandbox
+# one libass, the pinned one. /app/lib still comes last, for libmpv.so.2 and
+# libplacebo, which Subtitle Edit dlopens for the video preview.
+export LD_LIBRARY_PATH="\
+$X/x264/lib:$X/x265/lib:$X/lame/lib:$X/rubberband/lib:$X/libass/lib:\
+$X/ffmpeg-full/lib:\
+$X/leptonica/lib:$X/tesseract/lib:\
+$X/uchardet/lib:\
+/app/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# Tools the app shells out to: ffmpeg/ffprobe for probing and burn-in, tesseract
+# for OCR of image-based subtitles, 7zr for the .7z downloads the app offers.
+export PATH="$X/ffmpeg-full/bin:$X/tesseract/bin:$X/sevenzip/bin:$PATH"
+
+# tesseract reads its output-format presets (hocr, tsv, pdf, ...) and its
+# language data from the same directory, so apply_extra stages eng.traineddata
+# into the prebuilt stack's own share/tessdata and both live here.
+export TESSDATA_PREFIX="$X/tesseract/share/tessdata"
 
 exec /app/extra/app/SubtitleEdit "$@"
