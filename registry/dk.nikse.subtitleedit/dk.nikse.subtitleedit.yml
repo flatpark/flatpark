@@ -13,11 +13,28 @@ finish-args:
   - --socket=x11
   - --socket=pulseaudio
   - --device=dri
-  - --filesystem=xdg-videos
-  - --filesystem=xdg-music
-  - --filesystem=xdg-documents
-  - --filesystem=xdg-download
+  - --filesystem=home
+  - --filesystem=/mnt
+  - --filesystem=/media
+  - --filesystem=/run/media
+  - --filesystem=xdg-run/gvfs
 modules:
+  # Built from source only so ffmpeg below can link it; the prebuilt mpv-stack
+  # ships the same libass 9.3.1 .so and overwrites this one at install time.
+  - name: libass
+    buildsystem: autotools
+    config-opts:
+      - --libdir=/app/lib
+      - --disable-static
+      - --enable-shared
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+    sources:
+      - type: git
+        url: https://github.com/libass/libass.git
+        commit: e46aedea0a0d17da4c4ef49d84b94a7994664ab5
+
   - name: mpv-stack
     buildsystem: simple
     build-commands:
@@ -27,11 +44,197 @@ modules:
         url: https://github.com/flatpark/prebuilt/releases/download/mpv-v1/mpv-stack-mpv-v1-gnome-50-x86_64.tar.xz
         sha256: 900008f2263d53f72061e42f27775ab985510f496320aa366b2493662ec5a3be
 
-  - name: ffmpeg-tools
+  # Subtitle Edit's burn-in shells out to ffmpeg with an `ass` filter, and offers
+  # a fixed encoder list (VideoEncodingItem.cs): libx264, libx265, libvpx-vp9,
+  # prores_ks, h264/hevc_nvenc, h264/hevc_amf, h264/hevc_qsv, with aac, ac3, mp3,
+  # libopus and libvorbis audio. The SDK's ffmpeg has no libass at all, so every
+  # burn-in dies at filter-graph parse time. Build one that covers that list.
+  # The SDK already ships ffnvcodec headers, libvpx, libopus and libvorbis.
+  - name: x264
     buildsystem: simple
     build-commands:
-      - install -Dm755 /usr/bin/ffmpeg /app/bin/ffmpeg
-      - install -Dm755 /usr/bin/ffprobe /app/bin/ffprobe
+      - ./configure --prefix=/app --libdir=/app/lib --enable-shared --enable-pic --disable-cli
+      - make -j$(nproc)
+      - make install
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - "*.a"
+    sources:
+      - type: git
+        url: https://code.videolan.org/videolan/x264.git
+        commit: b35605ace3ddf7c1a5d67a2eb553f034aef41d55
+
+  - name: x265
+    buildsystem: cmake-ninja
+    subdir: source
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_LIBDIR=lib
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      - -DENABLE_SHARED=ON
+      - -DENABLE_CLI=OFF
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - "*.a"
+    sources:
+      - type: git
+        url: https://bitbucket.org/multicoreware/x265_git.git
+        tag: "4.2"
+        commit: e7a37608685a1ea61c59342cb19208d688928287
+
+  - name: lame
+    buildsystem: autotools
+    config-opts:
+      - --libdir=/app/lib
+      - --disable-static
+      - --disable-frontend
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /share/doc
+    sources:
+      - type: archive
+        url: https://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
+        sha256: ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
+
+  # Headers only — the AMF runtime itself comes from the user's AMD driver.
+  - name: amf-headers
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/include/AMF
+      - cp -a amf/public/include/. /app/include/AMF/
+    cleanup:
+      - "*"
+    sources:
+      - type: git
+        url: https://github.com/GPUOpen-LibrariesAndSDKs/AMF.git
+        tag: v1.5.2
+        commit: eae4a4b7efc35f8b0a3977a0984c0d642efc4e63
+
+  # QSV dispatcher; the Intel media driver comes from the host/runtime.
+  - name: libvpl
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_LIBDIR=lib
+      - -DBUILD_TESTS=OFF
+      - -DBUILD_EXAMPLES=OFF
+      - -DINSTALL_EXAMPLE_CODE=OFF
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /share
+    sources:
+      - type: git
+        url: https://github.com/intel/libvpl.git
+        tag: v2.15.0
+        commit: c45b5d786bf7cdabbe49ff1bab78693ad78feb78
+
+  # Static libav*: installing shared ones into /app/lib would shadow the
+  # runtime's for mpv. Only the two binaries are installed.
+  - name: ffmpeg
+    buildsystem: simple
+    build-commands:
+      - ./configure --prefix=/app --disable-shared --enable-static --disable-doc
+        --disable-debug --enable-gpl --enable-libass --enable-libx264 --enable-libx265
+        --enable-libvpx --enable-libopus --enable-libvorbis --enable-libmp3lame
+        --enable-libfreetype --enable-libfontconfig --enable-libfribidi --enable-libharfbuzz
+        --enable-vaapi --enable-nvenc --enable-amf --enable-libvpl
+      - make -j$(nproc)
+      - install -Dm755 ffmpeg /app/bin/ffmpeg
+      - install -Dm755 ffprobe /app/bin/ffprobe
+    sources:
+      - type: git
+        url: https://github.com/FFmpeg/FFmpeg.git
+        tag: n7.1.5
+        commit: eefb3654c445a9004712036be4ffb01a68b2c3e1
+
+  # Charset detection when opening subtitle files in an unknown encoding.
+  - name: uchardet
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_STATIC=0
+      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    cleanup:
+      - /bin
+      - /include
+      - /lib/pkgconfig
+      - /share/man
+    sources:
+      - type: archive
+        url: https://www.freedesktop.org/software/uchardet/releases/uchardet-0.0.8.tar.xz
+        sha256: e97a60cfc00a1c147a674b097bb1422abd9fa78a2d9ce3f3fdcc2e78a34ac5f0
+
+  # OCR of image-based subtitles (VobSub/Blu-ray SUP).
+  - name: leptonica
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_SHARED_LIBS=ON
+      - -DBUILD_PROG=OFF
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /lib/cmake
+    sources:
+      - type: archive
+        url: https://github.com/DanBloomberg/leptonica/releases/download/1.85.0/leptonica-1.85.0.tar.gz
+        sha256: 3745ae3bf271a6801a2292eead83ac926e3a9bc1bf622e9cd4dd0f3786e17205
+
+  - name: tesseract
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_SHARED_LIBS=ON
+      - -DBUILD_TRAINING_TOOLS=OFF
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+      - /lib/cmake
+    sources:
+      - type: archive
+        url: https://github.com/tesseract-ocr/tesseract/archive/refs/tags/5.5.1.tar.gz
+        sha256: a7a3f2a7420cb6a6a94d80c24163e183cf1d2f1bed2df3bbc397c81808a57237
+
+  - name: tessdata-eng
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 eng.traineddata /app/share/tessdata/eng.traineddata
+    sources:
+      - type: file
+        url: https://github.com/tesseract-ocr/tessdata/raw/4.1.0/eng.traineddata
+        sha256: daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047
+
+  # Subtitle Edit unpacks .7z downloads (Whisper builds, OCR data) with this.
+  - name: sevenzip
+    buildsystem: simple
+    build-commands:
+      - make -C CPP/7zip/Bundles/Alone7z -f makefile.gcc
+      - install -Dm755 CPP/7zip/Bundles/Alone7z/_o/7zr /app/bin/7zr
+    sources:
+      - type: archive
+        url: https://github.com/ip7z/7zip/releases/download/25.01/7z2501-src.tar.xz
+        sha256: ed087f83ee789c1ea5f39c464c55a5c9d4008deb0efe900814f2df262b82c36e
+        strip-components: 0
+
+  - name: openblas
+    buildsystem: simple
+    build-commands:
+      - make DYNAMIC_ARCH=1 USE_OPENMP=1 NUM_THREADS=64 NO_STATIC=1 NO_LAPACK=1 NO_LAPACKE=1 -j $FLATPAK_BUILDER_N_JOBS
+      - make PREFIX=/app NO_STATIC=1 NO_LAPACK=1 NO_LAPACKE=1 install
+    cleanup:
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
+    sources:
+      - type: archive
+        url: https://github.com/OpenMathLib/OpenBLAS/releases/download/v0.3.34/OpenBLAS-0.3.34.tar.gz
+        sha256: cd7e129868320cc2d033afa920e31202dfe0b8066a5b66661900ccc0f197dfed
 
   - name: subtitleedit
     buildsystem: simple
