@@ -31,24 +31,6 @@ cleanup:
   - "*.la"
   - "*.a"
 modules:
-  # Built from source only so ffmpeg below can link it; the prebuilt mpv-stack
-  # ships the same libass 9.3.1 .so and overwrites this one at install time.
-  - name: libass
-    buildsystem: autotools
-    config-opts:
-      - --libdir=/app/lib
-      - --disable-static
-      - --enable-asm
-      - --enable-fontconfig
-    cleanup:
-      - /include
-      - /lib/pkgconfig
-    sources:
-      - type: git
-        url: https://github.com/libass/libass.git
-        tag: "0.17.4"
-        commit: bbb3c7f1570a4a021e52683f3fbdf74fe492ae84
-
   # Subtitle Edit loads libmpv.so.2 via dlopen and never spawns the `mpv` CLI,
   # so the 10 MB /app/bin/mpv the stack ships is dead weight for this app.
   - name: mpv-stack
@@ -61,6 +43,29 @@ modules:
       - type: archive
         url: https://github.com/flatpark/prebuilt/releases/download/mpv-v1/mpv-stack-mpv-v1-gnome-50-x86_64.tar.xz
         sha256: 900008f2263d53f72061e42f27775ab985510f496320aa366b2493662ec5a3be
+
+  # Built from source, after mpv-stack, so this 0.17.4 build - matching
+  # upstream's own pin exactly - is what actually ships: installing it here
+  # replaces the prebuilt stack's older 0.17.3 at the shared libass.so.9
+  # soname (ABI-compatible, so libmpv's already-linked binary keeps working
+  # against it). post-install drops the now-orphaned 0.17.3 file.
+  - name: libass
+    buildsystem: autotools
+    config-opts:
+      - --libdir=/app/lib
+      - --disable-static
+      - --enable-asm
+      - --enable-fontconfig
+    post-install:
+      - rm -f /app/lib/libass.so.9.3.1
+    cleanup:
+      - /include
+      - /lib/pkgconfig
+    sources:
+      - type: git
+        url: https://github.com/libass/libass.git
+        tag: "0.17.4"
+        commit: bbb3c7f1570a4a021e52683f3fbdf74fe492ae84
 
   # Subtitle Edit's burn-in shells out to ffmpeg with an `ass` filter, and offers
   # a fixed encoder list (VideoEncodingItem.cs): libx264, libx265, libvpx-vp9,
