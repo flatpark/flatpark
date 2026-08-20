@@ -31,14 +31,15 @@
       tarball does not carry them.
     </p>
     <p>
-      Media in the standard XDG Videos, Music, Documents and Downloads folders
-      is readable out of the box. A few further capabilities are not granted by
-      default; enable the ones you need with "flatpak override":
+      This app is granted broad filesystem access by default, matching the
+      upstream project's own Flatpak packaging: your full home directory, plus
+      external drives and network shares mounted under /mnt, /media, or
+      /run/media. Video and subtitle files are commonly stored outside the
+      standard XDG folders (secondary drives, NAS shares, sync folders), and
+      routing that access through the document portal instead would strand
+      auto-renamed saves as hidden temp files and add overhead to video
+      playback.
     </p>
-    <ul>
-      <li>Open media stored anywhere else in your home directory: <code>flatpak override --user --filesystem=home dk.nikse.subtitleedit</code></li>
-      <li>Open media on external drives or other mounts: <code>flatpak override --user --filesystem=/run/media dk.nikse.subtitleedit</code></li>
-    </ul>
   </description>
 
   <url type="homepage">https://www.nikse.dk/subtitleedit</url>

@@ -18,5 +18,9 @@ update:
 policy:
   proprietary: false
   extra_data_first: true
+  # Matches upstream's own flathub manifest verbatim: subtitle/video files are
+  # commonly outside XDG Videos (secondary drives, NAS, sync folders). Portal-
+  # mediated single-file access strands auto-renamed saves as hidden .xdp-*
+  # temp files and adds FUSE overhead to video playback (upstream issue #13308).
   dangerous_permissions:
     - --filesystem=home
