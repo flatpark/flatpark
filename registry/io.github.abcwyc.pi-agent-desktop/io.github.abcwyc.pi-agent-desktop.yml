@@ -77,9 +77,9 @@ modules:
         filename: pi-agent.deb
         only-arches:
           - x86_64
-        url: https://github.com/abcwyc/pi-agent-desktop/releases/download/v0.3.2/Pi.Agent_0.3.2_amd64.deb
-        sha256: 396d76065721ff91a8f94a7748a66254144e484682cade0535c74eb03a18c47d
-        size: 86044678
+        url: https://github.com/abcwyc/pi-agent-desktop/releases/download/v0.3.3/Pi.Agent_0.3.3_amd64.deb
+        sha256: 32ee449b3e9eb97b22ae164a11c9ee16a1694546861a0c7e660f2b72ab8e49ba
+        size: 86070412
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
