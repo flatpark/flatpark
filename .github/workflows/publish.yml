@@ -31,6 +31,7 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write   # open/close the publish alert (scripts/ci-alert.sh)
 
 jobs:
   publish:
@@ -194,3 +195,30 @@ jobs:
           printf '%s\n' "$GITHUB_SHA" > "$REPO_DIR/.published-sha"
           printf '%s\n' "$GITHUB_SHA" | rclone rcat "r2:$R2_BUCKET/.published-sha" \
             --header-upload "Cache-Control: public, max-age=0, must-revalidate"
+
+      # This workflow is the one nobody watches: it runs on a push that a bot
+      # already auto-merged, so a failure here means the catalog silently stops
+      # tracking upstream. Turn it into an issue, which notifies, and close that
+      # issue on the next green publish.
+      - name: Alert on a failed publish
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ./scripts/ci-alert.sh open publish "publish failed" <<EOF
+          A publish run did not finish, so the repo on R2 and the site are still
+          on the previously published commit — \`$GITHUB_SHA\` is not live.
+
+          Nothing is broken for users: \`.published-sha\` is written last, so the
+          next successful run rebuilds this push's apps too. But every merge until
+          then stays unpublished.
+
+          This issue closes itself on the next green publish.
+          EOF
+
+      - name: Clear the publish alert
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/ci-alert.sh resolve publish "Publishing succeeded again."
+

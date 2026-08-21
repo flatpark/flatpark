@@ -298,6 +298,12 @@ said no.
 - **Re-crawl (§1) periodically** to catch new releases and freshly-rejected Flathub PRs.
 - Each app's `resolve-update.sh` already lets FlatPark re-pin & rebuild on new upstream releases —
   no manual version bumps.
+- **A broken upstream repackage opens an issue.** When `update-check`'s payload gate rejects a new
+  artifact it holds that app's pin (users stay on the last version known to install) and
+  `scripts/ci-alert.sh` opens a `ci-alert`-labelled issue naming the app — a red run in the Actions
+  tab notifies nobody, an issue does. Fix `registry/<id>/apply_extra.sh`, verify with
+  `./scripts/check-apply-extra.sh <id>`, and the next run closes the issue itself. A failed
+  `publish` opens the same kind of issue under the `publish` key.
 - **Runtime majors are NOT bumped by CI.** `update-check` only re-pins extra-data and the metainfo
   release; `runtime-version` / `base-version` are hand-pinned per manifest. When a new major lands,
   the maintainer kicks off an **AI-led batch update** that bumps and re-tests the whole catalog at

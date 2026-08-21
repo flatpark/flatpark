@@ -19,6 +19,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write         # open/close the held-back alert (scripts/ci-alert.sh)
   actions: write        # dispatch publish.yml after the auto-merge
 
 jobs:
@@ -160,6 +161,63 @@ jobs:
             gh workflow run publish.yml --ref main
             echo "merged #$new and dispatched publish"
           fi
+      # A red run is not a notification. It sits in the Actions tab, and GitHub
+      # only emails failures of *scheduled* runs — a manual dispatch, or the
+      # publish that follows the auto-merge, reaches nobody. Mirror the held-back
+      # state into an issue, which does notify, and close it again on recovery.
+      - name: Open / close the held-back alerts
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for id in ${held:-}; do
+            ./scripts/ci-alert.sh open "update-check/$id" \
+              "update-check: $id no longer unpacks" <<EOF
+          The payload upstream is serving for \`$id\` fails this app's
+          \`apply_extra.sh\`, so the pin refresh was held back and the app stays on
+          the last version known to install. Users are not affected until this is
+          fixed and the new version ships.
+
+          Usually upstream repackaged — a renamed launcher, a relocated binary — and
+          \`registry/$id/apply_extra.sh\` needs to follow. Reproduce with:
+
+          \`\`\`
+          ./scripts/check-apply-extra.sh $id
+          \`\`\`
+
+          This issue closes itself once that payload unpacks again.
+          EOF
+          done
+
+          # Apps whose new payload verified this run are healthy by definition.
+          for id in ${changed:-}; do
+            ./scripts/ci-alert.sh resolve "update-check/$id" \
+              "The new payload for \`$id\` unpacks again; its pin refreshed."
+          done
+
+          # An app fixed by hand is in neither list: the fix PR usually carries
+          # the corrected pin too, so the next run finds it up to date and never
+          # re-runs the gate. Re-check whatever is still alerting — normally
+          # nothing, so this costs a single `gh issue list` on a healthy day.
+          stale=""
+          for key in $(./scripts/ci-alert.sh list "update-check/"); do
+            id="${key#update-check/}"
+            case " ${held:-} " in *" $id "*) continue ;; esac
+            stale="$stale $id"
+          done
+          if [ -n "$stale" ]; then
+            command -v flatpak >/dev/null || \
+              sudo apt-get install -y flatpak bubblewrap
+            flatpak remote-add --user --if-not-exists flathub \
+              https://dl.flathub.org/repo/flathub.flatpakrepo
+            for id in $stale; do
+              if INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$id"; then
+                ./scripts/ci-alert.sh resolve "update-check/$id" \
+                  "The pinned payload for \`$id\` unpacks again."
+              fi
+            done
+          fi
+
       # Last, so a held-back app still gets its PR opened for the apps that passed.
       # A red daily run is the point: an upstream that repackaged needs a human.
       - name: Fail if any pin was held back
