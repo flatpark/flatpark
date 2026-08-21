@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# LeePanel is a single Tauri (WebKitGTK) binary staged by apply_extra to
+# /app/extra/leepanel. It links only against libraries in org.gnome.Platform
+# (webkit2gtk-4.1, gtk-3, libsoup-3, libdbus) and speaks SSH/SFTP itself
+# through russh, so nothing else has to be added to the sandbox.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox; disabling it is the reliable default for Tauri apps here.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/leepanel "$@"

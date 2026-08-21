@@ -1,0 +1,23 @@
+id: com.leepanel.desktop
+name: LeePanel
+summary: Agentless Linux server management over SSH — terminal, SFTP, Nginx, databases and Docker
+website: https://www.leepanel.com
+source_url: https://github.com/gna1280072/LeePanel
+build:
+  manifest: com.leepanel.desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - SSH
+    - SFTP
+    - Server
+    - Nginx
+    - Docker
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

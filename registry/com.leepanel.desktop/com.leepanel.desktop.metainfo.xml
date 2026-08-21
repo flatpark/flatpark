@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.leepanel.desktop</id>
+  <name>LeePanel</name>
+  <summary>Agentless Linux server management over SSH</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.leepanel">
+    <name>gna1280072</name>
+  </developer>
+  <url type="homepage">https://www.leepanel.com</url>
+  <url type="bugtracker">https://github.com/gna1280072/LeePanel/issues</url>
+  <url type="vcs-browser">https://github.com/gna1280072/LeePanel</url>
+  <description>
+    <p>This is a community package of LeePanel, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>LeePanel is a desktop control panel for Linux servers. Instead of installing a panel on the server, it runs every operation as an SSH command from your own machine — no agent, no extra port, nothing left behind on the server.</p>
+    <ul>
+      <li>SSH terminal and SFTP file browser with upload, download and archive handling</li>
+      <li>Web stack management: Nginx sites, PHP, MySQL/MariaDB, Redis</li>
+      <li>Docker containers, images and compose projects</li>
+      <li>Firewall rules, ports and free SSL certificates</li>
+      <li>Live system monitor: CPU, memory, disk, network and top processes</li>
+    </ul>
+    <p>Servers, credentials and settings are stored in this package's own sandboxed data directory (~/.var/app/com.leepanel.desktop). Of your real home, only ~/Downloads is available by default, which is where SFTP transfers can read and write.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Log in with an existing SSH private key from your host: <code>flatpak override --user --filesystem=~/.ssh:ro com.leepanel.desktop</code></li>
+      <li>Transfer files anywhere in your home instead of just ~/Downloads: <code>flatpak override --user --filesystem=home com.leepanel.desktop</code></li>
+    </ul>
+    <p>LeePanel's built-in self-updater cannot replace a Flatpak install. New upstream releases are picked up by FlatPark and delivered through "flatpak update" instead.</p>
+  </description>
+  <launchable type="desktop-id">com.leepanel.desktop.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>System</category>
+  </categories>
+  <keywords>
+    <keyword>ssh</keyword>
+    <keyword>sftp</keyword>
+    <keyword>server</keyword>
+    <keyword>vps</keyword>
+    <keyword>nginx</keyword>
+    <keyword>docker</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>leepanel</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browsing a remote server's files over SFTP</caption>
+      <image>https://raw.githubusercontent.com/gna1280072/LeePanel/main/public/img/01.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Installing and controlling server software</caption>
+      <image>https://raw.githubusercontent.com/gna1280072/LeePanel/main/public/img/02.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Live system monitor for the connected server</caption>
+      <image>https://raw.githubusercontent.com/gna1280072/LeePanel/main/public/img/03.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.21" date="2026-08-18">
+      <description></description>
+    </release>
+    <release version="1.0.20" date="2026-08-13" />
+    <release version="1.0.19" date="2026-07-27" />
+    <release version="1.0.18" date="2026-07-23" />
+    <release version="1.0.17" date="2026-07-22" />
+    <release version="1.0.16" date="2026-07-22" />
+  </releases>
+</component>

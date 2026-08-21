@@ -1,0 +1,54 @@
+id: com.leepanel.desktop
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: leepanel
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK client for managing remote Linux servers. Everything it does
+  # to a server it does over its own SSH connection (russh/russh-sftp are linked
+  # into the binary), so network is the one capability the core feature needs.
+  # dri for hardware-accelerated WebKit rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Local file access is deliberately narrow. The app's own settings and its
+  # SQLite connection store live in the per-app config dir, which Flatpak
+  # redirects into ~/.var/app, so they need no grant at all. Only the SFTP
+  # browser touches the real home: ~/Downloads is granted so "save as" and
+  # uploads have somewhere to work. Private SSH keys are NOT granted — key
+  # auth is opt-in via `flatpak override`, documented in the metainfo.
+  - --filesystem=xdg-download
+modules:
+  - name: leepanel
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 leepanel-wrapper /app/bin/leepanel
+      - install -Dm644 com.leepanel.desktop.desktop /app/share/applications/com.leepanel.desktop.desktop
+      - install -Dm644 com.leepanel.desktop.metainfo.xml /app/share/metainfo/com.leepanel.desktop.metainfo.xml
+      - install -Dm644 com.leepanel.desktop.png /app/share/icons/hicolor/256x256/apps/com.leepanel.desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: leepanel.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/gna1280072/LeePanel/releases/download/v1.0.21/LeePanel_1.0.21_amd64.deb
+        sha256: a65a9e40baf2b39f1ee0e9f069729df9b0ead9a46e4c662e4b8e3a47e3501439
+        size: 10811418
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: leepanel-wrapper
+      - type: file
+        path: com.leepanel.desktop.desktop
+      - type: file
+        path: com.leepanel.desktop.metainfo.xml
+      - type: file
+        path: com.leepanel.desktop.png

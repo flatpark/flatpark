@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=LeePanel
+Comment=Manage Linux servers over SSH — terminal, files, web stack and Docker
+Exec=leepanel
+Icon=com.leepanel.desktop
+Terminal=false
+Categories=Network;System;RemoteAccess;
+StartupWMClass=leepanel
+StartupNotify=true
+Keywords=ssh;sftp;server;vps;nginx;mysql;docker;panel;
