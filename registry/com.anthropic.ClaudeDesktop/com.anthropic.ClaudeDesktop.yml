@@ -53,16 +53,16 @@ modules:
         filename: claude-desktop-amd64.deb
         only-arches:
           - x86_64
-        url: https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.32885.1_amd64.deb
-        sha256: f8a5ddea7c8cbe769589cf19c2e1832d5d532ab19bf8202621ba957c9351a2fc
-        size: 171376132
+        url: https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.34493.1_amd64.deb
+        sha256: 19829779633a277fcd72a6583426c68a4ecff7aa43a26718d6645c2e954747ca
+        size: 158823068
       - type: extra-data
         filename: claude-desktop-arm64.deb
         only-arches:
           - aarch64
-        url: https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.32885.1_arm64.deb
-        sha256: 5da381569c5b09cacfc83c992920181207ca45fd1270e20654dd7bb21c5d8552
-        size: 163836340
+        url: https://downloads.claude.ai/claude-desktop/apt/stable/pool/main/c/claude-desktop/claude-desktop_1.34493.1_arm64.deb
+        sha256: a41ae6446192a1b8a95d570c7029d317139a30c562c9f4e8b675b905be52a010
+        size: 151314572
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

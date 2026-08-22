@@ -38,9 +38,9 @@ modules:
         filename: leepanel.deb
         only-arches:
           - x86_64
-        url: https://github.com/gna1280072/LeePanel/releases/download/v1.0.21/LeePanel_1.0.21_amd64.deb
-        sha256: a65a9e40baf2b39f1ee0e9f069729df9b0ead9a46e4c662e4b8e3a47e3501439
-        size: 10811418
+        url: https://github.com/gna1280072/LeePanel/releases/download/v1.0.22/LeePanel_1.0.22_amd64.deb
+        sha256: 28d0cd2659a7cc67790a7360bf551d1816cbf05b07f2ff3d0da59e4ae7916bfa
+        size: 10802962
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

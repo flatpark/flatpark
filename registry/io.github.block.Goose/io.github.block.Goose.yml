@@ -73,9 +73,9 @@ modules:
         filename: goose.deb
         only-arches:
           - x86_64
-        url: https://github.com/aaif-goose/goose/releases/download/v1.46.0/goose_1.46.0_amd64.deb
-        sha256: f5a4954400a68d159f8c52c35f06bc4c923e31d988aab1045ea9e51a6efad58d
-        size: 172117218
+        url: https://github.com/aaif-goose/goose/releases/download/v1.47.0/goose_1.47.0_amd64.deb
+        sha256: da7d91f376e962a0ed9284ddd6708961605b8315cf3eb496cf77dfcc6a8579cd
+        size: 172653646
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
