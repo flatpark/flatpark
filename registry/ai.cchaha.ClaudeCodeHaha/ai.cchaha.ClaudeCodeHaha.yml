@@ -65,9 +65,9 @@ modules:
         filename: cc-haha.deb
         only-arches:
           - x86_64
-        url: https://github.com/NanmiCoder/cc-haha/releases/download/v0.5.4/Claude-Code-Haha-0.5.4-linux-amd64.deb
-        sha256: af8c116260b97698d8ccd872ca9e80020502a114a61587915032a66b520dc1a4
-        size: 179770060
+        url: https://github.com/NanmiCoder/cc-haha/releases/download/v0.5.5/Claude-Code-Haha-0.5.5-linux-amd64.deb
+        sha256: 723d6ccdda8ebe983328c0667ff2748f4086c62d27c6ad2d9e5e621cc271745a
+        size: 179799708
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

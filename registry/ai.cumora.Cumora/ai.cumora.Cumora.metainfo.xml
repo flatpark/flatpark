@@ -61,6 +61,9 @@
   </provides>
   <launchable type="desktop-id">ai.cumora.Cumora.desktop</launchable>
   <releases>
+    <release version="0.2.0" date="2026-08-22">
+      <description></description>
+    </release>
     <release version="0.1.64" date="2026-07-26">
       <url>https://github.com/yetone/cumora-releases/releases/tag/v0.1.64</url>
     </release>
