@@ -43,7 +43,7 @@ finish-args:
   # that reaches the user's own installation on the host. That costs the Flatpak
   # portal name below: commands this app runs can leave the sandbox. It is
   # declared in flatpark.yml under policy.dangerous_permissions and spelled out
-  # in the metainfo. Same shape as com.stablyai.orca.
+  # in the metainfo. Same shape as com.openai.ChatGPT.
   - --talk-name=org.freedesktop.Flatpak
   # The shims resolve their config directory as $HOME/.config/goose — under
   # $HOME rather than under the XDG base directories Flatpak redirects, and
