@@ -47,6 +47,22 @@ Apps built with AI assistance ("vibe coding") are welcome. They are judged on th
 same bar as any other app: development history, upstream activity, and observed
 quality — not on how they were written.
 
+We take a side here. The "AI slop" label is everywhere now — Flathub's PR
+queue, Reddit threads, all over the internet — slapped onto working software
+with no review behind it: nobody built it, nobody ran it, nobody read a line of
+the diff. That reflex is not quality control. It is the laziest possible
+review, and it tells you nothing about the software. If anything deserves the
+name, the drive-by label is the slop.
+
+FlatPark's answer is to do the work the label skips: every submission is built,
+installed, launched, and reviewed against the published bar above. Judge the
+package, not the tooling that wrote it.
+
+And we use the tools ourselves, openly. AI agents are welcome — encouraged —
+for rigorous testing, thorough documentation, and automated maintenance
+pipelines; FlatPark's own review and update pipeline is AI-assisted. What
+matters is the bar the result clears, not the hands on the keyboard.
+
 ## Review
 
 Every submission is reviewed (AI-assisted) against a published
@@ -72,12 +88,23 @@ that it is an official upstream build, pinned and unmodified.
 
 ## De-listing
 
-An app can be removed from FlatPark when:
+Removal is rare and conservative. An app leaves FlatPark for only two reasons:
 
-- its official download URL disappears or stops being maintained;
-- upstream is abandoned, or a release turns out to be malicious;
-- it requests dangerous permissions that cannot be justified; or
-- the vendor asks us to remove it.
+- it has **genuinely lost maintenance for the long term** — the official
+  download URL is gone, or upstream has been silent long enough that there is
+  nothing left to package; or
+- **its author explicitly asks us not to distribute it.** The vendor's word is
+  final: we remove the app, no argument.
+
+An app is **never** de-listed for how it was written, what toolkit it uses, or
+because someone on the internet called it slop.
+
+Two footnotes. The security floor applies at all times, independent of the
+list above: a release found to be malicious, or one demanding dangerous
+permissions that cannot be justified, is removed immediately. And an app can
+also leave by *graduating* — when upstream begins publishing an official
+Flathub build, FlatPark's stopgap has done its job and we retire our package;
+that is success, not rejection.
 
 The process is public: an issue is opened describing the reason, a maintainer
 reviews it, and on removal the app's directory is deleted from the registry and

@@ -31,12 +31,12 @@
   "notfound.browse": "Browse all apps",
   "notfound.home": "Home",
 
-  "home.meta.description": "FlatPark is a community hub for official Linux desktop apps, packaged as signed, sandboxed Flatpaks and installed with one command.",
+  "home.meta.description": "FlatPark is a community hub for official Linux desktop apps — each one actually built, launched, and reviewed, then shipped as a signed, sandboxed Flatpak installed with one command.",
   "home.hero.badge": "⬡ A signed Flatpak remote",
-  "home.hero.title.lead": "Your apps.",
-  "home.hero.title.middle": "Sandboxed.",
+  "home.hero.title.lead": "Built.",
+  "home.hero.title.middle": "Reviewed.",
   "home.hero.title.tail": "Signed.",
-  "home.hero.body": "A community hub for official Linux desktop apps — packaged as signed, sandboxed Flatpaks and installed with a single command.",
+  "home.hero.body": "Official Linux desktop apps — every one actually built, launched, and reviewed against a published bar, then shipped as a signed, sandboxed Flatpak. No drive-by labels. One command to install.",
   "home.hero.setup": "Setup guide",
 
   "apps.all": "All apps",

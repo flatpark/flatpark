@@ -31,12 +31,12 @@
   "notfound.browse": "浏览全部应用",
   "notfound.home": "首页",
 
-  "home.meta.description": "FlatPark 是面向官方 Linux 桌面应用的社区集中站，所有应用都以已签名、沙盒隔离的 Flatpak 形式打包，一行命令即可安装。",
+  "home.meta.description": "FlatPark 是面向官方 Linux 桌面应用的社区集中站——每个应用都经过实际构建、启动和审核，再以已签名、沙盒隔离的 Flatpak 发布，一行命令即可安装。",
   "home.hero.badge": "⬡ 已签名的 Flatpak remote",
-  "home.hero.title.lead": "你的应用。",
-  "home.hero.title.middle": "沙盒隔离。",
-  "home.hero.title.tail": "已签名。",
-  "home.hero.body": "一个面向官方 Linux 桌面应用的社区集中站 —— 所有应用都以已签名、沙盒隔离的 Flatpak 形式打包，一行命令即可安装。",
+  "home.hero.title.lead": "构建过。",
+  "home.hero.title.middle": "审核过。",
+  "home.hero.title.tail": "签名过。",
+  "home.hero.body": "面向官方 Linux 桌面应用的社区集中站——每个应用都经过实际构建、启动，并按公开标准审核，再以已签名、沙盒隔离的 Flatpak 发布。没有随手贴的标签，一行命令即可安装。",
   "home.hero.setup": "配置指南",
 
   "apps.all": "全部应用",
