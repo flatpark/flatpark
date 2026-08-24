@@ -39,9 +39,9 @@ modules:
         filename: markflowy.deb
         only-arches:
           - x86_64
-        url: https://github.com/drl990114/MarkFlowy/releases/download/v0.88.0/MarkFlowy_v0.88.0_amd64.deb
-        sha256: ffc36bcff2e4e0affc108aec218c3e8c870e1cfcba04932729d6224e257d0159
-        size: 20636106
+        url: https://github.com/drl990114/MarkFlowy/releases/download/v0.89.0/MarkFlowy_v0.89.0_amd64.deb
+        sha256: c52057bc59683301e2fe192de357d9e8a84510acd4943777c9addc2dd8c35564
+        size: 20896004
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
