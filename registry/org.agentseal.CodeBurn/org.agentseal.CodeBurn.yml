@@ -87,9 +87,9 @@ modules:
         filename: codeburn.deb
         only-arches:
           - x86_64
-        url: https://github.com/getagentseal/codeburn/releases/download/desktop-v0.9.20/codeburn-desktop_0.9.20_amd64.deb
-        sha256: bf875a11aef90853bee3891ece965b98a7ddcc5331d98dfd113b72c80e8598ca
-        size: 111275868
+        url: https://github.com/getagentseal/codeburn/releases/download/desktop-v0.9.21/codeburn-desktop_0.9.21_amd64.deb
+        sha256: 74424429252fbcce0f8311264849a72068b920f76f7d287d62e59ba0e13b6ff4
+        size: 110023460
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

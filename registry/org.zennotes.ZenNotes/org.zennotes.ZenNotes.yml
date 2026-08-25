@@ -50,9 +50,9 @@ modules:
         filename: zennotes.deb
         only-arches:
           - x86_64
-        url: https://github.com/ZenNotes/zennotes/releases/download/v2.36.0/ZenNotes-2.36.0-linux-amd64.deb
-        sha256: 7f51629672e27ac3c20abc28962fb98db493c302669f4a336aee392924c2bc04
-        size: 202139288
+        url: https://github.com/ZenNotes/zennotes/releases/download/v2.37.0/ZenNotes-2.37.0-linux-amd64.deb
+        sha256: 1077ab0535f1672aa4f903aa1fef5dd42a410753032dc65aaa7d597ff595f861
+        size: 202141468
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

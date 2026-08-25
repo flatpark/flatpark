@@ -67,6 +67,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.9.21" date="2026-08-24">
+      <description></description>
+    </release>
     <release version="0.9.20" date="2026-08-10">
       <url>https://github.com/getagentseal/codeburn/releases/tag/desktop-v0.9.20</url>
     </release>
