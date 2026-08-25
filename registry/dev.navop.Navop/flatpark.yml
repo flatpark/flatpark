@@ -1,0 +1,41 @@
+# FlatPark catalog descriptor for Navop.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; dev.navop.Navop.yml is the Flatpak manifest it
+# points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: dev.navop.Navop
+name: Navop
+summary: Native all-in-one workspace for databases, SSH, SFTP, terminals and remote desktop
+website: https://navop.dev
+source_url: https://github.com/feigeCode/navop
+build:
+  manifest: dev.navop.Navop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  # Authorized by the upstream developer in feigeCode/navop#107, who amended
+  # NAVOP_LICENSE in the same breath to name FlatPark as an allowed free
+  # distribution channel. Row in docs/upstream-approvals.md.
+  upstream_approved: true
+  tags:
+    - Database
+    - SSH
+    - SFTP
+    - Terminal
+    - MySQL
+    - PostgreSQL
+    - Redis
+    - MongoDB
+update:
+  command: ./resolve-update.sh
+policy:
+  # Source-available: Apache-2.0 plus the NAVOP_LICENSE supplementary terms
+  # (no paid redistribution, no competing product), same shape as AFFiNE.
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

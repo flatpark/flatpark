@@ -1,0 +1,33 @@
+#!/bin/sh
+set -eu
+
+# Navop is a single self-contained binary staged by apply_extra at
+# /app/extra/usr/bin/navop. Every library it links against - webkit2gtk-4.1,
+# gtk-3, libsoup-3, libxkbcommon, libudev, libfreetype - comes from
+# org.gnome.Platform, and it declares no tray icon, so no extra module is
+# needed. The UI itself is GPUI, which renders through Vulkan on the runtime's
+# Mesa (hence --device=dri) and dlopens libwayland-client / libX11 for whichever
+# display backend is present.
+#
+# Its settings, connections, notes, session recordings and any database driver
+# it downloads go to the XDG config/data directories, which Flatpak points at
+# ~/.var/app/dev.navop.Navop.
+
+# WebKitGTK's DMABUF renderer paints a blank view under many drivers inside the
+# Flatpak sandbox. Disabling it is the reliable default for a WebKitGTK app.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# Navop resolves fonts through cosmic-text/fontdb, which parses one fontconfig
+# file by itself and reads only its <dir> elements - so neither the host fonts
+# (reached through a conf.d remap-dir) nor the bundled CJK face under /app/extra
+# is visible with the runtime's own configuration, and CJK text comes out as
+# tofu boxes even on a host that has Noto Sans CJK installed. /app/etc/fonts/
+# fonts.conf lists every directory explicitly; see the comments in it.
+#
+# This deliberately replaces a FONTCONFIG_FILE the user may have set for all
+# apps: keeping theirs is what leaves the CJK face unreachable. To go back to
+# your own configuration, and lose the bundled fallback with it:
+#   flatpak override --user --env=NAVOP_FONTCONFIG_FILE=/path/to/fonts.conf dev.navop.Navop
+export FONTCONFIG_FILE="${NAVOP_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+exec /app/extra/usr/bin/navop "$@"

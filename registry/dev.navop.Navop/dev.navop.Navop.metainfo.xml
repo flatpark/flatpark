@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.navop.Navop</id>
+  <name>Navop</name>
+  <summary>Native all-in-one workspace for databases, SSH, SFTP, terminals and remote desktop</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0 AND LicenseRef-proprietary=https://github.com/feigeCode/navop/blob/dev/NAVOP_LICENSE</project_license>
+  <developer id="dev.navop">
+    <name>feigeCode</name>
+  </developer>
+  <url type="homepage">https://navop.dev</url>
+  <url type="bugtracker">https://github.com/feigeCode/navop/issues</url>
+  <url type="vcs-browser">https://github.com/feigeCode/navop</url>
+  <description>
+    <p>This is a community package of Navop, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Navop is a native desktop workspace that puts database clients, SSH and SFTP sessions, terminals, remote desktop, host monitoring, notes and AI assistance in one window.</p>
+    <ul>
+      <li>Database clients for MySQL, PostgreSQL, SQLite, DuckDB, MongoDB, Redis, ClickHouse, SQL Server, Oracle and more, with table compare and ER diagrams</li>
+      <li>SSH and SFTP sessions with a remote file editor and session recording</li>
+      <li>Terminals, port forwarding and remote desktop</li>
+      <li>Host monitoring, Markdown notes and AI assistance with your own provider key</li>
+    </ul>
+    <p>The package is fully sandboxed: it can reach the network and its own data directory, and nothing else. Files are opened through the file-chooser portal, and databases, SSH servers and remote desktops are reached over TCP — including services on the host at 127.0.0.1.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Reuse your existing host SSH keys and known_hosts: <code>flatpak override --user --filesystem=~/.ssh:ro dev.navop.Navop</code></li>
+      <li>Browse local files in the SFTP pane, or open a SQLite/DuckDB file by typing its path: <code>flatpak override --user --filesystem=home dev.navop.Navop</code> (or name a single directory instead of home)</li>
+      <li>Serial-port connections: <code>flatpak override --user --device=all dev.navop.Navop</code></li>
+      <li>A database that listens on a Unix socket rather than TCP: <code>flatpak override --user --filesystem=/run/postgresql:ro dev.navop.Navop</code></li>
+    </ul>
+    <p>Two things behave differently inside the sandbox: the built-in local terminal runs the shell from the Flatpak runtime rather than your host shell, and in-app updates cannot replace the packaged build — new upstream releases arrive as Flatpak updates instead.</p>
+  </description>
+  <launchable type="desktop-id">dev.navop.Navop.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>database</keyword>
+    <keyword>ssh</keyword>
+    <keyword>sftp</keyword>
+    <keyword>terminal</keyword>
+    <keyword>mysql</keyword>
+    <keyword>postgresql</keyword>
+    <keyword>redis</keyword>
+    <keyword>mongodb</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>navop</binary>
+    <mediatype>application/vnd.sqlite3</mediatype>
+    <mediatype>application/x-sqlite3</mediatype>
+    <mediatype>application/x-duckdb</mediatype>
+    <mediatype>application/vnd.duckdb</mediatype>
+    <mediatype>text/markdown</mediatype>
+    <mediatype>application/x-asciicast</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The Navop workspace</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/app.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Browsing a database</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/database.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>An SSH session</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/ssh.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Transferring files over SFTP</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/sftp.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Monitoring a host</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/monitor.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.11.0" date="2026-08-24">
+      <description></description>
+    </release>
+    <release version="0.10.10" date="2026-08-24" />
+    <release version="0.10.9" date="2026-08-24" />
+    <release version="0.10.8" date="2026-08-20" />
+    <release version="0.10.7" date="2026-08-13" />
+    <release version="0.10.6" date="2026-08-11" />
+    <release version="0.10.5" date="2026-08-07" />
+    <release version="0.10.4" date="2026-08-05" />
+    <release version="0.10.3" date="2026-08-04" />
+    <release version="0.10.2" date="2026-08-03" />
+    <release version="0.10.1" date="2026-08-02" />
+    <release version="0.10.0" date="2026-07-30" />
+  </releases>
+</component>

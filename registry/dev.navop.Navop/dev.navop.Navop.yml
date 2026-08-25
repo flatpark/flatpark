@@ -1,0 +1,104 @@
+id: dev.navop.Navop
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: navop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Navop is a native GPUI application: it renders through Vulkan (blade/ash) and
+  # links WebKitGTK for its embedded web views, so it needs a GPU device and the
+  # display sockets. ipc covers the X11 fallback path.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Navop implements accessibility through AccessKit's AT-SPI adapter, which
+  # asks org.a11y.Bus on the session bus where the accessibility bus lives.
+  # Without this name a screen reader never sees the application at all.
+  - --talk-name=org.a11y.Bus
+  # network is the core function: every connection Navop makes - MySQL,
+  # PostgreSQL, Redis, MongoDB, ClickHouse, SSH, SFTP, RDP/VNC, port forwarding
+  # and the AI providers the user configures with their own key - is a TCP
+  # connection. This also covers 127.0.0.1, so a database or an SSH server on
+  # the host is reachable without any filesystem permission.
+  - --share=network
+  # Navop keeps its settings, connections, notes and downloaded database drivers
+  # in $HOME/.config/navop, built from the home directory rather than read from
+  # XDG_CONFIG_HOME - and Flatpak redirects the XDG variables, not $HOME, so
+  # that path is a tmpfs inside the sandbox and every setting would be lost on
+  # exit. --persist binds it to ~/.var/app/dev.navop.Navop/.config/navop, which
+  # keeps the data inside the sandbox rather than granting any part of the real
+  # home.
+  - --persist=.config/navop
+  # No other filesystem grants. Connections, notes, session recordings and
+  # the downloaded database drivers live in the app's own per-app directories
+  # under ~/.var/app/dev.navop.Navop, files are opened through the file-chooser
+  # portal, and every remote host is reached over TCP.
+  #
+  # The optional grants are documented as `flatpak override` commands in the
+  # metainfo description, because each one hands over something the sandbox is
+  # there to protect:
+  #   ~/.ssh:ro           reuse the host's private keys and known_hosts
+  #   home or a directory browse local files in the SFTP pane, or point a
+  #                       connection at a SQLite/DuckDB file by typing its path
+  #   --device=all        serial-port connections
+modules:
+  - name: navop
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 navop-wrapper /app/bin/navop
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 dev.navop.Navop.desktop /app/share/applications/dev.navop.Navop.desktop
+      - install -Dm644 dev.navop.Navop.xml /app/share/mime/packages/dev.navop.Navop.xml
+      - install -Dm644 dev.navop.Navop.metainfo.xml /app/share/metainfo/dev.navop.Navop.metainfo.xml
+      - install -Dm644 dev.navop.Navop.png /app/share/icons/hicolor/512x512/apps/dev.navop.Navop.png
+    sources:
+      # Navop's font fallback list asks for "Noto Sans CJK SC" / "Noto Sans Mono
+      # CJK SC" for CJK text, and neither the GNOME runtime nor a typical
+      # non-CJK host ships them - GPUI draws the missing glyphs as tofu. The
+      # face is extra-data rather than a build module so its 19.5 MB stay out of
+      # FlatPark's repository for a file jsDelivr already serves; apply_extra
+      # stages it into /app/extra/fonts and fonts.conf adds that directory on
+      # top of the runtime's own configuration. Same tag-pinned URL and sha256
+      # as com.longbridgeapp.LongbridgePro.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: navop.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/feigeCode/navop/releases/download/v0.11.0/navop_0.11.0_amd64.deb
+        sha256: e75d2bab35b1c265a352b9ce478752dd69142ecfe00758db9a3e6670e1112cc6
+        size: 44761668
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: navop-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: dev.navop.Navop.desktop
+      # Upstream's own MIME declarations, verbatim from the .deb (renamed to the
+      # app id, which is what Flatpak exports). Without them the file types the
+      # desktop entry advertises - .duckdb and .cast - are unknown to the
+      # desktop, and double-clicking one never reaches Navop.
+      - type: file
+        path: dev.navop.Navop.xml
+      - type: file
+        path: dev.navop.Navop.metainfo.xml
+      - type: file
+        path: dev.navop.Navop.png
