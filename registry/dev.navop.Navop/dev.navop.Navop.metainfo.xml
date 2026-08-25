@@ -59,10 +59,14 @@
     <mediatype>text/markdown</mediatype>
     <mediatype>application/x-asciicast</mediatype>
   </provides>
+  <!-- The set the upstream README shows, newest captures first (feigeCode/navop#107:
+       the maintainer asked for fresher images). Kept on the branch URL rather
+       than a commit sha on purpose: the site re-fetches every build, so a
+       screenshot upstream replaces in place reaches the app page by itself. -->
   <screenshots>
     <screenshot type="default">
       <caption>The Navop workspace</caption>
-      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/app.png</image>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/app1.png</image>
     </screenshot>
     <screenshot>
       <caption>Browsing a database</caption>
@@ -73,12 +77,16 @@
       <image>https://raw.githubusercontent.com/feigeCode/navop/dev/ssh.png</image>
     </screenshot>
     <screenshot>
-      <caption>Transferring files over SFTP</caption>
-      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/sftp.png</image>
+      <caption>Asking the AI assistant about a database</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/chatdb.png</image>
     </screenshot>
     <screenshot>
-      <caption>Monitoring a host</caption>
-      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/monitor.png</image>
+      <caption>Agent Hub</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/agent_hub.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Themes</caption>
+      <image>https://raw.githubusercontent.com/feigeCode/navop/dev/theme.png</image>
     </screenshot>
   </screenshots>
   <releases>
