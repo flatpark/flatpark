@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Wealthfolio
+Comment=Track investments, net worth and spending on your own device
+Exec=wealthfolio %u
+Icon=com.teymz.wealthfolio
+Terminal=false
+StartupNotify=true
+Categories=Office;Finance;
+MimeType=x-scheme-handler/wealthfolio;
+Keywords=finance;portfolio;investment;networth;stocks;budget;
