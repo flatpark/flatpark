@@ -9,6 +9,12 @@ build:
   mode: extra-data
 catalog:
   category: AudioVideo
+  # Harbor's own README names harborstremio-linux/harbor-linux-builds the
+  # official Linux channel (harborstremio/harbor#1097), and that repo's README
+  # gives FlatPark as the install method for the beta channel. This package was
+  # submitted and is maintained by that channel's maintainer (flatpark#159).
+  # Row in docs/upstream-approvals.md.
+  upstream_approved: true
   tags:
     - Media
     - Video

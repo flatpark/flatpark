@@ -9,6 +9,9 @@ build:
   mode: extra-data
 catalog:
   category: AudioVideo
+  # Authorized by Subtitle Edit's author in SubtitleEdit/subtitleedit#13889 -
+  # "FlatPark is fine too, thx :)". Row in docs/upstream-approvals.md.
+  upstream_approved: true
   tags:
     - Video
     - Subtitles
