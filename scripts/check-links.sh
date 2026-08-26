@@ -24,5 +24,8 @@ if [ ! -d "$SITE_DIR/node_modules" ]; then
     ( cd "$SITE_DIR" && npm install --no-audit --no-fund )
 fi
 
-( cd "$SITE_DIR" && node tools/enrich.mjs )
+# Link checking only needs the URLs enrichment pulls out of the metainfo; the
+# git listing dates it also computes are irrelevant here, so a shallow checkout
+# (link-check.yml uses the default depth) is fine and must not be rejected.
+( cd "$SITE_DIR" && FLATPARK_ALLOW_SHALLOW=1 node tools/enrich.mjs )
 ( cd "$SITE_DIR" && node tools/check-links.mjs $json )

@@ -39,7 +39,13 @@ jobs:
       RCLONE_CONFIG_R2_ACL: private
       RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
     steps:
+      # Full history, not the default depth-1: this job rebuilds and redeploys
+      # the site, and the "Recently added" order is read out of git (the commit
+      # that first added registry/<id>/). A shallow clone dates every app to the
+      # single grafted commit, so the homepage silently falls back to scan order.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: 22

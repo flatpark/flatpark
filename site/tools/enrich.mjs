@@ -73,6 +73,34 @@ function gitAdded(srcDir) {
   }
 }
 
+// A shallow checkout reports every app as added by the single grafted commit,
+// so gitAdded() above hands back one identical timestamp for the whole catalog
+// and "Recently added" silently degenerates into registry scan order (i.e.
+// alphabetical). That shipped once from delist-prune's default-depth checkout.
+// Any workflow that builds the site needs fetch-depth: 0; refuse to build
+// rather than publish a wrong order. FLATPARK_ALLOW_SHALLOW=1 opts out for a
+// local shallow clone that does not care about listing dates.
+if (process.env.FLATPARK_ALLOW_SHALLOW !== '1') {
+  let shallow = '';
+  try {
+    shallow = execSync('git rev-parse --is-shallow-repository', {
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+      .toString()
+      .trim();
+  } catch {
+    shallow = ''; // not a git checkout at all: dates are best-effort, carry on
+  }
+  if (shallow === 'true') {
+    console.error(
+      '[enrich] refusing to build from a shallow clone: every app would get the ' +
+        'same listing date and the "Recently added" order would be lost. ' +
+        'Check out with fetch-depth: 0 (or set FLATPARK_ALLOW_SHALLOW=1).',
+    );
+    process.exit(1);
+  }
+}
+
 const dataDir = process.env.FLATPARK_DATA_DIR || 'public';
 const appsDir = join(dataDir, 'apps');
 const shotsDir = join(dataDir, 'screenshots');
