@@ -1,0 +1,78 @@
+id: io.github.pear_devs.pear_desktop
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: pear-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) client for the YouTube Music web app. The prebuilt build
+  # bundles Chromium plus its own ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, CUPS,
+  # ATK, ALSA, dbus, gbm and X11 stacks it links come from the runtime
+  # (verified against the binary's NEEDED set, 0 missing).
+  - --share=ipc
+  # The app is a client for a web service; without network it does nothing.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audio playback.
+  - --socket=pulseaudio
+  # "Now playing" notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Optional tray icon (a plugin the user enables). The tray backend registers
+  # with the StatusNotifier watcher; no --own-name is granted until an item that
+  # actually needs one is observed.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # MPRIS: media keys and the desktop's "now playing" applet. By default the
+  # embedded Chromium publishes the player under a chromium.instance<pid> name;
+  # with the app's shortcuts plugin enabled, the plugin publishes its own player
+  # instead, under the name upstream's own flatpak build configuration grants.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  - --own-name=org.mpris.MediaPlayer2.YoutubeMusic.*
+  # Keeps the session from idling while music plays (Chromium's power-save
+  # blocker talks to the session manager on GNOME).
+  - --talk-name=org.gnome.SessionManager
+  # The optional downloader plugin writes into the user's Music directory. This
+  # is the only filesystem grant; everything else goes through the file chooser
+  # portal, and wider access stays an opt-in override documented in the metainfo.
+  - --filesystem=xdg-music
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: pear-desktop
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pear-desktop-wrapper /app/bin/pear-desktop
+      - install -Dm644 io.github.pear_devs.pear_desktop.desktop /app/share/applications/io.github.pear_devs.pear_desktop.desktop
+      - install -Dm644 io.github.pear_devs.pear_desktop.metainfo.xml /app/share/metainfo/io.github.pear_devs.pear_desktop.metainfo.xml
+      - install -Dm644 io.github.pear_devs.pear_desktop.png /app/share/icons/hicolor/512x512/apps/io.github.pear_devs.pear_desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/pear-devs/pear-desktop/releases/download/v3.12.0/youtube-music_3.12.0_amd64.deb
+        sha256: cbf8996f565cbe01cd3a37cc9df0e52da3dcc3b889541117b512be7e4f2afde3
+        size: 110902432
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pear-desktop-wrapper
+      - type: file
+        path: io.github.pear_devs.pear_desktop.desktop
+      - type: file
+        path: io.github.pear_devs.pear_desktop.metainfo.xml
+      - type: file
+        path: io.github.pear_devs.pear_desktop.png

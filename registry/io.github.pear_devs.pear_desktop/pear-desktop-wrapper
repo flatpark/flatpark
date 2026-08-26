@@ -1,0 +1,56 @@
+#!/bin/sh
+set -eu
+
+# Electron app staged by apply_extra to /app/extra/app, started through the
+# `launch` symlink apply_extra created for whatever the vendor named the
+# launcher binary in this release. zypak-wrapper (from
+# org.electronjs.Electron2.BaseApp) redirects Chromium's SUID sandbox onto the
+# Flatpak sandbox, so the app keeps an internal sandbox instead of running with
+# --no-sandbox. --ozone-platform-hint=auto uses Wayland when available and falls
+# back to X11. Electron keeps its configuration and plugin data under
+# $XDG_CONFIG_HOME, which Flatpak points at
+# ~/.var/app/io.github.pear_devs.pear_desktop/config.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (a terminal inside VS Code, for instance), the binary would start
+# as plain Node instead of the GUI app.
+unset ELECTRON_RUN_AS_NODE
+
+# Updates come through Flatpak, so on first run seed the app's settings with its
+# own built-in update check switched off; otherwise it offers to download a
+# release the sandboxed install cannot apply. The settings store merges only
+# top-level keys with its defaults, so the whole `options` block is written out
+# with the 3.12.0 defaults. An existing config is never touched, and the check
+# can be switched back on from the app's Options menu.
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/YouTube Music"
+if [ ! -e "$config_dir/config.json" ]; then
+  mkdir -p "$config_dir"
+  cat > "$config_dir/config.json" <<'EOF'
+{
+  "options": {
+    "tray": false,
+    "appVisible": true,
+    "autoUpdates": false,
+    "alwaysOnTop": false,
+    "hideMenu": false,
+    "hideMenuWarned": false,
+    "startAtLogin": false,
+    "disableHardwareAcceleration": false,
+    "removeUpgradeButton": false,
+    "restartOnConfigChanges": false,
+    "trayClickPlayPause": false,
+    "autoResetAppCache": false,
+    "resumeOnStart": true,
+    "likeButtons": "",
+    "swapLikeButtonsOrder": false,
+    "proxy": "",
+    "startingPage": "",
+    "overrideUserAgent": false,
+    "usePodcastParticipantAsArtist": false,
+    "themes": []
+  }
+}
+EOF
+fi
+
+exec zypak-wrapper /app/extra/app/launch --ozone-platform-hint=auto "$@"

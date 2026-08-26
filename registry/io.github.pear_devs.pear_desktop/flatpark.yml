@@ -1,0 +1,22 @@
+id: io.github.pear_devs.pear_desktop
+name: Pear Desktop
+summary: Desktop music streaming client with a plugin system
+website: https://github.com/pear-devs/pear-desktop
+source_url: https://github.com/pear-devs/pear-desktop
+build:
+  manifest: io.github.pear_devs.pear_desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Music
+    - Player
+    - Plugins
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

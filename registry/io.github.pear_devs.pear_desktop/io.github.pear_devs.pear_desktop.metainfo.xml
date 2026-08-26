@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.pear_devs.pear_desktop</id>
+  <name>Pear Desktop</name>
+  <summary>Desktop music streaming client with a plugin system</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.pear-devs">
+    <name>Pear Desktop contributors</name>
+  </developer>
+  <url type="homepage">https://github.com/pear-devs/pear-desktop</url>
+  <url type="bugtracker">https://github.com/pear-devs/pear-desktop/issues</url>
+  <url type="vcs-browser">https://github.com/pear-devs/pear-desktop</url>
+  <description>
+    <p>This is a community package of Pear Desktop, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Pear Desktop is an independent, unofficial desktop client for the YouTube Music web app, extended with a plugin system. It is not affiliated with, authorized by or endorsed by Google LLC or YouTube, and it requires your own YouTube Music account.</p>
+    <p>Plugins that ship with it include:</p>
+    <ul>
+      <li>An equalizer, audio compressor, crossfade, playback speed and precise volume control.</li>
+      <li>Synced lyrics, an ambient mode and picture-in-picture.</li>
+      <li>Discord rich presence, Last.fm-style scrobbling and OBS integrations.</li>
+      <li>SponsorBlock, skipping disliked songs and skipping silences.</li>
+      <li>A local API server, global shortcuts and desktop media controls.</li>
+      <li>A downloader that saves audio to your Music directory.</li>
+    </ul>
+    <p>The package can play audio, show notifications and expose media controls over MPRIS, so keyboard media keys and the desktop's now-playing applet work. Its only filesystem grant is your Music directory, which is where the downloader plugin writes; everything else is reached through the file chooser portal, and the application's own settings and plugin data stay in its private per-app directory.</p>
+    <p>To let it write somewhere else, grant only that location: <code>flatpak override --user --filesystem=/path/to/music io.github.pear_devs.pear_desktop</code>. The Discord rich presence plugin needs Discord's local socket: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 io.github.pear_devs.pear_desktop</code>. Remove custom grants with <code>flatpak override --user --reset io.github.pear_devs.pear_desktop</code>.</p>
+    <p>Upstream renamed the project to Pear Desktop; release 3.12.0 still carries the previous name in its own files, which is why the window class the application sets still uses it. Updates come through Flatpak, so on first run the package turns off the application's own update check; it can be switched back on from the Options menu.</p>
+  </description>
+  <launchable type="desktop-id">io.github.pear_devs.pear_desktop.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>streaming</keyword>
+    <keyword>plugins</keyword>
+    <keyword>lyrics</keyword>
+    <keyword>equalizer</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>pear-desktop</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The player window</caption>
+      <image>https://raw.githubusercontent.com/pear-devs/pear-desktop/master/web/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.12.0" date="2026-06-28" />
+    <release version="3.11.0" date="2025-09-07" />
+    <release version="3.10.0" date="2025-07-13" />
+  </releases>
+</component>
