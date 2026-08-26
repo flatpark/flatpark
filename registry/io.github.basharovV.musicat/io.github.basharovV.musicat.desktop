@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Musicat
+Comment=Play and tag the music library on your disk
+Exec=musicat %F
+Icon=io.github.basharovV.musicat
+Terminal=false
+Categories=AudioVideo;Audio;Player;
+StartupWMClass=Musicat
+MimeType=audio/mpeg;audio/flac;audio/x-flac;audio/x-wav;audio/wav;audio/aac;audio/mp4;audio/ogg;audio/x-vorbis+ogg;
+Keywords=music;player;library;tags;tagger;flac;mp3;playlist;

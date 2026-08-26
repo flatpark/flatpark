@@ -1,0 +1,58 @@
+id: io.github.basharovV.musicat
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: musicat
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Musicat is a Tauri (Rust + Svelte, WebKitGTK) player for a local music
+  # library. dri backs accelerated WebKit rendering; ipc/wayland/fallback-x11
+  # carry the window.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audio output: the binary links libasound, which the runtime routes to
+  # PipeWire/PulseAudio through this socket.
+  - --socket=pulseaudio
+  # Album art, artist information and lyrics are fetched from the web
+  # (Wikipedia/Wikidata, the Internet Archive, lrclib).
+  - --share=network
+  # The music library itself. Read *and* write: Musicat is also a tagger, so it
+  # rewrites tags and album art in place. Libraries kept elsewhere are opt-in
+  # through the flatpak override documented in the AppStream description; the
+  # package does not pre-grant the whole home directory.
+  - --filesystem=xdg-music
+  # No tray: the payload has no libayatana-appindicator/StatusNotifier
+  # dependency, so neither the Ayatana stack nor xdg-run/tray-icon is needed.
+modules:
+  - name: musicat
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 musicat-wrapper /app/bin/musicat
+      - install -Dm644 io.github.basharovV.musicat.desktop /app/share/applications/io.github.basharovV.musicat.desktop
+      - install -Dm644 io.github.basharovV.musicat.metainfo.xml /app/share/metainfo/io.github.basharovV.musicat.metainfo.xml
+      - install -Dm644 io.github.basharovV.musicat.png /app/share/icons/hicolor/256x256/apps/io.github.basharovV.musicat.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: musicat.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/basharovV/musicat/releases/download/v0.17.2/Musicat_0.17.2_amd64.deb
+        sha256: 58ea5b68f59b40e6f18d30c547e86483a6e07fb24c67aaeea0e9fe8df2bdd520
+        size: 25117688
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: musicat-wrapper
+      - type: file
+        path: io.github.basharovV.musicat.desktop
+      - type: file
+        path: io.github.basharovV.musicat.metainfo.xml
+      - type: file
+        path: io.github.basharovV.musicat.png

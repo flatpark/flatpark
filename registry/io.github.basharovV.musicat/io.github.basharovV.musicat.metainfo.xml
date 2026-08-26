@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.basharovV.musicat</id>
+  <name>Musicat</name>
+  <summary>Offline music player and tag editor for a local library</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.basharovv">
+    <name>Slav Basharov</name>
+  </developer>
+  <url type="homepage">https://github.com/basharovV/musicat</url>
+  <url type="bugtracker">https://github.com/basharovV/musicat/issues</url>
+  <url type="vcs-browser">https://github.com/basharovV/musicat</url>
+  <description>
+    <p>This is a community package of Musicat, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Musicat is a player for the music you keep on disk. It links your library in place instead of importing copies of it, and doubles as a tag editor for the files it plays.</p>
+    <ul>
+      <li>Plays MP3, FLAC, WAV, AAC and OGG, with gapless playback for tracks that share a sample rate.</li>
+      <li>Reads and writes ID3v2 and Vorbis tags, including album art.</li>
+      <li>Watches your folders and re-scans them as the library changes.</li>
+      <li>Builds smart playlists from queries over your own metadata.</li>
+      <li>Fetches album art, artist information and lyrics from the web.</li>
+      <li>Shows the library as a world map, a timeline, statistics and a waveform view.</li>
+    </ul>
+    <p>By default this package can read and write your Music directory, and Musicat keeps its library index, settings and caches in its private per-app directory, which Flatpak redirects into <code>~/.var/app/io.github.basharovV.musicat</code>.</p>
+    <p>If your music lives somewhere else, grant only that location: <code>flatpak override --user --filesystem=/path/to/music io.github.basharovV.musicat</code>. To expose your whole home directory instead, opt in with <code>flatpak override --user --filesystem=home io.github.basharovV.musicat</code>. Remove custom grants with <code>flatpak override --user --reset io.github.basharovV.musicat</code>.</p>
+    <p>Musicat needs network access to look up album art, artist information and lyrics. Install application updates through Flatpak.</p>
+  </description>
+  <launchable type="desktop-id">io.github.basharovV.musicat.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>library</keyword>
+    <keyword>tagger</keyword>
+    <keyword>tags</keyword>
+    <keyword>flac</keyword>
+    <keyword>mp3</keyword>
+    <keyword>playlist</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>musicat</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browsing the album view</caption>
+      <image>https://raw.githubusercontent.com/basharovV/musicat/main/docs/albums.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing track metadata in the tagger</caption>
+      <image>https://raw.githubusercontent.com/basharovV/musicat/main/docs/track-info.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Building a smart playlist from a query</caption>
+      <image>https://raw.githubusercontent.com/basharovV/musicat/main/docs/smart-query.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Seeing the library on the world map</caption>
+      <image>https://raw.githubusercontent.com/basharovV/musicat/main/docs/map.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.17.2" date="2026-04-05" />
+    <release version="0.17.1" date="2026-04-04" />
+    <release version="0.17.0" date="2026-04-03" />
+  </releases>
+</component>
