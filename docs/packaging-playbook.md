@@ -129,7 +129,9 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
     shims + a `getpid` override for browser-extension validation). This costs
     `--talk-name=org.freedesktop.Flatpak` — declare it in `policy.dangerous_permissions`,
     justify it, and expect human review; it is otherwise an auto-reject.
-  - **Bundled JRE** (JavaFX/Java apps) → [`registry/net.huangyuhui.hmcl`](../registry/net.huangyuhui.hmcl).
+  - **Bundled JRE** (Java desktop apps) → [`registry/com.interactivebrokers.ibkrdesktop`](../registry/com.interactivebrokers.ibkrdesktop),
+    which fetches a Zulu JRE tarball as a second extra-data source and stages it at
+    `/app/extra/jre` for the wrapper to exec.
   - Version-stamped top dir → rename to a stable path in `apply_extra`.
   - **Don't hardcode a name the payload owns.** Pin refreshes are automated, so any
     name upstream can change between releases — above all the launcher binary — must be
