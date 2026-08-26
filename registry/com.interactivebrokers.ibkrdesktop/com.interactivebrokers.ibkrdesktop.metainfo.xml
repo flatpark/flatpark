@@ -35,6 +35,9 @@
     <binary>ibkr-desktop</binary>
   </provides>
   <releases>
+    <release version="3.4g" date="2026-08-25">
+      <description></description>
+    </release>
     <release version="3.4f" date="2026-08-12">
       <description></description>
     </release>

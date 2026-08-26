@@ -58,6 +58,9 @@
     <binary>youtubedownloader</binary>
   </provides>
   <releases>
+    <release version="1.16.5" date="2026-08-25">
+      <description></description>
+    </release>
     <release version="1.16.4" date="2026-04-22" />
   </releases>
 </component>

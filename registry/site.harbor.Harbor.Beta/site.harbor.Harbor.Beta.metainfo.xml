@@ -41,6 +41,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.9.117-5" date="2026-08-04">
+      <description></description>
+    </release>
     <release version="0.9.117-3" date="2026-08-04">
       <description>
         <p>Harbor Beta 0.9.117. See the upstream release notes for details.</p>
