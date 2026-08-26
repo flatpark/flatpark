@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>tech.trobonox.kanri</id>
+  <name>Kanri</name>
+  <summary>Offline-first local Kanban board for organizing tasks</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <developer id="tech.trobonox.kanri">
+    <name>Kanri contributors</name>
+  </developer>
+  <url type="homepage">https://kanriapp.com/</url>
+  <url type="bugtracker">https://github.com/kanriapp/kanri/issues</url>
+  <url type="vcs-browser">https://github.com/kanriapp/kanri</url>
+  <description>
+    <p>This is a community package of Kanri, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Kanri is an offline-first local Kanban board for organizing work and personal tasks without requiring an online service.</p>
+    <ul>
+      <li>Create and organize boards, columns and cards.</li>
+      <li>Use tags and task details to keep work easy to scan.</li>
+      <li>Export and import board data as JSON.</li>
+      <li>Choose a visual theme for the workspace.</li>
+    </ul>
+    <p>By default this package can read and write files in your Documents and Downloads directories for board JSON import and export. Kanri's boards, settings and other application data stay in its private per-app directory, which Flatpak redirects into <code>~/.var/app/tech.trobonox.kanri</code>. The package does not grant network access.</p>
+    <p>To use another directory for board files, grant only that location with <code>flatpak override --user --filesystem=/path/to/data tech.trobonox.kanri</code>. If you need access to your whole home directory, opt in with <code>flatpak override --user --filesystem=home tech.trobonox.kanri</code>. Remove custom grants with <code>flatpak override --user --reset tech.trobonox.kanri</code>.</p>
+  </description>
+  <content_rating type="oars-1.1" />
+  <categories>
+    <category>Office</category>
+    <category>ProjectManagement</category>
+  </categories>
+  <keywords>
+    <keyword>kanban</keyword>
+    <keyword>tasks</keyword>
+    <keyword>project management</keyword>
+    <keyword>productivity</keyword>
+    <keyword>board</keyword>
+    <keyword>offline</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>kanri</binary>
+  </provides>
+  <launchable type="desktop-id">tech.trobonox.kanri.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Kanri Kanban board with columns, cards, tags and due dates</caption>
+      <image>https://www.kanriapp.com/kanri_board_screenshot.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Kanri board workspace</caption>
+      <image>https://www.kanriapp.com/kanri_preview.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.8.2" date="2025-09-24" />
+    <release version="0.8.1" date="2025-04-09" />
+    <release version="0.8.0" date="2024-10-27" />
+  </releases>
+</component>

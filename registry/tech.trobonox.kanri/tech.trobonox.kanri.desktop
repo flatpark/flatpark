@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Kanri
+Comment=Organize tasks with an offline-first Kanban board
+Exec=kanri
+Icon=tech.trobonox.kanri
+Terminal=false
+Categories=Office;ProjectManagement;
+StartupWMClass=kanri
+Keywords=Kanban;Tasks;Projects;Productivity;To-do;Board;

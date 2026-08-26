@@ -1,0 +1,46 @@
+id: tech.trobonox.kanri
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: kanri
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Windowing and accelerated WebKitGTK rendering for the Tauri application.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Kanri's import and export dialogs can access the two standard user folders.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+modules:
+  - name: kanri
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 kanri-wrapper /app/bin/kanri
+      - install -Dm644 tech.trobonox.kanri.desktop /app/share/applications/tech.trobonox.kanri.desktop
+      - install -Dm644 tech.trobonox.kanri.metainfo.xml /app/share/metainfo/tech.trobonox.kanri.metainfo.xml
+      - install -Dm644 tech.trobonox.kanri.png /app/share/icons/hicolor/256x256/apps/tech.trobonox.kanri.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: kanri.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/kanriapp/kanri/releases/download/app-v0.8.2/kanri_0.8.2_amd64.deb
+        sha256: f3de8628500e57275d34644b7994b4ec3a5dfa956b8468fe676fb6e6d0ba6f15
+        size: 5623752
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: kanri-wrapper
+      - type: file
+        path: tech.trobonox.kanri.desktop
+      - type: file
+        path: tech.trobonox.kanri.metainfo.xml
+      - type: file
+        path: tech.trobonox.kanri.png

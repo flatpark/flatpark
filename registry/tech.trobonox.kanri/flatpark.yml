@@ -1,0 +1,23 @@
+id: tech.trobonox.kanri
+name: Kanri
+summary: Offline-first local Kanban board for organizing tasks
+website: https://kanriapp.com/
+source_url: https://github.com/kanriapp/kanri
+build:
+  manifest: tech.trobonox.kanri.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Kanban
+    - Tasks
+    - Productivity
+    - Offline
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

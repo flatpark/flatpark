@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# WebKitGTK's DMABUF renderer can paint a blank window for Tauri applications
+# inside the Flatpak sandbox.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/kanri "$@"
