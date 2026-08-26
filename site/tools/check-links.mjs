@@ -15,7 +15,7 @@ const TIMEOUT = Number(process.env.LINK_CHECK_TIMEOUT_MS || 10000);
 // Node's stricter fetch/OpenSSL policy refuses. These reach TLS handshake with a
 // running server (a down host fails earlier with ENOTFOUND/ECONNREFUSED/timeout),
 // so they are warnings, not broken links. Legacy renegotiation is the known case
-// (some vendor sites, e.g. gtht.com, still require it; browsers allow it).
+// (some vendor sites still require it; browsers allow it).
 const SOFT_OK_CODES = new Set(['ERR_SSL_UNSAFE_LEGACY_RENEGOTIATION_DISABLED']);
 
 // Transport-level failures that say nothing about whether the URL exists: a
@@ -34,14 +34,11 @@ const NET_ERRORS = new Set([
 const RETRIES = Number(process.env.LINK_CHECK_RETRIES || 2);
 
 // Hosts whose links are verified by hand and must not fail the build on a
-// NET_ERRORS code. gtht.com (RichEZFast's homepage and download page) answers
-// in a browser but is not consistently routable from GitHub's runners, and it
-// already needs the legacy-renegotiation exemption above. Only transport errors
-// are waived — an HTTP 404 or 500 from these hosts is still a broken link.
-// LINK_CHECK_SOFT_OK_HOSTS appends to the list (used by the tests).
+// NET_ERRORS code — a vendor site that answers in a browser but is not
+// consistently routable from GitHub's runners. Only transport errors are
+// waived: an HTTP 404 or 500 from these hosts is still a broken link. The list
+// is empty today; LINK_CHECK_SOFT_OK_HOSTS appends to it (used by the tests).
 const SOFT_OK_HOSTS = new Set([
-  'gtht.com',
-  'www.gtht.com',
   ...(process.env.LINK_CHECK_SOFT_OK_HOSTS || '').split(',').filter(Boolean),
 ]);
 
