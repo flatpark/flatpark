@@ -1,0 +1,49 @@
+id: com.elasticvue.app
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: elasticvue
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Windowing and accelerated WebKit rendering for the Tauri desktop client.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Core capability for connecting to local and remote Elasticsearch/OpenSearch clusters.
+  - --share=network
+  # Used for exporting query results and documents to the user's Downloads directory.
+  - --filesystem=xdg-download
+  # No tray integration is included; broader filesystem access remains opt-in via
+  # the flatpak override documented in the AppStream description.
+modules:
+  - name: elasticvue
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 elasticvue-wrapper /app/bin/elasticvue
+      - install -Dm644 com.elasticvue.app.desktop /app/share/applications/com.elasticvue.app.desktop
+      - install -Dm644 com.elasticvue.app.metainfo.xml /app/share/metainfo/com.elasticvue.app.metainfo.xml
+      - install -Dm644 com.elasticvue.app.png /app/share/icons/hicolor/256x256/apps/com.elasticvue.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: elasticvue.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/cars10/elasticvue/releases/download/v1.15.0/elasticvue_1.15.0_amd64.deb
+        sha256: 57090043455935bd96bb41116cc82275922b5618524d8b3e699101508c4b97b2
+        size: 7800578
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: elasticvue-wrapper
+      - type: file
+        path: com.elasticvue.app.desktop
+      - type: file
+        path: com.elasticvue.app.metainfo.xml
+      - type: file
+        path: com.elasticvue.app.png

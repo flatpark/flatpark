@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Elasticvue is a single Tauri/WebKitGTK binary staged by apply_extra at
+# /app/extra/elasticvue. Every library it links comes from org.gnome.Platform
+# (webkit2gtk-4.1, gtk-3, libsoup-3, javascriptcoregtk-4.1). Flatpak redirects
+# $HOME, so saved cluster connections and settings stay in
+# ~/.var/app/com.elasticvue.app.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox — disabling it is the reliable default for Tauri apps here.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/elasticvue "$@"

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Elasticvue
+Comment=Open-source graphical client for Elasticsearch and OpenSearch
+Exec=elasticvue %U
+Icon=com.elasticvue.app
+Terminal=false
+Categories=Development;Database;
+StartupWMClass=elasticvue
+Keywords=elasticsearch;opensearch;database;search;index;REST;cluster;

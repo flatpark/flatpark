@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.elasticvue.app</id>
+  <name>Elasticvue</name>
+  <summary>Open-source graphical client for Elasticsearch and OpenSearch</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.elasticvue">
+    <name>Elasticvue</name>
+  </developer>
+  <url type="homepage">https://elasticvue.com</url>
+  <url type="bugtracker">https://github.com/cars10/elasticvue/issues</url>
+  <url type="vcs-browser">https://github.com/cars10/elasticvue</url>
+  <description>
+    <p>This is a community package of Elasticvue, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Elasticvue is an open-source graphical client for managing Elasticsearch and OpenSearch clusters.</p>
+    <ul>
+      <li>Inspect cluster overviews and shard information.</li>
+      <li>Manage indices and aliases.</li>
+      <li>Browse, search and edit documents.</li>
+      <li>Write and run requests in a REST query editor.</li>
+      <li>Manage snapshots and repositories.</li>
+    </ul>
+    <p>By default, this package has network access for cluster connections and access to your Downloads directory for exporting query results and documents. Elasticvue settings, connection information and other application data stay in its private per-app directory.</p>
+    <p>To access files in another directory, grant only that location: <code>flatpak override --user --filesystem=/path/to/data com.elasticvue.app</code>. To expose the whole home directory, opt in with <code>flatpak override --user --filesystem=home com.elasticvue.app</code>. Remove custom grants with <code>flatpak override --user --reset com.elasticvue.app</code>.</p>
+    <p>Install application updates through Flatpak; the built-in updater cannot replace the read-only Flatpak application.</p>
+  </description>
+  <launchable type="desktop-id">com.elasticvue.app.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>elasticsearch</keyword>
+    <keyword>opensearch</keyword>
+    <keyword>database</keyword>
+    <keyword>search</keyword>
+    <keyword>index</keyword>
+    <keyword>rest</keyword>
+    <keyword>cluster</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>elasticvue</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Elasticvue cluster overview</caption>
+      <image>https://raw.githubusercontent.com/cars10/elasticvue.com/main/src/assets/images/screenshots/website_1_home_light.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Managing indices</caption>
+      <image>https://raw.githubusercontent.com/cars10/elasticvue.com/main/src/assets/images/screenshots/website_4_indices_light.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Searching documents in Elasticvue</caption>
+      <image>https://raw.githubusercontent.com/cars10/elasticvue.com/main/src/assets/images/screenshots/website_6_search_light.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.15.0" date="2026-05-12" />
+    <release version="1.14.0" date="2026-03-12" />
+    <release version="1.13.0" date="2026-02-02" />
+  </releases>
+</component>

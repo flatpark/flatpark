@@ -1,0 +1,23 @@
+id: com.elasticvue.app
+name: Elasticvue
+summary: Open-source graphical client for Elasticsearch and OpenSearch
+website: https://elasticvue.com
+source_url: https://github.com/cars10/elasticvue
+build:
+  manifest: com.elasticvue.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - Elasticsearch
+    - OpenSearch
+    - Database
+    - Search
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
