@@ -1,0 +1,57 @@
+#!/bin/sh
+set -eu
+
+# MeatShell is a single native Rust + Slint binary staged by apply_extra to
+# /app/extra/meatshell. It links only against libc, libm, libgcc_s and
+# libfontconfig, and dlopens the Wayland/X11/EGL/xkbcommon stack through winit —
+# all of it present in org.freedesktop.Platform 25.08, so nothing extra is
+# bundled. Flatpak redirects $XDG_CONFIG_HOME, so the app's sessions.json,
+# secret.key and known_hosts stay inside
+# ~/.var/app/io.github.yituorou.meatshell/config/meatshell.
+#
+# The renderer is Slint's default femtovg (OpenGL) backend; it reaches the GPU
+# through --device=dri. Set SLINT_BACKEND=winit-software before launching if a
+# driver leaves the window blank — the software renderer needs no GPU:
+#   flatpak run --env=SLINT_BACKEND=winit-software io.github.yituorou.meatshell
+#
+# Fonts pass through two independent databases here, and CJK text needs both.
+#
+# 1. MeatShell picks the UI font family itself, with fontique/fontdb. That
+#    database is built from a single fontconfig file the crate parses on its
+#    own: it reads the <dir> elements of that one file and does not follow
+#    <include>, so the host fonts (which the runtime reaches through a conf.d
+#    include) and the bundled face under /app/extra are both invisible under
+#    the runtime's own configuration. The app then logs "system fonts unusable"
+#    and falls back to its embedded Latin-only face.
+#    /app/etc/fonts/fonts.conf lists every directory explicitly; see it.
+#
+#    This deliberately replaces a FONTCONFIG_FILE the user may have set for all
+#    apps: keeping theirs is what leaves the font database empty. To go back to
+#    your own configuration, and lose the bundled fallback with it:
+#      flatpak override --user --env=MEATSHELL_FONTCONFIG_FILE=/path/to/fonts.conf io.github.yituorou.meatshell
+export FONTCONFIG_FILE="${MEATSHELL_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+# 2. Slint then has to rasterize with the family MeatShell asked for, and it
+#    resolves that through its own, separate font database — a different fontdb
+#    instance that scans hard-coded directories (/usr/share/fonts,
+#    $HOME/.fonts, $HOME/.local/share/fonts) and never consults the file above.
+#    Inside the sandbox none of those holds a CJK face: the runtime ships none
+#    and $HOME is a tmpfs. So the family resolves but the glyphs do not, and
+#    every CJK character still renders as a tofu box. SLINT_DEFAULT_FONT is
+#    Slint's own knob for loading a font directory, which is how the bundled
+#    face reaches the renderer. A user-set value wins.
+export SLINT_DEFAULT_FONT="${SLINT_DEFAULT_FONT:-/app/extra/fonts}"
+
+# Turn the in-app update check off by default. Flatpak owns updates here, so
+# the check can only ever nag about a release the user is not meant to install
+# by hand. Seed the setting, but ONLY on first run when no config exists yet, so
+# an existing config is never touched and anyone who wants the check can
+# re-enable it in Settings. The app fills every other field from its own
+# defaults on load.
+cfg_dir="${XDG_CONFIG_HOME:-$HOME/.config}/meatshell"
+if [ ! -e "$cfg_dir/sessions.json" ]; then
+  mkdir -p "$cfg_dir" 2>/dev/null || true
+  printf '{"update_check_disabled": true}\n' > "$cfg_dir/sessions.json" 2>/dev/null || true
+fi
+
+exec /app/extra/meatshell "$@"

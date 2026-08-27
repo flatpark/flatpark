@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+Name=MeatShell
+GenericName=SSH Client
+GenericName[zh_CN]=SSH 客户端
+Comment=Lightweight Rust + Slint SSH/SFTP client
+Comment[zh_CN]=轻量级 Rust + Slint SSH/SFTP 客户端
+Exec=meatshell
+Icon=io.github.yituorou.meatshell
+Terminal=false
+Categories=Network;System;TerminalEmulator;Utility;
+Keywords=ssh;sftp;terminal;shell;
+StartupNotify=true
+StartupWMClass=meatshell
+Actions=new-window;
+
+[Desktop Action new-window]
+Name=New Window
+Name[zh_CN]=新建窗口
+Exec=meatshell --new-window

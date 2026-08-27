@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.yituorou.meatshell</id>
+  <name>MeatShell</name>
+  <summary>Lightweight SSH, SFTP, and terminal client</summary>
+  <summary xml:lang="zh-CN">轻量级 SSH、SFTP 和终端客户端</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="io.github.yituorou">
+    <name>meatshell contributors</name>
+  </developer>
+  <url type="homepage">https://ixbaicn.github.io/meatshell-docs/</url>
+  <url type="bugtracker">https://github.com/yituorou/meatshell/issues</url>
+  <url type="vcs-browser">https://github.com/yituorou/meatshell</url>
+  <description>
+    <p>This is a community package of MeatShell, not affiliated with the upstream project. It repackages the official upstream Linux x86_64 release tarball unmodified.</p>
+    <p>MeatShell is a FinalShell-style SSH, SFTP and terminal client written in Rust and Slint. It keeps the resource-monitor sidebar, session management and tabbed terminals of a full-featured client while staying a single native binary that runs in tens of megabytes of memory rather than the hundreds a JVM client needs.</p>
+    <ul>
+      <li>Full VT/ANSI terminal emulation — btop, htop and vim render correctly — with tabs, split panes and multiple windows.</li>
+      <li>SSH over a pure-Rust stack (russh): password, private key and passphrase-protected key authentication, plus native PuTTY PPK v2/v3 keys.</li>
+      <li>SFTP browser with upload/download and drag-and-drop, and in-terminal ZMODEM (sz) receive.</li>
+      <li>Port forwarding and tunnels: local (-L), remote (-R) and dynamic (-D, SOCKS5), plus an outbound SOCKS5/HTTP proxy for restricted networks.</li>
+      <li>Local and remote resource monitoring (CPU, memory, swap, network, disk) and a remote process table with permission-aware termination.</li>
+      <li>Serial and Telnet sessions alongside SSH.</li>
+      <li>Session management with groups, import/export, and import of FinalShell connection files and ~/.ssh/config.</li>
+      <li>Session passwords encrypted at rest with ChaCha20-Poly1305; known_hosts verification with first-connect confirmation.</li>
+      <li>Dark, light and follow-system themes; color emoji including ZWJ sequences, flags and skin tones.</li>
+    </ul>
+    <p>Permissions: by default this package keeps a tight sandbox — network and display only — which is enough for SSH, SFTP, Telnet sessions and port forwarding. Local files are picked through the XDG desktop portal, and the app's own state (sessions.json, its encryption key and known_hosts) lives inside the sandbox. A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Reuse your host SSH keys and "Import ~/.ssh/config": <code>flatpak override --user --filesystem=~/.ssh:ro io.github.yituorou.meatshell</code></li>
+      <li>Serial sessions (/dev/ttyUSB*, /dev/ttyACM* and similar): <code>flatpak override --user --device=all io.github.yituorou.meatshell</code></li>
+      <li>Browse your whole home directory in the SFTP panel, and drag files in from a host file manager: <code>flatpak override --user --filesystem=home io.github.yituorou.meatshell</code></li>
+    </ul>
+    <p>The built-in local terminal runs the sandbox's shell rather than the one on your host.</p>
+  </description>
+  <content_rating type="oars-1.1" />
+  <categories>
+    <category>Network</category>
+    <category>System</category>
+    <category>TerminalEmulator</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>ssh</keyword>
+    <keyword>sftp</keyword>
+    <keyword>terminal</keyword>
+    <keyword>shell</keyword>
+    <keyword>telnet</keyword>
+    <keyword>serial</keyword>
+    <keyword>finalshell</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>meatshell</binary>
+  </provides>
+  <launchable type="desktop-id">io.github.yituorou.meatshell.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Welcome page: session management with the local resource-monitor sidebar</caption>
+      <image>https://raw.githubusercontent.com/yituorou/meatshell/main/docs/screenshots/01-welcome-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Tabbed terminal running btop, next to the SFTP browser and remote resource monitoring</caption>
+      <image>https://raw.githubusercontent.com/yituorou/meatshell/main/docs/screenshots/02-terminal-htop.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.7.0" date="2026-08-26">
+      <description></description>
+    </release>
+    <release version="0.6.16" date="2026-08-24">
+      <description></description>
+    </release>
+    <release version="0.6.15" date="2026-08-24">
+      <description></description>
+    </release>
+    <release version="0.6.14" date="2026-08-17">
+      <description></description>
+    </release>
+    <release version="0.6.13" date="2026-08-16">
+      <description></description>
+    </release>
+    <release version="0.6.12" date="2026-08-16">
+      <description></description>
+    </release>
+    <release version="0.6.11" date="2026-08-15">
+      <description></description>
+    </release>
+    <release version="0.6.10" date="2026-08-04">
+      <description></description>
+    </release>
+    <release version="0.6.9" date="2026-07-30">
+      <description></description>
+    </release>
+    <release version="0.6.8" date="2026-07-26">
+      <description></description>
+    </release>
+  </releases>
+</component>

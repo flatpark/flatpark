@@ -1,0 +1,23 @@
+id: io.github.yituorou.meatshell
+name: MeatShell
+summary: Lightweight SSH, SFTP, and terminal client
+website: https://ixbaicn.github.io/meatshell-docs/
+source_url: https://github.com/yituorou/meatshell
+build:
+  manifest: io.github.yituorou.meatshell.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - Terminal
+    - SSH
+    - SFTP
+    - Serial
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

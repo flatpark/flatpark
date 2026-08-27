@@ -1,0 +1,89 @@
+id: io.github.yituorou.meatshell
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: meatshell
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # MeatShell is a single native Rust + Slint binary. It renders with Slint's
+  # femtovg (OpenGL) renderer through winit, which dlopens libwayland-client,
+  # libEGL/libGL, libX11 and libxkbcommon at runtime; its only NEEDED libraries
+  # are libc, libm, libgcc_s and libfontconfig. All of that comes from
+  # org.freedesktop.Platform 25.08 (verified against the binary — 0 missing).
+  - --share=ipc
+  # SSH / SFTP / Telnet, port forwarding (-L/-R/-D) and the outbound
+  # SOCKS5/HTTP proxy — the client's core transport.
+  - --share=network
+  - --socket=wayland
+  # X11 fallback for non-Wayland sessions. It also gives arboard a clipboard
+  # backend on compositors that do not implement wlr-data-control (GNOME), where
+  # its native Wayland clipboard path has nothing to talk to.
+  - --socket=fallback-x11
+  # femtovg needs a GPU for the OpenGL/EGL context.
+  - --device=dri
+  # Deliberately NOT granted by default (the app works without them; users opt in
+  # per the metainfo notes via `flatpak override`):
+  #   --filesystem=~/.ssh:ro   -> "Import ~/.ssh/config" and reusing host keys
+  #   --device=all             -> serial sessions (/dev/ttyUSB*, /dev/ttyACM*)
+  #   --filesystem=home        -> browse the host home tree in the SFTP panel and
+  #                               drag-and-drop uploads from a host file manager
+  # Otherwise local files are picked through rfd's XDG desktop portal backend,
+  # which needs no filesystem grant at all. The app's own state — sessions.json,
+  # the ChaCha20-Poly1305 secret.key and known_hosts — lives under
+  # $XDG_CONFIG_HOME/meatshell, which Flatpak redirects into
+  # ~/.var/app/io.github.yituorou.meatshell. The built-in local terminal runs the
+  # sandbox's shell, not the host's.
+modules:
+  - name: meatshell
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 meatshell-wrapper /app/bin/meatshell
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 io.github.yituorou.meatshell.desktop /app/share/applications/io.github.yituorou.meatshell.desktop
+      - install -Dm644 io.github.yituorou.meatshell.metainfo.xml /app/share/metainfo/io.github.yituorou.meatshell.metainfo.xml
+      - install -Dm644 io.github.yituorou.meatshell.png /app/share/icons/hicolor/512x512/apps/io.github.yituorou.meatshell.png
+    sources:
+      # MeatShell is a Chinese-first application and its terminal renders
+      # whatever the remote host prints, so a CJK face has to be reachable.
+      # Neither org.freedesktop.Platform 25.08 nor a typical non-CJK host ships
+      # one, and the app's embedded fallback face is Latin-only — every CJK
+      # glyph comes out as a tofu box. The face is extra-data rather than a
+      # build module so its 19.5 MB stay out of FlatPark's repository for a file
+      # jsDelivr already serves; apply_extra stages it into /app/extra/fonts and
+      # fonts.conf adds that directory behind the host's own fonts. Same
+      # tag-pinned URL and sha256 as registry/dev.navop.Navop.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: meatshell.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/yituorou/meatshell/releases/download/v0.7.0/meatshell-v0.7.0-linux-x86_64.tar.gz
+        sha256: d6de43d5c1bb73d13e49e663b641a4543ddd33f4758db33187cfd21c89651867
+        size: 20568848
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: meatshell-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: io.github.yituorou.meatshell.desktop
+      - type: file
+        path: io.github.yituorou.meatshell.metainfo.xml
+      - type: file
+        path: io.github.yituorou.meatshell.png
