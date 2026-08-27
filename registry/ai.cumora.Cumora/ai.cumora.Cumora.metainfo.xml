@@ -61,6 +61,9 @@
   </provides>
   <launchable type="desktop-id">ai.cumora.Cumora.desktop</launchable>
   <releases>
+    <release version="0.6.0" date="2026-08-27">
+      <description></description>
+    </release>
     <release version="0.3.0" date="2026-08-25">
       <description></description>
     </release>
