@@ -8,7 +8,7 @@
 # ids are skipped with a build warning.
 featured:
   - com.dbxio.dbx
+  - com.heidisql.HeidiSQL
   - app.geolibre.GeoLibre
   - com.aeroftp.AeroFTP
   - dev.tabularis.Tabularis
-  - me.tyrrrz.DiscordChatExporter

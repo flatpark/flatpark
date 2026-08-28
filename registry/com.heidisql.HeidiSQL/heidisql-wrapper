@@ -1,0 +1,29 @@
+#!/bin/sh
+set -eu
+
+# Upstream's official qt6 build is staged by apply_extra to /app/extra/heidisql/.
+# It reads its locale catalogues and functions-*.ini reference files from its own
+# directory, so it is launched in place rather than from a copy under /app/bin.
+#
+# Two library directories live outside the loader's default search path, so they
+# are named here. Last on the path, so nothing else in the sandbox is shadowed:
+#
+#   qt6pas/lib       libQt6Pas.so.6, the payload's only non-system DT_NEEDED.
+#   sql-clients/lib  the MySQL/PostgreSQL/SQL Server client libraries. HeidiSQL
+#                    picks these by parsing `ldconfig -p` and dlopen-ing the
+#                    absolute path, which /app/etc/ld.so.conf takes care of;
+#                    they are listed here as well so a library that resolves by
+#                    soname finds its neighbours.
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}/app/extra/qt6pas/lib:/app/extra/sql-clients/lib"
+
+# libmariadb's plugin directory is compiled in as ${prefix}/lib/mariadb/plugin,
+# which does not exist under /app/extra. Without this override the client cannot
+# load its authentication plugins, and a MySQL 8 login (caching_sha2_password)
+# fails with "Plugin caching_sha2_password could not be loaded".
+export MARIADB_PLUGIN_DIR=/app/extra/sql-clients/lib/mariadb/plugin
+
+# ssh(1) comes from the runtime; sshpass is only reached when a session stores an
+# SSH password rather than a key.
+export PATH="${PATH}:/app/extra/sql-clients/bin"
+
+exec /app/extra/heidisql/heidisql "$@"

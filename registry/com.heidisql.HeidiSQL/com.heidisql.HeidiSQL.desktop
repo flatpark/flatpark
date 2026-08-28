@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=HeidiSQL
+Comment=Manage MariaDB, MySQL, PostgreSQL, SQL Server and SQLite databases
+Exec=heidisql %F
+Icon=com.heidisql.HeidiSQL
+Terminal=false
+StartupWMClass=heidisql
+Categories=Development;Database;
+Keywords=database;sql;mysql;mariadb;postgresql;mssql;sqlite;

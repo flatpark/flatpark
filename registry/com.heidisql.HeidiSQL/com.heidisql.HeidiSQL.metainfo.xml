@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.heidisql.HeidiSQL</id>
+  <name>HeidiSQL</name>
+  <summary>SQL client for MariaDB, MySQL, PostgreSQL, SQL Server and SQLite</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <developer id="com.heidisql">
+    <name>Ansgar Becker</name>
+  </developer>
+  <url type="homepage">https://www.heidisql.com</url>
+  <url type="bugtracker">https://github.com/HeidiSQL/HeidiSQL/issues</url>
+  <url type="vcs-browser">https://github.com/HeidiSQL/HeidiSQL</url>
+  <url type="donation">https://www.heidisql.com/donate.php</url>
+  <description>
+    <p>This is a community package of HeidiSQL, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>HeidiSQL is a desktop client for everyday database work, in development since 2002. It connects to MariaDB, MySQL, PostgreSQL, Microsoft SQL Server and SQLite from one window: browse and edit data in a grid, design and refactor tables, write and save queries, and fix things on a live server without leaving the tool.</p>
+    <ul>
+      <li>Data grid with in-place editing, filtering, and quick insert, update and delete</li>
+      <li>SQL editor with syntax highlighting, completion and query history</li>
+      <li>Table, view, procedure, trigger and user editors; export as SQL, CSV, HTML, XML or JSON</li>
+      <li>Copy tables and whole databases between servers, and compare their structures</li>
+      <li>Connect over TCP/IP, a named socket, or an SSH tunnel</li>
+    </ul>
+    <p>The Linux build is upstream's Lazarus/FreePascal port, packaged here from the official qt6 release. Support for Microsoft SQL Server on Linux goes through FreeTDS and upstream describes it as still maturing.</p>
+    <p>Sessions and settings are stored in this application's own configuration directory, and databases are reached over the network. Files you open or export — SQLite databases, .sql scripts, CSV exports — are picked through the file-chooser dialog.</p>
+    <p>A few capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Keep a local SQLite database or .sql script reachable across restarts, without picking it in the dialog each time: <code>flatpak override --user --filesystem=/path/to/dir com.heidisql.HeidiSQL</code></li>
+      <li>Reuse your existing host SSH keys for the SSH-tunnel feature: <code>flatpak override --user --filesystem=~/.ssh:ro com.heidisql.HeidiSQL</code></li>
+    </ul>
+    <p>New upstream releases are picked up by FlatPark and delivered through "flatpak update".</p>
+  </description>
+  <launchable type="desktop-id">com.heidisql.HeidiSQL.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>database</keyword>
+    <keyword>sql</keyword>
+    <keyword>mysql</keyword>
+    <keyword>mariadb</keyword>
+    <keyword>postgresql</keyword>
+    <keyword>mssql</keyword>
+    <keyword>sqlite</keyword>
+    <keyword>client</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>heidisql</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browsing table data in the Linux build</caption>
+      <image>https://www.heidisql.com/images/screenshots/linux_version_datagrid.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The main window on Linux</caption>
+      <image>https://www.heidisql.com/images/screenshots/linux_fedora_mainscreen.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Dark theme</caption>
+      <image>https://www.heidisql.com/images/screenshots/linux-dark.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="12.21" date="2026-08-03">
+      <description></description>
+    </release>
+    <release version="12.20" date="2026-06-22" />
+    <release version="12.19" date="2026-06-20" />
+    <release version="12.18" date="2026-06-09" />
+    <release version="12.17" date="2026-04-12" />
+    <release version="12.16" date="2026-03-10" />
+    <release version="12.15.1.1" date="2026-01-30" />
+  </releases>
+</component>

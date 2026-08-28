@@ -1,0 +1,106 @@
+# HeidiSQL - the official Linux qt6 build, repackaged unmodified as extra-data.
+#
+# Upstream publishes the Lazarus/FreePascal port from the `lazarus` branch as a
+# .deb, an .rpm and three widgetset tarballs (qt6, qt5, gtk2). The qt6 tarball is
+# the one packaged here: its `heidisql` binary is byte-for-byte the same as the
+# one inside the .deb (same sha256), and it also carries the 256x256 icon, the
+# six functions-*.ini reference files and all 63 locale catalogues, so nothing is
+# lost by taking the plain tarball over the Debian package.
+#
+# Runtime: org.kde.Platform. The payload is not self-contained - it links the
+# system Qt 6 through libQt6Pas, exactly as upstream's .deb does
+# (Depends: libqt6widgets6, libqt6gui6, libqt6core6, libqt6pas6). This is the
+# catalog's first KDE-runtime app, so it enters on the current branch: 6.11,
+# built on freedesktop 25.08 — the same base org.gnome.Platform//50 and
+# org.freedesktop.Platform//25.08 give the rest of the catalog.
+id: com.heidisql.HeidiSQL
+runtime: org.kde.Platform
+runtime-version: "6.11"
+sdk: org.kde.Sdk
+command: heidisql
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A database client: the network is the core function - it connects to
+  # MariaDB/MySQL, PostgreSQL and SQL Server servers, and opens SSH tunnels.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # No filesystem grant by default. Sessions and settings live in HeidiSQL's own
+  # ~/.config/heidisql, which is private to the sandbox; local SQLite files, .sql
+  # scripts and export targets are reached through the file-chooser portal. Both
+  # a persistent path grant and the SSH key directory are opt-in via
+  # `flatpak override` - the commands are in the app description.
+modules:
+  - name: heidisql
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 heidisql-wrapper /app/bin/heidisql
+      - install -Dm644 com.heidisql.HeidiSQL.desktop /app/share/applications/com.heidisql.HeidiSQL.desktop
+      - install -Dm644 com.heidisql.HeidiSQL.metainfo.xml /app/share/metainfo/com.heidisql.HeidiSQL.metainfo.xml
+      - install -Dm644 com.heidisql.HeidiSQL.png /app/share/icons/hicolor/256x256/apps/com.heidisql.HeidiSQL.png
+      # HeidiSQL's driver picker enumerates the client libraries by parsing
+      # `/sbin/ldconfig -p` (TConnectionParameters.GetLibraries), so the two
+      # extra-data library directories have to reach the linker cache. The
+      # runtime's /etc/ld.so.conf already carries `include /app/etc/ld.so.conf`,
+      # and Flatpak regenerates /etc/ld.so.cache from it on every launch - after
+      # extra-data has been unpacked - so listing them in this file is enough.
+      - install -Dm644 ld.so.conf /app/etc/ld.so.conf
+    sources:
+      # libQt6Pas - the Lazarus Qt6 C bindings, and the payload's only non-system
+      # DT_NEEDED. This is the same official release upstream's own CI builds
+      # against and upstream's .deb depends on (libqt6pas6 6.2.10), taken from
+      # its publisher unmodified rather than rebuilt, so the binary meets the
+      # library it was compiled for. apply_extra lifts libQt6Pas.so.6* out of the
+      # .deb; the wrapper puts that directory on LD_LIBRARY_PATH.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: libqt6pas.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/davidbannon/libqt6pas/releases/download/v6.2.10/libqt6pas6_6.2.10-1_amd64.deb
+        sha256: d56329b52898c2bfe4522d6a59ebf305e44ee8a2935bbe7bcd43d825e88293a3
+        size: 483836
+      # SQL client libraries - libmariadb.so.3, libpq.so.5, libsybdb.so.5 and
+      # sshpass - from FlatPark's prebuilt stack. The shared runtimes ship
+      # libsqlite3 and nothing else, so without these HeidiSQL can only open
+      # SQLite databases. The tag's manifest records the exact sources and pins.
+      #
+      # Extra-data rather than a build module: HeidiSQL is the stack's only
+      # consumer, so content addressing in FlatPark's repository would have
+      # nothing to deduplicate, and this way the bytes travel over GitHub's
+      # bandwidth at install time.
+      - type: extra-data
+        filename: sql-clients.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/sql-clients-v1/sql-clients-sql-clients-v1-fd-25.08-x86_64.tar.xz
+        sha256: bff3533306ee5c70e1ef37d071c9bc55aeaa0bdbd250f62c6fcaedfc7c2ffe09
+        size: 485752
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: heidisql.tgz
+        only-arches:
+          - x86_64
+        url: https://github.com/HeidiSQL/HeidiSQL/releases/download/v12.21/build-qt6-v12.21.tgz
+        sha256: 483ccf0810515ac6326a24dd40275cdce934dc4d9fa631834d19c5e6a2ead52c
+        size: 7294092
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: heidisql-wrapper
+      - type: file
+        path: com.heidisql.HeidiSQL.desktop
+      - type: file
+        path: com.heidisql.HeidiSQL.metainfo.xml
+      - type: file
+        path: com.heidisql.HeidiSQL.png
+      - type: file
+        path: ld.so.conf

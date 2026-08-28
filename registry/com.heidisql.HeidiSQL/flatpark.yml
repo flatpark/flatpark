@@ -1,0 +1,38 @@
+# FlatPark catalog descriptor for HeidiSQL (issue #257).
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.heidisql.HeidiSQL.yml is the Flatpak manifest it
+# points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.heidisql.HeidiSQL
+name: HeidiSQL
+summary: SQL client for MariaDB, MySQL, PostgreSQL, SQL Server and SQLite
+website: https://www.heidisql.com
+source_url: https://github.com/HeidiSQL/HeidiSQL
+build:
+  manifest: com.heidisql.HeidiSQL.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  # Ansgar Becker, HeidiSQL's author and maintainer, approved the listing in
+  # flatpark#257 - "It would be ok for me if you release HeidiSQL on Flatpark."
+  # Row in docs/upstream-approvals.md cites the same comment.
+  upstream_approved: true
+  tags:
+    - Database
+    - SQL
+    - MySQL
+    - MariaDB
+    - PostgreSQL
+    - SQL Server
+    - SQLite
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
