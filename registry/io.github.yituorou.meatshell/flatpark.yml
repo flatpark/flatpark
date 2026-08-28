@@ -9,6 +9,10 @@ build:
   mode: extra-data
 catalog:
   category: Development
+  # yituorou, MeatShell's author and repo owner, approved the FlatPark listing
+  # in yituorou/meatshell#394 - "可以的，非常感谢你的贡献". Row in
+  # docs/upstream-approvals.md cites the same comment.
+  upstream_approved: true
   tags:
     - Terminal
     - SSH
