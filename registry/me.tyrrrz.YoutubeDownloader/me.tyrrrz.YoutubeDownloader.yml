@@ -42,9 +42,9 @@ modules:
         filename: ytd.zip
         only-arches:
           - x86_64
-        url: https://github.com/Tyrrrz/YoutubeDownloader/releases/download/1.16.5/YoutubeDownloader.linux-x64.zip
-        sha256: 70c41fa72221c00b2dcdfd5f00e3f7835b621957851627d05f943fb4de4fcd58
-        size: 53918166
+        url: https://github.com/Tyrrrz/YoutubeDownloader/releases/download/1.16.6/YoutubeDownloader.linux-x64.zip
+        sha256: 8f85e8ca9c06fd10feff31c5e92423667d1c6721cec897d457841dd65e727efe
+        size: 53960891
       # END MANAGED EXTRA-DATA
       # FFmpeg is not bundled in the app zip — at startup YoutubeDownloader probes
       # AppContext.BaseDirectory (and PATH) for an `ffmpeg` binary and, if missing,

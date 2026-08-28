@@ -48,6 +48,9 @@
     <binary>discordchatexporter</binary>
   </provides>
   <releases>
+    <release version="2.48" date="2026-08-27">
+      <description></description>
+    </release>
     <release version="2.47.3" date="2026-06-26" />
   </releases>
 </component>

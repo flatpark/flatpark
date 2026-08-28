@@ -53,6 +53,9 @@
   </provides>
   <launchable type="desktop-id">com.openai.ChatGPT.desktop</launchable>
   <releases>
+    <release version="26.825.32147">
+      <description></description>
+    </release>
     <release version="26.825.31414">
       <description></description>
     </release>
