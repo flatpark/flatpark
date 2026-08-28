@@ -45,6 +45,7 @@ that PR link in the table — the PR itself is the evidence.
 | HeidiSQL | `com.heidisql.HeidiSQL` | [flatpark#257 (comment)](https://github.com/flatpark/flatpark/issues/257#issuecomment-5441338467) — Ansgar Becker, HeidiSQL's author: "I'm the author and maintainer of HeidiSQL. It would be ok for me if you release HeidiSQL on Flatpark." | 2026-08-27 |
 | MeatShell | `io.github.yituorou.meatshell` | [yituorou/meatshell#394 (comment)](https://github.com/yituorou/meatshell/issues/394#issuecomment-5449122203) — yituorou, MeatShell's author and repo owner, answered the FlatPark listing + docs offer with "可以的，非常感谢你的贡献" | 2026-08-28 |
 | OpenTubeX | `org.opentubex.OpenTubeX` | Approved by construction — submitted and maintained by its own developer ([flatpark#275](https://github.com/flatpark/flatpark/pull/275)) | 2026-08 |
+| Fastpotify | `rocks.fastpotify.Fastpotify` | [crmne/fastpotify#8 (comment)](https://github.com/crmne/fastpotify/issues/8#issuecomment-5451805007) — Carmine Paolino, Fastpotify's author: "Yes please, mark it developer-approved."; upstream pointed the download page and README at FlatPark alongside the AUR ([34cff32](https://github.com/crmne/fastpotify/commit/34cff32)) | 2026-08-28 |
 
 ## Not approved
 
