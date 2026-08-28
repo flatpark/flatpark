@@ -1,0 +1,23 @@
+id: rocks.fastpotify.Fastpotify
+name: Fastpotify
+summary: Fast native Spotify client with local playback and Connect
+website: https://fastpotify.rocks/
+source_url: https://github.com/crmne/fastpotify
+build:
+  manifest: rocks.fastpotify.Fastpotify.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Spotify
+    - Music
+    - Audio
+    - Player
+    - Streaming
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

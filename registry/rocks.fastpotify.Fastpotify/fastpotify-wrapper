@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+# fastpotify is staged by apply_extra at /app/extra/fastpotify, with the
+# resolved executable path recorded in app.env.
+[ -f /app/extra/app.env ] || {
+  echo "fastpotify: /app/extra/app.env is missing, reinstall the app" >&2
+  exit 1
+}
+# shellcheck source=/dev/null  # written by apply_extra at install time
+. /app/extra/app.env
+
+# The tray backend (ksni) claims org.kde.StatusNotifierItem-<getpid()>-1 and
+# gives up on the first refusal. Every Flatpak app is PID 2 in its own PID
+# namespace, so without a fixed PID they all race for the same name. Report a
+# fixed, distinctive value and grant exactly org.kde.StatusNotifierItem-919191-1
+# in finish-args.
+export FASTPOTIFY_FAKE_PID="${FASTPOTIFY_FAKE_PID:-919191}"
+export LD_PRELOAD="/app/lib/fastpotify/libfakepid.so${LD_PRELOAD:+:$LD_PRELOAD}"
+
+exec "$APP_BIN" "$@"

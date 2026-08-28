@@ -1,0 +1,92 @@
+id: rocks.fastpotify.Fastpotify
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: fastpotify
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native Rust/egui desktop app (no browser engine). It renders with egui's
+  # glow OpenGL backend on winit, so it needs a GPU device and the display
+  # sockets; ALSA/PulseAudio are linked directly for librespot playback and the
+  # runtime's Mesa, Wayland, xkbcommon and X11 stacks cover the rest.
+  - --share=ipc
+  # Spotify Web API, the librespot session, and mDNS discovery of Connect
+  # receivers on the local network.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # egui/glow rendering.
+  - --device=dri
+  # Playback. --socket=pulseaudio also covers PipeWire; the extra read-only
+  # PipeWire socket lets the ALSA backend option in Settings work too.
+  - --socket=pulseaudio
+  - --filesystem=xdg-run/pipewire-0:ro
+  # MPRIS: media keys, the shell and playerctl. The player owns this fixed
+  # well-known name (no instance suffix), which is a sibling of the app ID
+  # rather than a child, so it has to be granted explicitly.
+  - --own-name=org.mpris.MediaPlayer2.fastpotify
+  # Single-instance guard: a second launch hands off to the running copy over
+  # this bus name and exits. Also a sibling of the app ID.
+  - --own-name=rocks.fastpotify.Instance
+  # Tray icon (Linux StatusNotifierItem, via the ksni crate). ksni claims
+  # org.kde.StatusNotifierItem-<getpid()>-1; every Flatpak app is PID 2 in its
+  # own PID namespace, so fastpotify-wrapper preloads a getpid override that
+  # reports a fixed distinctive value (see the fake-getpid module) and this is
+  # the single name it then needs, instead of racing every other sandboxed tray
+  # app for the PID-2 name.
+  - --own-name=org.kde.StatusNotifierItem-919191-1
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Deliberately not granted:
+  #   --filesystem=home / =host  -> all state (settings, refresh token,
+  #                                 librespot credential, audio/artwork cache)
+  #                                 lives under the redirected XDG dirs in
+  #                                 ~/.var/app/rocks.fastpotify.Fastpotify
+  #   --talk-name=org.freedesktop.Notifications -> the app integrates through
+  #                                 MPRIS and the tray, not desktop notifications
+modules:
+  - name: fastpotify-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/fastpotify/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
+  - name: fastpotify
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fastpotify-wrapper /app/bin/fastpotify
+      - install -Dm644 rocks.fastpotify.Fastpotify.desktop /app/share/applications/rocks.fastpotify.Fastpotify.desktop
+      - install -Dm644 rocks.fastpotify.Fastpotify.metainfo.xml /app/share/metainfo/rocks.fastpotify.Fastpotify.metainfo.xml
+      - install -Dm644 rocks.fastpotify.Fastpotify.png /app/share/icons/hicolor/512x512/apps/rocks.fastpotify.Fastpotify.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fastpotify-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/crmne/fastpotify/releases/download/v0.1.3/fastpotify-v0.1.3-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 19ee918e8b2cb19c7504cb65f3694ad32ef98908f5266cd6353849febdd30a9c
+        size: 11365743
+      - type: extra-data
+        filename: fastpotify-aarch64.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/crmne/fastpotify/releases/download/v0.1.3/fastpotify-v0.1.3-aarch64-unknown-linux-gnu.tar.gz
+        sha256: e9b6dc1a0669bafb2cfd0b54a4e1f9bbd446b9257798011c07ee0672710394f1
+        size: 10628841
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fastpotify-wrapper
+      - type: file
+        path: rocks.fastpotify.Fastpotify.desktop
+      - type: file
+        path: rocks.fastpotify.Fastpotify.metainfo.xml
+      - type: file
+        path: rocks.fastpotify.Fastpotify.png

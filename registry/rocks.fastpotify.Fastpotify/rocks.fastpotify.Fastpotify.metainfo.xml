@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>rocks.fastpotify.Fastpotify</id>
+  <name>Fastpotify</name>
+  <summary>Fast native Spotify client with local playback and Connect</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="rocks.fastpotify">
+    <name>Carmine Paolino</name>
+  </developer>
+  <url type="homepage">https://fastpotify.rocks/</url>
+  <url type="bugtracker">https://github.com/crmne/fastpotify/issues</url>
+  <url type="vcs-browser">https://github.com/crmne/fastpotify</url>
+  <description>
+    <p>This is a community package of Fastpotify, maintained independently and unaffiliated with the Fastpotify project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>Fastpotify is a lightweight Spotify client written in Rust with egui, playing music through librespot. There is no browser engine in the process and it starts in well under a second.</p>
+    <ul>
+      <li>Plays music on this computer as a Spotify Connect device: gapless, up to 320 kbps, with optional volume normalisation and an on-disk audio cache.</li>
+      <li>Controls playback on your other devices — speakers, phones, other computers — from the device picker.</li>
+      <li>Discovers librespot, spotifyd and hardware Connect receivers on the local network over mDNS.</li>
+      <li>Your whole library: playlists, Liked Songs, saved albums, followed artists, podcasts and saved episodes, with search and Home recommendations.</li>
+      <li>Owned playlists can be created, renamed, described, reordered and edited.</li>
+      <li>Keyboard-first, light and dark themes, MPRIS integration so media keys and playerctl work, and a system tray icon that keeps playback running when the window is closed.</li>
+    </ul>
+    <p>Sign-in uses Spotify's own consent page (Authorization Code with PKCE); the app never sees your password. Playing music on this computer needs Spotify Premium. Fastpotify is an independent project and is not affiliated with Spotify.</p>
+    <p>This is an early upstream release (0.1.x). Two things to know, both tracked on the upstream issue tracker: non-Latin text such as Chinese, Japanese and Korean shows as blank boxes because the build ships Latin fonts only (crmne/fastpotify#4); and on a free (non-Premium) account, browsing and controlling other devices work, but choosing "play on this computer" currently ends the process (crmne/fastpotify#7). This package tracks upstream releases automatically, so fixes arrive as they ship.</p>
+    <p>Permissions: this package grants display, audio (PulseAudio/PipeWire), network access, the GPU device, MPRIS and the StatusNotifier tray. All settings, the refresh token, the librespot credential and the audio/artwork caches stay inside the sandbox under <code>~/.var/app/rocks.fastpotify.Fastpotify</code>. No host filesystem access is granted or needed.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Silence the tray and rely on MPRIS only: <code>flatpak override --user --no-talk-name=org.kde.StatusNotifierWatcher rocks.fastpotify.Fastpotify</code></li>
+      <li>Desktop notifications (not used by default): <code>flatpak override --user --talk-name=org.freedesktop.Notifications rocks.fastpotify.Fastpotify</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Fastpotify showing a playlist, with the queue open and a track playing on a remote speaker</caption>
+      <image>https://raw.githubusercontent.com/crmne/fastpotify/main/docs/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">rocks.fastpotify.Fastpotify.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+    <category>Music</category>
+  </categories>
+  <keywords>
+    <keyword>spotify</keyword>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>streaming</keyword>
+    <keyword>librespot</keyword>
+    <keyword>connect</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>fastpotify</binary>
+  </provides>
+  <releases>
+    <release version="0.1.3" date="2026-08-27">
+      <description>
+        <p>Fast native Spotify client: Connect playback, remote control, library browsing, search and playlist editing.</p>
+      </description>
+    </release>
+  </releases>
+</component>
