@@ -44,6 +44,9 @@
     <binary>impasto</binary>
   </provides>
   <releases>
+    <release version="0.1.0" date="2026-08-27">
+      <description></description>
+    </release>
     <release version="0.0.1" date="2026-08-09">
       <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.0.1</url>
       <description>

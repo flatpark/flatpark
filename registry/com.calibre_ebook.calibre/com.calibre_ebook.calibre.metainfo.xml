@@ -68,6 +68,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="9.14.0" date="2026-08-28">
+      <description></description>
+    </release>
     <release version="9.13.0" date="2026-08-07">
       <url>https://github.com/kovidgoyal/calibre/releases/tag/v9.13.0</url>
     </release>

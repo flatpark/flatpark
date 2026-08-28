@@ -60,9 +60,9 @@ modules:
         filename: vibe.deb
         only-arches:
           - x86_64
-        url: https://github.com/thewh1teagle/vibe/releases/download/v3.1.2/vibe_3.1.2_amd64.deb
-        sha256: 37a1496d3e9be72e363b1758f09292b85e55881f1cb98646dce84012ded7aed1
-        size: 43058936
+        url: https://github.com/thewh1teagle/vibe/releases/download/v3.1.5/vibe_3.1.5_amd64.deb
+        sha256: 58242446b1362a44ffe69b865660b000ed605ac8b10df97dd6ca4ca29065db9e
+        size: 36727462
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
