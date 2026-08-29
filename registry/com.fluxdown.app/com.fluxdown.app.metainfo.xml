@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.fluxdown.app</id>
+  <name>FluxDown</name>
+  <summary>Multi-protocol download manager, a free IDM alternative</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="com.fluxdown">
+    <name>zerx-lab</name>
+  </developer>
+  <url type="homepage">https://fluxdown.zerx.dev</url>
+  <url type="bugtracker">https://github.com/zerx-lab/FluxDown/issues</url>
+  <url type="vcs-browser">https://github.com/zerx-lab/FluxDown</url>
+  <description>
+    <p>This is a community package of FluxDown, maintained independently and unaffiliated with the FluxDown project. It repackages the official upstream Linux build (the <code>.deb</code> release) unmodified.</p>
+    <p>FluxDown is a download manager with a Rust and Tokio engine and a native interface built on GPUI. It splits transfers into segments that are rebalanced at runtime, keeps every byte tracked in SQLite so downloads survive a crash or reboot, and offers a queue, speed limiting and a system tray.</p>
+    <ul>
+      <li>HTTP, HTTPS and FTP downloads with dynamic multi-segment acceleration.</li>
+      <li>BitTorrent (DHT, magnet), eD2K, and HLS / DASH stream capture.</li>
+      <li>Light and dark themes, and a local API on 127.0.0.1 with a built-in Model Context Protocol server for AI clients.</li>
+    </ul>
+    <p>Browser integration: the browser extension's Native Messaging connection is not available under Flatpak, because a host browser cannot start the helper program inside the sandbox. The app's local API on 127.0.0.1 is reachable as usual.</p>
+    <p>Permissions: this package keeps a tight sandbox by default — display, GPU, network, notifications, a tray icon, and your Downloads folder. Saving to any other directory goes through the desktop portal's file chooser. To grant a specific folder permanently, run <code>flatpak override --user --filesystem=~/Media com.fluxdown.app</code>, substituting your own path; <code>--filesystem=home</code> grants the whole home directory.</p>
+    <p>The in-app updater and the "start at login" setting do not apply here: updates arrive through Flatpak, and the login entry the app writes stays inside the sandbox.</p>
+    <p>FluxDown sends anonymous usage analytics by default; you can turn this off in Settings.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>download</keyword>
+    <keyword>manager</keyword>
+    <keyword>idm</keyword>
+    <keyword>bittorrent</keyword>
+    <keyword>magnet</keyword>
+    <keyword>ed2k</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>fluxdown-desktop</binary>
+  </provides>
+  <launchable type="desktop-id">com.fluxdown.app.desktop</launchable>
+  <releases>
+    <release version="0.5.0" date="2026-09-30">
+      <url>https://github.com/zerx-lab/FluxDown/releases/tag/v0.5.0</url>
+    </release>
+  </releases>
+</component>

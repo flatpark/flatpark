@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+# FluxDown 0.5 is a native GPUI window (fluxdown-desktop) in front of a
+# background agent (fluxdown-agent) and a download engine (fluxdownd), all
+# staged by apply_extra at /app/extra/fluxdown. The window starts the agent from
+# its own directory when none is running, and the agent starts the engine, so
+# launching the window is all this wrapper does. Settings, the task database and
+# the engine state go to the XDG data dir, which Flatpak points at
+# ~/.var/app/com.fluxdown.app.
+
+# The window draws text with cosmic-text/fontdb, which parses one fontconfig
+# file by itself and reads only its <dir> elements - so neither the host fonts
+# (reached through a conf.d remap-dir) nor the bundled CJK face under /app/extra
+# is visible with the runtime's own configuration, and CJK text comes out as
+# tofu boxes even on a host that has Noto Sans CJK installed. /app/etc/fonts/
+# fonts.conf lists every directory explicitly; see the comments in it.
+#
+# This deliberately replaces a FONTCONFIG_FILE the user may have set for all
+# apps: keeping theirs is what leaves the CJK face unreachable. To go back to
+# your own configuration, and lose the bundled fallback with it:
+#   flatpak override --user --env=FLUXDOWN_FONTCONFIG_FILE=/path/to/fonts.conf com.fluxdown.app
+export FONTCONFIG_FILE="${FLUXDOWN_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+# Upstream's own launcher maps --silentStart onto the agent alone (tray only, no
+# window); keep that behaviour for anyone launching the app that way.
+if [ "${1:-}" = "--silentStart" ]; then
+  shift
+  exec /app/extra/fluxdown/fluxdown-agent --autostart "$@"
+fi
+
+exec /app/extra/fluxdown/fluxdown-desktop "$@"

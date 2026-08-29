@@ -1,0 +1,119 @@
+id: com.fluxdown.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: fluxdown-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # FluxDown 0.5 is three cooperating native Rust programs from the same .deb:
+  #   fluxdown-desktop  the GPUI window (Vulkan/GL through wgpu, Wayland or X11)
+  #   fluxdown-agent    the background service: tray icon, notifications, the
+  #                     local API on 127.0.0.1:17800, clipboard watch; GTK 3
+  #   fluxdownd         the download engine, spawned and supervised by the agent
+  # The desktop window finds and starts the agent next to its own executable,
+  # which is why apply_extra stages the upstream tree whole.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # wgpu renders through the runtime's Mesa (libvulkan / libEGL are dlopen-ed).
+  - --device=dri
+  # The window implements accessibility through AccessKit's AT-SPI adapter,
+  # which asks org.a11y.Bus where the accessibility bus lives. Without this name
+  # a screen reader never sees the application at all.
+  - --talk-name=org.a11y.Bus
+  # The downloads themselves, the engine's BitTorrent/DHT, eD2K and HLS/DASH
+  # traffic, and the agent's loopback API that the window, the browser
+  # extension and the userscript all talk to.
+  - --share=network
+  # Default destination. Flatpak maps xdg-download into the sandbox and writes a
+  # matching user-dirs.dirs, so the app's default save folder resolves to the
+  # real Downloads directory. Any other location is picked through the
+  # file-chooser portal, or granted by the user with
+  # `flatpak override --filesystem=...` (documented in the metainfo). Settings,
+  # the task database and the engine state live under the redirected XDG data
+  # dir in ~/.var/app/com.fluxdown.app.
+  - --filesystem=xdg-download
+  # Download-complete notifications, sent by both the agent and the window.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon. The agent dlopen-s libayatana-appindicator (the prebuilt stack
+  # below), which registers its item with the watcher under its own unique
+  # connection name, so no org.kde.StatusNotifierItem-<pid>-<n> name has to be
+  # owned and the PID-2 collision between sandboxed apps does not arise.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Deliberately withheld:
+  #   --filesystem=home / =host -> not needed; all state is under the redirected
+  #                                XDG dirs, other save folders go through the
+  #                                portal or an explicit user override.
+  #   browser Native Messaging  -> the host browser cannot run fluxdown_nmh from
+  #                                inside the sandbox; the browser extension and
+  #                                the userscript reach the agent's loopback
+  #                                API instead, which --share=network covers.
+modules:
+  # The agent dlopen-s libayatana-appindicator3 for its tray icon, and the GNOME
+  # runtime does not ship it. Prebuilt ayatana tray stack (libdbusmenu,
+  # ayatana-ido, libayatana-indicator, libayatana-appindicator) from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51; the
+  # tag's manifest records the exact sources, pins and patches.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+
+  - name: fluxdown
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fluxdown-desktop-wrapper /app/bin/fluxdown-desktop
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 com.fluxdown.app.desktop /app/share/applications/com.fluxdown.app.desktop
+      - install -Dm644 com.fluxdown.app.metainfo.xml /app/share/metainfo/com.fluxdown.app.metainfo.xml
+      - install -Dm644 com.fluxdown.app.png /app/share/icons/hicolor/512x512/apps/com.fluxdown.app.png
+      - install -Dm644 com.fluxdown.app.svg /app/share/icons/hicolor/scalable/apps/com.fluxdown.app.svg
+    sources:
+      # The window's font fallback list asks for "Noto Sans CJK SC/TC/JP/KR" for
+      # CJK text, which neither the GNOME runtime nor a typical non-CJK host
+      # ships, and the UI is translated into Chinese. The face is extra-data so
+      # its 19.5 MB stay out of FlatPark's repository; apply_extra stages it into
+      # /app/extra/fonts and fonts.conf lists that directory. Same tag-pinned URL
+      # and sha256 as dev.navop.Navop.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fluxdown.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/zerx-lab/FluxDown/releases/download/v0.5.0/FluxDown-0.5.0-linux-x64.deb
+        sha256: 8ae70b17d480298ea0ef2f0a7c51a5c278a1b95cc2ee805ec879f7fbc1bf5b88
+        size: 34572400
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fluxdown-desktop-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: com.fluxdown.app.desktop
+      - type: file
+        path: com.fluxdown.app.metainfo.xml
+      - type: file
+        path: com.fluxdown.app.png
+      - type: file
+        path: com.fluxdown.app.svg
