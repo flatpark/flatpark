@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+# FluxDown is a Flutter Linux app (GTK 3 embedder, libflutter_linux_gtk.so)
+# driving a bundled Rust engine (libhub.so). apply_extra stages the upstream
+# Debian package's /opt/fluxdown tree whole at /app/extra/fluxdown: the launcher
+# binary, its lib/ of Flutter plugins (reached via the binary's own
+# RUNPATH $ORIGIN/lib), and the data/ resource tree (flutter_assets, icudtl.dat)
+# that the embedder resolves relative to the executable. Everything else —
+# gtk-3, pango, harfbuzz, cairo, gdk-pixbuf, libepoxy, fontconfig, liblzma,
+# libnotify, libstdc++ — comes from org.gnome.Platform//50.
+#
+# Flatpak redirects the XDG base dirs, so the SQLite task database, settings and
+# the engine's session state stay inside the sandbox under
+# ~/.var/app/com.fluxdown.app.
+
+# The tray_manager plugin claims the StatusNotifier bus name
+# "org.kde.StatusNotifierItem-<getpid()>-1" and gives up if it is taken. Inside
+# the sandbox every app is PID 2 in its own PID namespace, so report a fixed,
+# distinctive PID instead and grant exactly that one name in finish-args. The
+# preload keeps the real PID for the D-Bus credential handshake (see
+# fake-getpid.c) and drops itself from the environment in a constructor so
+# child processes (xdg-open, portal helpers) see the real PID too.
+export FLUXDOWN_FAKE_PID="${FLUXDOWN_FAKE_PID:-515151}"
+export LD_PRELOAD="/app/lib/fluxdown/libfakepid.so${LD_PRELOAD:+:$LD_PRELOAD}"
+
+# apply_extra recorded the launcher name from the .deb's own desktop entry, so a
+# rename upstream cannot leave this wrapper pointing at a binary that is gone.
+launcher="$(cat /app/extra/fluxdown/.launcher)"
+
+exec "/app/extra/fluxdown/$launcher" "$@"

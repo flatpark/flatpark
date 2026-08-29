@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.fluxdown.app</id>
+  <name>FluxDown</name>
+  <summary>Multi-protocol download manager, a free IDM alternative</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="com.fluxdown">
+    <name>zerx-lab</name>
+  </developer>
+  <url type="homepage">https://fluxdown.zerx.dev</url>
+  <url type="bugtracker">https://github.com/zerx-lab/FluxDown/issues</url>
+  <url type="vcs-browser">https://github.com/zerx-lab/FluxDown</url>
+  <description>
+    <p>This is a community package of FluxDown, maintained independently and unaffiliated with the FluxDown project. It repackages the official upstream Linux build (the <code>.deb</code> release) unmodified.</p>
+    <p>FluxDown is a download manager with a Rust and Tokio engine and a Flutter interface. It splits transfers into segments that are rebalanced at runtime, keeps every byte tracked in SQLite so downloads survive a crash or reboot, and offers a queue, speed limiting and a system tray.</p>
+    <ul>
+      <li>HTTP, HTTPS and FTP downloads with dynamic multi-segment acceleration.</li>
+      <li>BitTorrent (DHT, magnet), eD2K, and HLS / DASH stream capture.</li>
+      <li>Light and dark themes, and a built-in Model Context Protocol server on the local API port for AI clients.</li>
+    </ul>
+    <p>Browser integration: the companion userscript (Settings, then Extensions, then Offline Install Packages) works inside the sandbox — it sends links to the app's local listener over loopback, which the network permission shares. The browser-extension path that relies on Native Messaging is not wired up under Flatpak, because a host browser cannot reach the helper binary inside the sandbox.</p>
+    <p>Permissions: this package keeps a tight sandbox by default — display, GPU, network, notifications, a tray icon, and your Downloads folder. Saving to any other directory goes through the desktop portal's file chooser. To grant a specific folder permanently, run <code>flatpak override --user --filesystem=~/Media com.fluxdown.app</code>, substituting your own path; <code>--filesystem=home</code> grants the whole home directory.</p>
+    <p>The in-app updater is not usable here: it replaces the application binary in place, which a read-only Flatpak install does not allow. Updates arrive through Flatpak instead.</p>
+    <p>FluxDown sends anonymous usage analytics by default; you can turn this off in Settings.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>download</keyword>
+    <keyword>manager</keyword>
+    <keyword>idm</keyword>
+    <keyword>bittorrent</keyword>
+    <keyword>magnet</keyword>
+    <keyword>ed2k</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>flux_down</binary>
+  </provides>
+  <launchable type="desktop-id">com.fluxdown.app.desktop</launchable>
+  <releases>
+    <release version="0.4.7" date="2026-08-16">
+      <url>https://github.com/zerx-lab/FluxDown/releases/tag/v0.4.7</url>
+    </release>
+  </releases>
+</component>

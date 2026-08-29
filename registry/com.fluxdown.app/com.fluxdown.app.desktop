@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=FluxDown
+GenericName=Download Manager
+Comment=Free IDM-alternative download manager
+Exec=flux_down %U
+Icon=com.fluxdown.app
+Type=Application
+Categories=Network;FileTransfer;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;x-scheme-handler/fluxdown;x-scheme-handler/ed2k;
+Keywords=download;manager;idm;torrent;magnet;ed2k;
+StartupWMClass=flux_down
+StartupNotify=true

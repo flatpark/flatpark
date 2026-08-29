@@ -1,0 +1,23 @@
+id: com.fluxdown.app
+name: FluxDown
+summary: Multi-protocol download manager, a free IDM alternative
+website: https://fluxdown.zerx.dev
+source_url: https://github.com/zerx-lab/FluxDown
+build:
+  manifest: com.fluxdown.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Download
+    - FileTransfer
+    - BitTorrent
+    - IDM
+    - Flutter
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

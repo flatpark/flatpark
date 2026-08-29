@@ -1,0 +1,95 @@
+id: com.fluxdown.app
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: flux_down
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter Linux (GTK 3 embedder) front end over a bundled Rust engine
+  # (libhub.so). Every NEEDED library — gtk-3, gdk-pixbuf, pango, harfbuzz,
+  # cairo, atk, libepoxy, fontconfig, liblzma, libnotify, libstdc++ — resolves
+  # from org.gnome.Platform//50; nothing is bundled but the app's own plugins.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Flutter renders through libepoxy/GL.
+  - --device=dri
+  # The downloads themselves, the engine's BitTorrent/DHT and eD2K/HLS/DASH
+  # traffic, the local RPC listener on 127.0.0.1:17800 that the companion
+  # userscript posts to, and the built-in MCP server on the same port.
+  - --share=network
+  # Default destination. Flatpak maps xdg-download into the sandbox and writes a
+  # matching user-dirs.dirs, so the app's default save folder resolves to the
+  # real Downloads directory. Any other location is granted per-folder through
+  # the file-chooser portal (the file_selector_linux plugin uses
+  # GtkFileChooserNative, which routes through the portal in a sandbox), or by
+  # the user with `flatpak override --filesystem=...` (documented in the
+  # metainfo). Config, the SQLite task database and the engine's session state
+  # live under the redirected XDG dirs in ~/.var/app/com.fluxdown.app.
+  - --filesystem=xdg-download
+  # Download-complete desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # System tray icon. The tray_manager plugin implements StatusNotifierItem
+  # itself and claims the well-known name org.kde.StatusNotifierItem-<getpid()>-1,
+  # giving up on the first refusal. Every Flatpak app is PID 2 in its own PID
+  # namespace, so without a fixed PID they all race for that one name.
+  # fluxdown-wrapper preloads a getpid override that reports a fixed distinctive
+  # value (see the fake-getpid module — it keeps the real PID for the D-Bus
+  # credential handshake so the session bus connection still authenticates), so
+  # this is the single name the tray then needs.
+  - --own-name=org.kde.StatusNotifierItem-515151-1
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Deliberately withheld:
+  #   --filesystem=home / =host -> not needed; all state is under the redirected
+  #                                XDG dirs, and other save folders go through
+  #                                the portal or an explicit user override.
+  #   browser Native Messaging  -> the fluxdown_nmh helper cannot be reached by a
+  #                                host browser across the sandbox boundary, and
+  #                                registering its manifest would need write
+  #                                access to ~/.config/<browser>. The companion
+  #                                userscript talks to the local RPC port over
+  #                                loopback instead and needs no extra grant.
+modules:
+  - name: fluxdown-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/fluxdown/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
+  - name: fluxdown
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fluxdown-wrapper /app/bin/flux_down
+      - install -Dm644 com.fluxdown.app.desktop /app/share/applications/com.fluxdown.app.desktop
+      - install -Dm644 com.fluxdown.app.metainfo.xml /app/share/metainfo/com.fluxdown.app.metainfo.xml
+      - install -Dm644 com.fluxdown.app.png /app/share/icons/hicolor/512x512/apps/com.fluxdown.app.png
+      - install -Dm644 com.fluxdown.app.svg /app/share/icons/hicolor/scalable/apps/com.fluxdown.app.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fluxdown.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/zerx-lab/FluxDown/releases/download/v0.4.7/FluxDown-0.4.7-linux-x64.deb
+        sha256: bd3271b06ed159c8fa4c1fd040bf12d9e003fdf9dce7d9e9510c12f041f6976d
+        size: 22389668
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fluxdown-wrapper
+      - type: file
+        path: com.fluxdown.app.desktop
+      - type: file
+        path: com.fluxdown.app.metainfo.xml
+      - type: file
+        path: com.fluxdown.app.png
+      - type: file
+        path: com.fluxdown.app.svg
