@@ -10,17 +10,8 @@ on:
 permissions:
   contents: read
 
-# The auto/update-pins-* and auto/release-* PRs (update-check.yml,
-# release-dispatch.yml) are opened and squash-merged within seconds, so a
-# pull_request run here only ever races the branch deletion and lands as a
-# spurious red "workflow file issue" with zero jobs. Those workflows unpack
-# every payload themselves before merging and publish.yml rebuilds the app
-# after, so skip them. A pull_request `branches` filter matches the base ref
-# (always main), not the head, so this has to be a per-job guard on
-# github.head_ref — keep the three job `if:`s below in sync.
 jobs:
   lint-and-test:
-    if: ${{ !startsWith(github.head_ref, 'auto/update-pins-') && !startsWith(github.head_ref, 'auto/release-') }}
     # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
     # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
@@ -94,7 +85,6 @@ jobs:
   # failure, so the maintainer's own infra PRs aren't blocked. No secrets;
   # read-only token.
   guard-infra:
-    if: ${{ !startsWith(github.head_ref, 'auto/update-pins-') && !startsWith(github.head_ref, 'auto/release-') }}
     # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
     # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
@@ -154,7 +144,6 @@ jobs:
   # gated by GitHub's "require approval for fork PR workflows" setting — approve a
   # fork run only after reviewing its manifest.
   build-changed:
-    if: ${{ !startsWith(github.head_ref, 'auto/update-pins-') && !startsWith(github.head_ref, 'auto/release-') }}
     # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
     # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,

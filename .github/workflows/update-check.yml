@@ -47,15 +47,15 @@ jobs:
           ids="$(./scripts/check-updates.sh | tr '\n' ' ')"
           echo "changed=$ids" >> "$GITHUB_ENV"
           echo "changed apps: ${ids:-<none>}"
-      # pr-checks is skipped on auto/update-pins-* PRs (see pr-checks.yml): this
-      # job squash-merges the PR seconds after opening it, so a pr-checks run only
-      # races the branch deletion. Nothing downstream of this job looks inside the
-      # artifact it just pinned. That is how a repackaged upstream reaches users:
-      # com.tldraw.Offline v1.12.0 renamed the launcher inside its .deb, the pin
-      # refresh sailed through, and every install failed with `apply_extra script
-      # failed, exit status 256` (issue #130). Unpack each new payload here, the
-      # way an install does, and hold back the pins that no longer unpack instead
-      # of shipping them.
+      # The auto/update-pins-* PR this job opens is squash-merged seconds later,
+      # so the pr-checks run its `opened` event queues never gets to look inside
+      # the artifact just pinned (its merge ref is deleted before setup — the
+      # merge step below cleans up that doomed run). That is how a repackaged
+      # upstream reaches users: com.tldraw.Offline v1.12.0 renamed the launcher
+      # inside its .deb, the pin refresh sailed through, and every install failed
+      # with `apply_extra script failed, exit status 256` (issue #130). Unpack
+      # each new payload here, the way an install does, and hold back the pins
+      # that no longer unpack instead of shipping them.
       - name: Install flatpak
         if: env.changed != ''
         run: |
@@ -104,6 +104,7 @@ jobs:
           git checkout -B "$branch"
           git add registry/
           git commit -m "chore(update): refresh extra-data pins (${changed:-apps})"
+          head_sha="$(git rev-parse HEAD)"   # to find the doomed pr-checks run after --delete-branch
           git push -f origin "$branch"
 
           # One app id per line, as a markdown list
@@ -162,6 +163,39 @@ jobs:
             # push, so it builds exactly the apps the merge changed.
             gh workflow run publish.yml --ref main
             echo "merged #$new and dispatched publish"
+
+            # The `opened` event for #$new queued a pr-checks run against this
+            # branch. --delete-branch above removed the ref it would have checked
+            # out, so that run cannot start a single job — it lands as a red
+            # "This run likely failed because of a workflow file issue" with zero
+            # jobs, one every day. Every payload in the merged diff was already
+            # unpacked by "Verify the new payloads unpack" and publish.yml
+            # rebuilds each app, so the run has nothing to add. Wait for it to
+            # appear (the webhook lags the merge) and delete it. Best-effort: a
+            # run that never appears, or a GitHub that learns to skip it, both
+            # just mean nothing to clean up. Needs the actions:write already
+            # granted at the top of this workflow.
+            if [ "$(gh pr view "$new" --json state -q .state)" = "MERGED" ]; then
+              rid=""
+              for _ in $(seq 1 15); do
+                rid="$(gh run list --workflow pr-checks.yml --event pull_request \
+                         --limit 20 --json databaseId,headSha \
+                         -q "[.[] | select(.headSha == \"$head_sha\") | .databaseId][0] // empty")"
+                [ -n "$rid" ] && break
+                sleep 6
+              done
+              if [ -n "$rid" ]; then
+                for _ in $(seq 1 15); do
+                  [ "$(gh run view "$rid" --json status -q .status 2>/dev/null)" = completed ] && break
+                  sleep 6
+                done
+                gh api -X DELETE "repos/$GITHUB_REPOSITORY/actions/runs/$rid" \
+                  && echo "deleted the orphaned pr-checks run $rid for #$new" \
+                  || echo "could not delete pr-checks run $rid — already gone?"
+              else
+                echo "no orphaned pr-checks run appeared for $branch; nothing to clean"
+              fi
+            fi
           fi
       # A red run is not a notification. It sits in the Actions tab, and GitHub
       # only emails failures of *scheduled* runs — a manual dispatch, or the
