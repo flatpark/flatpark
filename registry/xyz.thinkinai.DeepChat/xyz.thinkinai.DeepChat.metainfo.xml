@@ -50,6 +50,9 @@
   </provides>
   <launchable type="desktop-id">xyz.thinkinai.DeepChat.desktop</launchable>
   <releases>
+    <release version="1.1.1" date="2026-08-31">
+      <description></description>
+    </release>
     <release version="1.1.0" date="2026-08-11">
       <description></description>
     </release>

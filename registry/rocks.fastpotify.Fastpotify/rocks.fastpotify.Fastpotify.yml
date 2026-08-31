@@ -69,16 +69,16 @@ modules:
         filename: fastpotify-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/crmne/fastpotify/releases/download/v0.4.0/fastpotify-v0.4.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 9917f3aa76c7b825cc4f4e64b8a9ae0d6794274071cbee32eb19517dfd4145db
-        size: 13211440
+        url: https://github.com/crmne/fastpotify/releases/download/v0.4.1/fastpotify-v0.4.1-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 68062a16774defde41994d12a17841fb535ad28b4b621d874f047d04176de173
+        size: 13220640
       - type: extra-data
         filename: fastpotify-aarch64.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/crmne/fastpotify/releases/download/v0.4.0/fastpotify-v0.4.0-aarch64-unknown-linux-gnu.tar.gz
-        sha256: cf49818197688957ecd8583cf613803f1ba5baeea10d9d581a10834968a8280e
-        size: 12438536
+        url: https://github.com/crmne/fastpotify/releases/download/v0.4.1/fastpotify-v0.4.1-aarch64-unknown-linux-gnu.tar.gz
+        sha256: a4408f427409308679fb2bc437e7ca46f29c0129ed8ce1fca6cc49ca6ec1206b
+        size: 12445517
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
