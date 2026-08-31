@@ -4,7 +4,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/tests/lib/assert.sh"
 command -v node >/dev/null 2>&1 || { echo "test_gen_site: SKIP (no node)"; exit 0; }
 command -v npm  >/dev/null 2>&1 || { echo "test_gen_site: SKIP (no npm)"; exit 0; }
-tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+tmp="$(mktemp -d)"
+# Astro's build moves prerender assets from site/.astro/ into the out dir with a
+# bare rename(2), which fails with EXDEV when the out dir is on another
+# filesystem (e.g. a tmpfs /tmp). Keep the build output on the same filesystem
+# as the repo. site/dist/ is gitignored.
+site_out="$ROOT/site/dist/test-out.$$"
+trap 'rm -rf "$tmp" "$site_out"' EXIT
 registry="$tmp/registry"
 one_dir="$registry/io.flatpark.TestOne"
 two_dir="$registry/io.flatpark.TestTwo"
@@ -65,14 +71,14 @@ if [ ! -d "$ROOT/site/node_modules" ]; then
     fi
 fi
 FLATPARK_DATA_DIR="$data" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1 || true
-if ! ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" SITE_OUT_DIR="$tmp/site" \
+if ! ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" SITE_OUT_DIR="$site_out" \
         npm run build >/dev/null 2>&1 ); then
     echo "test_gen_site: SKIP (astro build failed)"; exit 0
 fi
 
-index="$tmp/site/index.html"
-detail="$tmp/site/apps/io.flatpark.TestOne/index.html"
-setup="$tmp/site/setup/index.html"
+index="$site_out/index.html"
+detail="$site_out/apps/io.flatpark.TestOne/index.html"
+setup="$site_out/setup/index.html"
 
 assert_file "$index"
 assert_contains "$index" "FlatPark"
@@ -104,7 +110,7 @@ assert_file "$setup"
 assert_contains "$setup" "flatpak --user remote-add --if-not-exists flatpark https://dl.flatpark.org/flatpark.flatpakrepo"
 
 # Content pages (Astro content collection) + global footer.
-about="$tmp/site/about/index.html"
+about="$site_out/about/index.html"
 assert_file "$about"
 assert_contains "$about" "About FlatPark"
 assert_contains "$about" '<meta name="description"'
@@ -112,24 +118,24 @@ assert_contains "$about" '<meta name="description"'
 assert_contains "$index" "/about/"
 assert_contains "$index" "community Flatpak hub"
 
-assert_file "$tmp/site/policies/index.html"
-assert_contains "$tmp/site/policies/index.html" "De-listing"
-assert_file "$tmp/site/trust/index.html"
-assert_contains "$tmp/site/trust/index.html" "extra-data"
+assert_file "$site_out/policies/index.html"
+assert_contains "$site_out/policies/index.html" "De-listing"
+assert_file "$site_out/trust/index.html"
+assert_contains "$site_out/trust/index.html" "extra-data"
 assert_contains "$index" "/policies/"
 assert_contains "$index" "/trust/"
-assert_file "$tmp/site/contributing/index.html"
-assert_contains "$tmp/site/contributing/index.html" "flatpark.yml"
-assert_file "$tmp/site/guide/index.html"
-assert_contains "$tmp/site/guide/index.html" "remote-add"
+assert_file "$site_out/contributing/index.html"
+assert_contains "$site_out/contributing/index.html" "flatpark.yml"
+assert_file "$site_out/guide/index.html"
+assert_contains "$site_out/guide/index.html" "remote-add"
 assert_contains "$index" "/contributing/"
 assert_contains "$index" "/guide/"
-assert_file "$tmp/site/conduct/index.html"
-assert_contains "$tmp/site/conduct/index.html" "Code of conduct"
+assert_file "$site_out/conduct/index.html"
+assert_contains "$site_out/conduct/index.html" "Code of conduct"
 assert_contains "$index" "/conduct/"
-assert_file "$tmp/site/legal/index.html"
-assert_contains "$tmp/site/legal/index.html" "no accounts"
-assert_contains "$tmp/site/legal/index.html" "without warranty"
+assert_file "$site_out/legal/index.html"
+assert_contains "$site_out/legal/index.html" "no accounts"
+assert_contains "$site_out/legal/index.html" "without warranty"
 assert_contains "$index" "/legal/"
 
 # Header type-ahead: the dropdown ships on every page (including app pages,
@@ -137,7 +143,7 @@ assert_contains "$index" "/legal/"
 assert_contains "$index" "data-search-panel"
 assert_contains "$detail" "data-search-panel"
 assert_contains "$detail" "data-search-meta"
-assert_file "$tmp/site/search-index.json"
-assert_contains "$tmp/site/search-index.json" '"id":"io.flatpark.TestOne"'
-assert_contains "$tmp/site/search-index.json" '"section":"utilities"'
+assert_file "$site_out/search-index.json"
+assert_contains "$site_out/search-index.json" '"id":"io.flatpark.TestOne"'
+assert_contains "$site_out/search-index.json" '"section":"utilities"'
 echo "test_gen_site: PASS"

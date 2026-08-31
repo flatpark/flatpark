@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0   # the dead-link check diffs against the PR base
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: site/package-lock.json
       - name: Validate every registry descriptor
@@ -187,7 +187,7 @@ jobs:
       - uses: actions/setup-node@v6
         if: steps.changed.outputs.ids != ''
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: site/package-lock.json
       - name: Install flatpak-builder

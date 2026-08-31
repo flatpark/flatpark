@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
       # update-pins validates any upstream release notes before writing them
       # into a metainfo. Without appstreamcli that guard silently no-ops, so
       # install it up front rather than leaving the check off in the one place

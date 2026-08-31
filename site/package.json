@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "@tailwindcss/vite": "^4.1.0",
-    "astro": "^5.7.0",
-    "fast-xml-parser": "^4.5.0",
-    "tailwindcss": "^4.1.0",
-    "yaml": "^2.6.0"
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.9",
+    "fast-xml-parser": "^5.11.1",
+    "tailwindcss": "^4.3.3",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.3"
+    "@types/node": "^26.4.0"
   }
 }

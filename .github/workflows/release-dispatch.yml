@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
       # Payload values go through env, never inline ${{ }} inside run — the
       # Worker validates them, but they still originate outside this repo.
       - name: Recompute pins for the released app
