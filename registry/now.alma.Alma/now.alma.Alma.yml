@@ -55,9 +55,9 @@ modules:
         filename: alma.deb
         only-arches:
           - x86_64
-        url: https://github.com/yetone/alma-releases/releases/download/v0.4.12/alma-0.4.12-linux-amd64.deb
-        sha256: 7a3c4ab5ea386cc6ac99506213ae1104e99f333d85551ba583b3e465a8c48d0b
-        size: 324757430
+        url: https://github.com/yetone/alma-releases/releases/download/v0.4.13/alma-0.4.13-linux-amd64.deb
+        sha256: ed23af389dadbac45da73782021eff142466a8354b5bfb63d66c2ff62928fd5b
+        size: 324790510
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
