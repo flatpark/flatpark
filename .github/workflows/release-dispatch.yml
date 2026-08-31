@@ -51,11 +51,11 @@ jobs:
           # Nothing moved on the common re-ping / not-yet-uploaded path, so the
           # steps below skip instead of re-downloading the current payload.
           git diff --quiet -- registry/ || echo "pins_changed=1" >> "$GITHUB_ENV"
-      # A PR opened with the default GITHUB_TOKEN does not trigger pr-checks, so
-      # this is the only place the freshly pinned artifact gets opened at all.
-      # Unpack it the way an install does rather than pinning a payload nobody
-      # has looked inside — an upstream that repackages behind an unchanged asset
-      # name otherwise reaches users as `apply_extra script failed` (issue #130).
+      # pr-checks is skipped on auto/release-* PRs (see pr-checks.yml), so this is
+      # the only place the freshly pinned artifact gets opened at all. Unpack it
+      # the way an install does rather than pinning a payload nobody has looked
+      # inside — an upstream that repackages behind an unchanged asset name
+      # otherwise reaches users as `apply_extra script failed` (issue #130).
       - name: Install flatpak
         if: env.pins_changed != ''
         run: |

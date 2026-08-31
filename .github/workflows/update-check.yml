@@ -47,13 +47,15 @@ jobs:
           ids="$(./scripts/check-updates.sh | tr '\n' ' ')"
           echo "changed=$ids" >> "$GITHUB_ENV"
           echo "changed apps: ${ids:-<none>}"
-      # A PR opened with the default GITHUB_TOKEN does not trigger pr-checks, so
-      # nothing downstream of this job looks inside the artifact it just pinned.
-      # That is how a repackaged upstream reaches users: com.tldraw.Offline v1.12.0
-      # renamed the launcher inside its .deb, the pin refresh sailed through, and
-      # every install failed with `apply_extra script failed, exit status 256`
-      # (issue #130). Unpack each new payload here, the way an install does, and
-      # hold back the pins that no longer unpack instead of shipping them.
+      # pr-checks is skipped on auto/update-pins-* PRs (see pr-checks.yml): this
+      # job squash-merges the PR seconds after opening it, so a pr-checks run only
+      # races the branch deletion. Nothing downstream of this job looks inside the
+      # artifact it just pinned. That is how a repackaged upstream reaches users:
+      # com.tldraw.Offline v1.12.0 renamed the launcher inside its .deb, the pin
+      # refresh sailed through, and every install failed with `apply_extra script
+      # failed, exit status 256` (issue #130). Unpack each new payload here, the
+      # way an install does, and hold back the pins that no longer unpack instead
+      # of shipping them.
       - name: Install flatpak
         if: env.changed != ''
         run: |
