@@ -1,0 +1,88 @@
+id: is.folo.Folo
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper) instead of
+# --no-sandbox. The base is merged into the app at build time; the payload
+# itself is still the vendor's own release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "25.08"
+command: folo
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) client. Folo ships its Linux build only as an AppImage;
+  # this repackages that unmodified (extracted at install time, not rebuilt).
+  # The AppImage bundles Chromium, its own ffmpeg/ANGLE/SwiftShader and the
+  # app.asar; the GTK3, NSS, CUPS, ATK, X11 and libsecret stacks it links come
+  # from the runtime (org.freedesktop.Platform 25.08 ships them — verified
+  # against the binary's NEEDED set, 0 missing).
+  - --share=ipc
+  # Folo is an RSS reader — fetching feeds and talking to the Folo sync service
+  # is the whole app.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering / video in the reader.
+  - --device=dri
+  # New-item and sync notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Folo's system tray icon (Electron Tray + libappindicator, bundled in the
+  # AppImage's usr/lib and put on LD_LIBRARY_PATH by the wrapper).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Not granted by default — the app works without them; opt in per the metainfo:
+  #   --filesystem=xdg-download   -> save images / enclosures straight to Downloads
+  #   --filesystem=home           -> pick OPML files to import/export anywhere
+  # File open/save otherwise goes through the portal, and Folo's own data lives
+  # under the per-app home (Flatpak redirects $HOME; Electron writes ~/.config/Folo
+  # there).
+modules:
+  - name: folo
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 folo-wrapper /app/bin/folo
+      - install -Dm644 is.folo.Folo.desktop /app/share/applications/is.folo.Folo.desktop
+      - install -Dm644 is.folo.Folo.metainfo.xml /app/share/metainfo/is.folo.Folo.metainfo.xml
+      - install -Dm644 is.folo.Folo.png /app/share/icons/hicolor/512x512/apps/is.folo.Folo.png
+    sources:
+      # Extract-an-AppImage-offline stack: appimage-offset prints the appended
+      # SquashFS byte offset, unsquashfs unpacks from it — no libfuse. Fetched
+      # next to the AppImage into /app/extra rather than staged at /app/bin,
+      # because a system-wide install runs apply_extra in a sandbox that binds
+      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
+      # reproduces this). OUTSIDE the managed block: update-pins.mjs rebuilds
+      # that block from the resolver output and would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v1/appimage-tools-appimage-tools-v1-fd-25.08-x86_64.tar.xz
+        sha256: fdbaf3b8dfa1e9705c644dafeb25b6afcd7890af36ae23744e58130beb48396b
+        size: 54752
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: folo.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.12.0/Folo-1.12.0-linux-x64.AppImage
+        sha256: ac7e6b5ac90d0efb1eddb3b6f1d333ba191d6c423f32d60304d742f8454ff7b2
+        size: 148922944
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: folo-wrapper
+      - type: file
+        path: is.folo.Folo.desktop
+      - type: file
+        path: is.folo.Folo.metainfo.xml
+      - type: file
+        path: is.folo.Folo.png

@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# Folo is an Electron app staged by apply_extra to /app/extra/folo. Run it
+# through zypak-wrapper (from org.electronjs.Electron2.BaseApp): zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox rather than running with --no-sandbox. --ozone-platform-hint=auto lets
+# Chromium pick Wayland when available and fall back to X11.
+#
+# LD_LIBRARY_PATH: the AppImage's usr/lib holds the tray libraries
+# (libappindicator.so.1 and friends) that Electron's Tray dlopens; the AppImage's
+# own AppRun puts that directory on the path and so must this wrapper.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE so a value leaked from the launching
+# environment (a terminal inside VS Code / another Electron app) cannot make the
+# binary start as plain Node instead of the GUI.
+export LD_LIBRARY_PATH="/app/extra/folo/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+unset ELECTRON_RUN_AS_NODE
+
+exec zypak-wrapper /app/extra/folo/folo --ozone-platform-hint=auto "$@"

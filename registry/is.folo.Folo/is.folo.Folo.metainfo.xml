@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>is.folo.Folo</id>
+  <launchable type="desktop-id">is.folo.Folo.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <name>Folo</name>
+  <summary>Follow your favorite feeds, all in one place</summary>
+  <developer id="is.folo">
+    <name>RSSNext</name>
+  </developer>
+  <url type="homepage">https://folo.is</url>
+  <url type="bugtracker">https://github.com/RSSNext/Folo/issues</url>
+  <url type="vcs-browser">https://github.com/RSSNext/Folo</url>
+  <description>
+    <p>This is a community package of Folo, maintained independently and unaffiliated with the Folo project. It repackages the official upstream AppImage unmodified — extracted at install time, not rebuilt — and follows upstream releases automatically.</p>
+    <p>Folo is an open-source feed reader that brings articles, social posts, pictures, videos and podcasts into a single timeline. It syncs through the Folo service, so subscriptions and read state follow you across devices.</p>
+    <ul>
+      <li>Subscribe to RSS and Atom feeds, and organise them into views for articles, social media, pictures, videos and audio.</li>
+      <li>AI features: per-article summaries and translation.</li>
+      <li>Actions and rules to filter, tag and rewrite incoming entries.</li>
+      <li>Read it later, full-content fetching, and an integrated podcast player.</li>
+    </ul>
+    <p>Signing in requires a Folo account; the reader also works with local subscriptions before you sign in.</p>
+    <p>Permissions: Folo runs with network access and its own sandboxed storage. It cannot reach your files by default. Enable what you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Save images and enclosures straight to your Downloads folder: <code>flatpak override --user --filesystem=xdg-download is.folo.Folo</code></li>
+      <li>Import or export an OPML subscription list from anywhere in your home: <code>flatpak override --user --filesystem=home is.folo.Folo</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://folo.is/og.png</image>
+      <caption>Folo</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>News</category>
+  </categories>
+  <keywords>
+    <keyword>RSS</keyword>
+    <keyword>Atom</keyword>
+    <keyword>feed</keyword>
+    <keyword>reader</keyword>
+    <keyword>news</keyword>
+  </keywords>
+  <releases>
+    <release version="1.12.0" date="2026-07-31"/>
+  </releases>
+</component>

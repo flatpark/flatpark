@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Folo
+Comment=Follow everything in one place
+Exec=folo %u
+Icon=is.folo.Folo
+Terminal=false
+Categories=Network;News;Feed;
+Keywords=rss;atom;feed;reader;news;follow;
+StartupNotify=true
+StartupWMClass=Folo
+MimeType=x-scheme-handler/follow;x-scheme-handler/folo;
