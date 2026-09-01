@@ -1,0 +1,23 @@
+id: org.openshot.OpenShot
+name: OpenShot Video Editor
+summary: An easy to use, quick to learn, and surprisingly powerful video editor
+website: https://www.openshot.org/
+source_url: https://github.com/OpenShot/openshot-qt
+build:
+  manifest: org.openshot.OpenShot.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Video
+    - Editor
+    - Movie
+    - Timeline
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

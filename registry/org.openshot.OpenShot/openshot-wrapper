@@ -1,0 +1,20 @@
+#!/bin/sh
+# OpenShot's AppImage already carries the right launch logic in
+# usr/bin/openshot-qt-launch: it sets LD_LIBRARY_PATH and QT_PLUGIN_PATH to the
+# bundled tree, selects the xdg-desktop-portal platform theme for native file
+# dialogs, and points OPENSSL_CONF at /dev/null (the bundle's OpenSSL predates
+# the host config format). Repackaging only has to call it.
+#
+# realpath inside that script resolves to /app/extra/openshot/usr/bin, so the
+# bundled Python, PyQt5, libopenshot and Qt plugins are all found there without
+# anything set here.
+#
+# QT_QPA_PLATFORM=xcb: the bundle ships the Qt 5 wayland plugins without the
+# libQt5WaylandClient.so.5 they need, so "wayland" cannot initialise and Qt does
+# not fall back on its own — it just exits. Pinning xcb runs it through XWayland.
+# Respect an explicit override so someone who has supplied the missing library
+# can still try wayland.
+: "${QT_QPA_PLATFORM:=xcb}"
+export QT_QPA_PLATFORM
+
+exec /app/extra/openshot/usr/bin/openshot-qt-launch "$@"

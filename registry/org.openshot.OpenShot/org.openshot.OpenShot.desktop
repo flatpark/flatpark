@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=OpenShot Video Editor
+GenericName=Video Editor
+Comment=Create and edit amazing videos and movies
+Exec=openshot-qt %F
+Icon=org.openshot.OpenShot
+Terminal=false
+Categories=AudioVideo;AudioVideoEditing;Video;
+Keywords=video;editor;movie;clip;film;timeline;
+StartupNotify=true
+StartupWMClass=openshot-qt
+X-GNOME-UsesNotifications=true
+MimeType=application/vnd.openshot-qt-project;

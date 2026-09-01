@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/vnd.openshot-qt-project">
+    <comment>OpenShot project</comment>
+    <glob pattern="*.osp"/>
+    <generic-icon name="openshot-qt-doc"/>
+  </mime-type>
+</mime-info>

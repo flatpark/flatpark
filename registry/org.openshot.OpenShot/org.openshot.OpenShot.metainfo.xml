@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openshot.OpenShot</id>
+  <launchable type="desktop-id">org.openshot.OpenShot.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>OpenShot Video Editor</name>
+  <summary>An easy to use, quick to learn, and surprisingly powerful video editor</summary>
+  <developer id="org.openshot">
+    <name>OpenShot Studios, LLC</name>
+  </developer>
+  <url type="homepage">https://www.openshot.org/</url>
+  <url type="bugtracker">https://github.com/OpenShot/openshot-qt/issues</url>
+  <url type="help">https://www.openshot.org/user-guide/</url>
+  <url type="donation">https://www.openshot.org/donate/</url>
+  <url type="vcs-browser">https://github.com/OpenShot/openshot-qt</url>
+  <description>
+    <p>This is a community package of OpenShot, maintained independently and unaffiliated with the OpenShot project. It repackages the official upstream AppImage unmodified — extracted at install time, not rebuilt — and follows upstream releases automatically.</p>
+    <p>OpenShot Video Editor is a free, open-source video editor with an easy-to-use interface and a broad feature set for cutting, compositing and animating video.</p>
+    <ul>
+      <li>Supports most video, audio and image formats (based on FFmpeg).</li>
+      <li>Advanced timeline with drag and drop, snapping, scrolling, panning and zooming.</li>
+      <li>Clip trimming, alpha, scaling, rotation, shearing and curve-based keyframe animation (linear, Bézier, constant).</li>
+      <li>Compositing, image overlays, watermarks and transparency, with unlimited tracks and layers.</li>
+      <li>Video transitions, masks and wipes; brightness, gamma, hue and chroma-key effects.</li>
+      <li>Animated 3D titles via a bundled Blender, plus editable SVG titles and credits.</li>
+      <li>Audio mixing, waveforms and editing; time mapping and speed changes.</li>
+      <li>Hardware-accelerated encode and decode; EDL and Final Cut Pro import/export.</li>
+    </ul>
+    <p>Permissions: this package grants read-write access to your Videos, Pictures, Music and Downloads folders, because an OpenShot project (.osp) references its source clips by absolute path and they have to stay reachable when the project is reopened — per-file portal access cannot carry a project across sessions. App state (settings, caches, project backups) stays inside the sandbox. Footage kept elsewhere needs an <code>flatpak override</code>:</p>
+    <ul>
+      <li>Footage or projects in a dedicated folder under home: <code>flatpak override --user --filesystem=~/Projects org.openshot.OpenShot</code> (name your own folder), or <code>--filesystem=home</code> for all of it.</li>
+      <li>Footage on an external drive or another mount point: <code>flatpak override --user --filesystem=/run/media/$USER org.openshot.OpenShot</code> (use the path your system mounts removable media under).</li>
+      <li>Work fully offline with no update check or template/model downloads: <code>flatpak override --user --unshare=network org.openshot.OpenShot</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://www.openshot.org/static/img/gallery/ui-example.jpg</image>
+      <caption>Editing a project on the OpenShot timeline</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.openshot.org/static/img/gallery/title-editor.jpg</image>
+      <caption>The title editor</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>AudioVideoEditing</category>
+  </categories>
+  <keywords>
+    <keyword>video</keyword>
+    <keyword>editor</keyword>
+    <keyword>movie</keyword>
+    <keyword>film</keyword>
+    <keyword>timeline</keyword>
+    <keyword>FFmpeg</keyword>
+  </keywords>
+  <releases>
+    <release version="4.0.0" date="2026-07-25"/>
+  </releases>
+</component>

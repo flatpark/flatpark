@@ -1,0 +1,115 @@
+id: org.openshot.OpenShot
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: openshot-qt
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # OpenShot's Linux build is a fully self-contained AppImage: it brings its own
+  # Python 3.8, PyQt5, libopenshot, a complete FFmpeg, and a bundled Blender for
+  # the 3D title templates. Nothing Qt or Python comes from the runtime, so this
+  # is the freedesktop base rather than a KDE or GNOME one. Verified against the
+  # bundle's NEEDED set: everything it does not carry — the display, GL, X11 /
+  # Wayland, fontconfig, NSS and audio stacks — org.freedesktop.Platform 25.08
+  # provides, and the bundle deliberately does NOT ship libGL / libEGL / libgbm
+  # / fontconfig, so there is nothing to shadow the runtime's.
+  - --share=ipc
+  # X11 only. OpenShot's AppImage ships the Qt 5 wayland platform plugins but
+  # not the libQt5WaylandClient.so.5 they link, so the bundle can only bring up
+  # the xcb platform; the wrapper pins QT_QPA_PLATFORM=xcb and it runs through
+  # XWayland on a Wayland session. --socket=fallback-x11 would withhold the X
+  # socket whenever a compositor is present, which is exactly when it is needed
+  # here, so this is a plain --socket=x11.
+  - --socket=x11
+  # A Wayland host session exports QT_QPA_PLATFORM=wayland, which flatpak
+  # forwards into the sandbox and which would beat the wrapper's xcb default.
+  # Drop it here; the wrapper then sets xcb, and `flatpak override
+  # --env=QT_QPA_PLATFORM=…` still wins for anyone who wants to try otherwise.
+  - --unset-env=QT_QPA_PLATFORM
+  # Real-time video preview and the OpenGL compositor; also VA-API / NVDEC for
+  # hardware-accelerated decode and encode.
+  - --device=dri
+  # Preview playback and audio scrubbing.
+  - --socket=pulseaudio
+  # Update check, downloadable title templates, and the model download for the
+  # AI effects (object detection / motion tracking). OpenShot is otherwise a
+  # local editor; withholding this only disables those.
+  - --share=network
+  # OpenShot edits a *project*: an .osp file plus source clips (video, audio,
+  # images) referenced by absolute path, so re-opening a project needs
+  # persistent read access to wherever that footage lives — the file-chooser
+  # portal's per-file grants cannot carry a project across sessions. These are
+  # the standard media locations; footage kept elsewhere (a dedicated projects
+  # folder, an external drive) is an opt-in `flatpak override` documented in the
+  # metainfo. NOT --filesystem=home: OpenShot writes all of its own state to
+  # ~/.openshot_qt (classes/info.py: USER_PATH = expanduser("~") +
+  # "/.openshot_qt"), and granting home or host would repoint $HOME at the real
+  # home and create that directory there instead of in the sandbox. With only
+  # these xdg subdirectories granted, $HOME stays the per-app directory and the
+  # state lives under ~/.var/app/org.openshot.OpenShot.
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-music
+  - --filesystem=xdg-download
+  # Flatpak does not redirect $HOME — it stays /home/<user> and, with no home
+  # grant, is a tmpfs that is discarded on exit. OpenShot puts everything under
+  # ~/.openshot_qt (expanduser("~") in classes/info.py), so without this its
+  # settings, keyframe presets, project backups and the autosave file would not
+  # survive a restart. --persist binds ~/.openshot_qt to
+  # ~/.var/app/org.openshot.OpenShot/.openshot_qt — persistent, and inside the
+  # sandbox rather than in the user's real home. (This works precisely because
+  # no broader --filesystem=home mount is present to shadow it.)
+  - --persist=.openshot_qt
+  # "Export complete" / error notifications.
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: openshot
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openshot-wrapper /app/bin/openshot-qt
+      - install -Dm644 org.openshot.OpenShot.desktop /app/share/applications/org.openshot.OpenShot.desktop
+      - install -Dm644 org.openshot.OpenShot.metainfo.xml /app/share/metainfo/org.openshot.OpenShot.metainfo.xml
+      # OpenShot's own MIME definition for .osp projects, so the exported desktop
+      # entry can match them on the host.
+      - install -Dm644 org.openshot.OpenShot.mime.xml /app/share/mime/packages/org.openshot.OpenShot.xml
+      - install -Dm644 org.openshot.OpenShot.png /app/share/icons/hicolor/512x512/apps/org.openshot.OpenShot.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v1/appimage-tools-appimage-tools-v1-fd-25.08-x86_64.tar.xz
+        sha256: fdbaf3b8dfa1e9705c644dafeb25b6afcd7890af36ae23744e58130beb48396b
+        size: 54752
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openshot.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenShot/openshot-qt/releases/download/v4.0.0/OpenShot-v4.0.0-x86_64.AppImage
+        sha256: 277b27aae97080a1dae8831be8c6d2c576377292f559fb1b94675f6db24aa70f
+        size: 254457024
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openshot-wrapper
+      - type: file
+        path: org.openshot.OpenShot.desktop
+      - type: file
+        path: org.openshot.OpenShot.metainfo.xml
+      - type: file
+        path: org.openshot.OpenShot.mime.xml
+      - type: file
+        path: org.openshot.OpenShot.png
