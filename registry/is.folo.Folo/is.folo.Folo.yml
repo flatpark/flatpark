@@ -51,7 +51,7 @@ modules:
       - install -Dm755 folo-wrapper /app/bin/folo
       - install -Dm644 is.folo.Folo.desktop /app/share/applications/is.folo.Folo.desktop
       - install -Dm644 is.folo.Folo.metainfo.xml /app/share/metainfo/is.folo.Folo.metainfo.xml
-      - install -Dm644 is.folo.Folo.png /app/share/icons/hicolor/512x512/apps/is.folo.Folo.png
+      - install -Dm644 is.folo.Folo.svg /app/share/icons/hicolor/scalable/apps/is.folo.Folo.svg
     sources:
       # Extract-an-AppImage-offline stack: appimage-offset prints the appended
       # SquashFS byte offset, unsquashfs unpacks from it — no libfuse. Fetched
@@ -85,4 +85,4 @@ modules:
       - type: file
         path: is.folo.Folo.metainfo.xml
       - type: file
-        path: is.folo.Folo.png
+        path: is.folo.Folo.svg
