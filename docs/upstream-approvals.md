@@ -46,6 +46,7 @@ that PR link in the table — the PR itself is the evidence.
 | MeatShell | `io.github.yituorou.meatshell` | [yituorou/meatshell#394 (comment)](https://github.com/yituorou/meatshell/issues/394#issuecomment-5449122203) — yituorou, MeatShell's author and repo owner, answered the FlatPark listing + docs offer with "可以的，非常感谢你的贡献" | 2026-08-28 |
 | OpenTubeX | `org.opentubex.OpenTubeX` | Approved by construction — submitted and maintained by its own developer ([flatpark#275](https://github.com/flatpark/flatpark/pull/275)) | 2026-08 |
 | Fastpotify | `rocks.fastpotify.Fastpotify` | [crmne/fastpotify#8 (comment)](https://github.com/crmne/fastpotify/issues/8#issuecomment-5451805007) — Carmine Paolino, Fastpotify's author: "Yes please, mark it developer-approved."; upstream pointed the download page and README at FlatPark alongside the AUR ([34cff32](https://github.com/crmne/fastpotify/commit/34cff32)) | 2026-08-28 |
+| Folo | `is.folo.Folo` | [RSSNext/Folo#5078 (comment)](https://github.com/RSSNext/Folo/pull/5078#issuecomment-5490405454) — DIYgod, Folo's founder, merged the FlatPark contributor's `.deb`-build PR and replied "感谢 pr~ 请随意上架 flatpark" | 2026-09-01 |
 
 ## Not approved
 
