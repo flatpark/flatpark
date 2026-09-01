@@ -7,4 +7,8 @@ export CHROME_DESKTOP="${FLATPAK_ID}.desktop"
 export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
 unset ELECTRON_RUN_AS_NODE
 
+# The Deno runtime OpenTubeX shells out to for yt-dlp lives in /app/extra
+# (staged there by apply_extra), not /app/bin, so put it on PATH.
+export PATH="/app/extra:${PATH}"
+
 exec zypak-wrapper /app/extra/opentubex/opentubex --ozone-platform-hint=auto "$@"

@@ -23,3 +23,21 @@ bsdtar --no-same-owner -xf "$archive" -C stage
 
 mv stage opentubex
 rm -f "$archive"
+
+# Deno runtime (yt-dlp's JS engine), shipped as extra-data for the same reason
+# as the app payload: a built-in module would bake its ~130 MB binary into the
+# OSTree commit and R2. The official zip holds a single `deno` executable; stage
+# it at a stable path that opentubex-wrapper adds to PATH.
+deno_zip=""
+for candidate in deno-*.zip; do
+    [ -f "$candidate" ] || continue
+    [ -z "$deno_zip" ] || { echo "multiple Deno archives found" >&2; exit 1; }
+    deno_zip="$candidate"
+done
+[ -n "$deno_zip" ] || { echo "missing Deno extra-data archive" >&2; exit 1; }
+
+rm -f deno
+bsdtar --no-same-owner -xf "$deno_zip"
+[ -f deno ] || { echo "deno binary not found in archive" >&2; exit 1; }
+chmod 0755 deno
+rm -f "$deno_zip"

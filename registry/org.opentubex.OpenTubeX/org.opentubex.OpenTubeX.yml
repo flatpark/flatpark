@@ -31,24 +31,6 @@ finish-args:
   # history stay in the app's data directory. File and directory pickers use
   # the desktop portal.
 modules:
-  # yt-dlp uses Deno for YouTube's JavaScript challenges. OpenTubeX can manage
-  # yt-dlp itself, while this module supplies the runtime it calls.
-  - name: deno
-    buildsystem: simple
-    build-commands:
-      - install -Dm755 deno /app/bin/deno
-    sources:
-      - type: archive
-        only-arches:
-          - x86_64
-        url: https://github.com/denoland/deno/releases/download/v2.9.5/deno-x86_64-unknown-linux-gnu.zip
-        sha256: 8b010a3b1a4a0188a67cdb8a7a27348b2a501af78aec7fc74f2ace167368d530
-      - type: archive
-        only-arches:
-          - aarch64
-        url: https://github.com/denoland/deno/releases/download/v2.9.5/deno-aarch64-unknown-linux-gnu.zip
-        sha256: 6b7cae3a8fc4385a59dea3146fcb8bad7fea4230e0ad36a8c692afacbc254be0
-
   - name: opentubex
     buildsystem: simple
     build-commands:
@@ -58,6 +40,27 @@ modules:
       - install -Dm644 org.opentubex.OpenTubeX.metainfo.xml /app/share/metainfo/org.opentubex.OpenTubeX.metainfo.xml
       - install -Dm644 org.opentubex.OpenTubeX.svg /app/share/icons/hicolor/scalable/apps/org.opentubex.OpenTubeX.svg
     sources:
+      # Deno runtime that OpenTubeX's yt-dlp calls for YouTube's JS challenges.
+      # extra-data, NOT a built-in module: staged as a plain `type: archive` the
+      # ~130 MB uncompressed binary lands in the OSTree commit and is synced to
+      # R2. apply_extra unpacks the zip (a single `deno` executable) next to the
+      # app payload and opentubex-wrapper puts /app/extra on PATH. Pinned by
+      # hand - the resolver only tracks the OpenTubeX release - and kept OUTSIDE
+      # the managed block, which update-pins.mjs rebuilds from resolver output.
+      - type: extra-data
+        filename: deno-x86_64.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/denoland/deno/releases/download/v2.9.5/deno-x86_64-unknown-linux-gnu.zip
+        sha256: 8b010a3b1a4a0188a67cdb8a7a27348b2a501af78aec7fc74f2ace167368d530
+        size: 41638854
+      - type: extra-data
+        filename: deno-aarch64.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/denoland/deno/releases/download/v2.9.5/deno-aarch64-unknown-linux-gnu.zip
+        sha256: 6b7cae3a8fc4385a59dea3146fcb8bad7fea4230e0ad36a8c692afacbc254be0
+        size: 39902077
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: opentubex-x86_64.zip
