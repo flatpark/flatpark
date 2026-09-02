@@ -72,9 +72,9 @@ modules:
         filename: folo.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.12.0/Folo-1.12.0-linux-x64.AppImage
-        sha256: ac7e6b5ac90d0efb1eddb3b6f1d333ba191d6c423f32d60304d742f8454ff7b2
-        size: 148922944
+        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.13.0/Folo-1.13.0-linux-x64.AppImage
+        sha256: 0d552d7a1550ae9dc2a17cc698c94269671fb3cbe6f263b76a810b6698dbbc72
+        size: 148926080
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
