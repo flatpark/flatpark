@@ -1,20 +1,26 @@
 #!/bin/sh
 set -eu
 
-# Folo is an Electron app staged by apply_extra to /app/extra/folo. Run it
-# through zypak-wrapper (from org.electronjs.Electron2.BaseApp): zypak redirects
-# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
-# sandbox rather than running with --no-sandbox. --ozone-platform-hint=auto lets
-# Chromium pick Wayland when available and fall back to X11.
+# Folo is an Electron app staged by apply_extra to /app/extra/folo from the
+# upstream electron-builder .deb. Run it through zypak-wrapper (from
+# org.electronjs.Electron2.BaseApp): zypak redirects Chromium's SUID sandbox
+# onto the Flatpak sandbox, so the app keeps an internal sandbox rather than
+# running with --no-sandbox. --ozone-platform-hint=auto lets Chromium pick
+# Wayland when available and fall back to X11.
 #
-# LD_LIBRARY_PATH: the AppImage's usr/lib holds the tray libraries
-# (libappindicator.so.1 and friends) that Electron's Tray dlopens; the AppImage's
-# own AppRun puts that directory on the path and so must this wrapper.
+# No LD_LIBRARY_PATH: the .deb bundles no tray libraries, and the tray stack
+# Electron's Tray dlopens (libappindicator3 + libdbusmenu) comes from the
+# Electron base app's /app/lib.
 #
 # Defensively clear ELECTRON_RUN_AS_NODE so a value leaked from the launching
 # environment (a terminal inside VS Code / another Electron app) cannot make the
 # binary start as plain Node instead of the GUI.
-export LD_LIBRARY_PATH="/app/extra/folo/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 unset ELECTRON_RUN_AS_NODE
 
-exec zypak-wrapper /app/extra/folo/folo --ozone-platform-hint=auto "$@"
+# apply_extra resolves the launcher's upstream name (electron-builder names it
+# after productName, "Folo") from the .deb's own /usr/bin symlink and records it
+# next to the app tree, so an upstream rename cannot break an automated pin
+# refresh.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=Folo
+exec zypak-wrapper "/app/extra/folo/$launcher" --ozone-platform-hint=auto "$@"

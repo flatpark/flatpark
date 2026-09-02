@@ -14,12 +14,12 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # Electron (Chromium) client. Folo ships its Linux build only as an AppImage;
-  # this repackages that unmodified (extracted at install time, not rebuilt).
-  # The AppImage bundles Chromium, its own ffmpeg/ANGLE/SwiftShader and the
-  # app.asar; the GTK3, NSS, CUPS, ATK, X11 and libsecret stacks it links come
-  # from the runtime (org.freedesktop.Platform 25.08 ships them — verified
-  # against the binary's NEEDED set, 0 missing).
+  # Electron (Chromium) client. Folo ships its Linux build as an
+  # electron-builder .deb; this repackages that unmodified (the app tree
+  # unpacked at install time, not rebuilt). The .deb bundles Chromium, its own
+  # ffmpeg/ANGLE/SwiftShader and the app.asar; the GTK3, NSS, CUPS, ATK, X11 and
+  # libsecret stacks it links come from the runtime (org.freedesktop.Platform
+  # 25.08 ships them — verified against the binary's NEEDED set, 0 missing).
   - --share=ipc
   # Folo is an RSS reader — fetching feeds and talking to the Folo sync service
   # is the whole app.
@@ -30,8 +30,8 @@ finish-args:
   - --device=dri
   # New-item and sync notifications.
   - --talk-name=org.freedesktop.Notifications
-  # Folo's system tray icon (Electron Tray + libappindicator, bundled in the
-  # AppImage's usr/lib and put on LD_LIBRARY_PATH by the wrapper).
+  # Folo's system tray icon (Electron Tray + libappindicator3, from the Electron
+  # base app's /app/lib — the .deb bundles no tray libraries).
   - --talk-name=org.kde.StatusNotifierWatcher
   # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
   # zypak's spawned zygote children, which the wrapper's own `unset` cannot
@@ -53,28 +53,14 @@ modules:
       - install -Dm644 is.folo.Folo.metainfo.xml /app/share/metainfo/is.folo.Folo.metainfo.xml
       - install -Dm644 is.folo.Folo.svg /app/share/icons/hicolor/scalable/apps/is.folo.Folo.svg
     sources:
-      # Extract-an-AppImage-offline stack: appimage-offset prints the appended
-      # SquashFS byte offset, unsquashfs unpacks from it — no libfuse. Fetched
-      # next to the AppImage into /app/extra rather than staged at /app/bin,
-      # because a system-wide install runs apply_extra in a sandbox that binds
-      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
-      # reproduces this). OUTSIDE the managed block: update-pins.mjs rebuilds
-      # that block from the resolver output and would drop anything else in it.
-      - type: extra-data
-        filename: appimage-tools.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v1/appimage-tools-appimage-tools-v1-fd-25.08-x86_64.tar.xz
-        sha256: fdbaf3b8dfa1e9705c644dafeb25b6afcd7890af36ae23744e58130beb48396b
-        size: 54752
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: folo.AppImage
+        filename: folo.deb
         only-arches:
           - x86_64
-        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.13.0/Folo-1.13.0-linux-x64.AppImage
-        sha256: 0d552d7a1550ae9dc2a17cc698c94269671fb3cbe6f263b76a810b6698dbbc72
-        size: 148926080
+        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.13.0/Folo-1.13.0-linux-x64.deb
+        sha256: 2e093644037a2b4aca8c85b617084e5e3e39b8889ed87eac2588f3f12f7845b6
+        size: 109775538
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

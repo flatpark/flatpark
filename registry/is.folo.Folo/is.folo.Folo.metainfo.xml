@@ -13,7 +13,7 @@
   <url type="bugtracker">https://github.com/RSSNext/Folo/issues</url>
   <url type="vcs-browser">https://github.com/RSSNext/Folo</url>
   <description>
-    <p>This is a community package of Folo, maintained independently and unaffiliated with the Folo project. It repackages the official upstream AppImage unmodified — extracted at install time, not rebuilt — and follows upstream releases automatically.</p>
+    <p>This is a community package of Folo, maintained independently and unaffiliated with the Folo project. It repackages the official upstream .deb unmodified — the app tree unpacked at install time, not rebuilt — and follows upstream releases automatically.</p>
     <p>Folo is an open-source feed reader that brings articles, social posts, pictures, videos and podcasts into a single timeline. It syncs through the Folo service, so subscriptions and read state follow you across devices.</p>
     <ul>
       <li>Subscribe to RSS and Atom feeds, and organise them into views for articles, social media, pictures, videos and audio.</li>
