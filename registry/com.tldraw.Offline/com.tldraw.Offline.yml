@@ -62,9 +62,9 @@ modules:
         filename: tldraw-offline.deb
         only-arches:
           - x86_64
-        url: https://github.com/tldraw/tldraw-offline/releases/download/v1.15.0/tldraw-offline-linux-amd64.deb
-        sha256: 29a43a1e59d6bcb9937f628504c012cb80eb046b96df5a583e17f23114357bfb
-        size: 120428908
+        url: https://github.com/tldraw/tldraw-offline/releases/download/v1.16.0/tldraw-offline-linux-amd64.deb
+        sha256: f2c770930a69b25e91b276aeae99e79c16cf5a4ecaa4992cfe12429d81f3636c
+        size: 113770468
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

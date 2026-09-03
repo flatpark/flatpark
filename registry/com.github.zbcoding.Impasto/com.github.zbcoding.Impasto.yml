@@ -38,9 +38,9 @@ modules:
         filename: impasto.zip
         only-arches:
           - x86_64
-        url: https://github.com/zbcoding/ImpastoPaint/releases/download/v0.1.1/Impasto-linux-dotnet-10.0.x.zip
-        sha256: 38f815627d1d1850a8c6d49ee7c702724ff584dce39b9c5692fcf99e0d0f556d
-        size: 41006418
+        url: https://github.com/zbcoding/ImpastoPaint/releases/download/v0.2.0/Impasto-linux-dotnet-10.0.x.zip
+        sha256: 704cef13a402e09d1d3cd6d717bd9cf58658a31b500014bce3eed2b06f62c4ee
+        size: 40990708
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
