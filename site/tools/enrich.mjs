@@ -412,6 +412,13 @@ function describePermission(arg) {
       return base('filesystem.other', `Files: ${value}`, 'caution', 'Filesystem');
     }
     case 'talk-name':
+      // Flatpak's own portal-adjacent bus name is narrow in scope but lets the
+      // app run `flatpak-spawn --host`, i.e. execute commands outside the
+      // sandbox — worth a step above the blanket 'info' every other talk-name
+      // gets.
+      if (value === 'org.freedesktop.Flatpak' || value.startsWith('org.freedesktop.Flatpak.')) {
+        return base('talk_name.flatpak', `Talk to ${value}`, 'caution', 'Services', 'Can run commands on the host via flatpak-spawn');
+      }
       return base('talk_name', `Talk to ${value}`, 'info', 'Services');
     case 'system-talk-name':
       return base('system_talk_name', `System service: ${value}`, 'caution', 'Services');

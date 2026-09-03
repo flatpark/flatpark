@@ -157,6 +157,8 @@
   "perm.filesystem.home": "Home folder",
   "perm.filesystem.other": "Files: {value}",
   "perm.talk_name": "Talk to {value}",
+  "perm.talk_name.flatpak": "Talk to {value}",
+  "perm.talk_name.flatpak.detail": "Can run commands on the host via flatpak-spawn",
   "perm.system_talk_name": "System service: {value}",
   "perm.own_name": "Owns service {value}",
   "perm.persist": "Persistent storage: {value}",

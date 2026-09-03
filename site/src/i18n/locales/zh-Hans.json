@@ -157,6 +157,8 @@
   "perm.filesystem.home": "主目录",
   "perm.filesystem.other": "文件：{value}",
   "perm.talk_name": "与 {value} 通信",
+  "perm.talk_name.flatpak": "与 {value} 通信",
+  "perm.talk_name.flatpak.detail": "可通过 flatpak-spawn 在主机上执行命令",
   "perm.system_talk_name": "系统服务：{value}",
   "perm.own_name": "占用服务名 {value}",
   "perm.persist": "持久化存储：{value}",
