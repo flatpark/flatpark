@@ -145,9 +145,9 @@ modules:
         filename: bottles.tar.zst
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/bottles-release/releases/download/v66.7/bottles-66.7-x86_64.tar.zst
-        sha256: 7b19c8bc80b9a9e0453882969c111a05d5041506e442f276fb2b71438e1bb823
-        size: 113479697
+        url: https://github.com/flatpark/bottles-release/releases/download/v67.2/bottles-67.2-x86_64.tar.zst
+        sha256: 5144516c6987f29f92597e07118f63af8a916920ea4b5291c88a5f525603fff2
+        size: 113772576
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

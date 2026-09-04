@@ -72,6 +72,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="67.2" date="2026-09-04">
+      <url>https://github.com/bottlesdevs/Bottles/releases/tag/67.2</url>
+    </release>
     <release version="66.7" date="2026-08-16">
       <url>https://github.com/bottlesdevs/Bottles/releases/tag/66.7</url>
     </release>
