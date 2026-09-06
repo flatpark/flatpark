@@ -39,9 +39,9 @@ modules:
         filename: mqtt-viewer.deb
         only-arches:
           - x86_64
-        url: https://github.com/mqtt-viewer/mqtt-viewer/releases/download/v1.0.0/MQTT_Viewer_v1.0.0_linux_amd64.deb
-        sha256: 1e7be95a2bf507b93a0ddc7ac57e32869983b6a4dfc3317f82619847d7b61cb8
-        size: 9718308
+        url: https://github.com/mqtt-viewer/mqtt-viewer/releases/download/v1.1.0/MQTT_Viewer_v1.1.0_linux_amd64.deb
+        sha256: e76b2c0a80b9a52388deed5e63eef513ca3cbf3dc4e1a46f14c436675134de22
+        size: 10190046
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
