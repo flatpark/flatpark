@@ -55,6 +55,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.9.8" date="2026-09-07">
+      <description></description>
+    </release>
     <release version="3.9.7" date="2026-08-03">
       <url>https://github.com/AnInsomniacy/motrix-next/releases/tag/v3.9.7</url>
     </release>
