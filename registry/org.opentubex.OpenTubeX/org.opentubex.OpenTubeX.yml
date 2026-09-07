@@ -9,27 +9,18 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
+  - --device=dri
   - --share=ipc
-  - --share=network
   - --socket=wayland
   - --socket=fallback-x11
-  - --device=dri
   - --socket=pulseaudio
-  # Chromium's Media Session integration owns a per-process MPRIS name. The
-  # fixed name is kept for compatibility with OpenTubeX's existing package.
-  - --own-name=org.mpris.MediaPlayer2.chromium.*
-  - --own-name=org.mpris.MediaPlayer2.opentubex
+  - --share=network
   - --own-name=org.mpris.MediaPlayer2.opentubex.*
-  # Electron's powerSaveBlocker prevents display sleep while video is playing.
   - --talk-name=org.freedesktop.PowerManagement
   - --talk-name=org.freedesktop.ScreenSaver
   - --talk-name=org.gnome.SessionManager
-  # Chromium's legacy GNOME media-key integration uses this service name.
   - --talk-name=org.gnome.SettingsDaemon
   - --unset-env=ELECTRON_RUN_AS_NODE
-  # No host filesystem grant. Settings, profiles, subscriptions, playlists and
-  # history stay in the app's data directory. File and directory pickers use
-  # the desktop portal.
 modules:
   - name: opentubex
     buildsystem: simple
@@ -66,16 +57,16 @@ modules:
         filename: opentubex-x86_64.zip
         only-arches:
           - x86_64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.33.0-beta/opentubex-0.33.0-beta-linux-x64-portable.zip
-        sha256: f8f529a444482ca635fc8293d96c44a4077d85502bd16218dd92bded43a07781
-        size: 125138010
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.34.0-beta/opentubex-0.34.0-beta-linux-x64-portable.zip
+        sha256: 3aae4ae0b6cf5d5e9ee20af83da3332ae8a4e633db90022c0072954d2b8505d9
+        size: 125348055
       - type: extra-data
         filename: opentubex-aarch64.zip
         only-arches:
           - aarch64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.33.0-beta/opentubex-0.33.0-beta-linux-arm64-portable.zip
-        sha256: 7e1d6cabb10f2163ddbb12a865ec782c9e30a12518161fa204b93f342d3dbed3
-        size: 123412886
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.34.0-beta/opentubex-0.34.0-beta-linux-arm64-portable.zip
+        sha256: fb49ebd6a17424848fd440e86b692ae5ec752ac5602c63478a445b64caafe6a3
+        size: 123622934
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
