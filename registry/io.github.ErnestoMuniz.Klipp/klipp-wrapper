@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# Klipp binary staged by apply_extra at /app/extra/bin. All libraries it
+# links come from org.freedesktop.Platform (PulseAudio client, xkbcommon,
+# xcb); GPU rendering goes through the Freedesktop Mesa stack.
+
+exec /app/extra/bin/klipp "$@"

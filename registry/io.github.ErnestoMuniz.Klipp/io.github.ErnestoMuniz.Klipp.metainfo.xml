@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ErnestoMuniz.Klipp</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Klipp</name>
+  <summary>Desktop soundboard with quick overlay</summary>
+  <summary xml:lang="pt-BR">Soundboard para desktop com seletor rápido</summary>
+  <description>
+    <p>
+      A desktop soundboard for Linux. Import your own clips, organize them in
+      one place, and fire them anywhere through a quick overlay — without
+      interrupting what you are doing.
+    </p>
+    <p xml:lang="pt-BR">
+      Um soundboard para desktop no Linux. Importe seus próprios clips,
+      organize tudo em um lugar e dispare de qualquer lugar através de um
+      seletor rápido — sem interromper o que você está fazendo.
+    </p>
+    <ul>
+      <li>Sound library with search, favorites and per-clip emoji</li>
+      <li>Quick overlay on a global shortcut (default Alt+Shift+S)</li>
+      <li>Virtual microphone routing via pactl (PipeWire/PulseAudio)</li>
+      <li>Browse and import sounds from myinstants.com</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.ErnestoMuniz.Klipp.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Klipp sound library</caption>
+      <image>https://raw.githubusercontent.com/ErnestoMuniz/klipp/master/assets/klipp_demo.webp</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/ErnestoMuniz/klipp</url>
+  <url type="bugtracker">https://github.com/ErnestoMuniz/klipp/issues</url>
+  <developer>
+    <name>Ernesto Muniz</name>
+  </developer>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.1.0" date="2026-09-06">
+      <description>
+        <p>Initial Rust + GPUI rewrite as Flatpak.</p>
+      </description>
+    </release>
+  </releases>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Utility</category>
+  </categories>
+  <provides>
+    <binary>klipp</binary>
+  </provides>
+</component>

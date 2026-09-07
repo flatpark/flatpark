@@ -1,0 +1,56 @@
+id: io.github.ErnestoMuniz.Klipp
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: klipp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Klipp is a native Rust soundboard: import clips, fire them anywhere
+  # through a global-shortcut overlay, optionally route them through a
+  # virtual microphone (PipeWire/PulseAudio graph via pactl).
+  # Network for browsing/previewing/downloading myinstants.com sounds.
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Playback plus the pactl-driven virtual-mic graph.
+  - --socket=pulseaudio
+  # GPU-accelerated UI (wgpu).
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+  # Global shortcut (press-and-hold opens the overlay, release confirms).
+  - --talk-name=org.freedesktop.portal.GlobalShortcuts
+  # Tray icon (StatusNotifierItem over D-Bus; closing the window keeps the
+  # app running, click reopens it).
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: klipp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 klipp-wrapper /app/bin/klipp
+      - install -Dm644 io.github.ErnestoMuniz.Klipp.desktop /app/share/applications/io.github.ErnestoMuniz.Klipp.desktop
+      - install -Dm644 io.github.ErnestoMuniz.Klipp.metainfo.xml /app/share/metainfo/io.github.ErnestoMuniz.Klipp.metainfo.xml
+      - install -Dm644 io.github.ErnestoMuniz.Klipp.png /app/share/icons/hicolor/256x256/apps/io.github.ErnestoMuniz.Klipp.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: klipp-0.1.0-linux-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/ErnestoMuniz/klipp/releases/download/v0.1.0/klipp-0.1.0-linux-x86_64.tar.gz
+        sha256: 379e0a267c1eb0b6a33bfd07b7f1249910ee569d6b8a6b2520c8b9b9838a1a37
+        size: 25059577
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: klipp-wrapper
+      - type: file
+        path: io.github.ErnestoMuniz.Klipp.desktop
+      - type: file
+        path: io.github.ErnestoMuniz.Klipp.metainfo.xml
+      - type: file
+        path: io.github.ErnestoMuniz.Klipp.png

@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Klipp
+GenericName=Soundboard
+Comment=Desktop soundboard with quick overlay and virtual microphone
+Comment[pt_BR]=Soundboard para desktop com seletor rápido e microfone virtual
+Exec=klipp
+Icon=io.github.ErnestoMuniz.Klipp
+Type=Application
+Categories=AudioVideo;Audio;
+Keywords=soundboard;sound;audio;overlay;
+Keywords[pt_BR]=soundboard;som;áudio;overlay;
+StartupWMClass=io.github.ErnestoMuniz.Klipp
+SingleMainWindow=true
+Terminal=false
+PrefersNonDefaultGPU=false

@@ -1,0 +1,23 @@
+id: io.github.ErnestoMuniz.Klipp
+name: Klipp
+summary: Desktop soundboard with quick overlay and virtual microphone
+website: https://github.com/ErnestoMuniz/klipp
+source_url: https://github.com/ErnestoMuniz/klipp
+build:
+  manifest: io.github.ErnestoMuniz.Klipp.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Soundboard
+    - Audio
+    - Overlay
+    - Microphone
+    - Sound effects
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
