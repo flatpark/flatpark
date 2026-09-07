@@ -4,6 +4,7 @@
 // ordered, small) — an axis independent of the upstream-approved shield, which
 // accumulates while the pick must not. Renders nothing when the list is empty.
 import { getLangFromUrl, localizePath, useTranslations, sectionLabel } from '../i18n';
+import CarouselArrows from './CarouselArrows.astro';
 const { apps } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -22,27 +23,32 @@ const featured = (apps ?? [])
       <span class="text-xs font-semibold text-muted" data-fcount>{t('featured.count', { n: featured.length })}</span>
     </div>
 
-    {featured.map((app, i) => (
-      <div class={i === 0 ? '' : 'hidden'} data-fslide>
-        {app.screenshots?.[0]?.url && (
-          <a href={localizePath(`/apps/${app.id}/`, lang)} class="block h-64 overflow-hidden bg-[#0d0e12]">
-            <img src={app.screenshots[0].url} alt="" loading="lazy" class="h-full w-full object-cover" />
-          </a>
-        )}
-        <div class="flex items-center gap-3 p-4">
-          {app.icon && <img src={app.icon} alt="" width="46" height="46" class="h-[46px] w-[46px] shrink-0 rounded-xl border border-line bg-canvas object-contain p-1.5" />}
-          <div class="min-w-0">
-            <a href={localizePath(`/apps/${app.id}/`, lang)} class="block truncate text-base font-extrabold hover:text-brand">{app.name}</a>
-            <div class="truncate text-xs text-muted">{sectionLabel(lang, app.section) || app.category}{app.upstreamApproved ? t('featured.approved') : ''}</div>
+    <div class="relative overflow-hidden" data-carousel-viewport>
+      {featured.map((app, i) => (
+        <div class={i === 0 ? '' : 'hidden'} data-fslide>
+          {app.screenshots?.[0]?.url && (
+            <a href={localizePath(`/apps/${app.id}/`, lang)} class="block h-64 overflow-hidden bg-[#0d0e12]">
+              <img src={app.screenshots[0].url} alt="" loading="lazy" class="h-full w-full object-cover" />
+            </a>
+          )}
+          <div class="flex items-center gap-3 p-4">
+            {app.icon && <img src={app.icon} alt="" width="46" height="46" class="h-[46px] w-[46px] shrink-0 rounded-xl border border-line bg-canvas object-contain p-1.5" />}
+            <div class="min-w-0">
+              <a href={localizePath(`/apps/${app.id}/`, lang)} class="block truncate text-base font-extrabold hover:text-brand">{app.name}</a>
+              <div class="truncate text-xs text-muted">{sectionLabel(lang, app.section) || app.category}{app.upstreamApproved ? t('featured.approved') : ''}</div>
+            </div>
           </div>
         </div>
-      </div>
-    ))}
+      ))}
+      {featured.length > 1 && <CarouselArrows />}
+    </div>
 
     {featured.length > 1 && (
       <div class="flex justify-center gap-1.5 pb-4" data-fdots>
         {featured.map((_, i) => (
-          <span class={`h-1.5 rounded-full transition-all ${i === 0 ? 'w-4 bg-brand' : 'w-1.5 bg-line'}`} data-fdot></span>
+          <button type="button" class="relative flex h-1.5 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand" aria-label={featured[i].name} aria-pressed={i === 0 ? 'true' : 'false'} data-fdot>
+            <span class={`h-1.5 rounded-full transition-all ${i === 0 ? 'w-4 bg-brand' : 'w-1.5 bg-line'}`}></span>
+          </button>
         ))}
       </div>
     )}

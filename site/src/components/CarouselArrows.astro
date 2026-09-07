@@ -1,0 +1,53 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n';
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<div class="pointer-events-none absolute inset-0 z-10 flex items-center justify-between px-1" data-carousel-arrows>
+  {[-1, 1].map((step) => (
+    <button
+      type="button"
+      data-carousel-step={step}
+      aria-label={t(step === -1 ? 'carousel.previous' : 'carousel.next')}
+      class="group pointer-events-auto flex h-11 w-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    >
+      <span class="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface/90 text-ink shadow-sm transition-colors group-hover:bg-surface group-hover:text-brand group-active:bg-canvas">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d={step === -1 ? 'm15 18-6-6 6-6' : 'm9 18 6-6-6-6'} />
+        </svg>
+      </span>
+    </button>
+  ))}
+</div>
+
+<script>
+  for (const arrows of document.querySelectorAll('[data-carousel-arrows]')) {
+    const carousel = arrows.closest<HTMLElement>('[data-fcarousel], [data-carousel]');
+    if (!carousel) continue;
+    let hideTimer: ReturnType<typeof setTimeout>;
+    const reveal = () => {
+      clearTimeout(hideTimer);
+      carousel.dataset.carouselArrowsVisible = '';
+    };
+    const scheduleHide = () => {
+      reveal();
+      hideTimer = setTimeout(() => delete carousel.dataset.carouselArrowsVisible, 2000);
+    };
+    const release = () => {
+      if (!carousel.hasAttribute('data-carousel-interacting')) return;
+      delete carousel.dataset.carouselInteracting;
+      scheduleHide();
+    };
+    carousel.addEventListener('pointerdown', () => {
+      carousel.dataset.carouselInteracting = '';
+      reveal();
+    });
+    carousel.addEventListener('pointerenter', scheduleHide);
+    carousel.addEventListener('pointerleave', scheduleHide);
+    carousel.addEventListener('focusout', scheduleHide);
+    window.addEventListener('pointerup', release);
+    window.addEventListener('pointercancel', release);
+    window.addEventListener('blur', release);
+    scheduleHide();
+  }
+</script>

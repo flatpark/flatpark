@@ -1,5 +1,72 @@
 @import "tailwindcss";
 
+[data-swipe] {
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  cursor: grab;
+}
+
+[data-swipe].is-dragging {
+  cursor: grabbing;
+}
+
+[data-fcarousel] [data-swipe],
+[data-fcarousel] [data-swipe] a {
+  cursor: pointer;
+}
+
+[data-fcarousel] [data-swipe].is-dragging,
+[data-fcarousel] [data-swipe].is-dragging a {
+  cursor: grabbing;
+}
+
+.swipe-neighbor {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+/* Expand the click area without changing the compact dot layout. */
+[data-fdot]::before {
+  content: '';
+  position: absolute;
+  inset-inline: -3px;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
+
+[data-carousel-arrows] button {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+/* Featured screenshots are h-64; exclude the app details from arrow alignment. */
+[data-fcarousel] [data-carousel-arrows] {
+  bottom: auto;
+  height: min(16rem, 100%);
+}
+
+:is([data-fcarousel], [data-carousel]):is(:has(:focus-visible), [data-carousel-arrows-visible]) [data-carousel-arrows] button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: hover) {
+  :is([data-fcarousel], [data-carousel]):hover [data-carousel-arrows] button {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-carousel-arrows] button {
+    transition-duration: 0s;
+  }
+}
+
 /* Self-hosted Inter (variable, latin) — the type identity actually ships now
    instead of silently falling back to system fonts. */
 @font-face {

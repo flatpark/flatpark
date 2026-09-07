@@ -104,6 +104,7 @@ const searchMeta = {
 
     <script>
       import { initSearch } from '../scripts/search.js';
+      import { initSwipe } from '../scripts/swipe.js';
       import { LANG_COOKIE } from '../i18n/negotiate.mjs';
 
       // Strings the script swaps in at runtime, handed over from the server by
@@ -239,28 +240,39 @@ const searchMeta = {
         apply();
       });
 
-      // Featured carousel: rotate slides, update counter/dots. Pauses for
-      // prefers-reduced-motion (no auto-advance), arrows/dots still work.
-      for (const car of document.querySelectorAll('[data-fcarousel]')) {
-        const slides = Array.from(car.querySelectorAll('[data-fslide]'));
+      // Featured carousel: stop rotation on interaction or reduced motion.
+      for (const car of document.querySelectorAll<HTMLElement>('[data-fcarousel]')) {
+        const slides = Array.from(car.querySelectorAll<HTMLElement>('[data-fslide]'));
+        const viewport = car.querySelector<HTMLElement>('[data-carousel-viewport]');
         const dots = Array.from(car.querySelectorAll('[data-fdot]'));
         const counter = car.querySelector('[data-fcount]');
-        if (slides.length > 1) {
+        if (slides.length > 1 && viewport) {
           let cur = 0;
           const show = (i) => {
+            swipe.reset();
             cur = (i + slides.length) % slides.length;
             slides.forEach((s, n) => s.classList.toggle('hidden', n !== cur));
             dots.forEach((d, n) => {
-              d.classList.toggle('w-4', n === cur);
-              d.classList.toggle('bg-brand', n === cur);
-              d.classList.toggle('w-1.5', n !== cur);
-              d.classList.toggle('bg-line', n !== cur);
+              d.setAttribute('aria-pressed', String(n === cur));
+              const indicator = d.firstElementChild;
+              indicator?.classList.toggle('w-4', n === cur);
+              indicator?.classList.toggle('bg-brand', n === cur);
+              indicator?.classList.toggle('w-1.5', n !== cur);
+              indicator?.classList.toggle('bg-line', n !== cur);
             });
             if (counter) counter.textContent = `${cur + 1} / ${slides.length}`;
           };
-          dots.forEach((d, n) => d.addEventListener('click', () => show(n)));
+          const swipe = initSwipe(viewport, () => slides, show);
+          for (const button of car.querySelectorAll<HTMLElement>('[data-carousel-step]')) {
+            button.addEventListener('click', () => swipe.move(Number(button.dataset.carouselStep)));
+          }
+          dots.forEach((d, n) => d.addEventListener('click', () => swipe.goTo(n)));
           if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            setInterval(() => show(cur + 1), 5000);
+            const timer = setInterval(() => {
+              if (!car.matches(':hover')) swipe.move(1);
+            }, 5000);
+            car.addEventListener('pointerdown', () => clearInterval(timer), { once: true });
+            car.addEventListener('focusin', () => clearInterval(timer), { once: true });
           }
         }
       }
@@ -303,20 +315,28 @@ const searchMeta = {
 
       // Screenshot carousel: one slide at a time, dots below to switch. Drop any
       // slide whose hotlinked image fails so the page never shows a broken icon.
-      for (const carousel of document.querySelectorAll('[data-carousel]')) {
-        let slides = Array.from(carousel.querySelectorAll('[data-slide]'));
+      for (const carousel of document.querySelectorAll<HTMLElement>('[data-carousel]')) {
+        let slides = Array.from(carousel.querySelectorAll<HTMLElement>('[data-slide]'));
+        const viewport = carousel.querySelector<HTMLElement>('[data-carousel-viewport]');
         let dots = Array.from(carousel.querySelectorAll('[data-dot]'));
         const dotsWrap = carousel.querySelector('[data-dots]');
+        const arrows = carousel.querySelector('[data-carousel-arrows]');
         let cur = 0;
+        let resetSwipe = () => {};
         const render = () => {
+          resetSwipe();
           slides.forEach((s, i) => s.classList.toggle('hidden', i !== cur));
           dots.forEach((d, i) => {
             d.classList.toggle('bg-brand', i === cur);
             d.classList.toggle('bg-line', i !== cur);
+            d.setAttribute('aria-pressed', String(i === cur));
           });
           dotsWrap?.classList.toggle('hidden', slides.length <= 1);
+          arrows?.classList.toggle('hidden', slides.length <= 1);
+          if (slides.length <= 1 && viewport) delete viewport.dataset.swipe;
         };
         const drop = (s) => {
+          resetSwipe();
           const i = slides.indexOf(s);
           if (i < 0) return;
           s.remove();
@@ -327,7 +347,17 @@ const searchMeta = {
           if (!slides.length) carousel.remove();
           else render();
         };
-        dots.forEach((d, i) => d.addEventListener('click', () => { cur = i; render(); }));
+        if (slides.length > 1 && viewport) {
+          const swipe = initSwipe(viewport, () => slides, (index) => {
+            cur = index;
+            render();
+          });
+          resetSwipe = swipe.reset;
+          for (const button of carousel.querySelectorAll<HTMLElement>('[data-carousel-step]')) {
+            button.addEventListener('click', () => swipe.move(Number(button.dataset.carouselStep)));
+          }
+          dots.forEach((d) => d.addEventListener('click', () => swipe.goTo(dots.indexOf(d))));
+        }
         slides.forEach((s) => s.querySelector('img')?.addEventListener('error', () => drop(s)));
         render();
       }
@@ -349,12 +379,21 @@ const searchMeta = {
           if (['ArrowDown', 'PageDown', ' '].includes(e.key)) collapse();
           else if (['ArrowUp', 'PageUp', 'Home'].includes(e.key)) expand();
         });
+        let touchX = null;
         let touchY = null;
-        window.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+        window.addEventListener('touchstart', (e) => {
+          touchX = e.touches[0].clientX;
+          touchY = e.touches[0].clientY;
+        }, { passive: true });
         window.addEventListener(
           'touchmove',
           (e) => {
-            if (touchY === null) return;
+            if (touchY === null || touchX === null || e.touches.length !== 1) return;
+            // Horizontal carousel swipes must not fold away the hero.
+            if (e.target instanceof Element && e.target.closest('[data-swipe]')) {
+              const dx = touchX - e.touches[0].clientX;
+              if (Math.abs(dx) >= Math.abs(touchY - e.touches[0].clientY)) return;
+            }
             const dy = touchY - e.touches[0].clientY;
             if (dy > 24) collapse();
             else if (dy < -24) expand();

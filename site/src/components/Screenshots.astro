@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n';
+import CarouselArrows from './CarouselArrows.astro';
 const { screenshots = [] } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -8,7 +9,7 @@ const t = useTranslations(lang);
 {
   screenshots.length > 0 && (
     <div data-carousel class="min-w-0">
-      <div class="relative overflow-hidden rounded-2xl border border-line bg-canvas">
+      <div class="relative overflow-hidden rounded-2xl border border-line bg-canvas" data-carousel-viewport>
         {screenshots.map((s, i) => (
           <figure data-slide class={i === 0 ? '' : 'hidden'}>
             <img
@@ -25,6 +26,7 @@ const t = useTranslations(lang);
             ) : null}
           </figure>
         ))}
+        {screenshots.length > 1 && <CarouselArrows />}
       </div>
       <div data-dots class={`mt-3 flex justify-center gap-2 ${screenshots.length > 1 ? '' : 'hidden'}`}>
         {screenshots.map((_, i) => (
@@ -32,7 +34,7 @@ const t = useTranslations(lang);
             type="button"
             data-dot
             aria-label={t('screenshots.dot', { n: i + 1 })}
-            class={`h-2.5 w-2.5 rounded-full transition ${i === 0 ? 'bg-brand' : 'bg-line'}`}
+            class={`h-2.5 w-2.5 cursor-pointer rounded-full transition ${i === 0 ? 'bg-brand' : 'bg-line'}`}
           />
         ))}
       </div>
