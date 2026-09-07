@@ -48,14 +48,16 @@ export function initSwipe(element, getSlides, onChange) {
    * @param {number} direction
    * @param {HTMLElement} [target]
    */
-  const drag = (dx, direction = dx < 0 ? 1 : -1, target) => {
+  const drag = (dx, direction = preview?.direction ?? (dx < 0 ? 1 : -1), target) => {
     const slides = getSlides();
     const active = preview?.active ?? slides.find((slide) => !slide.classList.contains('hidden'));
     if (!active || slides.length < 2) return;
     const neighbor = target ?? slides[(slides.indexOf(active) + direction + slides.length) % slides.length];
     if (preview?.neighbor !== neighbor) hideNeighbor();
     const width = preview?.width ?? element.clientWidth;
-    dx = Math.max(-width, Math.min(width, dx));
+    // Keep this gesture between its original pair of slides. Reversing past
+    // the starting point returns to the active slide without revealing a third.
+    dx = direction > 0 ? Math.max(-width, Math.min(0, dx)) : Math.max(0, Math.min(width, dx));
     preview = { active, neighbor, width, dx, direction };
     neighbor.classList.add('swipe-neighbor');
     neighbor.classList.remove('hidden');
@@ -152,7 +154,7 @@ export function initSwipe(element, getSlides, onChange) {
     const dx = event.clientX - gesture.x;
     const dy = event.clientY - gesture.y;
     if (gesture.dragging) drag(dx);
-    settle(gesture.dragging && Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy));
+    settle(gesture.dragging && Math.abs(preview?.dx ?? 0) >= 40 && Math.abs(dx) > Math.abs(dy));
   });
   element.addEventListener('pointercancel', (event) => {
     if (event.pointerId === gesture?.id) settle(false);

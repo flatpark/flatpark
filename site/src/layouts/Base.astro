@@ -427,6 +427,7 @@ const searchMeta = {
           }
           if (ok && hint) {
             if (menu) menu.hidden = true; // hint and menu share an anchor
+            root?.querySelector('[data-install-toggle]')?.setAttribute('aria-expanded', 'false');
             hint.hidden = false;
             clearTimeout(hintTimer);
             hintTimer = setTimeout(() => { hint.hidden = true; }, 6000);
@@ -437,8 +438,10 @@ const searchMeta = {
       if (installRoot) {
         const toggle = installRoot.querySelector('[data-install-toggle]');
         const menu = installRoot.querySelector('[data-install-menu]');
+        const hint = installRoot.querySelector('[data-install-hint]');
         toggle?.addEventListener('click', (e) => {
           e.stopPropagation();
+          if (hint) hint.hidden = true;
           const willOpen = menu.hidden;
           menu.hidden = !willOpen;
           toggle.setAttribute('aria-expanded', String(willOpen));

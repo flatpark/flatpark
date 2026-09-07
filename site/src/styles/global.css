@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+[data-more],
+[data-install-copy],
+[data-install-toggle],
+.seg-side {
+  cursor: pointer;
+}
+
 [data-swipe] {
   touch-action: pan-y pinch-zoom;
   user-select: none;
