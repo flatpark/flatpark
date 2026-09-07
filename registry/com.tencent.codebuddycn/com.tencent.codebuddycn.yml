@@ -80,9 +80,9 @@ modules:
         filename: codebuddy-amd64.deb
         only-arches:
           - x86_64
-        url: https://download.codebuddy.cn/aiide/linux-x64/CodeBuddy-linux-x64-4.11.3.37298507-2345dde1-cn.deb
-        sha256: d0770a4563535226daace0a57f39812bc8a23aa758073a06fb77857efea888e8
-        size: 156796096
+        url: https://download.codebuddy.cn/aiide/linux-x64/CodeBuddy-linux-x64-4.12.0.37847260-b4c35ed0-cn.deb
+        sha256: 1d6d88eb13bb04f4953fc3702130f28cd8bb8b0a5688cd5023230ff2cfcdf7f0
+        size: 158765152
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
