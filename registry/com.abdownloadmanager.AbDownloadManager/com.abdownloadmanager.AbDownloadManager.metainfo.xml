@@ -56,6 +56,9 @@
     <binary>abdm</binary>
   </provides>
   <releases>
+    <release version="1.10.3" date="2026-09-08">
+      <description></description>
+    </release>
     <release version="1.10.2" date="2026-08-22">
       <description></description>
     </release>
