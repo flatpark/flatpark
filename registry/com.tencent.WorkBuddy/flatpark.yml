@@ -1,0 +1,22 @@
+id: com.tencent.WorkBuddy
+name: WorkBuddy
+summary: Tencent's AI agent desktop workspace
+website: https://www.workbuddy.cn/
+source_url: https://www.workbuddy.cn/app
+build:
+  manifest: com.tencent.WorkBuddy.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AI
+  tags:
+    - AI
+    - Agents
+    - Office
+    - Productivity
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true

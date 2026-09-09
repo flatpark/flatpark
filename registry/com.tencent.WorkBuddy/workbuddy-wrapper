@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+# WorkBuddy is an Electron app staged by apply_extra to /app/extra/workbuddy.
+# Run it through zypak-wrapper from org.electronjs.Electron2.BaseApp so Chromium
+# keeps its internal sandbox inside Flatpak.
+#
+# Keep this wrapper thin so the upstream application tree stays unmodified:
+# display, credential storage and the Chromium sandbox are handled by
+# portals/zypak and the manifest permissions, and the agent's Node and Python
+# runtimes ship inside the payload, so nothing is forwarded to the host.
+
+unset ELECTRON_RUN_AS_NODE
+
+extra_root=/app/extra
+launcher_file="$extra_root/workbuddy-launcher"
+launcher="workbuddy"
+if [ -r "$launcher_file" ]; then
+  read -r recorded < "$launcher_file" || recorded=""
+  [ -n "$recorded" ] && launcher="$recorded"
+fi
+
+export PATH="/app/bin:$PATH"
+
+# Launch by absolute path and leave the working directory alone: it is inherited
+# by the commands the agent spawns.
+exec zypak-wrapper "$extra_root/workbuddy/$launcher" --ozone-platform-hint=auto "$@"

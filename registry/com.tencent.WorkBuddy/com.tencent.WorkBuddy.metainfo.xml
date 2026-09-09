@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.tencent.WorkBuddy</id>
+  <name>WorkBuddy</name>
+  <summary>Tencent's AI agent desktop workspace</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.workbuddy.cn/</project_license>
+  <developer id="com.tencent">
+    <name>Tencent</name>
+  </developer>
+  <url type="homepage">https://www.workbuddy.cn/</url>
+  <url type="download">https://www.workbuddy.cn/app</url>
+  <url type="help">https://www.workbuddy.cn/docs/workbuddy/Overview</url>
+  <description>
+    <p>This is a community package of WorkBuddy, maintained independently and unaffiliated with Tencent. It repackages the official upstream Linux Debian build unmodified.</p>
+    <p>WorkBuddy is Tencent's AI agent workspace for office work. You describe a task in your own words; it breaks the task down, plans the steps and carries them out on your machine, then hands back a finished artifact rather than a chat reply. Several agents can work in parallel, and it ships its own Node and Python runtimes so its tools run without anything installed on the host.</p>
+    <ul>
+      <li>Draft documents, spreadsheets and slide decks from a description.</li>
+      <li>Pull a dataset apart and return an analysis with charts.</li>
+      <li>Chain several agents across the steps of one longer task.</li>
+      <li>Extend it with skills, connectors and MCP servers from its marketplace.</li>
+    </ul>
+    <p>The interface is Chinese-first and every AI feature requires signing in with a Tencent account; the app itself is free to install.</p>
+    <p>Running shell commands needs one setting changed. WorkBuddy confines the commands its agent runs with a built-in sandbox that is built on Linux user namespaces and mount operations. Flatpak's own sandbox does not permit those to an app inside it, so with the built-in sandbox switched on the agent's command tool cannot start and reports a lost connection. Open Settings, Security Center and turn "Sandbox security" off; commands then run normally, confined by this package's Flatpak permissions instead. Chat, documents and any task that does not shell out work either way.</p>
+    <p>Permissions: this package grants network, display, GPU, audio, notifications, tray and keyring access, plus two directories WorkBuddy hardcodes — <code>~/.workbuddy</code> for its account state, plugins, skills and downloaded runtimes, and <code>~/WorkBuddy</code>, where it creates a workspace per task. It does not grant broad home-directory access, so an agent running with the built-in sandbox off still cannot reach the rest of your files; pick anything else through the file-chooser portal, or widen the grant yourself:</p>
+    <ul>
+      <li>Let the agent work on existing files at their real paths: <code>flatpak override --user --filesystem=home com.tencent.WorkBuddy</code></li>
+      <li>Or scope it to one directory: <code>flatpak override --user --filesystem=xdg-documents com.tencent.WorkBuddy</code></li>
+    </ul>
+    <p>Updates come through Flatpak: this package tracks upstream's own version feed, so a new upstream build arrives with <code>flatpak update</code>.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Office</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>agent</keyword>
+    <keyword>office</keyword>
+    <keyword>automation</keyword>
+    <keyword>assistant</keyword>
+    <keyword>workbuddy</keyword>
+    <keyword>tencent</keyword>
+  </keywords>
+  <branding>
+    <color type="primary">#1f6feb</color>
+  </branding>
+  <recommends>
+    <display_length compare="ge">1024</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>workbuddy</binary>
+    <mediatype>x-scheme-handler/workbuddy</mediatype>
+  </provides>
+  <launchable type="desktop-id">com.tencent.WorkBuddy.desktop</launchable>
+  <releases>
+    <release version="5.5.4.38151288-1ca4889a" date="2026-09-08">
+      <description></description>
+    </release>
+  </releases>
+</component>

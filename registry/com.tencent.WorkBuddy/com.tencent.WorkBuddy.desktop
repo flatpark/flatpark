@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=WorkBuddy
+Comment=AI agent that plans and carries out desktop work
+Comment[zh_CN]=自主规划并执行桌面任务的 AI 智能体
+Exec=workbuddy %U
+Icon=com.tencent.WorkBuddy
+Terminal=false
+Type=Application
+Categories=Office;Utility;
+Keywords=AI;agent;office;automation;workbuddy;tencent;
+StartupWMClass=WorkBuddy
+StartupNotify=true
+MimeType=x-scheme-handler/workbuddy;
