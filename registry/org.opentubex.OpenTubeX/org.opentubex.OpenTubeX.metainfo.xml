@@ -37,27 +37,27 @@
   <screenshots>
     <screenshot type="default">
       <caption>The main OpenTubeX window (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.0-beta/docs/screenshots/OpenTubeX1-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.1-beta/docs/screenshots/OpenTubeX1-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>The main OpenTubeX window (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.0-beta/docs/screenshots/OpenTubeX1-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.1-beta/docs/screenshots/OpenTubeX1-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Watching a video (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.0-beta/docs/screenshots/OpenTubeX2-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.1-beta/docs/screenshots/OpenTubeX2-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Watching a video (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.0-beta/docs/screenshots/OpenTubeX2-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.1-beta/docs/screenshots/OpenTubeX2-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Settings (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.0-beta/docs/screenshots/OpenTubeX3-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.1-beta/docs/screenshots/OpenTubeX3-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Settings (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.0-beta/docs/screenshots/OpenTubeX3-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.34.1-beta/docs/screenshots/OpenTubeX3-light.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1">
@@ -74,6 +74,10 @@
     <display_length compare="ge">360</display_length>
   </requires>
   <releases>
+    <release version="0.34.1-beta" date="2026-09-09">
+      <url type="details">https://github.com/OpenTubeX/OpenTubeX/releases/tag/v0.34.1-beta</url>
+      <description></description>
+    </release>
     <release version="0.34.0-beta" date="2026-09-06">
       <url type="details">https://github.com/OpenTubeX/OpenTubeX/releases/tag/v0.34.0-beta</url>
       <description></description>
