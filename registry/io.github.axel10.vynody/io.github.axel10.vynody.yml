@@ -1,0 +1,75 @@
+id: io.github.axel10.vynody
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: vynody
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter/GTK3 window with GPU rendering; the app is a desktop player, so it
+  # takes both display sockets.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The Rust audio core opens ALSA and PulseAudio directly.
+  - --socket=pulseaudio
+  # Online lyrics (LRCLIB), AcoustID/MusicBrainz tag completion and song
+  # recognition, the configured AI provider, and the Navidrome / WebDAV / SMB
+  # remote libraries. The LAN share feature also serves over the local network.
+  - --share=network
+  # The media library scanner reads local audio files. Only the XDG music
+  # directory is granted; a library that lives elsewhere is an opt-in override
+  # documented in the metainfo. Anything picked through the file chooser arrives
+  # via the portal and needs no grant at all, and neither does a track opened
+  # from a file manager: the desktop entry takes %F, so Flatpak exports it with
+  # --file-forwarding and hands the file over through the document portal
+  # wherever it lives. It is %F rather than %U because the launcher reads plain
+  # paths from argv.
+  - --filesystem=xdg-music
+  # MPRIS: media keys, the shell's now-playing widget and playerctl. The player
+  # owns one name per instance under its own app-id prefix.
+  - --own-name=org.mpris.MediaPlayer2.io.github.axel10.vynody.*
+  # Tray icon: the bundled Flutter tray plugin speaks StatusNotifierItem over
+  # D-Bus itself (no libayatana-appindicator to supply) and owns a name of its
+  # own to register with the watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.fluttertray.*
+  # Saved credentials for remote libraries and AI providers go to the host
+  # Secret Service through flutter_secure_storage/libsecret.
+  - --talk-name=org.freedesktop.secrets
+  # LAN lyric and music sharing announces and discovers peers over mDNS through
+  # the host's Avahi daemon.
+  - --system-talk-name=org.freedesktop.Avahi
+  # Deliberately withheld: no home or host filesystem access, no notifications,
+  # no device access beyond the GPU.
+modules:
+  - name: vynody
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 vynody-wrapper /app/bin/vynody
+      - install -Dm644 io.github.axel10.vynody.desktop /app/share/applications/io.github.axel10.vynody.desktop
+      - install -Dm644 io.github.axel10.vynody.metainfo.xml /app/share/metainfo/io.github.axel10.vynody.metainfo.xml
+      - install -Dm644 io.github.axel10.vynody.png /app/share/icons/hicolor/512x512/apps/io.github.axel10.vynody.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: vynody-linux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/axel10/vynody/releases/download/2.6.0/vynody-linux-2.6.0.tar.gz
+        sha256: b28ea263d1808cc58a37d1bd162a318737a5a1f6644d44e9a243f203e106eaea
+        size: 25252496
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: vynody-wrapper
+      - type: file
+        path: io.github.axel10.vynody.desktop
+      - type: file
+        path: io.github.axel10.vynody.metainfo.xml
+      - type: file
+        path: io.github.axel10.vynody.png

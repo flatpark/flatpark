@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# The Flutter bundle is relocatable and finds its engine, the Rust audio core
+# and the bundled FFmpeg through the launcher's own RPATH ($ORIGIN/lib), so no
+# LD_LIBRARY_PATH is needed. Flatpak redirects HOME and the XDG directories into
+# the sandbox, so the media-library database, lyric cache and settings land in
+# ~/.var/app/io.github.axel10.vynody. The launcher name is whatever apply_extra
+# found in the official archive.
+extra_root=/app/extra
+launcher="$(cat "$extra_root/vynody-launcher")"
+
+exec "$extra_root/bundle/$launcher" "$@"

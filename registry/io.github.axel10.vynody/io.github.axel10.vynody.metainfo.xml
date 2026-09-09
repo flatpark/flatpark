@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.axel10.vynody</id>
+  <name>Vynody</name>
+  <summary>Local music player with synced lyrics, tag editing and remote libraries</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.axel10">
+    <name>axel10</name>
+  </developer>
+  <url type="homepage">https://axel10.github.io/vynody_site/</url>
+  <url type="bugtracker">https://github.com/axel10/vynody/issues</url>
+  <url type="vcs-browser">https://github.com/axel10/vynody</url>
+  <description>
+    <p>This is a community package of Vynody, maintained independently and unaffiliated with the Vynody project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>Vynody is a cross-platform music player built with Flutter over a native Rust audio core. It is built around your own files: it scans local folders into a media library, plays them, and fills in what the tags are missing.</p>
+    <ul>
+      <li>Local media library with folder scanning, incremental updates on change, and browsing by album, artist and song.</li>
+      <li>Synced lyrics: search and cache from LRCLIB, adjust the timeline by hand, or have a configured AI provider generate and translate them.</li>
+      <li>Tag completion through audio fingerprinting against AcoustID and MusicBrainz, plus a built-in tag editor — useful for libraries assembled from mixed sources.</li>
+      <li>Song recognition from the audio itself.</li>
+      <li>Remote libraries: stream from a Navidrome server or WebDAV storage, where track metadata is read without downloading the whole file first.</li>
+      <li>Lyric and music file sharing with other devices on the same local network.</li>
+      <li>Sleep timer, audio spectrum and waveform views, and cover-art colour extraction.</li>
+    </ul>
+    <p>Permissions: this package grants display, GPU, audio, network access, MPRIS, the StatusNotifier tray, the host Secret Service for saved server and AI-provider credentials, mDNS through Avahi for local-network sharing, and your XDG music directory. The library database, lyric cache, artwork and settings stay inside the sandbox under <code>~/.var/app/io.github.axel10.vynody</code>. No home or host filesystem access is granted.</p>
+    <p>Music kept outside <code>~/Music</code> is the one thing you may need to open up. Files you pick through the file chooser are handed over by the portal and work as they are; a folder added to the library needs a standing grant:</p>
+    <ul>
+      <li>Scan a music library elsewhere: <code>flatpak override --user --filesystem=/path/to/music:ro io.github.axel10.vynody</code></li>
+      <li>Write tags back to files outside the music directory (drop <code>:ro</code>): <code>flatpak override --user --filesystem=/path/to/music io.github.axel10.vynody</code></li>
+      <li>Desktop notifications (not used by default): <code>flatpak override --user --talk-name=org.freedesktop.Notifications io.github.axel10.vynody</code></li>
+      <li>Silence the tray icon and rely on MPRIS only: <code>flatpak override --user --no-talk-name=org.kde.StatusNotifierWatcher io.github.axel10.vynody</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Playback view with cover art</caption>
+      <image>https://raw.githubusercontent.com/axel10/vynody/refs/heads/main/assets/readme/general_playback_pc.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Synced lyrics</caption>
+      <image>https://raw.githubusercontent.com/axel10/vynody/refs/heads/main/assets/readme/general_lyric_pc.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Local library browsed by folder</caption>
+      <image>https://raw.githubusercontent.com/axel10/vynody/refs/heads/main/assets/readme/en/folder_pc.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Album view</caption>
+      <image>https://raw.githubusercontent.com/axel10/vynody/refs/heads/main/assets/readme/en/album_pc.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Streaming from a Navidrome server</caption>
+      <image>https://raw.githubusercontent.com/axel10/vynody/refs/heads/main/assets/readme/en/navidrome_pc.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Sharing lyrics and music over the local network</caption>
+      <image>https://raw.githubusercontent.com/axel10/vynody/refs/heads/main/assets/readme/en/share_pc.jpg</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.axel10.vynody.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+    <category>Music</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>audio</keyword>
+    <keyword>player</keyword>
+    <keyword>lyrics</keyword>
+    <keyword>tags</keyword>
+    <keyword>navidrome</keyword>
+    <keyword>webdav</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>vynody</binary>
+  </provides>
+  <releases>
+    <release version="2.6.0" date="2026-09-09">
+      <description>
+        <p>Local music player with synced lyrics, audio-fingerprint tag completion, Navidrome and WebDAV libraries, and LAN sharing.</p>
+      </description>
+    </release>
+  </releases>
+</component>

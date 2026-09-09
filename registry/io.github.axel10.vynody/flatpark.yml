@@ -1,0 +1,34 @@
+# FlatPark catalog descriptor for Vynody.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; io.github.axel10.vynody.yml is the Flatpak manifest
+# it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: io.github.axel10.vynody
+name: Vynody
+summary: Local music player with synced lyrics, tag editing and remote libraries
+website: https://axel10.github.io/vynody_site/
+source_url: https://github.com/axel10/vynody
+build:
+  manifest: io.github.axel10.vynody.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Music
+    - Audio
+    - Player
+    - Lyrics
+    - Flutter
+    - Navidrome
+    - WebDAV
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
