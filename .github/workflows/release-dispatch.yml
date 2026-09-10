@@ -5,6 +5,12 @@
 # releasing the same day just means several small parallel PRs — no shared
 # branch, no races.
 #
+# The PR is merged here, on the same terms as the daily sweep (see the
+# auto-merge block below): the diff is one app's pins, and that payload was
+# already unpacked with the app's own apply_extra.sh two steps up. Waiting for
+# a human would only mean the app is late — the same bytes land automatically
+# at 06:17 UTC anyway.
+#
 # update-check.yml (the daily full sweep) stays the safety net: it catches
 # releases whose Linux asset was uploaded after the ping, and its supersede
 # step closes any auto/release-* PR still open once the batch covers it.
@@ -19,6 +25,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write        # dispatch publish.yml after the auto-merge
 
 # Serialize per app: a re-ping for the same app (retag, workflow re-run)
 # queues behind the running one instead of racing the force-push. Different
@@ -38,6 +45,14 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+      # update-pins validates upstream's release notes before writing them into
+      # the metainfo, but only if appstreamcli is there — a missing validator
+      # makes that guard a silent no-op. This job writes a <release> entry from
+      # notes we do not control and merges it unattended, so install it.
+      - name: Install appstreamcli
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y appstream
       # Payload values go through env, never inline ${{ }} inside run — the
       # Worker validates them, but they still originate outside this repo.
       - name: Recompute pins for the released app
@@ -67,30 +82,116 @@ jobs:
         env:
           APP_ID: ${{ github.event.client_payload.app_id }}
         run: INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$APP_ID"
-      - name: Open / update PR if pins changed
+      - name: Open / update PR if pins changed, then merge it
         env:
           GH_TOKEN: ${{ github.token }}
           APP_ID: ${{ github.event.client_payload.app_id }}
           TAG: ${{ github.event.client_payload.tag }}
           UPSTREAM: ${{ github.event.client_payload.repo }}
+          # The same kill switch as the daily sweep, deliberately not a second
+          # variable: setting AUTO_MERGE_PINS=false stops both modes at once,
+          # which is what anyone reaching for it wants.
+          AUTO_MERGE: ${{ vars.AUTO_MERGE_PINS }}
         run: |
           if git diff --quiet -- registry/; then
             echo "no pin changes — asset not uploaded yet or already current; daily update-check is the fallback"
             exit 0
           fi
+          # What the resolver actually rewrote, captured before the commit so
+          # this needs no git history (the checkout is shallow). Untracked files
+          # count too — `git add registry/` below would sweep them in.
+          touched="$(git status --porcelain --untracked-files=all -- registry/ | sed 's/^...//')"
           branch="auto/release-$APP_ID"
           git config user.name "flatpark-bot"
           git config user.email "bot@flatpark.org"
           git checkout -B "$branch"
           git add registry/
           git commit -m "chore(update): $APP_ID $TAG (upstream release)"
+          head_sha="$(git rev-parse HEAD)"   # to find the doomed pr-checks run after --delete-branch
           git push -f origin "$branch"
 
           title="Update $APP_ID to $TAG"
-          body="$(printf 'Upstream published release `%s` on `%s` and pinged us via flatpark/publish-action.\n\nPins recomputed for `%s` only; the resolver decides the actual version. Merging triggers a rebuild + publish of this app.' "$TAG" "${UPSTREAM:-?}" "$APP_ID")"
+          body="$(printf 'Upstream published release `%s` on `%s` and pinged us via flatpark/publish-action.\n\nPins recomputed for `%s` only; the resolver decides the actual version. The payload was unpacked with this app'"'"'s `apply_extra.sh` before the PR opened; merging triggers a rebuild + publish of this app.' "$TAG" "${UPSTREAM:-?}" "$APP_ID")"
 
           if [ -z "$(gh pr list --head "$branch" --state open --json number -q '.[].number')" ]; then
             gh pr create --base main --head "$branch" --title "$title" --body "$body"
           else
             gh pr edit "$branch" --title "$title" --body "$body"
+          fi
+          new="$(gh pr list --head "$branch" --state open --json number -q '.[0].number')"
+
+          # Auto-merge, on the daily sweep's terms: nothing here waits for a
+          # review, because the diff is pins only and the payload behind it was
+          # unpacked by "Verify the new payload unpacks" above — that check, not
+          # a human read of a sha256, is what actually catches a bad update.
+          #
+          # Guard: check-updates.sh `eval`s the app's `update.command`, so a
+          # resolver can in principle write anywhere in the tree. A pin refresh
+          # only ever rewrites that app's manifest and the metainfo beside it, so
+          # anything else in the diff means something wrote outside its lane.
+          # Stricter than the sweep's regex on two counts, both free here: the
+          # files must belong to the app that was pinged, and they must carry its
+          # exact names. Every app in the registry is laid out that way today; one
+          # that is not just stays a PR for a human, which is the right failure.
+          stray=""
+          old_ifs="$IFS"; IFS=$'\n'
+          for f in $touched; do
+            case "$f" in
+              "registry/$APP_ID/$APP_ID.yml"|"registry/$APP_ID/$APP_ID.metainfo.xml") ;;
+              *) stray="$stray$f"$'\n' ;;
+            esac
+          done
+          IFS="$old_ifs"
+
+          if [ "${AUTO_MERGE:-true}" = "false" ]; then
+            echo "auto-merge disabled by the AUTO_MERGE_PINS repo variable; leaving #$new open"
+            exit 0
+          fi
+          if [ -n "$stray" ]; then
+            echo "::warning title=auto-merge skipped::diff touches files outside this app's pin surface"
+            printf '%s' "$stray"
+            gh pr comment "$new" --body "$(printf 'Auto-merge skipped — this diff touches files a pin refresh for `%s` never writes:\n\n```\n%s```\n\nA resolver writing anywhere else needs a human look.' "$APP_ID" "$stray")"
+            exit 0
+          fi
+
+          gh pr merge "$new" --squash --delete-branch
+          # A push made with GITHUB_TOKEN never triggers another workflow, so
+          # publish.yml does NOT see this merge. workflow_dispatch is the
+          # documented exception to that rule, so ask for the publish here. It
+          # diffs from the last published sha recorded in R2, not from this push,
+          # so it builds exactly the app this merge changed — and publish's own
+          # `concurrency: publish` queues it behind any run already going, so a
+          # busy release day is several small publishes in a row, not a race.
+          gh workflow run publish.yml --ref main
+          echo "merged #$new and dispatched publish"
+
+          # The `opened` event for #$new queued a pr-checks run against this
+          # branch. --delete-branch above removed the ref it would have checked
+          # out, so that run cannot start a single job — it lands as a red "This
+          # run likely failed because of a workflow file issue" with zero jobs.
+          # Everything in the merged diff was verified above and publish.yml
+          # rebuilds the app, so that run has nothing to add. Wait for it to
+          # appear (the webhook lags the merge) and delete it. Best-effort: a run
+          # that never appears, or a GitHub that learns to skip it, both just
+          # mean nothing to clean up. Needs the actions:write granted at the top.
+          if [ "$(gh pr view "$new" --json state -q .state)" = "MERGED" ]; then
+            rid=""
+            for _ in $(seq 1 15); do
+              rid="$(gh run list --workflow pr-checks.yml --event pull_request \
+                       --limit 20 --json databaseId,headSha \
+                       -q "[.[] | select(.headSha == \"$head_sha\") | .databaseId][0] // empty")"
+              [ -n "$rid" ] && break
+              sleep 6
+            done
+            if [ -n "$rid" ]; then
+              for _ in $(seq 1 15); do
+                [ "$(gh run view "$rid" --json status -q .status 2>/dev/null)" = completed ] && break
+                sleep 6
+              done
+              gh api -X DELETE "repos/$GITHUB_REPOSITORY/actions/runs/$rid" \
+                && echo "deleted the orphaned pr-checks run $rid for #$new" \
+                || echo "could not delete pr-checks run $rid — already gone?"
+            else
+              echo "no orphaned pr-checks run appeared for $branch; nothing to clean"
+            fi
           fi

@@ -8,10 +8,12 @@ Three components, in dependency order:
 
 1. **Dispatch workflow** — `.github/workflows/release-dispatch.yml` fires on
    `repository_dispatch` (type `app-release`), recomputes pins for that one
-   app, and opens a focused PR on `auto/release-<app-id>` — several apps
-   releasing the same day = several small parallel PRs. The daily
-   `update-check.yml` full sweep stays the safety net and supersedes any
-   per-app PR its batch already covers. Already in this repo; works
+   app, opens a focused PR on `auto/release-<app-id>`, and merges it on the
+   same terms as the daily sweep (payload unpacked, diff confined to that
+   app's manifest + metainfo, `AUTO_MERGE_PINS` kill switch) — several apps
+   releasing the same day = several small parallel PRs, each publishing on
+   its own. The daily `update-check.yml` full sweep stays the safety net and
+   supersedes any per-app PR still open. Already in this repo; works
    standalone the moment it's merged.
 2. **Auth bridge Worker** — `workers/release-hook/`, serves
    `hooks.flatpark.org/release`. Validates unauthenticated pings from
@@ -38,7 +40,9 @@ gh api repos/flatpark/flatpark/dispatches \
 Expected: a release-dispatch run appears in Actions, recomputes pins for that
 app only, and exits quietly if nothing moved (e.g. the tag is already pinned).
 When something did move it opens `Update <app-id> to <tag>` from
-`auto/release-<app-id>`. A ping for a release whose Linux asset isn't uploaded
+`auto/release-<app-id>`, squash-merges it and dispatches `publish.yml` for
+that one app; a diff reaching past that app's `<id>.yml` / `<id>.metainfo.xml`
+leaves the PR open with a comment instead. A ping for a release whose Linux asset isn't uploaded
 yet is also a quiet no-op — tomorrow's update-check cron picks it up, and its
 supersede step closes any per-app PR the daily batch already covers.
 
@@ -85,7 +89,8 @@ curl -sS -d '{"app_id":"me.tyrrrz.DiscordChatExporter","tag":"no-such-tag"}' -H 
 
 Optional hardening: a Cloudflare rate-limiting rule on `hooks.flatpark.org`
 (e.g. 10 req/min per IP). Abuse ceiling without it is just extra update-check
-runs; the human-merged PR remains the gate.
+runs against the app's own registered upstream; the apply_extra unpack gate
+and the pin-surface guard, not a human, are what those runs have to clear.
 
 ## C. Action repository
 

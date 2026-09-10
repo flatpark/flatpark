@@ -9,7 +9,10 @@
 //      the request — so a caller can't point us at an arbitrary repo,
 //   3. the tag must actually exist as a release on that repo.
 // Worst case for an abusive caller: they re-trigger the same update check the
-// daily cron runs anyway, whose only output is a PR a human merges.
+// daily cron runs anyway. That check auto-merges its own PR in both modes, so
+// the ceiling is publishing a pin the cron would have published within a day —
+// the bytes still come from the app's registered upstream, and still have to
+// survive the apply_extra unpack gate on our side.
 
 const APP_ID_RE = /^[A-Za-z][A-Za-z0-9_-]*(\.[A-Za-z0-9_-]+){2,}$/; // reverse-DNS flatpak id
 const TAG_RE = /^[A-Za-z0-9][A-Za-z0-9._+-]{0,99}$/;
