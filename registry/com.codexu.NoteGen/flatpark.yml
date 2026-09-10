@@ -1,0 +1,34 @@
+# FlatPark catalog descriptor for NoteGen.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.codexu.NoteGen.yml is the Flatpak manifest it
+# points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.codexu.NoteGen
+name: NoteGen
+summary: Local-first Markdown notes that turn captured records into structured writing with AI
+website: https://notegen.top
+source_url: https://github.com/codexu/note-gen
+build:
+  manifest: com.codexu.NoteGen.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Notes
+    - Markdown
+    - Editor
+    - AI
+    - Knowledge Base
+    - Tauri
+    - Local-first
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

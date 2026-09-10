@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=NoteGen
+Comment=Capture records and organize them into Markdown notes with AI
+Exec=note-gen %U
+Icon=com.codexu.NoteGen
+Terminal=false
+Categories=Office;TextEditor;Utility;
+StartupWMClass=note-gen
+StartupNotify=true
+MimeType=text/markdown;x-scheme-handler/notegen;
+Keywords=notes;markdown;editor;ai;knowledge;notegen;

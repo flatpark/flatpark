@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+# NoteGen is a Tauri (WebKitGTK) app staged by apply_extra under /app/extra/usr;
+# /app/extra/bin/note-gen is a stable symlink to whatever upstream named the
+# launcher in the .deb, and its name is what the window class ends up as.
+# Everything it links against - webkit2gtk-4.1, gtk-3, libsoup-3,
+# libxcb, libfontconfig, openssl - comes from org.gnome.Platform, except
+# libayatana-appindicator, which its tray icon dlopens and which the manifest
+# builds into /app/lib.
+#
+# Notes, the SQLite database, images, attachments and settings go to the XDG
+# data/config directories, which Flatpak points at ~/.var/app/com.codexu.NoteGen.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox. Disabling it is the reliable default for a WebKitGTK app.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/bin/note-gen "$@"

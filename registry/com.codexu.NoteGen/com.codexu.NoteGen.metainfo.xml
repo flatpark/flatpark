@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.codexu.NoteGen</id>
+  <name>NoteGen</name>
+  <summary>Local-first Markdown notes that turn captured records into structured writing with AI</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="top.notegen">
+    <name>codexu</name>
+  </developer>
+  <url type="homepage">https://notegen.top</url>
+  <url type="bugtracker">https://github.com/codexu/note-gen/issues</url>
+  <url type="help">https://notegen.top/en/</url>
+  <url type="vcs-browser">https://github.com/codexu/note-gen</url>
+  <description>
+    <p>This is a community package of NoteGen, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>NoteGen separates capturing from organizing. Save a thought, a voice recording, a screenshot, an image, a link or a file while it is still fresh; later, select the records that belong together and let a model of your choice organize them into a structured Markdown note that you keep editing yourself.</p>
+    <ul>
+      <li>Markdown editor with source and visual modes, tables, task lists, code blocks, math, diagrams, outlines, search and replace, and file history</li>
+      <li>Your notes stay ordinary Markdown files in a workspace you choose, readable by any other editor</li>
+      <li>AI for organizing records, continuing, rewriting or translating text, and asking questions about your own material, using the providers and models you configure with your own keys</li>
+      <li>A searchable knowledge base with vector indexing, hybrid retrieval and reusable prompts</li>
+      <li>A canvas for flowcharts, mind maps, timelines, freehand drawing and charts</li>
+      <li>Optional sync through GitHub, GitLab, Gitee, Gitea, S3-compatible storage or WebDAV, plus local backups</li>
+    </ul>
+    <p>The package is sandboxed: it can reach the network, the microphone and its own data directory, and nothing else. The default workspace, the notes database, images and attachments live under ~/.var/app/com.codexu.NoteGen, and files from elsewhere are opened through the file-chooser portal.</p>
+    <p>A couple of optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Keep the workspace in your own directory, so other tools and your own Git repository can see the Markdown files: <code>flatpak override --user --filesystem=~/Documents/NoteGen:create com.codexu.NoteGen</code> (or name any other directory, or <code>--filesystem=home</code>)</li>
+      <li>Attach files from anywhere by typing a path rather than picking them in the file dialog: <code>flatpak override --user --filesystem=home com.codexu.NoteGen</code></li>
+    </ul>
+    <p>Two things behave differently inside the sandbox: the in-app updater cannot replace the packaged build, so new upstream releases arrive as Flatpak updates instead, and MCP servers or Skills that launch an external command find only the tools that the Flatpak runtime ships.</p>
+  </description>
+  <launchable type="desktop-id">com.codexu.NoteGen.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>notes</keyword>
+    <keyword>markdown</keyword>
+    <keyword>editor</keyword>
+    <keyword>knowledge base</keyword>
+    <keyword>ai</keyword>
+    <keyword>notegen</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>note-gen</binary>
+    <mediatype>text/markdown</mediatype>
+  </provides>
+  <!-- Upstream's own README image, hotlinked rather than rehosted. -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>NoteGen on the desktop</caption>
+      <image>https://s2.loli.net/2025/12/22/jlpEP2c6ogwHhIA.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.36.0" date="2026-08-26" />
+    <release version="0.35.1" date="2026-08-19" />
+    <release version="0.34.1" date="2026-08-06" />
+    <release version="0.34.0" date="2026-08-05" />
+    <release version="0.33.0" date="2026-07-29" />
+    <release version="0.32.1" date="2026-07-21" />
+    <release version="0.32.0" date="2026-07-20" />
+    <release version="0.31.2" date="2026-07-16" />
+    <release version="0.31.1" date="2026-07-13" />
+    <release version="0.31.0" date="2026-07-11" />
+    <release version="0.30.1" date="2026-07-06" />
+    <release version="0.30.0" date="2026-06-22" />
+  </releases>
+</component>

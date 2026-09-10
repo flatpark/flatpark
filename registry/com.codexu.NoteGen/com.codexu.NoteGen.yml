@@ -1,0 +1,82 @@
+id: com.codexu.NoteGen
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: note-gen
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK Markdown notebook. Network is the core of its AI features
+  # (every model call goes to the provider you configure) and of Git/S3/WebDAV
+  # sync; dri gives WebKit hardware-accelerated rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  # X11 as well as Wayland, not fallback-x11: the clipboard plugin the app
+  # builds on opens an X11 display when it initialises, and exits with
+  # DisplayParsingError(DisplayNotSet) if none is set. Outside the sandbox a
+  # Wayland session provides one through XWayland; fallback-x11 withholds it
+  # whenever Wayland is available, so the app never reaches its first window.
+  # The window itself is still Wayland-native. Global shortcuts and window
+  # capture also go through X11.
+  - --socket=x11
+  - --device=dri
+  # Voice recordings are one of the record types the app captures, so it needs
+  # the microphone; the same socket plays audio attachments back.
+  - --socket=pulseaudio
+  # System tray (Tauri tray-icon): the window closes to the tray by default.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # No filesystem grant beyond the app's own data directory. The default
+  # workspace, the SQLite database, images and attachments all live under
+  # ~/.var/app/com.codexu.NoteGen; a workspace anywhere else is opt-in through
+  # `flatpak override` (documented in the metainfo). Files dragged in or opened
+  # from another app go through the file-chooser portal.
+modules:
+  # The Tauri tray-icon dlopen-s libayatana-appindicator at startup and PANICS if
+  # it is missing - and the GNOME runtime does not ship it, so the app cannot
+  # even start without it.
+  # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
+  # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
+  # against org.gnome.Sdk//50; the tag's manifest records the exact sources,
+  # pins and patches. One pinned archive instead of five source builds per app,
+  # and no launchpad.net downloads at build time.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
+        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+  - name: note-gen
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 note-gen-wrapper /app/bin/note-gen
+      - install -Dm644 com.codexu.NoteGen.desktop /app/share/applications/com.codexu.NoteGen.desktop
+      - install -Dm644 com.codexu.NoteGen.metainfo.xml /app/share/metainfo/com.codexu.NoteGen.metainfo.xml
+      - install -Dm644 com.codexu.NoteGen.png /app/share/icons/hicolor/512x512/apps/com.codexu.NoteGen.png
+    sources:
+      # Upstream ships a Linux .deb and .rpm for x86_64 only (plus an AppImage of
+      # the same build); there is no aarch64 Linux artifact to pin.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: note-gen.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/codexu/note-gen/releases/download/note-gen-v0.36.0/NoteGen_0.36.0_amd64.deb
+        sha256: b6a90261dcfc594f43d24550ef10461ff62501f0b3376e6de54c39193fa62aaa
+        size: 30006320
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: note-gen-wrapper
+      - type: file
+        path: com.codexu.NoteGen.desktop
+      - type: file
+        path: com.codexu.NoteGen.metainfo.xml
+      - type: file
+        path: com.codexu.NoteGen.png
