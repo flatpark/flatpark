@@ -2,6 +2,16 @@
 # the ONLY workflow that touches the signing key, R2, and Pages. It builds just
 # the changed apps into the authoritative repo pulled from R2, re-signs, and
 # republishes the repo + site with an atomic cutover.
+#
+# Two scopes, decided up front by scripts/publish-scope.sh: a "full" publish
+# does all of that, while a "site" publish — a push whose diff cannot change a
+# published byte (site/**, config/featured.yml, catalog-only descriptor edits,
+# metainfo/icons) — skips the flatpak toolchain, the signing key, the repo
+# cache and both R2 syncs, and only rebuilds the site and deploys Pages. The
+# R2 pull alone is minutes of rclone over the whole object store, so that half
+# is most of a run. A site publish leaves .published-sha where it was, so the
+# next full publish still diffs from the last commit whose apps are actually
+# live.
 name: publish
 
 on:
@@ -64,14 +74,46 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: site/package-lock.json
-      - name: Install toolchain
+      # Every run needs rclone: even a site publish reads the .published-sha
+      # marker from R2 to know what it is diffing against.
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash
+
+      - name: Decide publish scope
+        id: scope
+        env:
+          DISPATCH: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          # The marker is the last commit whose apps went live, so it is also
+          # the honest base for this decision: if an earlier publish failed,
+          # its registry changes are still in the diff and force a full run.
+          base="$(rclone cat "r2:$R2_BUCKET/.published-sha" 2>/dev/null | tr -d '[:space:]')" || base=""
+          scope=full
+          if [ "$DISPATCH" = "true" ]; then
+            reason="manual dispatch"
+          elif [ -z "$base" ]; then
+            # No marker => cold start or a wiped bucket; the repo has to be rebuilt.
+            reason="no .published-sha in R2"
+          elif ! git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1; then
+            reason="published base $base is not in this history"
+            base=""
+          else
+            scope="$(./scripts/publish-scope.sh "$base" "$GITHUB_SHA")"
+            reason="diff $base..$GITHUB_SHA"
+          fi
+          echo "scope=$scope" >> "$GITHUB_OUTPUT"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "publish scope: $scope ($reason)"
+
+      - name: Install flatpak toolchain
+        if: steps.scope.outputs.scope != 'site'
         run: |
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder ostree
-          curl -fsSL https://rclone.org/install.sh | sudo bash
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
       - name: Import signing subkey (master never reaches CI)
+        if: steps.scope.outputs.scope != 'site'
         env:
           FLATPAK_GPG_PRIVATE_KEY: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
         run: |
@@ -87,6 +129,7 @@ jobs:
       # *.commit) is NOT an alternative: build-update-repo regenerates the
       # merged appstream branch and hard-fails without the full object store.
       - name: Restore repo cache
+        if: steps.scope.outputs.scope != 'site'
         uses: actions/cache@v6
         with:
           path: out/repo
@@ -95,6 +138,7 @@ jobs:
             flatpak-repo-
 
       - name: Reconcile repo with R2 (authoritative base)
+        if: steps.scope.outputs.scope != 'site'
         run: |
           mkdir -p "$REPO_DIR"
           # sync (not copy), so objects pruned from R2 by delist-prune are also
@@ -114,21 +158,23 @@ jobs:
       # later publishes, not just the one after the de-list. Drop those refs here
       # and queue the same keys for a targeted delete in the R2 sync below.
       - name: Drop dangling refs left by a de-list
+        if: steps.scope.outputs.scope != 'site'
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/drop-dangling-refs.sh
 
       - name: Decide which apps to build
         id: apps
+        if: steps.scope.outputs.scope != 'site'
         env:
           REBUILD_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.rebuild_all }}
           BEFORE: ${{ github.event.before }}
+          BASE: ${{ steps.scope.outputs.base }}
         run: |
-          # Diff base: the last successfully PUBLISHED commit, recorded in R2 at
-          # the end of every publish. Diffing from it (not from this push's
-          # BEFORE) means a failed run's apps are picked up by the next one,
-          # and a manual dispatch re-publishes cheaply instead of rebuilding
+          # Diff base: the last successfully PUBLISHED commit, read from R2 by
+          # the scope step above. Diffing from it (not from this push's BEFORE)
+          # means a failed run's apps are picked up by the next one, and a
+          # manual dispatch re-publishes cheaply instead of rebuilding
           # everything. BEFORE stays as the fallback until the marker exists.
-          base=""
-          [ -f "$REPO_DIR/.published-sha" ] && base="$(cat "$REPO_DIR/.published-sha")"
+          base="$BASE"
           git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1 || base="$BEFORE"
           if [ "$REBUILD_ALL" = "true" ]; then
             ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # full rebuild
@@ -152,6 +198,7 @@ jobs:
           done
 
       - name: Re-sign summary + write discovery files
+        if: steps.scope.outputs.scope != 'site'
         run: |
           ./scripts/publish-repo.sh
           while IFS= read -r id; do ./scripts/gen-discovery.sh "$id"; done < <(./scripts/scan-registry.sh --ids)
@@ -173,24 +220,31 @@ jobs:
         run: ./scripts/gen-site.sh $(./scripts/scan-registry.sh --ids | tr '\n' ' ')
 
       - name: Sync repo to R2 (objects first, summary last)
+        if: steps.scope.outputs.scope != 'site'
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/sync-r2.sh
 
       - name: Deploy site to Cloudflare Pages (atomic)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SCOPE: ${{ steps.scope.outputs.scope }}
         run: |
           npx -y wrangler@3 pages deploy "$OUT_DIR/site" \
             --project-name="$CF_PAGES_PROJECT" --branch=main
           echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "- Site: https://flatpark.org" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Repo: https://dl.flatpark.org/flatpark.flatpakrepo" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$SCOPE" = "site" ]; then
+            echo "- Repo: untouched (site-only publish)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Repo: https://dl.flatpark.org/flatpark.flatpakrepo" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       # Everything is live: record this commit as the diff base for the next
       # publish. Written last on purpose — if any step above failed, the marker
       # keeps its old value and the next run rebuilds this push's apps too.
       # Also written locally so the repo cache saved from this job matches R2.
       - name: Record published commit
+        if: steps.scope.outputs.scope != 'site'
         run: |
           printf '%s\n' "$GITHUB_SHA" > "$REPO_DIR/.published-sha"
           printf '%s\n' "$GITHUB_SHA" | rclone rcat "r2:$R2_BUCKET/.published-sha" \
