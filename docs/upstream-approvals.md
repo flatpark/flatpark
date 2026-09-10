@@ -47,6 +47,7 @@ that PR link in the table — the PR itself is the evidence.
 | OpenTubeX | `org.opentubex.OpenTubeX` | Approved by construction — submitted and maintained by its own developer ([flatpark#275](https://github.com/flatpark/flatpark/pull/275)) | 2026-08 |
 | Fastpotify | `rocks.fastpotify.Fastpotify` | [crmne/fastpotify#8 (comment)](https://github.com/crmne/fastpotify/issues/8#issuecomment-5451805007) — Carmine Paolino, Fastpotify's author: "Yes please, mark it developer-approved."; upstream pointed the download page and README at FlatPark alongside the AUR ([34cff32](https://github.com/crmne/fastpotify/commit/34cff32)) | 2026-08-28 |
 | Folo | `is.folo.Folo` | [RSSNext/Folo#5078 (comment)](https://github.com/RSSNext/Folo/pull/5078#issuecomment-5490405454) — DIYgod, Folo's founder, merged the FlatPark contributor's `.deb`-build PR and replied "感谢 pr~ 请随意上架 flatpark" | 2026-09-01 |
+| Vynody | `io.github.axel10.vynody` | [axel10/vynody#23 (comment)](https://github.com/axel10/vynody/issues/23#issuecomment-5611133082) — axel10, Vynody's author and repo owner, answered the FlatPark listing + blue-shield offer with "欢迎发布到flatpak" | 2026-09-10 |
 
 ## Not approved
 

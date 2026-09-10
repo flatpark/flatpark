@@ -18,6 +18,7 @@ build:
   mode: extra-data
 catalog:
   category: AudioVideo
+  upstream_approved: true
   tags:
     - Music
     - Audio
