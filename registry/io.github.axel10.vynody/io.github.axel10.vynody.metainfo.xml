@@ -83,6 +83,9 @@
     <binary>vynody</binary>
   </provides>
   <releases>
+    <release version="2.7.0" date="2026-09-11">
+      <description></description>
+    </release>
     <release version="2.6.0" date="2026-09-09">
       <description>
         <p>Local music player with synced lyrics, audio-fingerprint tag completion, Navidrome and WebDAV libraries, and LAN sharing.</p>

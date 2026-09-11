@@ -71,9 +71,9 @@ modules:
         filename: motrix-next.deb
         only-arches:
           - x86_64
-        url: https://github.com/AnInsomniacy/motrix-next/releases/download/v3.9.8/MotrixNext_3.9.8_amd64.deb
-        sha256: e7e8f5dea95b870894420edfa3b65aa38abeed27703e0dea4297294e2aa8f860
-        size: 29945916
+        url: https://github.com/AnInsomniacy/motrix-next/releases/download/v3.9.9/MotrixNext_3.9.9_amd64.deb
+        sha256: b41d65dc5fdfe8ebacfa981ce184783d7d6fe45c6f674673869b0bc12b55a766
+        size: 30068490
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

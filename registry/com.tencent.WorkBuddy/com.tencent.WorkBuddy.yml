@@ -82,16 +82,16 @@ modules:
         filename: workbuddy-amd64.deb
         only-arches:
           - x86_64
-        url: https://download.codebuddy.cn/workbuddy/saas/linux-x64-deb/WorkBuddy-linux-x64-deb-5.5.4.38151288-1ca4889a.deb
-        sha256: 03d756b259d7086c22098fa077589a032d60948d1de7313473360eefe11e240f
-        size: 429286148
+        url: https://download.codebuddy.cn/workbuddy/saas/linux-x64-deb/WorkBuddy-linux-x64-deb-5.5.6.38337834-5f969292.deb
+        sha256: 2ef1bca217d29d9c2ba988c82079aa6ea0077e9f1ff882c6ab5dd7998bddf721
+        size: 429302312
       - type: extra-data
         filename: workbuddy-arm64.deb
         only-arches:
           - aarch64
-        url: https://download.codebuddy.cn/workbuddy/saas/linux-arm64-deb/WorkBuddy-linux-arm64-deb-5.5.4.38151288-1ca4889a.deb
-        sha256: 9ff81b59e0412a51c04f6dc1189ffd92e4dd1c9b4cc0d0b29b8c711159505c87
-        size: 399928192
+        url: https://download.codebuddy.cn/workbuddy/saas/linux-arm64-deb/WorkBuddy-linux-arm64-deb-5.5.6.38337834-5f969292.deb
+        sha256: 0d68e8813d4ea969aced3fa68124a6023ad756d73e8cb7be4f195ac82d41bb0f
+        size: 400116564
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
