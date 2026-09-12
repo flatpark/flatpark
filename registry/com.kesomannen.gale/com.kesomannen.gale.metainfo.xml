@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.kesomannen.gale</id>
+  <name>Gale</name>
+  <summary>Mod manager for Thunderstore games, with profiles you can import and share</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="com.kesomannen">
+    <name>Kesomannen</name>
+  </developer>
+  <url type="homepage">https://github.com/Kesomannen/gale</url>
+  <url type="bugtracker">https://github.com/Kesomannen/gale/issues</url>
+  <url type="vcs-browser">https://github.com/Kesomannen/gale</url>
+  <description>
+    <p>This is a community package of Gale, maintained independently. It repackages the official upstream Linux build unmodified. Upstream also publishes a Flatpak of their own, from their own repository at kesomannen.com; this package is an alternative way to get the same build, not a replacement for it, and it uses the same application ID.</p>
+    <p>Gale is a mod manager for the games hosted on Thunderstore. It keeps each set of mods in a profile, so you can switch between a modded and a clean install, keep separate profiles per playthrough, and hand one to a friend as a code or an .r2z file.</p>
+    <ul>
+      <li>Browse and install mods from Thunderstore, with dependencies resolved for you</li>
+      <li>Profiles you can import, export, duplicate and sync, including profiles exported from r2modman</li>
+      <li>Per-profile mod configuration edited in the app, and one-click updates for outdated mods</li>
+      <li>Launch a modded game straight from Gale, including Proton titles</li>
+      <li>Install from a Thunderstore page through its "Install with Mod Manager" button</li>
+    </ul>
+    <p>The package is sandboxed. It is granted the Steam directories it has to write mods into, and the ability to start Steam on the host; everything else - profiles, the mod cache, the database and settings - lives under ~/.var/app/com.kesomannen.gale.</p>
+    <p>Some setups need one more grant; add the ones that apply with "flatpak override":</p>
+    <ul>
+      <li>A Steam library on another drive or in a non-default location: <code>flatpak override --user --filesystem=/mnt/games/SteamLibrary com.kesomannen.gale</code> (name the library folder itself)</li>
+      <li>Importing your existing r2modman or Thunderstore Mod Manager profiles, which live in your host config directory: <code>flatpak override --user --filesystem=~/.config/r2modmanPlus-local:ro com.kesomannen.gale</code></li>
+      <li>A non-Steam game directory you point Gale at: <code>flatpak override --user --filesystem=/path/to/the/game com.kesomannen.gale</code></li>
+    </ul>
+    <p>One thing behaves differently inside the sandbox: the in-app updater cannot replace the packaged build, so new upstream releases arrive as Flatpak updates instead. Gale detects that it is running in a Flatpak and hides the update button by itself.</p>
+  </description>
+  <launchable type="desktop-id">com.kesomannen.gale.desktop</launchable>
+  <categories>
+    <category>Game</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>mods</keyword>
+    <keyword>modding</keyword>
+    <keyword>thunderstore</keyword>
+    <keyword>bepinex</keyword>
+    <keyword>steam</keyword>
+    <keyword>gale</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>gale</binary>
+    <mediatype>application/x-r2z</mediatype>
+  </provides>
+  <!-- Upstream's own README screenshots, hotlinked rather than rehosted. -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browsing Thunderstore mods in a profile</caption>
+      <image>https://raw.githubusercontent.com/Kesomannen/gale/master/images/screenshots/screenshot1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Managing the mods installed in a profile</caption>
+      <image>https://raw.githubusercontent.com/Kesomannen/gale/master/images/screenshots/screenshot2.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing a mod's configuration</caption>
+      <image>https://raw.githubusercontent.com/Kesomannen/gale/master/images/screenshots/screenshot3.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.22.2" date="2026-08-25">
+      <description></description>
+    </release>
+    <release version="1.22.1" date="2026-08-24" />
+    <release version="1.22.0" date="2026-08-23" />
+    <release version="1.21.0" date="2026-08-18" />
+    <release version="1.20.0" date="2026-08-07" />
+    <release version="1.19.2" date="2026-07-31" />
+    <release version="1.19.1" date="2026-07-27" />
+    <release version="1.19.0" date="2026-07-20" />
+    <release version="1.18.0" date="2026-07-13" />
+    <release version="1.17.0" date="2026-06-26" />
+    <release version="1.16.1" date="2026-06-22" />
+    <release version="1.16.0" date="2026-06-22" />
+  </releases>
+</component>

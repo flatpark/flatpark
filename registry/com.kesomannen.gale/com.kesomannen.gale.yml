@@ -1,0 +1,79 @@
+id: com.kesomannen.gale
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: gale
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK mod manager. Network is what it is for - the Thunderstore
+  # package index, mod downloads and profile sharing; dri gives WebKit
+  # hardware-accelerated rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  # X11 as well as Wayland, not fallback-x11. Copying a profile code or a mod
+  # link to the clipboard goes through arboard, which uses the Wayland
+  # data-control protocol when the compositor offers it to a sandboxed client
+  # and otherwise falls back to the X11 clipboard - and fallback-x11 withholds
+  # the X11 socket precisely when a Wayland session is present, leaving neither
+  # path available. The window itself is still Wayland-native.
+  - --socket=x11
+  - --device=dri
+  # Steam libraries, where the games and their mods live. Gale installs mod
+  # files into the game directory and, for Proton titles, edits the wine
+  # registry under steamapps/compatdata, so these are read-write. The three
+  # paths cover a distribution Steam package, the default native library and a
+  # Flatpak Steam; a library on another drive is opt-in through
+  # `flatpak override` (documented in the metainfo).
+  - --filesystem=~/.steam
+  - --filesystem=~/.local/share/Steam
+  - --filesystem=~/.var/app/com.valvesoftware.Steam
+  # Launching a modded game. Gale checks the `container` environment variable
+  # Flatpak sets, and when it finds it, runs Steam's own launcher through
+  # `flatpak-spawn --host` instead of trying to exec it inside the sandbox -
+  # Steam is not in here, and a game has to start on the host to see the GPU,
+  # the controller and the rest of the Steam client. That host hand-off is what
+  # this bus name buys, and it is the one broad permission in this manifest:
+  # anything Gale passes to flatpak-spawn runs outside the sandbox. It is
+  # declared in flatpark.yml under policy.dangerous_permissions.
+  - --talk-name=org.freedesktop.Flatpak
+  # No other filesystem grant. Profiles, the mod cache, the database and
+  # settings live under ~/.var/app/com.kesomannen.gale, and a profile .r2z you
+  # import or export from elsewhere goes through the file-chooser portal.
+modules:
+  - name: gale
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gale-wrapper /app/bin/gale
+      - install -Dm644 com.kesomannen.gale.desktop /app/share/applications/com.kesomannen.gale.desktop
+      - install -Dm644 com.kesomannen.gale.metainfo.xml /app/share/metainfo/com.kesomannen.gale.metainfo.xml
+      - install -Dm644 com.kesomannen.gale.xml /app/share/mime/packages/com.kesomannen.gale.xml
+      - install -Dm644 com.kesomannen.gale.png /app/share/icons/hicolor/512x512/apps/com.kesomannen.gale.png
+    sources:
+      # Upstream ships a Linux .deb and .rpm for x86_64 only (plus an AppImage of
+      # the same build, each with a minisign .sig); there is no aarch64 Linux
+      # artifact to pin.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gale.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Kesomannen/gale/releases/download/1.22.2/Gale_1.22.2_amd64.deb
+        sha256: d5400bf817ec913a7c9e410c1ba9c467c347b17b7221df017b8869688a81b454
+        size: 9400218
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gale-wrapper
+      - type: file
+        path: com.kesomannen.gale.desktop
+      - type: file
+        path: com.kesomannen.gale.metainfo.xml
+      - type: file
+        path: com.kesomannen.gale.xml
+      - type: file
+        path: com.kesomannen.gale.png

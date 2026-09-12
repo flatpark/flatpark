@@ -1,0 +1,33 @@
+# FlatPark catalog descriptor for Gale.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.kesomannen.gale.yml is the Flatpak manifest it
+# points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.kesomannen.gale
+name: Gale
+summary: Mod manager for Thunderstore games, with profiles you can import and share
+website: https://github.com/Kesomannen/gale
+source_url: https://github.com/Kesomannen/gale
+build:
+  manifest: com.kesomannen.gale.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  tags:
+    - Games
+    - Mods
+    - Thunderstore
+    - Steam
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --talk-name=org.freedesktop.Flatpak

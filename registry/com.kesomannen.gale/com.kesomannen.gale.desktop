@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Gale
+Comment=Install and manage Thunderstore mods for your games
+Exec=gale %U
+Icon=com.kesomannen.gale
+Terminal=false
+Categories=Game;Utility;
+StartupWMClass=gale
+StartupNotify=true
+MimeType=application/x-r2z;x-scheme-handler/ror2mm;x-scheme-handler/gale;
+Keywords=mods;modding;thunderstore;bepinex;steam;gale;

@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+# Gale is a Tauri (WebKitGTK) app staged by apply_extra under /app/extra/usr;
+# /app/extra/bin/gale is a stable symlink to whatever upstream named the launcher
+# in the .deb, and its name is what the window class ends up as. Everything it
+# links against - webkit2gtk-4.1, gtk-3, libsoup-3, cairo, gdk-pixbuf,
+# fontconfig, dbus, lzma - comes from org.gnome.Platform.
+#
+# Profiles, the mod cache, the SQLite database and settings go to the XDG
+# data/config directories, which Flatpak points at
+# ~/.var/app/com.kesomannen.gale. Mods themselves are written into the game
+# directory inside your Steam library, which the manifest grants access to.
+#
+# Gale detects that it is running in a Flatpak from the `container` environment
+# variable Flatpak sets, and then launches games through `flatpak-spawn --host`
+# by itself - nothing here has to arrange that.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox. Disabling it is the reliable default for a WebKitGTK app.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/bin/gale "$@"

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mirrors the shared-mime-info package the upstream .deb installs as
+  usr/share/mime/packages/gale.xml. It has to be shipped at build time rather
+  than taken from the payload, because Flatpak exports MIME packages when the
+  app is built and the .deb only arrives later as extra-data.
+-->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-r2z">
+    <comment>r2modman profile zip</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.r2z"/>
+    <icon name="com.kesomannen.gale"/>
+  </mime-type>
+</mime-info>
