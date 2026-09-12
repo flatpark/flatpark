@@ -1,0 +1,64 @@
+id: dev.openpencil.OpenPencil
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: openpencil
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK design editor. Network carries the optional AI providers you
+  # configure with your own key, the WebRTC peer-to-peer collaboration sessions
+  # and the release check; dri gives WebKit hardware-accelerated rendering of the
+  # canvas.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  # X11 as well as Wayland, not fallback-x11. Copying and pasting nodes between
+  # OpenPencil and another app goes through arboard, which uses the Wayland
+  # data-control protocol when the compositor offers it to a sandboxed client
+  # and otherwise falls back to the X11 clipboard - and fallback-x11 withholds
+  # the X11 socket precisely when a Wayland session is present, leaving neither
+  # path available. The window itself is still Wayland-native.
+  - --socket=x11
+  - --device=dri
+  # Provider API keys are stored through the Secret Service (the app links
+  # against keyring), which lives on the session bus outside the sandbox.
+  - --talk-name=org.freedesktop.secrets
+  # No filesystem grant. Design documents are opened and saved through the
+  # file-chooser portal, which hands the app just the file you picked; the
+  # editor's own state and settings live under
+  # ~/.var/app/dev.openpencil.OpenPencil. Broader access is opt-in through
+  # `flatpak override` (documented in the metainfo).
+modules:
+  - name: openpencil
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openpencil-wrapper /app/bin/openpencil
+      - install -Dm644 dev.openpencil.OpenPencil.desktop /app/share/applications/dev.openpencil.OpenPencil.desktop
+      - install -Dm644 dev.openpencil.OpenPencil.metainfo.xml /app/share/metainfo/dev.openpencil.OpenPencil.metainfo.xml
+      - install -Dm644 dev.openpencil.OpenPencil.png /app/share/icons/hicolor/512x512/apps/dev.openpencil.OpenPencil.png
+    sources:
+      # Upstream ships a Linux .deb and .rpm for x86_64 only (plus an AppImage
+      # and a .app tarball of the same build); there is no aarch64 Linux
+      # artifact to pin.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openpencil.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/open-pencil/open-pencil/releases/download/v0.14.0/OpenPencil_0.14.0_amd64.deb
+        sha256: 4b39ae06b118058f85fab3bb9dff5471df3946e125e2322f7aaf9a46d6053353
+        size: 16358296
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openpencil-wrapper
+      - type: file
+        path: dev.openpencil.OpenPencil.desktop
+      - type: file
+        path: dev.openpencil.OpenPencil.metainfo.xml
+      - type: file
+        path: dev.openpencil.OpenPencil.png

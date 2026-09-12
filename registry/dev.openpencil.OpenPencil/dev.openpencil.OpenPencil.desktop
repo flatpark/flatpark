@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=OpenPencil
+Comment=Open-source design editor for .fig and .pen documents
+Exec=openpencil %U
+Icon=dev.openpencil.OpenPencil
+Terminal=false
+Categories=Graphics;VectorGraphics;Development;
+StartupWMClass=openpencil
+StartupNotify=true
+MimeType=application/x-pencil-pen;application/x-figma;
+Keywords=design;figma;fig;vector;ui;ux;prototype;editor;openpencil;

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.openpencil.OpenPencil</id>
+  <name>OpenPencil</name>
+  <summary>Open-source design editor that reads and writes native Figma .fig files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="dev.openpencil">
+    <name>Danila Poyarkov</name>
+  </developer>
+  <url type="homepage">https://openpencil.dev</url>
+  <url type="bugtracker">https://github.com/open-pencil/open-pencil/issues</url>
+  <url type="help">https://openpencil.dev</url>
+  <url type="vcs-browser">https://github.com/open-pencil/open-pencil</url>
+  <description>
+    <p>This is a community package of OpenPencil, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>OpenPencil is a design editor built around an open document model. It opens and saves native Figma <code>.fig</code> files as well as its own <code>.pen</code> documents, so a design can move between tools without an export step, and the same engine runs on the desktop and in the browser.</p>
+    <ul>
+      <li>Vector and frame editing with components, variants and component sets, and local assets inserted as instances</li>
+      <li>Auto layout and CSS Grid through Yoga, with gap, padding, alignment and track sizing</li>
+      <li>Real-time collaboration peer-to-peer over WebRTC - cursors, presence and follow mode, with no server and no account</li>
+      <li>An optional AI assistant that creates and edits nodes through the editor's own tools, using the provider and key you configure (OpenRouter, Anthropic, OpenAI, Google AI and other compatible endpoints)</li>
+      <li>Linting for naming, layout and accessibility, colour and typography analysis, and design-token extraction</li>
+      <li>Export of a selection to JSX/Tailwind, and a headless Vue SDK for embedding the editor elsewhere</li>
+    </ul>
+    <p>The package is sandboxed: it can reach the network, your keyring and its own data directory, and nothing else. Design files are opened and saved through the file-chooser portal, which hands the app only the file you pick, so no blanket access to your home directory is granted.</p>
+    <p>Two optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Work on a whole project directory - autosave, file watching and companion assets - without picking each file in a dialog: <code>flatpak override --user --filesystem=~/Documents/Design dev.openpencil.OpenPencil</code> (or name any other directory, or <code>--filesystem=home</code>)</li>
+      <li>Use the GPU for canvas rendering on a discrete card that needs a different device node than the default one: <code>flatpak override --user --device=all dev.openpencil.OpenPencil</code></li>
+    </ul>
+    <p>Two things behave differently inside the sandbox: the in-app updater cannot replace the packaged build, so new upstream releases arrive as Flatpak updates instead, and the desktop agent integrations and MCP server that launch an external command find only the tools the Flatpak runtime ships, not the ones installed on your host.</p>
+  </description>
+  <launchable type="desktop-id">dev.openpencil.OpenPencil.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>VectorGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>design</keyword>
+    <keyword>figma</keyword>
+    <keyword>vector</keyword>
+    <keyword>ui</keyword>
+    <keyword>prototype</keyword>
+    <keyword>openpencil</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>openpencil</binary>
+    <mediatype>application/x-figma</mediatype>
+    <mediatype>application/x-pencil-pen</mediatype>
+  </provides>
+  <!-- Upstream's own README screenshot, hotlinked rather than rehosted. -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing a document in OpenPencil</caption>
+      <image>https://raw.githubusercontent.com/open-pencil/open-pencil/master/packages/docs/public/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.14.0" date="2026-08-11">
+      <description></description>
+    </release>
+    <release version="0.13.2" date="2026-05-30" />
+    <release version="0.13.1" date="2026-05-29" />
+    <release version="0.13.0" date="2026-05-29" />
+    <release version="0.12.2" date="2026-05-19" />
+    <release version="0.12.1" date="2026-05-19" />
+    <release version="0.12.0" date="2026-05-18" />
+    <release version="0.11.8" date="2026-04-23" />
+    <release version="0.11.7" date="2026-04-22" />
+    <release version="0.11.6" date="2026-04-08" />
+    <release version="0.11.5" date="2026-04-08" />
+    <release version="0.11.4" date="2026-04-08" />
+    <release version="0.11.3" date="2026-04-08" />
+  </releases>
+</component>
