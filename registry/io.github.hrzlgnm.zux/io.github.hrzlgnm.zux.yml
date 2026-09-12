@@ -38,8 +38,8 @@ modules:
         filename: zux_linux_x64
         only-arches:
           - x86_64
-        url: https://github.com/hrzlgnm/zux/releases/download/v1.13.0/zux_linux_x64
-        sha256: 69f27401c1640dcfc029ac23f2cff432d1c04e45cdf9ea788a629e3ef9920dc2
+        url: https://github.com/hrzlgnm/zux/releases/download/v1.14.0/zux_linux_x64
+        sha256: e974a2398418e553cbc9165422008fc0e667be89403a92301e96bd52366e9116
         size: 7047720
       # END MANAGED EXTRA-DATA
       - type: file
