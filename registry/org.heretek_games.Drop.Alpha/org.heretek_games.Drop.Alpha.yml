@@ -1,0 +1,67 @@
+id: org.heretek_games.Drop.Alpha
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: drop-desktop-client-alpha
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display & Audio
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=dri
+  # Gamepad and controller input
+  - --device=all
+  # System tray (Tauri tray-icon)
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Allow sub-sandboxing and launching host tools/emulators on SteamOS / Deck
+  - --talk-name=org.freedesktop.Flatpak
+  # Game directories & host discovery
+  - --filesystem=host:ro
+  - --filesystem=xdg-documents:create
+  - --filesystem=~/Games:create
+modules:
+  # Tauri tray-icon dlopens libayatana-appindicator at startup and panics if missing.
+  # Prebuilt ayatana stack (libdbusmenu, ayatana-ido, libayatana-indicator, libayatana-appindicator)
+  # from https://github.com/flatpark/prebuilt built against org.gnome.Sdk//50.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
+        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+  - name: drop-alpha
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 drop-wrapper /app/bin/drop-desktop-client-alpha
+      - install -Dm644 org.heretek_games.Drop.Alpha.desktop /app/share/applications/org.heretek_games.Drop.Alpha.desktop
+      - install -Dm644 org.heretek_games.Drop.Alpha.metainfo.xml /app/share/metainfo/org.heretek_games.Drop.Alpha.metainfo.xml
+      - install -Dm644 org.heretek_games.Drop.Alpha.png /app/share/icons/hicolor/512x512/apps/org.heretek_games.Drop.Alpha.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: drop-alpha.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Heretek-Games/drop/releases/download/v0.4.0/Drop.Desktop.Client_0.4.0_amd64.deb
+        sha256: 8ef9349144c49102a2fe6fa9d292b4ec99c6667ead28ec6f03ea4d1a603ccb7a
+        size: 16390562
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: drop-wrapper
+      - type: file
+        path: org.heretek_games.Drop.Alpha.desktop
+      - type: file
+        path: org.heretek_games.Drop.Alpha.metainfo.xml
+      - type: file
+        path: org.heretek_games.Drop.Alpha.png

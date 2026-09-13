@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.heretek_games.Drop.Alpha</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Drop Alpha</name>
+  <summary>Self-hosted game distribution platform client (Alpha Preview)</summary>
+  <description>
+    <p>
+      Drop Alpha provides pre-release builds of the Drop game distribution and multiplayer platform.
+      Test cutting-edge features, new launch integrations, and community updates ahead of general release.
+    </p>
+  </description>
+  <launchable type="desktop-id">org.heretek_games.Drop.Alpha.desktop</launchable>
+  <url type="homepage">https://github.com/Heretek-Games/drop</url>
+  <url type="bugtracker">https://github.com/Heretek-Games/drop/issues</url>
+  <developer id="org.heretek_games">
+    <name>Heretek Games</name>
+  </developer>
+  <provides>
+    <binary>drop-desktop-client-alpha</binary>
+  </provides>
+  <releases>
+    <release version="0.4.0-alpha.1.initial" date="2026-09-12"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>
