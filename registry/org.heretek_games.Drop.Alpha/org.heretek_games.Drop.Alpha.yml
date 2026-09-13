@@ -51,9 +51,9 @@ modules:
         filename: drop-alpha.deb
         only-arches:
           - x86_64
-        url: https://github.com/Heretek-Games/drop/releases/download/v0.4.0/Drop.Desktop.Client_0.4.0_amd64.deb
-        sha256: 8ef9349144c49102a2fe6fa9d292b4ec99c6667ead28ec6f03ea4d1a603ccb7a
-        size: 16390562
+        url: https://github.com/Heretek-Games/drop/releases/download/alpha/Drop.Desktop.Client_0.4.0-alpha.1.33fbc34_amd64.deb
+        sha256: 7491873ba67305239bc1a9cf13bd0eecab2e426f66b1a530788a40ce624f266a
+        size: 16712114
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -21,7 +21,7 @@
     <binary>drop-desktop-client-alpha</binary>
   </provides>
   <releases>
-    <release version="0.4.0-alpha.1.initial" date="2026-09-12"/>
+    <release version="0.4.0-alpha.1.33fbc34" date="2026-09-13"/>
   </releases>
   <content_rating type="oars-1.1"/>
 </component>
