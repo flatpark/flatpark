@@ -32,20 +32,6 @@ finish-args:
   # ~/.local/share (glib user_data_dir), which is per-app sandboxed storage —
   # no grant needed.
 modules:
-  # GSettings schema compiled at build time. The schema ships inside the
-  # versioned upstream tarball (install-time extra-data, so it cannot be
-  # compiled from there); this copy is the vendor's own file from the v2.3.2
-  # tag, byte-identical to the tarball's, and must be refreshed if upstream
-  # ever changes its keys.
-  - name: grab-gsettings
-    buildsystem: simple
-    build-commands:
-      - install -Dm644 io.github.houssemko.Grab.gschema.xml /app/share/glib-2.0/schemas/io.github.houssemko.Grab.gschema.xml
-      - glib-compile-schemas /app/share/glib-2.0/schemas
-    sources:
-      - type: file
-        path: io.github.houssemko.Grab.gschema.xml
-
   - name: grab
     buildsystem: simple
     build-commands:

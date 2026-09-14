@@ -9,6 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Network
+  upstream_approved: true
   tags:
     - Download
     - Network
