@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.houssemko.Grab</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Grab</name>
+  <summary>A GNOME download manager with pause, resume and history</summary>
+  <description>
+    <p>
+      Queue, pause, resume and monitor file downloads with smart
+      auto-resume, in a native GNOME interface.
+    </p>
+    <p>A few optional capabilities are not granted by default; enable the ones you
+       need with "flatpak override":</p>
+    <ul>
+      <li>Save downloads to a custom folder outside Downloads: <code>flatpak override --user --filesystem=/path/to/folder io.github.houssemko.Grab</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.houssemko.Grab.desktop</launchable>
+  <developer id="io.github.houssemko">
+    <name>Grab Contributors</name>
+  </developer>
+  <url type="homepage">https://github.com/houssemko/Grab</url>
+  <url type="bugtracker">https://github.com/houssemko/Grab/issues</url>
+  <categories>
+    <category>Network</category>
+    <category>Utility</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Empty state with a New Download shortcut</caption>
+      <image>https://raw.githubusercontent.com/houssemko/Grab/main/data/screenshots/empty-state.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Active downloads with per-block progress maps</caption>
+      <image>https://raw.githubusercontent.com/houssemko/Grab/main/data/screenshots/downloads.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Preferences: destination, power and notifications</caption>
+      <image>https://raw.githubusercontent.com/houssemko/Grab/main/data/screenshots/preferences.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.3.0" date="2026-09-14">
+      <description>
+        <p>New: GNOME HIG search pattern — a header-bar toggle reveals a search bar with the status filter alongside. Open it with the button, by typing, or with Ctrl+F.</p>
+      </description>
+    </release>
+    <release version="2.2.7" date="2026-09-14">
+      <description>
+        <p>Stability: removed per-download custom headers in favor of automatic headers. Internal code cleanups.</p>
+      </description>
+    </release>
+    <release version="2.2.6" date="2026-09-14">
+      <description>
+        <p>New: task search and status filter, multi-URL batch add, task rename. Torrent: upload stats on rows, custom trackers, seed ratio and time limits, listen port. Downloads: per-download custom headers, keep-server-file-date option, command-line URL enqueue.</p>
+      </description>
+    </release>
+    <release version="2.2.5" date="2026-09-14">
+      <description>
+        <p>Hardening: torrent archive handling is confined to the app data dir, duplicate settings key removed, peer-limit edge case fixed.</p>
+      </description>
+    </release>
+    <release version="2.2.4" date="2026-09-13">
+      <description>
+        <p>Fix: About dialog no longer crashes; release notes are embedded in the app.</p>
+      </description>
+    </release>
+    <release version="2.2.3" date="2026-09-13">
+      <description>
+        <p>Dialog improvements: access keys on action buttons, clearer file-chooser labels, About page with release notes, Enter key confirms dialogs. Dependency updates.</p>
+      </description>
+    </release>
+    <release version="2.2.2" date="2026-09-13">
+      <description>
+        <p>Fix: URL apply tick returns after failed validation so over-long URLs can be corrected and retried.</p>
+      </description>
+    </release>
+    <release version="2.2.1" date="2026-09-13">
+      <description>
+        <p>Full interface translation support (gettext); typed settings access throughout.</p>
+      </description>
+    </release>
+    <release version="2.2.0" date="2026-09-13">
+      <description>
+        <p>Fix: finished torrents are evicted from the session, stopping RAM growth; leaner per-tick updates; refreshed screenshots.</p>
+      </description>
+    </release>
+    <release version="2.1.2" date="2026-09-13">
+      <description>
+        <p>Refreshed AppData screenshots: block maps and the new preferences pages.</p>
+      </description>
+    </release>
+    <release version="2.1.1" date="2026-09-13">
+      <description>
+        <p>Per-block download map: click a downloading row to reveal downloaded blocks; HIG separator between progress bar and blocks.</p>
+      </description>
+    </release>
+    <release version="2.1.0" date="2026-09-13">
+      <description>
+        <p>Torrent delete moves the real download folder to Trash; magnets download into their own subfolder; file-picker leftovers are cleaned at finish; peer limit defaults to unlimited.</p>
+      </description>
+    </release>
+    <release version="2.0.9" date="2026-09-12">
+      <description>
+        <p>Fix: finished torrent downloads keep their .torrent file so deleting them moves the real download folder to Trash.</p>
+      </description>
+    </release>
+    <release version="2.0.8" date="2026-09-12">
+      <description>
+        <p>Fix: deleting a torrent download now moves the real download folder to Trash, and re-adding a torrent right after deleting it no longer fails with a phantom already-in-queue error.</p>
+      </description>
+    </release>
+    <release version="2.0.7" date="2026-09-12">
+      <description>
+        <p>Change: the torrent file picker no longer remembers past selections, opening a .torrent file shows the same file list as the picker, and downloading rows show how many files are selected.</p>
+      </description>
+    </release>
+    <release version="2.0.6" date="2026-09-12">
+      <description>
+        <p>New: the torrent file picker remembers your per-file selection, so re-adding the same torrent pre-checks your last choice.</p>
+      </description>
+    </release>
+    <release version="2.0.5" date="2026-09-12">
+      <description>
+        <p>Maintenance: regression coverage for per-file torrent selection. No user-facing changes.</p>
+      </description>
+    </release>
+    <release version="2.0.4" date="2026-09-12">
+      <description>
+        <p>Fix: re-adding an already-queued torrent with a different file selection now fails fast instead of silently adopting the wrong files. Grab no longer claims to be a web browser.</p>
+      </description>
+    </release>
+    <release version="2.0.3" date="2026-09-12">
+      <description>
+        <p>Fix: per-file torrent selection now survives app restarts instead of silently downloading everything.</p>
+      </description>
+    </release>
+    <release version="2.0.2" date="2026-09-12">
+      <description>
+        <p>Code cleanup: removed dead code and merged duplicate helpers. No behavior changes.</p>
+      </description>
+    </release>
+    <release version="2.0.1" date="2026-09-12">
+      <description>
+        <p>Torrent support: magnet links and .torrent files with a file picker, multi-file torrents in their own folder, a dedicated Torrent preferences page, and network settings on their own page. Removing a torrent keeps partial files so Undo resumes instead of restarting.</p>
+      </description>
+    </release>
+    <release version="1.3.3" date="2026-09-11">
+      <description>
+        <p>Security hardening: download folders must be absolute paths, URLs with embedded credentials are rejected, fresh downloads claim their destination atomically, and redirects are capped at five hops.</p>
+      </description>
+    </release>
+    <release version="1.3.2" date="2026-09-11">
+      <description>
+        <p>Main thread never blocks on portal or file I/O (async bus lookups, worker-thread list imports), and diagnostics move to structured tracing logs.</p>
+      </description>
+    </release>
+    <release version="1.3.1" date="2026-09-11">
+      <description>
+        <p>Fixes the suspend block never engaging (portal flags are positional), plus duplicate-request fencing and diagnostic logging.</p>
+      </description>
+    </release>
+    <release version="1.3.0" date="2026-09-11">
+      <description>
+        <p>Release bundles now build clean in CI and attach automatically; test bundles build on demand and on packaging pull requests. Distribution is Flatpak-only.</p>
+      </description>
+    </release>
+    <release version="1.2.0" date="2026-09-10">
+      <description>
+        <p>Adaptive piece sizing for huge files, stall hardening, cross-desktop sleep inhibit with toggle, background portal support, and Flatpak-only distribution.</p>
+      </description>
+    </release>
+    <release version="1.1.0" date="2026-09-09">
+      <description>
+        <p>Hardened downloads: verified sizes, resumable retries, healing server changes, per-row retry, and a full review pass over engine and interface.</p>
+      </description>
+    </release>
+    <release version="1.0.4" date="2026-09-09">
+      <description>
+        <p>Queue-for-later button, auto-park when lowering simultaneous downloads, no more phantom failures or flickering progress on re-queued rows.</p>
+      </description>
+    </release>
+    <release version="1.0.3" date="2026-09-09">
+      <description>
+        <p>Finished-download notifications show just the filename.</p>
+      </description>
+    </release>
+    <release version="1.0.2" date="2026-09-09">
+      <description>
+        <p>Cancelled downloads no longer raise the failure banner; Cancel All is a single pass with no stray background tasks.</p>
+      </description>
+    </release>
+    <release version="1.0.1" date="2026-09-09">
+      <description>
+        <p>Cancel All now asks for confirmation first; background notification simplified to a single line.</p>
+      </description>
+    </release>
+    <release version="1.0.0" date="2026-09-09">
+      <description>
+        <p>First stable release: segmented downloads with smart auto-resume, pause/resume, download history, live preferences, and a native HIG-compliant interface.</p>
+      </description>
+    </release>
+    <release version="0.3.0-beta.1" date="2026-09-08">
+      <description>
+        <p>First beta: native HTTP backend with pause/resume, segmented downloads, download history, and HIG-compliant UI.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.13" date="2026-09-08">
+      <description>
+        <p>Security hardening: capped split sizes, failed engine tasks report instead of stalling, stricter filenames.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.12" date="2026-09-08">
+      <description>
+        <p>Progress rows show downloaded-of-total amounts; background notice only while transferring.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.11" date="2026-09-08">
+      <description>
+        <p>Download speed measures new bytes only, so resumed downloads read correctly.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.10" date="2026-09-08">
+      <description>
+        <p>Segmented downloads resume across restarts instead of starting over.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.9" date="2026-09-08">
+      <description>
+        <p>Survives killed segmented downloads without corrupting files; leaner engine and test helpers.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.8" date="2026-09-08">
+      <description>
+        <p>Survives throttling hosts by dropping to one stream; fixes segmented resume corrupting finished files.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.7" date="2026-09-07">
+      <description>
+        <p>Downloads take the server-advertised filename, so video links save with the right extension.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.6" date="2026-09-07">
+      <description>
+        <p>Finished downloads show their final size where the speed was.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.5" date="2026-09-07">
+      <description>
+        <p>URL length limit, CI checks on every push, and contributor documentation.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.4" date="2026-09-07">
+      <description>
+        <p>New Download keeps its pill shape but sizes to its text instead of stretching full-width.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.3" date="2026-09-07">
+      <description>
+        <p>Smaller New Download button; header add button only shows alongside the download list.</p>
+      </description>
+    </release>
+    <release version="0.2.1-alpha.2" date="2026-09-07">
+      <description>
+        <p>HIG compliance pass: failure banner, undo for removals, keyboard shortcuts, screen-reader labels, and release hardening.</p>
+      </description>
+    </release>
+    <release version="0.2.1" date="2026-09-07">
+      <description>
+        <p>Native HTTP backend with pause/resume, background downloads, and download history.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-09-05">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

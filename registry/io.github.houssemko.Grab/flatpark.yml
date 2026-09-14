@@ -1,0 +1,21 @@
+id: io.github.houssemko.Grab
+name: Grab
+summary: A GNOME download manager with pause, resume and history
+website: https://github.com/houssemko/Grab
+source_url: https://github.com/houssemko/Grab
+build:
+  manifest: io.github.houssemko.Grab.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Download
+    - Network
+    - Utility
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
