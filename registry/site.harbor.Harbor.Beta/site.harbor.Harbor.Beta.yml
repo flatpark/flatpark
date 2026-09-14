@@ -64,9 +64,9 @@ modules:
         filename: harbor-beta.deb
         only-arches:
           - x86_64
-        url: https://github.com/harborstremio-linux/harbor-linux-builds/releases/download/beta-v0.9.124/Harbor_0.9.124-1_amd64.deb
-        sha256: dd8c3d74368f3891c158168a066480902485297a35d6266b0a7b62e076f363e6
-        size: 97854042
+        url: https://github.com/harborstremio-linux/harbor-linux-builds/releases/download/beta-v0.9.126/Harbor_0.9.126-1_amd64.deb
+        sha256: 2a25eb794b2a5ae929e9b0789b4299b07ec5c13b89a2218636a098573b19c13a
+        size: 103968890
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
