@@ -42,6 +42,11 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.3.3" date="2026-09-14">
+      <description>
+        <p>Fix: a preset GSettings schema path that lacks this app's schema no longer aborts startup — it is ignored in favor of the app's own install tree.</p>
+      </description>
+    </release>
     <release version="2.3.2" date="2026-09-14">
       <description>
         <p>Fix: the portable tarball no longer aborts on startup — the binary finds its GSettings schemas in its own install prefix, and the tarball ships compiled schemas.</p>

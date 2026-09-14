@@ -47,9 +47,9 @@ modules:
         filename: grab.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/houssemko/Grab/releases/download/v2.3.2/Grab-2.3.2-linux-x86_64.tar.gz
-        sha256: fe8aba433bde639aca36f790cf7e84f271fce7a584d33bba58724b0598af4b2d
-        size: 4817261
+        url: https://github.com/houssemko/Grab/releases/download/v2.3.3/Grab-2.3.3-linux-x86_64.tar.gz
+        sha256: 320bbb867a178435795a41fdc3003ef3010f8b6546094f27e7f9c28fbf164e4d
+        size: 4817411
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
