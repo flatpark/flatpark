@@ -42,6 +42,16 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.3.2" date="2026-09-14">
+      <description>
+        <p>Fix: the portable tarball no longer aborts on startup — the binary finds its GSettings schemas in its own install prefix, and the tarball ships compiled schemas.</p>
+      </description>
+    </release>
+    <release version="2.3.1" date="2026-09-14">
+      <description>
+        <p>Fix: the header search toggle is hidden when the queue is empty, and an open search bar collapses with the last entry.</p>
+      </description>
+    </release>
     <release version="2.3.0" date="2026-09-14">
       <description>
         <p>New: GNOME HIG search pattern — a header-bar toggle reveals a search bar with the status filter alongside. Open it with the button, by typing, or with Ctrl+F.</p>

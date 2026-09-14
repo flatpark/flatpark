@@ -34,7 +34,7 @@ finish-args:
 modules:
   # GSettings schema compiled at build time. The schema ships inside the
   # versioned upstream tarball (install-time extra-data, so it cannot be
-  # compiled from there); this copy is the vendor's own file from the v2.3.0
+  # compiled from there); this copy is the vendor's own file from the v2.3.2
   # tag, byte-identical to the tarball's, and must be refreshed if upstream
   # ever changes its keys.
   - name: grab-gsettings
@@ -63,9 +63,9 @@ modules:
         filename: grab.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/houssemko/Grab/releases/download/v2.3.0/Grab-2.3.0-linux-x86_64.tar.gz
-        sha256: 05ff1fa68a3aa6d07cf442e5427f34b9593866217dcd5e24cf69d52014c44b5c
-        size: 4814435
+        url: https://github.com/houssemko/Grab/releases/download/v2.3.2/Grab-2.3.2-linux-x86_64.tar.gz
+        sha256: fe8aba433bde639aca36f790cf7e84f271fce7a584d33bba58724b0598af4b2d
+        size: 4817261
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

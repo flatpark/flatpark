@@ -3,7 +3,7 @@
 #
 # Prints the current version + the x86_64 Linux prebuilt tarball as JSON on
 # stdout:
-#   { "version": "2.3.0", "releaseDate": "YYYY-MM-DD",
+#   { "version": "2.3.2", "releaseDate": "YYYY-MM-DD",
 #     "sources": [ { "filename": "grab.tar.gz", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
