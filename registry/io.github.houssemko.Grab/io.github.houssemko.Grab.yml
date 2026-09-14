@@ -15,11 +15,9 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
-  # "Notify on completion" is on by default (finish/fail + background-download
-  # notices).
-  - --talk-name=org.freedesktop.Notifications
-  # "Prevent sleep during downloads" is on by default (GtkApplication inhibit).
-  - --talk-name=org.gnome.SessionManager
+  # Completion notices go through the notification portal (GLib picks the
+  # portal backend inside a sandbox), and sleep inhibition goes through the
+  # Inhibit portal — neither needs a direct bus grant.
   # Single instance + D-Bus activation (DBusActivatable desktop entry,
   # magnet/torrent handlers via %U).
   - --own-name=io.github.houssemko.Grab
