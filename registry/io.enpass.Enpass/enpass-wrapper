@@ -6,7 +6,13 @@ APP=/app/extra/enpass
 # Put our host-tool shims before runtime tools. Enpass uses lsof and /proc
 # probes to verify the browser behind the extension WebSocket connection.
 export PATH="/app/bin:/usr/bin"
-export QT_QPA_PLATFORM=xcb
+# The bundled Qt only ships the wayland platform plugins; xcb is not built in,
+# so ask for wayland whenever the session has it and keep xcb for X11 sessions.
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    export QT_QPA_PLATFORM=wayland
+else
+    export QT_QPA_PLATFORM=xcb
+fi
 if [ -z "${ENPASS_FAKE_PID:-}" ]; then
     fake_pid=$(od -An -N4 -tu4 /dev/urandom 2>/dev/null | tr -d ' ')
     fake_pid=$((100000 + ${fake_pid:-0} % 800000))

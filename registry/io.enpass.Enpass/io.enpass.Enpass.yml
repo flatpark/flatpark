@@ -9,11 +9,16 @@ build-options:
 tags:
   - proprietary
 finish-args:
-  # Enpass is a Qt/X11 app. Browser extension support listens on localhost and
-  # then validates the connecting browser through lsof and /proc inspection.
+  # 6.12 flipped the platform backend of the bundled static Qt: 6.11.13 linked
+  # in QXcbIntegrationPlugin only, 6.12.6 links in QWaylandIntegrationPlugin
+  # (plus wayland-egl) only. So Wayland is what it actually needs now; the X11
+  # fallback stays in case upstream ships xcb again.
+  # Browser extension support listens on localhost and then validates the
+  # connecting browser through lsof and /proc inspection.
   - --share=ipc
   - --share=network
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
   - --device=dri
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher
