@@ -1,0 +1,115 @@
+id: org.xlights.xLights
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: xlights
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # xLights' Linux build is a linuxdeploy AppImage that carries its own GTK 3,
+  # wxWidgets 3.3, FFmpeg 60, SDL2 and PulseAudio client — 255 shared libraries
+  # under usr/lib, reached through the main binary's RUNPATH ($ORIGIN/../lib).
+  # Nothing toolkit-shaped comes from the runtime, so this is the freedesktop
+  # base rather than a GNOME one. Verified against the bundle's NEEDED set:
+  # everything it does not carry — GL/EGL, X11, libdrm, fontconfig, the GLX
+  # stack — org.freedesktop.Platform 25.08 provides, and the bundle ships none
+  # of those, so there is nothing to shadow the runtime's copies.
+  - --share=ipc
+  # X11 only. The AppImage's own linuxdeploy-plugin-gtk hook exports
+  # GDK_BACKEND=x11 before the binary starts (its comment: "Crash with Wayland
+  # backend on Wayland"), so the process only ever brings up an X11 connection
+  # and runs through XWayland on a Wayland session. --socket=fallback-x11 would
+  # be equivalent while no Wayland socket is granted, but a plain --socket=x11
+  # states the actual requirement.
+  - --socket=x11
+  # The house preview and the 3D model view are OpenGL (libwx_gtk3u_gl,
+  # freeglut); this is also what gives the shader effects a GPU.
+  - --device=dri
+  # Sequence audio: waveform display, scrubbing and playback while sequencing.
+  - --socket=pulseaudio
+  # The reason the app exists on a network: sACN (E1.31), ArtNet and DDP output
+  # to light controllers, plus controller discovery and config upload (FPP,
+  # Falcon, WLED, HinksPix, …). All ordinary UDP/TCP — no CAP_NET_RAW anywhere,
+  # so nothing here needs a capability finish-args cannot grant.
+  - --share=network
+  # A "show directory" is xLights' unit of work: one folder holding
+  # xlights_rgbeffects.xml, xlights_networks.xml, the sequences and their media.
+  # Two paths have to work out of the box, hence the next two lines.
+  #
+  # (1) The first-run dialog offers to create one at $HOME/xLights — a literal
+  # $HOME path, not an XDG lookup. Flatpak does not redirect $HOME: it stays
+  # /home/<user> and, with no home grant, is a tmpfs discarded on exit, so
+  # accepting that default would silently lose the whole show on quit.
+  # --persist=xLights binds ~/.var/app/org.xlights.xLights/xLights there, which
+  # makes the default answer durable without granting anything in the real home.
+  # (This works only because no --filesystem=home/host is present — such a grant
+  # makes flatpak ignore --persist outright.)
+  - --persist=xLights
+  # (2) The other common layout, and the one in upstream's own screenshot, is a
+  # show directory under Documents; "No, pick a different folder" in that same
+  # dialog needs somewhere real to point at. Read-write because the app owns
+  # every file in the show directory.
+  - --filesystem=xdg-documents
+  # Sequences are built against a song, and the Video / Picture effects and
+  # model background images read media from the usual places. Read-only: xLights
+  # imports from these, it never writes back to them.
+  - --filesystem=xdg-music:ro
+  - --filesystem=xdg-videos:ro
+  - --filesystem=xdg-pictures:ro
+  # Deliberately NOT granted, and documented as opt-in `flatpak override` in the
+  # metainfo instead:
+  #   --device=all      USB/serial DMX dongles (FTDI, Entec Open DMX, …). Ethernet
+  #                     controllers — the common modern setup — work over the
+  #                     network grant above and need nothing here.
+  #   --filesystem=home a show directory kept somewhere other than Documents.
+modules:
+  - name: xlights
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 xlights-wrapper /app/bin/xlights
+      - install -Dm644 org.xlights.xLights.desktop /app/share/applications/org.xlights.xLights.desktop
+      - install -Dm644 org.xlights.xLights.metainfo.xml /app/share/metainfo/org.xlights.xLights.metainfo.xml
+      # A narrow MIME type for .xsq sequences, so the exported desktop entry can
+      # match them on the host without claiming every XML file (see the comment
+      # in the file itself).
+      - install -Dm644 org.xlights.xLights.mime.xml /app/share/mime/packages/org.xlights.xLights.xml
+      - install -Dm644 org.xlights.xLights.png /app/share/icons/hicolor/256x256/apps/org.xlights.xLights.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v1/appimage-tools-appimage-tools-v1-fd-25.08-x86_64.tar.xz
+        sha256: fdbaf3b8dfa1e9705c644dafeb25b6afcd7890af36ae23744e58130beb48396b
+        size: 54752
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: xlights.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/xLightsSequencer/xLights/releases/download/2026.17/xLights-2026.17-x86_64.AppImage
+        sha256: 90a981be5409dd0e895d08de91edd6060e113f80cec7be5ffc67e545c97a58f6
+        size: 130349560
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: xlights-wrapper
+      - type: file
+        path: org.xlights.xLights.desktop
+      - type: file
+        path: org.xlights.xLights.metainfo.xml
+      - type: file
+        path: org.xlights.xLights.mime.xml
+      - type: file
+        path: org.xlights.xLights.png

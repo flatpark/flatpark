@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  xLights sequences are .xsq files (the older format was a plain .xml). Upstream's
+  own desktop entry declares MimeType=text/xml, which on a host would make xLights
+  a handler for every XML file on the system; this package registers the narrow
+  type instead, so double-clicking a sequence opens it and nothing else changes.
+  x- prefix: the format has no IANA registration.
+-->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-xlights-sequence">
+    <comment>xLights sequence</comment>
+    <glob pattern="*.xsq"/>
+    <sub-class-of type="application/xml"/>
+    <generic-icon name="org.xlights.xLights"/>
+  </mime-type>
+</mime-info>

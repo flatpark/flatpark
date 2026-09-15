@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=xLights
+GenericName=Light Show Sequencer
+Comment=Design, sequence and play lighting displays
+Exec=xlights %f
+Icon=org.xlights.xLights
+Terminal=false
+Categories=AudioVideo;Graphics;
+Keywords=lights;lighting;sequencer;DMX;sACN;E1.31;ArtNet;DDP;christmas;
+StartupNotify=true
+StartupWMClass=xLights
+MimeType=application/x-xlights-sequence;

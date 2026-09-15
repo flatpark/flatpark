@@ -1,0 +1,18 @@
+#!/bin/sh
+# xLights' AppImage already carries the right launch logic in its AppRun:
+# linuxdeploy generates it to source apprun-hooks/linuxdeploy-plugin-gtk.sh
+# before exec'ing the binary, and that hook is what makes the bundled GTK 3
+# usable — it sets GTK_PATH, GDK_PIXBUF_MODULE_FILE, GTK_IM_MODULE_FILE,
+# GSETTINGS_SCHEMA_DIR, GI_TYPELIB_PATH and XDG_DATA_DIRS to the AppDir, and
+# picks a light/dark Adwaita variant from the desktop portal. Repackaging only
+# has to call it; the binary itself finds its 255 bundled libraries through
+# RUNPATH ($ORIGIN/../lib), so no LD_LIBRARY_PATH is needed here.
+#
+# The same hook exports GDK_BACKEND=x11 unconditionally, which is why the
+# manifest grants --socket=x11 and no Wayland socket.
+#
+# xLights resolves its own data (usr/share/xLights: controller definitions,
+# effect metadata, presets, Lua scripts) relative to the executable, so staging
+# the AppDir whole at this path is what keeps those reachable.
+
+exec /app/extra/xlights/AppRun "$@"

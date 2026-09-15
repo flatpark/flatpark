@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.xlights.xLights</id>
+  <launchable type="desktop-id">org.xlights.xLights.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>xLights</name>
+  <summary>Design, sequence and play lighting displays for holiday and event shows</summary>
+  <developer id="org.xlights">
+    <name>Dan Kulp / Scott Hanson</name>
+  </developer>
+  <url type="homepage">https://xlights.org</url>
+  <url type="bugtracker">https://github.com/xLightsSequencer/xLights/issues</url>
+  <url type="help">https://manual.xlights.org/</url>
+  <url type="donation">https://xlights.org/donate/</url>
+  <url type="vcs-browser">https://github.com/xLightsSequencer/xLights</url>
+  <description>
+    <p>This is a community package of xLights, maintained independently and unaffiliated with the xLights project. It repackages the official upstream AppImage unmodified — extracted at install time, not rebuilt — and follows upstream releases automatically.</p>
+    <p>xLights is a free, open-source program for designing, creating and playing lighting displays, driving DMX controllers and E1.31 (sACN), ArtNet and DDP devices over the network.</p>
+    <ul>
+      <li>Timeline sequence editor with 50+ built-in effects, synchronised to a song.</li>
+      <li>Layout tab for placing models in a 2D or 3D preview of the display.</li>
+      <li>Controller definitions and config upload for FPP, Falcon, WLED, HinksPix, Minleon and many more.</li>
+      <li>Phoneme-based lip sync for singing faces, plus value curves, colour curves and presets.</li>
+      <li>Morph, Shader, Video, Picture, Glediator and other effects, with an OpenGL preview.</li>
+      <li>Import from and convert between other sequencer formats (LOR, Vixen, HLS, LightShow Pro and more).</li>
+    </ul>
+    <p>Permissions: this package grants network access (that is how sequences reach sACN / ArtNet / DDP controllers), audio, the GPU for the preview, and read-write access to your Documents folder for the show directory, plus read-only access to Music, Videos and Pictures for the media a sequence references. If you accept the first-run offer to create a default show folder at <code>~/xLights</code>, that folder is kept inside the sandbox and persists normally. A few capabilities are not granted by default; enable the ones you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>USB or serial DMX dongles (FTDI, Entec Open DMX and similar): <code>flatpak override --user --device=all org.xlights.xLights</code>. Ethernet controllers need nothing extra.</li>
+      <li>A show directory outside Documents: <code>flatpak override --user --filesystem=~/LightShows org.xlights.xLights</code> (name your own folder), or <code>--filesystem=home</code> for all of it.</li>
+      <li>A show directory on an external drive: <code>flatpak override --user --filesystem=/run/media/$USER org.xlights.xLights</code> (use the path your system mounts removable media under).</li>
+      <li>Work fully offline, with no controller output or update check: <code>flatpak override --user --unshare=network org.xlights.xLights</code></li>
+    </ul>
+    <p>Scope: upstream's Linux AppImage contains the xLights sequencer itself. The companion programs distributed for some other platforms (xSchedule, xCapture, xScanner, xFade) are not part of it, and so are not part of this package either.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/xLightsSequencer/xlights-flatpak/main/screenshots/main-window.png</image>
+      <caption>The Layout tab, editing models and their placement in the display preview</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>lights</keyword>
+    <keyword>lighting</keyword>
+    <keyword>sequencer</keyword>
+    <keyword>DMX</keyword>
+    <keyword>sACN</keyword>
+    <keyword>ArtNet</keyword>
+    <keyword>christmas</keyword>
+  </keywords>
+  <releases>
+    <release version="2026.17" date="2026-09-08"/>
+  </releases>
+</component>
