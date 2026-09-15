@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Wave Terminal
+GenericName=Terminal Emulator
+Comment=Terminal with inline graphics, file previews and remote connections
+Exec=waveterm %U
+Icon=dev.commandline.waveterm
+Terminal=false
+Categories=System;TerminalEmulator;Utility;
+Keywords=terminal;shell;console;ssh;remote;developer;
+StartupNotify=true
+StartupWMClass=waveterm

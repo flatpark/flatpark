@@ -1,0 +1,79 @@
+id: dev.commandline.waveterm
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper). The base is a prebuilt ref
+# merged into the app at build time; the app stays self-contained.
+base: org.electronjs.Electron2.BaseApp
+base-version: "25.08"
+command: waveterm
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Wave is an Electron front end over its own Go backend: the .deb carries the
+  # Chromium runtime, `wavesrv` (the backend that owns the terminal sessions,
+  # the SQLite store and the SSH client) and the `wsh` helpers for every target
+  # platform. Nothing is fetched or compiled at first run. The GTK3, NSS, CUPS,
+  # ATK, dbus, gbm, libsecret and X11 stacks it links come from the runtime —
+  # verified against the NEEDED sets of the Electron binary, wavesrv and the
+  # crashpad handler: 0 missing on org.freedesktop.Platform 25.08 alone.
+  - --share=ipc
+  # SSH to remote hosts, the AI providers, and the app's own update check.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Desktop notifications (the .deb declares libnotify4).
+  - --talk-name=org.freedesktop.Notifications
+  # Connection secrets and SSH passphrases are held through Electron safeStorage,
+  # which wants the Secret Service (the .deb declares libsecret-1-0).
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately NOT granted by default; the metainfo documents each as an opt-in
+  # `flatpak override`, matching how the other terminal clients in this catalog
+  # (org.electerm.Electerm, org.tabby.Tabby) are set up:
+  #   --filesystem=~/.ssh:ro   reuse the host's SSH keys and config. Wave's SSH
+  #                            client is its own Go implementation reading those
+  #                            paths literally, so without this a connection uses
+  #                            keys imported into the sandbox or a password.
+  #   --filesystem=home        browse and preview host files in the directory and
+  #                            preview widgets. File open/save otherwise goes
+  #                            through the portal.
+  #   --device=all             serial devices.
+  # The built-in *local* terminal runs inside the sandbox, on the runtime's own
+  # shell — not on the host. Remote connections are unaffected by that.
+modules:
+  - name: waveterm
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 waveterm-wrapper /app/bin/waveterm
+      - install -Dm644 dev.commandline.waveterm.desktop /app/share/applications/dev.commandline.waveterm.desktop
+      - install -Dm644 dev.commandline.waveterm.metainfo.xml /app/share/metainfo/dev.commandline.waveterm.metainfo.xml
+      - install -Dm644 dev.commandline.waveterm.png /app/share/icons/hicolor/512x512/apps/dev.commandline.waveterm.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: waveterm.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/wavetermdev/waveterm/releases/download/v0.14.5/waveterm-linux-amd64-0.14.5.deb
+        sha256: 691ace562e66a20d9727b8beeaf98fe64a445df65523bb1fd11ed30f56fd137b
+        size: 160100992
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: waveterm-wrapper
+      - type: file
+        path: dev.commandline.waveterm.desktop
+      - type: file
+        path: dev.commandline.waveterm.metainfo.xml
+      - type: file
+        path: dev.commandline.waveterm.png

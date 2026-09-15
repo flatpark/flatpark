@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.commandline.waveterm</id>
+  <launchable type="desktop-id">dev.commandline.waveterm.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>Wave Terminal</name>
+  <summary>Terminal with inline graphics, file previews and remote connections</summary>
+  <developer id="dev.commandline">
+    <name>Command Line Inc</name>
+  </developer>
+  <url type="homepage">https://waveterm.dev</url>
+  <url type="bugtracker">https://github.com/wavetermdev/waveterm/issues</url>
+  <url type="help">https://docs.waveterm.dev/</url>
+  <url type="vcs-browser">https://github.com/wavetermdev/waveterm</url>
+  <description>
+    <p>This is a community package of Wave Terminal, maintained independently and unaffiliated with the Wave Terminal project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
+    <p>Wave is a terminal that lays out its window as a grid of blocks. A block can be a shell session, but it can just as easily be a file preview, a directory listing, a web view, a CPU graph or an AI chat — all in the same tab, all scriptable from the command line through the bundled <code>wsh</code> helper.</p>
+    <ul>
+      <li>Tabbed, tiled terminal blocks with persistent sessions and workspaces.</li>
+      <li>Remote connections over SSH, reading your existing SSH config, with the same block layout applied to the remote machine.</li>
+      <li>Inline previews for files, images, Markdown and CSV, plus a directory browser and an editor.</li>
+      <li>An embedded web block and system-monitor graphs alongside the shell.</li>
+      <li>AI chat blocks against your own provider key (OpenAI, Anthropic, Gemini, OpenRouter and compatible endpoints).</li>
+    </ul>
+    <p>Permissions: this package grants network access (SSH and the AI providers), the GPU, notifications and the Secret Service for stored connection secrets. It grants no filesystem access — file open and save go through the portal, and Wave's own data stays inside the sandbox. A few capabilities are not granted by default; enable the ones you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Reuse your existing host SSH keys and config: <code>flatpak override --user --filesystem=~/.ssh:ro dev.commandline.waveterm</code></li>
+      <li>Browse and preview files across your home directory: <code>flatpak override --user --filesystem=home dev.commandline.waveterm</code></li>
+      <li>Serial devices: <code>flatpak override --user --device=all dev.commandline.waveterm</code></li>
+    </ul>
+    <p>Updates and telemetry: the in-app updater is switched off on first run, because Flatpak installs are updated by Flatpak — re-enable it in Settings if you want the check back. Wave&apos;s usage telemetry is left at upstream&apos;s default (on) and is a switch in the same Settings panel.</p>
+    <p>Scope: the built-in <em>local</em> terminal runs inside the sandbox, on the shells the Flatpak runtime provides — not on your host system. Remote (SSH) connections are unaffected and behave exactly as they do elsewhere. Wave's Tsunami widget builder compiles Go on the fly and so needs a Go toolchain, which is not part of this package; the rest of the app does not.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/wavetermdev/waveterm/main/assets/wave-screenshot.webp</image>
+      <caption>A Wave tab with terminal, CPU graph, web and file-preview blocks side by side</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>System</category>
+    <category>TerminalEmulator</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>terminal</keyword>
+    <keyword>shell</keyword>
+    <keyword>console</keyword>
+    <keyword>ssh</keyword>
+    <keyword>remote</keyword>
+  </keywords>
+  <releases>
+    <release version="0.14.5" date="2026-04-16"/>
+  </releases>
+</component>

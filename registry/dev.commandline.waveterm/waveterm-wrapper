@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# Wave is an Electron app staged by apply_extra to /app/extra/waveterm. Run it
+# through zypak-wrapper (from org.electronjs.Electron2.BaseApp): zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox. Flatpak redirects the XDG variables, so Wave's data — the SQLite
+# store, config, and the wsh binaries it stages for remote hosts — stays under
+# ~/.var/app/dev.commandline.waveterm.
+#
+# --ozone-platform-hint=auto is what upstream's own desktop entry passes: render
+# natively on Wayland when the session is Wayland, fall back to X11 otherwise.
+# It pairs with --socket=wayland + --socket=fallback-x11 in the manifest.
+#
+# Turn the in-app updater off by default. It is configured to pull releases from
+# dl.waveterm.dev and install them on quit, which cannot work for a Flatpak
+# install — Flatpak owns updates here — so all it does is poll on a timer and
+# offer an update it cannot apply. Seed the setting to off, but ONLY on first run
+# when no settings file exists yet, so an existing config is never touched and
+# anyone who wants the check back can re-enable it in Settings. Telemetry is
+# left at upstream's default and is a switch in the same Settings panel; the
+# metainfo says so.
+cfg_dir="${XDG_CONFIG_HOME:-$HOME/.config}/waveterm"
+if [ ! -e "$cfg_dir/settings.json" ]; then
+  mkdir -p "$cfg_dir" 2>/dev/null || true
+  printf '{\n  "autoupdate:enabled": false\n}\n' > "$cfg_dir/settings.json" 2>/dev/null || true
+fi
+
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (e.g. a terminal inside VS Code/Electron), the binary would start
+# as plain Node instead of the GUI app. The manifest's --unset-env covers
+# zypak's spawned children, which this `unset` cannot reach.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/waveterm/waveterm --ozone-platform-hint=auto "$@"

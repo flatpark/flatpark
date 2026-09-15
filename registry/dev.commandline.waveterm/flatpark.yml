@@ -1,0 +1,23 @@
+id: dev.commandline.waveterm
+name: Wave Terminal
+summary: Terminal with inline graphics, file previews and remote connections
+website: https://waveterm.dev
+source_url: https://github.com/wavetermdev/waveterm
+build:
+  manifest: dev.commandline.waveterm.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: System
+  upstream_approved: false
+  tags:
+    - Terminal
+    - SSH
+    - Remote
+    - Developer
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
