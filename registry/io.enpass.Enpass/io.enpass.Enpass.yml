@@ -57,9 +57,9 @@ modules:
         filename: enpass.deb
         only-arches:
           - x86_64
-        url: https://apt.enpass.io/pool/main/e/enpass/enpass_6.12.6.2256_amd64.deb
-        sha256: e55773ed3e2767f57e06306f59d9ae83e3baf8db190b5034e6ee50d451893070
-        size: 62304306
+        url: https://apt.enpass.io/pool/main/e/enpass/enpass_6.12.6.2258_amd64.deb
+        sha256: a98d2ff0d6ad392311022453598e59dcc2b9042cf9a001f0bf35e95aed5c3457
+        size: 62309506
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
