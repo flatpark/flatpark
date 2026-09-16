@@ -7,8 +7,8 @@
 # or the pick loses its meaning. Order here is the carousel order; unknown
 # ids are skipped with a build warning.
 featured:
+  - is.folo.Folo
   - com.dbxio.dbx
   - com.heidisql.HeidiSQL
   - app.geolibre.GeoLibre
   - com.aeroftp.AeroFTP
-  - dev.tabularis.Tabularis
