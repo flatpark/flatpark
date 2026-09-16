@@ -36,7 +36,11 @@
   "home.hero.title.lead": "构建过。",
   "home.hero.title.middle": "审核过。",
   "home.hero.title.tail": "签名过。",
-  "home.hero.body": "面向官方 Linux 桌面应用的社区集中站——每个应用都经过实际构建、启动，并按公开标准审核，再以已签名、沙盒隔离的 Flatpak 发布。没有随手贴的标签，一行命令即可安装。",
+  "home.hero.lede": "{count} 个 Linux 桌面应用，逐个手工打包、逐个审核：",
+  "home.hero.point.approved": "其中 {count} 个由开发者本人授权上架",
+  "home.hero.point.reviewed": "每个应用都真实构建、启动，并按公开标准审核——不随手贴标签",
+  "home.hero.point.official": "安装时直接下载厂商自己的发布产物，按 checksum 钉死——不是 FlatPark 重新构建的版本",
+  "home.hero.point.signed": "repo 使用 GPG 签名，sandbox 权限收到最小，一行命令即可安装",
   "home.hero.setup": "配置指南",
 
   "apps.all": "全部应用",

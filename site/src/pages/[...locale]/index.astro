@@ -19,6 +19,9 @@ const apps = loadApps();
 // job; "recently updated" tracks upstream release dates, which is a different
 // question and stays one dropdown pick away.
 const ordered = [...apps].sort((a, b) => (b.added || '').localeCompare(a.added || ''));
+// Hero stat: developer approvals are the one claim on this page we cannot issue
+// ourselves, so it is counted from the registry rather than written into copy.
+const approvedCount = apps.filter((a) => a.upstreamApproved).length;
 ---
 
 <Base
@@ -33,7 +36,31 @@ const ordered = [...apps].sort((a, b) => (b.added || '').localeCompare(a.added |
         <div>
           <span class="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/10 px-3 py-1.5 text-sm font-semibold text-brand">{t('home.hero.badge')}</span>
           <h1 class="mt-4 text-4xl font-extrabold tracking-tight md:text-5xl">{t('home.hero.title.lead')} <span class="text-brand">{t('home.hero.title.middle')}</span> {t('home.hero.title.tail')}</h1>
-          <p class="mt-4 max-w-md text-lg text-muted">{t('home.hero.body')}</p>
+          <p class="mt-4 max-w-md text-lg text-muted">{t('home.hero.lede', { count: apps.length })}</p>
+          <!--
+            The pitch as claims you can check, not a paragraph. The developer
+            approval leads because it is the only line here someone other than
+            us is making: the rest is FlatPark vouching for FlatPark. Counted
+            live so it can never drift from the registry.
+          -->
+          <ul class="mt-4 max-w-md space-y-2 text-[15px] text-muted">
+            <li class="flex gap-2.5">
+              <span class="mt-0.5 shrink-0 text-brand" aria-hidden="true">&#9679;</span>
+              <span class="font-semibold text-ink">{t('home.hero.point.approved', { count: approvedCount })}</span>
+            </li>
+            <li class="flex gap-2.5">
+              <span class="mt-0.5 shrink-0 text-brand" aria-hidden="true">&#9679;</span>
+              <span>{t('home.hero.point.reviewed')}</span>
+            </li>
+            <li class="flex gap-2.5">
+              <span class="mt-0.5 shrink-0 text-brand" aria-hidden="true">&#9679;</span>
+              <span>{t('home.hero.point.official')}</span>
+            </li>
+            <li class="flex gap-2.5">
+              <span class="mt-0.5 shrink-0 text-brand" aria-hidden="true">&#9679;</span>
+              <span>{t('home.hero.point.signed')}</span>
+            </li>
+          </ul>
           <div class="mt-6 flex flex-wrap gap-3">
             <a href={localizePath('/setup/', lang)} class="inline-flex h-11 items-center rounded-full bg-brand px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark">{t('home.hero.setup')}</a>
           </div>

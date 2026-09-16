@@ -36,7 +36,11 @@
   "home.hero.title.lead": "Built.",
   "home.hero.title.middle": "Reviewed.",
   "home.hero.title.tail": "Signed.",
-  "home.hero.body": "Official Linux desktop apps — every one actually built, launched, and reviewed against a published bar, then shipped as a signed, sandboxed Flatpak. No drive-by labels. One command to install.",
+  "home.hero.lede": "{count} Linux desktop apps, packaged and reviewed one at a time:",
+  "home.hero.point.approved": "{count} of them listed with their developer's own approval",
+  "home.hero.point.reviewed": "Every app built, launched, and reviewed against a published bar — no drive-by labels",
+  "home.hero.point.official": "Installs the vendor's own release, pinned by checksum — never a FlatPark rebuild",
+  "home.hero.point.signed": "GPG-signed repo, tight sandbox, one command to install",
   "home.hero.setup": "Setup guide",
 
   "apps.all": "All apps",
