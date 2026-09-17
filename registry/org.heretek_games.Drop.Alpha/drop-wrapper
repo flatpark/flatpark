@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Drop is a Tauri v2 (WebKitGTK) desktop client.
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox. Disabling it is standard for Tauri/WebKit Flatpaks.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/drop-app "$@"
