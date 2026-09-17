@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>rocks.zapfast.ZapFast</id>
+  <name>ZapFast</name>
+  <summary>Fast native WhatsApp client with an encrypted local archive</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="me.paolino">
+    <name>Carmine Paolino</name>
+  </developer>
+  <url type="homepage">https://zapfast.rocks/</url>
+  <url type="help">https://zapfast.rocks/getting-started/</url>
+  <url type="bugtracker">https://github.com/crmne/zapfast/issues</url>
+  <url type="vcs-browser">https://github.com/crmne/zapfast</url>
+  <description>
+    <p>This is a community package of ZapFast, maintained independently and unaffiliated with the ZapFast project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>ZapFast is a WhatsApp client written in Rust with egui. It links to your phone as a companion device and talks the WhatsApp Web protocol directly, so there is no browser engine in the process.</p>
+    <ul>
+      <li>Link by scanning a QR code with your phone; recent history is copied to this computer after linking.</li>
+      <li>Chats with pinned, unread, muted and archived states, typing indicators, read receipts and accent-insensitive search over chats, contacts and the local archive.</li>
+      <li>Replies, reactions, edits, deletions, mentions, forwarding, link previews and WhatsApp formatting — bold, italic, strikethrough, code, lists and quotes.</li>
+      <li>Attachments by paste, drag-and-drop or file picker, with captions; photos, stickers, GIFs, locations, contacts and polls render in the chat, and videos and documents open in your default desktop apps.</li>
+      <li>Voice messages: play, seek, record and reply, with OGG/Opus handled in-process.</li>
+      <li>Polls, disappearing-message timers, chat muting that syncs back to your phone, and a system tray icon that keeps the connection running when the window is closed.</li>
+    </ul>
+    <p>The local message archive — messages, contacts and sticker metadata — is stored with SQLCipher and unlocked through your login keyring. ZapFast is an independent project and is not affiliated with WhatsApp or Meta; it needs an active WhatsApp account on a phone to link to.</p>
+    <p>Permissions: this package grants display, audio (PulseAudio/PipeWire, for playing and recording voice messages), network access, the GPU device, the Secret Service for the archive key, desktop notifications and the StatusNotifier tray. Settings, the encrypted archive and the media, avatar and sticker caches stay inside the sandbox under <code>~/.var/app/rocks.zapfast.ZapFast</code>. Attachments are read and saved through the file-chooser portal, so no host filesystem access is granted or needed.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Copying and pasting text works as shipped. Pasting an <em>image</em> into the composer needs either the Wayland data-control protocol, which a sandbox is not given, or an X11 connection — so on a Wayland session it wants X11: <code>flatpak override --user --socket=x11 rocks.zapfast.ZapFast</code></li>
+      <li>Follow an Omarchy desktop theme (Settings, Appearance, Follow system): <code>flatpak override --user --filesystem=~/.config/omarchy:ro --filesystem=~/.local/state/omarchy:ro rocks.zapfast.ZapFast</code></li>
+      <li>Silence the tray icon: <code>flatpak override --user --no-talk-name=org.kde.StatusNotifierWatcher rocks.zapfast.ZapFast</code></li>
+      <li>Turn off desktop notifications from outside the app: <code>flatpak override --user --no-talk-name=org.freedesktop.Notifications rocks.zapfast.ZapFast</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A conversation with a photo, a document, a voice message, a quoted reply and a link preview</caption>
+      <image>https://raw.githubusercontent.com/crmne/zapfast/main/docs/screenshot.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A group chat with sender names and pictures, reactions, a mention and a poll</caption>
+      <image>https://raw.githubusercontent.com/crmne/zapfast/main/docs/screenshot-group.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The linking screen with the QR code to scan from your phone</caption>
+      <image>https://raw.githubusercontent.com/crmne/zapfast/main/docs/screenshot-link.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">rocks.zapfast.ZapFast.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <keywords>
+    <keyword>whatsapp</keyword>
+    <keyword>chat</keyword>
+    <keyword>messaging</keyword>
+    <keyword>messenger</keyword>
+    <keyword>egui</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">760</display_length>
+    <internet>always</internet>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <provides>
+    <binary>zapfast</binary>
+  </provides>
+  <releases>
+    <release version="0.14.0" date="2026-09-16">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.14.0</url>
+    </release>
+    <release version="0.13.1" date="2026-09-14">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.13.1</url>
+    </release>
+    <release version="0.13.0" date="2026-09-14">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.13.0</url>
+    </release>
+    <release version="0.12.1" date="2026-09-11">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.12.1</url>
+    </release>
+    <release version="0.12.0" date="2026-09-04">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.12.0</url>
+    </release>
+    <release version="0.11.0" date="2026-09-03">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.11.0</url>
+    </release>
+    <release version="0.10.1" date="2026-09-01">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.10.1</url>
+    </release>
+    <release version="0.10.0" date="2026-09-01">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.10.0</url>
+    </release>
+  </releases>
+</component>

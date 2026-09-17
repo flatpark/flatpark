@@ -1,0 +1,92 @@
+id: rocks.zapfast.ZapFast
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: zapfast
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native Rust/egui desktop app (no browser engine). It renders with egui's
+  # glow OpenGL backend on winit, so it needs a GPU device and the display
+  # sockets; the runtime's Mesa, Wayland, xkbcommon and X11 stacks cover the
+  # rest, and ALSA is the only GUI-unrelated library linked directly.
+  - --share=ipc
+  # The WhatsApp Web connection, media downloads, and the loopback port a
+  # second launch uses to hand off to the running instance.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # egui/glow rendering.
+  - --device=dri
+  # Voice messages and video/audio attachments, both playback and recording.
+  # --socket=pulseaudio also covers PipeWire.
+  - --socket=pulseaudio
+  # The local message archive is SQLCipher-encrypted and its key is kept in
+  # the login keyring over the Secret Service API.
+  - --talk-name=org.freedesktop.secrets
+  # New-message notifications while the window is hidden or unfocused.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon (Linux StatusNotifierItem, via the ksni crate). ksni claims
+  # org.kde.StatusNotifierItem-<getpid()>-1; every Flatpak app is PID 2 in its
+  # own PID namespace, so zapfast-wrapper preloads a getpid override that
+  # reports a fixed distinctive value (see the fake-getpid module) and this is
+  # the single name it then needs, instead of racing every other sandboxed tray
+  # app for the PID-2 name.
+  - --own-name=org.kde.StatusNotifierItem-929292-1
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Config, the encrypted archive and the media/avatar/sticker caches live in
+  # the redirected XDG dirs under ~/.var/app/rocks.zapfast.ZapFast. Older
+  # Flatpak versions leave XDG_STATE_HOME unset, and the session state then
+  # resolves to $HOME/.local/state, which is a tmpfs without this line.
+  - --persist=.local/state
+  # Deliberately not granted:
+  #   --filesystem=home / =host -> attachments are picked and saved through the
+  #                                file-chooser portal, which needs no static
+  #                                filesystem access
+  #   --device=all              -> no camera; there are no calls in the app
+modules:
+  - name: zapfast-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/zapfast/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
+  - name: zapfast
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 zapfast-wrapper /app/bin/zapfast
+      - install -Dm644 rocks.zapfast.ZapFast.desktop /app/share/applications/rocks.zapfast.ZapFast.desktop
+      - install -Dm644 rocks.zapfast.ZapFast.metainfo.xml /app/share/metainfo/rocks.zapfast.ZapFast.metainfo.xml
+      - install -Dm644 rocks.zapfast.ZapFast.png /app/share/icons/hicolor/512x512/apps/rocks.zapfast.ZapFast.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: zapfast-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/crmne/zapfast/releases/download/v0.14.0/zapfast-v0.14.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 5cbc07c4dd8345b38cf33f02fd8ff51461a4d712f621640994340ef3d5b6457a
+        size: 29139191
+      - type: extra-data
+        filename: zapfast-aarch64.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/crmne/zapfast/releases/download/v0.14.0/zapfast-v0.14.0-aarch64-unknown-linux-gnu.tar.gz
+        sha256: b46536808df540689d752f5f3d9d435c32a8809b04819ff3b780277a2c478750
+        size: 28441429
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: zapfast-wrapper
+      - type: file
+        path: rocks.zapfast.ZapFast.desktop
+      - type: file
+        path: rocks.zapfast.ZapFast.metainfo.xml
+      - type: file
+        path: rocks.zapfast.ZapFast.png

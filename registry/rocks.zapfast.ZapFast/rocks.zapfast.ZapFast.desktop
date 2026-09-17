@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=ZapFast
+GenericName=WhatsApp Client
+Comment=A native WhatsApp client
+Exec=zapfast
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+Keywords=whatsapp;chat;messaging;
+Icon=rocks.zapfast.ZapFast
+StartupNotify=true
+StartupWMClass=rocks.zapfast.ZapFast
