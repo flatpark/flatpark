@@ -49,6 +49,7 @@ that PR link in the table — the PR itself is the evidence.
 | Folo | `is.folo.Folo` | [RSSNext/Folo#5078 (comment)](https://github.com/RSSNext/Folo/pull/5078#issuecomment-5490405454) — DIYgod, Folo's founder, merged the FlatPark contributor's `.deb`-build PR and replied "感谢 pr~ 请随意上架 flatpark" | 2026-09-01 |
 | Vynody | `io.github.axel10.vynody` | [axel10/vynody#23 (comment)](https://github.com/axel10/vynody/issues/23#issuecomment-5611133082) — axel10, Vynody's author and repo owner, answered the FlatPark listing + blue-shield offer with "欢迎发布到flatpak" | 2026-09-10 |
 | Grab | `io.github.houssemko.Grab` | Approved by construction — submitted and maintained by its own developer ([flatpark#345](https://github.com/flatpark/flatpark/pull/345)) | 2026-09-14 |
+| Gifkino | `io.github.zbcoding.Gifkino` | Approved by construction — submitted and maintained by its own developer ([flatpark#356](https://github.com/flatpark/flatpark/pull/356)) | 2026-09-17 |
 
 ## Not approved
 

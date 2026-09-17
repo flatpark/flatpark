@@ -1,0 +1,29 @@
+#!/bin/sh
+set -eu
+
+# Gifkino is staged by apply_extra to /app/extra/gifkino: upstream's /app tree,
+# contents untouched, built against this same runtime. It is relocatable except
+# for two lookups that go by absolute path or by name, and this is where they
+# are pointed at the tree (upstream's docs/release.md holds them to that):
+#
+#   GIFKINO_PO_DIR  i18n.rs checks this first; without it the app walks four
+#                   levels up from the executable and then tries
+#                   /app/share/gifkino/po, and the catalogs are under neither,
+#                   so every locale but English would fall back to the source
+#                   strings.
+#   PATH            pipeline/caps.rs probes ffmpeg, ffprobe and gifsicle by
+#                   name. Prepended, so the tree's own copies win over anything
+#                   the runtime might grow later, and a helper upstream adds to
+#                   bin/ is found with no change here.
+#
+# Nothing else needs setting: GTK 4, libadwaita, the GSettings schemas, the
+# icon theme and the gdk-pixbuf/glycin loaders all come from
+# org.gnome.Platform, which is what upstream built this tree against.
+export GIFKINO_PO_DIR=/app/extra/gifkino/share/gifkino/po
+export PATH="/app/extra/gifkino/bin:$PATH"
+
+# apply_extra resolved the launcher's name out of the tree's own desktop entry,
+# so an upstream rename cannot break an automated pin refresh.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=gifkino
+exec "/app/extra/gifkino/bin/$launcher" "$@"

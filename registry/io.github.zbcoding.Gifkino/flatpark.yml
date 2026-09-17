@@ -1,0 +1,24 @@
+id: io.github.zbcoding.Gifkino
+name: Gifkino
+summary: Edit animated GIFs along the time axis
+website: https://github.com/zbcoding/gifkino
+source_url: https://github.com/zbcoding/gifkino
+build:
+  manifest: io.github.zbcoding.Gifkino.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: true
+  tags:
+    - GIF
+    - Animation
+    - VideoEditor
+    - Graphics
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

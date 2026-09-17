@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Gifkino
+GenericName=Animated GIF Editor
+Comment=Edit animated GIFs along the time axis
+# A plain %f: flatpak's exporter rewrites this line and generates the
+# `@@ %f @@` file-forwarding markers itself, and shipping them here makes the
+# install fail with "Invalid Exec argument @@".
+Exec=gifkino %f
+TryExec=gifkino
+Icon=io.github.zbcoding.Gifkino
+Terminal=false
+StartupNotify=true
+StartupWMClass=io.github.zbcoding.Gifkino
+Categories=Graphics;2DGraphics;RasterGraphics;GTK;
+Keywords=GIF;Animation;Frame;Timeline;Video;Editor;
+MimeType=image/gif;video/mp4;video/webm;video/x-matroska;video/quicktime;video/x-msvideo;

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!--
+    Gifkino app icon. Three stacked image cards - the frames this app edits
+    along the time axis - under a K for kino.
+
+    This comment sits inside <svg> rather than above it, and has to stay there.
+    gdk-pixbuf identifies a file by sniffing its first kilobyte for the opening
+    tag, so a comment this long in front of it makes every gdk-pixbuf consumer
+    call a valid icon an "unrecognized image file format" - including the
+    appstreamcli compose step of the flatpak build, which fails the build.
+
+    Constraints this file is built to, in case it gets redrawn:
+    - 128x128 canvas, all ink inside the 8px margin, so it survives the rounded
+      masks desktops apply.
+    - The K is stroked geometry, never <text>: the icon is rasterized by
+      rsvg-convert during the AppImage build (scripts/build-appimage.sh) and by
+      whatever loader the host uses, and neither is guaranteed a font.
+    - Must read at 48px, the smallest size that gets indexed. Two things carry
+      that size: the fanned card silhouette with its light-to-dark stepping,
+      and the K. The hills are low-contrast detail for the large sizes and must
+      never compete with the K - a halo or an outline around the K to win that
+      fight just turns the whole card into a blob at 48px.
+    - There is no sun, and adding one back is a mistake already made twice. Any
+      small bright disc to the left of the stem gets read as a letter: level
+      with the top of the K the icon says "iK", lower down it reads as a
+      bullet, and tucked behind the ridge it is a clipped smudge at 48px. The
+      two hills carry "image" on their own.
+    - The K stays inside the front card with room to spare. Its round caps add
+      half a stroke width past every endpoint, so the path endpoints sit ~5
+      units inside the edge, not on it.
+  -->
+  <defs>
+    <linearGradient id="gk-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#62a0ea"/>
+      <stop offset="1" stop-color="#1c71d8"/>
+    </linearGradient>
+    <linearGradient id="gk-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#eaf0f7"/>
+    </linearGradient>
+    <!-- The motif is clipped to the front card, so it stops at the card edge
+         instead of spilling onto the background. -->
+    <clipPath id="gk-front">
+      <rect x="31" y="39" width="66" height="50" rx="7"/>
+    </clipPath>
+  </defs>
+
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="url(#gk-bg)"/>
+
+  <!-- Back two cards, fanned to opposite sides so three cards are countable.
+       Both are lighter than the background: a card darker than the blue behind
+       it disappears into it, so the depth stepping has to run white -> pale ->
+       paler, never toward the background value. -->
+  <rect x="31" y="39" width="66" height="50" rx="7" fill="#a8c8f0"
+        transform="rotate(-14 64 64)"/>
+  <rect x="31" y="39" width="66" height="50" rx="7" fill="#cfe1fa"
+        transform="rotate(8 64 64)"/>
+
+  <!-- Front card and its image motif. -->
+  <rect x="31" y="39" width="66" height="50" rx="7" fill="url(#gk-card)"/>
+  <g clip-path="url(#gk-front)">
+    <path d="M31 89 L47 64 L68 89 Z" fill="#bcd6f6"/>
+    <path d="M52 89 L70 70 L97 89 Z" fill="#8fb8e8"/>
+  </g>
+
+  <!-- K: stem plus two arms off one junction. -->
+  <g fill="none" stroke="#1a5fb4" stroke-width="10"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M51 50 V78"/>
+    <path d="M53 64 L77 49"/>
+    <path d="M53 64 L78 79"/>
+  </g>
+</svg>

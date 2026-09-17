@@ -1,0 +1,63 @@
+id: io.github.zbcoding.Gifkino
+# org.gnome.Platform//50 because that is what upstream built the payload
+# against. Gifkino is a GTK 4 / libadwaita app, and the extra-data here is the
+# /app tree out of upstream's own flatpak build: the gifkino binary, the ffmpeg,
+# ffprobe and gifsicle programs it drives, and the .po catalogs — no GTK, no
+# glib, no cairo. Those come from this runtime, exactly as they do in the
+# Gifkino.flatpak bundle upstream publishes beside it. A runtime major bump on
+# their side is a change this manifest has to follow.
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: gifkino
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GTK renders through GL, and the bundled ffmpeg decodes imported video with
+  # VA-API where the driver allows it.
+  - --device=dri
+  # No --share=network: Gifkino is entirely offline — it opens a GIF or a video
+  # file, edits frames, and writes a GIF back.
+  #
+  # No --filesystem= at all: File > Open and the export save dialog go through
+  # the file-chooser portal, which grants exactly the file the user picks, and a
+  # path handed to the app by a file manager arrives through flatpak's own
+  # file-forwarding of the desktop entry's %f. Settings land in the per-app
+  # XDG_CONFIG_HOME under ~/.var/app/io.github.zbcoding.Gifkino. Opt-in
+  # overrides for a static grant are documented in the metainfo.
+  #
+  # No audio and no --socket=pipewire either: a GIF has no sound track (video
+  # import discards it), and screen recording is out of scope upstream.
+modules:
+  - name: gifkino
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gifkino-wrapper /app/bin/gifkino
+      - install -Dm644 io.github.zbcoding.Gifkino.desktop /app/share/applications/io.github.zbcoding.Gifkino.desktop
+      - install -Dm644 io.github.zbcoding.Gifkino.metainfo.xml /app/share/metainfo/io.github.zbcoding.Gifkino.metainfo.xml
+      - install -Dm644 io.github.zbcoding.Gifkino.svg /app/share/icons/hicolor/scalable/apps/io.github.zbcoding.Gifkino.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gifkino-app.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/zbcoding/gifkino/releases/download/v0.1.3/Gifkino-flatpark-x86_64.tar.xz
+        sha256: a9764fe5a835570870adc612d339291aed074f62be9571a285d5d11567f6497e
+        size: 22882236
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gifkino-wrapper
+      - type: file
+        path: io.github.zbcoding.Gifkino.desktop
+      - type: file
+        path: io.github.zbcoding.Gifkino.metainfo.xml
+      - type: file
+        path: io.github.zbcoding.Gifkino.svg
