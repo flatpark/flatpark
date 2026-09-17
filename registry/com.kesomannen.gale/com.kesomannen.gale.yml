@@ -61,9 +61,9 @@ modules:
         filename: gale.deb
         only-arches:
           - x86_64
-        url: https://github.com/Kesomannen/gale/releases/download/1.22.2/Gale_1.22.2_amd64.deb
-        sha256: d5400bf817ec913a7c9e410c1ba9c467c347b17b7221df017b8869688a81b454
-        size: 9400218
+        url: https://github.com/Kesomannen/gale/releases/download/1.22.3/Gale_1.22.3_amd64.deb
+        sha256: 703a744524ba376cac93be93433571bf10c05ec8aaad69959d21be22c2379af0
+        size: 9401926
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
