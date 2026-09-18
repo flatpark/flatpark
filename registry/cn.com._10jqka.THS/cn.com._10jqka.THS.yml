@@ -56,7 +56,7 @@ modules:
           - x86_64
         url: https://github.com/flatpark/prebuilt/releases/download/openssl-1.1-compat-v2/openssl-1.1-compat-openssl-1.1-compat-v2-fd-26.08-x86_64.tar.xz
         sha256: 260ef0c0871a31826b06a0561c2bdb17a68013d82206220ddc8c226db35d99d7
-        size: 3966556
+        size: 1315388
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: ths.deb

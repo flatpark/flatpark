@@ -85,7 +85,7 @@ modules:
           - x86_64
         url: https://github.com/flatpark/prebuilt/releases/download/opencv-imgproc-v3/opencv-imgproc-opencv-imgproc-v3-fd-26.08-x86_64.tar.xz
         sha256: 3b5a7b1245bf6606af1c991af506402403c2011b47f42df1bb2d6f551513ce9b
-        size: 4460420
+        size: 4598760
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: wemeet.deb

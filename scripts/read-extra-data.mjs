@@ -3,7 +3,7 @@
 // that apply to one arch, as tab-separated lines a shell can read:
 //
 //   runtime<TAB><id><TAB><version>
-//   extra<TAB><filename><TAB><url><TAB><sha256>
+//   extra<TAB><filename><TAB><url><TAB><sha256><TAB><size>
 //
 // Like read-descriptor.mjs this is NOT a general YAML parser. Manifests here
 // are generated and reviewed against a fixed shape, so we extract the few keys
@@ -66,6 +66,7 @@ for (const raw of lines) {
   if ((m = t.match(/^filename:\s*(.+)$/))) cur.filename = strip(m[1]);
   else if ((m = t.match(/^url:\s*(.+)$/))) cur.url = strip(m[1]);
   else if ((m = t.match(/^sha256:\s*(.+)$/))) cur.sha256 = strip(m[1]);
+  else if ((m = t.match(/^size:\s*(.+)$/))) cur.size = strip(m[1]);
 }
 
 if (!runtime || !runtimeVersion) {
@@ -76,10 +77,10 @@ if (!runtime || !runtimeVersion) {
 const out = [`runtime\t${runtime}\t${runtimeVersion}`];
 for (const s of sources) {
   if (s.arches.length && !s.arches.includes(arch)) continue;
-  if (!s.filename || !s.url || !s.sha256) {
-    process.stderr.write(`${file}: extra-data source missing filename/url/sha256\n`);
+  if (!s.filename || !s.url || !s.sha256 || !s.size) {
+    process.stderr.write(`${file}: extra-data source missing filename/url/sha256/size\n`);
     process.exit(1);
   }
-  out.push(`extra\t${s.filename}\t${s.url}\t${s.sha256}`);
+  out.push(`extra\t${s.filename}\t${s.url}\t${s.sha256}\t${s.size}`);
 }
 process.stdout.write(out.join('\n') + '\n');

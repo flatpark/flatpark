@@ -99,7 +99,23 @@ if ! run_check; then
 fi
 assert_contains "$tmp/log" "apply_extra OK"
 
-# 3. An app with no apply_extra.sh is skipped, not failed.
+# 3. A stale `size:` must be rejected. flatpak compares the declared size with
+#    the Content-Length before reading a byte, so a size that no longer matches
+#    the pinned artifact aborts every install with "Wrong size for extra data" —
+#    and the sha256 never gets to disagree. Nothing else in CI sees it: extra-data
+#    is not fetched at build time. A re-pin that moved url+sha256 but left size
+#    behind shipped exactly that.
+write_apply "--no-same-owner"
+real_size="$(stat -c%s "$tmp/payload.zip")"
+sed -i "s/^        size: .*/        size: $((real_size + 1))/" "$app/$id.yml"
+if run_check; then
+    echo "FAIL: check-apply-extra accepted a stale size"
+    cat "$tmp/log"; exit 1
+fi
+assert_contains "$tmp/log" "size mismatch"
+sed -i "s/^        size: .*/        size: $real_size/" "$app/$id.yml"
+
+# 4. An app with no apply_extra.sh is skipped, not failed.
 rm "$app/apply_extra.sh"
 sed -i 's#install -Dm755 apply_extra.sh /app/bin/apply_extra#true#' "$app/$id.yml"
 assert_ok run_check

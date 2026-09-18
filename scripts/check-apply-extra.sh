@@ -86,11 +86,11 @@ check_one() {
         return 0
     fi
 
-    local runtime="" runtime_version="" sources=() kind a b c
-    while IFS=$'\t' read -r kind a b c; do
+    local runtime="" runtime_version="" sources=() kind a b c d
+    while IFS=$'\t' read -r kind a b c d; do
         case "$kind" in
             runtime) runtime="$a"; runtime_version="$b" ;;
-            extra)   sources+=("$a"$'\t'"$b"$'\t'"$c") ;;
+            extra)   sources+=("$a"$'\t'"$b"$'\t'"$c"$'\t'"$d") ;;
         esac
     done < <(node "$ROOT/scripts/read-extra-data.mjs" "$MANIFEST" "$arch")
 
@@ -125,14 +125,24 @@ check_one() {
     # shellcheck disable=SC2064
     trap "cleanup '$work' '$log_file'" EXIT
 
-    local src filename url want got
+    # Both pins are checked, and `size` is not redundant with `sha256`: flatpak
+    # compares the declared size against the Content-Length *before* it reads a
+    # byte, so a stale size aborts the install with "Wrong size for extra data"
+    # and the checksum never gets a chance to disagree. Nothing else in CI
+    # catches it — extra-data is not fetched at build time, so a green build and
+    # a green apply_extra run say nothing about it. Re-pinning a URL without its
+    # size shipped exactly that breakage once.
+    local src filename url want want_size got got_size
     for src in "${sources[@]}"; do
-        IFS=$'\t' read -r filename url want <<<"$src"
+        IFS=$'\t' read -r filename url want want_size <<<"$src"
         log "$APP_ID: fetching $filename"
         curl -fsSL --retry 3 --max-time 900 -o "$work/$filename" "$url" \
             || die "$APP_ID: download failed: $url"
         got="$(sha256sum "$work/$filename" | cut -d' ' -f1)"
         [ "$got" = "$want" ] || die "$APP_ID: sha256 mismatch for $filename (pinned $want, got $got)"
+        got_size="$(stat -c%s "$work/$filename")"
+        [ "$got_size" = "$want_size" ] \
+            || die "$APP_ID: size mismatch for $filename (pinned $want_size, got $got_size) — flatpak rejects this at install time with 'Wrong size for extra data'"
     done
 
     cp "$apply" "$work/apply_extra.sh"

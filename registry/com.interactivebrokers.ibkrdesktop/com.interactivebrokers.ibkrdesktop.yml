@@ -47,7 +47,7 @@ modules:
           - x86_64
         url: https://github.com/flatpark/prebuilt/releases/download/krb5-gss-v2/krb5-gss-krb5-gss-v2-fd-26.08-x86_64.tar.xz
         sha256: 499040be2b155b7a2869cfbe472031bbe336dff887d26809fa54fc5ae318dcf8
-        size: 1996340
+        size: 473004
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: ntws-installer.sh

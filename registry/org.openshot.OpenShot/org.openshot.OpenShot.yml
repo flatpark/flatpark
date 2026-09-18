@@ -91,7 +91,7 @@ modules:
           - x86_64
         url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
         sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
-        size: 54752
+        size: 57220
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: openshot.AppImage
