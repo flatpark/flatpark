@@ -1,6 +1,6 @@
 id: com.hiresti.player
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: hiresti
 separate-locales: false
@@ -10,8 +10,8 @@ finish-args:
   # HiresTI is a GTK4/libadwaita + WebKitGTK6 Python app. The upstream .deb
   # vendors all its Python deps (tidalapi, requests, PIL, …) under
   # usr/share/hiresti/libs and ships two prebuilt Rust .so (audio/viz core);
-  # everything else — python3.13, PyGObject, GTK4, libadwaita, WebKitGTK 6,
-  # GStreamer, libusb, libasound — is resolved from org.gnome.Platform//50.
+  # everything else — python3.14, PyGObject, GTK4, libadwaita, WebKitGTK 6,
+  # GStreamer, libusb, libasound — is resolved from org.gnome.Platform//51.
   - --share=ipc
   # Streaming from TIDAL.
   - --share=network
@@ -40,9 +40,9 @@ modules:
         filename: hiresti.deb
         only-arches:
           - x86_64
-        url: https://github.com/yelanxin/hiresTI/releases/download/v1.9.9/hiresti_1.9.9_amd64_debian13.deb
-        sha256: 69f6c50643997415567f171f0eac9ab77aba08c4242ee371ff2f4e597d717869
-        size: 24497140
+        url: https://github.com/yelanxin/hiresTI/releases/download/v1.9.9/hiresti_1.9.9_amd64_ubuntu2604.deb
+        sha256: ba0ec2acc7e8575367bf8ea4316e83e3e0bec17c64bcaa76ef5ee2d5ad812e37
+        size: 25341522
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -20,9 +20,13 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # Upstream ships one .deb per Debian/Ubuntu release plus .rpm and Arch .pkg. The
-# debian13 .deb is the build target (it matches org.gnome.Platform//50's library
-# generation); pick it explicitly.
-url="$(jq -r '.assets[] | select(.name | test("_amd64_debian13\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+# ubuntu2604 .deb is the build target: the payload bundles Pillow,
+# charset_normalizer and setproctitle as compiled CPython extension modules
+# (`*.cpython-3XX-x86_64-linux-gnu.so`) and imports them with the runtime's own
+# interpreter, so the .deb's Python generation has to be the runtime's.
+# org.gnome.Platform//51 ships Python 3.14, which only loads `cpython-314`
+# modules, and ubuntu2604 is the asset built against it. Pick it explicitly.
+url="$(jq -r '.assets[] | select(.name | test("_amd64_ubuntu2604\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve hiresTI release" >&2; exit 1; }
 echo "resolved hiresTI $version ($date): $url" >&2

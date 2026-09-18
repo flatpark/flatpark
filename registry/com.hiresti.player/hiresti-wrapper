@@ -5,7 +5,8 @@ set -eu
 # /app/extra/hiresti. We reproduce the upstream launcher exactly: cd into the
 # app dir and run main.py with the vendored deps (libs/) ahead of the app root
 # on PYTHONPATH. python3, PyGObject and GTK4/WebKit/GStreamer come from
-# org.gnome.Platform//50; the vendored cpython-313 wheels match its python3.13.
+# org.gnome.Platform//51; the vendored cpython-314 wheels match its python3.14,
+# which is why the pin is upstream's ubuntu2604 .deb (see resolve-update.sh).
 APP=/app/extra/hiresti
 
 # WebKitGTK's DMABUF renderer paints a blank web view under many drivers inside

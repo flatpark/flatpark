@@ -144,7 +144,6 @@
           <li>Profiler — live function timing via runtime monkey-patching, visualized as Flamegraph, Swimlane, or Histogram; per-function call table; save/load sessions as JSON</li>
           <li>Inspector — read-only live view into a running extension's stateObj properties and methods</li>
           <li>Bridge Extension auto-installed on first launch; communicates over a Unix socket; compatible with GNOME Shell 46–50</li>
-          <li>Flatpak bundle built against the GNOME 50 runtime</li>
         </ul>
       </description>
     </release>

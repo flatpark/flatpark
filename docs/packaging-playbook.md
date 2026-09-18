@@ -112,17 +112,57 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   a real uid (`1000`, `1001`, …) and trip this; `.deb`s from a proper `dpkg-deb` do not, which
   is why it hides. Check with
   `bsdtar --numeric-owner -tvf <artifact> | awk '{print $3":"$4}' | sort -u`.
-- **Pick the runtime.** `org.freedesktop.Platform//26.08` by default; `org.gnome.Platform//50`
+- **Pick the runtime.** `org.freedesktop.Platform//26.08` by default; `org.gnome.Platform//51`
   for GTK / WebKitGTK / Tauri. **Always the major the rest of the catalog is on** — match what
   the existing manifests pin, never an older major to dodge a build break. A single straggler
   forces every user to keep a second runtime major on disk. If an app genuinely can't run on the
   current major, that's a **flag-and-ask**, not a quiet downgrade.
-  - **Where the catalog stands (2026-09-18).** The freedesktop apps are on **26.08**; the GTK /
-    WebKitGTK / Tauri apps are still on `org.gnome.Platform//50`, which is built on freedesktop
-    25.08, and `com.heidisql.HeidiSQL` is on `org.kde.Platform//6.11`, also 25.08-based. So users
-    currently hold two freedesktop bases. That is deliberate and temporary: GNOME 51 (the 26.08-based
-    GNOME) shipped 2026-09-16 and is being left to settle, and Flathub has no 26.08-based KDE branch
-    at all. Close the gap with GNOME 51 in its own batch — do not add new apps on 50.
+  - **Where the catalog stands (2026-09-19).** The freedesktop apps are on `//26.08` and 37
+    GTK / WebKitGTK / Tauri apps are on `org.gnome.Platform//51`, both freedesktop 26.08
+    bases. Nine apps are held back, each for its own reason:
+    - *Runtime-level blockers.* `com.usebottles.bottles` — its payload is built by
+      [`flatpark/bottles-release`](https://github.com/flatpark/bottles-release) against the
+      runtime's own interpreter and carries `cpython-313` extension modules and `.pyc`, so it
+      moves only when that pipeline is rebuilt on Python 3.14. `yara-python` has no cp314
+      wheel, so that means building it from its sdist; this may simply stay on 50.
+      `dk.nikse.subtitleedit` and `site.harbor.Harbor.Beta` — both consume `prebuilt`'s
+      `mpv-stack`, and mpv v0.40.0 does not compile against the ffmpeg 8 in the 26.08 base
+      (the `FF_PROFILE_*` aliases are gone). Re-cutting that stack means moving mpv to
+      v0.41.0, which is its own change.
+    - *Held for unrelated upstream drift, each wanting its own change.* `sh.loft.devpod`
+      (its `apply_extra` reads `/app/bin/devpod-cli`, which that sandbox never binds — it
+      only binds `/app/extra` — so a system-wide install cannot succeed today),
+      `com.opendronelog.OpenDroneLog` (upstream re-cut 3.3.0 under the same tag and filename,
+      so the pin is stale), `com.motrix.next` (upstream renamed the project to *rayburst* and
+      moved its site), `dev.navop.Navop` and `io.github.julyx10.Lap` (upstream deleted or
+      renamed screenshots the metainfo points at).
+    - *No runtime to move to.* `com.heidisql.HeidiSQL` — on `org.kde.Platform//6.11`; Flathub
+      publishes no 26.08-based KDE branch.
+    New apps enter on 26.08 / 51.
+  - **Bumping a runtime major is a measurement, not an assumption.** A new major is not a
+    superset of the old one: across 25.08 → 26.08 (and so 50 → 51) ICU went 77 → 78, ffmpeg
+    61 → 62, Python 3.13 → 3.14, nettle/hogweed, vpx, fmt, glslang and SvtAv1Enc all jumped a
+    major, and `libyaml`, `libxmlb`, `libappstream`, `libSDL2_mixer` and (in GNOME 51)
+    `libhandy-1` and the gcr3/gck1 trio went away outright. Two checks per app, and both
+    matter — the soname one alone passed an app that then could not start:
+    - **Sonames.** A payload regresses when a `DT_NEEDED` entry is *in* its closure, *not* in
+      the app's own tree (anything it carries resolves through its rpath and never reaches
+      the runtime), *absent* from the new runtime, and *present* in the old one. Miss that
+      last clause and every pre-existing gap reads as a fresh regression.
+    - **Interpreter ABI.** A payload that imports compiled extension modules with the
+      *runtime's* interpreter is pinned to that interpreter's minor version, and no soname
+      changes when it breaks. Look for `*.cpython-3XX-*.so` and `*.cpython-3XX.pyc` in the
+      unpacked payload and for wheel tags in `*.dist-info/WHEEL`. `com.hiresti.player` moved
+      from upstream's debian13 `.deb` to their ubuntu2604 one for exactly this reason.
+    Unpack every payload against the *new* runtime (`scripts/check-apply-extra.sh` does the
+    unpack the way a system-wide install does) and run both checks over the result plus the
+    built `/app` tree, so archive-module stacks are covered too.
+  - **Prebuilt stacks move with the runtime.** A [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt)
+    stack is built against one SDK major and its release artifact is named for it, so a
+    runtime bump means re-cutting every stack the batch touches and re-pinning URL + sha256
+    in each consumer. Cut them in dependency order — a stack that builds against another
+    (`ffmpeg-full` on x264/x265/lame/rubberband/libass, `tesseract` on `leptonica`) needs its
+    dependency's new release pinned first.
 - **Tech recipes.**
   - **Electron** → `base: org.electronjs.Electron2.BaseApp//<ver>`, run via `zypak-wrapper`
     so Chromium keeps its **internal sandbox through Zypak's default entrypoint** (do **not**

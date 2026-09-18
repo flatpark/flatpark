@@ -28,7 +28,7 @@ FlatPark 在 [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) 中维�
 
 **共享的 `flatpark/prebuilt` stack 是软件包唯一可以作为 `type: archive`（或 `git`）module 引入的东西。** 这些字节会被打进 Flatpak ref，并从 FlatPark 自己的对象存储分发。应用 payload，以及只对单个应用有意义的依赖，必须走 `extra-data`——在安装时从厂商或 release URL 获取，永不进入 ref。不要把单个应用缺失的库从源码构建进 `/app`：如果多个应用共用，就在 `flatpark/prebuilt` 里加一个可复现的 release；否则作为第二个 `extra-data` 源发布（固定版本的发行版 `.deb`、上游 tarball 等）。
 
-对于在 `org.gnome.Platform//50` 上使用 `tray-icon` 的 Tauri 应用，请在应用 module 之前将当前 Ayatana stack 添加为普通 archive module：
+对于在 `org.gnome.Platform//51` 上使用 `tray-icon` 的 Tauri 应用，请在应用 module 之前将当前 Ayatana stack 添加为普通 archive module：
 
 ```yaml
 modules:
@@ -38,8 +38,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
-        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
 ```
 
 当应用确实提供托盘图标时，还要授权 tray socket：

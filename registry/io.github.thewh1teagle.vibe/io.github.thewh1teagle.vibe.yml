@@ -1,6 +1,6 @@
 id: io.github.thewh1teagle.vibe
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: vibe
 separate-locales: false
@@ -36,7 +36,7 @@ modules:
   # than compiling xdotool here; the tag's manifest records the exact source and
   # pin. That stack is deliberately the xdotool 3.x series, whose soname is
   # libxdo.so.3 (4.x installs libxdo.so.4). The archive is built against
-  # org.gnome.Sdk//50, so migrate it explicitly when the catalog runtime major
+  # org.gnome.Sdk//51, so migrate it explicitly when the catalog runtime major
   # changes.
   - name: libxdo
     buildsystem: simple
@@ -44,8 +44,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/libxdo-v1/libxdo-libxdo-v1-gnome-50-x86_64.tar.xz
-        sha256: 2bdb0654cea2058bcbd4057fd3c256325103efff91a1b5d1d3de8ff49b71241b
+        url: https://github.com/flatpark/prebuilt/releases/download/libxdo-v2/libxdo-libxdo-v2-gnome-51-x86_64.tar.xz
+        sha256: 6934f6aa6c8264575444e8b00330855b45242a455f0b4a9bff52a89bf9e3aa6a
   - name: vibe
     buildsystem: simple
     build-commands:

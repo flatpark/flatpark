@@ -1,6 +1,6 @@
 id: io.github.l1xnan.duckling
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: duckling
 separate-locales: false
@@ -25,7 +25,7 @@ finish-args:
   - --filesystem=xdg-download
 modules:
   # Duckling's Tauri tray-icon dlopen-s libayatana-appindicator at startup. The
-  # GNOME runtime does not ship it, so use FlatPark's pinned GNOME 50 Ayatana
+  # GNOME runtime does not ship it, so use FlatPark's pinned GNOME 51 Ayatana
   # support stack before installing the official Duckling payload.
   - name: ayatana-stack
     buildsystem: simple
@@ -33,8 +33,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
-        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
   - name: duckling
     buildsystem: simple
     build-commands:

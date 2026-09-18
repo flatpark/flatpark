@@ -1,6 +1,6 @@
 id: app.yaak.Yaak
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 # command MUST NOT be `yaak`: on startup Yaak probes for its companion CLI by
 # running `yaak --version` on PATH (detect_cli_version). /app/bin is on PATH, so

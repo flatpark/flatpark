@@ -1,6 +1,6 @@
 id: io.github.jlcodes99.CockpitTools
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: cockpit-tools
 separate-locales: false
@@ -37,7 +37,7 @@ modules:
   # it (upstream's .deb declares libayatana-appindicator3-1 as a dependency).
   # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
   # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
-  # against org.gnome.Sdk//50; the tag's manifest records the exact sources,
+  # against org.gnome.Sdk//51; the tag's manifest records the exact sources,
   # pins and patches.
   - name: ayatana-stack
     buildsystem: simple
@@ -45,8 +45,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
-        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
   - name: cockpit-tools
     buildsystem: simple
     build-commands:

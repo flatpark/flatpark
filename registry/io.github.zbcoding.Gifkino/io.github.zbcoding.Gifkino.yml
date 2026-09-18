@@ -1,13 +1,18 @@
 id: io.github.zbcoding.Gifkino
-# org.gnome.Platform//50 because that is what upstream built the payload
-# against. Gifkino is a GTK 4 / libadwaita app, and the extra-data here is the
-# /app tree out of upstream's own flatpak build: the gifkino binary, the ffmpeg,
-# ffprobe and gifsicle programs it drives, and the .po catalogs — no GTK, no
-# glib, no cairo. Those come from this runtime, exactly as they do in the
-# Gifkino.flatpak bundle upstream publishes beside it. A runtime major bump on
-# their side is a change this manifest has to follow.
+# Gifkino is a GTK 4 / libadwaita app, and the extra-data here is the /app tree
+# out of upstream's own flatpak build: the gifkino binary, the ffmpeg, ffprobe and
+# gifsicle programs it drives, and the .po catalogs — no GTK, no glib, no cairo.
+# Those come from this runtime, exactly as they do in the Gifkino.flatpak bundle
+# upstream publishes beside it.
+#
+# Upstream builds that payload against org.gnome.Platform//50 and says in their
+# manifest that the app only calls GTK 4.14 / libadwaita 1.5 APIs, so it runs on
+# any newer runtime. This package is on //51 to stay on the major the rest of the
+# catalog is on; the payload's DT_NEEDED closure was checked against //51 and
+# needs nothing the 50 → 51 bump dropped. Watch upstream's own runtime pin: if
+# they move the payload to a major this one does not have, follow them.
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: gifkino
 separate-locales: false

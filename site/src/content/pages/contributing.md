@@ -72,7 +72,7 @@ missing library into `/app`: if it's shared by several apps, add one reproducibl
 release to `flatpark/prebuilt`; otherwise ship it as a second `extra-data` source
 (a pinned distro `.deb`, an upstream tarball, …).
 
-For a Tauri application that uses `tray-icon` on `org.gnome.Platform//50`, add
+For a Tauri application that uses `tray-icon` on `org.gnome.Platform//51`, add
 the current Ayatana stack as a normal archive module before the app module:
 
 ```yaml
@@ -83,8 +83,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
-        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
 ```
 
 Also grant the tray socket when the app actually exposes a tray icon:
