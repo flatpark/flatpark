@@ -39,9 +39,9 @@ modules:
         filename: yaak.deb
         only-arches:
           - x86_64
-        url: https://github.com/mountain-loop/yaak/releases/download/v2026.7.1/yaak_2026.7.1_amd64.deb
-        sha256: 06e9a4b699aebbc32ce56226160825cac6eee54708e3f21b88f9524f30b148ca
-        size: 79976744
+        url: https://github.com/mountain-loop/yaak/releases/download/v2026.8.0/yaak_2026.8.0_amd64.deb
+        sha256: 5f077c940cf1e04222c01b10e6099b50548b467d9c8e5016295d1cfa46c51306
+        size: 81666336
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
