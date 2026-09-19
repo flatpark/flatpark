@@ -21,12 +21,16 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 # still does the right thing if that ever changes.
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-# The Linux x86_64 build is the lone `*_linux_amd64.deb` asset (the others are
-# the .rpm/.AppImage, the macOS .dmg/.tar.gz, the Windows installers and the
-# Android .apk builds).
-url="$(jq -r '.assets[] | select(.name | test("_linux_amd64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+# Match the asset by its exact name, version included. A loose `*_linux_amd64.deb`
+# suffix match is not enough: the 3.3.1 release carries BOTH
+# open-dronelog_3.3.1_linux_amd64.deb and a leftover
+# open-dronelog_3.3.0_linux_amd64.deb, and picking by sort order took the 3.3.0
+# one — a package that installed as "3.3.1" and then reported 3.3.0 in its own
+# About box, with an update banner pointing at the version it claimed to be.
+url="$(jq -r --arg v "$version" \
+  '.assets[] | select(.name == ("open-dronelog_" + $v + "_linux_amd64.deb")) | .browser_download_url' <<<"$rel")"
 
-[ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve open-dronelog release" >&2; exit 1; }
+[ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve open-dronelog_${version}_linux_amd64.deb" >&2; exit 1; }
 echo "resolved open-dronelog $version ($date): $url" >&2
 
 jq -n --arg v "$version" --arg d "$date" --arg u "$url" \

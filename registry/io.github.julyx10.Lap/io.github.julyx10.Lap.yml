@@ -1,6 +1,6 @@
 id: io.github.julyx10.Lap
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: lap
 separate-locales: false

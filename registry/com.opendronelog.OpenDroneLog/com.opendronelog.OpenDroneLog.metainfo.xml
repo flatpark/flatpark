@@ -67,6 +67,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.3.1" date="2026-09-18">
+      <description></description>
+    </release>
     <release version="3.3.0" date="2026-05-01">
       <url>https://github.com/arpanghosh8453/open-dronelog/releases/tag/3.3.0</url>
     </release>

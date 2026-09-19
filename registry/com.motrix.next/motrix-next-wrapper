@@ -13,6 +13,26 @@ set -eu
 # Flatpak redirects the XDG base dirs, so the task database, the settings and the
 # engine's session state stay inside the sandbox.
 
+# This app needs WebKitGTK's accelerated path ON, which is the opposite of the
+# usual recipe here. Its Tauri window is `transparent: true` with
+# `decorations: false`, and on org.gnome.Platform//51 a transparent window whose
+# web view runs unaccelerated never paints its background: the whole window is
+# see-through onto the desktop, with content flashing only while scrolling or
+# zooming.
+#
+# The app decides this for itself through a `gpu_guard` that reads its own
+# `preferences.hardwareRendering` (off by default) and then re-execs to apply the
+# choice, unless these two variables are already set — in which case it reports
+# an "external WebKitGTK rendering override" and uses them as given. Setting both
+# to 0 here is what makes the shipped default render, rather than leaving every
+# user to find the in-app toggle. It does mean that toggle no longer has an
+# effect; a user who needs the unaccelerated path takes it back with
+#   flatpak override --user --env=WEBKIT_DISABLE_COMPOSITING_MODE=1 com.motrix.next
+# which is why these use ${VAR:-default} rather than plain assignment.
+# Same handling as dev.aninsomniacy.rayburst, which packages this app's 4.x line.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+export WEBKIT_DISABLE_COMPOSITING_MODE="${WEBKIT_DISABLE_COMPOSITING_MODE:-0}"
+
 # No LD_PRELOAD getpid shim here, unlike io.enpass.Enpass and
 # com.abdownloadmanager.AbDownloadManager. Those pin the reported PID so their
 # tray backend stops competing for the one org.kde.StatusNotifierItem-2-1 name

@@ -54,20 +54,20 @@
   <launchable type="desktop-id">io.github.julyx10.Lap.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/01%20lap-main-dark.jpg</image>
-      <caption>The library in timeline view</caption>
+      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/Lap_0.3.0_main_1.png</image>
+      <caption>The library grid, with star ratings and the image information panel</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/02%20lap-ai-search.jpg</image>
+      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/lap-search.png</image>
       <caption>Searching the library with a local AI text prompt</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/05%20lap-location.jpg</image>
+      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/lap_map_view.png</image>
       <caption>Geotagged photos on the map</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/07%20lap-edit-image.jpg</image>
-      <caption>Editing an image</caption>
+      <image>https://raw.githubusercontent.com/julyx10/lap/main/docs/public/screenshots/Lap_0.3.0_view_1.png</image>
+      <caption>Comparing four shots side by side with synchronised zoom</caption>
     </screenshot>
   </screenshots>
   <releases>

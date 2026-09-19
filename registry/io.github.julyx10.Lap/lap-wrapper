@@ -14,8 +14,15 @@ set -eu
 # SQLite catalog, thumbnails and settings stay inside the sandbox even though
 # the photos themselves are read from the user's real folders.
 
-# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
-# the Flatpak sandbox; the compositing path is the reliable default here.
-export WEBKIT_DISABLE_DMABUF_RENDERER=1
+# This app's Tauri window is `transparent: true`, and that inverts the usual
+# WebKitGTK rule here. Disabling the DMABUF renderer is the reliable default for
+# an opaque Tauri window, but on org.gnome.Platform//51 a transparent window
+# whose web view runs unaccelerated never paints its background: the whole
+# window is see-through onto the desktop, with content flashing only while
+# scrolling or zooming. WebKitGTK reads the value rather than only the
+# variable's presence, so 0 leaves the accelerated path on; ${VAR:-0} keeps
+#   flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 io.github.julyx10.Lap
+# available for hardware where the unaccelerated path is the one that works.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
 
 exec /app/extra/lap/bin/Lap "$@"

@@ -117,9 +117,9 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   the existing manifests pin, never an older major to dodge a build break. A single straggler
   forces every user to keep a second runtime major on disk. If an app genuinely can't run on the
   current major, that's a **flag-and-ask**, not a quiet downgrade.
-  - **Where the catalog stands (2026-09-19).** The freedesktop apps are on `//26.08` and 37
+  - **Where the catalog stands (2026-09-19).** The freedesktop apps are on `//26.08` and 43
     GTK / WebKitGTK / Tauri apps are on `org.gnome.Platform//51`, both freedesktop 26.08
-    bases. Nine apps are held back, each for its own reason:
+    bases. Five apps are held back, each for its own reason:
     - *Runtime-level blockers.* `com.usebottles.bottles` — its payload is built by
       [`flatpark/bottles-release`](https://github.com/flatpark/bottles-release) against the
       runtime's own interpreter and carries `cpython-313` extension modules and `.pyc`, so it
@@ -129,14 +129,14 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
       `mpv-stack`, and mpv v0.40.0 does not compile against the ffmpeg 8 in the 26.08 base
       (the `FF_PROFILE_*` aliases are gone). Re-cutting that stack means moving mpv to
       v0.41.0, which is its own change.
-    - *Held for unrelated upstream drift, each wanting its own change.* `sh.loft.devpod`
-      (its `apply_extra` reads `/app/bin/devpod-cli`, which that sandbox never binds — it
-      only binds `/app/extra` — so a system-wide install cannot succeed today),
-      `com.opendronelog.OpenDroneLog` (upstream re-cut 3.3.0 under the same tag and filename,
-      so the pin is stale), `dev.navop.Navop` and `io.github.julyx10.Lap` (upstream deleted or
-      renamed screenshots the metainfo points at).
+    - *Held for unrelated upstream drift.* `sh.loft.devpod` — its `apply_extra` reads
+      `/app/bin/devpod-cli`, which that sandbox never binds (it binds only `/app/extra`), so
+      a system-wide install cannot succeed today. That is a bug to fix, not a runtime
+      question, and it wants its own change.
     - *No runtime to move to.* `com.heidisql.HeidiSQL` — on `org.kde.Platform//6.11`; Flathub
       publishes no 26.08-based KDE branch.
+
+    New apps enter on 26.08 / 51.
   - **An app id follows upstream's own identifier — so a rename is a new package, not an
     edit.** Where upstream ships its own Flatpak or, for a Tauri app, declares a
     `src-tauri/tauri.conf.json` `identifier`, that is the id; reusing it is how a FlatPark
@@ -152,7 +152,6 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
     stable release yet); `com.motrix.next` stays for the 3.9.x line that still ships under
     the old name. An approval carries across a rename — cite the original link and say so in
     the new row (see [`upstream-approvals.md`](upstream-approvals.md)).
-    New apps enter on 26.08 / 51.
   - **Bumping a runtime major is a measurement, not an assumption.** A new major is not a
     superset of the old one: across 25.08 → 26.08 (and so 50 → 51) ICU went 77 → 78, ffmpeg
     61 → 62, Python 3.13 → 3.14, nettle/hogweed, vpx, fmt, glslang and SvtAv1Enc all jumped a
