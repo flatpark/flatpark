@@ -1,0 +1,70 @@
+#!/bin/sh
+set -eu
+
+# Rayburst is a Tauri v2 (WebKitGTK) app staged by apply_extra to
+# /app/extra/rayburst. The GUI binary links only against libraries in
+# org.gnome.Platform (webkit2gtk-4.1, gtk-3, libsoup-3, cairo, dbus, glib) and
+# dlopens libayatana-appindicator3 for its tray icon; that stack is built by the
+# manifest into /app/lib, already on the runtime's search path. Its Aria2 Next
+# engine sidecar sits next to it in bin/, and Tauri resolves the resource tree
+# the engine reads (the peer blocklist, the GeoIP database, the ED2K bootstrap
+# caches) as <exe_dir>/../lib/Rayburst, which apply_extra staged as a sibling.
+#
+# Flatpak redirects the XDG base dirs, so the task database, the settings and the
+# engine's session state stay inside the sandbox.
+
+# This app needs WebKitGTK's accelerated path ON, which is the opposite of the
+# usual recipe here. Its Tauri window is `transparent: true` with
+# `decorations: false`, and on org.gnome.Platform//51 a transparent window whose
+# web view runs unaccelerated never paints its background: the whole window is
+# see-through onto the desktop, with content flashing only while scrolling or
+# zooming. Measured on one machine, same payload, same wrapper, only the runtime
+# or these variables changed:
+#
+#   GNOME 50, accelerated off   renders
+#   GNOME 51, accelerated off   transparent
+#   GNOME 51, accelerated on    renders
+#
+# The app decides this for itself through a `gpu_guard` that reads its own
+# `preferences.hardwareRendering` (off by default) and then re-execs to apply the
+# choice, unless these two variables are already set — in which case it reports
+# an "external WebKitGTK rendering override" and uses them as given. Setting both
+# to 0 here is what makes the shipped default render, rather than leaving every
+# user to find the in-app toggle. It does mean that toggle no longer has an
+# effect; a user who needs the unaccelerated path takes it back with
+#   flatpak override --user --env=WEBKIT_DISABLE_COMPOSITING_MODE=1 dev.aninsomniacy.rayburst
+# which is why these use ${VAR:-default} rather than plain assignment.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+export WEBKIT_DISABLE_COMPOSITING_MODE="${WEBKIT_DISABLE_COMPOSITING_MODE:-0}"
+
+# WebKitGTK's DMABUF renderer paints a blank, transparent web view under many
+# drivers inside the Flatpak sandbox; disabling it is the reliable default, and
+# every Tauri/WebKitGTK package here does it. On org.gnome.Platform//51 that is
+# not enough for this app: its Tauri window is `transparent: true` with
+# `decorations: false`, and with accelerated compositing still on, the web view
+# never paints — the window is see-through, with content flashing only while
+# scrolling or zooming. Disabling compositing as well makes it render.
+#
+# Measured on one machine, same payload and wrapper, only the runtime changed:
+#
+#   GNOME 50, dmabuf off, compositing on   renders
+#   GNOME 51, dmabuf off, compositing on   transparent
+#   GNOME 51, dmabuf off, compositing off  renders
+#
+# Setting both here also keeps the app's own gpu_guard out of the decision: it
+# treats pre-set values as an external override ("external WebKitGTK rendering
+# override dmabuf_disabled=true compositing_disabled=true") instead of choosing
+# for itself and re-executing the process to apply its choice.
+
+# No LD_PRELOAD getpid shim here, unlike io.enpass.Enpass and
+# com.abdownloadmanager.AbDownloadManager. Those pin the reported PID so their
+# tray backend stops competing for the one org.kde.StatusNotifierItem-2-1 name
+# every sandboxed app would otherwise ask for; this app's tray registers under
+# its unique D-Bus connection name instead, so it never asks for that name and
+# has nothing to contend over.
+
+# apply_extra recorded the launcher name from the .deb's own desktop entry, so a
+# rename upstream cannot leave this wrapper pointing at a binary that is gone.
+launcher="$(cat /app/extra/rayburst/.launcher)"
+
+exec "/app/extra/rayburst/bin/$launcher" "$@"

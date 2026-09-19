@@ -8,9 +8,9 @@
   <developer id="com.motrix.next">
     <name>AnInsomniacy</name>
   </developer>
-  <url type="homepage">https://motrix-next.pages.dev</url>
-  <url type="bugtracker">https://github.com/AnInsomniacy/motrix-next/issues</url>
-  <url type="vcs-browser">https://github.com/AnInsomniacy/motrix-next</url>
+  <url type="homepage">https://rayburst.pages.dev</url>
+  <url type="bugtracker">https://github.com/AnInsomniacy/rayburst/issues</url>
+  <url type="vcs-browser">https://github.com/AnInsomniacy/rayburst</url>
   <description>
     <p>This is a community package of Motrix Next, maintained independently and unaffiliated with the Motrix Next project. It repackages the official upstream Linux build unmodified.</p>
     <p>Motrix Next is a desktop download manager built with Tauri and Vue, driving Aria2 Next — a maintained aria2 fork — as its engine. It is a separate, ground-up rewrite inspired by the original Motrix, written by a different author, and it keeps its own settings and task database.</p>
@@ -46,11 +46,11 @@
   <launchable type="desktop-id">com.motrix.next.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/AnInsomniacy/motrix-next/main/docs/media/screenshot-light.png</image>
+      <image>https://raw.githubusercontent.com/AnInsomniacy/rayburst/main/docs/media/screenshot-light.png</image>
       <caption>The task list in the light theme</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/AnInsomniacy/motrix-next/main/docs/media/screenshot-dark.png</image>
+      <image>https://raw.githubusercontent.com/AnInsomniacy/rayburst/main/docs/media/screenshot-dark.png</image>
       <caption>The task list in the dark theme</caption>
     </screenshot>
   </screenshots>
@@ -62,7 +62,7 @@
       <description></description>
     </release>
     <release version="3.9.7" date="2026-08-03">
-      <url>https://github.com/AnInsomniacy/motrix-next/releases/tag/v3.9.7</url>
+      <url>https://github.com/AnInsomniacy/rayburst/releases/tag/v3.9.7</url>
     </release>
   </releases>
 </component>

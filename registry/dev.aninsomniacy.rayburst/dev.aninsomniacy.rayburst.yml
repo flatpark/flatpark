@@ -1,0 +1,88 @@
+id: dev.aninsomniacy.rayburst
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: rayburst
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri v2 / WebKitGTK 4.1 (GTK 3) front end driving a bundled aria2-derived
+  # engine, Aria2 Next.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # dri for hardware-accelerated WebKit rendering. The app has its own GPU guard
+  # that falls back to software compositing when it cannot get hardware paths.
+  - --device=dri
+  # The downloads themselves, the engine's BitTorrent/DHT/ED2K traffic, and the
+  # loopback listeners the engine's RPC and the Extension API bind. Flatpak does
+  # not isolate the network namespace, so the browser extension on the host
+  # reaches the Extension API over loopback like any other local client.
+  - --share=network
+  # Default destination. Flatpak maps xdg-download into the sandbox, so the app's
+  # default save folder resolves to the real Downloads directory. Any other
+  # location is granted per-folder through the file chooser portal, or by the
+  # user with `flatpak override --filesystem=...` (documented in the metainfo).
+  - --filesystem=xdg-download
+  # Download-complete notifications and the tray icon.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # "Open containing folder" on a finished task calls
+  # org.freedesktop.FileManager1.ShowItems, which is the host's file manager and
+  # not a portal, so the session bus proxy hides it without this grant and the
+  # menu entry does nothing at all.
+  - --talk-name=org.freedesktop.FileManager1
+  # No --own-name is needed for the tray. The libayatana-appindicator build this
+  # app dlopens registers its item with the watcher under its own unique D-Bus
+  # connection name rather than claiming a well-known
+  # org.kde.StatusNotifierItem-<pid>-<n>, so there is no name to grant and none of
+  # the PID-2 contention that the older bus-name path suffers from.
+  # tauri-plugin-single-instance's own well-known name sits under the app id, so
+  # Flatpak already lets the app own it; it needs no grant of its own.
+modules:
+  # The Tauri tray dlopens libayatana-appindicator3.so.1 (falling back to
+  # libappindicator3.so.1) through libappindicator-sys, and the GNOME runtime
+  # ships neither, so the tray cannot work without this.
+  # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
+  # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
+  # against org.gnome.Sdk//51; the tag's manifest records the exact sources,
+  # pins and patches. One pinned archive instead of five source builds per app,
+  # and no launchpad.net downloads at build time.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: rayburst
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 rayburst-wrapper /app/bin/rayburst
+      - install -Dm644 dev.aninsomniacy.rayburst.desktop /app/share/applications/dev.aninsomniacy.rayburst.desktop
+      - install -Dm644 dev.aninsomniacy.rayburst.metainfo.xml /app/share/metainfo/dev.aninsomniacy.rayburst.metainfo.xml
+      - install -Dm644 dev.aninsomniacy.rayburst.png /app/share/icons/hicolor/256x256/apps/dev.aninsomniacy.rayburst.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: rayburst.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.0.0-beta.2/Rayburst_4.0.0-beta.2_amd64.deb
+        sha256: f2ebe2f5c3f984327aa9d131fa00fe9af717aa05c8d8a6b383ffce4c780f0876
+        size: 28709586
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: rayburst-wrapper
+      - type: file
+        path: dev.aninsomniacy.rayburst.desktop
+      - type: file
+        path: dev.aninsomniacy.rayburst.metainfo.xml
+      - type: file
+        path: dev.aninsomniacy.rayburst.png

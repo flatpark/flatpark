@@ -133,11 +133,25 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
       (its `apply_extra` reads `/app/bin/devpod-cli`, which that sandbox never binds — it
       only binds `/app/extra` — so a system-wide install cannot succeed today),
       `com.opendronelog.OpenDroneLog` (upstream re-cut 3.3.0 under the same tag and filename,
-      so the pin is stale), `com.motrix.next` (upstream renamed the project to *rayburst* and
-      moved its site), `dev.navop.Navop` and `io.github.julyx10.Lap` (upstream deleted or
+      so the pin is stale), `dev.navop.Navop` and `io.github.julyx10.Lap` (upstream deleted or
       renamed screenshots the metainfo points at).
     - *No runtime to move to.* `com.heidisql.HeidiSQL` — on `org.kde.Platform//6.11`; Flathub
       publishes no 26.08-based KDE branch.
+  - **An app id follows upstream's own identifier — so a rename is a new package, not an
+    edit.** Where upstream ships its own Flatpak or, for a Tauri app, declares a
+    `src-tauri/tauri.conf.json` `identifier`, that is the id; reusing it is how a FlatPark
+    package and an upstream one stay the same application rather than two rival refs. When
+    upstream renames itself it changes that identifier, and since a Flatpak ref is keyed on
+    the app id, **users do not migrate automatically**. So do not rewrite the existing
+    directory in place: add the new id as its own `registry/<id>/` and keep the old one
+    listed until the rename has finished landing upstream, then de-list it.
+    `dev.aninsomniacy.rayburst` is the worked example — upstream renamed Motrix Next to
+    *Rayburst* and its identifier to `dev.aninsomniacy.rayburst` in v4.0.0-beta.1, and says
+    itself that moving over is a fresh installation with no data import. The new package
+    tracks the 4.x line (its resolver deliberately includes prereleases, since 4.x has no
+    stable release yet); `com.motrix.next` stays for the 3.9.x line that still ships under
+    the old name. An approval carries across a rename — cite the original link and say so in
+    the new row (see [`upstream-approvals.md`](upstream-approvals.md)).
     New apps enter on 26.08 / 51.
   - **Bumping a runtime major is a measurement, not an assumption.** A new major is not a
     superset of the old one: across 25.08 → 26.08 (and so 50 → 51) ICU went 77 → 78, ffmpeg
@@ -170,7 +184,17 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
     [`registry/pro.affine.AFFiNE`](../registry/pro.affine.AFFiNE),
     [`registry/org.electerm.Electerm`](../registry/org.electerm.Electerm).
   - **Tauri / WebKitGTK** → `WEBKIT_DISABLE_DMABUF_RENDERER=1` in the wrapper (else blank
-    window). If the app has a **tray icon**, Tauri's `tray-icon` `dlopen`s
+    window). **Check the app's `tauri.conf.json` for `transparent: true` first, because then
+    that rule inverts.** On `org.gnome.Platform//51` a transparent, undecorated window whose
+    web view runs unaccelerated never paints its background: the window is see-through onto
+    the desktop and content only flashes while scrolling or zooming. It is not a driver
+    problem and forcing XWayland does not help; the same payload renders on `//50` either
+    way. Such an app needs the accelerated path left **on** —
+    `WEBKIT_DISABLE_DMABUF_RENDERER=0` and `WEBKIT_DISABLE_COMPOSITING_MODE=0`, written as
+    `${VAR:-0}` so a `flatpak override --env=` can still take it back. Worked example:
+    [`registry/dev.aninsomniacy.rayburst`](../registry/dev.aninsomniacy.rayburst). Opaque
+    Tauri windows are unaffected, which is why most of the catalog's Tauri apps moved to 51
+    without noticing. If the app has a **tray icon**, Tauri's `tray-icon` `dlopen`s
     libayatana-appindicator and *panics* when it's absent — the GNOME runtime doesn't ship
     it. **Do not duplicate the five-module Ayatana source build in each app.** Consume the
     pinned `ayatana-stack` archive from [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt)

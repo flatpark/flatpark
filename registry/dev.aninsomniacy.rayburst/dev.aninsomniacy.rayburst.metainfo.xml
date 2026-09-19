@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.aninsomniacy.rayburst</id>
+  <name>Rayburst</name>
+  <summary>Download manager for HTTP, FTP, BitTorrent, ED2K and HLS/DASH media</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="dev.aninsomniacy">
+    <name>AnInsomniacy</name>
+  </developer>
+  <url type="homepage">https://rayburst.pages.dev</url>
+  <url type="bugtracker">https://github.com/AnInsomniacy/rayburst/issues</url>
+  <url type="vcs-browser">https://github.com/AnInsomniacy/rayburst</url>
+  <description>
+    <p>This is a community package of Rayburst, maintained independently and unaffiliated with the Rayburst project. It repackages the official upstream Linux build unmodified.</p>
+    <p>Rayburst is a desktop download manager built with Tauri and Vue, driving Aria2 Next — a maintained aria2 fork — as its engine. It is a separate, ground-up rewrite inspired by the original Motrix, written by a different author, and it keeps its own settings and task database.</p>
+    <p>This package tracks the 4.x line, which is what carries the Rayburst name. Upstream renamed the project from Motrix Next in 4.0.0-beta.1, and 4.x is still a beta line: expect the rough edges of a prerelease. The 3.9.x stable line still ships under the former name and is packaged separately as MotrixNext (com.motrix.next).</p>
+    <p>Upstream states that moving from Motrix Next is a fresh installation: the application identifier and data directories changed, and previous settings, task state and history are not imported automatically. Installing this package alongside MotrixNext is fine — they are separate applications with separate sandboxes — but finish or back up active downloads in the old one first.</p>
+    <ul>
+      <li>HTTP, HTTPS, SFTP, ED2K, BitTorrent, Magnet and .torrent downloads.</li>
+      <li>Native HLS and DASH media downloads with track and subtitle selection, live recording, and MP4, Matroska or WebVTT output.</li>
+      <li>Multi-threaded transfers with a task queue and SQLite-backed history.</li>
+      <li>BitTorrent selective download, DHT, peer exchange and GeoIP peer flags.</li>
+      <li>System tray, light and dark themes, and translations for 25 languages.</li>
+    </ul>
+    <p>Permissions: this package keeps a tight sandbox by default — display, GPU, network, notifications, a tray icon, and your Downloads folder. Saving to any other directory goes through the desktop portal's file chooser. To grant a specific folder permanently, run <code>flatpak override --user --filesystem=~/Media dev.aninsomniacy.rayburst</code>, substituting your own path; <code>--filesystem=home</code> grants the whole home directory.</p>
+    <p>Browser integration: the Rayburst Connect extension talks to the app over its Extension API, using the address and secret the app shows in its settings, and that works from this package — the sandbox shares the host's network. What this package does not set up is the browser native-messaging host, whose job is to launch Rayburst on demand: registering it would mean writing into your browser's own configuration directory on the host, which this sandbox deliberately cannot reach. Start Rayburst yourself and the extension connects.</p>
+    <p>Rendering: this package pins WebKitGTK's accelerated path on. The app's window is transparent, and on this runtime an unaccelerated web view leaves it see-through, so the app's own "hardware rendering" setting is overridden here and changing it has no effect. If the accelerated path does not suit your hardware, take it back with <code>flatpak override --user --env=WEBKIT_DISABLE_COMPOSITING_MODE=1 dev.aninsomniacy.rayburst</code>.</p>
+    <p>The in-app updater is not usable here: it replaces the application binary in place, which a read-only Flatpak install does not allow. Updates arrive through Flatpak instead. Proxy auto-detection reads the host's GNOME proxy settings, which are not visible inside the sandbox, so set a proxy explicitly in the app's own network settings if you need one.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>download</keyword>
+    <keyword>bittorrent</keyword>
+    <keyword>magnet</keyword>
+    <keyword>ed2k</keyword>
+    <keyword>aria2</keyword>
+    <keyword>hls</keyword>
+    <keyword>dash</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">768</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>rayburst</binary>
+  </provides>
+  <launchable type="desktop-id">dev.aninsomniacy.rayburst.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/AnInsomniacy/rayburst/main/docs/media/screenshot-light.png</image>
+      <caption>The task list in the light theme</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/AnInsomniacy/rayburst/main/docs/media/screenshot-dark.png</image>
+      <caption>The task list in the dark theme</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="4.0.0-beta.2" date="2026-09-17">
+      <url>https://github.com/AnInsomniacy/rayburst/releases/tag/v4.0.0-beta.2</url>
+    </release>
+  </releases>
+</component>

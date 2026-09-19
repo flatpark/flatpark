@@ -1,8 +1,8 @@
 id: com.motrix.next
 name: MotrixNext
 summary: Download manager for HTTP, FTP, BitTorrent, Magnet and ED2K links
-website: https://motrix-next.pages.dev
-source_url: https://github.com/AnInsomniacy/motrix-next
+website: https://rayburst.pages.dev
+source_url: https://github.com/AnInsomniacy/rayburst
 build:
   manifest: com.motrix.next.yml
   branch: stable
@@ -16,6 +16,10 @@ catalog:
     - BitTorrent
     - aria2
     - Tauri
+    # Upstream renamed the project to Rayburst in v4.0.0-beta.1. The stable line
+    # this package tracks is still MotrixNext (see resolve-update.sh), so the
+    # name stays for now and this tag is what makes it findable by the new one.
+    - Rayburst
 update:
   command: ./resolve-update.sh
 policy:

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Rayburst
+GenericName=Download Manager
+Comment=A full-featured download manager
+Exec=rayburst %U
+Icon=dev.aninsomniacy.rayburst
+Terminal=false
+StartupNotify=true
+StartupWMClass=rayburst
+Categories=Network;FileTransfer;
+Keywords=download;bittorrent;magnet;ed2k;aria2;hls;dash;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;x-scheme-handler/ed2k;x-scheme-handler/thunder;x-scheme-handler/rayburst;
+X-GNOME-UsesNotifications=true

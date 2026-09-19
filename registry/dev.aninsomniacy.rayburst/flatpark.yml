@@ -1,0 +1,30 @@
+id: dev.aninsomniacy.rayburst
+name: Rayburst
+summary: Download manager for HTTP, FTP, BitTorrent, ED2K and HLS/DASH media
+website: https://rayburst.pages.dev
+source_url: https://github.com/AnInsomniacy/rayburst
+build:
+  manifest: dev.aninsomniacy.rayburst.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  # Same maintainer, same project, approval given under its former name — see the
+  # row in docs/upstream-approvals.md.
+  upstream_approved: true
+  tags:
+    - Download
+    - FileTransfer
+    - BitTorrent
+    - aria2
+    - Tauri
+    # Upstream's former name, kept so the listing is still findable by it while
+    # the rename is in flight. See com.motrix.next, which packages the 3.9.x
+    # line that still ships under that name.
+    - MotrixNext
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
