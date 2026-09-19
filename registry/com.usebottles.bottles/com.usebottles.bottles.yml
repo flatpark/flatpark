@@ -1,6 +1,6 @@
 id: com.usebottles.bottles
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 command: bottles
 separate-locales: false
@@ -9,7 +9,7 @@ build-options:
 
 # This shell compiles nothing of its own. The payload is the complete /app tree
 # built by CI in flatpark/bottles-release — Bottles itself, the bundled wine,
-# vte, ImageMagick, yara, umu, fvs2 and the cp313 Python wheels — fetched as
+# vte, ImageMagick, yara, umu, fvs2 and the cp314 Python wheels — fetched as
 # extra-data on the user's machine, which is why FlatPark's own OSTree repository
 # holds only these few dozen kilobytes. The build recipe is public in
 # bottles-release, satisfying the GPL-3.0 obligation to offer the corresponding
@@ -46,8 +46,12 @@ finish-args:
 
   # /app/lib has to be a real directory (see below), so the payload's library
   # directories go on LD_LIBRARY_PATH explicitly; lib/i386-linux-gnu is the
-  # Compat.i386 mount point, which is where the 32-bit libraries come from.
-  - --env=LD_LIBRARY_PATH=/app/extra/bottles/lib:/app/extra/bottles/lib32:/app/lib/i386-linux-gnu
+  # Compat.i386 mount point, which is where the 32-bit libraries come from. The
+  # payload itself no longer ships a lib32: org.winehq.Wine//stable-26.08 is a
+  # new-WoW64 build with no 32-bit unix side, so the runners Bottles downloads are
+  # the only thing that still needs 32-bit libraries, and they take them from
+  # Compat.i386 and from the bottlesdevs/runtime bundle inside the payload.
+  - --env=LD_LIBRARY_PATH=/app/extra/bottles/lib:/app/lib/i386-linux-gnu
   - --env=PATH=/app/extra/bottles/bin:/app/bin:/app/utils/bin:/usr/bin:/usr/lib/extensions/vulkan/MangoHud/bin/:/usr/lib/extensions/vulkan/OBSVkCapture/bin/:/usr/lib/extensions/vulkan/gamescope/bin/
   - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0
   # The payload's share/ is not at /app/share, which has to stay a real directory
@@ -60,7 +64,11 @@ finish-args:
 
 # The Flathub build inherits these mount points through base: org.winehq.Wine.
 # This shell uses no base — wine is already in the payload — so it declares each
-# of them itself, keeping the definitions identical to the Wine base app's.
+# of them itself. The definitions come from the stable-25.08 Wine base app, which
+# is the last one that had them: stable-26.08 is a new-WoW64 build and declares no
+# i386 extension points at all. They are kept here because the runners Bottles
+# downloads at runtime are conventional wine builds that still need a 32-bit
+# system and driver stack.
 #
 # Wine.gecko and Wine.mono are deliberately not declared: Bottles' own component
 # manager fetches gecko and mono on demand, so the Flatpak extension route is not
@@ -77,19 +85,19 @@ add-extensions:
     autoprune-unless: active-gl-driver
     merge-dirs: vulkan/icd.d;glvnd/egl_vendor.d;egl/egl_external_platform.d;OpenCL/vendors;lib/dri;lib/d3d;lib/gbm;vulkan/explicit_layer.d;vulkan/implicit_layer.d;vdpau
     version: '1.4'
-    versions: 25.08;25.08-extra;1.4
+    versions: 26.08;26.08-extra;1.4
 
   # This path cannot move: the runtime hardcodes /lib/i386-linux-gnu as a symlink
   # to ../../app/lib/i386-linux-gnu. Mounting the extension anywhere else yields
   # /lib/ld-linux.so.2: could not open, and all 32-bit support dies.
   org.freedesktop.Platform.Compat.i386:
     directory: lib/i386-linux-gnu
-    version: '25.08'
+    version: '26.08'
 
   org.freedesktop.Platform.codecs_extra.i386:
     directory: lib/i386-linux-gnu/codecs-extra
     add-ld-path: lib
-    version: '25.08-extra'
+    version: '26.08-extra'
 
   com.valvesoftware.Steam.CompatibilityTool:
     directory: share/steam/compatibilitytools.d
@@ -117,9 +125,12 @@ modules:
       - install -Dm644 com.usebottles.bottles.metainfo.xml /app/share/metainfo/com.usebottles.bottles.metainfo.xml
       - install -Dm644 com.usebottles.bottles.svg /app/share/icons/hicolor/scalable/apps/com.usebottles.bottles.svg
 
-      # No extension mounts into these four, so they can be symlinked whole. They
-      # dangle until apply_extra unpacks the payload.
-      - for d in lib32 etc libexec i386; do rm -rf /app/$d; ln -s extra/bottles/$d /app/$d; done
+      # No extension mounts into these two, so they can be symlinked whole. They
+      # dangle until apply_extra unpacks the payload. lib32 and i386 used to be
+      # here too; the new-WoW64 Wine base has no 32-bit unix side, so the payload
+      # no longer contains either, and symlinking them would only leave two dead
+      # entries in /app.
+      - for d in etc libexec; do rm -rf /app/$d; ln -s extra/bottles/$d /app/$d; done
 
       # /app/lib and /app/share cannot be symlinked whole: flatpak-builder creates
       # the extension mount points inside them at build time, when the payload has
@@ -129,7 +140,7 @@ modules:
       # layout.json published by bottles-release; resolve-update.sh checks them on
       # every pin refresh and fails if the payload grows a new subdirectory.
       - mkdir -p /app/lib/i386-linux-gnu/GL /app/lib/i386-linux-gnu/codecs-extra
-      - for d in cmake girepository-1.0 ImageMagick-7.1.1 krb5 libexec python3.13 samba systemd wine; do ln -s ../extra/bottles/lib/$d /app/lib/$d; done
+      - for d in cmake girepository-1.0 ImageMagick-7.1.1 krb5 libexec python3.14 samba systemd wine; do ln -s ../extra/bottles/lib/$d /app/lib/$d; done
 
       # Under share/, the two that genuinely have to be symlinks are bottles and
       # locale: the launcher uses absolute paths for
@@ -145,9 +156,9 @@ modules:
         filename: bottles.tar.zst
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/bottles-release/releases/download/v67.2/bottles-67.2-x86_64.tar.zst
-        sha256: 5144516c6987f29f92597e07118f63af8a916920ea4b5291c88a5f525603fff2
-        size: 113772576
+        url: https://github.com/flatpark/bottles-release/releases/download/v67.4/bottles-67.4-x86_64.tar.zst
+        sha256: 74f96924eabe20f6d00d1156997f21ccfa8fc63aa8a49cc34204f7090eeeb767
+        size: 101834774
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

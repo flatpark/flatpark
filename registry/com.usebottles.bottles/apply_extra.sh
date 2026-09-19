@@ -3,7 +3,7 @@ set -eu
 
 # Runs offline at install time inside org.gnome.Platform. The payload is the
 # complete /app tree built by CI in flatpark/bottles-release: Bottles itself, the
-# bundled wine, vte, ImageMagick, yara, umu, fvs2 and the cp313 Python wheels.
+# bundled wine, vte, ImageMagick, yara, umu, fvs2 and the cp314 Python wheels.
 #
 # It cannot be unpacked to /app — while apply_extra runs, /app is read-only and
 # only the working directory (/app/extra) is writable, and a Flatpak sandbox
