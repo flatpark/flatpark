@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.stirlingpdf.StirlingPDF</id>
+  <name>Stirling PDF</name>
+  <summary>Edit, merge, split, sign and convert PDFs on your own machine</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT AND LicenseRef-proprietary=https://github.com/Stirling-Tools/Stirling-PDF/blob/main/frontend/editor/src/desktop/LICENSE</project_license>
+  <developer id="com.stirlingpdf">
+    <name>Stirling PDF Inc.</name>
+  </developer>
+  <url type="homepage">https://www.stirling.com/</url>
+  <url type="bugtracker">https://github.com/Stirling-Tools/Stirling-PDF/issues</url>
+  <url type="help">https://docs.stirlingpdf.com</url>
+  <url type="vcs-browser">https://github.com/Stirling-Tools/Stirling-PDF</url>
+  <description>
+    <p>This is a community package of Stirling PDF, maintained independently. It repackages the official upstream Linux desktop build unmodified.</p>
+    <p>Stirling PDF is a PDF workbench that runs entirely on your own machine. The desktop build pairs a native window with the Stirling PDF engine, which upstream bundles into the same package as a Java runtime and starts on a local port when the app launches; your documents are processed there and are not uploaded anywhere.</p>
+    <ul>
+      <li>Organize documents: merge, split by pages, size, chapters or sections, rotate, rearrange, scale, crop, overlay and lay out booklets</li>
+      <li>Read and edit: page viewer, multi-tool page editor, an alpha text editor, and side-by-side comparison of two documents</li>
+      <li>Sign and secure: draw a signature or sign with a certificate, validate and remove signatures, add timestamps, set passwords and permissions, and sanitize a file</li>
+      <li>Redact text manually or by search, flatten forms, fill and modify form fields, unlock forms, and remove annotations</li>
+      <li>Annotate: watermarks, stamps, page numbers, attachments and images</li>
+      <li>Extract and export: images, plain text, CSV, JSON, CBZ and per-page images; build PDFs from images, JSON or Markdown</li>
+      <li>Metadata and structure: edit document metadata and the table of contents, and get a full report on any file</li>
+    </ul>
+    <p>The package is sandboxed: it has no network access and no access to any directory outside its own. PDFs are opened and saved through the file-chooser portal, so the app only ever sees the files you hand it, and its settings, logs and working files live under ~/.var/app/com.stirlingpdf.StirlingPDF. Because the sandbox has its own network namespace, the local engine's HTTP API is reachable only from inside the app and not from the rest of the machine.</p>
+    <p>Two things behave differently inside this package, and it is worth knowing before you install:</p>
+    <ul>
+      <li>Some of Stirling PDF's tools are handed to command-line programs that it looks for on the system - Ghostscript, qpdf, ImageMagick, LibreOffice, Tesseract, OCRmyPDF, WeasyPrint, Calibre, pdftohtml, unrar. None of those are inside the sandbox, so the twenty tools that have no other implementation stay in the tool list but greyed out and cannot be selected: OCR, repair, scanner effect, invert, extracting scanned images, converting to and from Office documents, and converting to HTML, Markdown, RTF, XML, PDF/A, EPUB, CBR or vector formats (and building a PDF from a URL, an HTML page, an .eml message or a vector file). Everything listed above, compression and cropping included, runs in the engine itself and is unaffected.</li>
+      <li>The in-app updater cannot replace a packaged build, so new upstream releases arrive as Flatpak updates instead.</li>
+    </ul>
+    <p>One optional capability is not granted by default; enable it with "flatpak override" if you need it:</p>
+    <ul>
+      <li>Sign in to a Stirling PDF account, or point the app at a Stirling PDF server you host yourself instead of the bundled local engine: <code>flatpak override --user --share=network --talk-name=org.freedesktop.secrets com.stirlingpdf.StirlingPDF</code> (the second grant lets it store the login token in your keyring)</li>
+    </ul>
+    <p>Stirling PDF is open source under the MIT licence, except for the desktop-specific parts of the app, which upstream licenses separately: free for trial, evaluation and minimal use, with production and business use requiring a Stirling PDF subscription. See the licence linked above before deploying it at work.</p>
+  </description>
+  <launchable type="desktop-id">com.stirlingpdf.StirlingPDF.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Graphics</category>
+    <category>Viewer</category>
+  </categories>
+  <keywords>
+    <keyword>pdf</keyword>
+    <keyword>merge</keyword>
+    <keyword>split</keyword>
+    <keyword>sign</keyword>
+    <keyword>redact</keyword>
+    <keyword>forms</keyword>
+    <keyword>stirling</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>stirling-pdf</binary>
+    <mediatype>application/pdf</mediatype>
+  </provides>
+  <!-- Upstream's own README images, hotlinked rather than rehosted. -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>The tool list beside the workspace, with a document ready to be added</caption>
+      <image>https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/main/images/home-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The same workspace in the dark theme</caption>
+      <image>https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/main/images/home.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.14.3" date="2026-08-06">
+      <description></description>
+    </release>
+  </releases>
+</component>

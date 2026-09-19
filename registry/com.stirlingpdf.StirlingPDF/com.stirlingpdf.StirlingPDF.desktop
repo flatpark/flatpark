@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Stirling PDF
+Comment=Edit, merge, split, sign and convert PDFs on your own machine
+Exec=stirling-pdf %F
+Icon=com.stirlingpdf.StirlingPDF
+Terminal=false
+Categories=Office;Graphics;Viewer;
+StartupWMClass=stirling-pdf
+StartupNotify=true
+MimeType=application/pdf;x-scheme-handler/stirlingpdf;
+Keywords=pdf;merge;split;sign;redact;convert;compress;form;

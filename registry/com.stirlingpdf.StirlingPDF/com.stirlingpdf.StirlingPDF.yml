@@ -1,0 +1,79 @@
+id: com.stirlingpdf.StirlingPDF
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: stirling-pdf
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK front end over a Java backend that upstream bundles in the
+  # same package: the Debian package ships the Tauri launcher, a trimmed Java 25
+  # runtime image and the Spring Boot jar, and the launcher starts that jar on a
+  # loopback port of its own choosing. Everything the two link against -
+  # webkit2gtk-4.1, gtk-3, libsoup-3, fontconfig, libX11/Xext/Xi/Xrender/Xtst,
+  # libasound - comes from org.gnome.Platform 51 (verified against the NEEDED
+  # sets of the launcher and of every .so in the bundled JRE: 0 missing).
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Hardware-accelerated rendering for the WebKit view and page previews. The
+  # wrapper also keeps the DMABUF renderer enabled; see the comment there.
+  - --device=dri
+  # The app builds its data directory from the home directory - $HOME/.config/
+  # Stirling-PDF - rather than reading XDG_CONFIG_HOME, and Flatpak redirects the
+  # XDG variables, not $HOME, so that path is a tmpfs inside the sandbox: the
+  # engine's configuration, its logs and the pipeline's watched folders would all
+  # be recreated empty on every launch and lost on exit. --persist binds it to
+  # ~/.var/app/com.stirlingpdf.StirlingPDF/.config/Stirling-PDF, which keeps the
+  # data inside the sandbox rather than granting any part of the real home.
+  - --persist=.config/Stirling-PDF
+  # Deliberately NOT granted, because the app does its work locally and the
+  # tighter sandbox is the point of this package:
+  #
+  #   --share=network  -> the app keeps its own network namespace, so the Java
+  #                       backend's HTTP API is reachable only from inside this
+  #                       sandbox and never from the rest of the machine. PDF
+  #                       editing, merging, splitting, signing, redaction, form
+  #                       handling and the page tools all run against that local
+  #                       backend and work as they are. Signing in to a Stirling
+  #                       account, or pointing the app at a self-hosted Stirling
+  #                       server instead of the bundled backend, does need the
+  #                       network - the metainfo documents the override.
+  #   --filesystem=*   -> no host path at all. PDFs are opened and saved through
+  #                       the file-chooser portal, and the app's own settings,
+  #                       logs and working files live under
+  #                       ~/.var/app/com.stirlingpdf.StirlingPDF.
+modules:
+  - name: stirling-pdf
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 stirling-pdf-wrapper /app/bin/stirling-pdf
+      - install -Dm644 com.stirlingpdf.StirlingPDF.desktop /app/share/applications/com.stirlingpdf.StirlingPDF.desktop
+      - install -Dm644 com.stirlingpdf.StirlingPDF.metainfo.xml /app/share/metainfo/com.stirlingpdf.StirlingPDF.metainfo.xml
+      - install -Dm644 com.stirlingpdf.StirlingPDF.png /app/share/icons/hicolor/512x512/apps/com.stirlingpdf.StirlingPDF.png
+    sources:
+      # Upstream's own Linux desktop build. They publish a .deb, an .rpm and an
+      # AppImage of the same build for x86_64 only - there is no aarch64 Linux
+      # artifact to pin. The .deb is the smallest of the three and unpacks with
+      # the runtime's bsdtar, so that is what this pins.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: stirling-pdf.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Stirling-Tools/Stirling-PDF/releases/download/v2.14.3/Stirling-PDF-linux-x86_64.deb
+        sha256: 35f2d9f69276e170a4b627e2ee3d814bc45e9b5fa0e57d05d4831dfd8dc49e79
+        size: 277624976
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: stirling-pdf-wrapper
+      - type: file
+        path: com.stirlingpdf.StirlingPDF.desktop
+      - type: file
+        path: com.stirlingpdf.StirlingPDF.metainfo.xml
+      - type: file
+        path: com.stirlingpdf.StirlingPDF.png

@@ -1,0 +1,38 @@
+# FlatPark catalog descriptor for Stirling PDF.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.stirlingpdf.StirlingPDF.yml is the Flatpak
+# manifest it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.stirlingpdf.StirlingPDF
+name: Stirling PDF
+summary: Edit, merge, split, sign and convert PDFs on your own machine
+website: https://www.stirling.com/
+source_url: https://github.com/Stirling-Tools/Stirling-PDF
+build:
+  manifest: com.stirlingpdf.StirlingPDF.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - PDF
+    - Documents
+    - Editor
+    - Signing
+    - Forms
+    - Tauri
+    - Local-first
+update:
+  command: ./resolve-update.sh
+policy:
+  # Source-available rather than closed: the repository is MIT, with the
+  # desktop-specific frontend under the separate Stirling PDF User License
+  # (free for trial, evaluation and minimal use; production use needs a
+  # subscription). Same shape as AFFiNE and Navop, so the same flag.
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

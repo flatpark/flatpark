@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# Stirling PDF is a Tauri (WebKitGTK) window over a Java backend, both staged by
+# apply_extra under /app/extra/usr; /app/extra/bin/stirling-pdf is a stable
+# symlink to whatever upstream named the launcher in the .deb, and its name is
+# what the window class ends up as. The launcher finds the backend jar and the
+# Java runtime image next to itself, in its Tauri resource directory, and starts
+# the backend on a loopback port; both come from the same upstream package.
+#
+# Settings, logs and the backend's working files go to $HOME/.config/Stirling-PDF,
+# which the manifest persists into ~/.var/app/com.stirlingpdf.StirlingPDF.
+
+# The web view is left on the accelerated path here, which inverts FlatPark's
+# usual Tauri default. Disabling the DMABUF renderer is the reliable default for
+# an opaque Tauri window, but on org.gnome.Platform//51 this app's web content
+# process dies the moment one sidebar tool is swapped for another: the window
+# stays up and stops responding. That also leaves the app's stored IndexedDB in
+# a state that kills the content process again at startup, so every later launch
+# opens a dead window until
+# ~/.var/app/com.stirlingpdf.StirlingPDF/data/stirling.pdf.dev/databases is
+# removed. Measured with the payload and the rest of the wrapper held fixed:
+#
+#   GNOME 51, accelerated off   dies on the first tool switch
+#   GNOME 51, accelerated on    renders, switches tools, opens documents
+#
+# Same inversion as the transparent-window case in #364. WebKitGTK reads the
+# value here rather than only the variable's presence, so 0 leaves the
+# accelerated path on; ${VAR:-0} keeps
+#   flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 com.stirlingpdf.StirlingPDF
+# available for hardware where the unaccelerated path is the one that works.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+
+exec /app/extra/bin/stirling-pdf "$@"
