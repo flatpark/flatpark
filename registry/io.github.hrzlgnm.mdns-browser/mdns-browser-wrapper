@@ -9,8 +9,23 @@ set -eu
 # --share=network. The app stores its own settings under XDG dirs, which Flatpak
 # redirects into ~/.var/app/io.github.hrzlgnm.mdns-browser.
 
-# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
-# Flatpak sandbox — disabling it is the reliable default for Tauri apps here.
-export WEBKIT_DISABLE_DMABUF_RENDERER=1
+# This app's Tauri window is `transparent: true`, and that inverts the usual
+# WebKitGTK rule here. Disabling the DMABUF renderer is the reliable default for
+# an opaque Tauri window, but on org.gnome.Platform//51 a transparent window
+# whose web view runs unaccelerated never paints its background: the whole
+# window is see-through onto the desktop, with content flashing only while
+# scrolling or zooming. Measured with the payload and the rest of the wrapper
+# held fixed:
+#
+#   GNOME 50, accelerated off   renders
+#   GNOME 51, accelerated off   transparent
+#   GNOME 51, accelerated on    renders
+#
+# Forcing XWayland does not help, so this is not a Wayland or driver problem.
+# WebKitGTK reads the value here rather than only the variable's presence, so 0
+# leaves the accelerated path on; ${VAR:-0} keeps
+#   flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=1 <app-id>
+# available for hardware where the unaccelerated path is the one that works.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
 
 exec /app/extra/mdns-browser "$@"
