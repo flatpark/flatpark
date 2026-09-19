@@ -13,17 +13,19 @@
   <url type="bugtracker">https://github.com/zbcoding/gifkino/issues</url>
   <url type="vcs-browser">https://github.com/zbcoding/gifkino</url>
   <description>
-    <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is published by Gifkino's own developer.</p>
-    <p>Gifkino is a GIF editor for Linux built on one idea: an edit knows which frames it applies to. Add a caption once and it spans the range you chose, instead of being retyped on every frame it should cover. Open an existing GIF or import a video, work on the frame list, then export an optimized GIF.</p>
+    <p>Gifkino is a GIF editor for Linux. Open an animated GIF, an image, or a video, add overlays to frames, then export an optimized GIF.</p>
     <ul>
-      <li>Text, shape and image overlays scoped to a range of frames.</li>
+      <li>Opens GIFs, still images and videos, with a large clip offered at a smaller recommended size before it is decoded.</li>
+      <li>Overlays scoped to frame ranges: text, shapes (rectangle, ellipse, arrow) and images, placed on the frames you pick. Drag to move them on the canvas, hold Alt to rotate, Shift to keep the aspect ratio, Ctrl to resize from the center.</li>
+      <li>Frame list editing: reorder, duplicate, delete, retime, cut, copy and paste, drop one frame in every N, and smart-drop the frames that move the least.</li>
       <li>Crop, resize, rotate and flip, applied across the whole animation.</li>
-      <li>Frame list editing: reorder, duplicate, delete, retime.</li>
       <li>A timeline that zooms, with overlay bands showing what covers what.</li>
       <li>Undo and redo over every edit, including scoped overlay changes.</li>
-      <li>Video import through ffmpeg, with a frame budget you set before decoding.</li>
+      <li>Translated interface: English, German and Japanese.</li>
+      <li>Optimized GIF export.</li>
     </ul>
     <p>The ffmpeg, ffprobe and gifsicle programs the editor drives come with it, so video import and the optimized export pass work with nothing installed on the host.</p>
+    <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is published by Gifkino's own developer.</p>
     <p>Permissions: Gifkino runs with no network access and no static access to your files. Opening and saving go through the file-chooser portal, which grants exactly the file you pick, and settings are kept in the app's own directory under <code>~/.var/app/io.github.zbcoding.Gifkino</code>. If you would rather hand it a directory outright — a scripted batch, or a file manager that cannot forward a path — enable it with <code>flatpak override</code>:</p>
     <ul>
       <li>Read and write GIFs in Pictures without the portal: <code>flatpak override --user --filesystem=xdg-pictures io.github.zbcoding.Gifkino</code></li>
