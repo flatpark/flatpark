@@ -1,0 +1,84 @@
+id: com.helixnotes.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: helixnotes
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK Markdown note-taking app. The upstream .deb is a single
+  # self-contained binary whose NEEDED set (webkit2gtk-4.1, javascriptcoregtk,
+  # gtk-3, libsoup-3, gdk-pixbuf, cairo, glib) is fully covered by
+  # org.gnome.Platform 51 — verified against the binary, 0 missing.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # WebKit rendering.
+  - --device=dri
+  # Optional-but-core network features: WebDAV sync to the user's own server and
+  # the AI writing tools (Ollama on localhost, or an OpenAI-compatible endpoint).
+  - --share=network
+  # Reminders for notes and tasks with due dates.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon (Tauri tray-icon, off by default in the app's settings). The
+  # ayatana-stack module below supplies the library it dlopen-s.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # No --own-name for tauri-plugin-single-instance: it claims
+  # "<tauri identifier>.SingleInstance" on the session bus, and this package
+  # reuses upstream's Tauri identifier as its app id, so that name already falls
+  # inside the app's own namespace and Flatpak grants it by default. Verified:
+  # a second `flatpak run` hands over and exits instead of starting a rival
+  # process. (An app whose identifier differs from its Flatpak id does need the
+  # grant — see io.github.jlcodes99.CockpitTools.)
+  # A vault is a plain folder of Markdown files the user points the app at.
+  # Documents is the smallest grant that makes the default workflow work; the
+  # app's own settings, search index, backups and version history live in the
+  # per-app home either way. Broader access is opt-in per the metainfo:
+  #   --filesystem=home            -> keep a vault anywhere under $HOME
+  #   --filesystem=~/Sync/Notes    -> or just the one folder you actually use
+  - --filesystem=xdg-documents
+modules:
+  # The Tauri tray-icon dlopen-s libayatana-appindicator and PANICS if it is
+  # missing; the GNOME runtime does not ship it.
+  # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
+  # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
+  # against org.gnome.Sdk//51; the tag's manifest records the exact sources,
+  # pins and patches. One pinned archive instead of five source builds per app.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: helixnotes
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 helixnotes-wrapper /app/bin/helixnotes
+      - install -Dm644 com.helixnotes.app.desktop /app/share/applications/com.helixnotes.app.desktop
+      - install -Dm644 com.helixnotes.app.metainfo.xml /app/share/metainfo/com.helixnotes.app.metainfo.xml
+      - install -Dm644 com.helixnotes.app.png /app/share/icons/hicolor/512x512/apps/com.helixnotes.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: helixnotes.deb
+        only-arches:
+          - x86_64
+        url: https://download.helixnotes.com/releases/v1.3.5/HelixNotes_1.3.5_amd64.deb
+        sha256: 01966095b442aff81d9040a3c950d7affee9f67982bc8efa4341566a061efa06
+        size: 14786832
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: helixnotes-wrapper
+      - type: file
+        path: com.helixnotes.app.desktop
+      - type: file
+        path: com.helixnotes.app.metainfo.xml
+      - type: file
+        path: com.helixnotes.app.png

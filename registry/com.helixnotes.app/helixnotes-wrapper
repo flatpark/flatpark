@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+# helixnotes is a single self-contained Tauri (WebKitGTK) binary staged by
+# apply_extra to /app/extra/helixnotes/helixnotes. It links only libraries in
+# org.gnome.Platform (webkit2gtk-4.1, gtk-3, libsoup-3) plus
+# libayatana-appindicator, which the Tauri tray dlopen-s and which the manifest
+# installs into /app/lib from the prebuilt ayatana stack (the GNOME runtime does
+# not ship it).
+#
+# Flatpak redirects $HOME into the per-app data dir, so the app's config, search
+# index, backups and note version history stay in the sandbox. Vaults are plain
+# Markdown folders the user points the app at; only Documents is granted by
+# default (see the metainfo for the wider opt-in overrides).
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox; the compositing path is the reliable default here. The
+# app's main window is opaque, so turning it off is safe. Written as a default
+# so a `flatpak override --env=WEBKIT_DISABLE_DMABUF_RENDERER=0` can take it back.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/helixnotes/helixnotes "$@"

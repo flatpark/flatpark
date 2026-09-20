@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=HelixNotes
+Comment=Local Markdown notes with wiki-links, tasks and a graph view
+Exec=helixnotes %U
+Icon=com.helixnotes.app
+Terminal=false
+Categories=Office;WordProcessor;Utility;
+StartupWMClass=helixnotes
+MimeType=text/markdown;
+Keywords=markdown;notes;notetaking;wiki;vault;tasks;

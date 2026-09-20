@@ -1,0 +1,24 @@
+id: com.helixnotes.app
+name: HelixNotes
+summary: Local Markdown notes with wiki-links, tasks and a graph view
+website: https://helixnotes.com
+source_url: https://gitlab.com/ArkHost/HelixNotes
+build:
+  manifest: com.helixnotes.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Markdown
+    - Notes
+    - Editor
+    - Wiki
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
