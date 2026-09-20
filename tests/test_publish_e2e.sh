@@ -2,8 +2,8 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/tests/lib/assert.sh"
-flatpak info org.flatpak.Builder >/dev/null 2>&1 \
-    || { echo "test_publish_e2e: SKIP (no org.flatpak.Builder)"; exit 0; }
+command -v flatpak-builder >/dev/null 2>&1 || flatpak info org.flatpak.Builder >/dev/null 2>&1 \
+    || { echo "test_publish_e2e: SKIP (no flatpak-builder)"; exit 0; }
 [ -x "$ROOT/scripts/publish.sh" ] || { echo "FAIL: missing publish script"; exit 1; }
 tmp="$(mktemp -d)"
 # The Astro build moves prerender assets out of site/.astro/ with a bare

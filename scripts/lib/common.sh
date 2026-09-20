@@ -6,36 +6,58 @@ warn() { printf '[flatpark] WARN: %s\n' "$*" >&2; }
 die()  { printf '[flatpark] ERROR: %s\n' "$*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null 2>&1 || die "missing command: $1"; }
 
-# flatpak-builder is not a host package here: FlatPark builds with the Flathub
-# build of it, the same one Flathub's own CI runs. It carries the whole
-# freedesktop SDK toolchain (bsdunzip, appstreamcli, node, rpm2cpio, ...), so a
-# manifest depends on that fixed set instead of on whatever the host distro
-# happens to have installed.
-BUILDER_APP="${BUILDER_APP:-org.flatpak.Builder}"
-have_flatpak_builder() { flatpak info "$BUILDER_APP" >/dev/null 2>&1; }
-need_flatpak_builder() {
-    need flatpak
-    have_flatpak_builder \
-        || die "missing flatpak app: $BUILDER_APP (flatpak install flathub $BUILDER_APP)"
-}
-# flatpak_builder [flatpak-run option...] -- [flatpak-builder arg...]
+# Two ways to run flatpak-builder, in this order:
 #
-# The app's launcher picks up the *host's* flatpak binary through flatpak-spawn
-# and drives the build with it, because a sandbox cannot nest another one. That
-# spawn goes over the session bus, which a headless machine (CI) has none of, so
-# give it a throwaway one rather than let it fall back to the bundled flatpak
-# and fail on the first build command.
+#   1. A host `flatpak-builder` binary, when the machine has one. CI installs
+#      it, because the sandboxed builder drives the build through the *host's*
+#      flatpak over the session bus (a sandbox cannot nest another one) and a
+#      headless runner has no bus it can reach — flatpak-spawn then fails,
+#      the builder falls back to its bundled flatpak, and the first dependency
+#      install dies with "Cannot autolaunch D-Bus without X11 $DISPLAY".
+#   2. Otherwise the Flathub build of it, which is what a developer machine
+#      uses: it carries the whole freedesktop SDK toolchain (bsdunzip,
+#      appstreamcli, node, rpm2cpio, ...), so a manifest depends on that fixed
+#      set instead of on whatever the distro happens to have installed.
+#
+# BUILDER_APP names the Flathub app; FLATPARK_FORCE_BUILDER_APP=1 skips the
+# host binary even when one is installed (how you check locally what CI's
+# counterpart would do, and the reverse of what CI does).
+BUILDER_APP="${BUILDER_APP:-org.flatpak.Builder}"
+have_host_flatpak_builder() {
+    [ "${FLATPARK_FORCE_BUILDER_APP:-0}" = "1" ] && return 1
+    command -v flatpak-builder >/dev/null 2>&1
+}
+have_builder_app() { flatpak info "$BUILDER_APP" >/dev/null 2>&1; }
+need_flatpak_builder() {
+    have_host_flatpak_builder && return 0
+    need flatpak
+    have_builder_app || die "no flatpak-builder: install the host package, or \
+the Flathub app with 'flatpak install flathub $BUILDER_APP'"
+}
+# flatpak_builder [--cwd=DIR] [--env=VAR=VALUE]... -- [flatpak-builder arg...]
+#
+# The options are named after `flatpak run`'s because that is where they end up
+# on the sandboxed path; the host path applies them itself.
 flatpak_builder() {
-    local run_args=()
-    while [ "$#" -gt 0 ] && [ "$1" != "--" ]; do run_args+=("$1"); shift; done
+    local cwd="" envs=() run_args=()
+    while [ "$#" -gt 0 ] && [ "$1" != "--" ]; do
+        case "$1" in
+            --cwd=*) cwd="${1#--cwd=}" ;;
+            --env=*) envs+=("${1#--env=}") ;;
+            *)       run_args+=("$1") ;;
+        esac
+        shift
+    done
     [ "${1-}" = "--" ] && shift
-    if [ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ] || [ -S "${XDG_RUNTIME_DIR:-/nonexistent}/bus" ]; then
-        flatpak run "${run_args[@]}" --command=sh "$BUILDER_APP" -c "$_FLATPAK_BUILDER_SH" flatpak-builder "$@"
-    else
-        need dbus-run-session
-        dbus-run-session -- \
-            flatpak run "${run_args[@]}" --command=sh "$BUILDER_APP" -c "$_FLATPAK_BUILDER_SH" flatpak-builder "$@"
+    if have_host_flatpak_builder; then
+        ( [ -n "$cwd" ] && cd "$cwd"
+          exec env ${envs[@]+"${envs[@]}"} flatpak-builder "$@" )
+        return
     fi
+    [ -n "$cwd" ] && run_args+=("--cwd=$cwd")
+    local e
+    for e in ${envs[@]+"${envs[@]}"}; do run_args+=("--env=$e"); done
+    flatpak run "${run_args[@]}" --command=sh "$BUILDER_APP" -c "$_FLATPAK_BUILDER_SH" flatpak-builder "$@"
 }
 # Runs the app's own launcher (which is what wires up the host flatpak), then
 # shuts down the gpg-agent that ostree starts to sign the commit: it daemonizes
@@ -47,11 +69,13 @@ flatpak-builder-wrapper "$@"; rc=$?
 [ -n "${GNUPGHOME:-}" ] && gpgconf --kill all >/dev/null 2>&1
 exit $rc
 '
-# The builder gets --filesystem=host, which covers /home and other real mounts
-# but not the directories the sandbox substitutes with its own. A path under one
-# of those exists on the host and is simply absent inside, so say so here rather
-# than let the builder fail with a confusing "file not found" halfway in.
+# Only the sandboxed builder is affected: it gets --filesystem=host, which
+# covers /home and other real mounts but not the directories the sandbox
+# substitutes with its own. A path under one of those exists on the host and is
+# simply absent inside, so say so here rather than let the builder fail with a
+# confusing "file not found" halfway in.
 assert_builder_visible() {
+    have_host_flatpak_builder && return 0
     local p real
     for p in "$@"; do
         [ -n "$p" ] || continue

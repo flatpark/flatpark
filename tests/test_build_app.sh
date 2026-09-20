@@ -2,8 +2,8 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/tests/lib/assert.sh"
-flatpak info org.flatpak.Builder >/dev/null 2>&1 \
-    || { echo "test_build_app: SKIP (no org.flatpak.Builder)"; exit 0; }
+command -v flatpak-builder >/dev/null 2>&1 || flatpak info org.flatpak.Builder >/dev/null 2>&1 \
+    || { echo "test_build_app: SKIP (no flatpak-builder)"; exit 0; }
 command -v ostree >/dev/null || { echo "test_build_app: SKIP (no ostree)"; exit 0; }
 [ -x "$ROOT/scripts/build-app.sh" ] || { echo "FAIL: missing build script"; exit 1; }
 # Not mktemp -d: the builder runs inside a Flatpak whose /tmp is its own, so

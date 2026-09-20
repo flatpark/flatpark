@@ -15,12 +15,17 @@ state_dir="$OUT_DIR/flatpak-builder-state"
 # Every path the builder touches has to be reachable from inside its sandbox.
 assert_builder_visible "$MANIFEST" "$OUT_DIR" "$GNUPGHOME_DIR" "$REPO_DIR"
 
-# rofiles-fuse is off unconditionally: the builder runs inside a Flatpak, which
-# has no /dev/fuse and cannot mount anything. The host having /dev/fuse says
-# nothing about the sandbox, so there is no condition left to test.
 args=(--force-clean --repo="$REPO_DIR" --default-branch="$APP_BRANCH"
-      --state-dir="$state_dir" --disable-rofiles-fuse
+      --state-dir="$state_dir"
       --gpg-sign="$fpr" --gpg-homedir="$GNUPGHOME_DIR")
+# rofiles-fuse needs /dev/fuse and a mount; the sandboxed builder has neither,
+# and the host's /dev/fuse says nothing about what is inside the sandbox. On the
+# host it stays the optimization it always was.
+if have_host_flatpak_builder; then
+    [ -e /dev/fuse ] || args+=(--disable-rofiles-fuse)
+else
+    args+=(--disable-rofiles-fuse)
+fi
 if [ -n "${RUNTIME_REPO_URL:-}" ]; then
     flatpak --user remote-add --if-not-exists --from "$RUNTIME_REMOTE_NAME" "$RUNTIME_REPO_URL" || true
     args+=(--install-deps-from="$RUNTIME_REMOTE_NAME" --user)
