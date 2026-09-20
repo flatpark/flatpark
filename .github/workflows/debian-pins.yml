@@ -1,0 +1,76 @@
+# Scheduled refresh of the Debian packages some apps carry as extra-data.
+#
+# A few apps need a command-line program that neither the runtime nor the
+# vendor's payload ships, and take it straight from Debian as a second
+# extra-data source. Debian keeps one version of a package per suite in the
+# pool: a new upload removes the file the manifest points at, and from then on
+# every *new* install of that app fails on the download while existing installs
+# carry on fine — so nothing surfaces it until someone tries to install.
+#
+# update-check.yml cannot cover this. It is driven by each app's own resolver
+# and short-circuits on the app's version, so a Debian-side upload is invisible
+# to it until upstream happens to cut a release. This job is driven by the
+# distribution instead: it re-resolves every MANAGED DEBIAN block from the
+# suite's package index, and opens a PR when a pin moved.
+name: debian-pins
+
+on:
+  schedule:
+    - cron: "43 5 * * 1"   # weekly, Monday 05:43 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  repin:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Re-resolve the Debian pins
+        run: |
+          node scripts/update-debian-pins.mjs | tee /tmp/repin.log
+          changed="$(git status --porcelain -- registry/ | sed 's/^...//' | cut -d/ -f2 | sort -u | tr '\n' ' ')"
+          echo "changed=$changed" >> "$GITHUB_ENV"
+          echo "changed apps: ${changed:-<none>}"
+
+      # The same gate the payload updates go through: a re-pinned package is a
+      # new artifact for this app's apply_extra.sh, and a build says nothing
+      # about whether extra-data unpacks. Failing here stops the PR rather than
+      # shipping a pin that breaks installs.
+      - name: Install flatpak
+        if: env.changed != ''
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak bubblewrap
+          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+      - name: Verify the repinned payloads unpack
+        if: env.changed != ''
+        run: INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh $changed
+
+      - name: Open the PR
+        if: env.changed != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          date="$(date -u +%Y-%m-%d)"
+          branch="auto/debian-pins-$date"
+          git config user.name "flatpark-bot"
+          git config user.email "bot@flatpark.org"
+          git checkout -B "$branch"
+          git add registry/
+          git commit -m "chore(debian): refresh Debian extra-data pins (${changed})"
+          git push -f origin "$branch"
+          apps_md="$(for id in $changed; do printf -- '- `%s`\n' "$id"; done)"
+          body="$(printf 'Automated Debian pin refresh — %s\n\n**Updated apps:**\n\n%s\n\n```\n%s\n```\n\nEach app was unpacked with its own `apply_extra.sh` before the pin was accepted.\n\nMerging triggers a rebuild + publish of the changed app(s).' "$date" "$apps_md" "$(cat /tmp/repin.log)")"
+          if [ -z "$(gh pr list --head "$branch" --state open --json number -q '.[].number')" ]; then
+            gh pr create --base main --head "$branch" --title "Refresh Debian extra-data pins ($date)" --body "$body"
+          else
+            gh pr edit "$branch" --title "Refresh Debian extra-data pins ($date)" --body "$body"
+          fi
