@@ -51,6 +51,8 @@ that PR link in the table — the PR itself is the evidence.
 | Vynody | `io.github.axel10.vynody` | [axel10/vynody#23 (comment)](https://github.com/axel10/vynody/issues/23#issuecomment-5611133082) — axel10, Vynody's author and repo owner, answered the FlatPark listing + blue-shield offer with "欢迎发布到flatpak" | 2026-09-10 |
 | Grab | `io.github.houssemko.Grab` | Approved by construction — submitted and maintained by its own developer ([flatpark#345](https://github.com/flatpark/flatpark/pull/345)) | 2026-09-14 |
 | Gifkino | `io.github.zbcoding.Gifkino` | Approved by construction — submitted and maintained by its own developer ([flatpark#356](https://github.com/flatpark/flatpark/pull/356)) | 2026-09-17 |
+| electerm | `org.electerm.Electerm` | [electerm/electerm#4545 (comment)](https://github.com/electerm/electerm/issues/4545#issuecomment-5747090206) — 赵旭东 (zxdong262), electerm's author: "好的，没问题，我授权同意发布，既然是你打包的，权限控制你自行决定就好" | 2026-09-20 |
+| Markra | `app.markra.Markra` | [markrahq/markra#738 (comment)](https://github.com/markrahq/markra/issues/738#issuecomment-5747070606) — MuRong (murongg), Markra's author and main contributor, answered the FlatPark listing question with "同意授权"; supersedes the withdrawn V2EX record | 2026-09-20 |
 
 ## Not approved
 
@@ -58,5 +60,4 @@ Checked but **not** (or not yet) approved — do not flip without new evidence:
 
 | App | ID | Status |
 |-----|----|--------|
-| Markra | `app.markra.Markra` | Shield withdrawn 2026-07-12: the only record is a [V2EX reply](https://v2ex.com/t/1224360?p=1#r_17821484) that is too ambiguous to count as authorization; explicit confirmation from the developer is pending |
 | AB Download Manager | `com.abdownloadmanager.AbDownloadManager` | No reply to the FlatPark comment in [amir1376/ab-download-manager#175](https://github.com/amir1376/ab-download-manager/issues/175); maintainer publicly hesitant about Flatpak (2025-09) |
