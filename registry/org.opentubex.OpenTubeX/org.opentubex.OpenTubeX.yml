@@ -9,7 +9,9 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
+  - --require-version=1.16.0
   - --device=dri
+  - --device=input
   - --share=ipc
   - --socket=wayland
   - --socket=fallback-x11
@@ -57,16 +59,16 @@ modules:
         filename: opentubex-x86_64.zip
         only-arches:
           - x86_64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.34.1-beta/opentubex-0.34.1-beta-linux-x64-portable.zip
-        sha256: a31fcc6e52e4c5bb8ed196817c5f1cdd3250e200462a04f30cf9651018ca3ddb
-        size: 125514882
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.35.0-beta/opentubex-0.35.0-beta-linux-x64-portable.zip
+        sha256: feff6f892f1cf243308542d2ef8c16f7e159470ba6883889d6dc8caddbee3693
+        size: 126716694
       - type: extra-data
         filename: opentubex-aarch64.zip
         only-arches:
           - aarch64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.34.1-beta/opentubex-0.34.1-beta-linux-arm64-portable.zip
-        sha256: 5629307286b7b1d2e635c4c70cdb997c7da1eb6dc8114d9cfa8c6b0ec3ad017a
-        size: 123789761
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.35.0-beta/opentubex-0.35.0-beta-linux-arm64-portable.zip
+        sha256: 478c2ee8d2d4d875a462bfe24816f17be73b172157b75fbd7dca0029453f8c0d
+        size: 124991573
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
