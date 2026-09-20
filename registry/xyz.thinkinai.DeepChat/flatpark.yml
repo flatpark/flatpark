@@ -9,6 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: AI
+  upstream_approved: true
   tags:
     - AI
     - Agents
