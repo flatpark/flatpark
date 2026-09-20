@@ -1,0 +1,112 @@
+id: com.brave.Origin
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Brave's Chromium build runs through the Chromium BaseApp so zypak can keep
+# Chromium's own sandbox inside Flatpak instead of requiring --no-sandbox.
+base: org.chromium.Chromium.BaseApp
+base-version: "26.08"
+command: cobalt
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --require-version=1.8.2
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --socket=pulseaudio
+  - --socket=cups
+  - --socket=pcsc
+  - --allow=bluetooth
+  - --system-talk-name=org.bluez
+  - --system-talk-name=org.freedesktop.UPower
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.gnome.ScreenSaver
+  - --talk-name=org.gnome.Mutter.IdleMonitor.*
+  - --talk-name=org.cinnamon.ScreenSaver
+  - --talk-name=org.mate.ScreenSaver
+  - --talk-name=org.xfce.ScreenSaver
+  - --own-name=org.mpris.MediaPlayer2.brave.*
+  - --filesystem=xdg-download
+  - --filesystem=xdg-run/pipewire-0
+  - --persist=.pki
+  # dconf is used for the desktop proxy configuration. The module below makes
+  # it read the redirected per-app config rather than the real home path.
+  - --filesystem=xdg-run/dconf
+  - --filesystem=~/.config/dconf:ro
+  - --talk-name=ca.desrt.dconf
+  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
+  - --env=GIO_EXTRA_MODULES=/app/lib/gio/modules
+  - --env=GSETTINGS_BACKEND=dconf
+  - --env=CHROME_VERSION_EXTRA=stable
+  # The browser can use file chooser portals for paths outside Downloads. PWA
+  # desktop integration and host policy loading are deliberately opt-in rather
+  # than granting host-etc and host application/icon directories by default.
+modules:
+  - name: dconf
+    buildsystem: meson
+    config-opts:
+      - -Dbash_completion=false
+      - -Dman=false
+      - -Dvapi=false
+    cleanup:
+      - /etc
+      - /include
+      - ca.desrt.dconf.service
+      - dconf.service
+      - dconf-service
+      - '*.pc'
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/dconf/51/dconf-51.0.tar.xz
+        sha256: e65c1b7867f836faad9f9ee04acf5c5a6cae2bbc784833fe093207e0cb590248
+      - type: patch
+        path: dconf-override.patch
+  - name: zypak
+    sources:
+      - type: git
+        url: https://github.com/refi64/zypak
+        tag: v2025.09
+        commit: 693a71c5ffa80ec9c9ce2ae03b1ccc493c698e53
+  - name: brave-origin
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm644 com.brave.Origin.desktop /app/share/applications/com.brave.Origin.desktop
+      - install -Dm644 com.brave.Origin.metainfo.xml /app/share/metainfo/com.brave.Origin.metainfo.xml
+      - install -Dm644 brave_lion.svg /app/share/icons/hicolor/scalable/apps/com.brave.Origin.svg
+      - install -Dm644 cobalt.ini /app/etc/cobalt.ini
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: brave-origin-amd64.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/brave/brave-browser/releases/download/v1.95.104/brave-origin-1.95.104-linux-amd64.zip
+        sha256: f43cf2295fc5ec3eeed8f9788c0a86ab0d5c5290fa83692686be7c710408b047
+        size: 185735929
+      - type: extra-data
+        filename: brave-origin-arm64.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/brave/brave-browser/releases/download/v1.95.104/brave-origin-1.95.104-linux-arm64.zip
+        sha256: 74bf690d9efa0008c947f894835bc76adbd17f5770f4321515b07b5f32f8b716
+        size: 186243843
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: com.brave.Origin.desktop
+      - type: file
+        path: com.brave.Origin.metainfo.xml
+      - type: file
+        path: brave_lion.svg
+      - type: file
+        path: cobalt.ini

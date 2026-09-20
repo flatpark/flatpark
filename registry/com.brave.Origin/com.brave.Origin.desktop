@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Brave Origin
+GenericName=Web Browser
+Comment=Fast, privacy-focused web browser
+Exec=cobalt %U
+TryExec=cobalt
+Icon=com.brave.Origin
+Terminal=false
+StartupNotify=true
+StartupWMClass=com.brave.Origin
+Categories=Network;WebBrowser;
+MimeType=application/pdf;application/xhtml+xml;application/xml;image/gif;image/jpeg;image/png;image/webp;text/html;text/xml;x-scheme-handler/http;x-scheme-handler/https;
+Actions=new-window;new-private-window;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=cobalt
+
+[Desktop Action new-private-window]
+Name=New Private Window
+Exec=cobalt --incognito

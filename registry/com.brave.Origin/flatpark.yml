@@ -1,0 +1,27 @@
+# FlatPark catalog descriptor for Brave Origin.
+#
+# This repackages Brave Software's official Linux Origin build. The browser
+# payload is fetched as extra-data at install time; the manifest and launcher
+# keep the desktop integration and sandbox policy reviewable here.
+id: com.brave.Origin
+name: Brave Origin
+summary: Fast, privacy-focused web browser
+website: https://brave.com/origin/linux/
+source_url: https://github.com/brave/brave-browser
+build:
+  manifest: com.brave.Origin.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Web Browser
+    - Privacy
+    - Chromium
+    - Origin
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

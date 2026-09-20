@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.brave.Origin</id>
+  <launchable type="desktop-id">com.brave.Origin.desktop</launchable>
+  <name>Brave Origin</name>
+  <developer_name>Brave Software</developer_name>
+  <summary>Fast, privacy-focused web browser</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MPL-2.0</project_license>
+  <url type="homepage">https://brave.com/origin/linux/</url>
+  <url type="bugtracker">https://github.com/brave/brave-browser/issues</url>
+  <description>
+    <p>Brave Origin is a privacy-focused web browser based on Chromium. It blocks ads and trackers by default and provides a minimalist Brave experience.</p>
+    <p>This Flatpak repackages the official Brave Origin Linux build. It is maintained independently of Brave Software, and upstream browser updates are delivered through FlatPark rather than the browser's own updater.</p>
+    <p>The browser stores its profile in its private Flatpak data directory. Files outside the Downloads directory are opened and saved through the desktop file chooser portal.</p>
+  </description>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>privacy</keyword>
+    <keyword>chromium</keyword>
+    <keyword>web</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#bd7277</color>
+    <color type="primary" scheme_preference="dark">#704646</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/flathub/com.brave.Browser/master/media/welcome.png</image>
+      <caption>Brave Origin welcome page</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/flathub/com.brave.Browser/master/media/new-tab.png</image>
+      <caption>Brave Origin new tab page</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.95.104" date="2026-09-18" />
+  </releases>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>cobalt</binary>
+  </provides>
+</component>
