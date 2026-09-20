@@ -1,0 +1,44 @@
+#!/bin/sh
+set -eu
+
+# Brave's official Origin build is staged by apply_extra to /app/extra/brave
+# and run through zypak-wrapper, which comes from
+# org.electronjs.Electron2.BaseApp. Flatpak refuses the namespace syscalls
+# Chromium's own sandbox needs, so without zypak the only way to start the
+# browser is --no-sandbox — every renderer, which runs arbitrary web content,
+# would then be unconfined inside the app sandbox with the whole profile in
+# reach. zypak redirects Chromium's SUID sandbox onto the Flatpak sandbox
+# instead, so per-renderer isolation is kept.
+#
+# The launcher is `brave`, the ELF binary in the archive; `brave-origin` next
+# to it is upstream's own shell wrapper, which only re-adds flags that belong
+# in this file. The SUID helper keeps its default name (chrome-sandbox), so
+# zypak needs no ZYPAK_SANDBOX_FILENAME.
+
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+# chrome://restart and the post-update "Relaunch" button re-exec the browser.
+# CHROME_WRAPPER has to name this script or the re-exec would bypass it and
+# come back up without any of the environment set here (zypak README,
+# "Usage with a wrapper script").
+export CHROME_WRAPPER=/app/bin/brave-origin
+export ZYPAK_SPAWN_LATEST_ON_REEXEC=1
+
+# Widevine (Netflix, Spotify Web, ...) cannot be redistributed with the
+# browser, so it is downloaded into the profile at runtime. zypak has to be
+# told that path explicitly, or the CDM downloads but never loads. The Origin
+# build keeps its profile in BraveSoftware/Brave-Origin, not the
+# BraveSoftware/Brave-Browser that the regular Brave package uses.
+export ZYPAK_EXPOSE_WIDEVINE_PATH="$config_dir/BraveSoftware/Brave-Origin/WidevineCdm"
+
+# Extra command-line flags, read from the file the Chromium family uses
+# everywhere else — here ~/.var/app/com.brave.Origin/config/brave-flags.conf.
+# One flag per line, # starts a comment.
+flags=""
+if [ -r "$config_dir/brave-flags.conf" ]; then
+    flags="$(sed -e 's/#.*//' "$config_dir/brave-flags.conf" | tr '\n' ' ')"
+fi
+
+# $flags is deliberately unquoted: it has to word-split into separate arguments.
+# shellcheck disable=SC2086
+exec zypak-wrapper /app/extra/brave/brave --ozone-platform-hint=auto $flags "$@"

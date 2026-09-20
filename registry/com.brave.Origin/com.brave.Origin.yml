@@ -2,15 +2,24 @@ id: com.brave.Origin
 runtime: org.freedesktop.Platform
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
-# Brave's Chromium build runs through the Chromium BaseApp so zypak can keep
-# Chromium's own sandbox inside Flatpak instead of requiring --no-sandbox.
-base: org.chromium.Chromium.BaseApp
+# Brave is a Chromium browser, so it needs zypak: Flatpak refuses the namespace
+# syscalls Chromium's own sandbox is built on, and zypak redirects that sandbox
+# onto the Flatpak sandbox instead of falling back to --no-sandbox — which for a
+# browser would leave every renderer, running arbitrary web content, unconfined
+# next to the profile. The Electron base app is where zypak ships prebuilt, and
+# it is the base the rest of this catalog's Chromium-family apps already use.
+# org.chromium.Chromium.BaseApp does not carry zypak (only its cobalt launcher,
+# krb5 and a libsecret the runtime already has), so taking that base means
+# building zypak per app for no gain. What it costs: no krb5, hence no
+# Kerberos/Negotiate single sign-on on intranet sites.
+base: org.electronjs.Electron2.BaseApp
 base-version: "26.08"
-command: cobalt
+command: brave-origin
 separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
+  # zypak spawns the sandboxed children through flatpak-spawn --expose-pids.
   - --require-version=1.8.2
   - --share=ipc
   - --share=network
@@ -37,48 +46,23 @@ finish-args:
   - --filesystem=xdg-download
   - --filesystem=xdg-run/pipewire-0
   - --persist=.pki
-  # dconf backs the GSettings proxy configuration. The app keeps its own
-  # database under the redirected config dir; the host's is not read.
-  - --filesystem=xdg-run/dconf
-  - --talk-name=ca.desrt.dconf
-  - --env=GIO_EXTRA_MODULES=/app/lib/gio/modules
-  - --env=GSETTINGS_BACKEND=dconf
   - --env=CHROME_VERSION_EXTRA=stable
+  # No GSettings backend is shipped, so proxy settings configured on the host
+  # desktop are not read. A proxy is configured with --proxy-server in
+  # ~/.var/app/com.brave.Origin/config/brave-flags.conf, which the launcher
+  # reads.
   # The browser can use file chooser portals for paths outside Downloads. PWA
   # desktop integration and host policy loading are deliberately opt-in rather
   # than granting host-etc and host application/icon directories by default.
 modules:
-  - name: dconf
-    buildsystem: meson
-    config-opts:
-      - -Dbash_completion=false
-      - -Dman=false
-      - -Dvapi=false
-    cleanup:
-      - /etc
-      - /include
-      - ca.desrt.dconf.service
-      - dconf.service
-      - dconf-service
-      - '*.pc'
-    sources:
-      - type: archive
-        url: https://download.gnome.org/sources/dconf/51/dconf-51.0.tar.xz
-        sha256: e65c1b7867f836faad9f9ee04acf5c5a6cae2bbc784833fe093207e0cb590248
-  - name: zypak
-    sources:
-      - type: git
-        url: https://github.com/refi64/zypak
-        tag: v2025.09
-        commit: 693a71c5ffa80ec9c9ce2ae03b1ccc493c698e53
   - name: brave-origin
     buildsystem: simple
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 brave-origin-wrapper /app/bin/brave-origin
       - install -Dm644 com.brave.Origin.desktop /app/share/applications/com.brave.Origin.desktop
       - install -Dm644 com.brave.Origin.metainfo.xml /app/share/metainfo/com.brave.Origin.metainfo.xml
       - install -Dm644 brave_lion.svg /app/share/icons/hicolor/scalable/apps/com.brave.Origin.svg
-      - install -Dm644 cobalt.ini /app/etc/cobalt.ini
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
@@ -99,10 +83,10 @@ modules:
       - type: file
         path: apply_extra.sh
       - type: file
+        path: brave-origin-wrapper
+      - type: file
         path: com.brave.Origin.desktop
       - type: file
         path: com.brave.Origin.metainfo.xml
       - type: file
         path: brave_lion.svg
-      - type: file
-        path: cobalt.ini
