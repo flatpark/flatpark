@@ -37,12 +37,10 @@ finish-args:
   - --filesystem=xdg-download
   - --filesystem=xdg-run/pipewire-0
   - --persist=.pki
-  # dconf is used for the desktop proxy configuration. The module below makes
-  # it read the redirected per-app config rather than the real home path.
+  # dconf backs the GSettings proxy configuration. The app keeps its own
+  # database under the redirected config dir; the host's is not read.
   - --filesystem=xdg-run/dconf
-  - --filesystem=~/.config/dconf:ro
   - --talk-name=ca.desrt.dconf
-  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
   - --env=GIO_EXTRA_MODULES=/app/lib/gio/modules
   - --env=GSETTINGS_BACKEND=dconf
   - --env=CHROME_VERSION_EXTRA=stable
@@ -67,8 +65,6 @@ modules:
       - type: archive
         url: https://download.gnome.org/sources/dconf/51/dconf-51.0.tar.xz
         sha256: e65c1b7867f836faad9f9ee04acf5c5a6cae2bbc784833fe093207e0cb590248
-      - type: patch
-        path: dconf-override.patch
   - name: zypak
     sources:
       - type: git
