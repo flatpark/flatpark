@@ -116,12 +116,20 @@ registry/com.example.App/
   resolve-update.sh        # optional: upstream update resolver
 ```
 
-Then validate and build locally:
+Then validate and build locally. The build tooling uses the Flathub build of
+flatpak-builder rather than your distro's package, so that every contributor
+builds with the same toolchain (it bundles the freedesktop SDK — `bsdunzip`,
+`appstreamcli`, `node`, …) — install it once:
 
 ```sh
+flatpak install flathub org.flatpak.Builder
 node scripts/read-descriptor.mjs registry/com.example.App/flatpark.yml
 ./scripts/publish.sh --verify com.example.App
 ```
+
+It runs inside a sandbox with its own `/tmp`, so a `REPO_DIR`/`OUT_DIR`/
+`GNUPGHOME_DIR` you point somewhere yourself has to live under `$HOME` or the
+repo; the scripts stop with an explanation if it doesn't.
 
 ### Test without polluting your everyday Flatpak
 

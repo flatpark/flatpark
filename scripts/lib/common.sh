@@ -5,6 +5,63 @@ log()  { printf '[flatpark] %s\n' "$*" >&2; }
 warn() { printf '[flatpark] WARN: %s\n' "$*" >&2; }
 die()  { printf '[flatpark] ERROR: %s\n' "$*" >&2; exit 1; }
 need() { command -v "$1" >/dev/null 2>&1 || die "missing command: $1"; }
+
+# flatpak-builder is not a host package here: FlatPark builds with the Flathub
+# build of it, the same one Flathub's own CI runs. It carries the whole
+# freedesktop SDK toolchain (bsdunzip, appstreamcli, node, rpm2cpio, ...), so a
+# manifest depends on that fixed set instead of on whatever the host distro
+# happens to have installed.
+BUILDER_APP="${BUILDER_APP:-org.flatpak.Builder}"
+have_flatpak_builder() { flatpak info "$BUILDER_APP" >/dev/null 2>&1; }
+need_flatpak_builder() {
+    need flatpak
+    have_flatpak_builder \
+        || die "missing flatpak app: $BUILDER_APP (flatpak install flathub $BUILDER_APP)"
+}
+# flatpak_builder [flatpak-run option...] -- [flatpak-builder arg...]
+#
+# The app's launcher picks up the *host's* flatpak binary through flatpak-spawn
+# and drives the build with it, because a sandbox cannot nest another one. That
+# spawn goes over the session bus, which a headless machine (CI) has none of, so
+# give it a throwaway one rather than let it fall back to the bundled flatpak
+# and fail on the first build command.
+flatpak_builder() {
+    local run_args=()
+    while [ "$#" -gt 0 ] && [ "$1" != "--" ]; do run_args+=("$1"); shift; done
+    [ "${1-}" = "--" ] && shift
+    if [ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ] || [ -S "${XDG_RUNTIME_DIR:-/nonexistent}/bus" ]; then
+        flatpak run "${run_args[@]}" --command=sh "$BUILDER_APP" -c "$_FLATPAK_BUILDER_SH" flatpak-builder "$@"
+    else
+        need dbus-run-session
+        dbus-run-session -- \
+            flatpak run "${run_args[@]}" --command=sh "$BUILDER_APP" -c "$_FLATPAK_BUILDER_SH" flatpak-builder "$@"
+    fi
+}
+# Runs the app's own launcher (which is what wires up the host flatpak), then
+# shuts down the gpg-agent that ostree starts to sign the commit: it daemonizes
+# inside the sandbox, and `flatpak run` does not return while anything in there
+# is still alive — the build would finish and then hang forever. Only ever the
+# agent for the keyring the caller pointed GNUPGHOME at, never the user's own.
+_FLATPAK_BUILDER_SH='
+flatpak-builder-wrapper "$@"; rc=$?
+[ -n "${GNUPGHOME:-}" ] && gpgconf --kill all >/dev/null 2>&1
+exit $rc
+'
+# The builder gets --filesystem=host, which covers /home and other real mounts
+# but not the directories the sandbox substitutes with its own. A path under one
+# of those exists on the host and is simply absent inside, so say so here rather
+# than let the builder fail with a confusing "file not found" halfway in.
+assert_builder_visible() {
+    local p real
+    for p in "$@"; do
+        [ -n "$p" ] || continue
+        real="$(realpath -m "$p")"
+        case "$real" in
+            /tmp|/tmp/*|/var/tmp|/var/tmp/*|/run/*|/root|/root/*)
+                die "$BUILDER_APP cannot see $p: the sandbox replaces /tmp, /var/tmp, /run and /root with its own. Use a path under \$HOME or the repo (out/) instead." ;;
+        esac
+    done
+}
 load_config() {
     ROOT="$1"
     local conf="${FLATPARK_CONF:-$ROOT/config/flatpark.conf}"

@@ -52,7 +52,7 @@ jobs:
       - name: Install toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder ostree
+          sudo apt-get install -y flatpak ostree
           curl -fsSL https://rclone.org/install.sh | sudo bash
       - name: Import signing subkey
         env:

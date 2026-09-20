@@ -257,7 +257,9 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
 
 1. `node scripts/read-descriptor.mjs registry/<id>/flatpark.yml` and
    `node scripts/audit-descriptor.mjs registry/<id>/flatpark.yml` (exit 0).
-2. Build: `scripts/build-app.sh <id>` (or `flatpak-builder --install` for a quick loop).
+2. Build: `scripts/build-app.sh <id>` (or `flatpak run org.flatpak.Builder --install
+   --disable-rofiles-fuse ...` for a quick loop). The builder is the Flathub app, not a
+   distro package — `flatpak install flathub org.flatpak.Builder` once.
    **`appstreamcli compose` must print `Success`.**
 3. Install from the signed local repo into an **isolated** `--installation=test` so it never
    pollutes your everyday Flatpak state (recipe in the contributing guide). Installing

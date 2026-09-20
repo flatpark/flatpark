@@ -2,9 +2,15 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/tests/lib/assert.sh"
-command -v flatpak-builder >/dev/null || { echo "test_build_app: SKIP (no flatpak-builder)"; exit 0; }
+flatpak info org.flatpak.Builder >/dev/null 2>&1 \
+    || { echo "test_build_app: SKIP (no org.flatpak.Builder)"; exit 0; }
+command -v ostree >/dev/null || { echo "test_build_app: SKIP (no ostree)"; exit 0; }
 [ -x "$ROOT/scripts/build-app.sh" ] || { echo "FAIL: missing build script"; exit 1; }
-tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+# Not mktemp -d: the builder runs inside a Flatpak whose /tmp is its own, so
+# anything it has to read or write lives on the repo filesystem. out/ is
+# gitignored.
+mkdir -p "$ROOT/out"
+tmp="$(mktemp -d "$ROOT/out/test-build.XXXXXX")"; trap 'rm -rf "$tmp"' EXIT
 # Build the self-contained synthetic fixture: registry/<id>/ holds the
 # descriptor + manifest + assets (tests/fixtures is the registry root).
 env_common=(OUT_DIR="$tmp/out" GNUPGHOME_DIR="$tmp/gnupg" REPO_DIR="$tmp/repo" REGISTRY_DIR="$ROOT/tests/fixtures")

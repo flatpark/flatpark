@@ -109,8 +109,13 @@ jobs:
         if: steps.scope.outputs.scope != 'site'
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder ostree
+          sudo apt-get install -y flatpak ostree dbus
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          # The builder is the Flathub app, not a distro package: same toolchain
+          # for every build, locally and here. It drives the build through the
+          # host's flatpak over the session bus, which this runner has none of —
+          # scripts/lib/common.sh starts a throwaway one (hence dbus above).
+          flatpak install --user -y flathub org.flatpak.Builder
 
       - name: Import signing subkey (master never reaches CI)
         if: steps.scope.outputs.scope != 'site'
