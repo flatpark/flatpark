@@ -67,6 +67,64 @@ modules:
         sha256: 35f2d9f69276e170a4b627e2ee3d814bc45e9b5fa0e57d05d4831dfd8dc49e79
         size: 277624976
       # END MANAGED EXTRA-DATA
+      # Ghostscript, as Artifex's own Linux build. They publish no plain tarball —
+      # the only prebuilt Linux artifact in their release is a snap, which is a
+      # plain xz squashfs image — so it is unpacked offline at install time with
+      # the unsquashfs from flatpark/prebuilt's appimage-tools (below). The gs
+      # inside is built with its init files, ICC profiles and the base-35 fonts
+      # compiled in, so it needs no resource tree beside it; the two libraries it
+      # takes from the snap's base, and which neither the runtime nor the snap
+      # carries, are pinned from Debian right after.
+      - type: extra-data
+        filename: ghostscript-snap.tgz
+        only-arches:
+          - x86_64
+        url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10080/gs_10.08.0_amd64_snap.tgz
+        sha256: 01dcc00927b5ded2cf1f150dc09464032efc90cd983780d250e24c5de7b6da3c
+        size: 54060051
+      # unsquashfs + appimage-offset, built against the same freedesktop base as
+      # this runtime. Never executed as an AppImage tool here — only unsquashfs is
+      # used, to crack the squashfs above. Same pin as registry/is.folo.Folo.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # qpdf's own Linux build, which the project publishes beside its source
+      # release. Self-contained: RUNPATH=$ORIGIN/../lib and it carries the
+      # gnutls/jpeg/nettle it links, so only libstdc++/libgcc/libz/libc come from
+      # the runtime.
+      - type: extra-data
+        filename: qpdf.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/qpdf/qpdf/releases/download/v12.4.1/qpdf-12.4.1-bin-linux-x86_64.zip
+        sha256: db9122e88ec00c76ac6a14e09ffb92406db1773d47b968911ff6e69f28c09bf9
+        size: 4040061
+      # The two libraries Artifex's snap expects from its own base image. Debian
+      # unstable is the pin, and scripts/update-debian-pins.mjs re-resolves these
+      # from the suite's package index — sid drops a file from the pool as soon as
+      # a new upload supersedes it, so a hand-written pin here would 404 for new
+      # installs within weeks. filename minus .deb is the binary package name, and
+      # that is what the updater looks up.
+      # BEGIN MANAGED DEBIAN sid main
+      - type: extra-data
+        filename: libidn12.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libi/libidn/libidn12_1.44-1_amd64.deb
+        sha256: 5c28ee08d68e11a7d370c0d8decf952f59df75f69fc4b70943ba923ebf970b6a
+        size: 47476
+      - type: extra-data
+        filename: libpaper2.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libp/libpaper/libpaper2_2.2.5-0.4_amd64.deb
+        sha256: 887b7ae97eb45c6984e392686d987ead8d88270453587575d7d57d1c9fbdcd5d
+        size: 16564
+      # END MANAGED DEBIAN
       - type: file
         path: apply_extra.sh
       - type: file

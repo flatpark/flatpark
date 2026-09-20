@@ -59,3 +59,72 @@ chmod +x "usr/bin/$exec_name"
 # usr/bin/<launcher>, so ../lib/<product name> still resolves.
 mkdir -p bin
 ln -sf "../usr/bin/$exec_name" bin/stirling-pdf
+
+# --- the command-line tools the engine looks for on PATH -----------------------
+#
+# Stirling PDF hands some of its work to external programs and probes for each one
+# at startup, disabling the tools that have no other implementation when a program
+# is absent. Neither upstream's package nor the runtime carries any of them. These
+# two are staged beside the app, under /app/extra/cli, and put on PATH by the
+# wrapper; their libraries are never added to the app's own library path, because
+# the Ghostscript snap brings a whole second userland (fontconfig, freetype,
+# X11, ...) that would shadow the runtime's for the app itself.
+
+rm -rf cli
+mkdir -p cli/bin cli/lib
+
+# unsquashfs, to crack the Ghostscript snap. Artifex publishes no plain Linux
+# tarball; their snap is an ordinary xz squashfs image, and this is the same
+# offline extractor the AppImage packages use. Never executed as an AppImage tool.
+bsdtar --no-same-owner -xf appimage-tools.tar.xz
+tools="$extra_root/appimage-tools/bin"
+[ -x "$tools/unsquashfs" ] || { echo "appimage-tools stack incomplete" >&2; exit 1; }
+
+# The .tgz holds a README and the .snap; find the image rather than spell out the
+# version-stamped directory upstream wraps it in.
+mkdir -p snapstage
+bsdtar --no-same-owner -xf ghostscript-snap.tgz -C snapstage
+snap="$(find snapstage -maxdepth 2 -name '*.snap' -type f | head -n1)"
+[ -n "$snap" ] || { echo "no .snap inside ghostscript-snap.tgz" >&2; exit 1; }
+# -no-xattrs: this sandbox has every capability dropped and cannot set security
+# xattrs. A snap is a squashfs image with no prepended stub, so there is no offset.
+"$tools/unsquashfs" -no-xattrs -d cli/ghostscript "$snap"
+rm -rf snapstage ghostscript-snap.tgz appimage-tools.tar.xz appimage-tools
+
+# The two libraries the snap expects from its own base image and does not carry.
+# Only the shared objects are kept; the rest of each package is documentation.
+for pkg in libidn12 libpaper2; do
+    [ -f "$pkg.deb" ] || { echo "missing extra-data: $pkg.deb" >&2; exit 1; }
+    rm -rf debstage && mkdir debstage
+    bsdtar -xOf "$pkg.deb" 'data.tar*' | bsdtar --no-same-owner -xf - -C debstage
+    # Both the real file and the SONAME symlink beside it: the loader asks for
+    # libidn.so.12, and the package ships that as a link to libidn.so.12.6.7.
+    find debstage -name '*.so.*' \( -type f -o -type l \) -exec cp -a {} cli/lib/ \;
+    rm -rf debstage "$pkg.deb"
+done
+
+# qpdf's own build is self-contained: RUNPATH=$ORIGIN/../lib, and $ORIGIN follows
+# the resolved path, so reaching bin/qpdf through a symlink still finds lib/.
+mkdir -p cli/qpdf
+bsdtar --no-same-owner -xf qpdf.zip -C cli/qpdf
+qpdf_bin="$(find cli/qpdf -path '*/bin/qpdf' -type f | head -n1)"
+[ -n "$qpdf_bin" ] || { echo "no qpdf binary inside qpdf.zip" >&2; exit 1; }
+chmod +x "$qpdf_bin"
+ln -sf "../${qpdf_bin#cli/}" cli/bin/qpdf
+rm -f qpdf.zip
+
+# gs comes out of the snap wherever upstream put it, with its libraries in the
+# snap's own lib directories. Wrap it rather than exporting that library path
+# globally, so nothing but gs itself sees the snap's userland.
+gs_bin="$(find cli/ghostscript -path '*/bin/gs' -type f | head -n1)"
+[ -n "$gs_bin" ] || { echo "no gs binary inside the snap" >&2; exit 1; }
+chmod +x "$gs_bin"
+gs_libs=""
+for d in $(find cli/ghostscript -type d \( -name 'x86_64-linux-gnu' -o -name lib \) | sort); do
+    gs_libs="${gs_libs:+$gs_libs:}$extra_root/$d"
+done
+cat > cli/bin/gs <<WRAPPER
+#!/bin/sh
+exec env LD_LIBRARY_PATH="$gs_libs:$extra_root/cli/lib" "$extra_root/$gs_bin" "\$@"
+WRAPPER
+chmod +x cli/bin/gs

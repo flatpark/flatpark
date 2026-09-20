@@ -31,4 +31,11 @@ set -eu
 # available for hardware where the unaccelerated path is the one that works.
 export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
 
+# Ghostscript and qpdf, staged under /app/extra/cli by apply_extra. The engine
+# probes for these by name when it starts and enables the tools that need them;
+# each one is a wrapper or a symlink that carries its own library path, so the
+# app and the JVM keep linking against the runtime alone.
+PATH="/app/extra/cli/bin:$PATH"
+export PATH
+
 exec /app/extra/bin/stirling-pdf "$@"
