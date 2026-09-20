@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+# AlterSend is an Electron app staged by apply_extra to /app/extra/altersend
+# from the AppDir inside the upstream AppImage. Run it through zypak-wrapper
+# (from org.electronjs.Electron2.BaseApp): zypak redirects Chromium's SUID
+# sandbox onto the Flatpak sandbox, so the app keeps an internal sandbox.
+# --ozone-platform-hint=auto lets Chromium pick Wayland when available and fall
+# back to X11.
+#
+# LD_LIBRARY_PATH mirrors what the AppDir's own AppRun sets, so the handful of
+# libraries the bundle carries for older hosts (libnotify, libXtst, libXss and
+# the appindicator trio) resolve exactly as they do outside Flatpak.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE so a value leaked from the launching
+# environment (a terminal inside VS Code / another Electron app) cannot make the
+# binary start as plain Node instead of the GUI.
+unset ELECTRON_RUN_AS_NODE
+
+export LD_LIBRARY_PATH="/app/extra/altersend/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# apply_extra resolves the launcher's upstream name from the AppDir's own AppRun
+# and records it next to the app tree, so an upstream rename cannot break an
+# automated pin refresh.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=altersend.bin
+exec zypak-wrapper "/app/extra/altersend/$launcher" --ozone-platform-hint=auto "$@"

@@ -1,0 +1,88 @@
+id: com.altersend.AlterSend
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper). The base is merged
+# into the app at build time; the payload itself is still the vendor's own
+# release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: altersend
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) peer-to-peer file transfer client. Upstream ships its
+  # Linux build as an electron-builder AppImage; this repackages the AppDir
+  # inside it unmodified. The bundle carries Chromium, its own
+  # ffmpeg/ANGLE/SwiftShader, nine prebuilt native node modules and the app
+  # sources; the GTK3, NSS, CUPS, ATK, X11, ALSA and libatomic stacks they link
+  # come from the runtime (verified against every ELF in the AppDir, 0 missing).
+  - --share=ipc
+  # The whole app: hyperswarm's DHT, hole punching and the direct device-to-
+  # device transfer all run over the network.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering.
+  - --device=dri
+  # Where received files land. The app writes them to the XDG downloads
+  # directory unless the user picks another folder, and that write is not a
+  # dialog — without this grant an incoming transfer has nowhere to go.
+  # Choosing a different destination, and picking files to send, both go through
+  # the file-chooser portal and need no grant of their own.
+  - --filesystem=xdg-download
+  # Not granted by default — the app works without them; opt in per the metainfo:
+  #   --device=all       -> scan a peer's QR code with a webcam (the paste-the-
+  #                         code path needs nothing)
+  #   --filesystem=home  -> let received files go anywhere under $HOME without
+  #                         confirming a folder through the portal each time
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: altersend
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 altersend-wrapper /app/bin/altersend
+      - install -Dm644 com.altersend.AlterSend.desktop /app/share/applications/com.altersend.AlterSend.desktop
+      - install -Dm644 com.altersend.AlterSend.metainfo.xml /app/share/metainfo/com.altersend.AlterSend.metainfo.xml
+      - install -Dm644 com.altersend.AlterSend.png /app/share/icons/hicolor/512x512/apps/com.altersend.AlterSend.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source rather
+      # than an archive module, because apply_extra runs in a sandbox that binds
+      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
+      # reproduces this). Kept OUTSIDE the managed block: update-pins.mjs
+      # rebuilds that block from the resolver output and would drop anything
+      # else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: altersend.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/denislupookov/altersend/releases/download/v2.0.0/AlterSend-x86_64.AppImage
+        sha256: 74cb05a1cac649767c09537aa457467914c0a47a6fc214915b78c0e91a7a3dda
+        size: 197013508
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: altersend-wrapper
+      - type: file
+        path: com.altersend.AlterSend.desktop
+      - type: file
+        path: com.altersend.AlterSend.metainfo.xml
+      - type: file
+        path: com.altersend.AlterSend.png

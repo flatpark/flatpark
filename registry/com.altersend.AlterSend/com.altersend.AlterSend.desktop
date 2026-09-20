@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=AlterSend
+Comment=Send files straight between your devices, end-to-end encrypted
+Exec=altersend %U
+Icon=com.altersend.AlterSend
+Terminal=false
+Categories=Network;FileTransfer;
+StartupWMClass=AlterSend
+MimeType=x-scheme-handler/altersend;
+Keywords=file;transfer;share;send;p2p;peer;encrypted;
