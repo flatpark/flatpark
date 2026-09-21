@@ -33,9 +33,9 @@ modules:
         filename: elasticvue.deb
         only-arches:
           - x86_64
-        url: https://github.com/cars10/elasticvue/releases/download/v1.15.0/elasticvue_1.15.0_amd64.deb
-        sha256: 57090043455935bd96bb41116cc82275922b5618524d8b3e699101508c4b97b2
-        size: 7800578
+        url: https://github.com/cars10/elasticvue/releases/download/v1.16.0/elasticvue_1.16.0_amd64.deb
+        sha256: 10e227478be66d40c2d87617d10ae3206ce814688231710c9f49d97e8a0d3e14
+        size: 7786706
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

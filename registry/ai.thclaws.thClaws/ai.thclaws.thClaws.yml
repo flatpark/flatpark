@@ -44,9 +44,9 @@ modules:
         filename: thclaws.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/thClaws/thClaws/releases/download/v0.133.0/thclaws-v0.133.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: d0a9dfec47b2cf896b1574a5fd469a6676b9b2581f2cd67f40ca1675a828aa5a
-        size: 30455064
+        url: https://github.com/thClaws/thClaws/releases/download/v0.134.0/thclaws-v0.134.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 02bd3123e1b3d2d00603d75345b2ca344923ff072e92a2d9f782a52add9c8c3c
+        size: 31961435
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
