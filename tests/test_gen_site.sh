@@ -104,6 +104,10 @@ assert_contains "$detail" "A test application for FlatPark."
 assert_contains "$detail" "<li>Bullet feature one</li>"
 assert_contains "$detail" "io.flatpark.TestOne.flatpakref"
 assert_contains "$detail" "/setup/"
+# Category chip links into the browse page with that section preselected, and
+# the back link lands on the browse page rather than the home grid.
+assert_contains "$detail" "/apps/?section=utilities"
+assert_contains "$detail" '<a href="/apps/" class="hover:text-ink">'
 
 # Setup page carries the remote-add command.
 assert_file "$setup"

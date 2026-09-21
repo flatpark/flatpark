@@ -45,6 +45,12 @@ const hasShots = (app.screenshots?.length ?? 0) > 0;
 const hasNotes = (latest?.notes?.length ?? 0) > 0;
 const showWhatsNew = hasNotes || !!latest?.url;
 
+// The category chip links back into the browse page with that section already
+// selected — the same `?section=<slug>` the header search's category rows use.
+const sectionHref = app.section
+  ? `${localizePath('/apps/', lang)}?section=${encodeURIComponent(app.section)}`
+  : null;
+
 const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const ld = {
   '@context': 'https://schema.org',
@@ -69,7 +75,7 @@ const ld = {
   <Topbar repo={repo} />
   <main>
     <div class="mx-auto max-w-5xl px-5 pt-6 text-sm text-muted">
-      <a href={localizePath('/', lang)} class="hover:text-ink">&larr; {t('apps.all')}</a>
+      <a href={localizePath('/apps/', lang)} class="hover:text-ink">&larr; {t('apps.all')}</a>
     </div>
 
     <!-- header -->
@@ -160,7 +166,15 @@ const ld = {
       </div>
 
       <div class="mt-5 flex flex-wrap gap-2">
-        <span class="chip">{sectionLabel(lang, app.section) || app.category}</span>
+        {
+          app.section ? (
+            <a class="chip transition hover:bg-brand/10 hover:text-brand" href={sectionHref}>
+              {sectionLabel(lang, app.section)}
+            </a>
+          ) : (
+            <span class="chip">{app.category}</span>
+          )
+        }
         {app.license ? <span class="chip">{app.license.label}</span> : null}
         {latest ? <span class="chip">v{latest.version}</span> : null}
       </div>
