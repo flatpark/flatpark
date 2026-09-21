@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Carosello
+Comment=A fast, minimalist image and video viewer for Linux
+Exec=carosello %u
+Icon=io.github.grigio.carosello
+Terminal=false
+Type=Application
+Categories=Graphics;Viewer;GTK;
+Keywords=image;video;viewer;photo;
+MimeType=image/jpeg;image/png;image/webp;image/gif;image/bmp;image/tiff;video/mp4;video/webm;video/x-matroska;
+StartupWMClass=io.github.grigio.carosello
+StartupNotify=true
+X-GNOME-UsesNotifications=true

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Black border -->
+  <circle cx="64" cy="64" r="62" fill="#1a1a1a"/>
+  <!-- Wooden canopy segments (smaller = thicker border) -->
+  <path d="M64,64 L64,12 A52,52 0 0,1 109,37Z" fill="#c8a35c"/>
+  <path d="M64,64 L109,37 A52,52 0 0,1 109,91Z" fill="#8b6914"/>
+  <path d="M64,64 L109,91 A52,52 0 0,1 64,116Z" fill="#c8a35c"/>
+  <path d="M64,64 L64,116 A52,52 0 0,1 19,91Z" fill="#8b6914"/>
+  <path d="M64,64 L19,91 A52,52 0 0,1 19,37Z" fill="#c8a35c"/>
+  <path d="M64,64 L19,37 A52,52 0 0,1 64,12Z" fill="#8b6914"/>
+  <!-- Spoke lines -->
+  <line x1="64" y1="12" x2="64" y2="64" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="109" y1="37" x2="64" y2="64" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="109" y1="91" x2="64" y2="64" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="64" y1="116" x2="64" y2="64" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="19" y1="91" x2="64" y2="64" stroke="#1a1a1a" stroke-width="2"/>
+  <line x1="19" y1="37" x2="64" y2="64" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Center hub -->
+  <circle cx="64" cy="64" r="12" fill="#ffd700" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="64" cy="64" r="5" fill="#1a1a1a"/>
+  <!-- Edge dots -->
+  <circle cx="64" cy="12" r="4" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+  <circle cx="109" cy="37" r="4" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+  <circle cx="109" cy="91" r="4" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+  <circle cx="64" cy="116" r="4" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+  <circle cx="19" cy="91" r="4" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+  <circle cx="19" cy="37" r="4" fill="#ffd700" stroke="#1a1a1a" stroke-width="1.5"/>
+</svg>

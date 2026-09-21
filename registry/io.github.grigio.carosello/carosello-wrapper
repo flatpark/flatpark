@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# Carosello is a single native GTK4/libadwaita binary staged by apply_extra to
+# /app/extra/carosello. It links only against libraries in
+# org.gnome.Platform//51 (gtk-4, libadwaita, gdk-pixbuf, GStreamer for video
+# playback, glycin for image decoding), and its stylesheet is embedded in the
+# binary — no extra environment or data files are needed. The app stores no
+# configuration; per-app state lives under ~/.var/app/io.github.grigio.carosello.
+exec /app/extra/carosello "$@"

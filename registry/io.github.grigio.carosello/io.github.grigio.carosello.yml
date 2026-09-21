@@ -1,0 +1,58 @@
+id: io.github.grigio.carosello
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: carosello
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Carosello is a native GTK4/libadwaita image and video viewer. The upstream
+  # binary links only against libraries in org.gnome.Platform (gtk-4,
+  # libadwaita, gdk-pixbuf, GStreamer for gtk::MediaFile video playback,
+  # glycin) — nothing is bundled or built. ipc/wayland/fallback-x11 for the
+  # window, dri for GPU-accelerated rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Video files play with sound (play/pause, seek, volume, mute controls), so
+  # the app needs an audio sink.
+  - --socket=pulseaudio
+  # No --share=network: Carosello is fully offline. Images and videos are
+  # opened through the file-chooser portal (Ctrl+O), which grants access to
+  # whatever the user picks; the three xdg dirs below just make the common
+  # media locations browsable (the app shows sibling files of the opened
+  # file) without a portal round-trip. There is no static grant on $HOME.
+  - --filesystem=xdg-pictures:ro
+  - --filesystem=xdg-videos:ro
+  - --filesystem=xdg-download:ro
+modules:
+  - name: carosello
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 carosello-wrapper /app/bin/carosello
+      - install -Dm644 io.github.grigio.carosello.desktop /app/share/applications/io.github.grigio.carosello.desktop
+      - install -Dm644 io.github.grigio.carosello.metainfo.xml /app/share/metainfo/io.github.grigio.carosello.metainfo.xml
+      - install -Dm644 io.github.grigio.carosello.svg /app/share/icons/hicolor/scalable/apps/io.github.grigio.carosello.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: carosello
+        only-arches:
+          - x86_64
+        url: https://github.com/grigio/carosello/releases/download/v1.0.6/carosello
+        sha256: 7de6f7924c967253fa6db39a8cff887286420fc18c1f8621ec63245d8f0920a3
+        size: 1164512
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: carosello-wrapper
+      - type: file
+        path: io.github.grigio.carosello.desktop
+      - type: file
+        path: io.github.grigio.carosello.metainfo.xml
+      - type: file
+        path: io.github.grigio.carosello.svg

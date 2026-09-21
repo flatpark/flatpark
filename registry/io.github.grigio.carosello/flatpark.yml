@@ -1,0 +1,22 @@
+id: io.github.grigio.carosello
+name: Carosello
+summary: A fast, minimalist image and video viewer for Linux
+website: https://github.com/grigio/carosello
+source_url: https://github.com/grigio/carosello
+build:
+  manifest: io.github.grigio.carosello.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Image
+    - Video
+    - Viewer
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

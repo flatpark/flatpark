@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.grigio.carosello</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Carosello</name>
+  <summary>A fast, minimalist image and video viewer for Linux</summary>
+  <description>
+    <p>
+      Carosello is a fast, minimalist image and video viewer for Linux.
+      It opens images and videos from a directory, lets you navigate
+      between files with keyboard shortcuts or gestures, and displays
+      them with zoom and pan capabilities.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Keyboard-first navigation</li>
+      <li>Pinch-to-zoom and scroll wheel zoom</li>
+      <li>EXIF orientation support</li>
+      <li>Video playback with seek controls</li>
+      <li>Auto-hide overlay controls</li>
+    </ul>
+    <p>A few optional capabilities are not granted by default; enable the ones you
+       need with "flatpak override":</p>
+    <ul>
+      <li>Open media libraries kept outside the usual folders: <code>flatpak override --user --filesystem=/path/to/media:ro io.github.grigio.carosello</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.grigio.carosello.desktop</launchable>
+  <url type="homepage">https://github.com/grigio/carosello</url>
+  <url type="bugtracker">https://github.com/grigio/carosello/issues</url>
+  <developer id="io.github.grigio">
+    <name>Carosello Contributors</name>
+  </developer>
+  <categories>
+    <category>Graphics</category>
+    <category>Viewer</category>
+  </categories>
+  <content_rating type="oars-1.1" />
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/grigio/carosello/master/carosello.png</image>
+      <caption>Carosello viewing images with navigation controls</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.6" date="2026-09-21">
+      <description>
+        <p>Embed CSS in the binary so release artifacts are styled without an installed GResource bundle.</p>
+      </description>
+    </release>
+    <release version="1.0.5" date="2026-09-18">
+      <description>
+        <p>Fix flatpak: remove DBusActivatable without service file.</p>
+      </description>
+    </release>
+    <release version="1.0.4" date="2026-09-18">
+      <description>
+        <p>Fix CI: correct libadwaita/gtk requirements and flatpak finish-args.</p>
+      </description>
+    </release>
+    <release version="1.0.3" date="2026-09-18">
+      <description>
+        <p>Fit media to window and handle resize; HIG improvements.</p>
+      </description>
+    </release>
+    <release version="1.0.2" date="2026-09-18">
+      <description>
+        <p>Bugfixes and GNOME HIG compliance improvements.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-09-14">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+</component>
