@@ -55,6 +55,7 @@ that PR link in the table — the PR itself is the evidence.
 | Markra | `app.markra.Markra` | [markrahq/markra#738 (comment)](https://github.com/markrahq/markra/issues/738#issuecomment-5747070606) — MuRong (murongg), Markra's author and main contributor, answered the FlatPark listing question with "同意授权"; supersedes the withdrawn V2EX record | 2026-09-20 |
 | DeepChat | `xyz.thinkinai.DeepChat` | [ThinkInAIXYZ/deepchat#2331 (comment)](https://github.com/ThinkInAIXYZ/deepchat/issues/2331#issuecomment-5747488502) — duskzhen (zerob13), DeepChat's lead maintainer: "非常感谢你的贡献，我们同意加蓝色盾牌标为开发者授权"; he also invited a README PR adding FlatPark as an install method, to be mirrored on the site | 2026-09-20 |
 | Elasticvue | `com.elasticvue.app` | [cars10/elasticvue#360 (comment)](https://github.com/cars10/elasticvue/issues/360#issuecomment-5750515614) — cars10, Elasticvue's author: "LGTM thx, will add later to the website" | 2026-09-20 |
+| Carosello | `io.github.grigio.carosello` | Approved by construction — submitted and maintained by its own developer ([flatpark#399](https://github.com/flatpark/flatpark/pull/399)) | 2026-09-21 |
 
 ## Not approved
 

@@ -9,6 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Graphics
+  upstream_approved: true
   tags:
     - Image
     - Video
