@@ -60,6 +60,7 @@
 
   "detail.title": "Install {app} on Linux — Flatpak | {repo}",
   "detail.meta": "Install {app} on any Linux distro (Fedora, Arch, Ubuntu, Bazzite) as a signed, sandboxed Flatpak. {summary}",
+  "detail.section.browse": "Browse all apps in this category",
   "detail.proprietary": "Proprietary",
   "detail.developer.fallback": "Community package",
   "detail.install.more": "More install options",

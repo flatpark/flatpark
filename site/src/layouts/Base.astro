@@ -209,15 +209,34 @@ const searchMeta = {
         for (const b of sectionButtons) b.classList.toggle('is-active', b === btn);
         apply();
       }
-      for (const btn of sectionButtons) btn.addEventListener('click', () => selectSection(btn));
 
       // ?section=<slug> preselects one, which is what the category rows in the
-      // header search link to — they have to land on this page with a filter
-      // already applied.
-      const wantedSection = new URLSearchParams(location.search).get('section');
-      if (wantedSection) {
-        const btn = sectionButtons.find((b) => b.dataset.sectionFilter === wantedSection);
+      // header search and an app page's category chip link to — they have to
+      // land on this page with a filter already applied.
+      const urlSection = () => new URLSearchParams(location.search).get('section') || '';
+      function selectFromUrl() {
+        const wanted = urlSection();
+        const btn = sectionButtons.find((b) => (b.dataset.sectionFilter || '') === wanted);
         if (btn) selectSection(btn);
+      }
+
+      if (sectionButtons.length) {
+        // Picking a category rewrites the address bar to match, so the filtered
+        // view can be linked and reloaded, and Back walks out of it. Without
+        // this, arriving on `?section=office` from an app page left the URL
+        // stuck on that category however many others you clicked afterwards.
+        for (const btn of sectionButtons) {
+          btn.addEventListener('click', () => {
+            selectSection(btn);
+            const slug = btn.dataset.sectionFilter || '';
+            const url = new URL(location.href);
+            if (slug) url.searchParams.set('section', slug);
+            else url.searchParams.delete('section');
+            if (url.href !== location.href) history.pushState({ section: slug }, '', url);
+          });
+        }
+        window.addEventListener('popstate', selectFromUrl);
+        if (urlSection()) selectFromUrl();
       }
 
       // Sort dropdown: reorder the grid in place. ISO dates sort as text.

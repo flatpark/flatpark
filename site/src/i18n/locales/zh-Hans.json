@@ -60,6 +60,7 @@
 
   "detail.title": "在 Linux 上安装 {app} — Flatpak | {repo}",
   "detail.meta": "以已签名、沙盒隔离的 Flatpak 形式，在任意 Linux 发行版（Fedora、Arch、Ubuntu、Bazzite）上安装 {app}。{summary}",
+  "detail.section.browse": "浏览该分类下的全部应用",
   "detail.proprietary": "专有",
   "detail.developer.fallback": "社区打包",
   "detail.install.more": "更多安装方式",

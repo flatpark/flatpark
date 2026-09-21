@@ -153,6 +153,12 @@ body {
   @apply bg-brand/10 text-brand;
 }
 
+/* A chip that is a link. Tinted rather than neutral so it reads as clickable
+   sitting next to the inert chips (license, version) it shares a row with. */
+.chip-link {
+  @apply gap-1 bg-brand/10 text-brand transition hover:bg-brand/20;
+}
+
 .cmd {
   @apply block whitespace-pre-wrap break-words rounded-lg border border-line bg-[#1d1f24]
     px-3 py-2.5 font-mono text-sm text-[#e9eaed];

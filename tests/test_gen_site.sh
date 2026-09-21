@@ -107,6 +107,8 @@ assert_contains "$detail" "/setup/"
 # Category chip links into the browse page with that section preselected, and
 # the back link lands on the browse page rather than the home grid.
 assert_contains "$detail" "/apps/?section=utilities"
+# ...and is tinted as a link so it reads as clickable beside the inert chips.
+assert_contains "$detail" "chip chip-link"
 assert_contains "$detail" '<a href="/apps/" class="hover:text-ink">'
 
 # Setup page carries the remote-add command.
