@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.getupnote.UpNote</id>
+  <name>UpNote</name>
+  <summary>Write and organize notes in nested notebooks</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://getupnote.com/terms.html</project_license>
+  <developer id="com.getupnote">
+    <name>UpNote Pte. Ltd.</name>
+  </developer>
+  <url type="homepage">https://getupnote.com</url>
+  <url type="help">https://help.getupnote.com/</url>
+  <url type="bugtracker">https://help.getupnote.com/resources/contact-us</url>
+  <description>
+    <p>This is a community package of UpNote, maintained independently and unaffiliated with UpNote Pte. Ltd. It repackages the official Linux Debian package unmodified.</p>
+    <p>UpNote is a note app for long-form writing: notes live in notebooks that nest as deeply as you like, and the editor mixes rich text with Markdown shortcuts.</p>
+    <ul>
+      <li>Nested notebooks, tags, links between notes and full-text search.</li>
+      <li>Rich text editing with Markdown input, code blocks, tables, attachments and math.</li>
+      <li>Focus mode, themes and a light or dark appearance.</li>
+      <li>Import from Evernote, Apple Notes, Bear and Simplenote; export to Markdown, HTML, PDF or text.</li>
+      <li>Sign in to sync notes with the other UpNote apps. Sync and some editing features are part of UpNote Premium, a paid subscription from the developer.</li>
+    </ul>
+    <p>Permissions: this package grants network access for sign-in and sync, display and GPU access, notifications and a tray icon. Your home directory is not visible to it — notes are kept in the app's own data directory under ~/.var/app/com.getupnote.UpNote, and import and export go through the file chooser portal, which hands the app one file or folder at a time.</p>
+    <p>If you would rather give it a directory of its own — to keep exports somewhere fixed, or to reach a folder of files you import from often — grant that one directory yourself:</p>
+    <p>flatpak override --user --filesystem=~/Notes com.getupnote.UpNote</p>
+    <p>Review or undo what you have granted with "flatpak override --user --show com.getupnote.UpNote" and "flatpak override --user --reset com.getupnote.UpNote".</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://getupnote.com/static/images/main.png</image>
+      <caption>A note open next to the notebook sidebar</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://getupnote.com/static/images/notebooks.png</image>
+      <caption>Notebooks nested into a hierarchy</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://getupnote.com/static/images/dark_mode.png</image>
+      <caption>Dark appearance</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://getupnote.com/static/images/focus_mode.png</image>
+      <caption>Focus mode, with everything but the note hidden</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Office</category>
+    <category>TextEditor</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>notes</keyword>
+    <keyword>notebook</keyword>
+    <keyword>markdown</keyword>
+    <keyword>writing</keyword>
+    <keyword>journal</keyword>
+    <keyword>upnote</keyword>
+  </keywords>
+  <branding>
+    <color type="primary">#1060d8</color>
+  </branding>
+  <recommends>
+    <display_length compare="ge">768</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>upnote</binary>
+    <mediatype>x-scheme-handler/upnote</mediatype>
+  </provides>
+  <launchable type="desktop-id">com.getupnote.UpNote.desktop</launchable>
+  <releases>
+    <release version="9.22.4" date="2026-09-12">
+      <url>https://help.getupnote.com/new-to-upnote/installation</url>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=UpNote
+Comment=Write and organize notes in nested notebooks, with sync across devices
+GenericName=Note editor
+Exec=upnote %U
+Icon=com.getupnote.UpNote
+Terminal=false
+StartupNotify=true
+StartupWMClass=upnote
+Categories=Office;TextEditor;Utility;
+MimeType=x-scheme-handler/upnote;
+Keywords=notes;notetaking;notebook;markdown;editor;writing;journal;upnote;

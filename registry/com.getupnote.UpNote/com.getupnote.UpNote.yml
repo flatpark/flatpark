@@ -1,0 +1,89 @@
+id: com.getupnote.UpNote
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
+# base is a prebuilt ref merged into the app at build time; the official
+# upstream application tree is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: upnote
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Note app. The official Debian package bundles the Chromium/Electron
+  # application tree; the GTK3, NSS, ATK, CUPS, DRM/GBM and X11 stacks it links
+  # come from the Freedesktop runtime.
+  - --share=ipc
+  # Account sign-in and note sync with UpNote's servers.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Chromium compositing and GPU rasterisation.
+  - --device=dri
+  # Reminders and sync messages are raised through the web Notification API,
+  # which Chromium sends straight to the session bus rather than through the
+  # notification portal.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon. Chromium claims org.freedesktop.StatusNotifierItem-<getpid()>-1
+  # and gives up on the first refusal, so without a matching own-name the tray
+  # silently never appears. Every sandboxed app is PID 2, so upnote-wrapper pins
+  # the reported PID to 939393 (see the fake-getpid module) and this single name
+  # is all it ever needs, instead of racing every other Flatpak tray app for the
+  # PID-2 name.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.freedesktop.StatusNotifierItem-939393-1
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary - and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach - always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately not granted:
+  #   --filesystem=home / =host  -> notes live in the app's own data directory;
+  #                                 import and export go through the file
+  #                                 chooser portal, which hands the app one
+  #                                 file or folder at a time
+  #   --socket=pulseaudio        -> the app records and plays no audio
+  #   --talk-name=org.freedesktop.secrets -> it stores no secret through the
+  #                                 keyring; the account session lives in the
+  #                                 Chromium profile
+modules:
+  - name: upnote-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/upnote/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
+  - name: upnote
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 upnote-wrapper /app/bin/upnote
+      - install -Dm644 com.getupnote.UpNote.desktop /app/share/applications/com.getupnote.UpNote.desktop
+      - install -Dm644 com.getupnote.UpNote.metainfo.xml /app/share/metainfo/com.getupnote.UpNote.metainfo.xml
+      - install -Dm644 com.getupnote.UpNote.png /app/share/icons/hicolor/512x512/apps/com.getupnote.UpNote.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: upnote-amd64.deb
+        only-arches:
+          - x86_64
+        url: https://download.getupnote.com/app/upnote_amd64.deb
+        sha256: 7f8308dd34ebe7943aa6efc2de14a69bfab9fba030975620fe890cbab617710c
+        size: 106532180
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: upnote-wrapper
+      - type: file
+        path: com.getupnote.UpNote.desktop
+      - type: file
+        path: com.getupnote.UpNote.metainfo.xml
+      - type: file
+        path: com.getupnote.UpNote.png

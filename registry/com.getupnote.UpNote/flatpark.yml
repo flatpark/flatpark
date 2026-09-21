@@ -1,0 +1,33 @@
+# FlatPark catalog descriptor for UpNote.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.getupnote.UpNote.yml is the Flatpak manifest it
+# points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.getupnote.UpNote
+name: UpNote
+summary: Note app with nested notebooks, rich text and Markdown, and cloud sync
+website: https://getupnote.com
+source_url: https://help.getupnote.com/new-to-upnote/installation
+build:
+  manifest: com.getupnote.UpNote.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Notes
+    - Markdown
+    - Editor
+    - Writing
+    - Sync
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

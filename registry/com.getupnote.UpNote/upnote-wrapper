@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# UpNote is staged by apply_extra to /app/extra/upnote, and the resolved binary
+# name is recorded in app.env at install time. Run it through zypak-wrapper
+# (from org.electronjs.Electron2.BaseApp): zypak redirects Chromium's SUID
+# sandbox onto the Flatpak sandbox, so renderer and GPU processes stay isolated
+# without the Debian package's chrome-sandbox postinst and without
+# --no-sandbox.
+#
+# Keep this wrapper thin so the upstream application tree stays unmodified:
+# display, file dialogs and the Chromium sandbox are handled by portals/zypak
+# and the manifest permissions.
+[ -f /app/extra/app.env ] || {
+  echo "upnote: /app/extra/app.env is missing, reinstall the app" >&2
+  exit 1
+}
+# shellcheck source=/dev/null  # written by apply_extra at install time
+. /app/extra/app.env
+
+unset ELECTRON_RUN_AS_NODE
+
+# Chromium's tray backend claims the bus name
+# "org.freedesktop.StatusNotifierItem-<getpid()>-1" and gives up if that name is
+# refused. Inside the sandbox the app is always PID 2 in its own PID namespace,
+# so every Flatpak app with a tray races for the same name. Report a fixed,
+# distinctive PID instead, and grant exactly that one bus name in finish-args.
+# The preload goes through ZYPAK_LD_PRELOAD rather than LD_PRELOAD: zypak-helper
+# builds the LD_PRELOAD of the app and of every Chromium child from it, and
+# would otherwise drop ours.
+export UPNOTE_FAKE_PID="${UPNOTE_FAKE_PID:-939393}"
+export ZYPAK_LD_PRELOAD="/app/lib/upnote/libfakepid.so${ZYPAK_LD_PRELOAD:+:$ZYPAK_LD_PRELOAD}"
+
+exec zypak-wrapper "$APP_BIN" --ozone-platform-hint=auto --enable-wayland-ime "$@"
