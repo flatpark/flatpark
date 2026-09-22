@@ -1,0 +1,150 @@
+id: io.github.jswysnemc.MarkShot
+# Upstream's AppImage is a self-contained build: it carries its own Qt 6, its
+# own FFmpeg (with x264/x265) and the four translation plugins, and resolves
+# them through the launcher's RUNPATH ($ORIGIN/../lib). What it deliberately
+# does NOT carry - the display, GL/EGL, X11, Wayland, fontconfig, glib and
+# PipeWire stacks - is exactly what org.freedesktop.Platform 26.08 provides, so
+# this is the freedesktop base rather than a KDE one. Nothing Qt comes from the
+# runtime and nothing is built here; the only module below installs our own
+# launcher, desktop entry, icon and AppStream data.
+#
+# This is also why the .deb of the same release is not the payload: it links
+# the runtime's Qt, and a distribution-linked Qt executable carries an
+# R_X86_64_COPY relocation for QCoreApplication::self and for the
+# staticMetaObject of QObject, QWidget and the application classes. The Qt in
+# org.kde.Platform 6.9-6.11 reads and writes its own copies of those rather
+# than going through the GOT, so the two diverge: the process dies in
+# QApplication's constructor, and once past that, qobject_cast inside the Qt
+# libraries stops matching - the settings and history windows close as soon as
+# they open. A self-contained payload never consults the runtime's Qt and is
+# unaffected.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: mark-shot
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # The AppImage ships only the xcb platform plugin, so the window is an X11
+  # one and goes through XWayland on a Wayland session. That makes this a plain
+  # --socket=x11 rather than fallback-x11, which would withhold the X socket
+  # precisely when a compositor is present. Capture itself does not depend on
+  # it: Mark Shot reads XDG_SESSION_TYPE, and on a Wayland session it takes the
+  # xdg-desktop-portal Screenshot / ScreenCast path over D-Bus regardless of
+  # which toolkit backend draws the window.
+  - --socket=x11
+  # A Wayland session exports QT_QPA_PLATFORM=wayland and flatpak forwards it;
+  # the bundled Qt has no wayland plugin and aborts with "Could not find the Qt
+  # platform plugin". Drop it here so the wrapper's xcb default applies, while
+  # `flatpak override --env=QT_QPA_PLATFORM=...` still wins for anyone who
+  # wants to try otherwise.
+  - --unset-env=QT_QPA_PLATFORM
+  # Not for the window: wl-copy, the helper that keeps a copied image on the
+  # clipboard after this one-shot process exits, is a native Wayland client.
+  - --socket=wayland
+  # The selection overlay and the magnifier render through OpenGL, and video
+  # recording uses the VA-API / NVENC encoders.
+  - --device=dri
+  # The selection overlay, annotation, pinning, copying and saving are all
+  # offline. Network is what the optional online features need: the machine
+  # translation providers (OpenAI-compatible, Tencent, Baidu, Youdao), the
+  # image-host upload button and the plugin marketplace.
+  - --share=network
+  # Screenshots, recordings and the capture history are written under
+  # ~/Pictures/mark-shot by default (save_path_config.cpp /
+  # recording_storage_config.cpp both start from PicturesLocation), and the
+  # save dialog offers Downloads as the other common target. NOT a home grant:
+  # settings, the plugin directory and the capture history stay under
+  # ~/.var/app/io.github.jswysnemc.MarkShot, and anywhere else is an opt-in
+  # `flatpak override` documented in the metainfo.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-download
+  # "Screenshot saved" / "Recording saved" notifications, including the action
+  # that opens the containing folder.
+  - --talk-name=org.freedesktop.Notifications
+  # KDE Wayland only: KWin's ScreenShot2 is a restricted interface, and it is
+  # the exact-area capture path Mark Shot prefers on Plasma. The exported
+  # desktop entry carries the matching
+  # X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2 declaration.
+  # Everywhere else capture goes through the xdg-desktop-portal interfaces,
+  # which every sandboxed app may talk to without a grant.
+  - --talk-name=org.kde.KWin.ScreenShot2
+modules:
+  - name: mark-shot
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mark-shot-wrapper /app/bin/mark-shot
+      - install -Dm644 io.github.jswysnemc.MarkShot.desktop /app/share/applications/io.github.jswysnemc.MarkShot.desktop
+      - install -Dm644 io.github.jswysnemc.MarkShot.metainfo.xml /app/share/metainfo/io.github.jswysnemc.MarkShot.metainfo.xml
+      - install -Dm644 io.github.jswysnemc.MarkShot.svg /app/share/icons/hicolor/scalable/apps/io.github.jswysnemc.MarkShot.svg
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mark-shot.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/jswysnemc/mark-shot/releases/download/v0.1.53/mark-shot-v0.1.53-linux-x86_64.AppImage
+        sha256: 9c00631254df4a355715db78d6e4279ab0c2241aad95e21b59476275f5fb6ce5
+        size: 99551736
+      # END MANAGED EXTRA-DATA
+      # Mark Shot copies to the clipboard by handing the image to a small
+      # helper that stays alive owning the selection (clipboard_image.cpp:
+      # wl-copy on Wayland, xclip on X11) and falls back to the Qt clipboard
+      # when neither is on PATH. The tool is a one-shot - it exits as soon as
+      # you have copied - so with only the Qt clipboard the copied image would
+      # be gone by the time you paste. Neither helper is in the runtime, and
+      # the AppImage does not carry them either. libxmu6 is xclip's one library
+      # the runtime does not have. scripts/update-debian-pins.mjs re-resolves
+      # these from the suite index; filename minus .deb is the binary package
+      # name, and that is the whole contract.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: wl-clipboard.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/w/wl-clipboard/wl-clipboard_2.2.1-2_amd64.deb
+        sha256: 9c655956ef2139fdfb0479b02e09ee92de811f88d1f67c2482091b80b5842792
+        size: 32244
+      - type: extra-data
+        filename: xclip.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/x/xclip/xclip_0.13-4_amd64.deb
+        sha256: 14203d9a0138996c647d603fcadd79e6765a0a124f606e386215325ac13ece76
+        size: 21328
+      - type: extra-data
+        filename: libxmu6.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libx/libxmu/libxmu6_1.1.3-3+b4_amd64.deb
+        sha256: cfdf1dee8f9abd87f503222fc8b04a30ce820fb1255247b7c3a28ff9c244431a
+        size: 58972
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mark-shot-wrapper
+      - type: file
+        path: io.github.jswysnemc.MarkShot.desktop
+      - type: file
+        path: io.github.jswysnemc.MarkShot.metainfo.xml
+      - type: file
+        path: io.github.jswysnemc.MarkShot.svg

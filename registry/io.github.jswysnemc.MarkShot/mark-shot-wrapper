@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+
+# Mark Shot is upstream's AppImage, unpacked by apply_extra into the AppDir's
+# own usr tree at /app/extra/usr. It carries its Qt 6, FFmpeg and translation
+# plugins with it and finds them through the launcher's RUNPATH, so nothing is
+# added to LD_LIBRARY_PATH here - the runtime's libraries stay untouched.
+#
+# The bundle ships only the xcb QPA plugin, so the window is an X11 one (on a
+# Wayland session, through XWayland). The manifest unsets the host's
+# QT_QPA_PLATFORM for us; ${QT_QPA_PLATFORM:-xcb} then leaves a
+# `flatpak override --env=` in control. Capture is unaffected: Mark Shot picks
+# its backend from XDG_SESSION_TYPE and talks to xdg-desktop-portal over D-Bus.
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-xcb}"
+
+# PATH is what the app searches for the helpers it shells out to: its own
+# window-detection scripts in usr/bin, and wl-copy / xclip in tools/bin, which
+# keep a copied image on the clipboard after this one-shot process exits. The
+# host's PATH stays last, so anything the user has made visible to the sandbox
+# still wins over the staged copies.
+export PATH="/app/extra/usr/bin:/app/extra/tools/bin:$PATH"
+
+# Settings, the capture history, marketplace plugins and downloaded OCR models
+# live under ~/.var/app/io.github.jswysnemc.MarkShot via the usual XDG
+# variables - the app reads them through QStandardPaths and needs no help here.
+exec /app/extra/usr/bin/mark-shot "$@"

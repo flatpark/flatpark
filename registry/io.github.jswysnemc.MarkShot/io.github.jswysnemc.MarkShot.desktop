@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Application
+Name=Mark Shot
+Comment=Wayland screenshot selection and annotation tool
+Comment[zh_CN]=Wayland 截图选区和标注工具
+Exec=mark-shot
+Icon=io.github.jswysnemc.MarkShot
+Terminal=false
+StartupNotify=false
+Categories=Graphics;Utility;
+Keywords=screenshot;screen capture;annotation;wayland;niri;grim;
+Keywords[zh_CN]=截图;屏幕捕获;标注;wayland;niri;grim;
+# The application sets its own desktop file name ("mark-shot"), which is also
+# the Wayland app_id and the X11 WM_CLASS of every window it opens, so this is
+# what a shell has to match against to give those windows this entry's icon.
+StartupWMClass=mark-shot
+# KWin treats org.kde.KWin.ScreenShot2 as a restricted interface and only lets
+# through callers whose desktop entry declares it. This is Mark Shot's exact-
+# area capture path on Plasma Wayland; the manifest grants the matching
+# --talk-name.
+X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2

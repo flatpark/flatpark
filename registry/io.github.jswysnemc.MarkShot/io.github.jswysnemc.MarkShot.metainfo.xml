@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.jswysnemc.MarkShot</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Mark Shot</name>
+  <summary>Qt 6 screenshot selection and annotation tool for Wayland and X11</summary>
+  <summary xml:lang="zh-CN">Wayland 截图选区和标注工具</summary>
+  <description>
+    <p>
+      Mark Shot captures the screen instantly and opens an interactive fullscreen
+      overlay for cropping and annotating the result. It was written for Wayland
+      compositors such as niri and now covers the usual X11, GNOME, KDE and
+      wlroots desktops as well.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Pen, highlighter, shapes, arrows, text, numbered markers, mosaic and a resizable magnifier</li>
+      <li>Pin any crop as a frameless floating sticker you can drag, scale and rotate</li>
+      <li>Copy to the clipboard, save to disk, or upload to a configurable image host</li>
+      <li>Scan a QR code or barcode straight out of the selection</li>
+      <li>Record a region or a display to GIF, MP4 or MKV, with pause and resume</li>
+      <li>OCR a pinned sticker and translate the recognized text through OpenAI-compatible, Tencent, Baidu or Youdao endpoints</li>
+    </ul>
+    <p>Notes on this Flatpak package:</p>
+    <ul>
+      <li>Screen capture goes through the desktop portal, so your compositor may ask for permission the first time. On Plasma Wayland the KWin ScreenShot2 path is used instead.</li>
+      <li>The window is drawn through X11 (XWayland on a Wayland session), because that is the toolkit backend this build carries. It does not change how the screen is captured.</li>
+      <li>The build packaged here includes the four translation plugins; the barcode/QR and OCR plugins are separate downloads in the plugin marketplace.</li>
+      <li>Scrolling capture on GNOME Wayland needs a GNOME Shell extension that a sandboxed app cannot install for you.</li>
+      <li>Hovering a window to select it automatically asks the compositor through its own client (hyprctl, niri, ...), which is not reachable from the sandbox; drag a region instead.</li>
+    </ul>
+    <p>A few optional capabilities are not granted by default; enable the ones you
+       need with "flatpak override":</p>
+    <ul>
+      <li>Save screenshots outside ~/Pictures and ~/Downloads: <code>flatpak override --user --filesystem=/path/to/dir io.github.jswysnemc.MarkShot</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.jswysnemc.MarkShot.desktop</launchable>
+  <url type="homepage">https://github.com/jswysnemc/mark-shot</url>
+  <url type="bugtracker">https://github.com/jswysnemc/mark-shot/issues</url>
+  <developer id="io.github.jswysnemc">
+    <name>jswysnemc</name>
+  </developer>
+  <categories>
+    <category>Graphics</category>
+    <category>Utility</category>
+  </categories>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.1.53" date="2026-09-21">
+      <description>
+        <p>On-demand text selection on pinned stickers, a themed screenshot history window, HiDPI crosshair scaling, and RapidOCR model lookup aligned with the model downloader.</p>
+      </description>
+    </release>
+    <release version="0.1.52" date="2026-09-13">
+      <description>
+        <p>Redesigned OCR result window with separate text and translation panes, a streamlined recording dialog, and a reworked settings form layout.</p>
+      </description>
+    </release>
+    <release version="0.1.50" date="2026-08-30">
+      <description>
+        <p>Maintenance release.</p>
+      </description>
+    </release>
+  </releases>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+</component>
