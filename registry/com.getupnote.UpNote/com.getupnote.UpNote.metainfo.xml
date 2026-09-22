@@ -72,6 +72,9 @@
   </provides>
   <launchable type="desktop-id">com.getupnote.UpNote.desktop</launchable>
   <releases>
+    <release version="9.22.5" date="2026-09-22">
+      <description></description>
+    </release>
     <release version="9.22.4" date="2026-09-12">
       <url>https://help.getupnote.com/new-to-upnote/installation</url>
     </release>

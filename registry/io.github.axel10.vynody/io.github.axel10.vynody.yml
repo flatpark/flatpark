@@ -59,9 +59,9 @@ modules:
         filename: vynody-linux.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/axel10/vynody/releases/download/2.9.0/vynody-linux-2.9.0.tar.gz
-        sha256: 97afd03b4b1c591ea06328b399d3e2c902d40c5789e1635fdbd09d428704bc1e
-        size: 25522709
+        url: https://github.com/axel10/vynody/releases/download/2.10.0/vynody-linux-2.10.0.tar.gz
+        sha256: 2d341cd8854c2f32c77182cf8e3edf7e3ba5ff3cd4761a0d7da81b20ccbeadaf
+        size: 25564267
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
