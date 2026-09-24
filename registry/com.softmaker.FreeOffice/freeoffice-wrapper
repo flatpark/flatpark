@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+# One wrapper for the three FreeOffice programs. It is installed as
+# /app/bin/textmaker and symlinked as planmaker and presentations, and
+# dispatches on the name it was invoked under, so each exported desktop entry
+# (and `flatpak run --command=planmaker com.softmaker.FreeOffice`) lands on the
+# right binary inside the suite staged by apply_extra at /app/extra/freeoffice.
+app=/app/extra/freeoffice
+cmd="${0##*/}"
+
+[ -x "$app/$cmd" ] || { echo "FreeOffice: no program named '$cmd'" >&2; exit 127; }
+
+# libXmu is the one library the programs need that the runtime lacks;
+# apply_extra stages Debian's copy, and nothing else, in /app/extra/lib.
+export LD_LIBRARY_PATH="/app/extra/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# FreeOffice sizes its interface from the X screen's physical size, which
+# XWayland always reports as 96 dpi; the shim answers from Xft.dpi instead so
+# HiDPI sessions get a full-size UI. See xft-dpi-shim.c.
+export LD_PRELOAD="/app/lib/libxft-dpi-shim.so${LD_PRELOAD:+:$LD_PRELOAD}"
+
+# Same as upstream's /usr/bin/presentations24free launcher: a slide show file
+# (.prs/.pps/.ppsx) opens straight into the show rather than the editor.
+if [ "$cmd" = presentations ] && [ "$#" -eq 1 ]; then
+    case "$1" in
+        *.[Pp][Rr][Ss]|*.[Pp][Pp][Ss]|*.[Pp][Pp][Ss][Xx])
+            exec "$app/presentations" "-S\"$1\"" ;;
+    esac
+fi
+
+exec "$app/$cmd" "$@"

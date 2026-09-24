@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SoftMaker's own document formats, so the exported desktop entries can
+     match them on the host. The Microsoft/OpenDocument/RTF/CSV types the
+     entries also list are already defined by shared-mime-info. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-tmdx">
+    <comment>TextMaker document</comment>
+    <glob pattern="*.tmdx"/>
+  </mime-type>
+  <mime-type type="application/x-tmd">
+    <comment>TextMaker document (legacy)</comment>
+    <glob pattern="*.tmd"/>
+  </mime-type>
+  <mime-type type="application/x-tmvx">
+    <comment>TextMaker template</comment>
+    <glob pattern="*.tmvx"/>
+  </mime-type>
+  <mime-type type="application/x-tmv">
+    <comment>TextMaker template (legacy)</comment>
+    <glob pattern="*.tmv"/>
+  </mime-type>
+  <mime-type type="application/x-pmdx">
+    <comment>PlanMaker document</comment>
+    <glob pattern="*.pmdx"/>
+  </mime-type>
+  <mime-type type="application/x-pmd">
+    <comment>PlanMaker document (legacy)</comment>
+    <sub-class-of type="application/x-ole-storage"/>
+    <glob pattern="*.pmd"/>
+  </mime-type>
+  <mime-type type="application/x-pmv">
+    <comment>PlanMaker template</comment>
+    <glob pattern="*.pmvx"/>
+    <glob pattern="*.pmv"/>
+  </mime-type>
+  <mime-type type="application/x-prdx">
+    <comment>Presentations document</comment>
+    <glob pattern="*.prdx"/>
+  </mime-type>
+  <mime-type type="application/x-prd">
+    <comment>Presentations document (legacy)</comment>
+    <glob pattern="*.prd"/>
+  </mime-type>
+  <mime-type type="application/x-prsx">
+    <comment>Presentations slide show</comment>
+    <glob pattern="*.prsx"/>
+  </mime-type>
+  <mime-type type="application/x-prs">
+    <comment>Presentations slide show (legacy)</comment>
+    <glob pattern="*.prs"/>
+  </mime-type>
+  <mime-type type="application/x-prvx">
+    <comment>Presentations template</comment>
+    <glob pattern="*.prvx"/>
+  </mime-type>
+  <mime-type type="application/x-prv">
+    <comment>Presentations template (legacy)</comment>
+    <glob pattern="*.prv"/>
+  </mime-type>
+</mime-info>

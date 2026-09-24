@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.softmaker.FreeOffice</id>
+  <name>FreeOffice</name>
+  <summary>Free office suite compatible with Microsoft Office</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer id="com.softmaker">
+    <name>SoftMaker Software GmbH</name>
+  </developer>
+  <url type="homepage">https://www.freeoffice.com/</url>
+  <url type="help">https://www.freeoffice.com/en/download/manuals</url>
+  <url type="bugtracker">https://forum.softmaker.com/</url>
+  <description>
+    <p>This is a community package of FreeOffice, maintained independently and unaffiliated with SoftMaker. It repackages the official upstream Linux .deb unmodified, downloaded from SoftMaker at install time, and follows upstream releases automatically.</p>
+    <p>FreeOffice is a free office suite from SoftMaker that works with Microsoft Word, Excel and PowerPoint files. SoftMaker offers it free of charge for personal and business use.</p>
+    <ul>
+      <li>TextMaker: a word processor for DOCX, DOC, ODT and RTF documents.</li>
+      <li>PlanMaker: a spreadsheet application for XLSX, XLS and CSV files, with charts.</li>
+      <li>Presentations: create and show PPTX and PPT slide shows.</li>
+      <li>PDF export from all three programs.</li>
+    </ul>
+    <p>All three programs are installed together. TextMaker opens from the FreeOffice TextMaker launcher, and PlanMaker and Presentations have launchers of their own; from a terminal, use <code>flatpak run --command=planmaker com.softmaker.FreeOffice</code> or <code>--command=presentations</code>.</p>
+    <p>Display scaling: FreeOffice sizes its interface from the screen's DPI. On a HiDPI Wayland session where the compositor leaves X11 apps unscaled (for example Hyprland with force_zero_scaling, or KDE Plasma set to let X11 apps scale themselves), this package takes the DPI from the Xft.dpi setting those sessions publish, so the suite opens at full size. To pick a size yourself, run <code>flatpak override --user --env=FREEOFFICE_DPI=192 com.softmaker.FreeOffice</code> (96 is 100%, 144 is 150%, 192 is 200%). The size of dialog text can also be adjusted in Options, Appearance, User interface size.</p>
+    <p>Permissions: FreeOffice opens and saves files through its own file dialog, so this package grants the Documents, Downloads and Desktop folders, plus ~/SoftMaker, where FreeOffice keeps its settings, templates and dictionaries and first offers to save documents (the same folder a native install uses). A document opened from your file manager reaches FreeOffice wherever it is stored. To work anywhere in your home directory, run <code>flatpak override --user --filesystem=home com.softmaker.FreeOffice</code>.</p>
+  </description>
+  <launchable type="desktop-id">com.softmaker.FreeOffice.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>WordProcessor</category>
+    <category>Spreadsheet</category>
+    <category>Presentation</category>
+  </categories>
+  <keywords>
+    <keyword>office</keyword>
+    <keyword>word processor</keyword>
+    <keyword>spreadsheet</keyword>
+    <keyword>presentation</keyword>
+    <keyword>docx</keyword>
+    <keyword>xlsx</keyword>
+    <keyword>pptx</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">768</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>textmaker</binary>
+    <binary>planmaker</binary>
+    <binary>presentations</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://www.freeoffice.com/images/home/tm_linux_en.webp</image>
+      <caption>TextMaker word processor</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.freeoffice.com/images/home/pm_linux_en.webp</image>
+      <caption>PlanMaker spreadsheet</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.freeoffice.com/images/home/pr_linux_en.webp</image>
+      <caption>Presentations</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2024.1234" date="2026-04-28">
+      <url>https://www.freeoffice.com/en/download/servicepacks</url>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FreeOffice Presentations
+GenericName=Presentation
+Comment=Create and show slide presentations, compatible with Microsoft PowerPoint
+Exec=presentations %F
+Icon=com.softmaker.FreeOffice.Presentations
+Terminal=false
+Categories=Office;Presentation;
+Keywords=presentation;slides;pptx;odp;slideshow;
+StartupNotify=true
+StartupWMClass=pr
+MimeType=application/x-prdx;application/x-prvx;application/x-prsx;application/x-prd;application/x-prv;application/x-prs;application/ppt;application/mspowerpoint;application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.ms-powerpoint.presentation.macroenabled.12;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.ms-powerpoint.template.macroEnabled.12;application/vnd.ms-powerpoint.slideshow.macroenabled.12;application/vnd.openxmlformats-officedocument.presentationml.slideshow;

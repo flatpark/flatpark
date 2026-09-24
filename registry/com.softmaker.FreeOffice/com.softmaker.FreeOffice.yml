@@ -1,0 +1,104 @@
+id: com.softmaker.FreeOffice
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: textmaker
+separate-locales: false
+build-options:
+  no-debuginfo: true
+tags:
+  - proprietary
+finish-args:
+  # TextMaker, PlanMaker and Presentations draw their own UI straight on Xlib
+  # with OpenGL; there is no Wayland backend, so X11 (XWayland on a Wayland
+  # session) is the display path.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Audio and video embedded in presentations play through GStreamer.
+  - --socket=pulseaudio
+  # Printing goes through libcups to the host's CUPS server.
+  - --socket=cups
+  # Update checks, online help, and the hyperlinks / web search in documents.
+  - --share=network
+  # FreeOffice opens and saves through its own file dialog, which only sees
+  # what the sandbox can see, so the common document folders are granted.
+  # A file opened from the file manager arrives through the document portal
+  # wherever it lives. Wider access is an opt-in override in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  - --filesystem=xdg-desktop
+  # FreeOffice keeps its settings, templates, dictionaries and sample files in
+  # ~/SoftMaker, and that folder is also where its dialogs first offer to save
+  # a document. Flatpak does not redirect $HOME, so without this grant it all
+  # lands on the sandbox's tmpfs and is gone on exit. :create makes the folder
+  # on first run; it is the same place a native install uses.
+  - --filesystem=~/SoftMaker:create
+modules:
+  - name: xft-dpi-shim
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 -Wall xft-dpi-shim.c -o libxft-dpi-shim.so -lX11
+      - install -Dm755 libxft-dpi-shim.so /app/lib/libxft-dpi-shim.so
+    sources:
+      - type: file
+        path: xft-dpi-shim.c
+
+  - name: freeoffice
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 freeoffice-wrapper /app/bin/textmaker
+      - ln -s textmaker /app/bin/planmaker
+      - ln -s textmaker /app/bin/presentations
+      - install -Dm644 com.softmaker.FreeOffice.desktop /app/share/applications/com.softmaker.FreeOffice.desktop
+      - install -Dm644 com.softmaker.FreeOffice.PlanMaker.desktop /app/share/applications/com.softmaker.FreeOffice.PlanMaker.desktop
+      - install -Dm644 com.softmaker.FreeOffice.Presentations.desktop /app/share/applications/com.softmaker.FreeOffice.Presentations.desktop
+      - install -Dm644 com.softmaker.FreeOffice.metainfo.xml /app/share/metainfo/com.softmaker.FreeOffice.metainfo.xml
+      - install -Dm644 com.softmaker.FreeOffice.mime.xml /app/share/mime/packages/com.softmaker.FreeOffice.xml
+      - install -Dm644 com.softmaker.FreeOffice.png /app/share/icons/hicolor/256x256/apps/com.softmaker.FreeOffice.png
+      - install -Dm644 com.softmaker.FreeOffice.PlanMaker.png /app/share/icons/hicolor/256x256/apps/com.softmaker.FreeOffice.PlanMaker.png
+      - install -Dm644 com.softmaker.FreeOffice.Presentations.png /app/share/icons/hicolor/256x256/apps/com.softmaker.FreeOffice.Presentations.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: freeoffice.deb
+        only-arches:
+          - x86_64
+        url: https://www.softmaker.net/down/softmaker-freeoffice-2024_1234-01_amd64.deb
+        sha256: d518ce8058cfae4314f828b3885236aeb964551f3589f2b83d74ef02d80c1e23
+        size: 141930772
+      # END MANAGED EXTRA-DATA
+      # libXmu is the one library TextMaker, PlanMaker and Presentations link
+      # against that the runtime does not ship. scripts/update-debian-pins.mjs
+      # re-resolves it from the suite index; filename minus .deb is the binary
+      # package name, and that is the whole contract.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libxmu6.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libx/libxmu/libxmu6_1.1.3-3+b4_amd64.deb
+        sha256: cfdf1dee8f9abd87f503222fc8b04a30ce820fb1255247b7c3a28ff9c244431a
+        size: 58972
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: freeoffice-wrapper
+      - type: file
+        path: com.softmaker.FreeOffice.desktop
+      - type: file
+        path: com.softmaker.FreeOffice.PlanMaker.desktop
+      - type: file
+        path: com.softmaker.FreeOffice.Presentations.desktop
+      - type: file
+        path: com.softmaker.FreeOffice.metainfo.xml
+      - type: file
+        path: com.softmaker.FreeOffice.mime.xml
+      - type: file
+        path: com.softmaker.FreeOffice.png
+      - type: file
+        path: com.softmaker.FreeOffice.PlanMaker.png
+      - type: file
+        path: com.softmaker.FreeOffice.Presentations.png

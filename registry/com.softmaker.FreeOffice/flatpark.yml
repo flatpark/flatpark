@@ -1,0 +1,22 @@
+id: com.softmaker.FreeOffice
+name: FreeOffice
+summary: Free office suite compatible with Microsoft Office
+website: https://www.freeoffice.com/
+build:
+  manifest: com.softmaker.FreeOffice.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - WordProcessor
+    - Spreadsheet
+    - Presentation
+    - DOCX
+    - XLSX
+    - PPTX
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
