@@ -1,0 +1,77 @@
+id: io.github.iu8lmc.Decodium
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: decodium
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # The AppImage's own launcher pins Qt to xcb (QT_QPA_PLATFORM defaults to
+  # xcb there), so the window is an X11 one and goes through XWayland on a
+  # Wayland session: --socket=x11, not fallback-x11, which would withhold the
+  # X socket precisely when a compositor is present.
+  - --socket=x11
+  # A Wayland session exports QT_QPA_PLATFORM=wayland and flatpak forwards it,
+  # which would override that default. Drop it; `flatpak override
+  # --env=QT_QPA_PLATFORM=...` still wins for anyone who wants to try Wayland.
+  - --unset-env=QT_QPA_PLATFORM
+  - --device=dri
+  # Receive and transmit audio: the radio's sound interface, through the host
+  # sound server.
+  - --socket=pulseaudio
+  # Rig control is the other half of operating: Hamlib drives the radio's CAT
+  # and PTT over USB serial ports (/dev/ttyUSB*, /dev/ttyACM*), and RTL-SDR
+  # dongles are raw USB devices. Flatpak has no narrower --device for either,
+  # and without it the app can decode but cannot key a transmitter. Upstream's
+  # own Flatpak submission grants the same.
+  - --device=all
+  # PSK Reporter spots, the online callsign lookups and the UDP messages that
+  # logging programs (GridTracker, JTAlert, N1MM) listen for on localhost.
+  - --share=network
+  # Settings, ALL.TXT, the decode logs and the ADIF log all go through the
+  # redirected XDG dirs under ~/.var/app/io.github.iu8lmc.Decodium, and saved
+  # .wav captures and exports use the file chooser.
+modules:
+  - name: decodium
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 decodium-wrapper /app/bin/decodium
+      - install -Dm644 io.github.iu8lmc.Decodium.desktop /app/share/applications/io.github.iu8lmc.Decodium.desktop
+      - install -Dm644 io.github.iu8lmc.Decodium.metainfo.xml /app/share/metainfo/io.github.iu8lmc.Decodium.metainfo.xml
+      - install -Dm644 io.github.iu8lmc.Decodium.png /app/share/icons/hicolor/256x256/apps/io.github.iu8lmc.Decodium.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # because a system-wide install runs apply_extra in a sandbox that binds
+      # only the runtime /usr and /app/extra. Kept OUTSIDE the managed block:
+      # update-pins.mjs rebuilds that block from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: decodium.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/iu8lmc/Decodium-4.0-Core-Shannon/releases/download/v1.0.649/decodium4-ft2-1.0.649-linux-x86_64.AppImage
+        sha256: 0f42a58e508fd454f106720e2ec627ec980a71a430093ad6b55c1e986b6028d3
+        size: 99908088
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: decodium-wrapper
+      - type: file
+        path: io.github.iu8lmc.Decodium.desktop
+      - type: file
+        path: io.github.iu8lmc.Decodium.metainfo.xml
+      - type: file
+        path: io.github.iu8lmc.Decodium.png

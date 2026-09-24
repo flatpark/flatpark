@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Decodium
+GenericName=Weak Signal Communication
+Comment=Amateur radio weak-signal modes — FT8, FT4, FT2, Q65, WSPR and more
+Exec=decodium
+Icon=io.github.iu8lmc.Decodium
+Terminal=false
+Categories=AudioVideo;Audio;HamRadio;
+Keywords=ham;radio;ft8;ft4;wspr;wsjt;q65;digital;
+StartupNotify=true
+StartupWMClass=Decodium

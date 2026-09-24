@@ -1,0 +1,28 @@
+id: io.github.iu8lmc.Decodium
+name: Decodium
+summary: Amateur radio weak-signal modes — FT8, FT4, FT2, Q65, WSPR and more
+website: https://www.ft2.it
+source_url: https://github.com/iu8lmc/Decodium-4.0-Core-Shannon
+build:
+  manifest: io.github.iu8lmc.Decodium.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Science
+  upstream_approved: false
+  tags:
+    - HamRadio
+    - FT8
+    - WSPR
+    - SDR
+    - Radio
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Rig control: Hamlib keys the transmitter (CAT and PTT) over USB serial
+    # ports, and RTL-SDR receivers are raw USB devices. There is no narrower
+    # --device for either; without it the app can decode but not transmit.
+    - --device=all

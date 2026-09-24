@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# Decodium is upstream's AppImage, unpacked by apply_extra to
+# /app/extra/decodium. Run the bundle's own AppRun rather than the binary: it
+# is the AppImage's entry point, and it sets the Qt platform (xcb by default),
+# the FFmpeg media backend, the QML import paths and the Quick Controls style
+# the app is built for. The manifest unsets a QT_QPA_PLATFORM forwarded from a
+# Wayland session so that xcb default applies.
+#
+# Settings, logs and captures go through QStandardPaths, i.e. the XDG dirs
+# Flatpak redirects under ~/.var/app/io.github.iu8lmc.Decodium.
+exec /app/extra/decodium/AppRun "$@"
