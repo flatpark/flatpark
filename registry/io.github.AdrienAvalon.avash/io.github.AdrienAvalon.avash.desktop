@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Avash
+GenericName=Remote Connection Manager
+Comment=SSH, RDP and VNC connection manager with SFTP and tunnels
+Comment[fr]=Gestionnaire de connexions SSH, RDP et VNC
+Exec=avash
+Icon=io.github.AdrienAvalon.avash
+Terminal=false
+Categories=Network;RemoteAccess;
+Keywords=ssh;rdp;vnc;sftp;terminal;remote desktop;tunnel;
+Keywords[fr]=ssh;rdp;vnc;sftp;terminal;bureau distant;tunnel;
+StartupNotify=true
+StartupWMClass=avash-ui

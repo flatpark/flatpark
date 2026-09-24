@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.AdrienAvalon.avash</id>
+  <launchable type="desktop-id">io.github.AdrienAvalon.avash.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <name>Avash</name>
+  <summary>SSH, RDP and VNC connection manager with SFTP and tunnels</summary>
+  <developer id="io.github.adrienavalon">
+    <name>Adrien Cros</name>
+  </developer>
+  <url type="homepage">https://adrienavalon.github.io/avash/</url>
+  <url type="bugtracker">https://github.com/AdrienAvalon/avash/issues</url>
+  <url type="vcs-browser">https://github.com/AdrienAvalon/avash</url>
+  <description>
+    <p>This is a community package of Avash, maintained independently and unaffiliated with the Avash project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
+    <p>Avash brings SSH terminals, Windows remote desktops (RDP), VNC desktops, serial consoles and SFTP file transfers into one native application. It reads and writes your <code>~/.ssh/config</code> as it is, keeps passwords in the system keyring, and verifies SSH and RDP host keys before any credential is sent.</p>
+    <ul>
+      <li>SSH terminals with snippets, a command palette and session recording.</li>
+      <li>Built-in RDP and VNC viewers, with VeNCrypt when the VNC server offers it.</li>
+      <li>SFTP with drag and drop, and local, remote and SOCKS tunnels.</li>
+      <li>Folders, tags and host health checks; imports PuTTY and MobaXterm sessions.</li>
+      <li>Interface in English and French, no telemetry.</li>
+    </ul>
+    <p>Permissions: this package grants network access, the GPU, audio (remote-desktop sound), your SSH agent and the Secret Service for stored passwords. On the filesystem it grants only <code>~/.ssh</code> — Avash keeps its host list in <code>~/.ssh/config</code>, so this is the same file your other SSH tools use. Files for SFTP are picked through the file chooser. Two capabilities are not granted by default; enable the ones you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Drag and drop or transfer files to and from any folder in your home: <code>flatpak override --user --filesystem=home io.github.AdrienAvalon.avash</code></li>
+      <li>Serial consoles (USB serial adapters): <code>flatpak override --user --device=all io.github.AdrienAvalon.avash</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/AdrienAvalon/avash/main/docs/captures/bureau-rdp.png</image>
+      <caption>A Windows desktop inside Avash, the host list on the left</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/AdrienAvalon/avash/main/docs/captures/terminal-ssh.png</image>
+      <caption>An SSH session</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/AdrienAvalon/avash/main/docs/captures/accueil.png</image>
+      <caption>Home, hosts in folders</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>RemoteAccess</category>
+  </categories>
+  <keywords>
+    <keyword>ssh</keyword>
+    <keyword>rdp</keyword>
+    <keyword>vnc</keyword>
+    <keyword>sftp</keyword>
+    <keyword>remote desktop</keyword>
+  </keywords>
+  <releases>
+    <release version="0.13.1" date="2026-09-13"/>
+  </releases>
+</component>

@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Avash is a Tauri (WebKitGTK) app staged by apply_extra to /app/extra/avash,
+# with its avash-rdp sidecar beside it. Its own settings go through the XDG
+# config dir, which Flatpak redirects to ~/.var/app/io.github.AdrienAvalon.avash;
+# ~/.ssh is granted by the manifest.
+#
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox; the compositing path is the reliable default here. The
+# window is opaque, so turning it off costs nothing. Written as a default so
+# `flatpak override --env=WEBKIT_DISABLE_DMABUF_RENDERER=0` still takes it back.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+exec /app/extra/avash/avash-ui "$@"

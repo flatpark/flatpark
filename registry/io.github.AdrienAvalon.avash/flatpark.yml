@@ -1,0 +1,25 @@
+id: io.github.AdrienAvalon.avash
+name: Avash
+summary: SSH, RDP and VNC connection manager with SFTP and tunnels
+website: https://adrienavalon.github.io/avash/
+source_url: https://github.com/AdrienAvalon/avash
+build:
+  manifest: io.github.AdrienAvalon.avash.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - SSH
+    - RDP
+    - VNC
+    - SFTP
+    - Remote
+    - Terminal
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

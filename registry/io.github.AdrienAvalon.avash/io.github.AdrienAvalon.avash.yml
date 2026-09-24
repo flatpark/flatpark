@@ -1,0 +1,70 @@
+id: io.github.AdrienAvalon.avash
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: avash
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK front end (avash-ui) plus the avash-rdp sidecar, which Tauri
+  # launches from the directory next to the front end. The .deb links
+  # webkit2gtk-4.1, gtk-3, libsoup-3 and dbus, all in org.gnome.Platform; the
+  # sidecar needs only libc/libm/libgcc_s.
+  - --share=ipc
+  # Reaching SSH, RDP and VNC servers is the app.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Hardware-accelerated rendering of the remote desktop canvas.
+  - --device=dri
+  # Remote-desktop audio: the RDP sound channel is played by the web view, so by
+  # WebKitGTK and GStreamer, which need the host sound server.
+  - --socket=pulseaudio
+  # The host SSH agent: keys it already holds work without copying them in.
+  - --socket=ssh-auth
+  # Passwords are stored in the system keyring (Secret Service).
+  - --talk-name=org.freedesktop.secrets
+  # Avash's host list IS ~/.ssh/config: it reads it as-is and writes new and
+  # edited hosts back to it, alongside known_hosts and keys it generates. It is
+  # read from the literal $HOME/.ssh, which Flatpak does not redirect — without
+  # a grant that path is a tmpfs inside the sandbox and every host saved there
+  # would be gone on the next start. This is the smallest grant under which the
+  # app keeps its data; :create so a machine with no ~/.ssh yet works too.
+  - --filesystem=~/.ssh:create
+  # Deliberately NOT granted by default; the metainfo documents each as an
+  # opt-in `flatpak override`:
+  #   --filesystem=home   drag-and-drop and SFTP transfers to and from any
+  #                       folder in your home (the file chooser portal covers
+  #                       picking individual files).
+  #   --device=all        serial consoles (/dev/ttyUSB*, /dev/ttyACM*); there is
+  #                       no narrower --device for tty nodes.
+modules:
+  - name: avash
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 avash-wrapper /app/bin/avash
+      - install -Dm644 io.github.AdrienAvalon.avash.desktop /app/share/applications/io.github.AdrienAvalon.avash.desktop
+      - install -Dm644 io.github.AdrienAvalon.avash.metainfo.xml /app/share/metainfo/io.github.AdrienAvalon.avash.metainfo.xml
+      - install -Dm644 io.github.AdrienAvalon.avash.png /app/share/icons/hicolor/256x256/apps/io.github.AdrienAvalon.avash.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: avash.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/AdrienAvalon/avash/releases/download/v0.13.1/Avash_0.13.1_amd64.deb
+        sha256: 73fed8cfb7c1d006e3e274d2223d85b9d073526ee3c18254ab17b04a7e53e4da
+        size: 16430938
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: avash-wrapper
+      - type: file
+        path: io.github.AdrienAvalon.avash.desktop
+      - type: file
+        path: io.github.AdrienAvalon.avash.metainfo.xml
+      - type: file
+        path: io.github.AdrienAvalon.avash.png
