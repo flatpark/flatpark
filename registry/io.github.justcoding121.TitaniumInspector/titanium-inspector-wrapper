@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Titanium Inspector is a self-contained .NET 10 / Avalonia app staged by
+# apply_extra to /app/extra/titanium-inspector. .NET follows XDG_CONFIG_HOME and
+# XDG_DATA_HOME for its application-data folders, and Flatpak points those into
+# ~/.var/app/io.github.justcoding121.TitaniumInspector, so settings, sessions
+# and the generated root CA stay in the sandbox.
+#
+# certutil (staged from Debian's libnss3-tools) goes on PATH *after* everything
+# else: the app runs it by name to trust its root CA in the sandbox-private
+# ~/.pki/nssdb, which is what lets Decrypt HTTPS switch on.
+export PATH="$PATH:/app/extra/nss-tools"
+exec /app/extra/titanium-inspector/TitaniumInspector "$@"

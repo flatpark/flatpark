@@ -1,0 +1,27 @@
+id: io.github.justcoding121.TitaniumInspector
+name: Titanium Inspector
+summary: HTTP(S) debugging proxy with session grid, breakpoints and auto-responder
+website: https://titaniumproxy.com
+source_url: https://github.com/justcoding121/titanium-web-proxy
+build:
+  manifest: io.github.justcoding121.TitaniumInspector.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - HTTP
+    - HTTPS
+    - Proxy
+    - Debugging
+    - Network
+    - Developer
+update:
+  command: ./resolve-update.sh
+policy:
+  # Titanium Inspector is source-available under PolyForm Noncommercial 1.0.0:
+  # free for personal and educational use, not an OSI licence.
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

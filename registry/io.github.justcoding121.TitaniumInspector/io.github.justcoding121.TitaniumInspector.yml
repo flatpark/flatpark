@@ -1,0 +1,81 @@
+id: io.github.justcoding121.TitaniumInspector
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: titanium-inspector
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Self-contained .NET 10 app (Avalonia UI, SkiaSharp) with its own OpenSSL 3
+  # and msquic. fontconfig, freetype, ICU and the X11 client libraries it
+  # dlopens come from the runtime.
+  - --share=ipc
+  # Avalonia's Linux backend in this payload is X11 only (there is no Avalonia
+  # Wayland assembly in it), so X11 is required, not a fallback. On a Wayland
+  # session it runs through XWayland.
+  - --socket=x11
+  - --device=dri
+  # The proxy listens on a local port for your browser or tools, and forwards
+  # their traffic upstream; both need the host network namespace.
+  - --share=network
+  # Settings, captured sessions and the generated root CA are kept under the
+  # XDG config/data dirs, which Flatpak redirects into
+  # ~/.var/app/io.github.justcoding121.TitaniumInspector. HAR and CA exports go
+  # through the file chooser portal.
+  #
+  # Decrypt HTTPS only switches on once the app finds its root CA trusted in the
+  # user NSS database at the literal $HOME/.pki/nssdb, which it checks and
+  # writes with `certutil` (shipped below from Debian's libnss3-tools; the
+  # runtime has the NSS libraries but not the tool). Keep that database
+  # private to the sandbox: the app's own check passes and decryption works,
+  # while the host's certificate stores are never written by a MITM tool.
+  # Browsers are told to trust the CA by hand — the metainfo explains it.
+  - --persist=.pki
+  #
+  # Deliberately NOT granted: write access to the host's ~/.pki/nssdb or the
+  # Firefox profiles (the app's automatic browser-trust step), and the
+  # dconf/gsettings access its "system proxy" toggle would need. On a host
+  # without them those helpers simply do nothing.
+modules:
+  - name: titanium-inspector
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 titanium-inspector-wrapper /app/bin/titanium-inspector
+      - install -Dm644 io.github.justcoding121.TitaniumInspector.desktop /app/share/applications/io.github.justcoding121.TitaniumInspector.desktop
+      - install -Dm644 io.github.justcoding121.TitaniumInspector.metainfo.xml /app/share/metainfo/io.github.justcoding121.TitaniumInspector.metainfo.xml
+      - install -Dm644 io.github.justcoding121.TitaniumInspector.png /app/share/icons/hicolor/512x512/apps/io.github.justcoding121.TitaniumInspector.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: titanium-inspector.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/justcoding121/titanium-web-proxy/releases/download/v7.0.11/TitaniumInspector-linux-x64.deb
+        sha256: 8e9c98677e2a6072a50d6b2287ba4e9d16f72392ac641af0101a869671c282b9
+        size: 56180640
+      # END MANAGED EXTRA-DATA
+      # certutil, from Debian's libnss3-tools: apply_extra keeps only that one
+      # binary, which links nothing but the runtime's own NSS/NSPR libraries.
+      # Debian keeps one version per suite in the pool, so this block is re-pinned
+      # by scripts/update-debian-pins.mjs; filename minus .deb is the package name.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libnss3-tools.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/n/nss/libnss3-tools_3.110-1+deb13u4_amd64.deb
+        sha256: 6504101943837ed2ee0089c9d4d72d69b96db0c51aa21249e0757855905af82e
+        size: 1086124
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: titanium-inspector-wrapper
+      - type: file
+        path: io.github.justcoding121.TitaniumInspector.desktop
+      - type: file
+        path: io.github.justcoding121.TitaniumInspector.metainfo.xml
+      - type: file
+        path: io.github.justcoding121.TitaniumInspector.png

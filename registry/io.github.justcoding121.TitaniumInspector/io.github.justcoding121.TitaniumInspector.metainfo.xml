@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.justcoding121.TitaniumInspector</id>
+  <launchable type="desktop-id">io.github.justcoding121.TitaniumInspector.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>PolyForm-Noncommercial-1.0.0</project_license>
+  <name>Titanium Inspector</name>
+  <summary>HTTP(S) debugging proxy with session grid, breakpoints and auto-responder</summary>
+  <developer id="io.github.justcoding121">
+    <name>justcoding121</name>
+  </developer>
+  <url type="homepage">https://titaniumproxy.com</url>
+  <url type="bugtracker">https://github.com/justcoding121/titanium-web-proxy/issues</url>
+  <url type="vcs-browser">https://github.com/justcoding121/titanium-web-proxy</url>
+  <description>
+    <p>This is a community package of Titanium Inspector, maintained independently and unaffiliated with the Titanium Web Proxy project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
+    <p>Titanium Inspector is a desktop man-in-the-middle debugger built on Titanium Web Proxy. Point a browser or any HTTP client at it and every request shows up in a live session grid, HTTPS included, where you can inspect, edit, replay and fake it.</p>
+    <ul>
+      <li>Session grid with request and response inspectors, search and filters.</li>
+      <li>AutoResponder, Map Local and Map Remote rules, and request/response breakpoints.</li>
+      <li>A Composer for hand-built requests, plus curl and fetch export.</li>
+      <li>HTTP/2, WebSocket, gRPC and Server-Sent Events.</li>
+      <li>HAR import and export.</li>
+    </ul>
+    <p>Licence: Titanium Inspector is source-available under the PolyForm Noncommercial licence 1.0.0 — free for personal and educational use. Commercial use needs a licence from its author.</p>
+    <p>Permissions: this package grants network access (the proxy listens on a local port and forwards upstream) and the display. It grants no filesystem access; settings, captured sessions and the generated root certificate stay inside the sandbox, and exports go through the file chooser.</p>
+    <p>HTTPS decryption: when you switch on Decrypt HTTPS and choose Install, the root certificate is trusted in a certificate database private to this sandbox, never in your host&apos;s browser stores. To inspect a browser&apos;s HTTPS traffic, export the root certificate (Decrypt HTTPS prompt → Export CA) and import it as a trusted authority in that browser, then set the browser&apos;s HTTP and HTTPS proxy to the address shown in the app. The System proxy toggle does not change your desktop&apos;s proxy settings from inside the sandbox. Command-line tools usually pick the proxy up from <code>http_proxy</code> / <code>https_proxy</code>.</p>
+    <p>Scope: the optional HTTP/3 support uses the bundled msquic library, which needs <code>libnuma</code>; the Flatpak runtime does not ship it, so HTTP/3 is unavailable in this package. HTTP/1.1 and HTTP/2 are unaffected.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/justcoding121/titanium-web-proxy/develop/wiki/images/inspector-screenshot.jpg</image>
+      <caption>The session grid with request and response inspectors</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>http</keyword>
+    <keyword>https</keyword>
+    <keyword>proxy</keyword>
+    <keyword>mitm</keyword>
+    <keyword>debugger</keyword>
+    <keyword>har</keyword>
+  </keywords>
+  <releases>
+    <release version="7.0.11" date="2026-09-17"/>
+  </releases>
+</component>

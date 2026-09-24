@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Titanium Inspector
+GenericName=HTTP Debugging Proxy
+Comment=HTTP(S) debugging proxy with session grid, breakpoints and auto-responder
+Exec=titanium-inspector
+Icon=io.github.justcoding121.TitaniumInspector
+Terminal=false
+Categories=Development;Network;
+Keywords=http;https;proxy;mitm;debugger;fiddler;har;
+StartupNotify=true
+StartupWMClass=TitaniumInspector
