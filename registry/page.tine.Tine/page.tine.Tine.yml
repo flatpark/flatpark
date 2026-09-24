@@ -39,9 +39,9 @@ modules:
         filename: tine.deb
         only-arches:
           - x86_64
-        url: https://github.com/martinkoutecky/tine/releases/download/v0.6.984/Tine_0.6.984_amd64.deb
-        sha256: ab5eac973c5b4291801de19a416e864f95d98d6f81c82baef3cdc7861f847766
-        size: 53275896
+        url: https://github.com/martinkoutecky/tine/releases/download/v0.6.985/Tine_0.6.985_amd64.deb
+        sha256: df60d4e682d7f7cd1c5d6a2cad6b10fbfeaeb0da293512727ef8e469bfd626b5
+        size: 55709144
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

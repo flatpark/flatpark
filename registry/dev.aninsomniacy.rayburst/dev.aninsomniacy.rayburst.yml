@@ -72,9 +72,9 @@ modules:
         filename: rayburst.deb
         only-arches:
           - x86_64
-        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.0.0-beta.4/Rayburst_4.0.0-beta.4_amd64.deb
-        sha256: f5516d6aef78038cad92bf991fbaebe2c1614e3e4566c45ae40b726ce99720b3
-        size: 28738810
+        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.0.0-beta.6/Rayburst_4.0.0-beta.6_amd64.deb
+        sha256: 765604aaf09af1678ac0bbcf34523a62f5ac47c205f465d35ba087a8ea4eae7d
+        size: 28949254
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

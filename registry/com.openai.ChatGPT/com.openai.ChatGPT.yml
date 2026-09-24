@@ -93,9 +93,9 @@ modules:
         filename: chatgpt-amd64.deb
         only-arches:
           - x86_64
-        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.917.62051_amd64.deb
-        sha256: 75536e3f197c6db8881a634f8bb9b0515184a8eff7cec9be5f408d0f4ae6e696
-        size: 420738082
+        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.917.71314_amd64.deb
+        sha256: 851ec28b65bde2ff1da9f37dcdf5b6e20a915c7568f8b2ce993c00428f018ae5
+        size: 420831054
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

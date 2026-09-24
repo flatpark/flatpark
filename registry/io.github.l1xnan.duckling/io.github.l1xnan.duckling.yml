@@ -49,9 +49,9 @@ modules:
         filename: duckling.deb
         only-arches:
           - x86_64
-        url: https://github.com/l1xnan/duckling/releases/download/v0.59.1/Duckling_0.59.1_amd64.deb
-        sha256: 067e48939c0466a8a3f6aeb4b29d667f84ef58758d9e85a1c5c373fc5c604971
-        size: 38891174
+        url: https://github.com/l1xnan/duckling/releases/download/v0.59.2/Duckling_0.59.2_amd64.deb
+        sha256: f00fe03c206373ee3a3116a6d4d1245928c3f51582d6f5ba5735732d3b84ff8f
+        size: 38920652
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

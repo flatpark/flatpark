@@ -33,9 +33,9 @@ modules:
         filename: Antigravity.tar.gz
         only-arches:
           - x86_64
-        url: https://storage.googleapis.com/antigravity-public/antigravity-hub/2.15.1-5880727900913664/linux-x64/Antigravity.tar.gz
-        sha256: 6f6b578245008217dab861c314e6a5665eaeeea3348d86697c41c1d87ed8e8ff
-        size: 174283090
+        url: https://storage.googleapis.com/antigravity-public/antigravity-hub/2.17.0-5217732355031040/linux-x64/Antigravity.tar.gz
+        sha256: 6a9b0ff60f7bd0d165022034aad9b047b3b0cf2ac56134feded8e68760e2ab01
+        size: 179494137
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
