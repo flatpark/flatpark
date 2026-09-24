@@ -1,0 +1,23 @@
+id: net.aiuo.pi-desktop
+name: PI-Desktop
+summary: Local-first desktop workspace for AI agents
+website: https://pi-docs.aiuo.net
+source_url: https://github.com/vastsa/PI-Desktop
+build:
+  manifest: net.aiuo.pi-desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AI
+  tags:
+    - AI
+    - Agents
+    - Coding
+    - Workspace
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

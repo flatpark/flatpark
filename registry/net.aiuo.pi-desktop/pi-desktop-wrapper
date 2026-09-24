@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+# PI-Desktop is staged by apply_extra to /app/extra/PI-Desktop and started
+# through zypak-wrapper from org.electronjs.Electron2.BaseApp: zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps its
+# internal sandbox instead of running with --no-sandbox.
+# --ozone-platform-hint=auto lets Chromium use the Wayland socket when there is
+# one and fall back to X11 otherwise. Flatpak redirects $HOME, so the workspace
+# (~/.config/PI-Desktop) and the app's own ~/.pi-desktop state both land in the
+# per-app data directory under ~/.var/app/net.aiuo.pi-desktop/.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE: leaked in from the launching
+# environment (e.g. an Electron-based terminal), the binary would start as
+# plain Node instead of the GUI app.
+unset ELECTRON_RUN_AS_NODE
+
+extra_root=/app/extra
+launcher=""
+if [ -r "$extra_root/launcher" ]; then
+    read -r launcher < "$extra_root/launcher" || launcher=""
+fi
+[ -n "$launcher" ] || { echo "pi-desktop: no launcher record in $extra_root" >&2; exit 1; }
+[ -x "$extra_root/PI-Desktop/$launcher" ] \
+    || { echo "pi-desktop: staged launcher not executable: $launcher" >&2; exit 1; }
+
+# Launch by absolute path and leave the working directory alone: it is
+# inherited by the commands the app spawns, and a working directory that exists
+# only inside the sandbox (such as the app tree) cannot be entered by anything
+# forwarded elsewhere.
+exec zypak-wrapper "$extra_root/PI-Desktop/$launcher" --ozone-platform-hint=auto "$@"

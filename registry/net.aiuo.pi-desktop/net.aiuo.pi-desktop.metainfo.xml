@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.aiuo.pi-desktop</id>
+  <name>PI-Desktop</name>
+  <summary>Local-first desktop workspace for AI agents</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-3.0</project_license>
+  <developer id="net.aiuo">
+    <name>vastsa</name>
+  </developer>
+  <url type="homepage">https://pi-docs.aiuo.net</url>
+  <url type="bugtracker">https://github.com/vastsa/PI-Desktop/issues</url>
+  <url type="vcs-browser">https://github.com/vastsa/PI-Desktop</url>
+  <description>
+    <p>This is a community package of PI-Desktop, maintained independently and unaffiliated with PI-Desktop or its author. It repackages the official upstream Linux build unmodified.</p>
+    <p>PI-Desktop is a local-first desktop workspace for AI agents: projects, sessions, models, plugins and workflows live in one persistent environment, with no mandatory account and no telemetry. Models are a replaceable component — cloud providers, open-compatible gateways, or local runtimes such as Ollama and LM Studio.</p>
+    <ul>
+      <li>Persistent projects and sessions that survive app restarts.</li>
+      <li>Switch provider, model and reasoning level per session.</li>
+      <li>Delegate to subagents or coordinate parallel worker sessions.</li>
+      <li>Plugins add panels, views, agent tools, MCP servers, themes and background services.</li>
+    </ul>
+    <p>Permissions: this package keeps a tight sandbox by default — network, display, GPU, audio playback and notifications. Credentials are kept in the app's own encrypted store inside the per-app data directory and file picking goes through the desktop portal; no broad filesystem access is granted. The app's own state directory (sessions, provider credentials, window state) is kept in the per-app data directory, so it persists across launches while staying inside the sandbox. Commands the agent runs execute inside the sandbox with the runtime's own shell and core tools — this package does not bridge the sandbox out to host tools.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Open projects stored anywhere in your home directory (and let session import see your real <code>~/.claude</code>, <code>~/.codex</code>, <code>~/.pi</code> and similar directories): <code>flatpak override --user --filesystem=home net.aiuo.pi-desktop</code></li>
+      <li>Keep custom prompts, skills and MCP servers in the shared agent directories <code>~/.pi</code> and <code>~/.agents</code> (created if missing; without this they reset on each launch): <code>flatpak override --user --filesystem=~/.pi --filesystem=~/.agents net.aiuo.pi-desktop</code></li>
+      <li>Microphone access for voice plugins: <code>flatpak override --user --device=all net.aiuo.pi-desktop</code></li>
+      <li>Let the system keyring (GNOME Keyring / KWallet) encrypt the stored credentials: <code>flatpak override --user --talk-name=org.freedesktop.secrets net.aiuo.pi-desktop</code></li>
+    </ul>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>agent</keyword>
+    <keyword>coding</keyword>
+    <keyword>assistant</keyword>
+    <keyword>workspace</keyword>
+    <keyword>local-first</keyword>
+  </keywords>
+  <launchable type="desktop-id">net.aiuo.pi-desktop.desktop</launchable>
+  <provides>
+    <binary>pi-desktop</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/vastsa/PI-Desktop/main/docs/image/readme/home.webp</image>
+      <caption>Home screen with projects and sessions</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/vastsa/PI-Desktop/main/docs/image/readme/chat_en.png</image>
+      <caption>A session streaming its transcript</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/vastsa/PI-Desktop/main/docs/image/readme/model_en.png</image>
+      <caption>Switching model and reasoning level inside a session</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/vastsa/PI-Desktop/main/docs/image/readme/plugins_en.png</image>
+      <caption>The plugin marketplace</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.15.6" date="2026-09-23"/>
+    <release version="0.15.4" date="2026-09-23"/>
+    <release version="0.15.3" date="2026-09-21"/>
+    <release version="0.15.2" date="2026-09-21"/>
+    <release version="0.15.1" date="2026-09-19"/>
+  </releases>
+</component>

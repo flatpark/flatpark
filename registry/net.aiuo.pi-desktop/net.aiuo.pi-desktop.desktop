@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=PI-Desktop
+GenericName=AI Agent Workspace
+Comment=Local-first desktop workspace for AI agents
+Exec=pi-desktop %U
+Icon=net.aiuo.pi-desktop
+Terminal=false
+StartupNotify=true
+StartupWMClass=pi-desktop
+Categories=Development;
+Keywords=ai;agent;coding;assistant;workspace;local-first;

@@ -1,0 +1,100 @@
+id: net.aiuo.pi-desktop
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper) instead of
+# --no-sandbox. The base is merged into the app at build time; the payload stays
+# the vendor's own release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: pi-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) coding-agent workspace. The .deb bundles Chromium, its
+  # own ffmpeg/ANGLE/SwiftShader, app.asar, the bundled agent runtime and the
+  # Rust host-core binary; the GTK3, NSS, NSPR, CUPS, ATK, gbm, X11 and
+  # libasound stacks the launcher links come from the runtime
+  # (org.freedesktop.Platform 26.08 — the launcher's full DT_NEEDED set is the
+  # standard one every Electron package here was verified against; the
+  # host-core binary links only the C runtime).
+  - --share=ipc
+  # Model API calls, sign-in, plugin marketplace and release checks — talking
+  # to configured model providers is the app's whole workflow.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated Chromium compositing (editor, diffs, work panels).
+  - --device=dri
+  # Audio playback for media opened in the work panel's browser preview and
+  # other in-app media surfaces. The microphone is deliberately not granted —
+  # voice plugins opt in per the metainfo's --device=all override.
+  - --socket=pulseaudio
+  # Desktop notifications for finished agent runs and approval prompts.
+  - --talk-name=org.freedesktop.Notifications
+  # The app's system tray icon (Electron Tray + libappindicator3, from the
+  # Electron base app's /app/lib — the .deb bundles no tray libraries).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary —
+  # and zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # The app's own state directory ($HOME/.pi-desktop: sessions, provider
+  # credentials, window state, logs) is written under $HOME. Flatpak leaves
+  # $HOME unmounted by default, so those writes land on the per-launch home
+  # overlay and nothing survives a restart — verified with strace: the writes
+  # succeed and the next launch reads ENOENT. Keep the dotdir in the per-app
+  # data dir so the state persists. This package has no host bridge, so the
+  # sandbox-local --persist is the right shape (cf. ai.z.zcode, which needs
+  # --filesystem=~/.zcode:create because its agent CLI runs on the host and
+  # must share the directory).
+  - --persist=.pi-desktop
+  # Deliberately NOT granted by default (documented as opt-in in the
+  # metainfo):
+  #   --filesystem=home   -> open projects stored anywhere in the real home and
+  #                           see the real ~/.claude etc. when importing
+  #                           sessions from other agents
+  #   --device=all        -> microphone access for voice plugins
+  #   --talk-name=org.freedesktop.secrets -> let safeStorage encrypt the app's
+  #                           credential store with the system keyring (GNOME
+  #                           Keyring / KWallet). The store works without it —
+  #                           tested: credentials and sessions survive restart
+  #                           and are stored neither as plaintext nor base64 —
+  #                           so the grant is opt-in for users who prefer
+  #                           keyring encryption at rest.
+  # Projects picked through the file-chooser portal are reachable without any
+  # of these. The workspace config (~/.config/PI-Desktop) lands in the per-app
+  # config dir automatically; the ~/.pi-desktop state is covered by the
+  # --persist above.
+modules:
+  - name: pi-desktop
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pi-desktop-wrapper /app/bin/pi-desktop
+      - install -Dm644 net.aiuo.pi-desktop.desktop /app/share/applications/net.aiuo.pi-desktop.desktop
+      - install -Dm644 net.aiuo.pi-desktop.metainfo.xml /app/share/metainfo/net.aiuo.pi-desktop.metainfo.xml
+      - install -Dm644 net.aiuo.pi-desktop.png /app/share/icons/hicolor/512x512/apps/net.aiuo.pi-desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pi-desktop.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/vastsa/PI-Desktop/releases/download/v0.15.6/pi-desktop_0.15.6_amd64.deb
+        sha256: a67d6409742debd859cf2dd43a4b54e7244126edaee7df3aab0409eb4212420f
+        size: 104714920
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pi-desktop-wrapper
+      - type: file
+        path: net.aiuo.pi-desktop.desktop
+      - type: file
+        path: net.aiuo.pi-desktop.metainfo.xml
+      - type: file
+        path: net.aiuo.pi-desktop.png
