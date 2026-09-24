@@ -1,0 +1,74 @@
+id: md.voiden.Voiden
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper). The base is a prebuilt ref
+# merged into the app at build time; the app stays self-contained.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: voiden
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Voiden is an electron-forge .deb: the Chromium runtime, app.asar and one
+  # native module (node-pty, for the built-in terminal panel). The GTK3, NSS,
+  # CUPS, ATK, dbus, gbm, libsecret and X11 stacks it links come from the
+  # runtime.
+  - --share=ipc
+  # Sending the requests is the app.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Desktop notifications (the .deb declares libnotify4).
+  - --talk-name=org.freedesktop.Notifications
+  # Stored secrets and environment values go through Electron safeStorage,
+  # which wants the Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # Voiden's default project directory is literally $HOME/Voiden (the
+  # "projects.default_directory" setting falls back to it). Flatpak does not
+  # redirect $HOME, so without this grant every project created there would land
+  # in the per-app home and look lost from the host. :create so a fresh first run
+  # can make the directory. Projects elsewhere are opened through the portal
+  # file chooser, or with an override (see the metainfo).
+  - --filesystem=~/Voiden:create
+  # Settings, installed extensions, the plugin registry cache and MCP OAuth
+  # tokens live in the literal $HOME/.voiden dotdir. It is private to the app,
+  # so keep it in the sandbox rather than in the real home.
+  - --persist=.voiden
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: voiden
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 voiden-wrapper /app/bin/voiden
+      - install -Dm644 md.voiden.Voiden.desktop /app/share/applications/md.voiden.Voiden.desktop
+      - install -Dm644 md.voiden.Voiden.metainfo.xml /app/share/metainfo/md.voiden.Voiden.metainfo.xml
+      - install -Dm644 md.voiden.Voiden.png /app/share/icons/hicolor/512x512/apps/md.voiden.Voiden.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: voiden.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/VoidenHQ/voiden/releases/download/v2.3.0/voiden_2.3.0_amd64.deb
+        sha256: 5f1197a05892baa7d0e74f49d51598ee896a06872e557b68ac1161b34c0fb0f8
+        size: 106522232
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: voiden-wrapper
+      - type: file
+        path: md.voiden.Voiden.desktop
+      - type: file
+        path: md.voiden.Voiden.metainfo.xml
+      - type: file
+        path: md.voiden.Voiden.png

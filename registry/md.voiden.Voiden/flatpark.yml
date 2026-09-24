@@ -1,0 +1,25 @@
+id: md.voiden.Voiden
+name: Voiden
+summary: API client that keeps requests, tests and docs in plain Markdown files
+website: https://voiden.md
+source_url: https://github.com/VoidenHQ/voiden
+build:
+  manifest: md.voiden.Voiden.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - API
+    - REST
+    - GraphQL
+    - gRPC
+    - Markdown
+    - Developer
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

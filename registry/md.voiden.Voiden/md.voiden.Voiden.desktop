@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Voiden
+GenericName=API Client
+Comment=API client that keeps requests, tests and docs in plain Markdown files
+Exec=voiden %U
+Icon=md.voiden.Voiden
+Terminal=false
+Categories=Development;Network;
+Keywords=api;rest;http;graphql;grpc;websocket;markdown;postman;
+MimeType=x-scheme-handler/voiden;
+StartupNotify=true
+StartupWMClass=Voiden

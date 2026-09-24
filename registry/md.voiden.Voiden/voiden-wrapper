@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# Voiden is an Electron app staged by apply_extra to /app/extra/voiden. Run it
+# through zypak-wrapper (from org.electronjs.Electron2.BaseApp): zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox. Electron's own state goes to the redirected XDG config dir under
+# ~/.var/app/md.voiden.Voiden; ~/.voiden and ~/Voiden are handled by the
+# manifest's finish-args.
+#
+# --ozone-platform-hint=auto: render natively on Wayland when the session is
+# Wayland, fall back to X11 otherwise. It pairs with --socket=wayland +
+# --socket=fallback-x11 in the manifest.
+
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (e.g. a terminal inside VS Code/Electron), the binary would start
+# as plain Node instead of the GUI app. The manifest's --unset-env covers
+# zypak's spawned children, which this `unset` cannot reach.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/voiden/voiden --ozone-platform-hint=auto "$@"
