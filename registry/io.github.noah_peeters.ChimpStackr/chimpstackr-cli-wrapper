@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# The headless focus-stacking CLI from the same bundle:
+#   flatpak run --command=chimpstackr-cli io.github.noah_peeters.ChimpStackr --help
+exec /app/extra/chimpstackr/usr/bin/chimpstackr-cli "$@"

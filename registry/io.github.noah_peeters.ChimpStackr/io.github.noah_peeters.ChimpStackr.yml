@@ -1,0 +1,71 @@
+id: io.github.noah_peeters.ChimpStackr
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: chimpstackr
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # PyInstaller bundle of a PySide6 (Qt 6) app inside the upstream AppImage. It
+  # carries its own Qt with both the Wayland and xcb platform plugins and the
+  # xdg-desktop-portal platform theme, so file dialogs go through the portal.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Qt 6 picks Wayland when it is there and falls back to xcb on its own; a
+  # QT_QPA_PLATFORM=wayland leaked from the host session would take that
+  # fallback away, so the choice is left to Qt.
+  - --unset-env=QT_QPA_PLATFORM
+  - --device=dri
+  # Stacks usually start from a folder of shots in Pictures, and the result is
+  # saved next to them. Anything else is reachable through the portal file
+  # chooser or drag and drop. The metainfo documents --filesystem=home as the
+  # override for working across your whole home.
+  - --filesystem=xdg-pictures
+  # Fully offline app: no network.
+modules:
+  - name: chimpstackr
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 chimpstackr-wrapper /app/bin/chimpstackr
+      - install -Dm755 chimpstackr-cli-wrapper /app/bin/chimpstackr-cli
+      - install -Dm644 io.github.noah_peeters.ChimpStackr.desktop /app/share/applications/io.github.noah_peeters.ChimpStackr.desktop
+      - install -Dm644 io.github.noah_peeters.ChimpStackr.metainfo.xml /app/share/metainfo/io.github.noah_peeters.ChimpStackr.metainfo.xml
+      - install -Dm644 io.github.noah_peeters.ChimpStackr.png /app/share/icons/hicolor/256x256/apps/io.github.noah_peeters.ChimpStackr.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # because a system-wide install runs apply_extra in a sandbox that binds
+      # only the runtime /usr and /app/extra. Kept OUTSIDE the managed block:
+      # update-pins.mjs rebuilds that block from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: chimpstackr.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/noah-peeters/ChimpStackr/releases/download/v0.3.5/ChimpStackr-Linux-x86_64.AppImage
+        sha256: c6d9d7802c35b861c41e9bc395570a0c7f443e98283920742f3be34181fe4438
+        size: 299787456
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: chimpstackr-wrapper
+      - type: file
+        path: chimpstackr-cli-wrapper
+      - type: file
+        path: io.github.noah_peeters.ChimpStackr.desktop
+      - type: file
+        path: io.github.noah_peeters.ChimpStackr.metainfo.xml
+      - type: file
+        path: io.github.noah_peeters.ChimpStackr.png

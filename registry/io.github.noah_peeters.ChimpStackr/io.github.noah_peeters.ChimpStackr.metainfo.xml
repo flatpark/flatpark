@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.noah_peeters.ChimpStackr</id>
+  <launchable type="desktop-id">io.github.noah_peeters.ChimpStackr.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>ChimpStackr</name>
+  <summary>Focus stacking for macro and product photography</summary>
+  <developer id="io.github.noah_peeters">
+    <name>Noah Peeters</name>
+  </developer>
+  <url type="homepage">https://github.com/noah-peeters/ChimpStackr</url>
+  <url type="bugtracker">https://github.com/noah-peeters/ChimpStackr/issues</url>
+  <url type="vcs-browser">https://github.com/noah-peeters/ChimpStackr</url>
+  <description>
+    <p>This is a community package of ChimpStackr, maintained independently and unaffiliated with the ChimpStackr project. It repackages the official upstream AppImage unmodified and follows upstream releases automatically.</p>
+    <p>ChimpStackr combines a series of photos taken at different focus distances into one image that is sharp from front to back — the standard technique for macro, product and microscope photography.</p>
+    <ul>
+      <li>Four stacking algorithms: Laplacian pyramid, weighted average, depth map, and exposure fusion (HDR).</li>
+      <li>Automatic alignment, including rotation and scale to correct focus breathing.</li>
+      <li>A 16-bit pipeline from RAW to output, with automatic cropping of alignment edges.</li>
+      <li>Parameters tuned automatically from the image resolution; pause, resume and cancel long stacks.</li>
+      <li>A before/after comparison slider and drag and drop of files or folders.</li>
+    </ul>
+    <p>A headless command-line tool is included: <code>flatpak run --command=chimpstackr-cli io.github.noah_peeters.ChimpStackr --help</code>.</p>
+    <p>Permissions: this package grants read-write access to your Pictures folder and no network access. Files elsewhere can be opened through the file chooser or dropped onto the window. To work across your whole home, run <code>flatpak override --user --filesystem=home io.github.noah_peeters.ChimpStackr</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/noah-peeters/ChimpStackr/v0.3.5/docs/screenshots/main.png</image>
+      <caption>Source images and the stacked result</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/noah-peeters/ChimpStackr/v0.3.5/docs/screenshots/processing.png</image>
+      <caption>Stacking in progress</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>chimpstackr</binary>
+    <binary>chimpstackr-cli</binary>
+  </provides>
+  <categories>
+    <category>Graphics</category>
+    <category>Photography</category>
+  </categories>
+  <keywords>
+    <keyword>focus stacking</keyword>
+    <keyword>macro</keyword>
+    <keyword>photography</keyword>
+    <keyword>hdr</keyword>
+  </keywords>
+  <releases>
+    <release version="0.3.5" date="2026-09-15"/>
+  </releases>
+</component>

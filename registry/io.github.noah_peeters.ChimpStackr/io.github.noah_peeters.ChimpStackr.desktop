@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ChimpStackr
+GenericName=Focus Stacking
+Comment=Focus stack macro and product photos into one sharp image
+Exec=chimpstackr
+Icon=io.github.noah_peeters.ChimpStackr
+Terminal=false
+Categories=Graphics;Photography;
+Keywords=focus;stacking;macro;photography;hdr;exposure;fusion;
+StartupNotify=true
+StartupWMClass=chimpstackr

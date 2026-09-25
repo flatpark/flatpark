@@ -1,0 +1,23 @@
+id: io.github.noah_peeters.ChimpStackr
+name: ChimpStackr
+summary: Focus stacking for macro and product photography
+website: https://github.com/noah-peeters/ChimpStackr
+source_url: https://github.com/noah-peeters/ChimpStackr
+build:
+  manifest: io.github.noah_peeters.ChimpStackr.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Photography
+    - Focus Stacking
+    - Macro
+    - HDR
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

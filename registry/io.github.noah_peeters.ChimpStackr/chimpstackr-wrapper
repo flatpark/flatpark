@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# ChimpStackr is a PyInstaller bundle unpacked from the upstream AppImage by
+# apply_extra to /app/extra/chimpstackr. The bundle loads its own libraries
+# from usr/bin/_internal, so it is exec'd directly rather than through AppRun.
+exec /app/extra/chimpstackr/usr/bin/chimpstackr "$@"
