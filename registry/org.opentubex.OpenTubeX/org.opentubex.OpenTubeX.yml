@@ -59,16 +59,16 @@ modules:
         filename: opentubex-x86_64.zip
         only-arches:
           - x86_64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.35.0-beta/opentubex-0.35.0-beta-linux-x64-portable.zip
-        sha256: feff6f892f1cf243308542d2ef8c16f7e159470ba6883889d6dc8caddbee3693
-        size: 126716694
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.35.1-beta/opentubex-0.35.1-beta-linux-x64-portable.zip
+        sha256: 22bbbe136c7aaaeca21a60468c03ffb5194e3ae034f91a9cc09eb5adda467840
+        size: 126848020
       - type: extra-data
         filename: opentubex-aarch64.zip
         only-arches:
           - aarch64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.35.0-beta/opentubex-0.35.0-beta-linux-arm64-portable.zip
-        sha256: 478c2ee8d2d4d875a462bfe24816f17be73b172157b75fbd7dca0029453f8c0d
-        size: 124991573
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.35.1-beta/opentubex-0.35.1-beta-linux-arm64-portable.zip
+        sha256: 127c49966fec56b879a3c10953ff1b9f67daef0c89c7cf152d7bfe74da84f473
+        size: 125122899
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
