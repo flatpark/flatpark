@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=magpie
+Comment=Pick and route models for AI coding agents
+Exec=magpie %u
+Icon=ai.usemagpie.Magpie
+Terminal=false
+Categories=Development;Utility;
+StartupWMClass=magpie
+StartupNotify=true
+MimeType=x-scheme-handler/magpie;
+Keywords=AI;agent;model;provider;gateway;

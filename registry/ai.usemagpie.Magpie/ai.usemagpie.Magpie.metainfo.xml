@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.usemagpie.Magpie</id>
+  <name>magpie</name>
+  <summary>Pick and route models for AI coding agents</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="ai.usemagpie">
+    <name>Yetone</name>
+  </developer>
+  <url type="homepage">https://usemagpie.ai</url>
+  <url type="bugtracker">https://github.com/yetone/magpie/issues</url>
+  <url type="vcs-browser">https://github.com/yetone/magpie</url>
+  <description>
+    <p>This is a community package that repackages the official upstream Magpie build unmodified.</p>
+    <p>Magpie provides a desktop interface and local gateway for choosing and routing models across supported AI agents.</p>
+    <p>This package grants access to the supported agent configuration directories so Magpie can read and update their settings. These directories may contain API keys, OAuth tokens, or other credentials. The grant is limited to the paths listed in the Flatpak manifest; the rest of the home directory is not exposed.</p>
+    <p>Commands launched by Magpie run inside the sandbox. This package does not grant permission to execute commands on the host.</p>
+    <p>To share an existing GitHub Copilot login stored outside the agent settings directory, run: flatpak override --user --filesystem=~/.config/github-copilot:create ai.usemagpie.Magpie. This grants read/write access to that host credential directory, including token updates.</p>
+    <p>In this Flatpak, Magpie's built-in Update button opens the upstream release page; it does not update the Flatpak. Package updates are delivered through FlatPark.</p>
+  </description>
+  <launchable type="desktop-id">ai.usemagpie.Magpie.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>AI</keyword>
+    <keyword>agent</keyword>
+    <keyword>model</keyword>
+    <keyword>provider</keyword>
+    <keyword>gateway</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.1.88" date="2026-09-25" />
+  </releases>
+</component>

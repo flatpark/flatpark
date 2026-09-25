@@ -1,0 +1,23 @@
+id: ai.usemagpie.Magpie
+name: magpie
+summary: Pick and route models for AI coding agents
+website: https://usemagpie.ai
+source_url: https://github.com/yetone/magpie
+build:
+  manifest: ai.usemagpie.Magpie.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AI
+  tags:
+    - AI
+    - Agents
+    - Models
+    - Development
+    - Wails
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

@@ -1,0 +1,75 @@
+id: ai.usemagpie.Magpie
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: magpie
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Providers, model catalogs and Magpie's loopback model gateway.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # The Wails WebKitGTK UI uses the system webview and benefits from GPU rendering.
+  - --device=dri
+  # The menu-bar/status notifier integration uses the session bus.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Wails single-instance name has a user/path-derived hash under this prefix.
+  - --own-name=ai.usemagpie.app.*
+  - --filesystem=xdg-run/tray-icon:create
+  # Magpie's main feature reads and updates these agent configuration directories.
+  # They may contain provider keys, OAuth tokens, or other credentials.
+  - --filesystem=~/.claude:create
+  - --filesystem=~/.codex:create
+  - --filesystem=~/.gemini:create
+  - --filesystem=~/.config/opencode:create
+  - --filesystem=~/.pi/agent:create
+  - --filesystem=~/.config/goose:create
+  - --filesystem=~/.cursor:create
+  - --filesystem=~/.copilot:create
+  - --filesystem=~/.grok:create
+  - --filesystem=~/.config/crush:create
+  - --filesystem=~/.dsh:create
+  - --filesystem=~/.commandcode:create
+  - --filesystem=~/.omp/agent:create
+  - --filesystem=~/.config/devin:create
+  - --filesystem=~/.local/share/devin:create
+  - --filesystem=~/.hermes:create
+modules:
+  - name: magpie
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 magpie-wrapper /app/bin/magpie
+      - install -Dm644 ai.usemagpie.Magpie.desktop /app/share/applications/ai.usemagpie.Magpie.desktop
+      - install -Dm644 ai.usemagpie.Magpie.metainfo.xml /app/share/metainfo/ai.usemagpie.Magpie.metainfo.xml
+      - install -Dm644 ai.usemagpie.Magpie.svg /app/share/icons/hicolor/scalable/apps/ai.usemagpie.Magpie.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: magpie-linux-amd64
+        only-arches:
+          - x86_64
+        url: https://github.com/yetone/magpie-releases/releases/download/v0.1.88/magpie-linux-amd64
+        sha256: 482962d0675db3b3856a58e173b1dc4d731ed0ad6d8526f7933fe7ef2d16d431
+        size: 21203760
+      - type: extra-data
+        filename: magpie-linux-arm64
+        only-arches:
+          - aarch64
+        url: https://github.com/yetone/magpie-releases/releases/download/v0.1.88/magpie-linux-arm64
+        sha256: 6a85efad46c135809ad9de0b415c8cd182f6f5f331eda1363dc075327dc18c04
+        size: 19734200
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: magpie-wrapper
+      - type: file
+        path: ai.usemagpie.Magpie.desktop
+      - type: file
+        path: ai.usemagpie.Magpie.metainfo.xml
+      - type: file
+        path: ai.usemagpie.Magpie.svg
