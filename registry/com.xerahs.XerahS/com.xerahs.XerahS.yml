@@ -1,0 +1,61 @@
+id: com.xerahs.XerahS
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: xerahs
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Self-contained .NET 10 / Avalonia app (single-file XerahS plus the
+  # watch-folder daemon, upload plugins and a small web UI). The runtime supplies
+  # GTK3, fontconfig, ICU and the X11 client libraries it loads, and the
+  # WebKitGTK 4.1 it can use, which is why this is the GNOME runtime rather than
+  # the bare freedesktop one.
+  - --share=ipc
+  # Avalonia's Linux backend in this payload is X11 (upstream's own Flatpak
+  # permission notes say the same), so X11 is required, not a fallback. On a
+  # Wayland session it runs through XWayland. Capture itself goes through the
+  # xdg-desktop-portal Screenshot and ScreenCast interfaces, which need no grant.
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+  # The 30+ upload destinations (Imgur, S3, FTP, Nextcloud...), URL shorteners
+  # and the update check.
+  - --share=network
+  # No tray grant: Avalonia's tray claims org.kde.StatusNotifierItem-<pid>-<id>,
+  # and every sandboxed app is PID 2, so granting the name would collide with
+  # other Flatpak tray apps. Without it the app starts normally with no tray
+  # icon; the metainfo says so.
+  # Settings, history and captures live under the XDG dirs Flatpak redirects into
+  # ~/.var/app/com.xerahs.XerahS; saving elsewhere goes through the file chooser.
+  # No filesystem grant.
+modules:
+  - name: xerahs
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 xerahs-wrapper /app/bin/xerahs
+      - install -Dm644 com.xerahs.XerahS.desktop /app/share/applications/com.xerahs.XerahS.desktop
+      - install -Dm644 com.xerahs.XerahS.metainfo.xml /app/share/metainfo/com.xerahs.XerahS.metainfo.xml
+      - install -Dm644 com.xerahs.XerahS.png /app/share/icons/hicolor/512x512/apps/com.xerahs.XerahS.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: xerahs.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/ShareX/XerahS/releases/download/v0.25.5/XerahS-0.25.5-linux-x64.tar.gz
+        sha256: 77efd25db2356d3510a0d532c3c5e8a3fbb3d4999e02f1828292c8a582134f1a
+        size: 218315939
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: xerahs-wrapper
+      - type: file
+        path: com.xerahs.XerahS.desktop
+      - type: file
+        path: com.xerahs.XerahS.metainfo.xml
+      - type: file
+        path: com.xerahs.XerahS.png

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=XerahS
+GenericName=Screen Capture
+Comment=Screen capture, annotation and sharing from the ShareX team
+Exec=xerahs %U
+Icon=com.xerahs.XerahS
+Terminal=false
+Categories=Utility;Graphics;
+Keywords=screenshot;screen;capture;share;upload;sharex;annotate;
+StartupNotify=true
+StartupWMClass=XerahS
+X-GNOME-UsesNotifications=true

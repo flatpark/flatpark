@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# XerahS is a self-contained .NET 10 / Avalonia app staged by apply_extra to
+# /app/extra/xerahs. .NET follows XDG_CONFIG_HOME / XDG_DATA_HOME for its
+# application-data folders, and Flatpak points those into
+# ~/.var/app/com.xerahs.XerahS.
+#
+# A single-file .NET apphost may unpack bundled native libraries on first run,
+# by default under $HOME/.net — a literal home path Flatpak does not redirect,
+# so it would be re-done on every launch. Keep it in the app's cache instead.
+export DOTNET_BUNDLE_EXTRACT_BASE_DIR="${DOTNET_BUNDLE_EXTRACT_BASE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/dotnet-bundle}"
+exec /app/extra/xerahs/XerahS "$@"

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.xerahs.XerahS</id>
+  <launchable type="desktop-id">com.xerahs.XerahS.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>XerahS</name>
+  <summary>Screen capture, annotation and sharing from the ShareX team</summary>
+  <developer id="com.xerahs">
+    <name>ShareX Team</name>
+  </developer>
+  <url type="homepage">https://xerahs.com</url>
+  <url type="bugtracker">https://github.com/ShareX/XerahS/issues</url>
+  <url type="vcs-browser">https://github.com/ShareX/XerahS</url>
+  <description>
+    <p>This is a community package of XerahS, maintained independently and unaffiliated with the ShareX team. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
+    <p>XerahS is the ShareX team's cross-platform reimagining of ShareX: capture the screen, annotate it, and send it where it needs to go in one step.</p>
+    <ul>
+      <li>Full-screen, window and region capture.</li>
+      <li>A built-in image editor with annotations and effects.</li>
+      <li>Watch folders for automatic processing, and configurable after-capture actions and workflows.</li>
+      <li>30+ upload destinations — Imgur, S3, FTP, Nextcloud, custom uploaders and more.</li>
+    </ul>
+    <p>Permissions: this package grants the display, the GPU and network access (uploads and the update check). It grants no filesystem access; captures and settings stay inside the sandbox, and saving elsewhere goes through the file chooser. Capture goes through the desktop's screenshot and screencast portals, so your desktop may ask for permission the first time.</p>
+    <p>Scope: screen recording and GIF creation call an external <code>ffmpeg</code> program, which the Flatpak runtime does not provide, so they are unavailable in this package. Global hotkeys depend on your desktop's global-shortcuts portal. There is no tray icon in this package.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://xerahs.com/assets/linux/editor-main.png</image>
+      <caption>The XerahS image editor</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>screenshot</keyword>
+    <keyword>screen capture</keyword>
+    <keyword>sharex</keyword>
+    <keyword>annotate</keyword>
+    <keyword>upload</keyword>
+  </keywords>
+  <releases>
+    <release version="0.25.5" date="2026-08-18"/>
+  </releases>
+</component>
