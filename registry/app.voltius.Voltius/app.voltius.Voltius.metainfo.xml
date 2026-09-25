@@ -23,13 +23,7 @@
       <li>Docker and Proxmox LXC management, a process manager and live host stats.</li>
       <li>Plugins, and an optional local MCP server for AI coding tools.</li>
     </ul>
-    <p>Permissions: this package grants network access, the GPU and the Secret Service for stored credentials. It grants no filesystem access — the vault lives inside the sandbox, and SFTP files are picked through the file chooser. Some capabilities are not granted by default; enable the ones you need with <code>flatpak override</code>:</p>
-    <ul>
-      <li>Import hosts from your <code>~/.ssh/config</code> and use your existing key files: <code>flatpak override --user --filesystem=~/.ssh:ro app.voltius.Voltius</code></li>
-      <li>Transfer files to and from any folder in your home: <code>flatpak override --user --filesystem=home app.voltius.Voltius</code></li>
-      <li>Serial ports: <code>flatpak override --user --device=all app.voltius.Voltius</code></li>
-    </ul>
-    <p>Scope: the local terminal tab runs inside the sandbox, on the shells the Flatpak runtime provides — not on your host system. Remote sessions are unaffected.</p>
+    <p>Permissions: this package follows the upstream .deb. It grants network access, the GPU, the Secret Service for stored credentials, your ssh-agent, your home folder (for <code>~/.ssh</code> and the local side of SFTP) and all devices (for serial ports). From the release after 0.42.0, the local terminal tab opens your login shell on the host system through <code>flatpak-spawn --host</code>, which gives it the same access as a terminal outside the sandbox.</p>
   </description>
   <screenshots>
     <screenshot type="default">

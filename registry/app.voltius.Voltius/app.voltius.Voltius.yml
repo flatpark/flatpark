@@ -20,15 +20,18 @@ finish-args:
   - --device=dri
   # Saved passwords and keys go to the system keyring (Secret Service).
   - --talk-name=org.freedesktop.secrets
-  # Hosts, keys and settings live in Voltius's own vault under the XDG dirs
-  # Flatpak redirects into ~/.var/app/app.voltius.Voltius. Deliberately NOT
-  # granted by default; the metainfo documents each as an opt-in override:
-  #   --filesystem=~/.ssh:ro   import hosts from ~/.ssh/config and use the
-  #                            host's key files.
-  #   --filesystem=home        SFTP transfers to and from any folder (the file
-  #                            chooser covers picking individual files).
-  #   --device=all             serial ports.
-  # The local terminal tab runs inside the sandbox, on the runtime's shells.
+  # The grants below were requested by upstream so the package behaves like
+  # their .deb (VoltiusApp/voltius#357).
+  # Local terminal tab: from the release after 0.42.0 the app opens the user's
+  # host login shell through `flatpak-spawn --host` when it may talk to
+  # org.freedesktop.Flatpak, and falls back to a sandbox shell otherwise.
+  - --talk-name=org.freedesktop.Flatpak
+  # ssh-agent authentication and agent forwarding.
+  - --socket=ssh-auth
+  # ~/.ssh (keys, config import) and the local side of SFTP transfers.
+  - --filesystem=home
+  # Serial ports.
+  - --device=all
 modules:
   - name: voltius
     buildsystem: simple
