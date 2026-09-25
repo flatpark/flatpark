@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Shutter Encoder is upstream's jpackage build, unpacked by apply_extra to
+# /app/extra/shutter-encoder. Run its own launcher, which starts the bundled
+# Java runtime with the options in lib/app/Shutter Encoder.cfg.
+#
+# /app/extra/lib holds only Debian's libxml2.so.2 for the bundled dvdauthor;
+# the runtime has no library by that name, so nothing there shadows one.
+#
+# Settings and downloaded add-ons live in ~/Shutter Encoder, which the
+# manifest persists under ~/.var/app/com.shutterencoder.ShutterEncoder.
+export LD_LIBRARY_PATH="/app/extra/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "/app/extra/shutter-encoder/bin/Shutter Encoder" "$@"

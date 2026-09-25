@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Shutter Encoder High-DPI
+GenericName=Media Converter
+Comment=Shutter Encoder with the interface drawn at twice the size
+Exec=shutter-encoder-hidpi
+Icon=com.shutterencoder.ShutterEncoder
+Terminal=false
+Categories=AudioVideo;Video;AudioVideoEditing;
+Keywords=convert;encode;transcode;ffmpeg;prores;h264;h265;video;audio;image;hidpi;
+StartupNotify=true
+StartupWMClass=shutterencoder-ui-main-Shutter

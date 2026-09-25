@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.shutterencoder.ShutterEncoder</id>
+  <launchable type="desktop-id">com.shutterencoder.ShutterEncoder.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Shutter Encoder</name>
+  <summary>Video, audio and image converter built on FFmpeg</summary>
+  <developer id="com.shutterencoder">
+    <name>Paul Pacifico</name>
+  </developer>
+  <url type="homepage">https://www.shutterencoder.com</url>
+  <url type="bugtracker">https://github.com/paulpacifico/shutter-encoder/issues</url>
+  <url type="vcs-browser">https://github.com/paulpacifico/shutter-encoder</url>
+  <url type="help">https://www.shutterencoder.com/documentation/</url>
+  <url type="donation">https://www.shutterencoder.com/</url>
+  <description>
+    <p>This is a community package of Shutter Encoder, maintained independently and unaffiliated with the Shutter Encoder project. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
+    <p>Shutter Encoder is a media converter for video editors and everyone else: pick a function, drop in your files, and it drives FFmpeg and a set of companion tools for you.</p>
+    <ul>
+      <li>Convert to editing and delivery codecs: H.264, H.265, AV1, VP9, ProRes, DNxHD/DNxHR, and audio formats.</li>
+      <li>Hardware-accelerated encoding where your GPU supports it.</li>
+      <li>Cut, crop, rescale, change frame rate, burn in subtitles and overlay timecode.</li>
+      <li>Colour adjustments and LUTs, loudness and true peak measurement, and batch processing.</li>
+      <li>Rewrap, cut and merge without re-encoding, extract streams, and create image sequences.</li>
+      <li>Author DVD and Blu-ray discs, and inspect files with MediaInfo.</li>
+    </ul>
+    <p>Permissions: this package grants read-write access to your Videos, Music, Pictures, Downloads and Desktop folders and to removable media (/run/media and /media), because Shutter Encoder&apos;s file dialog and drag and drop only see what the sandbox can see, and it writes each conversion next to its source. It also grants GPU access for hardware encoding and the AI upscaler, audio for the player, and network access (update check, web video download, and the add-ons the AI functions download on first use). Settings and downloaded add-ons are kept inside the sandbox. To convert files from anywhere in your home folder: <code>flatpak override --user --filesystem=home com.shutterencoder.ShutterEncoder</code>.</p>
+    <p>Known limitation: photo details that Shutter Encoder reads with its bundled ExifTool (capture date, orientation) are not available, because ExifTool is a Perl program and the Flatpak runtime has no Perl interpreter.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://www.shutterencoder.com/wp-content/uploads/2024/04/Player.png</image>
+      <caption>The built-in player</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.shutterencoder.com/wp-content/uploads/2024/04/Color.png</image>
+      <caption>Colour adjustments</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://www.shutterencoder.com/wp-content/uploads/2024/04/Crop.png</image>
+      <caption>Cropping</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>AudioVideoEditing</category>
+  </categories>
+  <keywords>
+    <keyword>converter</keyword>
+    <keyword>ffmpeg</keyword>
+    <keyword>prores</keyword>
+    <keyword>transcode</keyword>
+  </keywords>
+  <releases>
+    <release version="20.3" date="2026-08-31"/>
+  </releases>
+</component>

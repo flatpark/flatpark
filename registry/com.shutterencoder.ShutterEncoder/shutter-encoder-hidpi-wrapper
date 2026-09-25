@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# Upstream's second launcher: the same application with the Swing interface
+# drawn at twice the size (-Dsun.java2d.uiScale=2 in its .cfg), for high
+# resolution screens. /app/extra/lib: see shutter-encoder-wrapper.
+export LD_LIBRARY_PATH="/app/extra/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "/app/extra/shutter-encoder/bin/Shutter Encoder High-DPI" "$@"

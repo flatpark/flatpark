@@ -1,0 +1,90 @@
+id: com.shutterencoder.ShutterEncoder
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: shutter-encoder
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A Java Swing application, which has no Wayland backend: X11 (XWayland on a
+  # Wayland session) is the display path.
+  - --share=ipc
+  - --socket=x11
+  # GPU encoding (the bundled FFmpeg's NVENC and AMF encoders) and the Vulkan
+  # AI upscaler.
+  - --device=dri
+  # The built-in player.
+  - --socket=pulseaudio
+  # Update check, web video download (Shutter Encoder fetches yt-dlp for it),
+  # the add-ons the AI functions download on first use, and the FTP and e-mail
+  # notification options.
+  - --share=network
+  # Shutter Encoder opens files through its own Java file dialog and takes
+  # them by drag and drop, both of which only see what the sandbox can see, and
+  # it writes each conversion next to its source by default. So the media
+  # folders are granted read-write, with removable media (camera cards,
+  # external drives). Wider access is an opt-in override in the metainfo.
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-music
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-download
+  - --filesystem=xdg-desktop
+  - --filesystem=/run/media
+  - --filesystem=/media
+  # Shutter Encoder keeps its settings (settings.xml) and everything it
+  # downloads on demand - yt-dlp, and the Python environments and models of
+  # the AI functions - in ~/Shutter Encoder. Flatpak does not redirect $HOME,
+  # so without this it would all land on the sandbox's tmpfs and be fetched
+  # again on every start. --persist keeps that folder private to the app, under
+  # ~/.var/app/com.shutterencoder.ShutterEncoder.
+  - --persist=Shutter Encoder
+modules:
+  - name: shutter-encoder
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 shutter-encoder-wrapper /app/bin/shutter-encoder
+      - install -Dm755 shutter-encoder-hidpi-wrapper /app/bin/shutter-encoder-hidpi
+      - install -Dm644 com.shutterencoder.ShutterEncoder.desktop /app/share/applications/com.shutterencoder.ShutterEncoder.desktop
+      - install -Dm644 com.shutterencoder.ShutterEncoder.HighDPI.desktop /app/share/applications/com.shutterencoder.ShutterEncoder.HighDPI.desktop
+      - install -Dm644 com.shutterencoder.ShutterEncoder.metainfo.xml /app/share/metainfo/com.shutterencoder.ShutterEncoder.metainfo.xml
+      - install -Dm644 com.shutterencoder.ShutterEncoder.png /app/share/icons/hicolor/256x256/apps/com.shutterencoder.ShutterEncoder.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: shutter-encoder.deb
+        only-arches:
+          - x86_64
+        url: https://www.shutterencoder.com/sdc_download/496/?key=drnf0zl1om6sfwndoa1rdoc942mvp5
+        sha256: 9106a29c6158a214dac9803098fd60685c3f7a9c5b73c2ccab358746e43f58f7
+        size: 181837388
+      # END MANAGED EXTRA-DATA
+      # libxml2.so.2 is the one library a bundled tool (dvdauthor, for DVD
+      # authoring) links against that the runtime does not ship - it has only
+      # the newer libxml2.so.16. scripts/update-debian-pins.mjs re-resolves it
+      # from the suite index; filename minus .deb is the binary package name,
+      # and that is the whole contract.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libxml2.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libx/libxml2/libxml2_2.12.7+dfsg+really2.9.14-2.1+deb13u3_amd64.deb
+        sha256: e0c6b63ce4602a036a526f60fe5e6c1586710688058d98fc1001b9b3147b7efd
+        size: 699724
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: shutter-encoder-wrapper
+      - type: file
+        path: shutter-encoder-hidpi-wrapper
+      - type: file
+        path: com.shutterencoder.ShutterEncoder.desktop
+      - type: file
+        path: com.shutterencoder.ShutterEncoder.HighDPI.desktop
+      - type: file
+        path: com.shutterencoder.ShutterEncoder.metainfo.xml
+      - type: file
+        path: com.shutterencoder.ShutterEncoder.png

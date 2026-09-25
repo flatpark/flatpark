@@ -1,0 +1,23 @@
+id: com.shutterencoder.ShutterEncoder
+name: Shutter Encoder
+summary: Video, audio and image converter built on FFmpeg
+website: https://www.shutterencoder.com
+source_url: https://github.com/paulpacifico/shutter-encoder
+build:
+  manifest: com.shutterencoder.ShutterEncoder.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Video
+    - Converter
+    - Transcoder
+    - FFmpeg
+    - ProRes
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true

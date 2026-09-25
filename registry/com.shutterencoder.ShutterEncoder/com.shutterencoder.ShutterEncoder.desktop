@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Shutter Encoder
+GenericName=Media Converter
+Comment=Video, audio and image converter built on FFmpeg
+Exec=shutter-encoder
+Icon=com.shutterencoder.ShutterEncoder
+Terminal=false
+Categories=AudioVideo;Video;AudioVideoEditing;
+Keywords=convert;encode;transcode;ffmpeg;prores;h264;h265;video;audio;image;
+StartupNotify=true
+StartupWMClass=shutterencoder-ui-main-Shutter
