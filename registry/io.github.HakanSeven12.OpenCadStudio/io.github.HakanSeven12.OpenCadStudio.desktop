@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Open CAD Studio
+GenericName=Computer-Aided Design
+Comment=2D/3D CAD for DWG and DXF drawings
+Exec=opencadstudio %F
+Icon=io.github.HakanSeven12.OpenCadStudio
+Terminal=false
+Categories=Graphics;Engineering;
+Keywords=CAD;DWG;DXF;Drawing;Design;Engineering;2D;3D;
+MimeType=image/vnd.dwg;image/vnd.dxf;
+StartupNotify=true
+StartupWMClass=io.github.HakanSeven12.OpenCadStudio

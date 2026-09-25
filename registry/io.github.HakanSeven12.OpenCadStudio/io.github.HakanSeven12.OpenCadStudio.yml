@@ -1,0 +1,69 @@
+id: io.github.HakanSeven12.OpenCadStudio
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: opencadstudio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A single Rust binary (winit + wgpu, cosmic-text/fontdb for text). It links
+  # only libc/libstdc++, and dlopens Vulkan, EGL, Wayland, X11/xcb, xkbcommon and
+  # dbus, all of which the runtime ships.
+  - --share=ipc
+  - --socket=wayland
+  # Not a fallback: the clipboard goes through arboard, and Flatpak's Wayland
+  # socket does not pass the data-control protocol it wants, so X11 is its only
+  # route. The window itself stays native Wayland.
+  - --socket=x11
+  # wgpu renders the 2D and 3D viewports on the GPU.
+  - --device=dri
+  # The update check (GitHub releases) and links to the project's discussions.
+  - --share=network
+  # No filesystem grant: drawings are opened and saved through the file chooser
+  # portal, and settings live in the redirected XDG dirs under
+  # ~/.var/app/io.github.HakanSeven12.OpenCadStudio. External references and
+  # underlays that point at other files by path need an opt-in override; the
+  # metainfo documents it.
+modules:
+  - name: opencadstudio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 opencadstudio-wrapper /app/bin/opencadstudio
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 io.github.HakanSeven12.OpenCadStudio.desktop /app/share/applications/io.github.HakanSeven12.OpenCadStudio.desktop
+      - install -Dm644 io.github.HakanSeven12.OpenCadStudio.metainfo.xml /app/share/metainfo/io.github.HakanSeven12.OpenCadStudio.metainfo.xml
+      - install -Dm644 io.github.HakanSeven12.OpenCadStudio.png /app/share/icons/hicolor/256x256/apps/io.github.HakanSeven12.OpenCadStudio.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse. Kept OUTSIDE the managed block: update-pins.mjs rebuilds
+      # that block from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: opencadstudio.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/HakanSeven12/OpenCADStudio/releases/download/v2026.38/OpenCADStudio-v2026.38-linux-x86_64.AppImage
+        sha256: 766e5d87b5fe47a8350418b927bdc2616f3e9bf7316a88ffd0525c6e17921b60
+        size: 34884088
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: opencadstudio-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: io.github.HakanSeven12.OpenCadStudio.desktop
+      - type: file
+        path: io.github.HakanSeven12.OpenCadStudio.metainfo.xml
+      - type: file
+        path: io.github.HakanSeven12.OpenCadStudio.png

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# Open CAD Studio is a single self-contained binary staged by apply_extra to
+# /app/extra/opencadstudio. Settings go through the XDG dirs Flatpak redirects
+# under ~/.var/app/io.github.HakanSeven12.OpenCadStudio.
+#
+# Text is drawn with cosmic-text/fontdb, which reads the <dir> elements of a
+# single fontconfig file and does not reach the host's fonts from inside the
+# sandbox on its own: the translated UI (Chinese, Japanese, Korean...) renders
+# as tofu boxes. /app/etc/fonts/fonts.conf lists every font directory
+# explicitly; see the comments in it. This replaces a FONTCONFIG_FILE the user
+# may have set for all apps; to point the app at a file of your own:
+#   flatpak override --user --env=OPENCADSTUDIO_FONTCONFIG_FILE=/path/to/fonts.conf io.github.HakanSeven12.OpenCadStudio
+export FONTCONFIG_FILE="${OPENCADSTUDIO_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+exec /app/extra/opencadstudio/usr/bin/OpenCADStudio "$@"

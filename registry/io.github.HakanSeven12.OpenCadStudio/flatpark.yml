@@ -1,0 +1,25 @@
+id: io.github.HakanSeven12.OpenCadStudio
+name: Open CAD Studio
+summary: 2D/3D CAD for DWG and DXF drawings
+website: https://github.com/HakanSeven12/OpenCADStudio
+source_url: https://github.com/HakanSeven12/OpenCADStudio
+build:
+  manifest: io.github.HakanSeven12.OpenCadStudio.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - CAD
+    - DWG
+    - DXF
+    - Drafting
+    - 3D
+    - Engineering
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

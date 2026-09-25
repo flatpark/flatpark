@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.HakanSeven12.OpenCadStudio</id>
+  <launchable type="desktop-id">io.github.HakanSeven12.OpenCadStudio.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Open CAD Studio</name>
+  <summary>2D/3D CAD for DWG and DXF drawings</summary>
+  <developer id="io.github.hakanseven12">
+    <name>Hakan Seven</name>
+  </developer>
+  <url type="homepage">https://github.com/HakanSeven12/OpenCADStudio</url>
+  <url type="bugtracker">https://github.com/HakanSeven12/OpenCADStudio/issues</url>
+  <url type="vcs-browser">https://github.com/HakanSeven12/OpenCADStudio</url>
+  <description>
+    <p>This is a community package of Open CAD Studio, maintained independently and unaffiliated with the Open CAD Studio project. It repackages the official upstream AppImage unmodified and follows upstream releases automatically.</p>
+    <p>Open CAD Studio is an application for technical drawing, layout work and solid modeling. It reads and writes DWG and DXF drawings natively, with no conversion service in between.</p>
+    <ul>
+      <li>Open, edit, recover and save DWG and DXF, with save targets from R14 through 2018.</li>
+      <li>Precise 2D drafting: polylines, splines, hatches, object snaps, tracking, layers, blocks and external references.</li>
+      <li>Documentation tools: text, dimensions, leaders, tolerances, tables, paper space, viewports and plot styles.</li>
+      <li>Kernel-backed 3D modeling: primitives, extrusion, revolution, sweep, loft and Boolean operations.</li>
+      <li>GPU-accelerated 2D and 3D viewports; PDF plotting; OBJ and LandXML import; STL and STEP export.</li>
+    </ul>
+    <p>The project is under active development; keep backups of important production drawings.</p>
+    <p>Permissions: this package grants the GPU, the display and network access (the update check). It grants no filesystem access — drawings are opened and saved through the file chooser, and settings stay inside the sandbox. External references and underlays point at other files by path, which the file chooser alone does not make reachable; to use them, grant access to where your drawings live, for example: <code>flatpak override --user --filesystem=home io.github.HakanSeven12.OpenCadStudio</code></p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/HakanSeven12/OpenCADStudio/main/site/workspace.png</image>
+      <caption>The drawing workspace</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/HakanSeven12/OpenCADStudio/main/site/modeling.png</image>
+      <caption>A 3D model</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Graphics</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>CAD</keyword>
+    <keyword>DWG</keyword>
+    <keyword>DXF</keyword>
+    <keyword>drafting</keyword>
+    <keyword>3D</keyword>
+  </keywords>
+  <provides>
+    <mediatype>image/vnd.dwg</mediatype>
+    <mediatype>image/vnd.dxf</mediatype>
+  </provides>
+  <releases>
+    <release version="2026.38" date="2026-09-20"/>
+  </releases>
+</component>
