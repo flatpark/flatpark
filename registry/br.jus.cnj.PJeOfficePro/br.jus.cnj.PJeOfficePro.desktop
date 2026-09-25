@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PJeOffice Pro
+GenericName=Digital Signer
+Comment=Sign documents for the Brazilian PJe judicial system with your ICP-Brasil certificate
+Exec=pjeoffice-pro
+Icon=br.jus.cnj.PJeOfficePro
+Terminal=false
+Categories=Office;Security;
+Keywords=pje;cnj;assinador;assinatura;certificado;icp-brasil;token;a1;a3;
+StartupNotify=true

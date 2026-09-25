@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# PJeOffice Pro is the CNJ's Linux zip, unpacked by apply_extra to
+# /app/extra/pjeoffice-pro. Upstream's launcher, pjeoffice-pro.sh, starts the
+# bundled Java runtime in the background with nohup and exits at once; in a
+# Flatpak the sandbox ends when its first process does, so this runs the same
+# Java command in the foreground instead, with the same options.
+#
+# pjeoffice-pro.sh also clears the previous session's logs before starting;
+# kept here for the same behaviour. Configuration and logs live in
+# ~/.pjeoffice-pro, which the manifest persists under
+# ~/.var/app/br.jus.cnj.PJeOfficePro.
+#
+# PKCS11_DRIVER is where PJeOffice looks for a token driver (a pkcs11.so in
+# that directory): the bridge to the host's p11-kit server, see
+# pkcs11-bridge.c. Left alone if the user has set it.
+export PKCS11_DRIVER="${PKCS11_DRIVER:-/app/lib/pkcs11}"
+home=/app/extra/pjeoffice-pro
+rm -rf "$HOME"/.pjeoffice-pro/*.log*
+
+cd "$home"
+exec "$home/jre/bin/java" \
+    -XX:+UseG1GC \
+    -XX:MinHeapFreeRatio=3 \
+    -XX:MaxHeapFreeRatio=3 \
+    -Xms20m \
+    -Xmx2048m \
+    -Dpjeoffice_home="$home" \
+    -Dffmpeg_home="$home" \
+    -Dpjeoffice_looksandfeels="Metal" \
+    -Dcutplayer4j_looksandfeels="Nimbus" \
+    -Dsigner4j_a3auto="true" \
+    -jar pjeoffice-pro.jar "$@"

@@ -1,0 +1,81 @@
+id: br.jus.cnj.PJeOfficePro
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pjeoffice-pro
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+tags:
+  - proprietary
+finish-args:
+  # A Java Swing application (with JavaFX for its media tools); neither has a
+  # Wayland backend, so X11 (XWayland on a Wayland session) is the display path.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # The PJe web systems talk to PJeOffice through a local HTTP server it opens
+  # on 127.0.0.1, and it fetches revocation lists and timestamps and checks
+  # for updates over the network.
+  - --share=network
+  # A1 certificates (.pfx/.p12 files) and the documents signed locally are
+  # opened through PJeOffice's own Java file dialog, which only sees what the
+  # sandbox can see. Documents and Downloads are where they usually are;
+  # wider access is an opt-in override in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # PJeOffice keeps its configuration, certificate choices and logs in
+  # ~/.pjeoffice-pro. Flatpak does not redirect $HOME, so without this it would
+  # land on the sandbox's tmpfs and be lost on exit. --persist keeps it private
+  # to the app, under ~/.var/app/br.jus.cnj.PJeOfficePro.
+  - --persist=.pjeoffice-pro
+  # A3 tokens and smart cards: the token's own driver runs on the host, served
+  # by a p11-kit server on this socket, and PJeOffice reaches it through
+  # pkcs11-bridge (below). Nothing listens here until the user starts that
+  # server on the host (see the metainfo); without it only A1 certificates are
+  # available.
+  - --filesystem=xdg-run/p11-kit/pkcs11
+modules:
+  # The PKCS#11 module PJeOffice loads for A3 tokens: a thin pass-through to
+  # the runtime's p11-kit-client.so. See pkcs11-bridge.c for why it is not a
+  # symlink.
+  - name: pkcs11-bridge
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 -Wall $(pkg-config --cflags p11-kit-1)
+        -DCLIENT_MODULE="\"$(pkg-config --variable=p11_module_path p11-kit-1)/p11-kit-client.so\""
+        pkcs11-bridge.c -o pkcs11.so -ldl
+      - install -Dm755 pkcs11.so /app/lib/pkcs11/pkcs11.so
+    sources:
+      - type: file
+        path: pkcs11-bridge.c
+
+  - name: pjeoffice-pro
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pjeoffice-pro-wrapper /app/bin/pjeoffice-pro
+      - install -Dm644 br.jus.cnj.PJeOfficePro.desktop /app/share/applications/br.jus.cnj.PJeOfficePro.desktop
+      - install -Dm644 br.jus.cnj.PJeOfficePro.metainfo.xml /app/share/metainfo/br.jus.cnj.PJeOfficePro.metainfo.xml
+      - install -Dm644 br.jus.cnj.PJeOfficePro.png /app/share/icons/hicolor/512x512/apps/br.jus.cnj.PJeOfficePro.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pjeoffice-pro.zip
+        only-arches:
+          - x86_64
+        url: https://pje-office.pje.jus.br/pro/pjeoffice-pro-v2.5.16u-linux_x64.zip
+        sha256: 6087391759c7cba11fb5ef815fe8be91713b46a8607c12eb664a9d9a6882c4c7
+        size: 167505940
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pjeoffice-pro-wrapper
+      - type: file
+        path: br.jus.cnj.PJeOfficePro.desktop
+      - type: file
+        path: br.jus.cnj.PJeOfficePro.metainfo.xml
+      - type: file
+        path: br.jus.cnj.PJeOfficePro.png

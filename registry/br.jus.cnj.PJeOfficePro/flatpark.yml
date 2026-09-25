@@ -1,0 +1,22 @@
+id: br.jus.cnj.PJeOfficePro
+name: PJeOffice Pro
+summary: Digital signer for the Brazilian PJe judicial system
+website: https://pjeoffice.trf3.jus.br/pjeoffice-pro/
+build:
+  manifest: br.jus.cnj.PJeOfficePro.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Brazil
+    - PJe
+    - DigitalSignature
+    - ICP-Brasil
+    - Legal
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true

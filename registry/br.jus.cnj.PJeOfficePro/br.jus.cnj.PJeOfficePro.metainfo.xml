@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>br.jus.cnj.PJeOfficePro</id>
+  <launchable type="desktop-id">br.jus.cnj.PJeOfficePro.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>PJeOffice Pro</name>
+  <summary>Digital signer for the Brazilian PJe judicial system</summary>
+  <developer id="br.jus.cnj">
+    <name>Conselho Nacional de Justiça</name>
+  </developer>
+  <url type="homepage">https://pjeoffice.trf3.jus.br/pjeoffice-pro/</url>
+  <url type="help">https://pjeoffice.trf3.jus.br/pjeoffice-pro/docs/userguide.html</url>
+  <description>
+    <p>This is a community package of PJeOffice Pro, maintained independently and unaffiliated with the CNJ or TRF3. It repackages the official Linux build unmodified and follows upstream releases automatically.</p>
+    <p>PJeOffice Pro is the official signer for PJe, the electronic judicial process system used by Brazilian courts. It runs in the background and lets the PJe web pages in your browser sign documents with your ICP-Brasil digital certificate, either an A1 certificate file or an A3 token or smart card. It can also sign PDF files on disk.</p>
+    <p>Permissions: this package grants network access (the PJe pages reach PJeOffice through a local server on 127.0.0.1, and it checks revocation lists and updates), your Documents and Downloads folders, where A1 certificate files and documents to sign usually are, and the host&apos;s p11-kit socket for A3 tokens (below). Settings and logs stay inside the sandbox. To open certificates or documents from anywhere in your home folder: <code>flatpak override --user --filesystem=home br.jus.cnj.PJeOfficePro</code>.</p>
+    <p>A3 tokens and smart cards need a one-time setup on the host, because the token&apos;s driver cannot run inside the sandbox. Install the driver from your certificate vendor and make sure pcscd is running, as for any Linux installation, and register the driver with p11-kit if the vendor does not (a file in ~/.config/pkcs11/modules/ with the line <code>module: /path/to/the/driver.so</code>). Then run a p11-kit server that listens on $XDG_RUNTIME_DIR/p11-kit/pkcs11: where your distribution ships the systemd user socket, that is <code>systemctl --user enable --now p11-kit-server.socket</code>. PJeOffice then lists the token&apos;s certificates and asks for the PIN as usual. A1 certificate files need none of this.</p>
+    <p>On Linux, PJeOffice Pro always runs as a small window rather than a tray icon, as a native installation does; its menu opens when you click it.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Office</category>
+    <category>Security</category>
+  </categories>
+  <releases>
+    <release version="2.5.16" date="2024-07-23"/>
+  </releases>
+</component>
