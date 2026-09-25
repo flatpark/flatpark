@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Voltius
+GenericName=SSH Client
+Comment=SSH, SFTP and serial client with an encrypted vault
+Exec=voltius %U
+Icon=app.voltius.Voltius
+Terminal=false
+Categories=Network;RemoteAccess;System;TerminalEmulator;
+Keywords=ssh;sftp;serial;terminal;termius;remote;
+MimeType=x-scheme-handler/voltius;
+StartupNotify=true
+StartupWMClass=voltius

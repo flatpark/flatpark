@@ -1,0 +1,60 @@
+id: app.voltius.Voltius
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: voltius
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK app: one binary that links webkit2gtk-4.1, gtk-3,
+  # libsoup-3, libsecret and dbus, all in org.gnome.Platform. No tray.
+  - --share=ipc
+  # SSH, SFTP, the E2EE vault sync and the update check.
+  - --share=network
+  - --socket=wayland
+  # Not a fallback: the app uses tauri-plugin-clipboard-manager (arboard), and
+  # Flatpak's Wayland socket does not pass the data-control protocol it wants,
+  # so X11 is its only clipboard route. The window stays native Wayland.
+  - --socket=x11
+  - --device=dri
+  # Saved passwords and keys go to the system keyring (Secret Service).
+  - --talk-name=org.freedesktop.secrets
+  # Hosts, keys and settings live in Voltius's own vault under the XDG dirs
+  # Flatpak redirects into ~/.var/app/app.voltius.Voltius. Deliberately NOT
+  # granted by default; the metainfo documents each as an opt-in override:
+  #   --filesystem=~/.ssh:ro   import hosts from ~/.ssh/config and use the
+  #                            host's key files.
+  #   --filesystem=home        SFTP transfers to and from any folder (the file
+  #                            chooser covers picking individual files).
+  #   --device=all             serial ports.
+  # The local terminal tab runs inside the sandbox, on the runtime's shells.
+modules:
+  - name: voltius
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 voltius-wrapper /app/bin/voltius
+      - install -Dm644 app.voltius.Voltius.desktop /app/share/applications/app.voltius.Voltius.desktop
+      - install -Dm644 app.voltius.Voltius.metainfo.xml /app/share/metainfo/app.voltius.Voltius.metainfo.xml
+      - install -Dm644 app.voltius.Voltius.png /app/share/icons/hicolor/256x256/apps/app.voltius.Voltius.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: voltius.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/VoltiusApp/voltius/releases/download/v0.42.0/Voltius_0.42.0_amd64.deb
+        sha256: 330f8875389a2a99dd7a0ea9d67c93e611017c9c7e96fcd3564ad981a2ed9ba4
+        size: 15293106
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: voltius-wrapper
+      - type: file
+        path: app.voltius.Voltius.desktop
+      - type: file
+        path: app.voltius.Voltius.metainfo.xml
+      - type: file
+        path: app.voltius.Voltius.png

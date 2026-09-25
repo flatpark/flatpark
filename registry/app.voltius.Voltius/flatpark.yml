@@ -1,0 +1,24 @@
+id: app.voltius.Voltius
+name: Voltius
+summary: SSH, SFTP and serial client with an encrypted vault
+website: https://voltius.app
+source_url: https://github.com/VoltiusApp/voltius
+build:
+  manifest: app.voltius.Voltius.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - SSH
+    - SFTP
+    - Serial
+    - Terminal
+    - Remote
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

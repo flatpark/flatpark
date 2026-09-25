@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# Voltius is a Tauri (WebKitGTK) app staged by apply_extra to /app/extra/voltius.
+# Its vault, hosts and settings go through the XDG dirs Flatpak redirects under
+# ~/.var/app/app.voltius.Voltius.
+#
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox; the compositing path is the reliable default here. The
+# window is opaque, so turning it off costs nothing. Written as a default so
+# `flatpak override --env=WEBKIT_DISABLE_DMABUF_RENDERER=0` still takes it back.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+exec /app/extra/voltius/voltius "$@"

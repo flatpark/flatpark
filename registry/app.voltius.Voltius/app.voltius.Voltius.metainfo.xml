@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.voltius.Voltius</id>
+  <launchable type="desktop-id">app.voltius.Voltius.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <name>Voltius</name>
+  <summary>SSH, SFTP and serial client with an encrypted vault</summary>
+  <developer id="app.voltius">
+    <name>Voltius</name>
+  </developer>
+  <url type="homepage">https://voltius.app</url>
+  <url type="bugtracker">https://github.com/VoltiusApp/voltius/issues</url>
+  <url type="vcs-browser">https://github.com/VoltiusApp/voltius</url>
+  <description>
+    <p>This is a community package of Voltius, maintained independently and unaffiliated with the Voltius project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
+    <p>Voltius is a local-first SSH, SFTP and serial client — an open-source alternative to Termius. Hosts, keys and identities live in an encrypted vault that you can sync end-to-end encrypted through storage you own.</p>
+    <ul>
+      <li>SSH terminals with split panes and input broadcast; sessions that survive disconnects and restarts.</li>
+      <li>SFTP between hosts and your machine, with drag and drop.</li>
+      <li>End-to-end encrypted sync through a GitHub Gist, a Cloudflare Worker or any S3-compatible bucket.</li>
+      <li>One-click import from Termius and MobaXterm; export as open JSON.</li>
+      <li>Docker and Proxmox LXC management, a process manager and live host stats.</li>
+      <li>Plugins, and an optional local MCP server for AI coding tools.</li>
+    </ul>
+    <p>Permissions: this package grants network access, the GPU and the Secret Service for stored credentials. It grants no filesystem access — the vault lives inside the sandbox, and SFTP files are picked through the file chooser. Some capabilities are not granted by default; enable the ones you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Import hosts from your <code>~/.ssh/config</code> and use your existing key files: <code>flatpak override --user --filesystem=~/.ssh:ro app.voltius.Voltius</code></li>
+      <li>Transfer files to and from any folder in your home: <code>flatpak override --user --filesystem=home app.voltius.Voltius</code></li>
+      <li>Serial ports: <code>flatpak override --user --device=all app.voltius.Voltius</code></li>
+    </ul>
+    <p>Scope: the local terminal tab runs inside the sandbox, on the shells the Flatpak runtime provides — not on your host system. Remote sessions are unaffected.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/VoltiusApp/voltius/main/.github/media/panes-grid.png</image>
+      <caption>Split panes across several SSH sessions</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/VoltiusApp/voltius/main/.github/media/sftp-dual-pane.png</image>
+      <caption>Dual-pane SFTP</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>RemoteAccess</category>
+  </categories>
+  <keywords>
+    <keyword>ssh</keyword>
+    <keyword>sftp</keyword>
+    <keyword>serial</keyword>
+    <keyword>terminal</keyword>
+    <keyword>termius</keyword>
+  </keywords>
+  <releases>
+    <release version="0.42.0" date="2026-09-24"/>
+  </releases>
+</component>
