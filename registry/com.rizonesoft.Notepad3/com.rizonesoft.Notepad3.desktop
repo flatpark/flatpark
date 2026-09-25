@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Notepad3
+GenericName=Text Editor
+Comment=Fast and light-weight Scintilla-based text editor with syntax highlighting
+Exec=notepad3 %F
+Icon=com.rizonesoft.Notepad3
+Terminal=false
+StartupNotify=true
+StartupWMClass=notepad3.exe
+Categories=Utility;TextEditor;
+MimeType=text/plain;text/css;text/html;application/javascript;application/json;application/xml;application/x-yaml;text/x-c;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-makefile;text/x-python;text/x-sh;
+Keywords=notepad;text;editor;scintilla;code;
