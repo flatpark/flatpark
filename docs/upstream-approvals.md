@@ -57,6 +57,7 @@ that PR link in the table — the PR itself is the evidence.
 | Elasticvue | `com.elasticvue.app` | [cars10/elasticvue#360 (comment)](https://github.com/cars10/elasticvue/issues/360#issuecomment-5750515614) — cars10, Elasticvue's author: "LGTM thx, will add later to the website" | 2026-09-20 |
 | Carosello | `io.github.grigio.carosello` | Approved by construction — submitted and maintained by its own developer ([flatpark#399](https://github.com/flatpark/flatpark/pull/399)) | 2026-09-21 |
 | Mark Shot | `io.github.jswysnemc.MarkShot` | [jswysnemc/mark-shot#117 (comment)](https://github.com/jswysnemc/mark-shot/issues/117#issuecomment-5789117765) — jswysnemc, Mark Shot's author and repo owner: "我同意 FlatPark 收录本项目，你可以在列表页标注「开发者已授权」"; packaging and channel-specific issues stay with FlatPark | 2026-09-23 |
+| Claude Code Haha | `ai.cchaha.ClaudeCodeHaha` | [NanmiCoder/cc-haha#1351 (comment)](https://github.com/NanmiCoder/cc-haha/issues/1351#issuecomment-5827679735) — NanmiCoder, Claude Code Haha's author and repo owner, answered the FlatPark listing + blue-shield offer with "可以 加吧" and closed the issue as completed | 2026-09-25 |
 
 ## Not approved
 
