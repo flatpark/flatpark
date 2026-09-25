@@ -1,0 +1,24 @@
+id: io.github.samuelkriegerbonini_dev.AstroBurst
+name: AstroBurst
+summary: Viewer and processor for FITS and ASDF astronomical images
+website: https://github.com/samuelkriegerbonini-dev/AstroBurst
+source_url: https://github.com/samuelkriegerbonini-dev/AstroBurst
+build:
+  manifest: io.github.samuelkriegerbonini_dev.AstroBurst.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Science
+  upstream_approved: false
+  tags:
+    - Astronomy
+    - FITS
+    - JWST
+    - Astrophotography
+    - Image Processing
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

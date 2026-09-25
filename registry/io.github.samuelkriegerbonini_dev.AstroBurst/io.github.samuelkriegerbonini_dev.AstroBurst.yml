@@ -1,0 +1,57 @@
+id: io.github.samuelkriegerbonini_dev.AstroBurst
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: astroburst
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK app: one binary that links webkit2gtk-4.1, gtk-3 and
+  # libsoup-3, all in org.gnome.Platform. No tray, no clipboard crate.
+  - --share=ipc
+  # Plate solving (nova.astrometry.net) and Gaia DR3 colour calibration
+  # (VizieR). Everything else runs locally.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # The display stretch runs in a WebGPU shader.
+  - --device=dri
+  # Images the user works on typically live in Pictures (astrophotography
+  # captures) or Downloads (JWST/HST archive pulls). Other folders go through
+  # an override documented in the metainfo:
+  #   --filesystem=home   open and export anywhere in your home.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-download
+modules:
+  - name: astroburst
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 astroburst-wrapper /app/bin/astroburst
+      - install -Dm644 io.github.samuelkriegerbonini_dev.AstroBurst.desktop /app/share/applications/io.github.samuelkriegerbonini_dev.AstroBurst.desktop
+      - install -Dm644 io.github.samuelkriegerbonini_dev.AstroBurst.metainfo.xml /app/share/metainfo/io.github.samuelkriegerbonini_dev.AstroBurst.metainfo.xml
+      - install -Dm644 io.github.samuelkriegerbonini_dev.AstroBurst.xml /app/share/mime/packages/io.github.samuelkriegerbonini_dev.AstroBurst.xml
+      - install -Dm644 io.github.samuelkriegerbonini_dev.AstroBurst.png /app/share/icons/hicolor/256x256/apps/io.github.samuelkriegerbonini_dev.AstroBurst.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: astroburst.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/samuelkriegerbonini-dev/AstroBurst/releases/download/v0.6.1-preview/AstroBurst_0.6.1_amd64.deb
+        sha256: 9520e7b5e8e3ca06679bd2cee074febba3c7a6e33fdb9aceff146d321c3bc2a8
+        size: 11146188
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: astroburst-wrapper
+      - type: file
+        path: io.github.samuelkriegerbonini_dev.AstroBurst.desktop
+      - type: file
+        path: io.github.samuelkriegerbonini_dev.AstroBurst.metainfo.xml
+      - type: file
+        path: io.github.samuelkriegerbonini_dev.AstroBurst.xml
+      - type: file
+        path: io.github.samuelkriegerbonini_dev.AstroBurst.png

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.samuelkriegerbonini_dev.AstroBurst</id>
+  <launchable type="desktop-id">io.github.samuelkriegerbonini_dev.AstroBurst.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <name>AstroBurst</name>
+  <summary>Viewer and processor for FITS and ASDF astronomical images</summary>
+  <developer id="io.github.samuelkriegerbonini_dev">
+    <name>Samuel Krieger</name>
+  </developer>
+  <url type="homepage">https://github.com/samuelkriegerbonini-dev/AstroBurst</url>
+  <url type="bugtracker">https://github.com/samuelkriegerbonini-dev/AstroBurst/issues</url>
+  <url type="vcs-browser">https://github.com/samuelkriegerbonini-dev/AstroBurst</url>
+  <url type="donation">https://ko-fi.com/astroburst</url>
+  <description>
+    <p>This is a community package of AstroBurst, maintained independently and unaffiliated with the AstroBurst project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
+    <p>AstroBurst opens FITS and ASDF images, displays them, measures them, and composes and exports them. A Rust backend does the processing and a WebGPU shader draws the display stretch.</p>
+    <ul>
+      <li>Quick-look for any FITS HDU or ASDF array: stretches, colormaps, pixel readout with units and WCS position, a coordinate grid, and DS9-compatible regions.</li>
+      <li>JWST and Roman data: native ASDF, data-quality flag decoding, calibrated photometry, cube spectra and moment maps.</li>
+      <li>Astrophotography: calibration, integration with PixInsight-style rejection, a compose wizard for narrowband palettes, and processing tools such as DBE, PixelMath, deconvolution and HDRMT.</li>
+    </ul>
+    <p>Two optional features use the network: plate solving uploads the frame to nova.astrometry.net, and colour calibration queries Gaia DR3 through VizieR.</p>
+    <p>Permissions: this package grants network access, the GPU, and read-write access to your Pictures and Downloads folders. To open or export images anywhere in your home, run <code>flatpak override --user --filesystem=home io.github.samuelkriegerbonini_dev.AstroBurst</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/samuelkriegerbonini-dev/AstroBurst/v0.6.1-preview/docs/screenshots/hero.png</image>
+      <caption>A Pillars of Creation composite with the tone curve, pixel readout and header explorer</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/samuelkriegerbonini-dev/AstroBurst/v0.6.1-preview/docs/screenshots/02-plate-solve-photometry-gaia.png</image>
+      <caption>Plate solving, photometry and Gaia DR3 catalog overlay</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/samuelkriegerbonini-dev/AstroBurst/v0.6.1-preview/docs/screenshots/07-drizzle-rgb.png</image>
+      <caption>Drizzle integration and RGB composition</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>astroburst</binary>
+    <mediatype>application/fits</mediatype>
+    <mediatype>image/fits</mediatype>
+    <mediatype>application/asdf</mediatype>
+  </provides>
+  <categories>
+    <category>Science</category>
+    <category>Astronomy</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>astronomy</keyword>
+    <keyword>fits</keyword>
+    <keyword>asdf</keyword>
+    <keyword>jwst</keyword>
+    <keyword>astrophotography</keyword>
+  </keywords>
+  <releases>
+    <release version="0.6.1-preview" date="2026-09-25"/>
+  </releases>
+</component>
