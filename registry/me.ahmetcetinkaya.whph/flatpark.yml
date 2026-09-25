@@ -1,0 +1,24 @@
+id: me.ahmetcetinkaya.whph
+name: WHPH
+summary: Tasks, habits, notes and time tracking in one local-first app
+website: https://whph.ahmetcetinkaya.me
+source_url: https://github.com/ahmet-cetinkaya/whph
+build:
+  manifest: me.ahmetcetinkaya.whph.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Tasks
+    - Habits
+    - Productivity
+    - Time Tracking
+    - Notes
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

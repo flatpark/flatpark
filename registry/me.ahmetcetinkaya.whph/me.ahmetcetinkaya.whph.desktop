@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=WHPH
+GenericName=Productivity
+Comment=Tasks, habits, notes and time tracking in one local-first app
+Exec=whph %U
+Icon=me.ahmetcetinkaya.whph
+Terminal=false
+Categories=Office;ProjectManagement;Utility;
+Keywords=tasks;habits;time;productivity;pomodoro;notes;
+MimeType=application/x-whph;
+StartupNotify=true
+StartupWMClass=me.ahmetcetinkaya.whph

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>me.ahmetcetinkaya.whph</id>
+  <launchable type="desktop-id">me.ahmetcetinkaya.whph.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>WHPH</name>
+  <summary>Tasks, habits, notes and time tracking in one local-first app</summary>
+  <developer id="me.ahmetcetinkaya">
+    <name>Ahmet Çetinkaya</name>
+  </developer>
+  <url type="homepage">https://whph.ahmetcetinkaya.me</url>
+  <url type="bugtracker">https://github.com/ahmet-cetinkaya/whph/issues</url>
+  <url type="vcs-browser">https://github.com/ahmet-cetinkaya/whph</url>
+  <url type="donation">https://ahmetcetinkaya.me/donate</url>
+  <description>
+    <p>This is a community package of WHPH (Work Hard Play Hard), maintained independently and unaffiliated with the WHPH project. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
+    <p>WHPH is a productivity app that keeps tasks, habits, notes and time tracking in one place, stored locally on your device.</p>
+    <ul>
+      <li>Tasks with subtasks, priorities, deadlines, recurrence and tags.</li>
+      <li>Habit tracking with streaks, statistics and "bad habit" tracking.</li>
+      <li>Markdown notes and a focus timer.</li>
+      <li>Time and app-usage statistics.</li>
+      <li>Device-to-device sync with no cloud account, and an optional, off-by-default MCP server for AI assistants.</li>
+    </ul>
+    <p>Permissions: this package grants the display, the GPU, audio (timer and reminder sounds), network access (device sync) and the tray. Your data stays inside the sandbox; imports and exports go through the file chooser.</p>
+    <p>App-usage tracking needs to know which window is focused, which a sandboxed app cannot see on most desktops. This package follows the permission set of upstream's own Flathub build, so tracking is limited and the app shows a notice when it cannot work. On KDE Plasma it can be enabled with <code>flatpak override --user --talk-name=org.kde.KWin --talk-name=org.kde.kwin.Scripting me.ahmetcetinkaya.whph</code>, and on GNOME with <code>flatpak override --user --talk-name=org.gnome.Shell me.ahmetcetinkaya.whph</code>. Tasks, habits, notes and the timer are unaffected.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/ahmet-cetinkaya/whph/main/packaging/screenshots/desktop/en-US/1.png</image>
+      <caption>The Today page with tasks, habits and app usage</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/ahmet-cetinkaya/whph/main/packaging/screenshots/desktop/en-US/2.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/ahmet-cetinkaya/whph/main/packaging/screenshots/desktop/en-US/3.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Office</category>
+    <category>ProjectManagement</category>
+  </categories>
+  <keywords>
+    <keyword>tasks</keyword>
+    <keyword>habits</keyword>
+    <keyword>productivity</keyword>
+    <keyword>time tracking</keyword>
+    <keyword>pomodoro</keyword>
+  </keywords>
+  <releases>
+    <release version="0.24.1" date="2026-09-25"/>
+  </releases>
+</component>

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# WHPH is a Flutter bundle staged by apply_extra to /app/extra/whph. Its
+# database and settings go through the XDG dirs Flatpak redirects under
+# ~/.var/app/me.ahmetcetinkaya.whph. The tray library (libayatana-appindicator3)
+# comes from the ayatana-stack module in /app/lib.
+exec /app/extra/whph/whph "$@"
