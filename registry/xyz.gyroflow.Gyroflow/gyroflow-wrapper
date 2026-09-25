@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# Gyroflow is upstream's Linux tarball, unpacked by apply_extra to
+# /app/extra/gyroflow. The binary finds its own Qt, FFmpeg and mdk libraries
+# through its RUNPATH ($ORIGIN/lib); /app/extra/lib adds only the LLVM C++
+# runtime (libc++, libc++abi, libunwind) taken from Debian, none of which the
+# Flatpak runtime has, so nothing there shadows a runtime library.
+#
+# Settings and user lens profiles go through QStandardPaths, i.e. the XDG dirs
+# Flatpak redirects under ~/.var/app/xyz.gyroflow.Gyroflow.
+export LD_LIBRARY_PATH="/app/extra/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/gyroflow/gyroflow "$@"

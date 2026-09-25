@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>xyz.gyroflow.Gyroflow</id>
+  <launchable type="desktop-id">xyz.gyroflow.Gyroflow.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Gyroflow</name>
+  <summary>Video stabilization using gyroscope data</summary>
+  <developer id="xyz.gyroflow">
+    <name>Gyroflow</name>
+  </developer>
+  <url type="homepage">https://gyroflow.xyz</url>
+  <url type="bugtracker">https://github.com/gyroflow/gyroflow/issues</url>
+  <url type="vcs-browser">https://github.com/gyroflow/gyroflow</url>
+  <url type="help">https://docs.gyroflow.xyz/app</url>
+  <description>
+    <p>This is a community package of Gyroflow, maintained independently and unaffiliated with the Gyroflow project. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
+    <p>Gyroflow stabilizes video using the motion data recorded by the camera&apos;s gyroscope, or logged by a flight controller, a phone or a separate gyro recorder mounted on the camera.</p>
+    <ul>
+      <li>Reads the gyro data embedded by GoPro, Sony, Insta360, DJI, Canon, Blackmagic RAW, RED RAW and more, and Betaflight and ArduPilot logs.</li>
+      <li>A database of thousands of lens profiles, plus calibration for your own lens.</li>
+      <li>Rolling shutter correction, horizon levelling, keyframes and adaptive zoom.</li>
+      <li>Real-time GPU preview and rendering to H.264, H.265, ProRes, DNxHD, CineForm, PNG and OpenEXR, including 10-bit.</li>
+      <li>A render queue for batch processing.</li>
+    </ul>
+    <p>Permissions: this package grants read-write access to your Videos folder and to removable media (/run/media and /media, where camera and drone SD cards are mounted), because Gyroflow writes the stabilized file next to the source clip by default. It also grants GPU access, audio and network access (lens profile updates and the version check). To open footage from anywhere in your home folder: <code>flatpak override --user --filesystem=home xyz.gyroflow.Gyroflow</code>. Settings and your own lens profiles stay inside the sandbox.</p>
+    <p>The video editor plugins (DaVinci Resolve, Premiere, After Effects and others) live in each editor&apos;s own folders on the host, which this package does not grant access to; install them from the gyroflow-plugins releases instead.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/gyroflow/gyroflow/master/resources/screenshot.jpg</image>
+      <caption>Stabilizing a clip in Gyroflow</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>stabilization</keyword>
+    <keyword>gyroscope</keyword>
+    <keyword>gopro</keyword>
+    <keyword>drone</keyword>
+    <keyword>fpv</keyword>
+  </keywords>
+  <releases>
+    <release version="1.6.3" date="2025-09-04"/>
+  </releases>
+</component>

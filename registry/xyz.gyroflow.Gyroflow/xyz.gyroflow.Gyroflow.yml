@@ -1,0 +1,91 @@
+id: xyz.gyroflow.Gyroflow
+# The GNOME runtime rather than the plain freedesktop one: Qt Network in the
+# bundle links libgssapi_krb5, which org.gnome.Platform ships and
+# org.freedesktop.Platform does not.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: gyroflow
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # The bundle carries Qt's own Wayland platform plugin; X11 is the fallback
+  # for sessions without a compositor.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Preview rendering and stabilization run on the GPU (Vulkan through wgpu,
+  # with OpenGL for the video player).
+  - --device=dri
+  # Audio track playback in the preview.
+  - --socket=pulseaudio
+  # Lens profile updates and the in-app version check.
+  - --share=network
+  # Gyroflow writes the stabilized render next to the source clip by default,
+  # so it needs real read-write access to where footage lives, not just a
+  # per-file portal grant: the Videos folder, and removable media, which is
+  # where action-camera and drone SD cards are mounted. Wider access is an
+  # opt-in override in the metainfo.
+  - --filesystem=xdg-videos
+  - --filesystem=/run/media
+  - --filesystem=/media
+  # Settings and user lens profiles go through QStandardPaths, i.e. the XDG
+  # dirs Flatpak redirects under ~/.var/app/xyz.gyroflow.Gyroflow.
+modules:
+  - name: gyroflow
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gyroflow-wrapper /app/bin/gyroflow
+      - install -Dm644 xyz.gyroflow.Gyroflow.desktop /app/share/applications/xyz.gyroflow.Gyroflow.desktop
+      - install -Dm644 xyz.gyroflow.Gyroflow.metainfo.xml /app/share/metainfo/xyz.gyroflow.Gyroflow.metainfo.xml
+      - install -Dm644 xyz.gyroflow.Gyroflow.svg /app/share/icons/hicolor/scalable/apps/xyz.gyroflow.Gyroflow.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gyroflow.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/gyroflow/gyroflow/releases/download/v1.6.3/Gyroflow-linux64.tar.gz
+        sha256: 98625e3ce318964d49d3c66f2dc302a9e6c4c138233d9aa6cbd986f687c421c3
+        size: 62979603
+      # END MANAGED EXTRA-DATA
+      # Gyroflow and its bundled FFmpeg/mdk libraries are built against LLVM's
+      # libc++, which neither the runtime nor the tarball ships. These are
+      # Debian's builds of it; scripts/update-debian-pins.mjs re-resolves them
+      # from the suite index. filename minus .deb is the binary package name,
+      # and that is the whole contract.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libc++1-19.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/l/llvm-toolchain-19/libc++1-19_19.1.7-3+b1_amd64.deb
+        sha256: 02caf4050500bee68288172433d639986ae9ec609a30fc1cf53e0e25eea0dcdf
+        size: 303052
+      - type: extra-data
+        filename: libc++abi1-19.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/l/llvm-toolchain-19/libc++abi1-19_19.1.7-3+b1_amd64.deb
+        sha256: 586dfba17aa2d5722d1b60b4beafa987b02441905cbb1bc1a3548651062854e8
+        size: 105708
+      - type: extra-data
+        filename: libunwind-19.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/l/llvm-toolchain-19/libunwind-19_19.1.7-3+b1_amd64.deb
+        sha256: 8473b38395b7e2d754146750a9ad71a699bb09e1f958f06a7e6804eda37f45c6
+        size: 63216
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gyroflow-wrapper
+      - type: file
+        path: xyz.gyroflow.Gyroflow.desktop
+      - type: file
+        path: xyz.gyroflow.Gyroflow.metainfo.xml
+      - type: file
+        path: xyz.gyroflow.Gyroflow.svg

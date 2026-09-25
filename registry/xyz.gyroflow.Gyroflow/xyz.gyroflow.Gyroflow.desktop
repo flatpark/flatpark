@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Gyroflow
+GenericName=Video Stabilization
+Comment=Video stabilization using gyroscope data
+Exec=gyroflow
+Icon=xyz.gyroflow.Gyroflow
+Terminal=false
+Categories=AudioVideo;Video;
+Keywords=stabilization;stabilize;gyro;gyroscope;gopro;drone;fpv;video;
+StartupNotify=true
+StartupWMClass=xyz.gyroflow.gyroflow

@@ -1,0 +1,23 @@
+id: xyz.gyroflow.Gyroflow
+name: Gyroflow
+summary: Video stabilization using gyroscope data
+website: https://gyroflow.xyz
+source_url: https://github.com/gyroflow/gyroflow
+build:
+  manifest: xyz.gyroflow.Gyroflow.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Video
+    - Stabilization
+    - Gyroscope
+    - ActionCamera
+    - FPV
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
