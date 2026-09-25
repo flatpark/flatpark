@@ -29,47 +29,61 @@ finish-args:
   - --socket=fallback-x11
   # GPU-accelerated Chromium compositing (editor, diffs, work panels).
   - --device=dri
-  # Audio playback for media opened in the work panel's browser preview and
-  # other in-app media surfaces. The microphone is deliberately not granted —
-  # voice plugins opt in per the metainfo's --device=all override.
+  # Audio for media opened in the work panel's browser preview and for voice
+  # plugins. The PulseAudio socket covers recording as well as playback, so this
+  # is also what gives voice plugins the microphone.
   - --socket=pulseaudio
   # Desktop notifications for finished agent runs and approval prompts.
   - --talk-name=org.freedesktop.Notifications
-  # The app's system tray icon (Electron Tray + libappindicator3, from the
-  # Electron base app's /app/lib — the .deb bundles no tray libraries).
+  # Tray icon. Electron's tray claims the bus name
+  # org.freedesktop.StatusNotifierItem-<getpid()>-1 and gives up on the first
+  # refusal, so without a matching own-name the tray silently never appears.
+  # Every sandboxed app is PID 2, so pi-desktop-wrapper pins the reported PID to
+  # 949494 (see the fake-getpid module) and this single name is all it ever
+  # needs, instead of racing every other Flatpak tray app for the PID-2 name.
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.freedesktop.StatusNotifierItem-949494-1
   # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary —
   # and zypak's spawned child/zygote processes, which the wrapper's own `unset`
   # cannot reach — always start as the GUI app rather than as plain Node.
   - --unset-env=ELECTRON_RUN_AS_NODE
-  # The app's own state directory ($HOME/.pi-desktop: sessions, provider
-  # credentials, window state, logs) is written under $HOME. Flatpak leaves
-  # $HOME unmounted by default, so those writes land on the per-launch home
-  # overlay and nothing survives a restart — verified with strace: the writes
-  # succeed and the next launch reads ENOENT. Keep the dotdir in the per-app
-  # data dir so the state persists. This package has no host bridge, so the
-  # sandbox-local --persist is the right shape (cf. ai.z.zcode, which needs
-  # --filesystem=~/.zcode:create because its agent CLI runs on the host and
-  # must share the directory).
-  - --persist=.pi-desktop
+  # The app keeps its own state (sessions, provider credentials, window state,
+  # logs) in $HOME/.pi-desktop, and the agent harness keeps user-authored global
+  # prompts, AGENTS.md, skills and subagents in $HOME/.pi and $HOME/.agents.
+  # Flatpak redirects only the XDG dirs, not $HOME, so without these every one of
+  # them would be written to the sandbox's throwaway home and lost on exit.
+  # - The app state is moved into $XDG_DATA_HOME by the wrapper
+  #   (PI_DESKTOP_DATA_DIR), so it stays in the per-app data dir even when the
+  #   user adds a home override. A --persist would be dropped in that case, and
+  #   sessions and credentials would seem to vanish.
+  # - ~/.pi and ~/.agents are persisted privately. They are shared with the
+  #   native pi CLI and ~/.pi/agent holds that CLI's auth.json, so the real
+  #   directories are not granted by default; the metainfo's home override makes
+  #   the app use the real ones instead.
+  - --persist=.pi
+  - --persist=.agents
   # Deliberately NOT granted by default (documented as opt-in in the
   # metainfo):
   #   --filesystem=home   -> open projects stored anywhere in the real home and
-  #                           see the real ~/.claude etc. when importing
-  #                           sessions from other agents
-  #   --device=all        -> microphone access for voice plugins
-  #   --talk-name=org.freedesktop.secrets -> let safeStorage encrypt the app's
-  #                           credential store with the system keyring (GNOME
-  #                           Keyring / KWallet). The store works without it —
-  #                           tested: credentials and sessions survive restart
-  #                           and are stored neither as plaintext nor base64 —
-  #                           so the grant is opt-in for users who prefer
-  #                           keyring encryption at rest.
+  #                           share the real ~/.pi, ~/.agents, ~/.claude, ~/.codex
+  #                           with the host's agent CLIs (session import included)
+  #   --talk-name=org.freedesktop.secrets -> the system keyring. The app uses
+  #                           Electron's safeStorage only for remote-host
+  #                           pairing tokens and refuses to save them without
+  #                           it; provider credentials are encrypted by the
+  #                           host core with a key in its own data dir.
   # Projects picked through the file-chooser portal are reachable without any
-  # of these. The workspace config (~/.config/PI-Desktop) lands in the per-app
-  # config dir automatically; the ~/.pi-desktop state is covered by the
-  # --persist above.
+  # of these.
 modules:
+  - name: pi-desktop-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/pi-desktop/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
   - name: pi-desktop
     buildsystem: simple
     build-commands:
@@ -84,9 +98,9 @@ modules:
         filename: pi-desktop.deb
         only-arches:
           - x86_64
-        url: https://github.com/vastsa/PI-Desktop/releases/download/v0.15.6/pi-desktop_0.15.6_amd64.deb
-        sha256: a67d6409742debd859cf2dd43a4b54e7244126edaee7df3aab0409eb4212420f
-        size: 104714920
+        url: https://github.com/vastsa/PI-Desktop/releases/download/v0.15.7/pi-desktop_0.15.7_amd64.deb
+        sha256: 47a455466139f080b2727d83e7ce02bfa932a257b1066546bfb0c434c78984fb
+        size: 105977624
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

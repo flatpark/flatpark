@@ -40,6 +40,7 @@ exec_line="$(sed -n 's/^Exec=//p' "$desktop" | head -n 1 \
 app_dir="$(dirname "$exec_line")"
 launcher="$(basename "$exec_line")"
 case "$app_dir" in
+  */..|*/../*) echo "unexpected Exec= path in the .deb's .desktop file: $exec_line" >&2; exit 1 ;;
   /*) : ;;
   *) echo "unexpected Exec= path in the .deb's .desktop file: $exec_line" >&2; exit 1 ;;
 esac
