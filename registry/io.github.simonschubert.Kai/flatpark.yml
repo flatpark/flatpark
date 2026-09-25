@@ -1,0 +1,24 @@
+id: io.github.simonschubert.Kai
+name: Kai 9000
+summary: AI assistant with persistent memory for many LLM providers
+website: https://kai9000.com/
+source_url: https://github.com/SimonSchubert/Kai
+build:
+  manifest: io.github.simonschubert.Kai.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AI
+  upstream_approved: false
+  tags:
+    - AI
+    - Chat
+    - LLM
+    - Ollama
+    - MCP
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

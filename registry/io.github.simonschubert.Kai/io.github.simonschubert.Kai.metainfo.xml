@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.simonschubert.Kai</id>
+  <launchable type="desktop-id">io.github.simonschubert.Kai.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>Kai 9000</name>
+  <summary>AI assistant with persistent memory for many LLM providers</summary>
+  <developer id="io.github.simonschubert">
+    <name>Simon Schubert</name>
+  </developer>
+  <url type="homepage">https://kai9000.com/</url>
+  <url type="bugtracker">https://github.com/SimonSchubert/Kai/issues</url>
+  <url type="vcs-browser">https://github.com/SimonSchubert/Kai</url>
+  <url type="help">https://kai9000.com/docs/</url>
+  <branding>
+    <color type="primary" scheme_preference="light">#e8f5e9</color>
+    <color type="primary" scheme_preference="dark">#1b5e20</color>
+  </branding>
+  <description>
+    <p>This is a community package of Kai 9000, maintained independently and unaffiliated with the Kai project. It repackages the official upstream Linux tarball unmodified and follows upstream releases automatically.</p>
+    <p>Kai 9000 is an open-source AI assistant that remembers important details across conversations and uses them automatically. It connects to Ollama, Gemini, ChatGPT, Claude, Mistral, Groq, OpenRouter and any OpenAI-compatible API, with automatic failover between services.</p>
+    <ul>
+      <li>Persistent memory and an editable "soul" (system prompt).</li>
+      <li>Interactive UI: the AI can build screens such as quizzes, dashboards and recipe cards.</li>
+      <li>Tools: web search, notifications, shell commands and more, plus remote MCP servers.</li>
+      <li>An autonomous heartbeat that periodically surfaces anything needing attention.</li>
+      <li>Encrypted local conversation storage, text to speech, image attachments, settings export and import.</li>
+    </ul>
+    <p>Permissions: this package grants network access, audio output, desktop notifications and the GPU. It grants no access to your files: conversations and settings stay in the app's private data, and attachments are picked through the file chooser. The app draws through X11 (XWayland on Wayland desktops).</p>
+    <p>Scope: the shell-command tool runs inside the Flatpak sandbox, on the tools the runtime provides — not on your host system — and cannot see your home folder.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/SimonSchubert/Kai/v3.2.0/screenshots/desktop-1.png</image>
+      <caption>Chat with persistent memory</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">moderate</content_attribute>
+  </content_rating>
+  <requires>
+    <internet>always</internet>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <categories>
+    <category>Utility</category>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>llm</keyword>
+    <keyword>chat</keyword>
+    <keyword>ollama</keyword>
+    <keyword>assistant</keyword>
+  </keywords>
+  <releases>
+    <release version="3.2.0" date="2026-09-07"/>
+  </releases>
+</component>

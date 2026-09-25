@@ -1,0 +1,57 @@
+id: io.github.simonschubert.Kai
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: kai
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Compose Multiplatform desktop app: a jpackage bundle with its own jlink'd
+  # Java runtime. Rendering goes through AWT (Skiko), whose only Linux backend
+  # is X11, so this is not a fallback.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Every LLM provider, MCP servers, web search and the update check.
+  - --share=network
+  # Text-to-speech output.
+  - --socket=pulseaudio
+  # Heartbeat and tool notifications go out through notify-send.
+  - --talk-name=org.freedesktop.Notifications
+  # Conversations, memories and settings live in ~/.kai (os user.home, not an
+  # XDG dir), Java preferences in ~/.java. Both are app-private state, kept
+  # per-app under ~/.var/app/io.github.simonschubert.Kai as upstream's own
+  # Flatpak manifest does. Attachments are picked through the file chooser
+  # portal.
+  - --persist=.kai
+  - --persist=.java
+modules:
+  - name: kai
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 kai-wrapper /app/bin/kai
+      - install -Dm644 io.github.simonschubert.Kai.desktop /app/share/applications/io.github.simonschubert.Kai.desktop
+      - install -Dm644 io.github.simonschubert.Kai.metainfo.xml /app/share/metainfo/io.github.simonschubert.Kai.metainfo.xml
+      - install -Dm644 io.github.simonschubert.Kai.png /app/share/icons/hicolor/512x512/apps/io.github.simonschubert.Kai.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: kai.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/SimonSchubert/Kai/releases/download/v3.2.0/Kai-3.2.0-linux-x86_64.tar.gz
+        sha256: 0bf18ce917139d5c329e430f4ca649c3afb9ba113a3493a81665d61a55e1eef8
+        size: 239704457
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: kai-wrapper
+      - type: file
+        path: io.github.simonschubert.Kai.desktop
+      - type: file
+        path: io.github.simonschubert.Kai.metainfo.xml
+      - type: file
+        path: io.github.simonschubert.Kai.png

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Kai 9000
+GenericName=AI Assistant
+Comment=AI assistant with persistent memory for Ollama, Gemini, ChatGPT, Claude and more
+Exec=kai
+Icon=io.github.simonschubert.Kai
+Terminal=false
+Categories=Utility;Network;Chat;
+Keywords=AI;Chat;Ollama;Gemini;LLM;Assistant;MCP;
+StartupNotify=true
+StartupWMClass=com-inspiredandroid-kai-MainKt

@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Kai is a jpackage bundle staged by apply_extra to /app/extra/kai; the native
+# launcher starts the bundled Java runtime with lib/app/Kai.cfg.
+exec /app/extra/kai/bin/Kai "$@"
