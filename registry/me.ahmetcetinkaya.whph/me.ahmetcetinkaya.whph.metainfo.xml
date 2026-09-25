@@ -51,6 +51,9 @@
     <keyword>pomodoro</keyword>
   </keywords>
   <releases>
+    <release version="0.24.2" date="2026-09-25">
+      <description></description>
+    </release>
     <release version="0.24.1" date="2026-09-25"/>
   </releases>
 </component>

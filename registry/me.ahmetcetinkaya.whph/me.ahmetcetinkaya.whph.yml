@@ -52,9 +52,9 @@ modules:
         filename: whph.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ahmet-cetinkaya/whph/releases/download/v0.24.1/whph-v0.24.1-linux.tar.gz
-        sha256: 46d3449fc194c31d3f83cfb4f5828a1dc34ee3906054267de484e297b318ce09
-        size: 27242335
+        url: https://github.com/ahmet-cetinkaya/whph/releases/download/v0.24.2/whph-v0.24.2-linux.tar.gz
+        sha256: dfa0ae7a394d27dcce3f388e9460ce922946222847ac8b3315256dd7b9d0ef0b
+        size: 27239153
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
