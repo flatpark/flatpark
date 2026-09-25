@@ -35,38 +35,17 @@ finish-args:
   - --socket=pulseaudio
   # Desktop notifications for finished agent runs and approval prompts.
   - --talk-name=org.freedesktop.Notifications
-  # Tray icon. Electron's tray claims the bus name
-  # org.freedesktop.StatusNotifierItem-<getpid()>-1 and gives up on the first
-  # refusal, so without a matching own-name the tray silently never appears.
-  # Every sandboxed app is PID 2, so pi-desktop-wrapper pins the reported PID to
-  # 949494 (see the fake-getpid module) and this single name is all it ever
-  # needs, instead of racing every other Flatpak tray app for the PID-2 name.
-  - --talk-name=org.kde.StatusNotifierWatcher
-  - --own-name=org.freedesktop.StatusNotifierItem-949494-1
-  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary —
-  # and zypak's spawned child/zygote processes, which the wrapper's own `unset`
-  # cannot reach — always start as the GUI app rather than as plain Node.
+  # The tray needs a PID-specific D-Bus own-name. A fake PID made orderly
+  # shutdown fail in testing, so the PID shim and tray-specific D-Bus grants
+  # are removed; the tray is unavailable in this sandbox configuration.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox environment so Electron
+  # and zypak's spawned Chromium processes start as the GUI app, not plain Node.
   - --unset-env=ELECTRON_RUN_AS_NODE
-  # The app keeps its own state (sessions, provider credentials, window state,
-  # logs) in $HOME/.pi-desktop, and the agent harness keeps user-authored global
-  # prompts, AGENTS.md, skills and subagents in $HOME/.pi and $HOME/.agents.
-  # Flatpak redirects only the XDG dirs, not $HOME, so without these every one of
-  # them would be written to the sandbox's throwaway home and lost on exit.
-  # - The app state is moved into $XDG_DATA_HOME by the wrapper
-  #   (PI_DESKTOP_DATA_DIR), so it stays in the per-app data dir even when the
-  #   user adds a home override. A --persist would be dropped in that case, and
-  #   sessions and credentials would seem to vanish.
-  # - ~/.pi and ~/.agents are persisted privately. They are shared with the
-  #   native pi CLI and ~/.pi/agent holds that CLI's auth.json, so the real
-  #   directories are not granted by default; the metainfo's home override makes
-  #   the app use the real ones instead.
-  - --persist=.pi
-  - --persist=.agents
-  # Deliberately NOT granted by default (documented as opt-in in the
-  # metainfo):
-  #   --filesystem=home   -> open projects stored anywhere in the real home and
-  #                           share the real ~/.pi, ~/.agents, ~/.claude, ~/.codex
-  #                           with the host's agent CLIs (session import included)
+  # App state uses PI_DESKTOP_DATA_DIR under XDG_DATA_HOME. Global ~/.pi and
+  # ~/.agents access is opt-in; grant only these paths (created if needed):
+  #   --filesystem=~/.pi:create --filesystem=~/.agents:create
+  # Broader home access is deliberately not granted by default:
+  #   --filesystem=home -> open arbitrary projects and share host agent configs
   #   --talk-name=org.freedesktop.secrets -> the system keyring. The app uses
   #                           Electron's safeStorage only for remote-host
   #                           pairing tokens and refuses to save them without
@@ -75,15 +54,6 @@ finish-args:
   # Projects picked through the file-chooser portal are reachable without any
   # of these.
 modules:
-  - name: pi-desktop-fakepid
-    buildsystem: simple
-    build-commands:
-      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
-      - install -Dm755 libfakepid.so /app/lib/pi-desktop/libfakepid.so
-    sources:
-      - type: file
-        path: fake-getpid.c
-
   - name: pi-desktop
     buildsystem: simple
     build-commands:

@@ -19,18 +19,6 @@ unset ELECTRON_RUN_AS_NODE
 # still holds when the user grants --filesystem=home.
 export PI_DESKTOP_DATA_DIR="${PI_DESKTOP_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/pi-desktop}"
 
-# Electron's tray claims the bus name
-# "org.freedesktop.StatusNotifierItem-<getpid()>-1" and gives up if that name is
-# refused. Inside the sandbox the app is always PID 2 in its own PID namespace,
-# so every Flatpak app with a tray races for the same name. Report a fixed,
-# distinctive PID instead, and grant exactly that one bus name in finish-args.
-# The preload goes through ZYPAK_LD_PRELOAD rather than LD_PRELOAD: zypak-helper
-# builds the LD_PRELOAD of the app and of every Chromium child from it, and
-# would otherwise drop ours. The shim takes itself out of LD_PRELOAD for other
-# children, so the commands the agent runs see their real PID.
-export PI_DESKTOP_FAKE_PID="${PI_DESKTOP_FAKE_PID:-949494}"
-export ZYPAK_LD_PRELOAD="/app/lib/pi-desktop/libfakepid.so${ZYPAK_LD_PRELOAD:+:$ZYPAK_LD_PRELOAD}"
-
 extra_root=/app/extra
 launcher=""
 if [ -r "$extra_root/launcher" ]; then
