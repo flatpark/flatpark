@@ -7,56 +7,31 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
+  # Core function: HTTP(S) downloads, magnet/torrent peers (DHT, trackers).
+  - --share=network
   # Native GTK4/libadwaita app. Wayland by default with XWayland fallback,
   # dri for GPU-accelerated rendering.
   - --share=ipc
-  # Core function: HTTP(S) downloads, magnet/torrent peers (DHT, trackers).
-  - --share=network
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
   # Completion notices go through the notification portal (GLib picks the
   # portal backend inside a sandbox), and sleep inhibition goes through the
   # Inhibit portal — neither needs a direct bus grant.
-  # Single instance + D-Bus activation (DBusActivatable desktop entry,
-  # magnet/torrent handlers via %U).
-  - --own-name=io.github.houssemko.Grab
+  - --talk-name=org.freedesktop.portal.*
+  - --talk-name=org.gtk.vfs.*
+  # Browser-cookie authentication (Preferences → Media → Authentication):
+  # member-only pages and age gates need Secret Service over D-Bus so yt-dlp
+  # can decrypt Chromium-based browser cookies. Browser profile directories
+  # themselves are not granted here — they are an opt-in per-user override
+  # (flatpak override --user --filesystem=...:ro), offered inside the app.
+  - --talk-name=org.freedesktop.secrets
   # Default download location: an empty download-dir setting resolves to the
   # system Downloads folder, which Flatpak maps to xdg-download. A custom
-  # download directory outside it is the user's own opt-in (see the metainfo
-  # description for the override command).
+  # download directory outside it is the user's own opt-in.
   - --filesystem=xdg-download
-  # Browser-cookie authentication (Preferences → Media → Authentication):
-  # member-only pages and age gates need the host browsers' cookie stores,
-  # read-only. Without these, yt-dlp runs anonymous and login-walled pages
-  # fail. All channels the app resolves (stable, beta, dev/nightly,
-  # rebranded Origin builds): the freshest Cookies database wins, so a
-  # missing grant here silently pins the user to a stale profile.
-  - --talk-name=org.freedesktop.secrets
-  - --filesystem=~/.config/BraveSoftware/Brave-Browser:ro
-  - --filesystem=~/.config/BraveSoftware/Brave-Browser-Beta:ro
-  - --filesystem=~/.config/BraveSoftware/Brave-Browser-Nightly:ro
-  - --filesystem=~/.config/BraveSoftware/Brave-Origin-Beta:ro
-  - --filesystem=~/.config/BraveSoftware/Brave-Origin-Nightly:ro
-  - --filesystem=~/.config/BraveSoftware/Brave-Browser-Origin-Nightly:ro
-  - --filesystem=~/.config/google-chrome:ro
-  - --filesystem=~/.config/google-chrome-beta:ro
-  - --filesystem=~/.config/google-chrome-unstable:ro
-  - --filesystem=~/.config/chromium:ro
-  - --filesystem=~/.config/chromium-beta:ro
-  - --filesystem=~/.config/microsoft-edge:ro
-  - --filesystem=~/.config/microsoft-edge-beta:ro
-  - --filesystem=~/.config/microsoft-edge-dev:ro
-  - --filesystem=~/.config/microsoft-edge-canary:ro
-  - --filesystem=~/.mozilla/firefox:ro
-  - --filesystem=~/.config/mozilla/firefox:ro
-  - --filesystem=~/snap/firefox/common/.mozilla/firefox:ro
-  - --filesystem=~/.config/opera:ro
-  - --filesystem=~/.config/opera-beta:ro
-  - --filesystem=~/.config/opera-developer:ro
-  - --filesystem=~/.config/vivaldi:ro
-  - --filesystem=~/.config/vivaldi-snapshot:ro
-  - --filesystem=~/.config/naver-whale:ro
+  # Host dconf database, read-only.
+  - --filesystem=xdg-config/dconf:ro
   # Queue database (queue.json), torrent state and resume data live under
   # ~/.local/share (glib user_data_dir), which is per-app sandboxed storage —
   # no grant needed.
