@@ -58,6 +58,9 @@
     <keyword>astrophotography</keyword>
   </keywords>
   <releases>
+    <release version="0.6.4.2" date="2026-09-27">
+      <description></description>
+    </release>
     <release version="0.6.1-preview" date="2026-09-25"/>
   </releases>
 </component>
