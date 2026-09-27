@@ -28,7 +28,7 @@ for id in $flagged; do
 done
 for id in $recorded; do
     if ! grep -qx "$id" <<<"$flagged"; then
-        echo "::warning::docs/upstream-approvals.md lists $id as Approved but registry/$id/flatpark.yml does not set upstream_approved: true — move the row to Not approved or flip the flag"
+        echo "::warning::docs/upstream-approvals.md lists $id as Approved but registry/$id/flatpark.yml does not set upstream_approved: true — remove the row or flip the flag"
     fi
 done
 
