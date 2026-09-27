@@ -9,7 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Graphics
-  upstream_approved: false
+  upstream_approved: true
   tags:
     - CAD
     - DWG
