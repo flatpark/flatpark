@@ -34,7 +34,7 @@
     <p>
       LibreDB Studio is an open-source SQL IDE for developers and data teams. The desktop
       app runs entirely on your machine: it starts a local LibreDB Studio server in the
-      background and shows it in a native window. Nothing is sent to a cloud service.
+      background and shows it in a native window.
     </p>
     <p>Databases it speaks:</p>
     <ul>
@@ -52,7 +52,9 @@
       <li>A virtualized results grid built for large result sets, with CSV and JSON export</li>
       <li>Schema browser, entity-relationship diagrams and index advice</li>
       <li>Query plans, slow-query and session monitoring</li>
-      <li>Optional AI assistance (natural language to SQL, query explanation) using your own API key</li>
+      <li>Optional AI query explanation on PostgreSQL, MySQL, SQLite, libSQL, DuckDB,
+      Couchbase, ClickHouse, Apache Druid and Trino, through Gemini, OpenAI, a local
+      Ollama or your own endpoint</li>
       <li>An embedded sample database, so there is something to query on first launch</li>
     </ul>
     <p>
@@ -97,20 +99,16 @@
 
   <screenshots>
     <screenshot type="default">
-      <image>https://github.com/libredb/libredb-studio/raw/cb74378ddef24ec543a7b84154fadd8b7e1f8694/public/screenshots/hero-editor.png</image>
+      <image>https://raw.githubusercontent.com/libredb/libredb-studio/faf1667c8771edcc14493b19514e782c4127f073/public/screenshots/hero-editor.png</image>
       <caption>Running a query and browsing results in the SQL editor</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/libredb/libredb-studio/raw/cb74378ddef24ec543a7b84154fadd8b7e1f8694/public/screenshots/connection-modal.png</image>
+      <image>https://raw.githubusercontent.com/libredb/libredb-studio/faf1667c8771edcc14493b19514e782c4127f073/public/screenshots/connection-modal.png</image>
       <caption>Adding a database connection</caption>
     </screenshot>
     <screenshot>
-      <image>https://github.com/libredb/libredb-studio/raw/cb74378ddef24ec543a7b84154fadd8b7e1f8694/public/screenshots/erd-diagram.png</image>
+      <image>https://raw.githubusercontent.com/libredb/libredb-studio/faf1667c8771edcc14493b19514e782c4127f073/public/screenshots/erd-diagram.png</image>
       <caption>Entity-relationship diagram of a schema</caption>
-    </screenshot>
-    <screenshot>
-      <image>https://github.com/libredb/libredb-studio/raw/cb74378ddef24ec543a7b84154fadd8b7e1f8694/public/screenshots/nl2sql.png</image>
-      <caption>Turning a question in plain language into SQL</caption>
     </screenshot>
   </screenshots>
 
