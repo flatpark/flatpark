@@ -68,9 +68,9 @@ modules:
         filename: pi-desktop.deb
         only-arches:
           - x86_64
-        url: https://github.com/vastsa/PI-Desktop/releases/download/v0.15.9/pi-desktop_0.15.9_amd64.deb
-        sha256: 76130187cd5e6f9aff4b63bd96ebe800c24838c708fe11d9ea41c85672561cfa
-        size: 119359680
+        url: https://github.com/vastsa/PI-Desktop/releases/download/v0.15.10/pi-desktop_0.15.10_amd64.deb
+        sha256: 3fb984f6a7b148540d215032d031c6b454fe34bea30afcf72c4638aff0af6513
+        size: 119337480
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
