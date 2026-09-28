@@ -97,9 +97,9 @@ modules:
         filename: openshot.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/OpenShot/openshot-qt/releases/download/v4.0.0/OpenShot-v4.0.0-x86_64.AppImage
-        sha256: 277b27aae97080a1dae8831be8c6d2c576377292f559fb1b94675f6db24aa70f
-        size: 254457024
+        url: https://github.com/OpenShot/openshot-qt/releases/download/v4.0.1/OpenShot-v4.0.1-x86_64.AppImage
+        sha256: cbeaaaf1de5afe8b3cdb55f50680e5d8f37ff0c2ea5052ddb012c01c9cca7a3f
+        size: 252982464
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -55,6 +55,9 @@
     <keyword>transcode</keyword>
   </keywords>
   <releases>
+    <release version="20.4" date="2026-09-28">
+      <description></description>
+    </release>
     <release version="20.3" date="2026-08-31"/>
   </releases>
 </component>

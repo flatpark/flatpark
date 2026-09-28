@@ -57,8 +57,8 @@ modules:
         only-arches:
           - x86_64
         url: https://www.shutterencoder.com/sdc_download/496/?key=drnf0zl1om6sfwndoa1rdoc942mvp5
-        sha256: 9106a29c6158a214dac9803098fd60685c3f7a9c5b73c2ccab358746e43f58f7
-        size: 181837388
+        sha256: 8c76bac9906e00a0e57ab4ac34889cba0c475cbd30e1d2bf2bee68d4cb5765c2
+        size: 181914784
       # END MANAGED EXTRA-DATA
       # libxml2.so.2 is the one library a bundled tool (dvdauthor, for DVD
       # authoring) links against that the runtime does not ship - it has only

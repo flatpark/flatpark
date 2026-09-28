@@ -58,6 +58,9 @@
     <keyword>FFmpeg</keyword>
   </keywords>
   <releases>
+    <release version="4.0.1" date="2026-09-27">
+      <description></description>
+    </release>
     <release version="4.0.0" date="2026-07-25"/>
   </releases>
 </component>
