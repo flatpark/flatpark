@@ -27,10 +27,10 @@ finish-args:
   # To keep a local-file connection working across restarts (the portal grant is
   # per-pick), grant the path with
   # `flatpak override --user --filesystem=/path/to/db club.geekfun.sqlkit`.
-  # No ~/.ssh by default: the SSH-tunnel feature reads ~/.ssh private keys, but
-  # keys are too sensitive to expose unasked. Users who need tunnels can grant
-  # read-only access with
-  # `flatpak override --user --filesystem=~/.ssh:ro club.geekfun.sqlkit`.
+  # No ~/.ssh or ssh-agent by default: the SSH-tunnel feature reads ~/.ssh
+  # private keys, but keys are too sensitive to expose unasked (upstream agrees
+  # these stay opt-in). Users who need key or agent auth for tunnels can grant
+  # `flatpak override --user --filesystem=~/.ssh:ro --socket=ssh-auth club.geekfun.sqlkit`.
 modules:
   - name: sqlkit
     buildsystem: simple

@@ -23,6 +23,10 @@ finish-args:
   # file-chooser portal. To keep a path available across restarts (the portal
   # grant is per-pick), grant it with
   # `flatpak override --user --filesystem=/path/to/dir club.geekfun.dockit`.
+  # No ~/.ssh or ssh-agent by default: SSH tunnels with password auth work
+  # as-is, but hosts defined in ~/.ssh/config, IdentityFile keys and agent auth
+  # need `flatpak override --user --filesystem=~/.ssh:ro --socket=ssh-auth
+  # club.geekfun.dockit` (upstream asked for this to be spelled out on the page).
 modules:
   - name: dockit
     buildsystem: simple

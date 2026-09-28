@@ -24,7 +24,7 @@
     <p>A few capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
     <ul>
       <li>Keep a local SQLite/DuckDB file or .sql script accessible across restarts (files picked through the file-chooser dialog work without this, but the grant is per-pick): <code>flatpak override --user --filesystem=/path/to/db club.geekfun.sqlkit</code></li>
-      <li>Reuse your existing host SSH keys for the SSH-tunnel feature: <code>flatpak override --user --filesystem=~/.ssh:ro club.geekfun.sqlkit</code></li>
+      <li>Reuse your host SSH keys, ~/.ssh/config and ssh agent for the SSH-tunnel feature: <code>flatpak override --user --filesystem=~/.ssh:ro --socket=ssh-auth club.geekfun.sqlkit</code></li>
     </ul>
     <p>SqlKit's built-in self-updater cannot replace a Flatpak install. New upstream releases are picked up by FlatPark and delivered through "flatpak update" instead.</p>
   </description>

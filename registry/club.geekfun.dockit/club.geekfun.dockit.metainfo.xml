@@ -23,6 +23,7 @@
     </ul>
     <p>This package talks to database clusters over the network, and to whichever LLM endpoint you configure if you use the AI assistant. Its connection store and settings live in its private per-app directory, and files it reads or writes — saved queries, index dumps — are picked through the file-chooser dialog, so no host directory is granted by default.</p>
     <p>To keep a directory available across restarts (the file-chooser grant is per-pick), grant it explicitly: <code>flatpak override --user --filesystem=/path/to/dir club.geekfun.dockit</code></p>
+    <p>SSH tunnels with password authentication work as-is. If you need SSH key authentication — hosts defined in ~/.ssh/config, key files, or the ssh agent — run: <code>flatpak override --user --filesystem=~/.ssh:ro --socket=ssh-auth club.geekfun.dockit</code></p>
     <p>DocKit's built-in self-updater cannot replace a Flatpak install. New upstream releases are picked up by FlatPark and delivered through "flatpak update" instead.</p>
   </description>
   <launchable type="desktop-id">club.geekfun.dockit.desktop</launchable>
