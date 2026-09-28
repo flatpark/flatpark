@@ -11,7 +11,7 @@
   <url type="homepage">https://concatenate.pages.dev</url>
   <url type="bugtracker">https://github.com/jub0t/Concat/issues</url>
   <url type="vcs-browser">https://github.com/jub0t/Concat</url>
-  <url type="help">https://github.com/jub0t/Concat/blob/main/docs/README.md</url>
+  <url type="help">https://concatenate.pages.dev/docs</url>
   <description>
     <p>This is a community package of Concat, not affiliated with the upstream project. It repackages the official upstream Linux x86_64 .deb release unmodified.</p>
     <p>Concat is a free, open-source video editor that covers what people open CapCut for, with no watermark, no account, no subscription and no upload. Everything runs locally on a native Rust engine with a GPU compositor.</p>
