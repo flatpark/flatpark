@@ -1,0 +1,86 @@
+id: app.concat.editor
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: concat
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Concat is a native Rust + Slint binary (no browser engine). Slint draws on
+  # a wgpu device (Vulkan on Linux) that the window shares with the engine's
+  # GPU compositor, so the preview and export need the GPU; without one it
+  # falls back to the CPU. Its NEEDED libraries outside its own lib/ (FFmpeg,
+  # onnxruntime) are libc, libm, libstdc++, libgcc_s, libasound, libfontconfig
+  # and libfreetype - all in org.freedesktop.Platform 26.08, as are the
+  # Vulkan/EGL, Wayland, X11 and xkbcommon stacks wgpu and winit dlopen.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Timeline playback. Concat talks to ALSA directly; the runtime routes ALSA
+  # through its PulseAudio plugin, which also covers PipeWire.
+  - --socket=pulseaudio
+  # The optional caption, text-to-speech and cutout models download from
+  # Settings on first use, and Settings > Remote can serve the Concat API on a
+  # local socket while the window is open.
+  - --share=network
+  # Footage usually lives here, and it is the natural place for exports.
+  - --filesystem=xdg-videos
+  # Deliberately NOT granted by default:
+  #   --filesystem=home  -> footage, music and pictures outside ~/Videos; the
+  #                         file and folder pickers go through the XDG desktop
+  #                         portal (FileChooser), which needs no grant, so this
+  #                         only matters for drag-and-drop from a host file
+  #                         manager. Opt-in note in the metainfo.
+  # Preferences, presets, logs and downloaded models live under the redirected
+  # XDG config/data dirs in ~/.var/app/app.concat.editor.
+modules:
+  - name: concat
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 concat-wrapper /app/bin/concat
+      - install -Dm644 app.concat.editor.desktop /app/share/applications/app.concat.editor.desktop
+      - install -Dm644 app.concat.editor.metainfo.xml /app/share/metainfo/app.concat.editor.metainfo.xml
+      - install -Dm644 app.concat.editor.png /app/share/icons/hicolor/512x512/apps/app.concat.editor.png
+    sources:
+      # Concat ships Chinese, Japanese and Korean interface translations, and
+      # captions and titles carry whatever language the footage is in, so a
+      # CJK face has to be reachable. org.freedesktop.Platform 26.08 ships
+      # none, and neither does a typical non-CJK host. The face is extra-data
+      # rather than a build module so its 19.5 MB stay out of FlatPark's
+      # repository for a file jsDelivr already serves; apply_extra stages it
+      # into /app/extra/fonts and concat-wrapper hands that directory to Slint
+      # through SLINT_FONT_PATH. Same tag-pinned URL and sha256 as
+      # registry/dev.navop.Navop and registry/io.github.yituorou.meatshell.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: concat.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/jub0t/Concat/releases/download/v0.2.4/Concat-0.2.4-linux-x86_64.deb
+        sha256: 2ba47b1db76dba718364dfe360f6b69f911e2440219c62769f592d65d5bf6e84
+        size: 144692268
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: concat-wrapper
+      - type: file
+        path: app.concat.editor.desktop
+      - type: file
+        path: app.concat.editor.metainfo.xml
+      - type: file
+        path: app.concat.editor.png

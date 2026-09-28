@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.concat.editor</id>
+  <name>Concat</name>
+  <summary>Free, open-source video editor and CapCut replacement</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer id="app.concat">
+    <name>Jareer and Concat contributors</name>
+  </developer>
+  <url type="homepage">https://concatenate.pages.dev</url>
+  <url type="bugtracker">https://github.com/jub0t/Concat/issues</url>
+  <url type="vcs-browser">https://github.com/jub0t/Concat</url>
+  <url type="help">https://github.com/jub0t/Concat/blob/main/docs/README.md</url>
+  <description>
+    <p>This is a community package of Concat, not affiliated with the upstream project. It repackages the official upstream Linux x86_64 .deb release unmodified.</p>
+    <p>Concat is a free, open-source video editor that covers what people open CapCut for, with no watermark, no account, no subscription and no upload. Everything runs locally on a native Rust engine with a GPU compositor.</p>
+    <ul>
+      <li>Multi-track cutting with keyframe animation, effects, transitions and titles.</li>
+      <li>Auto-captions with a local Whisper model, styled on the timeline.</li>
+      <li>Text-to-speech and background or object cutout, all running on your machine.</li>
+      <li>Proxies and hardware decode for smooth 4K scrubbing, and export up to 4K.</li>
+      <li>A local JSON-RPC API for scripts, automation and MCP integrations.</li>
+    </ul>
+    <p>The AI models for captions, voices and cutout are optional. They download once from Settings (from 15 MB to about 500 MB each) and then work offline.</p>
+    <p>Permissions: this package can read and write your Videos folder. Files and project folders anywhere else are opened through the file chooser portal, which needs no extra permission. To drag files in from a host file manager, or to reach footage outside Videos without the file chooser, grant access to your home directory:</p>
+    <ul>
+      <li><code>flatpak override --user --filesystem=home app.concat.editor</code></li>
+    </ul>
+  </description>
+  <content_rating type="oars-1.1" />
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>AudioVideoEditing</category>
+  </categories>
+  <keywords>
+    <keyword>video</keyword>
+    <keyword>editor</keyword>
+    <keyword>captions</keyword>
+    <keyword>subtitles</keyword>
+    <keyword>capcut</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>concat</binary>
+  </provides>
+  <launchable type="desktop-id">app.concat.editor.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The editor: media bin, monitor, inspector and multi-track timeline</caption>
+      <image>https://raw.githubusercontent.com/jub0t/Concat/main/assets/editor-dark.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The editor in the light theme</caption>
+      <image>https://raw.githubusercontent.com/jub0t/Concat/main/assets/editor-light.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.2.4" date="2026-09-24">
+      <description></description>
+    </release>
+  </releases>
+</component>

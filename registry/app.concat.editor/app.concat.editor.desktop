@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Concat
+GenericName=Video Editor
+Comment=Free, open-source video editor and CapCut replacement
+Exec=concat %U
+Icon=app.concat.editor
+Terminal=false
+Categories=AudioVideo;Video;AudioVideoEditing;
+Keywords=video;editor;captions;subtitles;capcut;
+StartupNotify=true

@@ -1,0 +1,23 @@
+id: app.concat.editor
+name: Concat
+summary: Free, open-source video editor and CapCut replacement
+website: https://concatenate.pages.dev
+source_url: https://github.com/jub0t/Concat
+build:
+  manifest: app.concat.editor.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Video
+    - Editor
+    - Captions
+    - Rust
+    - Slint
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

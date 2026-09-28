@@ -1,0 +1,25 @@
+#!/bin/sh
+set -eu
+
+# Concat is a native Rust + Slint binary staged by apply_extra at
+# /app/extra/concat/concat, with the FFmpeg and onnxruntime libraries it was
+# built against beside it in /app/extra/concat/lib (found through its RPATH).
+# Everything else it needs - fontconfig, freetype, ALSA, libstdc++, and the
+# Vulkan/EGL, Wayland, X11 and xkbcommon stacks that wgpu and winit dlopen - is
+# in org.freedesktop.Platform 26.08.
+#
+# Flatpak redirects $XDG_CONFIG_HOME and $XDG_DATA_HOME, so preferences, text
+# presets, logs and the optional caption / speech / cutout models Concat
+# downloads from Settings all stay inside ~/.var/app/app.concat.editor.
+
+# Slint lays out text against its own font collection. Inside this sandbox that
+# collection's fallback chain finds no face covering Chinese, Japanese or
+# Korean - not even on a host with Noto CJK installed, and the runtime ships
+# none - so Concat's CJK interface translations, captions and titles render as
+# tofu boxes. SLINT_FONT_PATH is Slint's own knob for appending a directory of
+# fonts to that fallback chain; it points at the Noto Sans CJK face apply_extra
+# stages. (Slint 1.17 reads SLINT_DEFAULT_FONT as a single font *file*, so a
+# directory has to go here.) A user-set value wins.
+export SLINT_FONT_PATH="${SLINT_FONT_PATH:-/app/extra/fonts}"
+
+exec /app/extra/concat/concat "$@"
