@@ -12,6 +12,7 @@
   <description>
     <p>This wrapper is not verified by, affiliated with, or supported by TradingView.</p>
     <p>TradingView is a social network and analysis platform for traders and investors. It provides access to market data with a focus on charts and technical analysis.</p>
+    <p>Once you are signed in, the interface language follows your TradingView account rather than the system language. If the language you need is not offered in the app, quit TradingView, switch the language on tradingview.com in a browser while signed in to the same account, then start the app again.</p>
   </description>
   <screenshots>
     <screenshot type="default">
