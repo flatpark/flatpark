@@ -11,7 +11,6 @@
   </developer>
   <url type="homepage">https://freemkv.org</url>
   <url type="bugtracker">https://github.com/freemkv/freemkv/issues</url>
-  <url type="donation">https://freemkv.org/donate</url>
   <url type="vcs-browser">https://github.com/freemkv/freemkv</url>
   <description>
     <p>This is a community package of freemkv, maintained independently and unaffiliated with the freemkv project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
