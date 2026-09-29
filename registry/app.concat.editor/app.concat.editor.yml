@@ -70,9 +70,9 @@ modules:
         filename: concat.deb
         only-arches:
           - x86_64
-        url: https://github.com/jub0t/Concat/releases/download/v0.2.4/Concat-0.2.4-linux-x86_64.deb
-        sha256: 2ba47b1db76dba718364dfe360f6b69f911e2440219c62769f592d65d5bf6e84
-        size: 144692268
+        url: https://github.com/jub0t/Concat/releases/download/v0.2.5/Concat-0.2.5-linux-x86_64.deb
+        sha256: e93817f911d8e581645786c52ddbadde16abe715b3c3c7a2550ce042313d2828
+        size: 136173506
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

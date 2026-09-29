@@ -74,9 +74,9 @@ modules:
         filename: zcode-amd64.deb
         only-arches:
           - x86_64
-        url: https://cdn-zcode.z.ai/zcode/electron/releases/3.14.3/linux-x64/ZCode-3.14.3-linux-x64.deb
-        sha256: 8512fb78889686c7ecdc91a609a86e6b408255a10db0c9afba0d3e377b0b5b4f
-        size: 162062180
+        url: https://cdn-zcode.z.ai/zcode/electron/releases/3.14.4/linux-x64/ZCode-3.14.4-linux-x64.deb
+        sha256: d753618845e5e057c29ccbc3917c08a4c8d99355deef7d6a0f4d2916ba69e4be
+        size: 162061444
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
