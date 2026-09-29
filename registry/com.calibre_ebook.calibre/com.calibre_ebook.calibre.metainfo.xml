@@ -30,6 +30,7 @@
       <li>Send books to an e-reader over USB or MTP (Kindle, Kobo, PocketBook, ...): <code>flatpak override --user --device=all --system-talk-name=org.freedesktop.UDisks2 com.calibre_ebook.calibre</code></li>
       <li>Keep the library on an external drive or another mount point: <code>flatpak override --user --filesystem=/run/media/$USER com.calibre_ebook.calibre</code> (use the path your system mounts removable media under)</li>
     </ul>
+    <p>Choosing a PDF reader: calibre opens PDFs, and other formats it doesn't show in its own viewer, through your desktop's Open With dialog. Once you have picked the same application there a few times, the dialog stops appearing and that choice sticks. To get the dialog back, for example to switch to a different PDF reader, reset the remembered choice: <code>flatpak permission-remove desktop-used-apps application/pdf com.calibre_ebook.calibre</code> (use another MIME type in place of application/pdf for other formats).</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>
