@@ -26,6 +26,10 @@
       <li>Browse, open and save anywhere in your home directory: <code>flatpak override --user --filesystem=home com.falconpdf.app</code></li>
     </ul>
     <p>Your library, sign-in and sync state stay inside the sandbox under <code>~/.var/app/com.falconpdf.app</code>. The app draws its window through X11 (XWayland on a Wayland session). Updates come from this repository.</p>
+    <p>On a HiDPI screen the window takes its scale from the desktop&apos;s X settings. GNOME and KDE provide it; compositors that don&apos;t, such as Hyprland with <code>xwayland:force_zero_scaling</code> or sway, leave the interface at 1× and too small to read. Set the scale yourself (a whole number, e.g. 2 on a 200% display):</p>
+    <ul>
+      <li><code>flatpak override --user --env=GDK_SCALE=2 com.falconpdf.app</code></li>
+    </ul>
   </description>
   <content_rating type="oars-1.1"/>
   <supports>
