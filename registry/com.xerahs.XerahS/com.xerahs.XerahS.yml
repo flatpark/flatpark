@@ -20,16 +20,30 @@ finish-args:
   - --socket=x11
   - --socket=wayland
   - --device=dri
+  # Screen recording on Wayland: after the ScreenCast portal hands back a
+  # PipeWire node, XerahS records it by spawning `gst-launch-1.0 pipewiresrc
+  # path=<node>`, which connects to the default PipeWire socket. Without this
+  # grant there is no socket in the sandbox and recording fails with
+  # "pipewiresrc: Failed to connect". (Its ffmpeg path needs `-f pipewire`,
+  # which no mainline FFmpeg build has, so the runtime's GStreamer is what runs.)
+  - --filesystem=xdg-run/pipewire-0
+  # The recorder's "system audio" and "microphone" options use pulsesrc.
+  - --socket=pulseaudio
   # The 30+ upload destinations (Imgur, S3, FTP, Nextcloud...), URL shorteners
   # and the update check.
   - --share=network
-  # No tray grant: Avalonia's tray claims org.kde.StatusNotifierItem-<pid>-<id>,
-  # and every sandboxed app is PID 2, so granting the name would collide with
-  # other Flatpak tray apps. Without it the app starts normally with no tray
-  # icon; the metainfo says so.
+  # Tray, as upstream asked for it (ShareX/XerahS#285, and the same pair of
+  # grants as their own manifest): Avalonia's tray owns
+  # org.kde.StatusNotifierItem-<pid>-<id> and registers it with the watcher.
+  # Every sandboxed app is PID 2, so if another Flatpak tray app already holds
+  # the same name, XerahS starts without a tray icon. The usual fake-getpid
+  # shim is not an option here: CoreCLR reads /proc/<getpid()> during start-up
+  # and fails to initialise with a fake PID.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
   # Settings, history and captures live under the XDG dirs Flatpak redirects into
   # ~/.var/app/com.xerahs.XerahS; saving elsewhere goes through the file chooser.
-  # No filesystem grant.
+  # No home or host filesystem grant.
 modules:
   - name: xerahs
     buildsystem: simple

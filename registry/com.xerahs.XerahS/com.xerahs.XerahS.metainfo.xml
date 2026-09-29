@@ -21,8 +21,8 @@
       <li>Watch folders for automatic processing, and configurable after-capture actions and workflows.</li>
       <li>30+ upload destinations — Imgur, S3, FTP, Nextcloud, custom uploaders and more.</li>
     </ul>
-    <p>Permissions: this package grants the display, the GPU and network access (uploads and the update check). It grants no filesystem access; captures and settings stay inside the sandbox, and saving elsewhere goes through the file chooser. Capture goes through the desktop's screenshot and screencast portals, so your desktop may ask for permission the first time.</p>
-    <p>Scope: screen recording and GIF creation call an external <code>ffmpeg</code> program, which the Flatpak runtime does not provide, so they are unavailable in this package. Global hotkeys depend on your desktop's global-shortcuts portal. There is no tray icon in this package.</p>
+    <p>Permissions: this package grants the display, the GPU, network access (uploads and the update check), the PipeWire socket and the audio server (screen recording with system audio or microphone), and a tray icon. It grants no access to your home folder; captures and settings stay inside the sandbox, and saving elsewhere goes through the file chooser. Capture goes through the desktop's screenshot and screencast portals, so your desktop may ask for permission the first time.</p>
+    <p>Global hotkeys depend on your desktop's global-shortcuts portal.</p>
   </description>
   <screenshots>
     <screenshot type="default">
