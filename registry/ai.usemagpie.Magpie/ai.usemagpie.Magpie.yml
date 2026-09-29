@@ -19,26 +19,15 @@ finish-args:
   # Wails single-instance name has a user/path-derived hash under this prefix.
   - --own-name=ai.usemagpie.app.*
   - --filesystem=xdg-run/tray-icon:create
-  # Magpie's main feature reads and updates these agent configuration directories.
-  # They may contain provider keys, OAuth tokens, or other credentials.
-  # No :create: Magpie treats an existing directory as "agent installed", and an
-  # agent installed later is picked up on Magpie's next launch.
-  - --filesystem=~/.claude
-  - --filesystem=~/.codex
-  - --filesystem=~/.gemini
-  - --filesystem=~/.config/opencode
-  - --filesystem=~/.pi/agent
-  - --filesystem=~/.config/goose
-  - --filesystem=~/.cursor
-  - --filesystem=~/.copilot
-  - --filesystem=~/.grok
-  - --filesystem=~/.config/crush
-  - --filesystem=~/.dsh
-  - --filesystem=~/.commandcode
-  - --filesystem=~/.omp/agent
-  - --filesystem=~/.config/devin
-  - --filesystem=~/.local/share/devin
-  - --filesystem=~/.hermes
+  # Magpie reads and updates the settings of every AI agent it supports; they
+  # live in ~/.<agent>, ~/.config/<agent> and ~/.local/share/<agent>, and the
+  # list grows with nearly every release. These may hold provider keys and
+  # OAuth tokens.
+  - --filesystem=home
+  # Magpie writes these entries with its in-sandbox executable path, which the
+  # host cannot run; keep them out of the host's menu, scheme handlers and login.
+  - --nofilesystem=xdg-data/applications
+  - --nofilesystem=xdg-config/autostart
 modules:
   - name: magpie
     buildsystem: simple
@@ -54,16 +43,16 @@ modules:
         filename: magpie-linux-amd64
         only-arches:
           - x86_64
-        url: https://github.com/yetone/magpie-releases/releases/download/v0.1.306/magpie-linux-amd64
-        sha256: a7603969cda508eb7e4630949546405944b0b353e79c37c4bc003ef24702675a
-        size: 24428880
+        url: https://github.com/yetone/magpie-releases/releases/download/v0.1.389/magpie-linux-amd64
+        sha256: fe240e42dffb2d6253b2197893671eedb19f5c4b62ed7d4fdd89c9fc8d6bb54a
+        size: 25977008
       - type: extra-data
         filename: magpie-linux-arm64
         only-arches:
           - aarch64
-        url: https://github.com/yetone/magpie-releases/releases/download/v0.1.306/magpie-linux-arm64
-        sha256: adcd5521ca072a42ac6504788eaaa821199e5c3318b03b9fa473a505859fcf43
-        size: 22611192
+        url: https://github.com/yetone/magpie-releases/releases/download/v0.1.389/magpie-linux-arm64
+        sha256: a2b44f4a53af75b0d51408844068bb3612d8d7ae4d3dc24188499ce50b34c96d
+        size: 24003704
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

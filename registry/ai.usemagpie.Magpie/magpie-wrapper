@@ -6,4 +6,8 @@ case "$(uname -m)" in
   aarch64) arch=arm64 ;;
   *) echo "magpie: unsupported architecture: $(uname -m)" >&2; exit 1 ;;
 esac
+# Magpie finds the agents under ~/.config and ~/.local/share through the XDG
+# variables, which Flatpak points at the app's private data directory.
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
 exec "/app/extra/magpie-linux-$arch" "$@"

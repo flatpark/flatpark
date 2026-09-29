@@ -14,9 +14,9 @@
   <description>
     <p>This is a community package that repackages the official upstream Magpie build unmodified.</p>
     <p>Magpie provides a desktop interface and local gateway for choosing and routing models across supported AI agents.</p>
-    <p>This package grants access to the supported agent configuration directories so Magpie can read and update their settings. These directories may contain API keys, OAuth tokens, or other credentials. The grant is limited to the paths listed in the Flatpak manifest; the rest of the home directory is not exposed.</p>
-    <p>Commands launched by Magpie run inside the sandbox. This package does not grant permission to execute commands on the host.</p>
-    <p>To share an existing GitHub Copilot login stored outside the agent settings directory, run: flatpak override --user --filesystem=~/.config/github-copilot ai.usemagpie.Magpie. This grants read/write access to that host credential directory, including token updates.</p>
+    <p>This package grants read/write access to the home directory so Magpie can find and update the settings of every agent it supports. Agent settings may contain API keys, OAuth tokens, or other credentials.</p>
+    <p>Magpie keeps its own settings in ~/.config/magpie, the same place as a native install.</p>
+    <p>Commands launched by Magpie run inside the sandbox, so it cannot run agent command-line tools installed on the host or see whether an agent is running. Launch at login is not available in this package.</p>
     <p>In this Flatpak, Magpie's built-in Update button opens the upstream release page; it does not update the Flatpak. Package updates are delivered through FlatPark.</p>
   </description>
   <launchable type="desktop-id">ai.usemagpie.Magpie.desktop</launchable>
@@ -33,6 +33,9 @@
   </keywords>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="0.1.389" date="2026-09-29">
+      <description></description>
+    </release>
     <release version="0.1.306" date="2026-09-28">
       <description></description>
     </release>
