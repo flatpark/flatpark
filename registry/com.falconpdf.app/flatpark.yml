@@ -1,0 +1,24 @@
+id: com.falconpdf.app
+name: Falcon PDF
+summary: PDF viewer and editor with document tools and an eBook reader
+website: https://falconpdf.com
+source_url: https://github.com/avrapps/falcon-pdf-app
+build:
+  manifest: com.falconpdf.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - PDF
+    - Viewer
+    - Editor
+    - eBook
+    - Annotation
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

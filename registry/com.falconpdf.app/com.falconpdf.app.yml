@@ -1,0 +1,66 @@
+id: com.falconpdf.app
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: falconpdf
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Compose Multiplatform desktop app: a jpackage bundle with its own jlink'd
+  # Java runtime. Rendering goes through AWT (Skiko), whose only Linux backend
+  # is X11, so this is not a fallback.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Google Drive favourites sync, sign-in, AI summaries and the read-aloud
+  # voices, which are fetched over HTTP.
+  - --share=network
+  # Read-aloud playback in the eBook reader.
+  - --socket=pulseaudio
+  # Where PDFs usually are. The open dialog is GTK's own chooser, not the
+  # portal, so it shows only granted folders; files elsewhere arrive through
+  # the document portal when opened from a file manager, and the metainfo
+  # documents an override for the rest.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Sign-in, sync and the device id live in the literal $HOME/.falcon-pdf dotdir
+  # (the library database uses $XDG_CONFIG_HOME). It is private to the app, so
+  # keep it in the sandbox rather than in the real home.
+  - --persist=.falcon-pdf
+modules:
+  - name: falconpdf
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 falconpdf-wrapper /app/bin/falconpdf
+      # The PDF engine (libpdfmp.so, unpacked from a jar at run time) lists
+      # libcrypt.so.1 as DT_NEEDED but binds no symbol from it; the runtime ships
+      # libxcrypt as libcrypt.so.2 only. A link named libcrypt.so.1 satisfies the
+      # dependency. ldconfig files it under its target's soname (.so.2), so the
+      # wrapper puts /app/lib on LD_LIBRARY_PATH for the loader to find it by name.
+      - install -d /app/lib
+      - ln -s /usr/lib/x86_64-linux-gnu/libcrypt.so.2 /app/lib/libcrypt.so.1
+      - install -Dm644 com.falconpdf.app.desktop /app/share/applications/com.falconpdf.app.desktop
+      - install -Dm644 com.falconpdf.app.metainfo.xml /app/share/metainfo/com.falconpdf.app.metainfo.xml
+      - install -Dm644 com.falconpdf.app.png /app/share/icons/hicolor/512x512/apps/com.falconpdf.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: falconpdf.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/avrapps/falcon-pdf-app/releases/download/2026.09/falconpdf-2026.9.0-linux-amd64.deb
+        sha256: f9d49c516ee3307a8f7da54a5a4baa0abb5d4182a47bfa0c39387c36f537a7e8
+        size: 196234680
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: falconpdf-wrapper
+      - type: file
+        path: com.falconpdf.app.desktop
+      - type: file
+        path: com.falconpdf.app.metainfo.xml
+      - type: file
+        path: com.falconpdf.app.png

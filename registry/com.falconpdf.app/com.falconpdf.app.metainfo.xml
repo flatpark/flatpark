@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.falconpdf.app</id>
+  <launchable type="desktop-id">com.falconpdf.app.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>Falcon PDF</name>
+  <summary>PDF viewer and editor with document tools and an eBook reader</summary>
+  <developer id="com.falconpdf">
+    <name>ANRMS Private Limited</name>
+  </developer>
+  <url type="homepage">https://falconpdf.com</url>
+  <url type="bugtracker">https://github.com/avrapps/falcon-pdf-app/issues</url>
+  <description>
+    <p>This is a community package of Falcon PDF, maintained independently and unaffiliated with ANRMS Private Limited. It repackages the official upstream .deb unmodified and follows upstream releases automatically. Falcon PDF is proprietary software, free to use with no ads.</p>
+    <p>Falcon PDF is a cross-platform PDF viewer and editor.</p>
+    <ul>
+      <li>Fast PDF rendering, search and navigation.</li>
+      <li>Annotate, fill forms, edit and sign documents.</li>
+      <li>More than 30 PDF tools: merge, split, compress, convert, rotate, reorder, encrypt.</li>
+      <li>An eBook reader for EPUB, FB2 and MOBI, with read-aloud.</li>
+      <li>Optional favourites sync through your Google Drive.</li>
+    </ul>
+    <p>Permissions: this package grants network access (sync, sign-in, AI summaries and read-aloud voices), audio output, the GPU, and your Documents and Downloads folders. The app&apos;s Open dialog shows only those folders. A PDF anywhere else still opens when you open it from your file manager, or you can widen access with an override:</p>
+    <ul>
+      <li>Browse, open and save anywhere in your home directory: <code>flatpak override --user --filesystem=home com.falconpdf.app</code></li>
+    </ul>
+    <p>Your library, sign-in and sync state stay inside the sandbox under <code>~/.var/app/com.falconpdf.app</code>. The app draws its window through X11 (XWayland on a Wayland session). Updates come from this repository.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <categories>
+    <category>Office</category>
+    <category>Viewer</category>
+  </categories>
+  <keywords>
+    <keyword>pdf</keyword>
+    <keyword>viewer</keyword>
+    <keyword>editor</keyword>
+    <keyword>ebook</keyword>
+    <keyword>annotate</keyword>
+  </keywords>
+  <releases>
+    <release version="2026.09" date="2026-09-21"/>
+  </releases>
+</component>
