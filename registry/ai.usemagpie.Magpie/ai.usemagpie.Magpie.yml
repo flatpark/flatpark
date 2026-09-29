@@ -21,22 +21,24 @@ finish-args:
   - --filesystem=xdg-run/tray-icon:create
   # Magpie's main feature reads and updates these agent configuration directories.
   # They may contain provider keys, OAuth tokens, or other credentials.
-  - --filesystem=~/.claude:create
-  - --filesystem=~/.codex:create
-  - --filesystem=~/.gemini:create
-  - --filesystem=~/.config/opencode:create
-  - --filesystem=~/.pi/agent:create
-  - --filesystem=~/.config/goose:create
-  - --filesystem=~/.cursor:create
-  - --filesystem=~/.copilot:create
-  - --filesystem=~/.grok:create
-  - --filesystem=~/.config/crush:create
-  - --filesystem=~/.dsh:create
-  - --filesystem=~/.commandcode:create
-  - --filesystem=~/.omp/agent:create
-  - --filesystem=~/.config/devin:create
-  - --filesystem=~/.local/share/devin:create
-  - --filesystem=~/.hermes:create
+  # No :create: Magpie treats an existing directory as "agent installed", and an
+  # agent installed later is picked up on Magpie's next launch.
+  - --filesystem=~/.claude
+  - --filesystem=~/.codex
+  - --filesystem=~/.gemini
+  - --filesystem=~/.config/opencode
+  - --filesystem=~/.pi/agent
+  - --filesystem=~/.config/goose
+  - --filesystem=~/.cursor
+  - --filesystem=~/.copilot
+  - --filesystem=~/.grok
+  - --filesystem=~/.config/crush
+  - --filesystem=~/.dsh
+  - --filesystem=~/.commandcode
+  - --filesystem=~/.omp/agent
+  - --filesystem=~/.config/devin
+  - --filesystem=~/.local/share/devin
+  - --filesystem=~/.hermes
 modules:
   - name: magpie
     buildsystem: simple
