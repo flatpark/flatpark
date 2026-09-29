@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# freemkv is one binary staged by apply_extra to /app/extra/freemkv: with
+# arguments it is the CLI, and `freemkv gui` opens the GTK4 desktop app. The
+# launcher runs this with no arguments, so that opens the app; anything else is
+# passed straight to the CLI, e.g.
+#   flatpak run org.freemkv.FreeMKV info disc://
+#   flatpak run org.freemkv.FreeMKV disc:// mkv://$HOME/Videos/movie.mkv
+# Settings and the keydb go to the XDG config dir Flatpak redirects under
+# ~/.var/app/org.freemkv.FreeMKV.
+[ "$#" -gt 0 ] || set -- gui
+exec /app/extra/freemkv/freemkv "$@"

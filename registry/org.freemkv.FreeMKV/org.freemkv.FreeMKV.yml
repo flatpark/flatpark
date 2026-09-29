@@ -1,0 +1,54 @@
+id: org.freemkv.FreeMKV
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: freemkv
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # One Rust binary that is both the CLI and the GTK4 + libadwaita desktop app.
+  # It links only gtk4, libadwaita and glib, all in org.gnome.Platform.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The optical drive is read with raw SG_IO SCSI commands on /dev/sr* and
+  # /dev/sg*; there is no portal for a raw SCSI device and no narrower --device.
+  # Upstream's own Flatpak submission grants the same.
+  - --device=all
+  # Downloading an AACS keydb (Blu-ray / UHD only) from a URL the user supplies.
+  - --share=network
+  # Default rip destinations. Other folders go through the portal file chooser,
+  # or an override documented in the metainfo.
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-download
+modules:
+  - name: freemkv
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 freemkv-wrapper /app/bin/freemkv
+      - install -Dm644 org.freemkv.FreeMKV.desktop /app/share/applications/org.freemkv.FreeMKV.desktop
+      - install -Dm644 org.freemkv.FreeMKV.metainfo.xml /app/share/metainfo/org.freemkv.FreeMKV.metainfo.xml
+      - install -Dm644 org.freemkv.FreeMKV.svg /app/share/icons/hicolor/scalable/apps/org.freemkv.FreeMKV.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: freemkv.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/freemkv/freemkv/releases/download/v1.7.7/freemkv-1.7.7-amd64.deb
+        sha256: c13162757d43f51a429caf83edfaf25dad79346b6b7d24f5ee78309dca906e50
+        size: 3973268
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: freemkv-wrapper
+      - type: file
+        path: org.freemkv.FreeMKV.desktop
+      - type: file
+        path: org.freemkv.FreeMKV.metainfo.xml
+      - type: file
+        path: org.freemkv.FreeMKV.svg

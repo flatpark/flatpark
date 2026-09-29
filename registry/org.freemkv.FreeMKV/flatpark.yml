@@ -1,0 +1,28 @@
+id: org.freemkv.FreeMKV
+name: freemkv
+summary: Back up DVD, Blu-ray and UHD discs to MKV, MP4 or M2TS
+website: https://freemkv.org
+source_url: https://github.com/freemkv/freemkv
+build:
+  manifest: org.freemkv.FreeMKV.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - DVD
+    - Blu-ray
+    - Ripper
+    - MKV
+    - Video
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # The optical drive is read with raw SG_IO SCSI commands on /dev/sr* and
+    # /dev/sg*. Flatpak has no narrower --device for either, and without it the
+    # app can only work on ISO images and files already on disk.
+    - --device=all

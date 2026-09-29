@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.freemkv.FreeMKV</id>
+  <launchable type="desktop-id">org.freemkv.FreeMKV.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>freemkv</name>
+  <summary>Back up DVD, Blu-ray and UHD discs to MKV, MP4 or M2TS</summary>
+  <developer id="org.freemkv">
+    <name>The freemkv project</name>
+  </developer>
+  <url type="homepage">https://freemkv.org</url>
+  <url type="bugtracker">https://github.com/freemkv/freemkv/issues</url>
+  <url type="donation">https://freemkv.org/donate</url>
+  <url type="vcs-browser">https://github.com/freemkv/freemkv</url>
+  <description>
+    <p>This is a community package of freemkv, maintained independently and unaffiliated with the freemkv project. It repackages the official upstream .deb unmodified and follows upstream releases automatically.</p>
+    <p>freemkv is an open-source backup tool for DVD, Blu-ray and Ultra HD Blu-ray discs. It reads the video and audio streams off the disc and writes them to MKV, MP4 or M2TS, or to an ISO image or folder, without re-encoding. The same binary is a desktop app and a command-line tool.</p>
+    <ul>
+      <li>Pick titles, audio and subtitle tracks, with language filters.</li>
+      <li>Original quality: streams are copied, not re-encoded.</li>
+      <li>Multi-pass reads that recover from unreadable sectors.</li>
+      <li>Works from a drive, an ISO image or a disc folder already on disk.</li>
+    </ul>
+    <p>DVDs need no setup. Blu-ray and UHD discs need an AACS key database (keydb.cfg) that you supply yourself; freemkv ships no keys. Import one from the app&apos;s settings, or run <code>flatpak run org.freemkv.FreeMKV update-keys --url &lt;keydb-url&gt;</code>. It is stored in the app&apos;s own config directory under <code>~/.var/app/org.freemkv.FreeMKV</code>.</p>
+    <p>Permissions: this package grants access to all devices, because the optical drive is read with raw SCSI commands and Flatpak has no narrower permission for that; the GPU; network access, used only to download a key database from a URL you give it; and your Videos and Downloads folders as rip destinations. Other folders can be picked in the file chooser, or opened up with an override:</p>
+    <ul>
+      <li>Read and write anywhere in your home directory: <code>flatpak override --user --filesystem=home org.freemkv.FreeMKV</code></li>
+    </ul>
+    <p>The command-line tool is the same binary: <code>flatpak run org.freemkv.FreeMKV info disc://</code> lists the titles on the disc in the drive, and <code>flatpak run org.freemkv.FreeMKV disc:// mkv://$HOME/Videos/movie.mkv</code> rips it. Make sure you are allowed to make a backup of a disc where you live before you do.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/user-attachments/assets/b7c6bfa7-7d39-4ab7-a422-9defba5649f6</image>
+      <caption>Selecting titles and tracks before ripping a disc</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://github.com/user-attachments/assets/37e1d34d-91b7-4a17-a577-af740c4de979</image>
+      <caption>Ripping a disc with progress and output information</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>dvd</keyword>
+    <keyword>bluray</keyword>
+    <keyword>uhd</keyword>
+    <keyword>rip</keyword>
+    <keyword>mkv</keyword>
+    <keyword>backup</keyword>
+  </keywords>
+  <releases>
+    <release version="1.7.7" date="2026-09-26"/>
+  </releases>
+</component>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=freemkv
+GenericName=Disc Ripper
+Comment=Back up DVD, Blu-ray and UHD discs to MKV, MP4 or M2TS
+Exec=freemkv
+Icon=org.freemkv.FreeMKV
+Terminal=false
+Categories=AudioVideo;Video;
+Keywords=disc;dvd;bluray;bd;uhd;rip;iso;mkv;
+StartupNotify=true
+StartupWMClass=org.freemkv.FreeMKV
