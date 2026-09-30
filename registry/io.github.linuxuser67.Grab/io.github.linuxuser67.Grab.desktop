@@ -2,7 +2,7 @@
 Name=Grab
 Comment=Download files from the web
 Exec=grab %U
-Icon=io.github.houssemko.Grab
+Icon=io.github.linuxuser67.Grab
 Terminal=false
 Type=Application
 Categories=Network;FileTransfer;GTK;

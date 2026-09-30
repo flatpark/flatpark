@@ -10,7 +10,7 @@
 # compared against the latest <release> in the AppStream metainfo.
 set -euo pipefail
 
-repo="houssemko/Grab"
+repo="Linuxuser67/Grab"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
