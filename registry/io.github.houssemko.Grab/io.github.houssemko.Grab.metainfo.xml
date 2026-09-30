@@ -4,24 +4,28 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-only</project_license>
   <name>Grab</name>
-  <summary>A GNOME download manager with pause, resume and history</summary>
+  <summary>Download manager for GNOME</summary>
   <description>
     <p>
-      Queue, pause, resume and monitor file downloads with smart
-      auto-resume, in a native GNOME interface.
+      Queue, pause, resume and monitor file and torrent downloads with smart
+      auto-resume, segmented transfers, and per-file torrent picking,
+      all in a native GNOME interface.
     </p>
-    <p>A few optional capabilities are not granted by default; enable the ones you
-       need with "flatpak override":</p>
-    <ul>
-      <li>Save downloads to a custom folder outside Downloads: <code>flatpak override --user --filesystem=/path/to/folder io.github.houssemko.Grab</code></li>
-    </ul>
+    <p>
+      Filter and search the queue, retry failures in bulk, and keep
+      everything organized with a download history that survives restarts.
+    </p>
+    <p>
+      Paste a video link to fetch it in up to 4K quality or as audio-only,
+      with the title and quality picked before you add it to the queue.
+    </p>
   </description>
   <launchable type="desktop-id">io.github.houssemko.Grab.desktop</launchable>
   <developer id="io.github.houssemko">
     <name>Grab Contributors</name>
   </developer>
-  <url type="homepage">https://github.com/houssemko/Grab</url>
-  <url type="bugtracker">https://github.com/houssemko/Grab/issues</url>
+  <url type="homepage">https://github.com/Linuxuser67/Grab</url>
+  <url type="bugtracker">https://github.com/Linuxuser67/Grab/issues</url>
   <categories>
     <category>Network</category>
     <category>Utility</category>
@@ -30,41 +34,568 @@
   <screenshots>
     <screenshot type="default">
       <caption>Empty state with a New Download shortcut</caption>
-      <image>https://raw.githubusercontent.com/houssemko/Grab/main/data/screenshots/empty-state.png</image>
+      <image>https://raw.githubusercontent.com/Linuxuser67/Grab/v4.5.7/data/screenshots/empty-state-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Active downloads with per-block progress maps</caption>
-      <image>https://raw.githubusercontent.com/houssemko/Grab/main/data/screenshots/downloads.png</image>
+      <image>https://raw.githubusercontent.com/Linuxuser67/Grab/v4.5.7/data/screenshots/downloads-video.png</image>
     </screenshot>
     <screenshot>
-      <caption>Preferences: destination, power and notifications</caption>
-      <image>https://raw.githubusercontent.com/houssemko/Grab/main/data/screenshots/preferences.png</image>
+      <caption>New Download card with inline media format picker</caption>
+      <image>https://raw.githubusercontent.com/Linuxuser67/Grab/v4.5.7/data/screenshots/new-download-format.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Live stream recording alongside active downloads</caption>
+      <image>https://raw.githubusercontent.com/Linuxuser67/Grab/v4.5.7/data/screenshots/live-recording.png</image>
     </screenshot>
   </screenshots>
   <releases>
-    <release version="4.4.3" date="2026-09-26">
-      <description></description>
+    <release version="4.5.7" date="2026-09-30">
+      <description>
+        <ul>
+          <li>The application ID is now io.github.linuxuser67.Grab; settings from earlier versions start fresh under the new ID.</li>
+          <li>Dropped two Flatpak permissions rejected by the Flathub linter.</li>
+          <li>Refreshed the app screenshots.</li>
+        </ul>
+      </description>
     </release>
-    <release version="4.3.1" date="2026-09-23">
-      <description></description>
+    <release version="4.5.6" date="2026-09-30">
+      <description>
+        <ul>
+          <li>Check for Updates in Preferences now checks yt-dlp, ffmpeg, and quickjs together, with a single Update button.</li>
+          <li>On new installs, keeping original file dates is now on by default, and scheduled downloads are off by default.</li>
+          <li>Validation errors on the URL and torrent fields are now exposed to assistive technologies.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.5" date="2026-09-30">
+      <description>
+        <ul>
+          <li>Invalid URL errors are now shown on the URL field itself, and torrent file errors on the torrent row, instead of in a caption under the URL bar.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.4" date="2026-09-30">
+      <description>
+        <ul>
+          <li>The URL bar is now a proper text entry with the action buttons beside it.</li>
+          <li>Playlist and torrent picker pills are capped at four per row, and overlong titles are truncated so one long title no longer stretches every pill.</li>
+          <li>Fixed a crash when decoding filenames with invalid percent-encoded characters.</li>
+          <li>The lookup spinner now swaps in place of the Add button, so starting a lookup no longer shifts the layout.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.4-beta.1" date="2026-09-30">
+      <description>
+        <ul>
+          <li>The URL bar is now a proper text entry with the action buttons beside it.</li>
+          <li>Playlist and torrent picker pills are capped at four per row, and overlong titles are truncated so one long title no longer stretches every pill.</li>
+          <li>Fixed a crash when decoding filenames with invalid percent-encoded characters.</li>
+          <li>The lookup spinner now swaps in place of the Add button, so starting a lookup no longer shifts the layout.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.3" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Fixed Adwaita warnings: the schedule date/time rows now live in a preferences group.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.2" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Schedule downloads for a later time: pick a date and time when adding, or let overdue items start on launch.</li>
+          <li>Download rows now show file-type icons, and the status filter is a segmented control.</li>
+          <li>Playlist and torrent pickers no longer leave empty space below short lists.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.2-beta.1" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Schedule downloads for a later time: pick a date and time when adding, or let overdue items start on launch.</li>
+          <li>Download rows now show file-type icons, and the status filter is a segmented control.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.1" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Suspend inhibition now works in the Flatpak: the D-Bus parameters are built explicitly.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.1-beta.1" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Filenames, paths, URLs, and error messages containing &amp;, &lt;, or &gt; no longer break toast and dialog labels.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.20" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Restored finished video downloads keep their video icon after restart.</li>
+          <li>The Add button becomes a labeled pill once a playlist finishes resolving.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.19" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent picker entries are now toggle pills with 12px HIG padding; the grid wraps automatically with no horizontal scrolling.</li>
+          <li>The Add button becomes a labeled pill once a media format is picked.</li>
+          <li>Overlong picker titles ellipsize instead of breaking layout measurements.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.18" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent picker entries are now toggle pills with 12px HIG padding; the grid wraps automatically with no horizontal scrolling.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.17" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Audio-only is now an option inside the Media format picker instead of a separate switch; playlists no longer show a format row and always queue video.</li>
+          <li>Playlist and torrent pickers: entries are hug-sized cards that flow automatically — no fixed column count, sized to their text.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.16" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent pickers: entries are now hug-sized cards in a grid — rounded, spaced, and sized to their text.</li>
+          <li>Media preview errors use the row layout again, with the error message as the subtitle and Retry as a suffix button.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.15" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent pickers: grid columns adapt to the item count so no row is left with an empty slot, with HIG spacing between cells.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.14" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent pickers: dropped the custom selection tick; selected items now use the native highlight only.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.13" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent pickers now lay out in a grid (up to 4 columns), with a tick marking selected items.</li>
+          <li>HLS downloads: the progress grid follows sharp downward revisions of the size estimate instead of stalling on a phantom spike.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.12" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Fix a build failure in the probe-error card.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.11" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Probe errors render as plain text: messages containing markup-like characters (e.g. &lt;HTTPError 403&gt;) no longer fail to display.</li>
+          <li>Media-preview error state redesigned as a left-aligned, vertically centered card.</li>
+          <li>Playlist and torrent pickers use pure Adwaita defaults with no custom styling.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.10" date="2026-09-29">
+      <description>
+        <ul>
+          <li>Playlist and torrent pickers redesigned: native single-column list with compact single-line rows.</li>
+          <li>Download progress bars now expose screen-reader labels.</li>
+          <li>URL lookup desensitizes the Add button instead of freezing the whole URL row.</li>
+          <li>Install popover padding corrected and generic file icon fixed.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.9" date="2026-09-28">
+      <description>
+        <ul>
+          <li>Failure dialog shows the actual error instead of stale status text.</li>
+          <li>Download rows restored to 4.4.4 12px inner padding.</li>
+          <li>Inline New Download: removed the video title/URL header between the URL entry and options.</li>
+          <li>Menu-triggered New Download slides down smoothly (deferred past the menu close).</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.8" date="2026-09-28">
+      <description>
+        <ul>
+          <li>Inline New Download UI uses HIG AdwPreferencesGroup with native row padding; download entries use GtkListBox with .boxed-list-separate.</li>
+          <li>Window margins unified at 12px for the inline card and the download list.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.7" date="2026-09-28">
+      <description>
+        <ul>
+          <li>New Download card: the Add (✓) button stays visible after the lookup, so a second press adds the download.</li>
+          <li>Playlist picker uses up to 4 columns in a most-square grid with no empty cells (3→3×1, 4→2×2, 8→4×2).</li>
+          <li>Media format and Audio only preview rows are single-line.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.6" date="2026-09-28">
+      <description>
+        <ul>
+          <li>New Download URL row uses HIG AdwPreferencesGroup → AdwEntryRow with apply button as the Add action.</li>
+          <li>Playlist picker columns adapt by divisor so no cell is ever empty (3→3, 4→2×2).</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.5" date="2026-09-28">
+      <description>
+        <ul>
+          <li>New Download card uses HIG AdwPreferencesPage/Group/EntryRow with apply button for the URL field.</li>
+          <li>Playlist picker grid adapts columns to item count with no empty cells; selected entries get an accent outline.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.2" date="2026-09-28">
+      <description>
+        <ul>
+          <li>The New Download card no longer stretches full-width; it is centered with proper spacing, and its URL field and buttons are vertically aligned.</li>
+          <li>Playlist and torrent pickers have proper spacing around their grids.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.5.0-beta.1" date="2026-09-28">
+      <description>
+        <ul>
+          <li>Byte sizes now use the system locale's formatting.</li>
+          <li>Restored brotli and deflate HTTP compression support.</li>
+          <li>The "of" in progress amounts ("900 MB of 2.0 GB") is now translatable.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.20" date="2026-09-28">
+      <description>
+        <ul>
+          <li>The New Download card now toggles open and closed from the + button, Ctrl+N, or the empty-state button, and its header is one compact row: URL field, Add Download, options gear, and close.</li>
+          <li>The lookup indicator is now a spinner inside the URL field, with no layout shift while a link resolves.</li>
+          <li>Live recordings recover when the stream's formats change during setup: Grab re-resolves once and retries with fresh formats, and no longer claims a recording was kept when nothing was recorded.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.19" date="2026-09-28">
+      <description>
+        <ul>
+          <li>Download rows now show a media-type icon (video, audio, playlist, torrent, or file), and the status filter is a segmented control that appears only when there are downloads to filter.</li>
+          <li>File name, torrent file, and save location moved behind a gear toggle that reveals them inline under the URL field.</li>
+          <li>Fixed a crash when adding a download, and empty <code>.grab-video</code> staging folders are now removed once their downloads finish.</li>
+          <li>Red is now reserved for failure: the live-capture icon is no longer red, while failed downloads and install errors tint their icons red.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.18" date="2026-09-28">
+      <description>
+        <ul>
+          <li>The New Download dialog is now an inline card pinned under the header bar. It opens in place, so the download queue stays visible and usable while it is open.</li>
+          <li>Closing the card now fully resets it — media format picker, audio switch, and lookup state — so reopening it always starts fresh.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.17" date="2026-09-27">
+      <description>
+        <ul>
+          <li>Live captures now stage their in-progress files in the hidden <code>.grab-video</code> folder next to the destination, like regular downloads. If a recording fails but the media is kept, the failure message now names the folder it was kept in.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.16" date="2026-09-27">
+      <description>
+        <ul>
+          <li>Unified downloads now stage their in-progress files in a hidden <code>.grab-video</code> folder next to the destination instead of <code>/tmp</code>, so large downloads no longer fill up tmpfs.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.15" date="2026-09-27">
+      <description>
+        <ul>
+          <li>Live captures with the from-start toggle on now fall back to recording from the live edge when the stream doesn't support from-start, instead of failing.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.14" date="2026-09-27">
+      <description>
+        <ul>
+          <li>Merged MP4s now place the moov atom at the front, so playback can start before the whole file has arrived.</li>
+          <li>Fixed live captures aborting when extra downloader arguments were passed along with the URL.</li>
+          <li>The downloader capability probe no longer blocks background async work while it runs.</li>
+          <li>Collection folders no longer follow a pre-existing symlink with the same name; they use a fresh folder instead.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.13" date="2026-09-27">
+      <description>
+        <ul>
+          <li>Live captures now pass timestamp-alignment flags to the downloader, keeping split audio and video tracks in sync without re-encoding.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.12" date="2026-09-27">
+      <description>
+        <ul>
+          <li>Playlists and multi-item stories now download into a folder named after the collection.</li>
+          <li>Adding a download whose file already exists fails the row instead of renaming it; existing files are never overwritten.</li>
+          <li>Live downloads now fail clearly when the recorder errors, instead of keeping a partial capture.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.11" date="2026-09-26">
+      <description>
+        <ul>
+          <li>Playlist rows now download the entry you picked instead of the playlist's first entry repeating.</li>
+          <li>yt-dlp now uses Chrome's TLS fingerprint where supported, fixing downloads that stalled or stopped early.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.10" date="2026-09-26">
+      <description>
+        <ul>
+          <li>The quickjs download is now verified against pinned SHA-256 checksums with a size cap.</li>
+          <li>The Add dialog no longer starts a second lookup when you press Enter while a lookup for the same link is still running.</li>
+          <li>Fixed "No suitable formats found" for direct video files that don't declare an audio track, such as some Instagram stories.</li>
+          <li>Fixed the Add dialog getting stuck with no preview after editing a link back and forth; lookups no longer stay suppressed.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.9" date="2026-09-26">
+      <description>
+        <ul>
+          <li>The tarball install prompt now installs quickjs-ng with a single distro command line alongside yt-dlp and ffmpeg.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.8" date="2026-09-26">
+      <description>
+        <ul>
+          <li>The tarball install prompt now covers quickjs alongside yt-dlp and ffmpeg: no distro packages it, so its row installs Grab's pinned binary with one click instead of a terminal command.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.7" date="2026-09-26">
+      <description>
+        <ul>
+          <li>Subtitles are now resolved with a best-effort probe before the download: the configured language when offered, otherwise English, otherwise none. yt-dlp embeds them directly on the media invocation, so a subtitle fetch failure can no longer sink the download.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.6" date="2026-09-26">
+      <description>
+        <ul>
+          <li>Unknown-container downloads now adopt the tallest in-cap file instead of the first in extractor order, so Best no longer lands on a low resolution when a site lists direct files with no codec info.</li>
+          <li>The stall watchdog is now exempt during the merge phase, since yt-dlp captures ffmpeg's output and a successful merge is silent on both streams.</li>
+          <li>YouTube downloads using cookies now install QuickJS as yt-dlp's JS runtime on first use, restoring the full format list for authenticated player clients.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.5" date="2026-09-26">
+      <description>
+        <ul>
+          <li>HLS downloads now rebuild the progress block grid whenever the reported total grows, so the grid no longer fills up while the download is still in progress.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.4" date="2026-09-26">
+      <description>
+        <ul>
+          <li>Stalled video downloads are now detected and stopped instead of hanging until the whole-attempt timeout: a watchdog watches piece throughput and aborts downloads that stop making progress.</li>
+          <li>Importing a large playlist no longer refreshes the queue and persists it once per row — the UI updates once when the import finishes.</li>
+          <li>Every spinner in the app now uses AdwSpinner.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.3" date="2026-09-26">
+      <description>
+        <ul>
+          <li>Fixes downloads landing on the lowest quality after picking a higher one: formats that carry a video height are no longer eligible as the audio track, so the HLS quality preset is reached instead of being suppressed by a misclassified direct file.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.2" date="2026-09-26">
+      <description>
+        <ul>
+          <li>Restores the secrets permission in the Flatpak manifests: the yt-dlp subprocess needs Secret Service over D-Bus to decrypt Chromium-based browser cookies, and without it cookie probing failed.</li>
+          <li>The browser-access row no longer re-checks itself while visible — flatpak overrides only apply at sandbox startup, so Preferences now shows a hint to restart Grab after running the command instead.</li>
+          <li>The media-tool install rows swap their spinner and status icon through a stack, and the restart hint row is no longer activatable.</li>
+          <li>Fixes live recordings failing at finalize: the remux now tells ffmpeg the container format explicitly instead of letting it guess from the .part filename.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="4.4.4-beta.1" date="2026-09-26">
+      <description>
+        <p>The Flatpak no longer bundles Deno or requests the secrets permission, and grants no browser-profile access by default. Preferences now shows the exact read-only flatpak override command for the selected browser when its profile is unreachable in the sandbox, re-checking while visible so the row dismisses itself once the override lands. Also adds a Flathub submission manifest variant.</p>
+      </description>
+    </release>
+    <release version="4.4.3" date="2026-09-26">
+      <description>
+        <p>The browser-cookie export now uses the same yt-dlp identity flags as every other download, including the YouTube player-client workaround. Also a source-comment cleanup with no behavior change.</p>
+      </description>
+    </release>
+    <release version="4.4.2" date="2026-09-25">
+      <description>
+        <p>All <em>.torrent</em> archive reads now go through a bounded reader so a malformed archive can't exhaust memory, and oversized yt-dlp probe output is drained past the limit so a stuck pipe can no longer hang the video worker. Also a whole-code readability pass with no behavior change.</p>
+      </description>
+    </release>
+    <release version="4.4.1" date="2026-09-25">
+      <description>
+        <p>Hotfix: restores the Flatpak bundle to releases. The release-time bundle check was rewritten to inspect the build's ostree repository instead of the bundle file itself, so this release ships both the tarball and the Flatpak bundle again.</p>
+      </description>
+    </release>
+    <release version="4.4.0" date="2026-09-25">
+      <description>
+        <p>Video filenames no longer carry the video id (<em>Title [id].mp4</em> becomes <em>Title.mp4</em>); the id is stored in the file's comment metadata instead. Every download now embeds metadata tags, and the "Audio quality" preference is gone — audio-only downloads always use yt-dlp's default quality.</p>
+        <p>Removing a video that is still downloading is now safe: the worker is stopped first and its temporary files are cleaned up only after it has exited, so a new download can no longer collide with the cleanup. Interrupted live recordings are kept rather than deleted, and retries no longer destroy them.</p>
+        <p>Stopping a live recording now says so: the row button reads Stop Recording and confirms the recording is kept. The tools install progress uses a proper loading indicator that no longer freezes or misaligns.</p>
+      </description>
+    </release>
+    <release version="4.4.0-beta.1" date="2026-09-25">
+      <description>
+        <p>Beta: video filenames no longer carry the video id (<em>Title [id].mp4</em> becomes <em>Title.mp4</em>); the id is stored in the file's comment metadata instead. Every download now embeds metadata tags, and the "Audio quality" preference is gone — audio-only downloads always use yt-dlp's default quality.</p>
+        <p>Removing a video that is still downloading is now safe: the worker is stopped first and its temporary files are cleaned up only after it has exited, so a new download can no longer collide with the cleanup. Interrupted live recordings are kept rather than deleted, and retries no longer destroy them.</p>
+        <p>Also ships the id3 dependency update (a decoded-frame size limit that stops ID3 decompression bombs).</p>
+      </description>
+    </release>
+    <release version="4.3.0" date="2026-09-23">
+      <description>
+        <p>Internal restructuring of the video, download, and window code into focused modules; the HLS block map also restarts on a fresh grid when a later leg is much larger than the first.</p>
+      </description>
+    </release>
+    <release version="4.2.2" date="2026-09-23">
+      <description>
+        <p>Embedded subtitles no longer leave a sidecar file alongside the video, and Clear Finished greys out when nothing is finished.</p>
+      </description>
+    </release>
+        <release version="4.2.1" date="2026-09-22">
+      <description>
+        <p>Hotfix: the tools install popover no longer stalls on
+        "Downloading" after the downloads complete — each row now
+        flips to Installed with its probed version.</p>
+      </description>
+    </release>
+<release version="4.2.0" date="2026-09-22">
+      <description>
+        <p>Beta: failed downloads can be retried from a toast with the failure count, the shortcuts dialog documents the queue search, and the internals get a cleanup pass.</p>
+      </description>
     </release>
     <release version="4.1.1" date="2026-09-22">
-      <description></description>
+      <description>
+        <p>Hotfix: the HLS block map rescales when totals refine upward instead of staying flood-lit on its first tiny estimate, and second legs start empty.</p>
+      </description>
+    </release>
+    <release version="4.1.0" date="2026-09-22">
+      <description>
+        <p>Non-video Drive links fall back to direct download, Add works on short and unlisted video links, yt-dlp fragments run serially, and the HLS block map no longer flashes on estimate wobble.</p>
+      </description>
+    </release>
+    <release version="4.0.6-beta.1" date="2026-09-22">
+      <description>
+        <p>Beta: non-video Drive links fall back to direct download, Add works on short and unlisted video links that probe video-shaped, and yt-dlp fragment downloads return to the serial default.</p>
+      </description>
+    </release>
+    <release version="4.0.5" date="2026-09-21">
+      <description>
+        <p>Browser cookies now read the freshest Chromium channel profile, so daily-driven beta/nightly builds stop losing to a stale stable install.</p>
+      </description>
+    </release>
+    <release version="4.0.4" date="2026-09-21">
+      <description>
+        <p>Flatpak now ships the yt-dlp_linux build for keyring and impersonation support.</p>
+      </description>
+    </release>
+    <release version="4.0.3" date="2026-09-21">
+      <description>
+        <p>Fixes video extraction failures by excluding YouTube's web player client from every yt-dlp spawn, and bumps the gtk4 stack to the latest stable 0.11.5.</p>
+      </description>
+    </release>
+    <release version="4.0.2" date="2026-09-21">
+      <description>
+        <p>Direct-file probe bypass expanded to 149 extensions with dot-required terminals, so pasted files skip the wasted media probe while pages, feeds and streams stay probeable.</p>
+      </description>
     </release>
     <release version="4.0.1" date="2026-09-21">
-      <description></description>
+      <description>
+        <p>Single-invocation yt-dlp downloads with merge margin, original-language audio preference, playlist/story/highlight queue support with per-segment pages, live capture with edge fallback, remux-aware naming, HIG Preferences rewrite, batch intake routing, and offline-safe Flatpak vendor sync.</p>
+      </description>
     </release>
     <release version="3.8.0" date="2026-09-19">
-      <description></description>
+      <description>
+        <p>Audio-only download mode removed (preferences, per-download dialog override, and video-audio-only setting). Queue files with the removed audio_only key still parse. Simplified request plumbing and format-identity logic.</p>
+      </description>
+    </release>
+    <release version="3.7.0" date="2026-09-19">
+      <description>
+        <p>Machine-readable download progress, overwrite pre-flight for existing files, per-language subtitle sidecars for videos, finished-download history with clear and URL dedup, live recording indicator with part-shell cleanup, and part-name protection for foreign files.</p>
+      </description>
     </release>
     <release version="3.6.0" date="2026-09-18">
-      <description></description>
+      <description>
+        <p>Media downloads: quality picker with per-format sizes, live-stream capture with recording indicator, torrents follow SOCKS5 proxies. Indeterminate progress during resolving, dropped links open the media dialog, hardened staging and cookie handling.</p>
+      </description>
+    </release>
+    <release version="3.0.1" date="2026-09-16">
+      <description>
+        <p>Hotfix: video downloads work again (the tool check probed ffmpeg with the wrong flag and failed every attempt). Pausing or retrying a video now resumes its parts instead of restarting. Video tools setup reworked: tarball builds get guided terminal install instructions per distribution, and installations report staged progress in place.</p>
+      </description>
+    </release>
+    <release version="2.7.0" date="2026-09-16">
+      <description>
+        <p>Fix: video-page preview no longer stalls Add on canonicalized links, and metadata lookups time out with Retry instead of spinning forever. Video preferences show tool versions with install progress. More video sites supported. New Download dialog is now stepped: video details get their own page with thumbnail preview.</p>
+      </description>
+    </release>
+    <release version="2.6.0" date="2026-09-16">
+      <description>
+        <p>New: video-page downloads (YouTube, Vimeo and more) with quality picker up to 4K, audio-only mode, and automatic merging. The app is now licensed under GPL-3.0-only.</p>
+      </description>
     </release>
     <release version="2.5.1" date="2026-09-15">
-      <description></description>
+      <description>
+        <p>Test-reliability fix: the integration-test fixture server retries startup on fresh ports instead of flaking. No functional changes.</p>
+      </description>
     </release>
-    <release version="2.4.3" date="2026-09-15">
-      <description></description>
+    <release version="2.5.0" date="2026-09-15">
+      <description>
+        <p>Code-health release: Undo restore state is passed as a single snapshot struct, and formatting/lint gates are clean. No functional changes from 2.4.3.</p>
+      </description>
+    </release>
+    <release version="2.4.2" date="2026-09-15">
+      <description>
+        <p>Code formatting cleanup (cargo fmt). No functional changes from 2.4.1.</p>
+      </description>
+    </release>
+    <release version="2.4.1" date="2026-09-15">
+      <description>
+        <p>Fix: FlatPark install instructions point at the correct repo file; Undo resumes segmented downloads instead of restarting them; queue restore validates before spawning engines; row UI tolerates widget drift without panicking. Security: CI workflows pin third-party actions to commit SHAs.</p>
+      </description>
+    </release>
+    <release version="2.4.0" date="2026-09-15">
+      <description>
+        <p>Fix: torrents set to seed with no stop rule stay active with live upload stats and a working Stop button, instead of showing Finished while still seeding in the background. The bulk-import batch guard is now a nesting-safe counter.</p>
+      </description>
+    </release>
+    <release version="2.3.5" date="2026-09-14">
+      <description>
+        <p>Security: torrent engines no longer overwrite files in collision-deduped output folders; a user-set User-Agent is sanitized to header-safe ASCII before use.</p>
+      </description>
+    </release>
+    <release version="2.3.4" date="2026-09-14">
+      <description>
+        <p>Fix: torrent output folders are deduplicated at intake so existing files are never overwritten; batch import skips comment lines; cancelling a torrent mid-add keeps partial files for resume; DHT toggle notes it applies after restart. Security: the download engine no longer follows HTTPS-to-HTTP redirect downgrades, and worker state recovers from lock poisoning instead of panicking.</p>
+      </description>
     </release>
     <release version="2.3.3" date="2026-09-14">
       <description>
