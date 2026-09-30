@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Grab
+Comment=Download files from the web
+Exec=grab %U
+Icon=io.github.houssemko.Grab
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;GTK;
+Keywords=download;wget;manager;
+StartupNotify=true
+DBusActivatable=true
+MimeType=text/uri-list;x-scheme-handler/magnet;application/x-bittorrent;
+SingleMainWindow=true

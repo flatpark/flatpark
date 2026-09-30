@@ -1,0 +1,71 @@
+id: io.github.houssemko.Grab
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: grab
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Core function: HTTP(S) downloads, magnet/torrent peers (DHT, trackers).
+  - --share=network
+  # Native GTK4/libadwaita app. Wayland by default with XWayland fallback,
+  # dri for GPU-accelerated rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Completion notices go through the notification portal (GLib picks the
+  # portal backend inside a sandbox), and sleep inhibition goes through the
+  # Inhibit portal — neither needs a direct bus grant.
+  - --talk-name=org.freedesktop.portal.*
+  - --talk-name=org.gtk.vfs.*
+  # Browser-cookie authentication (Preferences → Media → Authentication):
+  # member-only pages and age gates need Secret Service over D-Bus so yt-dlp
+  # can decrypt Chromium-based browser cookies. Browser profile directories
+  # themselves are not granted here — they are an opt-in per-user override
+  # (flatpak override --user --filesystem=...:ro), offered inside the app.
+  - --talk-name=org.freedesktop.secrets
+  # Default download location: an empty download-dir setting resolves to the
+  # system Downloads folder, which Flatpak maps to xdg-download. A custom
+  # download directory outside it is the user's own opt-in.
+  - --filesystem=xdg-download
+  # Host dconf database, read-only.
+  - --filesystem=xdg-config/dconf:ro
+  # Queue database (queue.json), torrent state and resume data live under
+  # ~/.local/share (glib user_data_dir), which is per-app sandboxed storage —
+  # no grant needed.
+modules:
+  - name: grab
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 grab-wrapper /app/bin/grab
+      - install -Dm644 io.github.houssemko.Grab.desktop /app/share/applications/io.github.houssemko.Grab.desktop
+      - install -Dm644 io.github.houssemko.Grab.metainfo.xml /app/share/metainfo/io.github.houssemko.Grab.metainfo.xml
+      - install -Dm644 io.github.houssemko.Grab.svg /app/share/icons/hicolor/scalable/apps/io.github.houssemko.Grab.svg
+      # D-Bus activation: the tarball's service points at /usr/bin/grab, which
+      # does not exist in the sandbox — same Name, Exec adapted to the wrapper.
+      - install -Dm644 io.github.houssemko.Grab.service /app/share/dbus-1/services/io.github.houssemko.Grab.service
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: grab.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/houssemko/Grab/releases/download/v4.4.3/Grab-4.4.3-linux-x86_64.tar.gz
+        sha256: de581c459ec0cab875482d22ca2f6fe1be2e4b216d92135cac7117434858e85f
+        size: 6139272
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: grab-wrapper
+      - type: file
+        path: io.github.houssemko.Grab.desktop
+      - type: file
+        path: io.github.houssemko.Grab.metainfo.xml
+      - type: file
+        path: io.github.houssemko.Grab.svg
+      - type: file
+        path: io.github.houssemko.Grab.service

@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Vendor binary, unmodified, from the install-time extra-data tree.
+exec /app/extra/usr/bin/grab "$@"
