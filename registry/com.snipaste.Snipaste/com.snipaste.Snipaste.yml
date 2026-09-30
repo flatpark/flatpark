@@ -1,0 +1,139 @@
+id: com.snipaste.Snipaste
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: snipaste
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Snipaste's Linux build is a self-contained AppImage around the vendor's own
+  # Qt 6.2 build (github.com/Snipaste/qt): it carries libQt6*, the xcb and
+  # wayland platform plugins, its image-format plugins, OpenSSL 1.1 and
+  # libKF6GuiAddons. Nothing Qt comes from the runtime, so this is the
+  # freedesktop base rather than a KDE or GNOME one. Checked by resolving every
+  # DT_NEEDED entry of the unpacked tree: the ~20 sonames it does not bundle
+  # (libX11/libXext/libXfixes, libGLX/libOpenGL, libz, libc/libstdc++/libgcc,
+  # …) are all in org.freedesktop.Platform 26.08.
+  - --share=ipc
+  # X11, and deliberately a plain --socket=x11 rather than fallback-x11: the
+  # app pins Qt's xcb platform plugin for itself, so with no X display it exits
+  # at startup with "no Qt platform plugin could be initialized" — verified by
+  # running the payload with the wayland socket only (and even with
+  # QT_QPA_PLATFORM=wayland, which it overrides). fallback-x11 withholds X11
+  # whenever a compositor is present, which is exactly when this build still
+  # needs it; on a Wayland session it runs through XWayland, as the AppImage
+  # itself does.
+  - --socket=x11
+  # The Wayland socket is not for the UI but for the bundled wlhelper process:
+  # it is a Wayland client (Qt's wayland plugin + KF6GuiAddons' KSystemClipboard)
+  # that Snipaste spawns on a Wayland session to own the clipboard service
+  # below. Without this socket it cannot create its wl_display and exits.
+  - --socket=wayland
+  # Qt renders the snipping overlay and the pinned image windows through
+  # OpenGL.
+  - --device=dri
+  # Update check, the online PRO licence activation, and the OCR of a snipped
+  # region. Snipaste is otherwise a local tool; withholding this
+  # (flatpak override --unshare=network) only disables those.
+  - --share=network
+  # "Screenshot saved / copied" pop-ups, and the tray icon Snipaste lives in:
+  # it starts into the tray with no window, and the tray menu is how you reach
+  # its preferences and quit it.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Nothing to grant for the item itself: Snipaste's tray icon is exported
+  # under its own unique connection name (":1.NNN/StatusNotifierItem"), not
+  # under a well-known org.kde.StatusNotifierItem-<pid>-<n> name — verified
+  # against the watcher's RegisteredStatusNotifierItems, and by watching the
+  # icon appear in and disappear from the panel as the app starts and stops,
+  # with no name grant in place.
+  # The clipboard service the bundled wlhelper registers on the session bus
+  # (com.Snipaste.ClipboardService, the vendor's own spelling) and that the main
+  # process talks to when copying on a Wayland session. It is not a sub-name of
+  # the app id, so Flatpak refuses it without an explicit grant: running the
+  # bundled helper with this grant registers the name, and without it its
+  # registerService fails and a caller gets
+  # org.freedesktop.DBus.Error.ServiceUnknown. How much the helper can then do
+  # is up to the compositor — on the wlroots session this was tested on it logs
+  # that it could not initialise its Wayland clipboard and fell back to Qt's,
+  # since the privileged data-control protocol is not offered to sandboxed
+  # clients.
+  - --own-name=com.Snipaste.ClipboardService
+  # Capture backends. On X11 Snipaste grabs the root window directly. On
+  # Wayland it picks a screenshot source: org.freedesktop.portal.Screenshot
+  # (needs no grant, and is the path that works on wlroots compositors —
+  # verified on Hyprland), or the desktop's own API on KDE and GNOME. These two
+  # names are read-only capture APIs and are what upstream uses on those
+  # desktops; without them Snipaste falls back to the portal.
+  - --talk-name=org.kde.KWin.ScreenShot2
+  - --talk-name=org.gnome.Shell.Screenshot
+  # Snipaste keeps all of its own state in ~/.snipaste — config.ini, the snip
+  # history and the backed-up image windows it restores on the next start, plus
+  # splog.txt. Flatpak does not redirect $HOME, only the XDG dirs, so without
+  # this grant that directory is created on the sandbox tmpfs and thrown away
+  # when the app exits: every preference, every restored pin and, for a PRO
+  # user, the activation, gone on restart. The real home rather than --persist
+  # (which cannot be redirected back to the real path afterwards), so the
+  # directory stays user-accessible and one install shares its settings and
+  # licence with an existing native Snipaste. It is a single dotdir; nothing
+  # else in home is visible.
+  - --filesystem=~/.snipaste:create
+  # Where screenshots are saved. Its file dialog is Qt's own widget dialog (the
+  # bundle ships no xdg-desktop-portal platform theme), so it can only offer
+  # what is granted here, and quick-save writes without a dialog at all.
+  # Pictures is the useful default for the dialog; other destinations — and
+  # the folders "paste --files" reads from — are an opt-in flatpak override
+  # documented in the metainfo. Verified: a snip saved through the sandbox
+  # lands in the real ~/Pictures.
+  - --filesystem=xdg-pictures
+  # Quick-save (and "snip -o quick-save") writes without any dialog to a folder
+  # that defaults to the desktop directory. Without this grant that default
+  # lands on the sandbox tmpfs: Snipaste logs "Image saved to
+  # ~/Desktop/Snipaste_….png" and the file is gone when the app exits —
+  # observed on a first run before this line was added.
+  - --filesystem=xdg-desktop
+modules:
+  - name: snipaste
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 snipaste-wrapper /app/bin/snipaste
+      - install -Dm644 com.snipaste.Snipaste.desktop /app/share/applications/com.snipaste.Snipaste.desktop
+      - install -Dm644 com.snipaste.Snipaste.metainfo.xml /app/share/metainfo/com.snipaste.Snipaste.metainfo.xml
+      - install -Dm644 com.snipaste.Snipaste.png /app/share/icons/hicolor/256x256/apps/com.snipaste.Snipaste.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: snipaste.AppImage
+        only-arches:
+          - x86_64
+        url: https://download.snipaste.com/archives/Snipaste-2.11.3-x86_64.AppImage
+        sha256: e8046ff2045b668ba5fac6d773d83731313a4f00ba171147c6fa1a1385240334
+        size: 37450944
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: snipaste-wrapper
+      - type: file
+        path: com.snipaste.Snipaste.desktop
+      - type: file
+        path: com.snipaste.Snipaste.metainfo.xml
+      - type: file
+        path: com.snipaste.Snipaste.png

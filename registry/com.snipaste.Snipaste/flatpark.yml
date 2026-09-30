@@ -1,0 +1,23 @@
+id: com.snipaste.Snipaste
+name: Snipaste
+summary: Snip a screenshot, annotate it, and pin it back onto the screen
+website: https://www.snipaste.com/
+source_url: https://github.com/Snipaste/feedback
+build:
+  manifest: com.snipaste.Snipaste.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Screenshot
+    - Annotation
+    - Clipboard
+    - OCR
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

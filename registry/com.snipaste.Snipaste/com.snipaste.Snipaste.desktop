@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Snipaste
+GenericName=Screenshot Tool
+Comment=Snip & Paste!
+Exec=snipaste
+Icon=com.snipaste.Snipaste
+Terminal=false
+Categories=Graphics;ImageProcessing;Utility;
+Keywords=screenshot;snip;snipping;paste;pin;annotate;colorpicker;clipboard;
+StartupNotify=false
+StartupWMClass=Snipaste
+X-GNOME-UsesNotifications=true

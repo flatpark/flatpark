@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.snipaste.Snipaste</id>
+  <launchable type="desktop-id">com.snipaste.Snipaste.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.snipaste.com/eula.html</project_license>
+  <name>Snipaste</name>
+  <summary>Snip a screenshot, annotate it, and pin it back onto the screen</summary>
+  <developer id="com.snipaste">
+    <name>Snipaste</name>
+  </developer>
+  <url type="homepage">https://www.snipaste.com/</url>
+  <url type="help">https://docs.snipaste.com/</url>
+  <url type="bugtracker">https://github.com/Snipaste/feedback/issues</url>
+  <description>
+    <p>This is a community package of Snipaste, maintained independently and unaffiliated with the Snipaste developer. It repackages the official upstream AppImage unmodified — extracted at install time, not rebuilt — and follows upstream releases automatically. Snipaste is proprietary software, free for personal use; a PRO licence unlocks the features marked as such upstream.</p>
+    <p>Snipaste is a screenshot tool built around one idea: after you snip a region you can paste it straight back onto the desktop as a floating, always-on-top window, then keep working with it next to the thing you are comparing it against.</p>
+    <ul>
+      <li>Snip a region, a window or a whole screen, with a magnifier and pixel-exact positioning.</li>
+      <li>Annotate before you copy: rectangles, ellipses, arrows, pen, marker, text, mosaic, blur, numbered steps, undo and redo.</li>
+      <li>Pin the result to the screen as a floating image window — zoom it, make it click-through, group several of them, hide and restore them all at once.</li>
+      <li>Paste images, plain text or HTML from the clipboard onto the screen as image windows.</li>
+      <li>Pick a colour anywhere on screen and copy it as RGB, HSL or HEX.</li>
+      <li>Copy to the clipboard, save to a folder, quick-save, print, or extract text from the region with OCR.</li>
+      <li>Drive every one of those from the command line, which is how you bind them to your own shortcuts (see below).</li>
+    </ul>
+    <p>Worth knowing before you install, because two things behave differently here than they do on Windows. First, Snipaste's own global hotkeys (F1 to snip, F3 to paste) are an X11 mechanism: they work on an X11 session and are silently inactive on Wayland — that is upstream's build, not the sandbox, and the AppImage behaves the same way. On Wayland, bind your compositor's own shortcut to the command instead:</p>
+    <p><code>flatpak run com.snipaste.Snipaste snip</code> — and likewise <code>snip --full -o clipboard</code>, <code>paste</code>, <code>pick-color</code>, or any other command from the upstream command list.</p>
+    <p>Second, screen capture on a Wayland session goes through your desktop's screenshot portal, so the first snip asks for permission once; on X11 it captures directly. The app starts into the system tray, and the autostart switch in its preferences writes inside the sandbox rather than to your session — to start it with your desktop, add your own autostart entry running the command above.</p>
+    <p>Permissions: this package grants the display, GPU, network (update check, PRO activation, OCR), notifications, a tray icon, read-write access to your Pictures folder — where screenshots are saved — and your Desktop folder — where quick-save puts them by default — and to ~/.snipaste, the one directory Snipaste keeps its own state in (its config.ini, snip history and the pinned windows it restores on the next start). Those three directories are all it can see of your home, and an existing native Snipaste install shares the same settings. A few capabilities are left off by default; enable the ones you want with "flatpak override":</p>
+    <ul>
+      <li>Save screenshots somewhere else, or read images to paste from another folder: <code>flatpak override --user --filesystem=~/Screenshots com.snipaste.Snipaste</code> (name your own folder), or <code>--filesystem=home</code> for all of it.</li>
+      <li>Let "Open containing folder" reach your desktop's file manager: <code>flatpak override --user --talk-name=org.freedesktop.FileManager1 com.snipaste.Snipaste</code></li>
+      <li>Work fully offline, with no update check or online activation: <code>flatpak override --user --unshare=network com.snipaste.Snipaste</code></li>
+    </ul>
+    <p>Review or undo what you have granted with <code>flatpak override --user --show com.snipaste.Snipaste</code> and <code>flatpak override --user --reset com.snipaste.Snipaste</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://i.v2ex.co/71Ftp04b.png</image>
+      <caption>Snipping, annotating and pinning a screenshot back onto the screen</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://i.v2ex.co/Bar9ulo7.png</image>
+      <caption>A pinned image window and its menu, with the on-screen colour picker</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Graphics</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>screenshot</keyword>
+    <keyword>snip</keyword>
+    <keyword>annotate</keyword>
+    <keyword>pin</keyword>
+    <keyword>clipboard</keyword>
+    <keyword>ocr</keyword>
+    <keyword>colorpicker</keyword>
+  </keywords>
+  <provides>
+    <binary>snipaste</binary>
+  </provides>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <releases>
+    <release version="2.11.3" date="2026-01-18"/>
+  </releases>
+</component>

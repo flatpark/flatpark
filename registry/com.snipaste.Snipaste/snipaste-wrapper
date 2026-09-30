@@ -1,0 +1,29 @@
+#!/bin/sh
+set -eu
+
+# Snipaste is staged by apply_extra to /app/extra/snipaste, and the resolved
+# binary name is recorded in app.env at install time.
+#
+# The AppDir's own AppRun is deliberately not used. All it does beyond exec'ing
+# this binary is source linuxdeploy's checkrt hook, which prepends the bundle's
+# own libstdc++/libgcc when the *host* pair is older than the one the app was
+# built against, and LD_PRELOADs checkrt's exec.so. Inside this runtime neither
+# applies: running the bundled checkrt probe against
+# org.freedesktop.Platform 26.08 prints nothing (its libstdc++ is newer), so the
+# only effect left would be an LD_PRELOAD inherited by every child process.
+# Everything the binary needs to find itself it finds on its own: usr/bin/qt.conf
+# points Qt at usr/plugins, and the executables carry an $ORIGIN/../lib runpath
+# for the bundled Qt.
+[ -f /app/extra/app.env ] || {
+  echo "snipaste: /app/extra/app.env is missing, reinstall the app" >&2
+  exit 1
+}
+# shellcheck source=/dev/null  # written by apply_extra at install time
+. /app/extra/app.env
+
+# Nothing else to set up: no LD_PRELOAD, no tray-name workaround. Snipaste
+# exports its tray icon under the session bus connection's own unique name, so
+# unlike the catalog's Chromium/Compose apps it never asks for an
+# org.kde.StatusNotifierItem-<pid>-<n> well-known name and does not care that
+# every sandboxed app is PID 2 in its own PID namespace.
+exec "$APP_BIN" "$@"
