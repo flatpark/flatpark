@@ -38,7 +38,7 @@ modules:
         filename: freemkv.deb
         only-arches:
           - x86_64
-        url: https://github.com/freemkv/freemkv/releases/download/v1.7.7/freemkv-1.7.7-amd64.deb
+        url: https://github.com/freemkv/freemkv/releases/download/v1.7.7/freemkv-amd64.deb
         sha256: c13162757d43f51a429caf83edfaf25dad79346b6b7d24f5ee78309dca906e50
         size: 3973268
       # END MANAGED EXTRA-DATA

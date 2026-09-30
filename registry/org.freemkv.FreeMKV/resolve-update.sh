@@ -19,10 +19,11 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-# Anchor on the versioned `freemkv-<version>-amd64.deb`: the release also
-# carries an unversioned freemkv-amd64.deb copy, bare binaries, an AppImage, a
-# .flatpak bundle and the macOS/Windows builds.
-url="$(jq -r --arg v "$version" '.assets[] | select(.name == "freemkv-\($v)-amd64.deb") | .browser_download_url' <<<"$rel")"
+# Anchor on the stable-named `freemkv-amd64.deb`: from 1.8.0 upstream drops the
+# versioned freemkv-<version>-amd64.deb (freemkv/freemkv#69). The release also
+# carries bare binaries, an AppImage, a .flatpak bundle and the macOS/Windows
+# builds. The version comes from the tag, and the URL stays per-release.
+url="$(jq -r '.assets[] | select(.name == "freemkv-amd64.deb") | .browser_download_url' <<<"$rel")"
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve freemkv release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "expected exactly one amd64 .deb asset, got:" >&2; echo "$url" >&2; exit 1; }
