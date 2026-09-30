@@ -1,0 +1,65 @@
+# Upstream maintainers who may merge their own app's PRs with a `/merge`
+# comment (.github/workflows/self-merge.yml). The check itself lives in
+# scripts/self-merge-check.mjs; what a self-merge may and may not touch is
+# documented there and in the site guide (site/src/content/pages/contributing.md).
+#
+# Who belongs here: the app's own upstream developer — someone with a real
+# commit history in the upstream repo — who has already sent PRs for it. A
+# third-party packager does not, however many PRs they send. The app should
+# carry the developer-approved shield (docs/upstream-approvals.md).
+#
+# `id` is the GitHub numeric user id (`gh api users/<login> --jq .id`) and is
+# the only field the check trusts: a login can be renamed and re-registered by
+# someone else. `login` is for humans.
+#
+# This file is outside registry/, so a self-merge can never edit it.
+
+com.aeroftp.AeroFTP:
+  - login: axpnet            # flatpark#98
+    id: 45786925
+
+com.github.zbcoding.Impasto:
+  - login: zbcoding          # flatpark#200
+    id: 56856630
+
+dev.adonm.zuko:
+  - login: adonm             # flatpark#117, #118, #121
+    id: 121014
+
+io.github.grigio.carosello:
+  - login: grigio            # flatpark#399
+    id: 8074
+
+io.github.houssemko.Grab:
+  - login: houssemko         # flatpark#345, #410, #414, #446
+    id: 41808005
+
+io.github.hrzlgnm.mdns-browser:
+  - login: hrzlgnm           # flatpark#197
+    id: 1869203
+
+io.github.hrzlgnm.zux:
+  - login: hrzlgnm           # flatpark#199
+    id: 1869203
+
+io.github.todevelopers.GseProfiler:
+  - login: tommy-gun         # flatpark#83, #95
+    id: 3952032
+
+io.github.zbcoding.Gifkino:
+  - login: zbcoding          # flatpark#356, #366, #368
+    id: 56856630
+
+org.libredb.Studio:
+  - login: cevheri           # flatpark#158
+    id: 12383547
+  - login: yusuf-gundogdu    # flatpark#455, #459
+    id: 96109003
+
+org.opentubex.OpenTubeX:
+  - login: D3SOX             # flatpark#275, #283, #291, #314, #330, #391, #444
+    id: 24937357
+
+site.harbor.Harbor.Beta:
+  - login: AdityaHebballe    # flatpark#159 (maintainer of the official Linux builds repo)
+    id: 45328110

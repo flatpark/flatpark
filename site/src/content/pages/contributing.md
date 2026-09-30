@@ -396,3 +396,28 @@ To pre-empt the common rejections, make sure your submission:
 
 Non-FOSS commercial apps (e.g. brokers) are welcome on the same bar: official
 source, unmodified, pinned.
+
+## Self-merge for upstream maintainers
+
+If you develop an app listed here and keep sending PRs for it, you can merge
+them yourself instead of waiting for a FlatPark review — no org membership
+needed. Ask to be added to
+[`config/maintainers.yml`](https://github.com/flatpark/flatpark/blob/main/config/maintainers.yml);
+after that, comment `/merge` on a PR and a bot merges it once these hold:
+
+- **Every change is a plain file at the top of your own app's
+  `registry/<id>/`**, and the app is already listed. Subdirectories, dotfiles
+  (such as `.gitattributes`), symlinks and submodules go through review, as
+  does adding or de-listing an app.
+- **The build recipe is untouched** — in the manifest, only `finish-args` and
+  the `MANAGED EXTRA-DATA` block may change, and that block may only hold
+  `extra-data` sources. Wrapper, `apply_extra.sh`, desktop file, metainfo,
+  icons and screenshots are all yours to edit.
+- **`flatpark.yml` and `resolve-update.sh` are untouched** — they drive the
+  update resolver (which runs in CI with a write token), the build and the
+  catalog page, so they stay with a maintainer.
+- **pr-checks passed on the exact commit** you asked to merge. A push after
+  your comment is not included; comment `/merge` again.
+
+The merged change is published right away. Anything outside those lines gets
+a reply explaining why, and a maintainer reviews it as usual.

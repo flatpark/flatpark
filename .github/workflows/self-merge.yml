@@ -1,0 +1,160 @@
+# Upstream self-merge. An app's upstream maintainer, listed in
+# config/maintainers.yml, comments `/merge` on a PR that only touches their own
+# app, and this workflow merges it without waiting for a FlatPark review. They
+# are never added to the org: the merge is made with this workflow's token.
+#
+# Trust model. issue_comment runs in the base repo's context with a write
+# token, so this workflow NEVER checks out or executes PR code: it checks out
+# main, fetches the PR head as git objects only, and reads diffs. The
+# maintainer list comes from main, never from the PR.
+#
+# What a self-merge may change is decided by scripts/self-merge-check.mjs (see
+# its header): plain files at the top of the app's own directory, but not
+# flatpark.yml, its update resolver, its build steps, or its existence. On top
+# of that, the pr-checks.yml run on the exact head commit must be green, the
+# merge is pinned to that commit (--match-head-commit) so a push after the
+# comment cannot ride along, and main must not have moved since the decision.
+#
+# Kill switch: set the repo variable SELF_MERGE=false.
+name: self-merge
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write         # reactions and replies on the PR conversation
+  checks: read
+  actions: write        # dispatch publish.yml after the merge
+
+concurrency:
+  group: self-merge-${{ github.event.issue.number }}
+
+jobs:
+  merge:
+    if: >-
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/merge') &&
+      github.event.comment.user.type == 'User'
+    # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
+    # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
+    # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
+    # 那边的源恢复之后换回 ubuntu-latest。
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      # Comment fields go through env, never inline ${{ }} inside run: the
+      # comment body and login are attacker-controlled strings.
+      - name: Check and merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.issue.number }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          USER_ID: ${{ github.event.comment.user.id }}
+          USER_LOGIN: ${{ github.event.comment.user.login }}
+          ENABLED: ${{ vars.SELF_MERGE }}
+        run: |
+          set -euo pipefail
+          # Exactly `/merge` on the first line — not `/merged`, not a quote.
+          first="$(printf '%s\n' "$COMMENT_BODY" | head -n1 | tr -d '\r' | sed 's/[[:space:]]*$//')"
+          if [ "$first" != "/merge" ]; then
+            echo "first line is not /merge; ignoring"
+            exit 0
+          fi
+
+          repo_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          reply() { gh pr comment "$PR" --body "$1" >/dev/null; }
+          refuse() {
+            reply "$(printf '@%s self-merge refused:\n\n%s\n\nA FlatPark maintainer will review this PR instead. See [the contributing guide](https://flatpark.org/contributing/#self-merge-for-upstream-maintainers) for what a self-merge may change.' "$USER_LOGIN" "$1")"
+            echo "refused: $1"
+            exit 0
+          }
+
+          # The list lookup runs first and stays silent for strangers: anyone
+          # can comment /merge, and a reply to each would be a spam amplifier.
+          if ! grep -qE "^[[:space:]]+(- )?id:[[:space:]]*${USER_ID}[[:space:]]*(#.*)?$" config/maintainers.yml; then
+            echo "commenter $USER_LOGIN ($USER_ID) is not in config/maintainers.yml; ignoring"
+            exit 0
+          fi
+          if [ "${ENABLED:-true}" = "false" ]; then
+            refuse "- Self-merge is switched off right now (SELF_MERGE=false)."
+          fi
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/comments/$COMMENT_ID/reactions" \
+            -f content=eyes >/dev/null || true
+
+          info="$(gh pr view "$PR" --json state,isDraft,baseRefName,headRefOid)"
+          state="$(jq -r .state <<<"$info")"
+          draft="$(jq -r .isDraft <<<"$info")"
+          baseref="$(jq -r .baseRefName <<<"$info")"
+          head="$(jq -r .headRefOid <<<"$info")"
+          [ "$state" = OPEN ] || refuse "- The PR is not open."
+          [ "$draft" = false ] || refuse "- The PR is still a draft."
+          [ "$baseref" = main ] || refuse "- The PR does not target main."
+
+          # Objects only — nothing from the PR is checked out or run.
+          git fetch -q origin "pull/$PR/head"
+          [ "$(git rev-parse FETCH_HEAD)" = "$head" ] ||
+            refuse "- The PR head moved while this was running; comment \`/merge\` again."
+          main_sha="$(git rev-parse HEAD)"
+          base="$(git merge-base HEAD "$head")" ||
+            refuse "- The PR shares no history with main."
+
+          rc=0
+          verdict="$(node scripts/self-merge-check.mjs "$base" "$head" "$USER_ID")" || rc=$?
+          case "$rc" in
+            0) ;;
+            1) refuse "$verdict" ;;
+            *) refuse "- The self-merge check could not run (exit $rc); see the workflow log." ;;
+          esac
+
+          # pr-checks must have run on this exact commit and passed. Only the
+          # run of .github/workflows/pr-checks.yml counts — a check run of the
+          # same name from another workflow or app proves nothing. The PR cannot
+          # have edited that workflow or the scripts it runs: the check above
+          # refuses anything outside registry/. A fork PR whose workflows still
+          # await approval has no run at all.
+          run="$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs?event=pull_request&head_sha=$head&per_page=100" \
+                   --jq '.workflow_runs[] | select(.path == ".github/workflows/pr-checks.yml") | [.run_number, .id, .status, (.conclusion // "")] | @tsv' \
+                 | sort -n | tail -n1)"
+          [ -n "$run" ] ||
+            refuse "- pr-checks has not run on \`${head:0:7}\` yet (a first-time fork PR waits for approval). Comment \`/merge\` again once it has passed."
+          IFS=$'\t' read -r _ run_id run_status run_conclusion <<<"$run"
+          [ "$run_status" = completed ] ||
+            refuse "- pr-checks is still running on \`${head:0:7}\`. Comment \`/merge\` again once it has passed."
+          [ "$run_conclusion" = success ] ||
+            refuse "- pr-checks did not pass on \`${head:0:7}\` ($run_conclusion)."
+          jobs="$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/runs/$run_id/jobs?per_page=100" \
+                    --jq '.jobs[] | [.name, .status, (.conclusion // "")] | @tsv')"
+          for job in lint-and-test guard-infra build-changed; do
+            grep -qxF "$job"$'\t'completed$'\t'success <<<"$jobs" ||
+              refuse "- pr-checks \`$job\` did not pass on \`${head:0:7}\`."
+          done
+          # Any other failing check on the commit also holds the merge.
+          bad="$(gh api --paginate "repos/$GITHUB_REPOSITORY/commits/$head/check-runs?per_page=100" \
+                   --jq '.check_runs[] | select(.status == "completed" and (.conclusion | IN("success","skipped","neutral") | not)) | .name' \
+                 | sort -u | paste -sd, -)"
+          [ -z "$bad" ] || refuse "- Failing checks on \`${head:0:7}\`: $bad."
+
+          # Everything above was decided against main at $main_sha (the list,
+          # the app's existence, the merge-base). If main moved meanwhile — a
+          # maintainer removed from the list, the app de-listed — decide again.
+          [ "$(git ls-remote origin refs/heads/main | cut -f1)" = "$main_sha" ] ||
+            refuse "- main moved while this was running. Comment \`/merge\` again."
+
+          gh pr merge "$PR" --squash --match-head-commit "$head" \
+            --body "Self-merged by @$USER_LOGIN (upstream maintainer, config/maintainers.yml) via /merge." ||
+            refuse "- GitHub refused the merge (conflict, or the head moved). Rebase if needed and comment \`/merge\` again."
+
+          # A merge made with GITHUB_TOKEN never triggers push workflows, so
+          # publish.yml must be asked for explicitly (same as release-dispatch).
+          gh workflow run publish.yml --ref main
+          reply "$(printf 'Merged by @%s via `/merge`:\n\n%s\n\nPublishing now — the update reaches users once the [publish run](%s/actions/workflows/publish.yml) finishes.' "$USER_LOGIN" "$verdict" "$repo_url")"
