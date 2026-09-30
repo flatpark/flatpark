@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>io.github.houssemko.Grab</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT</project_license>
+  <project_license>GPL-3.0-only</project_license>
   <name>Grab</name>
   <summary>A GNOME download manager with pause, resume and history</summary>
   <description>
