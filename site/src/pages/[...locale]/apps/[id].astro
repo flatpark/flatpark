@@ -5,6 +5,7 @@ import Screenshots from '../../../components/Screenshots.astro';
 import InfoPanel from '../../../components/InfoPanel.astro';
 import ProseBlocks from '../../../components/ProseBlocks.astro';
 import { loadApps, loadCatalog } from '../../../lib/data.mjs';
+import { jsonForScript } from '../../../lib/json-script.mjs';
 import { pathsForLocales } from '../../../i18n/paths.mjs';
 import { getLangFromUrl, localizePath, sectionLabel, useTranslations } from '../../../i18n';
 
@@ -71,7 +72,7 @@ const ld = {
   description={t('detail.meta', { app: app.name, summary: app.summary })}
   image={app.icon}
 >
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
+  <script type="application/ld+json" slot="head" set:html={jsonForScript(ld)} />
   <Topbar repo={repo} />
   <main>
     <div class="mx-auto max-w-5xl px-5 pt-6 text-sm text-muted">

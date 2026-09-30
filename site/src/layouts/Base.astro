@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import { jsonForScript } from '../lib/json-script.mjs';
 import en from '../i18n/locales/en.json';
 import { defaultLang, getLangFromUrl, languages, localizePath, locales, sectionLabel, stripLang, useTranslations } from '../i18n';
 const { title, description, image, ogType = 'website' } = Astro.props;
@@ -99,8 +100,8 @@ const searchMeta = {
     <slot />
     <Footer />
 
-    <script type="application/json" data-i18n set:html={JSON.stringify(clientStrings)}></script>
-    <script type="application/json" data-search-meta set:html={JSON.stringify(searchMeta)}></script>
+    <script type="application/json" data-i18n set:html={jsonForScript(clientStrings)}></script>
+    <script type="application/json" data-search-meta set:html={jsonForScript(searchMeta)}></script>
 
     <script>
       import { initSearch } from '../scripts/search.js';

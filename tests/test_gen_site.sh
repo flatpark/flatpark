@@ -54,7 +54,7 @@ EOF
 cat > "$two_dir/flatpark.yml" <<'EOF'
 id: io.flatpark.TestTwo
 name: Test Two
-summary: Second test app
+summary: 'Second test app </script><script>globalThis.pwned=1</script> & more'
 build:
   manifest: io.flatpark.TestTwo.yml
 catalog:
@@ -96,6 +96,17 @@ assert_contains "$index" "/apps/io.flatpark.TestOne/"
 # permissions/description. The manual command block now lives on /setup/.
 assert_file "$detail"
 assert_contains "$detail" "Test One"
+# A </script> in descriptor text must not end the JSON-LD block (PR #473 review).
+detail_two="$site_out/apps/io.flatpark.TestTwo/index.html"
+assert_file "$detail_two"
+# (Quoted attribute values such as <meta content> may carry it raw: `<` is
+# inert there.) The JSON-LD text runs to the first `<`, so the whole payload
+# must still be inside it.
+ld="$(grep -oE 'application/ld\+json">[^<]*' "$detail_two" || true)"
+case "$ld" in
+    *'\u003c/script\u003e\u003cscript\u003eglobalThis.pwned=1'*) ;;
+    *) echo "FAIL: summary broke out of the JSON-LD script: [$ld]"; exit 1 ;;
+esac
 assert_contains "$detail" "Permissions"
 assert_contains "$detail" "Network access"
 assert_contains "$detail" "FlatPark Test Dev"
