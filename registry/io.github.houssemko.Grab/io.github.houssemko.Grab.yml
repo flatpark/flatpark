@@ -18,7 +18,7 @@ finish-args:
   # Completion notices go through the notification portal (GLib picks the
   # portal backend inside a sandbox), and sleep inhibition goes through the
   # Inhibit portal — neither needs a direct bus grant.
-  - --talk-name=org.freedesktop.portal.*
+  # Removed downloads go to Trash through GVfs.
   - --talk-name=org.gtk.vfs.*
   # Browser-cookie authentication (Preferences → Media → Authentication):
   # member-only pages and age gates need Secret Service over D-Bus so yt-dlp
@@ -30,8 +30,6 @@ finish-args:
   # system Downloads folder, which Flatpak maps to xdg-download. A custom
   # download directory outside it is the user's own opt-in.
   - --filesystem=xdg-download
-  # Host dconf database, read-only.
-  - --filesystem=xdg-config/dconf:ro
   # Queue database (queue.json), torrent state and resume data live under
   # ~/.local/share (glib user_data_dir), which is per-app sandboxed storage —
   # no grant needed.
