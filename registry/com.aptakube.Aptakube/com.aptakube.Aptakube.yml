@@ -69,9 +69,9 @@ modules:
         filename: aptakube.deb
         only-arches:
           - x86_64
-        url: https://github.com/aptakube/aptakube/releases/download/1.21.0/aptakube_1.21.0_amd64.deb
-        sha256: 93505d85211378510fab927cec7fe383d20e98ac88c3320339572276e2263e7e
-        size: 17591896
+        url: https://github.com/aptakube/aptakube/releases/download/1.21.1/aptakube_1.21.1_amd64.deb
+        sha256: cf66282b2c8238169aa67b34ddbf5dcc573db00b6f53fae8a6a0878a837d1789
+        size: 17593370
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
