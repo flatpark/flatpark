@@ -1,0 +1,98 @@
+# Notepad3 - the official Windows x64 portable build, repackaged unmodified as
+# extra-data and run under Wine.
+#
+# Notepad3 is a Win32 application (Scintilla editing component, Win32 API,
+# built with MSVC); upstream publishes no Linux build. What is packaged here is
+# the vendor's own `Notepad3_<version>_x64_Portable.zip` - a plain zip that
+# unpacks offline, byte for byte the artifact on the GitHub release page.
+#
+# The compatibility layer is not bundled from FlatPark's own build: the manifest
+# builds on the org.winehq.Wine base app (WineHQ's own Flatpak build of Wine,
+# on the same org.freedesktop.Platform//25.08 the rest of the catalog uses),
+# fetched from Flathub exactly like the base app the catalog's Electron packages
+# build on. As with every flatpak-builder base app, the Wine build's files are
+# part of this app's ref (the Electron packages are in the same position with
+# theirs), but OSTree objects are content-addressed: a user who already has the
+# base app - flatpak resolves it from Flathub, which the FlatPark setup adds for
+# runtimes - reuses those objects and pulls only this package's own files, the
+# wrapper, desktop file, metainfo and icon, from dl.flatpark.org. This is the
+# catalog's first Wine-based package - the pattern is the same "official binary
+# + outside-the-app adaptation" every other entry uses, with Wine taking the
+# place a bundled JRE takes elsewhere.
+#
+# The base-version pinned is the wow64-25.08 branch: WineHQ's build of the
+# same stable Wine 11.0 in the new WoW64 mode, whose unix side is pure x86_64 -
+# it runs 32-bit Windows code through in-process thunks instead of 32-bit unix
+# libraries. That keeps this package off --allow=multiarch and the
+# org.freedesktop.Platform.Compat.i386 extension entirely: the sandbox is
+# 64-bit only, like the packaged Notepad3 x64 build itself. On the regular
+# stable-25.08 branch the app cannot start at all (verified): its old-style WoW
+# setup wants the 32-bit loader - with multiarch granted it fails on the
+# missing /lib/ld-linux.so.2, without it `wine` exits 159 before the prefix is
+# even created.
+#
+# The portable zip ships Notepad3.ini next to Notepad3.exe, which selects
+# portable mode: settings are saved next to the executable. /app/extra is
+# read-only, so the wrapper copies the payload into the app's own data
+# directory on first run and refreshes it on every update, preserving the files
+# Notepad3 writes itself (settings, favorites, themes, grepWin configuration).
+id: com.rizonesoft.Notepad3
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+base: org.winehq.Wine
+base-version: wow64-25.08
+command: notepad3
+separate-locales: false
+build-options:
+  no-debuginfo: true
+
+finish-args:
+  # Wine's X11 driver renders through XWayland on Wayland sessions; the
+  # wayland+fallback-x11 pair is the standard grant for X11 apps.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # A text editor's core function is opening and saving the user's text files.
+  # Notepad3 is a Windows program: its file dialogs are Wine's, browsing the
+  # host through drive Z: - the xdg-desktop-portal file chooser is not reachable
+  # from a Win32 common dialog, so the portal route other FlatPark packages take
+  # is not available here. Home (not host) is granted, and it is declared under
+  # policy.dangerous_permissions with this justification. Removable media and
+  # paths outside $HOME are opt-in via flatpak override (see the metainfo).
+  - --filesystem=home
+  # No network: Notepad3 has no networked feature - its update check opens the
+  # download page in the host browser via the OpenURI portal, not a socket.
+  # No --allow=multiarch/devel/per-app-dev-shm: the packaged build is the x64
+  # portable one, which runs purely 64-bit Wine; verified by the smoke test in
+  # the PR.
+
+modules:
+  - name: notepad3
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 notepad3-wrapper /app/bin/notepad3
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm644 com.rizonesoft.Notepad3.desktop /app/share/applications/com.rizonesoft.Notepad3.desktop
+      - install -Dm644 com.rizonesoft.Notepad3.metainfo.xml /app/share/metainfo/com.rizonesoft.Notepad3.metainfo.xml
+      - install -Dm644 com.rizonesoft.Notepad3.png /app/share/icons/hicolor/256x256/apps/com.rizonesoft.Notepad3.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: notepad3.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/rizonesoft/Notepad3/releases/download/RELEASE_7.26.602.1/Notepad3_7.26.602.1_x64_Portable.zip
+        sha256: 4f8d02c5c1d5943cd0495c4322ee2e3d07c4734f15d29e2e24ae6f5fcbc1a9eb
+        size: 6868273
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: notepad3-wrapper
+      - type: file
+        path: com.rizonesoft.Notepad3.desktop
+      - type: file
+        path: com.rizonesoft.Notepad3.metainfo.xml
+      - type: file
+        path: com.rizonesoft.Notepad3.png

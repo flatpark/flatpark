@@ -1,0 +1,51 @@
+#!/bin/sh
+set -eu
+
+# Notepad3 is a Windows application; this package runs the official upstream
+# binary under Wine. Wine itself is not bundled - it comes from the
+# org.winehq.Wine base app, whose /app tree (wine, wineserver, gecko, mono) is
+# mounted below this app's own /app, so `wine` is already on PATH.
+
+# Notepad3 uses neither .NET (mscoree) nor HTML rendering (mshtml); disabling
+# the two also skips their per-prefix setup on first launch.
+export WINEDLLOVERRIDES="mscoree,mshtml="
+
+# The Wine prefix is per-user state like everything else this package writes,
+# so it lives in the app's own data directory (~/.var/app/<id>/data).
+export WINEPREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/wineprefix"
+
+payload=/app/extra/notepad3
+data_root="${XDG_DATA_HOME:-$HOME/.local/share}"
+data_app="$data_root/notepad3"
+
+# The portable zip ships Notepad3.ini next to Notepad3.exe, which selects
+# portable mode: settings are saved next to the executable. /app/extra is
+# read-only, so the payload is copied to the data directory on first run and
+# re-copied whenever the payload's Notepad3.exe changes (i.e. after an update).
+# What Notepad3 writes itself is carried across the refresh: settings
+# (Notepad3.ini, minipath.ini), Favorites/, Themes/ and the grepWin config.
+sum="$(sha256sum "$payload/Notepad3.exe" | cut -d' ' -f1)"
+if [ ! -f "$data_app/.payload-sha256" ] || [ "$(cat "$data_app/.payload-sha256")" != "$sum" ]; then
+    tmp="$data_app.new.$$"
+    old="$data_app.old.$$"
+    rm -rf "$tmp" "$old"
+    mkdir -p "$data_root"
+    cp -a "$payload" "$tmp"
+    for f in Notepad3.ini minipath.ini Favorites Themes grepWin; do
+        if [ -e "$data_app/$f" ]; then
+            cp -a "$data_app/$f" "$tmp/"
+        fi
+    done
+    if [ -d "$data_app" ]; then
+        mv "$data_app" "$old"
+    fi
+    mv "$tmp" "$data_app"
+    rm -rf "$old"
+    printf '%s\n' "$sum" > "$data_app/.payload-sha256"
+fi
+
+# Wine converts absolute unix paths given as arguments (host paths this sandbox
+# can see, $HOME included) to Z:\ drive notation, and passes relative paths
+# through against the current directory - so "notepad3 FILE" from a shell and
+# Exec=notepad3 %F from the desktop both open the named files.
+exec wine "$data_app/Notepad3.exe" "$@"
