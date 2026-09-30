@@ -1,0 +1,26 @@
+id: org.heretek_games.Drop.Alpha
+name: Drop Alpha
+summary: Self-hosted game distribution platform client (Alpha Preview)
+website: https://github.com/Heretek-Games/drop
+source_url: https://github.com/Heretek-Games/drop
+build:
+  manifest: org.heretek_games.Drop.Alpha.yml
+  branch: alpha
+  mode: extra-data
+catalog:
+  category: Game
+  tags:
+    - Gaming
+    - Launcher
+    - Self-Hosted
+    - Multiplayer
+    - Alpha
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --talk-name=org.freedesktop.Flatpak
+    - --device=all
+    - --filesystem=host:ro

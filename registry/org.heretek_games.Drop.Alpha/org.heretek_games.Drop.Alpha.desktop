@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Drop Alpha
+Comment=Self-hosted game distribution platform client (Alpha Preview)
+Exec=drop-desktop-client-alpha %u
+Icon=org.heretek_games.Drop.Alpha
+Type=Application
+Categories=Game;Network;
+MimeType=x-scheme-handler/drop-alpha;
+Terminal=false
+StartupWMClass=Drop Desktop Client
