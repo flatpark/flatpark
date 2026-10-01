@@ -1,0 +1,32 @@
+# FlatPark catalog descriptor for Photon Studio.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.tenzen.photon.yml is the Flatpak manifest it
+# points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.tenzen.photon
+name: Photon Studio
+summary: Offline photo editor with layers, masks, retouching and PSD support
+website: https://tenzen.studio/photon/
+source_url: https://tenzen.studio/install/linux/
+build:
+  manifest: com.tenzen.photon.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Photo
+    - ImageEditor
+    - PSD
+    - Design
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

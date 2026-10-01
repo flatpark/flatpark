@@ -1,0 +1,91 @@
+id: com.tenzen.photon
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper). The base is merged
+# into the app at build time; the payload itself is still the vendor's own
+# release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: photon
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) photo editor. Upstream ships its Linux build as an
+  # electron-builder AppImage; this repackages the AppDir inside it unmodified.
+  # The app id is the one upstream's own .flatpak bundle uses, so the two are
+  # the same application rather than rival refs.
+  - --share=ipc
+  # Pasting an image address or browser content that references a remote image
+  # fetches that image; editing itself is offline.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated canvas rendering.
+  - --device=dri
+  # A Photon document (.photon) is a directory, not a file: it is written to a
+  # staging directory next to the destination and renamed into place, and RAW
+  # edits are kept in a "<photo>.photon-raw.json" sidecar beside the photo.
+  # Neither can go through the file-chooser portal, which hands out single
+  # files, so the folders photos and documents normally live in are granted
+  # directly. New documents default to ~/Documents/Photon Documents.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Not granted by default — opt in per the metainfo:
+  #   --filesystem=home  -> save Photon documents and RAW sidecars anywhere
+  #                         under $HOME, as upstream's own Flatpak bundle allows
+  # ~/.photon holds the local automation runtime (the endpoint the bundled
+  # `photon` CLI and plugins connect to). $HOME is not redirected inside the
+  # sandbox, so persist it rather than lose it to the tmpfs on every start.
+  - --persist=.photon
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: photon
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 photon-wrapper /app/bin/photon
+      - install -Dm644 com.tenzen.photon.desktop /app/share/applications/com.tenzen.photon.desktop
+      - install -Dm644 com.tenzen.photon.metainfo.xml /app/share/metainfo/com.tenzen.photon.metainfo.xml
+      - install -Dm644 com.tenzen.photon.png /app/share/icons/hicolor/512x512/apps/com.tenzen.photon.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source rather
+      # than an archive module, because apply_extra runs in a sandbox that binds
+      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
+      # reproduces this). Kept OUTSIDE the managed block: update-pins.mjs
+      # rebuilds that block from the resolver output and would drop anything
+      # else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: photon.AppImage
+        only-arches:
+          - x86_64
+        url: https://downloads.tenzen.studio/photon/stable/linux/0.1.35/Photon-Studio-0.1.35-linux-x64.AppImage
+        sha256: 90a864ac09fc243957d7014225238c965a0763f8e5912ce0580b817a65ee40f5
+        size: 757193436
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: photon-wrapper
+      - type: file
+        path: com.tenzen.photon.desktop
+      - type: file
+        path: com.tenzen.photon.metainfo.xml
+      - type: file
+        path: com.tenzen.photon.png

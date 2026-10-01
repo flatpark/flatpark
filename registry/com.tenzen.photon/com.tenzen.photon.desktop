@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Photon Studio
+Comment=Edit photos and create layered designs, with PSD support
+Exec=photon %U
+Icon=com.tenzen.photon
+Terminal=false
+Categories=Graphics;RasterGraphics;Photography;
+StartupWMClass=photon-studio
+MimeType=application/x-photon;application/pdf;image/svg+xml;image/vnd.adobe.photoshop;image/x-photoshop;image/psd;image/x-psb;image/png;image/jpeg;image/tiff;image/gif;image/bmp;image/x-bmp;image/webp;image/avif;image/heic;image/heif;image/jxl;image/x-dcraw;image/x-adobe-dng;image/x-canon-cr2;image/x-canon-cr3;image/x-canon-crw;image/x-fuji-raf;image/x-nikon-nef;image/x-nikon-nrw;image/x-olympus-orf;image/x-panasonic-rw;image/x-panasonic-rw2;image/x-pentax-pef;image/x-samsung-srw;image/x-sony-arw;image/x-sony-sr2;image/x-sony-srf;
+Keywords=photo;image;editor;layers;psd;photoshop;retouch;raw;design;

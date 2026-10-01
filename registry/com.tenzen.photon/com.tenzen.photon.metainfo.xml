@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.tenzen.photon</id>
+  <name>Photon Studio</name>
+  <summary>Offline photo editor with layers, masks, retouching and PSD support</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://tenzen.studio/legal/</project_license>
+  <developer id="studio.tenzen">
+    <name>Tenzen Studio</name>
+  </developer>
+  <url type="homepage">https://tenzen.studio/photon/</url>
+  <url type="donation">https://tenzen.studio/photon/</url>
+  <description>
+    <p>This is a community package of Photon Studio, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Photon Studio is a free desktop photo editor. Edit photos, create layered designs, and open or save Photoshop documents. Everything runs on your computer: there is no account and no upload step, and even subject selection and background removal run locally.</p>
+    <ul>
+      <li>Layers, groups, masks, adjustment layers, smart objects and layer effects</li>
+      <li>Retouching with healing tools and Liquify</li>
+      <li>Text and vector shapes for design work</li>
+      <li>Open and save PSD and PSB files</li>
+      <li>Camera RAW, HEIF, AVIF and JPEG XL support</li>
+      <li>Curves with a live preview, and a command search for every tool</li>
+    </ul>
+    <p>This package can read and write your Pictures, Documents and Downloads folders, where Photon saves new documents by default. A Photon document is a folder rather than a single file, and edits to RAW photos are kept in a settings file next to the photo, so saving outside those folders needs a broader permission. To let Photon save anywhere in your home folder, as upstream's own Flatpak bundle does:</p>
+    <ul>
+      <li>flatpak override --user --filesystem=home com.tenzen.photon</li>
+    </ul>
+    <p>Updates arrive through this remote. The in-app update notice links to upstream's download page and can be ignored.</p>
+  </description>
+  <launchable type="desktop-id">com.tenzen.photon.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>RasterGraphics</category>
+    <category>Photography</category>
+  </categories>
+  <keywords>
+    <keyword>photo</keyword>
+    <keyword>image</keyword>
+    <keyword>editor</keyword>
+    <keyword>layers</keyword>
+    <keyword>psd</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>photon</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The start screen with recent documents</caption>
+      <image>https://tenzen.studio/assets/brand/photon-social-preview.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.35" date="2026-09-30" />
+  </releases>
+</component>
