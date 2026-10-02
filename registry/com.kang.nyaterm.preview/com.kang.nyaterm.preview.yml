@@ -1,0 +1,116 @@
+id: com.kang.nyaterm.preview
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: nyaterm-preview
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # NyaTerm Preview is upstream's 2.0 rewrite on GPUI: a native Rust window
+  # (Vulkan/GL through wgpu, Wayland or X11) plus RDP and VNC helper processes,
+  # all from the same .deb. The window links only gtk-3, dbus, xcb and
+  # xkbcommon from the GNOME runtime and dlopen-s the rest.
+  - --share=ipc
+  # SSH, SFTP, Telnet, RDP and VNC sessions, the AI providers and cloud sync.
+  - --share=network
+  - --socket=wayland
+  # Not a fallback: the clipboard goes through arboard, and Flatpak's Wayland
+  # socket does not pass the data-control protocol it wants, so X11 is its only
+  # clipboard route. The window itself stays native Wayland.
+  - --socket=x11
+  # Serial-port sessions open /dev/ttyS*, /dev/ttyUSB* and friends, which only
+  # --device=all exposes. It also covers the GPU that wgpu renders through
+  # (libvulkan / libEGL from the runtime's Mesa).
+  - --device=all
+  # The window implements accessibility through AccessKit's AT-SPI adapter,
+  # which asks org.a11y.Bus where the accessibility bus lives. Without this name
+  # a screen reader never sees the application at all.
+  - --talk-name=org.a11y.Bus
+  # Saved passwords, passphrases and the vault key go to the system keyring
+  # (Secret Service).
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon. The window dlopen-s libayatana-appindicator (the prebuilt stack
+  # below), which registers its item with the watcher under its own unique
+  # connection name, so no org.kde.StatusNotifierItem-<pid>-<n> name has to be
+  # owned and the PID-2 collision between sandboxed apps does not arise.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # ssh-agent authentication and agent forwarding.
+  - --socket=ssh-auth
+  # ~/.ssh (keys, config import), the local side of SFTP transfers and the
+  # file browser, and the app's own data: hosts, settings, the vault and the
+  # single-instance lock all live in ~/.nyaterm-preview, a path upstream
+  # hardcodes off $HOME, which Flatpak does not redirect.
+  - --filesystem=home
+  # Local terminal tabs: the wrapper points $SHELL at nyaterm-host-shell, which
+  # opens the user's login shell on the host through `flatpak-spawn --host`.
+  # This gives those tabs the same access as a terminal outside the sandbox.
+  - --talk-name=org.freedesktop.Flatpak
+modules:
+  # The window dlopen-s libayatana-appindicator3 for its tray icon, and the
+  # GNOME runtime does not ship it. Prebuilt ayatana tray stack (libdbusmenu,
+  # ayatana-ido, libayatana-indicator, libayatana-appindicator) from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51; the
+  # tag's manifest records the exact sources, pins and patches.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+
+  - name: nyaterm-preview
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 nyaterm-preview-wrapper /app/bin/nyaterm-preview
+      - install -Dm755 nyaterm-host-shell /app/bin/nyaterm-host-shell
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 com.kang.nyaterm.preview.desktop /app/share/applications/com.kang.nyaterm.preview.desktop
+      - install -Dm644 com.kang.nyaterm.preview.metainfo.xml /app/share/metainfo/com.kang.nyaterm.preview.metainfo.xml
+      - install -Dm644 com.kang.nyaterm.preview.png /app/share/icons/hicolor/256x256/apps/com.kang.nyaterm.preview.png
+    sources:
+      # The UI is translated into Chinese, Japanese and Korean, and terminals
+      # routinely show CJK text, which neither the GNOME runtime nor a typical
+      # non-CJK host can draw. The face is extra-data so its 19.5 MB stay out of
+      # FlatPark's repository; apply_extra stages it into /app/extra/fonts and
+      # fonts.conf lists that directory. Same tag-pinned URL and sha256 as
+      # dev.navop.Navop.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: nyaterm.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.0-preview.4/NyaTerm_2.0.0-preview.4_linux_x64.deb
+        sha256: 474491ce3173d88e52534df065723a3ad96caae1b9bca83586fdf723e13fe119
+        size: 39945382
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: nyaterm-preview-wrapper
+      - type: file
+        path: nyaterm-host-shell
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: com.kang.nyaterm.preview.desktop
+      - type: file
+        path: com.kang.nyaterm.preview.metainfo.xml
+      - type: file
+        path: com.kang.nyaterm.preview.png

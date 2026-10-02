@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+# NyaTerm Preview (the 2.0 GPUI rewrite) is a native window, nyaterm, with three
+# helpers it starts from its own directory: nyaterm-rdp-helper,
+# nyaterm-vnc-helper and nyaterm-mcp. apply_extra stages them together at
+# /app/extra/nyaterm-preview. Hosts, keys, settings and the single-instance lock
+# live in ~/.nyaterm-preview, which the home grant covers, so the data is the
+# same as with the upstream .deb.
+
+# The window draws text with cosmic-text/fontdb, which parses one fontconfig
+# file by itself and reads only its <dir> elements, so neither the host fonts
+# (reached through a conf.d remap-dir) nor the bundled CJK face under /app/extra
+# is visible with the runtime's own configuration, and CJK text comes out as
+# tofu boxes even on a host that has Noto Sans CJK installed. /app/etc/fonts/
+# fonts.conf lists every directory explicitly; see the comments in it.
+#
+# This deliberately replaces a FONTCONFIG_FILE the user may have set for all
+# apps: keeping theirs is what leaves the CJK face unreachable. To go back to
+# your own configuration, and lose the bundled fallback with it:
+#   flatpak override --user --env=NYATERM_FONTCONFIG_FILE=/path/to/fonts.conf com.kang.nyaterm.preview
+export FONTCONFIG_FILE="${NYATERM_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+# Local terminal tabs run $SHELL, which inside the sandbox would be the
+# runtime's shell. nyaterm-host-shell opens the user's login shell on the host
+# instead; see the comments in it. A shell path set on a connection in the app
+# still runs inside the sandbox.
+export SHELL=/app/bin/nyaterm-host-shell
+
+exec /app/extra/nyaterm-preview/nyaterm "$@"

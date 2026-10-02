@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# NyaTerm opens a local terminal tab by running $SHELL in a pty, and it also
+# runs $SHELL once at start-up (`-i -l -c <script>`, with
+# NYATERM_SHELL_ENV_READER=1 set) to snapshot the login environment it then
+# hands to that pty. The wrapper points $SHELL here, so both calls land in this
+# script.
+#
+# The environment probe stays in the sandbox. Its result becomes the app's own
+# process environment for local sessions, and a host snapshot would carry
+# host-only paths into the sandbox, SSH_AUTH_SOCK first among them (Flatpak
+# remaps the agent socket to /run/flatpak/ssh-auth, the host path is not
+# mounted), which would break agent authentication for SSH sessions.
+if [ "${NYATERM_SHELL_ENV_READER:-}" = 1 ]; then
+  exec /bin/sh "$@"
+fi
+
+# A terminal tab gets the user's login shell on the host, over
+# org.freedesktop.Flatpak. flatpak-spawn passes the pty through as stdin,
+# stdout and stderr, and the host side makes it the controlling terminal, so
+# job control, Ctrl-C and window resizes behave as in a host terminal. The
+# working directory is passed along too. The host command starts from the
+# session's own environment rather than the sandbox's, so only the terminal
+# variables are forwarded.
+host_shell="$(/usr/bin/flatpak-spawn --host getent passwd "$(id -u)" 2>/dev/null | cut -d: -f7)"
+[ -n "$host_shell" ] || host_shell=/bin/sh
+
+# Same rule as the app applies to a shell it starts itself: bash, zsh and fish
+# get a login, interactive session.
+case "${host_shell##*/}" in
+  bash|zsh|fish) set -- --login -i "$@" ;;
+esac
+
+exec /usr/bin/flatpak-spawn --host --watch-bus \
+  --env=TERM="${TERM:-xterm-256color}" \
+  ${COLORTERM:+--env=COLORTERM="$COLORTERM"} \
+  "$host_shell" "$@"

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.kang.nyaterm.preview</id>
+  <name>NyaTerm Preview</name>
+  <summary>Remote terminal workspace for SSH, SFTP, serial, RDP and VNC</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="app.nyaterm">
+    <name>nyakang</name>
+  </developer>
+  <url type="homepage">https://nyaterm.app</url>
+  <url type="help">https://nyaterm.app/docs/</url>
+  <url type="bugtracker">https://github.com/nyakang/nyaterm/issues</url>
+  <url type="vcs-browser">https://github.com/nyakang/nyaterm</url>
+  <description>
+    <p>This is a community package of NyaTerm Preview, maintained independently and unaffiliated with the NyaTerm project. It repackages the official upstream Linux build (the preview <code>.deb</code> release) unmodified.</p>
+    <p>NyaTerm Preview is the 2.0 rewrite of NyaTerm with a native interface built on GPUI. It is a desktop client for SSH-centric work and mixed terminal workflows, with tabs and split panes, saved connections, and an AI assistant for terminal tasks. It is a pre-release and installs alongside a stable NyaTerm with its own settings.</p>
+    <ul>
+      <li>SSH, local shell, Telnet and serial terminals, plus RDP and VNC remote desktops.</li>
+      <li>An SFTP file browser with a transfer queue, ZMODEM uploads, tunnels and port forwarding.</li>
+      <li>One-time passwords, process and resource monitoring, and encrypted cloud sync of your connections.</li>
+    </ul>
+    <p>Local terminal: a local terminal tab opens your login shell on the host system through <code>flatpak-spawn --host</code>, which gives it the same access as a terminal outside the sandbox. A custom shell path set on a connection runs inside the sandbox instead.</p>
+    <p>Permissions: besides the host shell, this package grants network access, the GPU, the Secret Service for stored credentials, your ssh-agent, a tray icon, all devices (for serial ports) and your home folder, for <code>~/.ssh</code>, the local side of SFTP, and the app's own data in <code>~/.nyaterm-preview</code>.</p>
+    <p>The in-app updater does not apply here: updates arrive through Flatpak.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/nyakang/nyaterm/main/docs-site/static/img/home/preview-home.png</image>
+      <caption>An SSH session with the file browser, saved connections and quick commands</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>RemoteAccess</category>
+    <category>TerminalEmulator</category>
+  </categories>
+  <keywords>
+    <keyword>ssh</keyword>
+    <keyword>sftp</keyword>
+    <keyword>telnet</keyword>
+    <keyword>serial</keyword>
+    <keyword>rdp</keyword>
+    <keyword>vnc</keyword>
+    <keyword>terminal</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>nyaterm-preview</binary>
+  </provides>
+  <launchable type="desktop-id">com.kang.nyaterm.preview.desktop</launchable>
+  <releases>
+    <release version="2.0.0-preview.4" date="2026-09-29">
+      <url>https://github.com/nyakang/nyaterm/releases/tag/v2.0.0-preview.4</url>
+    </release>
+  </releases>
+</component>

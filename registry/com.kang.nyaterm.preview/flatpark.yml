@@ -1,0 +1,29 @@
+id: com.kang.nyaterm.preview
+name: NyaTerm Preview
+summary: Remote terminal workspace for SSH, SFTP, serial, RDP and VNC
+website: https://nyaterm.app
+source_url: https://github.com/nyakang/nyaterm
+build:
+  manifest: com.kang.nyaterm.preview.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - SSH
+    - SFTP
+    - Serial
+    - Terminal
+    - Remote
+    - GPUI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  # Local terminal tabs open the host login shell through flatpak-spawn --host
+  # (nyaterm-host-shell); serial sessions need the tty devices.
+  dangerous_permissions:
+    - --talk-name=org.freedesktop.Flatpak
+    - --filesystem=home
+    - --device=all
