@@ -21,4 +21,6 @@ policy:
   proprietary: false
   extra_data_first: true
   dangerous_permissions:
-    - --filesystem=home
+    # Sending books to MTP e-readers goes through libmtp over raw USB; there is
+    # no narrower --device for it, and device sync is a core calibre feature.
+    - --device=all

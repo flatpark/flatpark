@@ -25,17 +25,32 @@ finish-args:
   # Read aloud (text-to-speech) in the E-book viewer, and audio in EPUBs.
   - --socket=pulseaudio
   # QtWebEngine renders the viewer, the editor preview and the conversion
-  # pipeline's page layout.
-  - --device=dri
+  # pipeline's page layout (GPU), and sending books to e-readers is a core
+  # calibre feature: MTP readers (Kindle Scribe and newer, Android-based ones
+  # like Boox or iReader) are driven through the bundled libmtp over raw USB,
+  # which has no narrower --device than all. Declared in
+  # policy.dangerous_permissions.
+  - --device=all
   # calibre manages a *library*: a directory of book files plus its metadata
-  # database, created at ~/Calibre Library on first run and freely relocatable
-  # by the user. Books are added from, and saved back to, arbitrary places in
-  # the home directory, and the paths are stored absolute in the database, so
-  # the access has to be persistent rather than per-file through the portal.
-  # Declared in policy.dangerous_permissions. Deliberately NOT --filesystem=host;
-  # a library on an external drive or another mount is an opt-in override
-  # documented in the metainfo.
-  - --filesystem=home
+  # database. The library location itself needs persistent access (calibre
+  # reopens it on every launch), but nothing else in home does: books are
+  # added by copying them into the library and exported via Save to disk, both
+  # through the file chooser portal (Qt's xdgdesktopportal theme, or zenity
+  # under GNOME). Documents is where the wrapper points a fresh install's
+  # library (calibre's own default, ~/Calibre Library, is deliberately not
+  # granted: a :create grant would recreate it on every launch even after the
+  # library has moved). Downloads is for adding freshly bought books and for
+  # the auto-add watch folder (which deletes files once imported, hence rw).
+  # A library anywhere else is an opt-in override documented in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # USB mass-storage readers (older Kindles, Kobo, PocketBook, ...) show up as
+  # a removable drive: calibre finds them through sysfs, writes books to the
+  # mount point under /run/media, and asks UDisks2 to mount or eject them.
+  # Also lets a library live on an external drive. Still not
+  # --filesystem=host (which is what Flathub's calibre grants).
+  - --filesystem=/run/media
+  - --system-talk-name=org.freedesktop.UDisks2
   # Follow the Qt/KDE colour scheme and font settings when the host sets them.
   - --filesystem=xdg-config/kdeglobals:ro
   # Job completion / error notifications from the main window.

@@ -11,4 +11,18 @@ cmd="${0##*/}"
 
 [ -x "$app/$cmd" ] || { echo "calibre: no bundled command named '$cmd'" >&2; exit 127; }
 
+# calibre's first-run library default is ~/Calibre Library, which the sandbox
+# does not grant (only Documents and Downloads are). On a fresh install, before
+# calibre has written any config, point library_path at Documents/Calibre
+# instead; the welcome wizard then offers that location, and an existing config
+# is never touched.
+cfg="${CALIBRE_CONFIG_DIRECTORY:-${XDG_CONFIG_HOME:-$HOME/.config}/calibre}/global.py.json"
+if [ ! -e "$cfg" ]; then
+  docs=$(xdg-user-dir DOCUMENTS 2>/dev/null) || docs=
+  { [ -n "$docs" ] && [ "$docs" != "$HOME" ]; } || docs="$HOME/Documents"
+  lib=$(printf '%s' "$docs/Calibre" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  mkdir -p "${cfg%/*}"
+  printf '{\n  "library_path": "%s"\n}\n' "$lib" > "$cfg"
+fi
+
 exec "$app/$cmd" "$@"
