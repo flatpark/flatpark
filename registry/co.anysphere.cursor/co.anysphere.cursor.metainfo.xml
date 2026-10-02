@@ -57,6 +57,9 @@
   </provides>
   <launchable type="desktop-id">co.anysphere.cursor.desktop</launchable>
   <releases>
+    <release version="3.23.12" date="2026-10-01">
+      <description></description>
+    </release>
     <release version="3.22.12" date="2026-09-26">
       <description></description>
     </release>
