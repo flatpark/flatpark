@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.encroissant.app</id>
+  <name>En Croissant</name>
+  <summary>Chess toolkit for analysis, game databases and opening repertoires</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="org.encroissant">
+    <name>Francisco Salgueiro</name>
+  </developer>
+  <url type="homepage">https://encroissant.org</url>
+  <url type="bugtracker">https://github.com/franciscoBSalgueiro/en-croissant/issues</url>
+  <url type="vcs-browser">https://github.com/franciscoBSalgueiro/en-croissant</url>
+  <url type="help">https://encroissant.org/docs</url>
+  <description>
+    <p>This is a community package of En Croissant, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>En Croissant is an open-source chess toolkit for studying and analysing games.</p>
+    <ul>
+      <li>Analyse positions with UCI engines such as Stockfish, which it can download for you.</li>
+      <li>Store and search large game databases, and import your games from Lichess and Chess.com.</li>
+      <li>Build opening repertoires and train them with spaced repetition.</li>
+      <li>Solve puzzles and play against engines.</li>
+    </ul>
+    <p>The package can read and write its own document folder, Documents/EnCroissant, where it keeps your games and repertoires by default. Engines, reference databases and puzzles stay in the application's private per-app directory, other files are opened through the file chooser portal, and it has network access for game imports and online analysis.</p>
+    <p>To keep documents somewhere else, grant that location and choose it in the settings: <code>flatpak override --user --filesystem=/path/to/folder org.encroissant.app</code>. Remove custom grants with <code>flatpak override --user --reset org.encroissant.app</code>.</p>
+    <p>Updates come through Flatpak. If the application offers to install an update itself, ignore it and update with Flatpak instead.</p>
+  </description>
+  <launchable type="desktop-id">org.encroissant.app.desktop</launchable>
+  <categories>
+    <category>Game</category>
+    <category>BoardGame</category>
+  </categories>
+  <keywords>
+    <keyword>chess</keyword>
+    <keyword>pgn</keyword>
+    <keyword>analysis</keyword>
+    <keyword>engine</keyword>
+    <keyword>stockfish</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>en-croissant</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Analysing a game</caption>
+      <image>https://raw.githubusercontent.com/franciscoBSalgueiro/encroisssant-site/master/public/showcase.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.15.1" date="2026-09-05" />
+    <release version="0.15.0" date="2026-03-17" />
+    <release version="0.14.2" date="2026-02-27" />
+  </releases>
+</component>

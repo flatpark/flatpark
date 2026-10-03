@@ -1,0 +1,23 @@
+id: org.encroissant.app
+name: En Croissant
+summary: Chess toolkit for analysis, game databases and opening repertoires
+website: https://encroissant.org
+source_url: https://github.com/franciscoBSalgueiro/en-croissant
+build:
+  manifest: org.encroissant.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  upstream_approved: false
+  tags:
+    - Chess
+    - Analysis
+    - Board Game
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

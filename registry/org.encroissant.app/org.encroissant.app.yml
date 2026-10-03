@@ -1,0 +1,53 @@
+id: org.encroissant.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: en-croissant
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK chess toolkit. Everything it links against — webkit2gtk-4.1,
+  # gtk-3, libsoup-3, libssl/libcrypto — is in org.gnome.Platform.
+  - --share=ipc
+  # Lichess and Chess.com game imports, cloud evaluations, opening explorers,
+  # and downloading engines and reference databases.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Move and capture sounds.
+  - --socket=pulseaudio
+  # The app's own document folder, where it keeps your games and repertoires by
+  # default (Documents/EnCroissant). Engines, reference databases and puzzles
+  # live in the private per-app directory; other files go through the portal.
+  - --filesystem=xdg-documents/EnCroissant:create
+modules:
+  - name: en-croissant
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 en-croissant-wrapper /app/bin/en-croissant
+      - install -Dm644 org.encroissant.app.desktop /app/share/applications/org.encroissant.app.desktop
+      - install -Dm644 org.encroissant.app.metainfo.xml /app/share/metainfo/org.encroissant.app.metainfo.xml
+      - install -Dm644 org.encroissant.app.png /app/share/icons/hicolor/512x512/apps/org.encroissant.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/franciscoBSalgueiro/en-croissant/releases/download/v0.15.1/en-croissant_0.15.1_amd64.deb
+        sha256: 115a682daa910a5317379b6e739d9e9f7bf825f522a49fc12af11bd6fce8856a
+        size: 16933814
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: en-croissant-wrapper
+      - type: file
+        path: org.encroissant.app.desktop
+      - type: file
+        path: org.encroissant.app.metainfo.xml
+      - type: file
+        path: org.encroissant.app.png

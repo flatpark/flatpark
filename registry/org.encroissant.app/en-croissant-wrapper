@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# En Croissant is a Tauri (WebKitGTK) app staged by apply_extra under
+# /app/extra/en-croissant/usr, with its resource tree next to the binary. It has
+# no tray icon and its window is opaque.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox. Disabling it is the reliable default for an opaque WebKitGTK
+# window; a `flatpak override --env=` can still switch it back on.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/en-croissant/usr/bin/launch "$@"

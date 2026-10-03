@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=En Croissant
+Comment=Chess toolkit for analysis, game databases and opening repertoires
+Exec=en-croissant %f
+Icon=org.encroissant.app
+Terminal=false
+StartupWMClass=en-croissant
+MimeType=application/x-chess-pgn;
+Categories=Game;BoardGame;
+Keywords=chess;pgn;analysis;engine;stockfish;lichess;
