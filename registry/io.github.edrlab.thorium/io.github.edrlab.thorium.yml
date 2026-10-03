@@ -1,0 +1,65 @@
+id: io.github.edrlab.thorium
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: thorium
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron reading app (EPUB, audiobooks, PDF, comics, LCP-protected titles).
+  # The prebuilt build bundles Chromium plus its own ffmpeg/ANGLE/SwiftShader;
+  # the GTK3, NSS, ALSA, dbus, gbm and X11 stacks it links come from the runtime.
+  - --share=ipc
+  # OPDS catalogs and library lending, LCP license checks, and downloading
+  # publications.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audiobooks, media overlays and read aloud.
+  - --socket=pulseaudio
+  # Read aloud through the desktop's speech-dispatcher; the base app provides
+  # the client library, this exposes the host daemon's socket.
+  - --filesystem=xdg-run/speech-dispatcher:ro
+  # No filesystem grant for books: importing goes through the file chooser
+  # portal and Thorium copies each publication into its own library, which lives
+  # in the private per-app directory.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: thorium
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 thorium-wrapper /app/bin/thorium
+      - install -Dm644 io.github.edrlab.thorium.desktop /app/share/applications/io.github.edrlab.thorium.desktop
+      - install -Dm644 io.github.edrlab.thorium.metainfo.xml /app/share/metainfo/io.github.edrlab.thorium.metainfo.xml
+      - install -Dm644 io.github.edrlab.thorium.png /app/share/icons/hicolor/512x512/apps/io.github.edrlab.thorium.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/edrlab/thorium-reader/releases/download/v3.5.1/Thorium-3.5.1-amd64.deb
+        sha256: 72ab951d4963500b68c91a6496c662f30698dc27422a1b1af720b1cfbdfd327e
+        size: 106569576
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: thorium-wrapper
+      - type: file
+        path: io.github.edrlab.thorium.desktop
+      - type: file
+        path: io.github.edrlab.thorium.metainfo.xml
+      - type: file
+        path: io.github.edrlab.thorium.png

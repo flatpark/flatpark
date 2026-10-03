@@ -1,0 +1,25 @@
+id: io.github.edrlab.thorium
+name: Thorium Reader
+summary: Accessible reader for EPUB, audiobooks, PDF and comics
+website: https://www.edrlab.org/software/thorium-reader/
+source_url: https://github.com/edrlab/thorium-reader
+build:
+  manifest: io.github.edrlab.thorium.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Ebook
+    - EPUB
+    - Reader
+    - Accessibility
+    - Audiobook
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

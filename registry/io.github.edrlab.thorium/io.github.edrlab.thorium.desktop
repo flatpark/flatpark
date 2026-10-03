@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Thorium Reader
+Comment=Accessible reader for EPUB, audiobooks, PDF and comics
+Exec=thorium %U
+Icon=io.github.edrlab.thorium
+Terminal=false
+StartupWMClass=Thorium
+MimeType=application/epub+zip;application/daisy+zip;application/vnd.readium.lcp.license.v1.0+json;application/audiobook+zip;application/webpub+zip;application/audiobook+lcp;application/pdf+lcp;application/vnd.edrlab.thorium+zip;x-scheme-handler/thorium;x-scheme-handler/com.thoriumreader;x-scheme-handler/com.thoriumreader.desktop;x-scheme-handler/opds;
+Categories=Office;Viewer;
+Keywords=ebook;epub;reader;audiobook;daisy;lcp;opds;accessibility;

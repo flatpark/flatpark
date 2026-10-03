@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.edrlab.thorium</id>
+  <name>Thorium Reader</name>
+  <summary>Accessible reader for EPUB, audiobooks, PDF and comics</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+  <developer id="org.edrlab">
+    <name>EDRLab</name>
+  </developer>
+  <url type="homepage">https://www.edrlab.org/software/thorium-reader/</url>
+  <url type="bugtracker">https://github.com/edrlab/thorium-reader/issues</url>
+  <url type="vcs-browser">https://github.com/edrlab/thorium-reader</url>
+  <description>
+    <p>This is a community package of Thorium Reader, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Thorium Reader is a free reading application from EDRLab, built on the Readium toolkit, with a strong focus on accessibility. It reads:</p>
+    <ul>
+      <li>EPUB 2 and 3 e-books, including fixed-layout and media overlays.</li>
+      <li>Audiobooks, DAISY books, PDF and comics.</li>
+      <li>Titles protected with Readium LCP, such as those lent by public libraries.</li>
+    </ul>
+    <p>It works with screen readers, has read aloud, adjustable typography and themes, annotations and bookmarks, and can browse OPDS catalogs.</p>
+    <p>The package has network access for catalogs, library lending and LCP licenses, can play audio, and can use the desktop's speech-dispatcher for read aloud. It has no access to your files: publications are imported through the file chooser portal and copied into Thorium's own library in the application's private per-app directory.</p>
+  </description>
+  <launchable type="desktop-id">io.github.edrlab.thorium.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Viewer</category>
+  </categories>
+  <keywords>
+    <keyword>ebook</keyword>
+    <keyword>epub</keyword>
+    <keyword>audiobook</keyword>
+    <keyword>lcp</keyword>
+    <keyword>opds</keyword>
+    <keyword>accessibility</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>thorium</binary>
+    <mediatype>application/epub+zip</mediatype>
+    <mediatype>application/audiobook+zip</mediatype>
+    <mediatype>application/webpub+zip</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The library</caption>
+      <image>https://www.edrlab.org/wp-content/uploads/2020/01/iMac-Thorium.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.5.1" date="2026-09-02" />
+    <release version="3.5.0" date="2026-08-28" />
+    <release version="3.4.0" date="2026-04-09" />
+  </releases>
+</component>
