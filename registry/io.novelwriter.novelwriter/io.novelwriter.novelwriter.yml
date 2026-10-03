@@ -1,0 +1,69 @@
+id: io.novelwriter.novelwriter
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: novelwriter
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # novelWriter's Linux AppImage is self-contained: it brings its own Python
+  # 3.14, PyQt6 and Qt 6 (with both the xcb and wayland platform plugins and
+  # libQt6WaylandClient), so nothing Qt or Python comes from the runtime. The
+  # GNOME runtime rather than the bare freedesktop one, because spell checking
+  # goes through pyenchant, which needs libenchant-2 and the hunspell
+  # dictionaries the GNOME runtime ships.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Upstream's own Flatpak build grants network (update notices, online help).
+  - --share=network
+  # Projects are folders of plain text files that novelWriter keeps open and
+  # writes as you type. The Documents directory is what upstream's own Flatpak
+  # manifest grants; projects elsewhere are an opt-in override documented in the
+  # metainfo.
+  - --filesystem=xdg-documents
+modules:
+  - name: novelwriter
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 novelwriter-wrapper /app/bin/novelwriter
+      - install -Dm644 io.novelwriter.novelwriter.desktop /app/share/applications/io.novelwriter.novelwriter.desktop
+      - install -Dm644 io.novelwriter.novelwriter.metainfo.xml /app/share/metainfo/io.novelwriter.novelwriter.metainfo.xml
+      - install -Dm644 io.novelwriter.novelwriter.png /app/share/icons/hicolor/512x512/apps/io.novelwriter.novelwriter.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # because a system-wide install runs apply_extra in a sandbox that binds
+      # only the runtime /usr and /app/extra. Kept OUTSIDE the managed block:
+      # update-pins.mjs rebuilds that block from the resolver output and would
+      # drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/saga-soft/novelWriter/releases/download/v26.2.1/novelwriter-26.2.1-x86_64.AppImage
+        sha256: 5fd64d6fe91334d5dc3da13e7ae60dbaf8223e4024c960fa65647cf03d0fde41
+        size: 83769848
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: novelwriter-wrapper
+      - type: file
+        path: io.novelwriter.novelwriter.desktop
+      - type: file
+        path: io.novelwriter.novelwriter.metainfo.xml
+      - type: file
+        path: io.novelwriter.novelwriter.png

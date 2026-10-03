@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.novelwriter.novelwriter</id>
+  <name>novelWriter</name>
+  <summary>Plain text editor for planning and writing novels</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.novelwriter">
+    <name>Veronica Berglyd Olsen</name>
+  </developer>
+  <url type="homepage">https://novelwriter.io</url>
+  <url type="help">https://docs.novelwriter.io</url>
+  <url type="bugtracker">https://github.com/saga-soft/novelWriter/issues</url>
+  <url type="vcs-browser">https://github.com/saga-soft/novelWriter</url>
+  <description>
+    <p>This is a community package of novelWriter, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>novelWriter is a plain text editor designed for writing novels assembled from many smaller text documents. It uses a minimal formatting syntax inspired by Markdown, and adds a meta data syntax for comments, synopsis and cross-referencing.</p>
+    <ul>
+      <li>Organise a project into chapters and scenes, and plan characters, plots and locations alongside them.</li>
+      <li>Tag and reference notes from the text, and see the references in an outline view.</li>
+      <li>Track word counts and writing sessions.</li>
+      <li>Build the manuscript to Open Document, HTML, Markdown or PDF.</li>
+    </ul>
+    <p>Projects are folders of plain text files, so they work well with version control and sync services.</p>
+    <p>Spell checking uses the dictionaries that come with the Flatpak runtime; pick one, such as en_US, in Preferences.</p>
+    <p>The package can read and write your Documents directory, which is what upstream's own Flatpak build grants; settings stay in the application's private per-app directory. To keep projects somewhere else, grant that location: <code>flatpak override --user --filesystem=/path/to/projects io.novelwriter.novelwriter</code>. Remove custom grants with <code>flatpak override --user --reset io.novelwriter.novelwriter</code>.</p>
+  </description>
+  <launchable type="desktop-id">io.novelwriter.novelwriter.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>WordProcessor</category>
+  </categories>
+  <keywords>
+    <keyword>novel</keyword>
+    <keyword>writing</keyword>
+    <keyword>markdown</keyword>
+    <keyword>fiction</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>novelwriter</binary>
+    <mediatype>application/x-novelwriter-project</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Writing a scene with the project tree and outline</caption>
+      <image>https://raw.githubusercontent.com/saga-soft/novelWriter/refs/heads/main/setup/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="26.2.1" date="2026-09-26" />
+    <release version="26.2" date="2026-09-05" />
+  </releases>
+</component>

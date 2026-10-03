@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=novelWriter
+Comment=Plain text editor for planning and writing novels
+Exec=novelwriter %f
+Icon=io.novelwriter.novelwriter
+Terminal=false
+MimeType=application/x-novelwriter-project;
+Categories=Qt;Office;WordProcessor;
+Keywords=novel;writing;markdown;fiction;author;
