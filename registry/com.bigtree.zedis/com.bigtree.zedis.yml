@@ -1,0 +1,80 @@
+id: com.bigtree.zedis
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: zedis
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Zedis is a native GPUI application: it links only libc, xcb and xkbcommon
+  # and loads Vulkan, Wayland and the rest at run time, all of which the
+  # freedesktop runtime provides. It renders through Vulkan, so it needs the GPU.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Zedis implements accessibility through AccessKit's AT-SPI adapter, which
+  # asks org.a11y.Bus where the accessibility bus lives. Without this name a
+  # screen reader never sees the application.
+  - --talk-name=org.a11y.Bus
+  # The core function: every Redis server, cluster or sentinel, and SSH tunnel,
+  # is a TCP connection, including to 127.0.0.1.
+  - --share=network
+  # Zedis keeps the master key that encrypts saved passwords in the desktop's
+  # Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # No filesystem grant: settings and saved servers live in
+  # $XDG_CONFIG_HOME/zedis inside the per-app directory, and exports and
+  # imports go through the file chooser portal. SSH keys for tunnels are an
+  # opt-in override documented in the metainfo.
+modules:
+  - name: zedis
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 zedis-wrapper /app/bin/zedis
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 com.bigtree.zedis.desktop /app/share/applications/com.bigtree.zedis.desktop
+      - install -Dm644 com.bigtree.zedis.metainfo.xml /app/share/metainfo/com.bigtree.zedis.metainfo.xml
+      - install -Dm644 com.bigtree.zedis.svg /app/share/icons/hicolor/scalable/apps/com.bigtree.zedis.svg
+    sources:
+      # Zedis's font fallback list asks for "Noto Sans CJK SC/TC/JP/KR" for CJK
+      # text, and neither the freedesktop runtime nor a typical non-CJK host
+      # ships them, so GPUI draws the missing glyphs as tofu. The face is
+      # extra-data rather than a build module so its 19.5 MB stay out of
+      # FlatPark's repository for a file jsDelivr already serves; apply_extra
+      # stages it into /app/extra/fonts and fonts.conf adds that directory.
+      # Same tag-pinned URL and sha256 as dev.navop.Navop.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/vicanso/zedis/releases/download/v0.12.1/zedis-linux-x86_64.deb
+        sha256: d3d05f6d0b1100289bdb7f9fdc3947d7530df642c587679e33ba18b25ceda949
+        size: 17400940
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: zedis-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: com.bigtree.zedis.desktop
+      - type: file
+        path: com.bigtree.zedis.metainfo.xml
+      - type: file
+        path: com.bigtree.zedis.svg

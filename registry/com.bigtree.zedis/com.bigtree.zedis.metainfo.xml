@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.bigtree.zedis</id>
+  <name>Zedis</name>
+  <summary>Fast native Redis client</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="net.zedis">
+    <name>vicanso</name>
+  </developer>
+  <url type="homepage">https://zedis.net</url>
+  <url type="bugtracker">https://github.com/vicanso/zedis/issues</url>
+  <url type="vcs-browser">https://github.com/vicanso/zedis</url>
+  <description>
+    <p>This is a community package of Zedis, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Zedis is a Redis client written in Rust with the GPUI toolkit, built to stay responsive with large keyspaces.</p>
+    <ul>
+      <li>Browse and edit strings, hashes, lists, sets, sorted sets, streams, JSON and more.</li>
+      <li>Connect to standalone servers, clusters and sentinels, over TLS or an SSH tunnel.</li>
+      <li>Watch live metrics, analyse memory usage and run commands from a command palette.</li>
+    </ul>
+    <p>The package has network access to reach your Redis servers, keeps the key that encrypts saved passwords in your desktop keyring, and has no filesystem grant: settings stay in the application's private per-app directory and exports go through the file chooser portal. It bundles Noto Sans CJK so Chinese, Japanese and Korean text renders on any host.</p>
+    <p>To use SSH keys for tunnels, grant read access to them: <code>flatpak override --user --filesystem=~/.ssh:ro com.bigtree.zedis</code>. Remove custom grants with <code>flatpak override --user --reset com.bigtree.zedis</code>.</p>
+  </description>
+  <launchable type="desktop-id">com.bigtree.zedis.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>redis</keyword>
+    <keyword>valkey</keyword>
+    <keyword>database</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>zedis</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browsing keys</caption>
+      <image>https://raw.githubusercontent.com/vicanso/zedis/main/docs/images/key-browser.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Live metrics</caption>
+      <image>https://raw.githubusercontent.com/vicanso/zedis/main/docs/images/live-metrics.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Command palette</caption>
+      <image>https://raw.githubusercontent.com/vicanso/zedis/main/docs/images/command-palette.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.12.1" date="2026-09-30" />
+    <release version="0.12.0" date="2026-09-27" />
+    <release version="0.11.1" date="2026-09-22" />
+  </releases>
+</component>

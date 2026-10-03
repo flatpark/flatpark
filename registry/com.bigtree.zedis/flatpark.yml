@@ -1,0 +1,23 @@
+id: com.bigtree.zedis
+name: Zedis
+summary: Fast native Redis client
+website: https://zedis.net
+source_url: https://github.com/vicanso/zedis
+build:
+  manifest: com.bigtree.zedis.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - Redis
+    - Database
+    - Developer
+    - GPUI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

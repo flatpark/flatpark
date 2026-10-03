@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Zedis
+Comment=Fast native Redis client
+Exec=zedis %u
+Icon=com.bigtree.zedis
+Terminal=false
+StartupNotify=true
+StartupWMClass=zedis
+MimeType=x-scheme-handler/redis;x-scheme-handler/rediss;
+Categories=Development;Database;
+Keywords=redis;valkey;database;key-value;cache;

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+# GPUI draws text with cosmic-text/fontdb, which reads the <dir> list of one
+# fontconfig file and nothing it includes. The app's fonts.conf lists every
+# directory explicitly (runtime, host, user, and the bundled CJK face); see the
+# comment in that file. It is set unconditionally, because a user-level
+# fonts.conf that only includes others is exactly what leaves fontdb without
+# CJK fonts. ZEDIS_FONTCONFIG_FILE is the escape hatch.
+export FONTCONFIG_FILE="${ZEDIS_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+exec /app/extra/zedis "$@"
