@@ -1,0 +1,36 @@
+# FlatPark catalog descriptor for RevPDF Editor.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.revpdf.editor.yml is the Flatpak manifest it
+# points at.
+#
+# The app id is upstream's own: it is the GApplication id the binary registers,
+# the name of the AppImage's desktop entry and icon, and the Android package id.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.revpdf.editor
+name: RevPDF Editor
+summary: Offline PDF editor with comparison, OCR and conversion
+website: https://revpdf.com
+source_url: https://github.com/Pawandeep-prog/revpdf-release
+build:
+  manifest: com.revpdf.editor.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - PDF
+    - Editor
+    - OCR
+    - Compare
+    - Flutter
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

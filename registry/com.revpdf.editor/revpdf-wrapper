@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# RevPDF is upstream's AppImage, unpacked by apply_extra into the AppDir at
+# /app/extra/revpdf. This does what the AppImage's own AppRun does: put the
+# bundle's lib/ on LD_LIBRARY_PATH and start the Flutter executable. The search
+# path is needed, not just tidy - the executable's RUNPATH covers its direct
+# dependencies, but the OCR stack loaded at run time (libtesseract and
+# liblept) carries none, and finds its own libraries only through it.
+#
+# Documents, settings and downloaded OCR / font data go to the XDG directories,
+# which Flatpak redirects under ~/.var/app/com.revpdf.editor.
+export LD_LIBRARY_PATH="/app/extra/revpdf/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/revpdf/revpdf_editor "$@"

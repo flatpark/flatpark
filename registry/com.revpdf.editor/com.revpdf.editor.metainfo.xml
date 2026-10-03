@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.revpdf.editor</id>
+  <launchable type="desktop-id">com.revpdf.editor.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>RevPDF Editor</name>
+  <summary>Offline PDF editor with comparison, OCR and conversion</summary>
+  <developer id="com.revpdf">
+    <name>Pawandeep Singh</name>
+  </developer>
+  <url type="homepage">https://revpdf.com</url>
+  <url type="bugtracker">https://github.com/Pawandeep-prog/revpdf-release/issues</url>
+  <description>
+    <p>This is a community package of RevPDF Editor, maintained independently and unaffiliated with its developer. It repackages the official AppImage unmodified and follows upstream releases automatically. RevPDF Editor is proprietary software, free to use on the desktop with no account and no subscription.</p>
+    <p>RevPDF Editor is a PDF editor that does its work on your device; documents are never uploaded.</p>
+    <ul>
+      <li>Edit text and images in place, annotate, highlight and draw.</li>
+      <li>Compare two versions of a PDF.</li>
+      <li>Redact, fill forms and sign electronically.</li>
+      <li>Split, merge, reorder, compress, and add headers, footers and watermarks.</li>
+      <li>OCR to make scanned PDFs searchable.</li>
+      <li>Convert to Word, Excel, images and PDF/A, and run automated multi-step workflows.</li>
+    </ul>
+    <p>Permissions: this package grants network access, the GPU, printing, and your Documents and Downloads folders. The network is used to download the interface and text-editing fonts, the OCR language model the first time OCR runs, and to check for updates; editing itself is offline. Open and Save dialogs reach any folder through the file chooser, and PDFs opened from your file manager work from anywhere. To let the app browse your whole home directory without a dialog:</p>
+    <ul>
+      <li><code>flatpak override --user --filesystem=home com.revpdf.editor</code></li>
+    </ul>
+    <p>The app&apos;s settings and the data it downloads stay inside the sandbox under <code>~/.var/app/com.revpdf.editor</code>. Updates come from this repository.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Pawandeep-prog/revpdf-release/157c065faf006c55fd9fbe70761a290c4e019403/images/home.png</image>
+      <caption>Home screen</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Pawandeep-prog/revpdf-release/157c065faf006c55fd9fbe70761a290c4e019403/images/edit.png</image>
+      <caption>Editing and annotating a PDF</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Pawandeep-prog/revpdf-release/157c065faf006c55fd9fbe70761a290c4e019403/images/tools.png</image>
+      <caption>Drawing, text and redaction tools</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <recommends>
+    <display_length compare="ge">768</display_length>
+  </recommends>
+  <categories>
+    <category>Office</category>
+  </categories>
+  <keywords>
+    <keyword>pdf</keyword>
+    <keyword>editor</keyword>
+    <keyword>compare</keyword>
+    <keyword>ocr</keyword>
+    <keyword>sign</keyword>
+    <keyword>redact</keyword>
+  </keywords>
+  <releases>
+    <release version="5.0.0" date="2026-08-25"/>
+  </releases>
+</component>

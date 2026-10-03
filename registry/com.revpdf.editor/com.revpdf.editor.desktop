@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=RevPDF Editor
+GenericName=PDF Editor
+Comment=Edit, compare, sign and convert PDFs offline
+Exec=revpdf %F
+Icon=com.revpdf.editor
+Terminal=false
+StartupNotify=true
+Categories=Office;
+Keywords=pdf;editor;compare;ocr;sign;redact;convert;merge;split;compress;
+MimeType=application/pdf;
+# The GApplication id the binary registers, which GTK also uses as the Wayland
+# app_id and the X11 WM_CLASS.
+StartupWMClass=com.revpdf.editor

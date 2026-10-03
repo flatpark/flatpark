@@ -1,0 +1,87 @@
+id: com.revpdf.editor
+# RevPDF ships for Linux only as an AppImage: a stock Flutter (GTK 3) bundle
+# that carries its own engine, PDFium, Tesseract/Leptonica and their libraries
+# in lib/. What it leaves to the host - GTK 3, GLib, the display, GL/EGL,
+# fontconfig and the C++ runtime - is what org.freedesktop.Platform 26.08
+# provides (checked with ldd against the runtime: the only unresolved library
+# is libjvm.so, wanted by a Dart JNI helper the desktop app never loads).
+# Nothing is built here; the only module installs our own launcher, desktop
+# entry, icon and AppStream data.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: revpdf
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Flutter renders through OpenGL.
+  - --device=dri
+  # Editing and the PDF tools are local; the network is what the app fetches
+  # at run time: its interface fonts (google_fonts, cached after the first
+  # download), the fonts offered when editing text, the OCR language model
+  # (tessdata_fast eng.traineddata) the first time OCR runs, and the update
+  # check against the GitHub release.
+  - --share=network
+  # Open and Save As use GtkFileChooserNative, i.e. the file chooser portal, so
+  # a PDF anywhere can be opened and saved without a filesystem grant. What
+  # does need one is the app's own output: tool results and exports are saved
+  # under getApplicationDocumentsDirectory() (xdg-user-dir DOCUMENTS), and when
+  # that fails the app tells the user to "try Downloads or Documents". Without
+  # the grant DOCUMENTS resolves to the sandbox's $HOME, which is not persisted,
+  # so output would vanish on exit. NOT a home grant: wider access is an opt-in
+  # `flatpak override` documented in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Kept from upstream's own Flatpak manifest (flathub/flathub#8610).
+  - --env=TMPDIR=/var/tmp
+  # Printing goes through GtkPrintUnixDialog and gtk_print_job_send (the
+  # printing plugin), not the print portal, so it talks to CUPS itself.
+  - --socket=cups
+modules:
+  - name: revpdf
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 revpdf-wrapper /app/bin/revpdf
+      - install -Dm644 com.revpdf.editor.desktop /app/share/applications/com.revpdf.editor.desktop
+      - install -Dm644 com.revpdf.editor.metainfo.xml /app/share/metainfo/com.revpdf.editor.metainfo.xml
+      - install -Dm644 com.revpdf.editor.png /app/share/icons/hicolor/512x512/apps/com.revpdf.editor.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: revpdf.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/Pawandeep-prog/revpdf-release/releases/download/v5.0.0/revpdf_editor-x86_64.AppImage
+        sha256: 4b275817ed6a4983437bfcb0a7d8a2d25d2903143d2d327960b64589d1c5ae06
+        size: 44377280
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: revpdf-wrapper
+      - type: file
+        path: com.revpdf.editor.desktop
+      - type: file
+        path: com.revpdf.editor.metainfo.xml
+      - type: file
+        path: com.revpdf.editor.png
