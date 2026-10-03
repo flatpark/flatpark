@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.mockoon.app</id>
+  <name>Mockoon</name>
+  <summary>Design and run mock APIs locally</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.mockoon">
+    <name>Mockoon</name>
+  </developer>
+  <url type="homepage">https://mockoon.com</url>
+  <url type="bugtracker">https://github.com/mockoon/mockoon/issues</url>
+  <url type="vcs-browser">https://github.com/mockoon/mockoon</url>
+  <url type="help">https://mockoon.com/docs/latest/about/</url>
+  <description>
+    <p>This is a community package of Mockoon, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Mockoon lets you create mock APIs and run them locally in seconds, with no remote deployment and no account. It offers:</p>
+    <ul>
+      <li>Unlimited mock servers and routes, with templated, rule-based and file-served responses.</li>
+      <li>Request recording, logs and a proxy mode that forwards unmatched routes to a real API.</li>
+      <li>OpenAPI import and export.</li>
+      <li>Simulated latency, errors and CRUD routes backed by data buckets.</li>
+    </ul>
+    <p>The package has network access so the mock servers can listen on local ports and the proxy can reach real APIs. It has no filesystem grant: environments are stored in the application's private per-app directory, and environment and OpenAPI files are opened and saved through the file chooser portal.</p>
+    <p>To serve response files from a folder on disk, grant that folder: <code>flatpak override --user --filesystem=/path/to/folder com.mockoon.app</code>. Remove custom grants with <code>flatpak override --user --reset com.mockoon.app</code>.</p>
+    <p>Updates come through Flatpak. If the application says a new version is available, update with Flatpak instead.</p>
+  </description>
+  <launchable type="desktop-id">com.mockoon.app.desktop</launchable>
+  <categories>
+    <category>Development</category>
+  </categories>
+  <keywords>
+    <keyword>api</keyword>
+    <keyword>mock</keyword>
+    <keyword>rest</keyword>
+    <keyword>openapi</keyword>
+    <keyword>testing</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>mockoon</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A mock API environment and its routes</caption>
+      <image>https://mockoon.com/images/hero-repo.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="9.9.0" date="2026-09-16" />
+    <release version="9.8.0" date="2026-07-31" />
+    <release version="9.7.0" date="2026-06-19" />
+  </releases>
+</component>

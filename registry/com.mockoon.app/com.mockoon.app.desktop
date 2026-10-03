@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Mockoon
+Comment=Design and run mock APIs locally
+Exec=mockoon %U
+Icon=com.mockoon.app
+Terminal=false
+StartupWMClass=com.mockoon.app
+MimeType=x-scheme-handler/mockoon;
+Categories=Development;
+Keywords=api;mock;rest;http;server;openapi;testing;

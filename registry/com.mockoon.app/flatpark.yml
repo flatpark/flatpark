@@ -1,0 +1,25 @@
+id: com.mockoon.app
+name: Mockoon
+summary: Design and run mock APIs locally
+website: https://mockoon.com
+source_url: https://github.com/mockoon/mockoon
+build:
+  manifest: com.mockoon.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - API
+    - Mock
+    - REST
+    - Testing
+    - Developer
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

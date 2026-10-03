@@ -1,0 +1,60 @@
+id: com.mockoon.app
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: mockoon
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron API mocking tool. The prebuilt build bundles Chromium plus its own
+  # ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, ALSA, dbus, gbm and X11 stacks it
+  # links come from the runtime.
+  - --share=ipc
+  # The mock servers listen on local ports, and the proxy mode forwards to real
+  # APIs.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # No filesystem grant: environments are kept in the private per-app directory,
+  # and opening, saving or importing environment and OpenAPI files goes through
+  # the file chooser portal.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: mockoon
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mockoon-wrapper /app/bin/mockoon
+      - install -Dm644 com.mockoon.app.desktop /app/share/applications/com.mockoon.app.desktop
+      - install -Dm644 com.mockoon.app.metainfo.xml /app/share/metainfo/com.mockoon.app.metainfo.xml
+      - install -Dm644 com.mockoon.app.png /app/share/icons/hicolor/512x512/apps/com.mockoon.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/mockoon/mockoon/releases/download/v9.9.0/mockoon-9.9.0.amd64.deb
+        sha256: 5ad57a6a3900e4857810802a8d0c49869f2c72defa01d360a99559728c605eb5
+        size: 105238912
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mockoon-wrapper
+      - type: file
+        path: com.mockoon.app.desktop
+      - type: file
+        path: com.mockoon.app.metainfo.xml
+      - type: file
+        path: com.mockoon.app.png
