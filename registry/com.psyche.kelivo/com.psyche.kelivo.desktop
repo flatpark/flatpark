@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Kelivo
+Comment=LLM chat client for many providers, with MCP, search and assistants
+Exec=kelivo
+Icon=com.psyche.kelivo
+Terminal=false
+StartupWMClass=com.psyche.kelivo
+Categories=Utility;Chat;Network;
+Keywords=ai;llm;chat;chatgpt;claude;gemini;ollama;mcp;

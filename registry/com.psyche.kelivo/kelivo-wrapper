@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# The Flutter bundle staged by apply_extra. The binary finds its own lib/ through
+# its RUNPATH; the extra directory holds Debian's libkeybinder-3.0 for the
+# global-hotkey plugin. Settings and chats go to $XDG_DATA_HOME, inside the
+# per-app directory.
+export LD_LIBRARY_PATH="/app/extra/deps/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+exec /app/extra/kelivo/kelivo "$@"

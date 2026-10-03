@@ -1,0 +1,84 @@
+id: com.psyche.kelivo
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: kelivo
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter chat client. Its GTK 3, GStreamer (voice playback and recording) and
+  # WebKit-free plugin set come from org.gnome.Platform; the ONNX runtime and
+  # sherpa-onnx speech libraries are bundled in its lib/ directory.
+  - --share=ipc
+  # Talks to the LLM providers, web search and remote MCP servers the user
+  # configures, including local ones such as Ollama on 127.0.0.1.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Voice input and text-to-speech playback.
+  - --socket=pulseaudio
+  # Optional tray icon. The tray backend registers with the StatusNotifier
+  # watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # No filesystem grant: chats, assistants and settings live in the private
+  # per-app directory, and attachments, imports and exports go through the file
+  # chooser portal. Workspaces that edit a folder on disk are an opt-in override
+  # documented in the metainfo.
+modules:
+  # The tray plugin links libayatana-appindicator3, which the GNOME runtime does
+  # not ship. Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido,
+  # libayatana-indicator, libayatana-appindicator) from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: kelivo
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 kelivo-wrapper /app/bin/kelivo
+      - install -Dm644 com.psyche.kelivo.desktop /app/share/applications/com.psyche.kelivo.desktop
+      - install -Dm644 com.psyche.kelivo.metainfo.xml /app/share/metainfo/com.psyche.kelivo.metainfo.xml
+      - install -Dm644 com.psyche.kelivo.png /app/share/icons/hicolor/512x512/apps/com.psyche.kelivo.png
+    sources:
+      # The global-hotkey plugin links libkeybinder-3.0, which neither the GNOME
+      # runtime nor the .deb provides; without it the plugin, and with it the
+      # app, fails to load. Debian's 18 KB library, as extra-data so the bytes
+      # stay out of FlatPark's repository. filename minus .deb is the binary
+      # package name, which is what the weekly Debian pin updater looks up;
+      # kept outside the app's managed block below.
+      # BEGIN MANAGED DEBIAN sid main
+      - type: extra-data
+        filename: libkeybinder-3.0-0.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/k/keybinder-3.0/libkeybinder-3.0-0_0.3.2-1.1+b4_amd64.deb
+        sha256: 1f5f986792dc2001917b9b9e74bd850b6b2f0b79ca4ce470a04593c6138ac5bf
+        size: 9128
+      # END MANAGED DEBIAN
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Chevey339/kelivo/releases/download/v1.3.0/Kelivo_linux_1.3.0%2B79_amd64.deb
+        sha256: 4c7d017c90ed2a08bca9976ff430e78982aa9eab56468f617fae9232d30ac30f
+        size: 27720674
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: kelivo-wrapper
+      - type: file
+        path: com.psyche.kelivo.desktop
+      - type: file
+        path: com.psyche.kelivo.metainfo.xml
+      - type: file
+        path: com.psyche.kelivo.png
