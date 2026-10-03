@@ -9,11 +9,13 @@
 # (see prune-and-reclaim.sh and drop-dangling-refs.sh).
 #
 # The uploads are additive on purpose (copy, not sync), so deletions only ever
-# happen through those two explicit lists — never as a mirror side effect.
+# happen through those two explicit lists — never as a mirror side effect. The
+# one exception is summaries/, which PRUNE_SUMMARIES=1 (delist-prune only)
+# mirrors to the set the freshly written summary.idx references.
 #
 # rclone must have an R2 (S3) remote configured; in CI that is done with
 # RCLONE_CONFIG_<REMOTE>_* env vars. Required: R2_BUCKET. Optional: R2_REMOTE
-# (default r2), RECLAIM_LIST, RECLAIM_REFS.
+# (default r2), RECLAIM_LIST, RECLAIM_REFS, PRUNE_SUMMARIES.
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
 load_config "$ROOT"
@@ -47,6 +49,21 @@ rclone copy "$repo" "$dest" --max-depth 1 --checksum --header-upload "$MUTABLE" 
     --include "summary" --include "summary.sig"
 rclone copy "$repo" "$dest" --max-depth 1 --checksum --header-upload "$MUTABLE" "${FLAGS[@]}" \
     --include "summary.idx"
+
+# The summaries upload above is additive, so every publish leaves its
+# <digest>.gz and <history>-<digest>.delta files in R2 (~75 KB each).
+# `flatpak build-update-repo` already trimmed the local summaries/ to exactly
+# what the new summary.idx needs (the current and history digests, plus the
+# deltas into the current one), so with PRUNE_SUMMARIES=1 (delist-prune only)
+# mirror that set now that the idx is live. A client still holding the
+# previous idx is fine: that idx's digest is in the new history and is kept,
+# and a missing delta makes flatpak fall back to it. Skipped unless the local
+# set holds a digested summary, so a missing or empty dir can never wipe R2.
+if [ "${PRUNE_SUMMARIES:-}" = 1 ] && [ -f "$repo/summary.idx" ] \
+    && compgen -G "$repo/summaries/*.gz" >/dev/null; then
+    log "prune summaries/ in $dest to the set summary.idx references"
+    rclone sync "$repo/summaries" "$dest/summaries" --checksum --header-upload "$MUTABLE" "${FLAGS[@]}"
+fi
 
 if [ -n "${RECLAIM_REFS:-}" ] && [ -s "$RECLAIM_REFS" ]; then
     n="$(wc -l < "$RECLAIM_REFS" | tr -d ' ')"

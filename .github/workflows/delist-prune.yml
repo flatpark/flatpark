@@ -83,7 +83,8 @@ jobs:
       - name: Sync new summary first, then delete stale refs and orphaned objects
         run: |
           RECLAIM_LIST="$OUT_DIR/reclaim-objects.txt" \
-          RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/sync-r2.sh
+          RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" \
+          PRUNE_SUMMARIES=1 ./scripts/sync-r2.sh
       - name: Redeploy site
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
