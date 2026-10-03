@@ -1,0 +1,23 @@
+id: io.github.aedev.flow.desktop
+name: Flow
+summary: Privacy-first video and music streaming client with local recommendations
+website: https://flow-tube.org
+source_url: https://github.com/Flow-Tube/Flow-Desktop
+build:
+  manifest: io.github.aedev.flow.desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Video
+    - Music
+    - Privacy
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

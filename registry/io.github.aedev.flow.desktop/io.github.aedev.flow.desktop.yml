@@ -1,0 +1,55 @@
+id: io.github.aedev.flow.desktop
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: flow
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK video client. Everything it links against — webkit2gtk-4.1,
+  # gtk-3, libsoup-3 — is in org.gnome.Platform. Video is decoded by WebKitGTK
+  # through GStreamer: the runtime's plugins cover VP9, AV1 and Opus, and the
+  # codecs-extra extension it pulls in adds gst-libav for H.264.
+  - --share=ipc
+  # Streams video and music from the service; the recommendation engine runs
+  # locally.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --socket=pulseaudio
+  # Desktop notifications (new uploads from subscriptions, downloads).
+  - --talk-name=org.freedesktop.Notifications
+  # No filesystem grant: subscriptions, history and the recommendation profile
+  # live in the private per-app directory, and imports, exports and downloads go
+  # through the file chooser portal.
+modules:
+  - name: flow
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 flow-wrapper /app/bin/flow
+      - install -Dm644 io.github.aedev.flow.desktop.desktop /app/share/applications/io.github.aedev.flow.desktop.desktop
+      - install -Dm644 io.github.aedev.flow.desktop.metainfo.xml /app/share/metainfo/io.github.aedev.flow.desktop.metainfo.xml
+      - install -Dm644 io.github.aedev.flow.desktop.png /app/share/icons/hicolor/512x512/apps/io.github.aedev.flow.desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta2/Flow_0.1.0-beta2_linux_amd64.deb
+        sha256: e62f9be1b83f077c4585c779b22ea88d7045558abe0448229d1b5fab202599f7
+        size: 11807678
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: flow-wrapper
+      - type: file
+        path: io.github.aedev.flow.desktop.desktop
+      - type: file
+        path: io.github.aedev.flow.desktop.metainfo.xml
+      - type: file
+        path: io.github.aedev.flow.desktop.png

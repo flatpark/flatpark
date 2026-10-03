@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Flow
+Comment=Privacy-first video and music streaming client with local recommendations
+Exec=flow %u
+Icon=io.github.aedev.flow.desktop
+Terminal=false
+StartupWMClass=flow
+MimeType=x-scheme-handler/flow;
+Categories=AudioVideo;Video;Network;
+Keywords=music;video;player;streaming;privacy;
