@@ -119,7 +119,7 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   current major, that's a **flag-and-ask**, not a quiet downgrade.
   - **Where the catalog stands (2026-09-19).** The freedesktop apps are on `//26.08` and 43
     GTK / WebKitGTK / Tauri apps are on `org.gnome.Platform//51`, both freedesktop 26.08
-    bases. Five apps are held back, each for its own reason:
+    bases. Four apps are held back, each for its own reason:
     - *Runtime-level blockers.* `com.usebottles.bottles` — its payload is built by
       [`flatpark/bottles-release`](https://github.com/flatpark/bottles-release) against the
       runtime's own interpreter and carries `cpython-313` extension modules and `.pyc`, so it
@@ -129,10 +129,6 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
       `mpv-stack`, and mpv v0.40.0 does not compile against the ffmpeg 8 in the 26.08 base
       (the `FF_PROFILE_*` aliases are gone). Re-cutting that stack means moving mpv to
       v0.41.0, which is its own change.
-    - *Held for unrelated upstream drift.* `sh.loft.devpod` — its `apply_extra` reads
-      `/app/bin/devpod-cli`, which that sandbox never binds (it binds only `/app/extra`), so
-      a system-wide install cannot succeed today. That is a bug to fix, not a runtime
-      question, and it wants its own change.
     - *No runtime to move to.* `com.heidisql.HeidiSQL` — on `org.kde.Platform//6.11`; Flathub
       publishes no 26.08-based KDE branch.
 
