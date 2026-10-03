@@ -1,0 +1,24 @@
+id: com.xkoji.altair
+name: Altair GraphQL Client
+summary: Feature-rich GraphQL client for debugging queries and APIs
+website: https://altairgraphql.dev
+source_url: https://github.com/altair-graphql/altair
+build:
+  manifest: com.xkoji.altair.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - GraphQL
+    - API
+    - HTTP
+    - Developer
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

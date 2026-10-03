@@ -1,0 +1,60 @@
+id: com.xkoji.altair
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: altair
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron GraphQL client. The prebuilt build bundles Chromium plus its own
+  # ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, CUPS, ATK, ALSA, dbus, gbm and X11
+  # stacks it links come from the runtime.
+  - --share=ipc
+  # Sends queries to the GraphQL endpoints the user points it at, local or
+  # remote.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # No filesystem grant: importing and exporting collections, backups and query
+  # files goes through the file chooser portal. Queries and settings stay in the
+  # app's private per-app directory.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: altair
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 altair-wrapper /app/bin/altair
+      - install -Dm644 com.xkoji.altair.desktop /app/share/applications/com.xkoji.altair.desktop
+      - install -Dm644 com.xkoji.altair.metainfo.xml /app/share/metainfo/com.xkoji.altair.metainfo.xml
+      - install -Dm644 com.xkoji.altair.png /app/share/icons/hicolor/512x512/apps/com.xkoji.altair.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/altair-graphql/altair/releases/download/v8.5.9/altair_8.5.9_amd64_linux.deb
+        sha256: a7607a60f9c79e083dfddc98ae34cc449738a2cb8e7578607827a2f233f89130
+        size: 134181828
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: altair-wrapper
+      - type: file
+        path: com.xkoji.altair.desktop
+      - type: file
+        path: com.xkoji.altair.metainfo.xml
+      - type: file
+        path: com.xkoji.altair.png

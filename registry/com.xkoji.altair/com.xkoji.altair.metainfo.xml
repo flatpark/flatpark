@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.xkoji.altair</id>
+  <name>Altair GraphQL Client</name>
+  <summary>Feature-rich GraphQL client for debugging queries and APIs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="dev.altairgraphql">
+    <name>Samuel Imolorhe</name>
+  </developer>
+  <url type="homepage">https://altairgraphql.dev</url>
+  <url type="bugtracker">https://github.com/altair-graphql/altair/issues</url>
+  <url type="vcs-browser">https://github.com/altair-graphql/altair</url>
+  <url type="help">https://altairgraphql.dev/docs/</url>
+  <description>
+    <p>This is a community package of Altair GraphQL Client, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Altair is a GraphQL client for writing, running and debugging queries against any GraphQL server. Its features include:</p>
+    <ul>
+      <li>Schema-aware autocompletion and a documentation explorer that can add fields to the query for you.</li>
+      <li>Headers, variables, file uploads and subscriptions over WebSocket, SSE and other transports.</li>
+      <li>Environments, pre-request and post-request scripts.</li>
+      <li>Collections and query history, with import and export.</li>
+      <li>Multiple windows and tabs, themes and a plugin system.</li>
+    </ul>
+    <p>The package has network access, so it can reach local and remote GraphQL endpoints, and no filesystem grant: collections, backups and query files are opened and saved through the file chooser portal. Settings and saved queries stay in the application's private per-app directory.</p>
+    <p>Updates come through Flatpak. If the application offers to download an update itself, ignore it and update with Flatpak instead.</p>
+  </description>
+  <launchable type="desktop-id">com.xkoji.altair.desktop</launchable>
+  <categories>
+    <category>Development</category>
+  </categories>
+  <keywords>
+    <keyword>graphql</keyword>
+    <keyword>api</keyword>
+    <keyword>query</keyword>
+    <keyword>http</keyword>
+    <keyword>client</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>altair</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Writing and running a query</caption>
+      <image>https://raw.githubusercontent.com/altair-graphql/altair/master/packages/altair-docs/public/assets/img/app-shot.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A query with fragments and the documentation explorer</caption>
+      <image>https://raw.githubusercontent.com/altair-graphql/altair/master/packages/altair-docs/public/assets/img/app-shot2.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A file upload mutation</caption>
+      <image>https://raw.githubusercontent.com/altair-graphql/altair/master/packages/altair-docs/public/assets/img/app-shot3.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="8.5.9" date="2026-08-16" />
+    <release version="8.5.7" date="2026-06-06" />
+    <release version="8.5.4" date="2026-06-04" />
+  </releases>
+</component>

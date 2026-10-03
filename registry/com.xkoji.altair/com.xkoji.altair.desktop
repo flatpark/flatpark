@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Altair GraphQL Client
+Comment=Feature-rich GraphQL client for debugging queries and APIs
+Exec=altair %U
+Icon=com.xkoji.altair
+Terminal=false
+StartupWMClass=Altair GraphQL Client
+MimeType=x-scheme-handler/altair;
+Categories=Development;
+Keywords=graphql;api;query;http;client;
