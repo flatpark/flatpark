@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=SurrealDB Studio
+Comment=Query, explore and manage SurrealDB databases
+Exec=surrealdb-studio %U
+Icon=com.surrealdb.Studio
+Terminal=false
+StartupWMClass=SurrealDB Studio
+MimeType=x-scheme-handler/surrealdb-studio;
+Categories=Development;Database;
+Keywords=surrealdb;surrealist;database;query;surql;graph;

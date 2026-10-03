@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.surrealdb.Studio</id>
+  <name>SurrealDB Studio</name>
+  <summary>Query, explore and manage SurrealDB databases</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://surrealdb.com/legal/category/terms</project_license>
+  <developer id="com.surrealdb">
+    <name>SurrealDB</name>
+  </developer>
+  <url type="homepage">https://surrealdb.com/studio</url>
+  <url type="help">https://surrealdb.com/docs</url>
+  <description>
+    <p>This is a community package of SurrealDB Studio, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>SurrealDB Studio is SurrealDB's desktop app for working with your databases and the successor to Surrealist. With it you can write and run SurrealQL queries, browse and edit records, design schemas, watch your agents' memory, and deploy and manage SurrealDB Cloud instances.</p>
+    <p>The package has network access to reach local and remote SurrealDB instances and SurrealDB Cloud. It has no filesystem grant: settings and saved connections stay in the application's private per-app directory, and files go through the file chooser portal.</p>
+    <p>The local database runner starts the <code>surreal</code> command-line tool, which is not part of the package. If you installed it with SurrealDB's installer, let the app see it: <code>flatpak override --user --filesystem=~/.surrealdb:ro com.surrealdb.Studio</code>. Otherwise run SurrealDB outside the app and connect to it. Remove custom grants with <code>flatpak override --user --reset com.surrealdb.Studio</code>.</p>
+    <p>Updates come through Flatpak. The application's own updater may still download a new release in the background; it cannot install it inside the sandbox, so update with Flatpak instead.</p>
+  </description>
+  <launchable type="desktop-id">com.surrealdb.Studio.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>surrealdb</keyword>
+    <keyword>surrealist</keyword>
+    <keyword>database</keyword>
+    <keyword>query</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>surrealdb-studio</binary>
+  </provides>
+  <releases>
+    <release version="1.7.2" date="2026-10-03" />
+  </releases>
+</component>

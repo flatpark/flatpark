@@ -1,0 +1,24 @@
+id: com.surrealdb.Studio
+name: SurrealDB Studio
+summary: Query, explore and manage SurrealDB databases
+website: https://surrealdb.com/studio
+source_url: https://surrealdb.com/studio
+build:
+  manifest: com.surrealdb.Studio.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - Database
+    - SurrealDB
+    - Query
+    - Developer
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

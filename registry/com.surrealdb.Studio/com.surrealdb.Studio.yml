@@ -1,0 +1,61 @@
+id: com.surrealdb.Studio
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: surrealdb-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron client for SurrealDB (the successor to Surrealist). The prebuilt
+  # build bundles Chromium plus its own ffmpeg/ANGLE/SwiftShader; the GTK3, NSS,
+  # ALSA, dbus, gbm and X11 stacks it links come from the runtime.
+  - --share=ipc
+  # Connects to local and remote SurrealDB instances and SurrealDB Cloud.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # No filesystem grant: connections and saved queries stay in the private
+  # per-app directory, and files go through the file chooser portal. The local
+  # database runner starts the `surreal` CLI, which is not part of the package;
+  # granting ~/.surrealdb read-only, where SurrealDB's installer puts it and
+  # which the runner already searches, is an opt-in override in the metainfo.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: surrealdb-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 surrealdb-studio-wrapper /app/bin/surrealdb-studio
+      - install -Dm644 com.surrealdb.Studio.desktop /app/share/applications/com.surrealdb.Studio.desktop
+      - install -Dm644 com.surrealdb.Studio.metainfo.xml /app/share/metainfo/com.surrealdb.Studio.metainfo.xml
+      - install -Dm644 com.surrealdb.Studio.svg /app/share/icons/hicolor/scalable/apps/com.surrealdb.Studio.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://download.surrealdb.com/studio/v1.7.2/surrealdb-studio_1.7.2_amd64.deb
+        sha256: 73f03f894bfa67535983074e55ec28bf4e59b6899d289b1829e08c171e15130e
+        size: 108382200
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: surrealdb-studio-wrapper
+      - type: file
+        path: com.surrealdb.Studio.desktop
+      - type: file
+        path: com.surrealdb.Studio.metainfo.xml
+      - type: file
+        path: com.surrealdb.Studio.svg
