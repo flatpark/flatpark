@@ -1,0 +1,71 @@
+id: com.digimezzo.dopamine
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: dopamine
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron audio player for a local music collection. The prebuilt build
+  # bundles Chromium plus its own ffmpeg/ANGLE/SwiftShader and the better-sqlite3
+  # native module; the GTK3, NSS, ALSA, dbus, gbm and X11 stacks it links come
+  # from the runtime.
+  - --share=ipc
+  # Artist information and artwork from Last.fm, optional scrobbling and the
+  # optional Discord rich presence.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audio playback.
+  - --socket=pulseaudio
+  # The music collection. Dopamine indexes the folders you add and writes tag
+  # and artwork edits back into the files, so the Music directory is granted
+  # read-write; other locations are an opt-in override documented in the
+  # metainfo.
+  - --filesystem=xdg-music
+  # Optional tray icon ("minimize to notification area"). The tray backend
+  # registers with the StatusNotifier watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # MPRIS: media keys and the desktop's "now playing" applet. The embedded
+  # Chromium publishes the player under a chromium.instance<pid> name.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: dopamine
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dopamine-wrapper /app/bin/dopamine
+      - install -Dm644 com.digimezzo.dopamine.desktop /app/share/applications/com.digimezzo.dopamine.desktop
+      - install -Dm644 com.digimezzo.dopamine.metainfo.xml /app/share/metainfo/com.digimezzo.dopamine.metainfo.xml
+      - install -Dm644 com.digimezzo.dopamine.png /app/share/icons/hicolor/512x512/apps/com.digimezzo.dopamine.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/digimezzo/dopamine/releases/download/v3.0.11/Dopamine-3.0.11.deb
+        sha256: 3a8c99c4c0732469b66eaea526e2f6a2f8a18fed3275be6c4178e40c3685628b
+        size: 119467496
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dopamine-wrapper
+      - type: file
+        path: com.digimezzo.dopamine.desktop
+      - type: file
+        path: com.digimezzo.dopamine.metainfo.xml
+      - type: file
+        path: com.digimezzo.dopamine.png

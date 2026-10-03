@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Dopamine
+Comment=Elegant audio player for your local music collection
+Exec=dopamine %U
+Icon=com.digimezzo.dopamine
+Terminal=false
+StartupWMClass=Dopamine
+MimeType=audio/mpeg;audio/flac;audio/ogg;audio/x-vorbis+ogg;audio/mp4;audio/x-m4a;audio/opus;audio/x-opus+ogg;audio/wav;audio/x-wav;
+Categories=AudioVideo;Audio;Player;
+Keywords=music;player;audio;library;
