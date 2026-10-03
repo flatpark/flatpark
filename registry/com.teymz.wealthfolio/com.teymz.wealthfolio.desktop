@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Wealthfolio
+Comment=Private, local-first tracker for investments, net worth and spending
+Exec=wealthfolio %u
+Icon=com.teymz.wealthfolio
+Terminal=false
+StartupNotify=true
+StartupWMClass=wealthfolio
+MimeType=x-scheme-handler/wealthfolio;
+Categories=Office;Finance;
+Keywords=finance;investment;portfolio;stocks;budget;net worth;

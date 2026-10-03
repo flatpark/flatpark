@@ -1,0 +1,53 @@
+id: com.teymz.wealthfolio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: wealthfolio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK personal finance tracker. Everything it links against —
+  # webkit2gtk-4.1, gtk-3, libsoup-3 — is in org.gnome.Platform.
+  - --share=ipc
+  # Market data and exchange-rate quotes, plus the optional Wealthfolio Connect
+  # sync service. Accounts and transactions stay in a local SQLite database.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The app keeps its profile's encryption key and sync credentials in the
+  # desktop's Secret Service keyring; without it the profile cannot be opened.
+  - --talk-name=org.freedesktop.secrets
+  # No filesystem grant: the database lives in the app's private per-app
+  # directory, and CSV imports, exports and backups are picked through the file
+  # chooser portal.
+modules:
+  - name: wealthfolio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 wealthfolio-wrapper /app/bin/wealthfolio
+      - install -Dm644 com.teymz.wealthfolio.desktop /app/share/applications/com.teymz.wealthfolio.desktop
+      - install -Dm644 com.teymz.wealthfolio.metainfo.xml /app/share/metainfo/com.teymz.wealthfolio.metainfo.xml
+      - install -Dm644 com.teymz.wealthfolio.png /app/share/icons/hicolor/512x512/apps/com.teymz.wealthfolio.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/wealthfolio/wealthfolio/releases/download/v3.9.1/Wealthfolio_3.9.1_amd64.deb
+        sha256: 0e1a4e3cb0860ab9e45aa2274f4cc7b244a704800fe4a513dd065e54af4e56c3
+        size: 63197402
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: wealthfolio-wrapper
+      - type: file
+        path: com.teymz.wealthfolio.desktop
+      - type: file
+        path: com.teymz.wealthfolio.metainfo.xml
+      - type: file
+        path: com.teymz.wealthfolio.png

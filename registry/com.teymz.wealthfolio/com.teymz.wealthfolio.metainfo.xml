@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.teymz.wealthfolio</id>
+  <name>Wealthfolio</name>
+  <summary>Private, local-first tracker for investments, net worth and spending</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="com.teymz">
+    <name>Teymz Inc.</name>
+  </developer>
+  <url type="homepage">https://wealthfolio.app</url>
+  <url type="bugtracker">https://github.com/wealthfolio/wealthfolio/issues</url>
+  <url type="vcs-browser">https://github.com/wealthfolio/wealthfolio</url>
+  <url type="help">https://wealthfolio.app/docs/</url>
+  <description>
+    <p>This is a community package of Wealthfolio, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Wealthfolio is a personal finance tracker that keeps your data on your own computer. It tracks:</p>
+    <ul>
+      <li>Investment accounts and holdings, with performance, income and allocation views.</li>
+      <li>Net worth across accounts and assets.</li>
+      <li>Spending and budgets.</li>
+      <li>Goals, contribution limits and what-if simulations.</li>
+    </ul>
+    <p>Activities can be entered by hand or imported from CSV, and prices and exchange rates are fetched from market data providers. Add-ons extend it with new pages and data sources.</p>
+    <p>The package has network access for market data and the optional sync service, and talks to your desktop keyring, where the application keeps its secrets. It has no filesystem grant: your accounts live in a local database in the application's private per-app directory, and CSV imports, exports and backups go through the file chooser portal.</p>
+    <p>Updates come through Flatpak. If the application offers to install an update itself, ignore it and update with Flatpak instead.</p>
+  </description>
+  <launchable type="desktop-id">com.teymz.wealthfolio.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Finance</category>
+  </categories>
+  <keywords>
+    <keyword>finance</keyword>
+    <keyword>investment</keyword>
+    <keyword>portfolio</keyword>
+    <keyword>stocks</keyword>
+    <keyword>budget</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>wealthfolio</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Portfolio dashboard</caption>
+      <image>https://raw.githubusercontent.com/wealthfolio/wealthfolio/main/apps/frontend/public/screenshot.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.9.1" date="2026-09-27" />
+    <release version="3.9.0" date="2026-09-26" />
+    <release version="3.8.0" date="2026-09-07" />
+  </releases>
+</component>

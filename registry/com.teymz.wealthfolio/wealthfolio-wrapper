@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+# Wealthfolio is a single Tauri (WebKitGTK) binary staged by apply_extra to
+# /app/extra/wealthfolio. It has no tray icon, so the Ayatana appindicator
+# stack is not needed, and its window is opaque.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox. Disabling it is the reliable default for an opaque WebKitGTK
+# window; a `flatpak override --env=` can still switch it back on.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+# The web view derives the interface's formatting locale from the character-type
+# locale, and a plain C/POSIX value is not one it can format numbers and dates
+# with (upstream issue #1726). Desktops often set LC_CTYPE=C.UTF-8 next to a real
+# LANG, so when that is the case use LANG for the character type as well.
+is_c_locale() {
+  case "$1" in
+    C | C.* | POSIX) return 0 ;;
+  esac
+  return 1
+}
+if [ -n "${LANG:-}" ] && ! is_c_locale "$LANG"; then
+  if is_c_locale "${LC_ALL:-}"; then
+    export LC_ALL="$LANG"
+  fi
+  if is_c_locale "${LC_CTYPE:-}"; then
+    export LC_CTYPE="$LANG"
+  fi
+fi
+
+exec /app/extra/wealthfolio "$@"

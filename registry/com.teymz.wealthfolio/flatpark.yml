@@ -1,0 +1,24 @@
+id: com.teymz.wealthfolio
+name: Wealthfolio
+summary: Private, local-first tracker for investments, net worth and spending
+website: https://wealthfolio.app
+source_url: https://github.com/wealthfolio/wealthfolio
+build:
+  manifest: com.teymz.wealthfolio.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Finance
+    - Investments
+    - Portfolio
+    - Budget
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
