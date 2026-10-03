@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Plezy
+Comment=Watch and listen to your Plex, Jellyfin and Emby libraries
+Exec=plezy
+Icon=com.edde746.plezy
+Terminal=false
+Categories=AudioVideo;Video;Player;
+Keywords=plex;jellyfin;emby;media;streaming;video;
+StartupWMClass=plezy

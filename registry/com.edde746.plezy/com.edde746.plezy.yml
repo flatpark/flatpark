@@ -1,0 +1,74 @@
+id: com.edde746.plezy
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: plezy
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The permissions mirror upstream's own Flatpak manifest
+# (linux/packaging/flatpak/com.edde746.plezy.json).
+finish-args:
+  # Flutter app with an embedded mpv player. The release bundle carries its own
+  # libmpv, ffmpeg and GTK stack under opt/plezy/lib and loads them through its
+  # own launcher script.
+  - --share=ipc
+  # Streams from the user's Plex, Jellyfin or Emby servers, on the LAN or remote.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  # GPU for video decoding and rendering, plus game controllers, which the app
+  # supports for couch and TV-style navigation.
+  - --device=all
+  # Media keys and the desktop's now-playing applet.
+  - --own-name=org.mpris.MediaPlayer2.com_edde746_plezy
+  # Connectivity checks before reaching a server.
+  - --system-talk-name=org.freedesktop.NetworkManager
+  # Artwork the media-controls integration hands to the desktop.
+  - --filesystem=xdg-run/os_media_controls_artwork:create
+  # Optional Discord rich presence: the native socket names, plus a Flatpak
+  # Discord's own runtime directory, which the wrapper links in when no native
+  # socket exists.
+  - --filesystem=xdg-run/discord-ipc-0
+  - --filesystem=xdg-run/discord-ipc-1
+  - --filesystem=xdg-run/discord-ipc-2
+  - --filesystem=xdg-run/discord-ipc-3
+  - --filesystem=xdg-run/discord-ipc-4
+  - --filesystem=xdg-run/discord-ipc-5
+  - --filesystem=xdg-run/discord-ipc-6
+  - --filesystem=xdg-run/discord-ipc-7
+  - --filesystem=xdg-run/discord-ipc-8
+  - --filesystem=xdg-run/discord-ipc-9
+  - --filesystem=xdg-run/app/com.discordapp.Discord:ro
+  # File dialogs (downloads location, subtitle files) go through the portal.
+  - --env=GTK_USE_PORTAL=1
+modules:
+  - name: plezy
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 plezy-wrapper /app/bin/plezy
+      - install -Dm644 com.edde746.plezy.desktop /app/share/applications/com.edde746.plezy.desktop
+      - install -Dm644 com.edde746.plezy.metainfo.xml /app/share/metainfo/com.edde746.plezy.metainfo.xml
+      - install -Dm644 com.edde746.plezy.png /app/share/icons/hicolor/512x512/apps/com.edde746.plezy.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/edde746/plezy/releases/download/2.22.0/plezy-linux-x64.deb
+        sha256: 295f40ee65d2d1fd937b32c86d6a9db2902733deac844b572d9ef209d6594390
+        size: 58864380
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: plezy-wrapper
+      - type: file
+        path: com.edde746.plezy.desktop
+      - type: file
+        path: com.edde746.plezy.metainfo.xml
+      - type: file
+        path: com.edde746.plezy.png
