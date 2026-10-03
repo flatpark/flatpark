@@ -41,9 +41,9 @@ modules:
         filename: kai.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/SimonSchubert/Kai/releases/download/v3.2.0/Kai-3.2.0-linux-x86_64.tar.gz
-        sha256: 0bf18ce917139d5c329e430f4ca649c3afb9ba113a3493a81665d61a55e1eef8
-        size: 239704457
+        url: https://github.com/SimonSchubert/Kai/releases/download/v3.3.0/Kai-3.3.0-linux-x86_64.tar.gz
+        sha256: aaf111532900f674a75c963721d027179d07faace520e6a02a23c33ead2d7330
+        size: 235772221
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

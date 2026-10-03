@@ -58,6 +58,9 @@
     <keyword>assistant</keyword>
   </keywords>
   <releases>
+    <release version="3.3.0" date="2026-10-02">
+      <description></description>
+    </release>
     <release version="3.2.0" date="2026-09-07"/>
   </releases>
 </component>
