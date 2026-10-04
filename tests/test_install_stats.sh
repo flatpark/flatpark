@@ -102,9 +102,18 @@ if [ -d "$ROOT/site/node_modules/yaml" ] && [ -d "$ROOT/site/node_modules/sharp"
       // listed after the last rollup: zero, not missing
       a.deepEqual(require(process.argv[2]).installs, { total: 0, last30: 0, since: "2026-08-01" });
     ' "$data/apps/io.flatpark.TestOne.json" "$data/apps/io.flatpark.Fresh.json"
-    # unreachable stats never fail the build; the field is simply absent
+    # unreachable stats never fail the build
     ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" FLATPARK_ALLOW_SHALLOW=1 FLATPARK_STATS_URL="$tmp/missing.json" \
         node tools/enrich.mjs >/dev/null 2>&1 )
+    # Rolled up but nothing counted yet (since: null): no install field at all,
+    # rather than a 0 on every app.
+    fresh="$tmp/fresh"; mkdir -p "$fresh/apps"
+    printf '{"id":"io.flatpark.TestOne","name":"T","summary":"s","permissions":[],"screenshots":[]}\n' > "$fresh/apps/io.flatpark.TestOne.json"
+    echo '{"since":null,"through":"2026-10-03","apps":{}}' > "$tmp/empty.json"
+    ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$fresh" FLATPARK_ALLOW_SHALLOW=1 FLATPARK_STATS_URL="$tmp/empty.json" \
+        node tools/enrich.mjs >/dev/null 2>&1 )
+    assert_ok node -e 'require("node:assert/strict").equal(require(process.argv[1]).installs, undefined)' \
+        "$fresh/apps/io.flatpark.TestOne.json"
 fi
 
 echo "test_install_stats: ok"
