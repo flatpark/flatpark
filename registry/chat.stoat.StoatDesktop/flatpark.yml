@@ -1,0 +1,27 @@
+id: chat.stoat.StoatDesktop
+name: Stoat
+summary: Open source, user-first chat platform
+website: https://stoat.chat
+source_url: https://github.com/stoatchat/for-desktop
+build:
+  manifest: chat.stoat.StoatDesktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - Chat
+    - Revolt
+    - Voice
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Video calls: Chromium opens webcams through /dev/video*, which no
+    # narrower --device exposes. Upstream sets the same grant in its own
+    # Flatpak build of this app id.
+    - --device=all

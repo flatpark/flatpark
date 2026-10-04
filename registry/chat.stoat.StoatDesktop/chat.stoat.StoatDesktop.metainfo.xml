@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>chat.stoat.StoatDesktop</id>
+  <name>Stoat</name>
+  <summary>Open source, user-first chat platform</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="chat.stoat">
+    <name>Revolt Platforms Ltd</name>
+  </developer>
+  <url type="homepage">https://stoat.chat</url>
+  <url type="bugtracker">https://github.com/stoatchat/for-desktop/issues</url>
+  <url type="vcs-browser">https://github.com/stoatchat/for-desktop</url>
+  <description>
+    <p>This is a community package of Stoat, maintained independently. It repackages the official upstream build unmodified and uses the same app id as upstream's own Flatpak build.</p>
+    <p>Stoat (formerly Revolt) is an open source, user-first chat platform. Join communities, send messages, share images, mention people and talk in voice channels from a native desktop application.</p>
+    <ul>
+      <li>Servers with text and voice channels, direct messages and group chats.</li>
+      <li>Voice and video calls with screen sharing.</li>
+      <li>Notifications, an unread badge in the tray, and Discord-style rich presence.</li>
+      <li>Works with stoat.chat or a self-hosted instance.</li>
+    </ul>
+    <p>Permissions follow upstream's own Flatpak build: network, audio, the camera and other devices for calls, PipeWire for screen sharing, read-only access to Pictures and Videos for attachments, and Downloads for saving files. Other files can still be attached through the file chooser.</p>
+  </description>
+  <launchable type="desktop-id">chat.stoat.StoatDesktop.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <keywords>
+    <keyword>chat</keyword>
+    <keyword>Revolt</keyword>
+    <keyword>voice</keyword>
+    <keyword>community</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+  <requires>
+    <display_length compare="ge">940</display_length>
+    <internet>always</internet>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>stoat-desktop</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window</caption>
+      <image>https://raw.githubusercontent.com/stoatchat/for-desktop/b57faa2c59865fea15a879c9a9304271067d0020/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.5.4" date="2026-09-18" />
+    <release version="1.5.3" date="2026-08-19" />
+    <release version="1.5.2" date="2026-08-18" />
+  </releases>
+</component>

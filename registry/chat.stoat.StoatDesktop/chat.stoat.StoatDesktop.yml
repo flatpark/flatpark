@@ -1,0 +1,85 @@
+id: chat.stoat.StoatDesktop
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: stoat-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The permissions follow the finishArgs upstream sets for its own Flatpak build
+# of this same app id (forge.config.ts, MakerFlatpak), so someone moving over
+# from upstream's bundle gets the same sandbox. The only names left out are the
+# three com.canonical.* ones (Unity launcher API, the Ayatana indicator service
+# and the global app menu registrar), which Chromium no longer talks to.
+finish-args:
+  # Electron chat client. The upstream zip bundles Chromium plus its own ffmpeg
+  # and SwiftShader; the GTK3, NSS, ALSA, dbus, gbm and X11 stacks it links
+  # come from the runtime.
+  - --share=ipc
+  # Stoat is a chat client for the stoat.chat service (or a self-hosted
+  # instance).
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Voice channels: microphone and playback, and the camera for video. Chromium
+  # opens webcams through /dev/video*, which only --device=all exposes.
+  - --socket=pulseaudio
+  - --device=all
+  # Screen sharing. Capture itself goes through the ScreenCast portal; the
+  # node-pipewire module Stoat bundles reads the PipeWire graph to share an
+  # application's audio along with its window.
+  - --filesystem=xdg-run/pipewire-0
+  # Upstream's choice of folders: pictures and videos read-only for attaching
+  # media, and Downloads for saving attachments.
+  - --filesystem=xdg-pictures:ro
+  - --filesystem=xdg-videos:ro
+  - --filesystem=xdg-download
+  # Text-to-speech for messages through Chromium's speech synthesis.
+  - --filesystem=xdg-run/speech-dispatcher
+  # Keep the screen awake during calls.
+  - --talk-name=org.freedesktop.ScreenSaver
+  # Message notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon with the unread badge.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Cursor theme from the host, so the pointer matches the desktop under X11.
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: stoat
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 stoat-wrapper /app/bin/stoat-desktop
+      - install -Dm644 chat.stoat.StoatDesktop.desktop /app/share/applications/chat.stoat.StoatDesktop.desktop
+      - install -Dm644 chat.stoat.StoatDesktop.metainfo.xml /app/share/metainfo/chat.stoat.StoatDesktop.metainfo.xml
+      - install -Dm644 chat.stoat.StoatDesktop.svg /app/share/icons/hicolor/scalable/apps/chat.stoat.StoatDesktop.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/stoatchat/for-desktop/releases/download/v1.5.4/Stoat-linux-x64-1.5.4.zip
+        sha256: 28a08289fd396568f69af47d77c26a538419258baa80fc037756694659b2f71a
+        size: 123537511
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: stoat-wrapper
+      - type: file
+        path: chat.stoat.StoatDesktop.desktop
+      - type: file
+        path: chat.stoat.StoatDesktop.metainfo.xml
+      - type: file
+        path: chat.stoat.StoatDesktop.svg
