@@ -14,7 +14,7 @@
   <url type="vcs-browser">https://github.com/Stirling-Tools/Stirling-PDF</url>
   <description>
     <p>This is a community package of Stirling PDF, maintained independently. It repackages the official upstream Linux desktop build unmodified.</p>
-    <p>Stirling PDF is a PDF workbench that runs entirely on your own machine. The desktop build pairs a native window with the Stirling PDF engine, which upstream bundles into the same package as a Java runtime and starts on a local port when the app launches; your documents are processed there and are not uploaded anywhere. Ghostscript and qpdf are packaged alongside it, from their own projects' Linux builds, for the tools that call out to them.</p>
+    <p>Stirling PDF is a PDF workbench that runs entirely on your own machine. The desktop build pairs a native window with the Stirling PDF engine, which upstream bundles into the same package as a Java runtime and starts on a local port when the app launches; your documents are processed there and are not uploaded anywhere. Ghostscript, qpdf and Tesseract are packaged alongside it for the tools that call out to them.</p>
     <ul>
       <li>Organize documents: merge, split by pages, size, chapters or sections, rotate, rearrange, scale, crop, overlay and lay out booklets</li>
       <li>Read and edit: page viewer, multi-tool page editor, an alpha text editor, and side-by-side comparison of two documents</li>
@@ -23,11 +23,12 @@
       <li>Annotate: watermarks, stamps, page numbers, attachments and images</li>
       <li>Extract and export: images, plain text, CSV, JSON, CBZ and per-page images; build PDFs from images, JSON or Markdown</li>
       <li>Metadata and structure: edit document metadata and the table of contents, and get a full report on any file</li>
+      <li>Make scanned documents searchable with OCR, and turn sideways or upside-down scanned pages the right way up</li>
     </ul>
     <p>The package is sandboxed: it has no network access and no access to any directory outside its own. PDFs are opened and saved through the file-chooser portal, so the app only ever sees the files you hand it, and its settings, logs and working files live under ~/.var/app/com.stirlingpdf.StirlingPDF. Because the sandbox has its own network namespace, the local engine's HTTP API is reachable only from inside the app and not from the rest of the machine.</p>
     <p>Two things behave differently inside this package, and it is worth knowing before you install:</p>
     <ul>
-      <li>Some of Stirling PDF's tools are handed to command-line programs that it looks for on the system. This package carries two of them - Ghostscript and qpdf - so repair, the scanner effect, invert, and the conversions to and from vector formats all work, and compression gains its Ghostscript pass at the higher optimisation levels. The ones that are not in the sandbox are LibreOffice, Tesseract, OCRmyPDF, WeasyPrint, Calibre, ImageMagick, pdftohtml and unrar, so fifteen tools stay in the tool list but greyed out and cannot be selected: OCR, extracting scanned images, the conversions to and from Office documents, and converting to HTML, Markdown, RTF, XML, PDF/A, EPUB or CBR (and building a PDF from a URL, an HTML page or an .eml message). Everything else, compression and cropping included, runs in the engine itself.</li>
+      <li>Some of Stirling PDF's tools are handed to command-line programs that it looks for on the system. This package carries three of them - Ghostscript, qpdf and Tesseract - so repair, the scanner effect, invert, the conversions to and from vector formats and OCR all work, Auto Rotate can read the orientation of scanned pages, and compression gains its Ghostscript pass at the higher optimisation levels. OCR comes with English only. The ones that are not in the sandbox are LibreOffice, WeasyPrint, Calibre, pdftohtml and unrar, so the tools that need them stay in the tool list but greyed out and cannot be selected: extracting scanned images, the conversions to and from Office documents, converting to HTML, Markdown, RTF, XML, PDF/A, PDF/UA, EPUB or CBR, building a PDF from a URL, an HTML page or an .eml message, the accessibility report and automatic form detection. Everything else, compression and cropping included, runs in the engine itself.</li>
       <li>The in-app updater cannot replace a packaged build, so new upstream releases arrive as Flatpak updates instead.</li>
     </ul>
     <p>One optional capability is not granted by default; enable it with "flatpak override" if you need it:</p>

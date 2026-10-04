@@ -103,6 +103,41 @@ modules:
         url: https://github.com/qpdf/qpdf/releases/download/v12.4.1/qpdf-12.4.1-bin-linux-x86_64.zip
         sha256: db9122e88ec00c76ac6a14e09ffb92406db1773d47b968911ff6e69f28c09bf9
         size: 4040061
+      # Tesseract, for the OCR tool and for the orientation check in Auto Rotate.
+      # Both are FlatPark's prebuilt stacks, built against this runtime; the
+      # engine links leptonica, which is released on its own, so both are pinned.
+      - type: extra-data
+        filename: tesseract.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/tesseract-v2/tesseract-tesseract-v2-gnome-51-x86_64.tar.xz
+        sha256: 43cf6dd9cc48845b577cef72bff9eb471a51cce0c3ec72f14ab4d7ee28366149
+        size: 1691656
+      - type: extra-data
+        filename: leptonica.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/leptonica-v2/leptonica-leptonica-v2-gnome-51-x86_64.tar.xz
+        sha256: c031417db8170f8e2553cab28d674cd78bd86056e53ae423af7fdd1da6822340
+        size: 1228816
+      # Language data from tesseract-ocr/tessdata_fast at its 4.1.0 tag: English,
+      # and the orientation-and-script model that Auto Rotate and the OCR tool's
+      # page-orientation step run. The fast models are a quarter of the size of
+      # the standard ones.
+      - type: extra-data
+        filename: eng.traineddata
+        only-arches:
+          - x86_64
+        url: https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/eng.traineddata
+        sha256: 7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2
+        size: 4113088
+      - type: extra-data
+        filename: osd.traineddata
+        only-arches:
+          - x86_64
+        url: https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/osd.traineddata
+        sha256: 9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff
+        size: 10562727
       # The two libraries Artifex's snap expects from its own base image. Debian
       # unstable is the pin, and scripts/update-debian-pins.mjs re-resolves these
       # from the suite's package index — sid drops a file from the pool as soon as

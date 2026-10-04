@@ -64,9 +64,9 @@ ln -sf "../usr/bin/$exec_name" bin/stirling-pdf
 #
 # Stirling PDF hands some of its work to external programs and probes for each one
 # at startup, disabling the tools that have no other implementation when a program
-# is absent. Neither upstream's package nor the runtime carries any of them. These
-# two are staged beside the app, under /app/extra/cli, and put on PATH by the
-# wrapper; their libraries are never added to the app's own library path, because
+# is absent. Neither upstream's package nor the runtime carries any of them. The
+# three here - Ghostscript, qpdf and Tesseract - are staged beside the app, under
+# /app/extra/cli, and put on PATH by the wrapper; their libraries are never added to the app's own library path, because
 # the Ghostscript snap brings a whole second userland (fontconfig, freetype,
 # X11, ...) that would shadow the runtime's for the app itself.
 
@@ -128,3 +128,29 @@ cat > cli/bin/gs <<WRAPPER
 exec env LD_LIBRARY_PATH="$gs_libs:$extra_root/cli/lib" "$extra_root/$gs_bin" "\$@"
 WRAPPER
 chmod +x cli/bin/gs
+
+# Tesseract and the leptonica it links, from FlatPark's prebuilt stacks. Each
+# archive holds one top-level directory named after the stack.
+for stack in tesseract leptonica; do
+    [ -f "$stack.tar.xz" ] || { echo "missing extra-data: $stack.tar.xz" >&2; exit 1; }
+    rm -rf "cli/$stack"
+    bsdtar --no-same-owner -xf "$stack.tar.xz" -C cli
+    [ -d "cli/$stack" ] || { echo "$stack.tar.xz did not yield a $stack/ directory" >&2; exit 1; }
+    rm -f "$stack.tar.xz"
+done
+[ -x cli/tesseract/bin/tesseract ] || { echo "tesseract missing after unpack" >&2; exit 1; }
+
+# The language files go beside the stack's own share/tessdata/configs: tesseract
+# reads its output presets (the engine asks for `pdf`) and its models from the
+# one TESSDATA_PREFIX directory, which the wrapper points here.
+for lang in eng osd; do
+    [ -f "$lang.traineddata" ] || { echo "missing extra-data: $lang.traineddata" >&2; exit 1; }
+    mv "$lang.traineddata" cli/tesseract/share/tessdata/
+done
+
+# Wrapped like gs, so the two stacks' libraries reach tesseract and nothing else.
+cat > cli/bin/tesseract <<WRAPPER
+#!/bin/sh
+exec env LD_LIBRARY_PATH="$extra_root/cli/tesseract/lib:$extra_root/cli/leptonica/lib" "$extra_root/cli/tesseract/bin/tesseract" "\$@"
+WRAPPER
+chmod +x cli/bin/tesseract
