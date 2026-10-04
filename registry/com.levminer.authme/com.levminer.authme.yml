@@ -12,6 +12,9 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
+  # The "no authentication" mode keeps its encryption key in the login
+  # keyring through the Secret Service API.
+  - --talk-name=org.freedesktop.secrets
   # System tray (Tauri tray-icon).
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-run/tray-icon:create
