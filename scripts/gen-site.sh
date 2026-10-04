@@ -16,8 +16,9 @@ if [ ! -d "$SITE_DIR/node_modules" ]; then
     ( cd "$SITE_DIR" && npm install --no-audit --no-fund )
 fi
 
-# 3. Enrich each app file from the developer repo (manifest/metainfo/flatpark.yml).
-( cd "$SITE_DIR" && node tools/enrich.mjs )
+# 3. Enrich each app file from the developer repo (manifest/metainfo/flatpark.yml),
+# plus the published install counts.
+( cd "$SITE_DIR" && FLATPARK_STATS_URL="$STATS_URL" node tools/enrich.mjs )
 
 # 4. Build the static site into PAGES_DIR. SITE_URL feeds the sitemap and
 # canonical/absolute URLs; keep it single-sourced from REPO_HOMEPAGE.

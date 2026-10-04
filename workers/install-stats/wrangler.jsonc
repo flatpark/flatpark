@@ -1,0 +1,22 @@
+// FlatPark install stats — counts installs/updates as clients pull from
+// dl.flatpark.org (see src/index.js for what is and isn't recorded).
+// Deploy: wrangler deploy   (from this directory)
+// No secrets. After the first deploy, set the route to "Fail open" in the
+// dashboard (Workers Routes) so pulls never depend on this Worker.
+//
+// The daily rollup (.github/workflows/install-stats.yml) reads the dataset
+// through the Analytics Engine SQL API and publishes the aggregates to
+// dl.flatpark.org/stats/.
+{
+  "name": "flatpark-install-stats",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-04",
+  "routes": [
+    // Only delta-indexes/: one request per pull (see src/index.js). Widening
+    // this to objects/* would multiply invocations by the object count.
+    { "pattern": "dl.flatpark.org/delta-indexes/*", "zone_name": "flatpark.org" }
+  ],
+  "analytics_engine_datasets": [
+    { "binding": "INSTALLS", "dataset": "flatpark_installs" }
+  ]
+}

@@ -15,6 +15,9 @@ const t = useTranslations(lang);
 const { repo } = loadCatalog();
 const apps = loadApps();
 // Default order: newest listing first, matching the home grid.
+// Install counts are optional (the build reads them best-effort), so the
+// "Popular" order only appears when there is something to order by.
+const hasStats = apps.some((a) => a.installs);
 const ordered = [...apps].sort((a, b) => (b.added || '').localeCompare(a.added || ''));
 
 // Curated sections present in the catalog, with counts, for the sidebar. The
@@ -61,6 +64,7 @@ const sections = Object.entries(counts)
           >
             <option value="added" selected>{t('apps.sort.added')}</option>
             <option value="updated">{t('apps.sort.recent')}</option>
+            {hasStats && <option value="popular">{t('apps.sort.popular')}</option>}
             <option value="approved">{t('apps.sort.approved')}</option>
             <option value="name">{t('apps.sort.name')}</option>
           </select>

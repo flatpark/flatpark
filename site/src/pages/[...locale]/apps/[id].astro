@@ -30,6 +30,13 @@ const detailRows = [
     value: app.license.label,
     href: app.license.url,
   },
+  app.installs && {
+    label: t('detail.row.installs'),
+    value: t('detail.row.installs.value', {
+      total: app.installs.total.toLocaleString(lang),
+      recent: app.installs.last30.toLocaleString(lang),
+    }),
+  },
   latest && { label: t('detail.row.version'), value: `${latest.version}${latest.date ? ` · ${latest.date}` : ''}` },
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
   app.urls?.help && { label: t('detail.row.support'), value: t('detail.row.help'), href: app.urls.help },

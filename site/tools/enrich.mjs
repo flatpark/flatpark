@@ -123,6 +123,24 @@ const editorPicks = (() => {
     return [];
   }
 })();
+
+// Install counts from the daily rollup (scripts/rollup-install-stats.mjs), an
+// http(s) URL or a local path. Best-effort like everything here: no stats just
+// means no install row and no "Popular" order, never a failed build.
+const installStats = await (async () => {
+  const src = process.env.FLATPARK_STATS_URL || '';
+  if (!src) return null;
+  try {
+    if (!/^https?:/.test(src)) return JSON.parse(readFileSync(src, 'utf8'));
+    const res = await fetch(src, { signal: AbortSignal.timeout(20000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } catch (e) {
+    console.warn(`[enrich] install stats unavailable (${src}): ${e.message}`);
+    return null;
+  }
+})();
+
 // Ids seen during enrichment, to flag stale picks (removed/renamed apps).
 const enrichedIds = new Set();
 
@@ -552,6 +570,12 @@ async function enrichOne(file) {
   out.updated = out.releases?.[0]?.date || gitUpdated(srcDir) || '';
   // Listing date — when we added the app, never an upstream date.
   out.added = gitAdded(srcDir);
+  // Fresh installs only: updates count the same people again every release.
+  // An app with no row yet (listed after the last rollup) counts as zero.
+  if (installStats?.apps) {
+    const s = installStats.apps[out.id];
+    out.installs = { total: s?.installs ?? 0, last30: s?.installs30 ?? 0, since: installStats.since };
+  }
 
   writeFileSync(path, JSON.stringify(out, null, 2) + '\n');
   return out.id;

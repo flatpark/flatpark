@@ -1,0 +1,80 @@
+# Daily rollup of install/update counts. The install-stats Worker
+# (workers/install-stats) writes one Analytics Engine row per pull; this turns
+# the finished UTC days into the public aggregates under dl.flatpark.org/stats/
+# (scripts/rollup-install-stats.mjs). The site picks totals.json up on its next
+# publish — no rebuild is triggered from here.
+name: install-stats
+
+on:
+  schedule:
+    - cron: "30 1 * * *" # a little after UTC midnight, once the day is closed
+  workflow_dispatch:
+
+concurrency:
+  group: install-stats
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write # open/close the rollup alert (scripts/ci-alert.sh)
+
+jobs:
+  rollup:
+    runs-on: ubuntu-latest
+    env:
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+      STATS_DIR: ${{ github.workspace }}/out/stats
+      REGISTRY_DIR: ${{ github.workspace }}/registry
+      # Analytics Engine SQL API: a token with Account Analytics: Read only.
+      CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      RCLONE_CONFIG_R2_ACL: private
+      RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash
+
+      - name: Pull existing stats from R2
+        run: |
+          mkdir -p "$STATS_DIR"
+          rclone copy "r2:$R2_BUCKET/stats" "$STATS_DIR" --fast-list
+
+      - name: Roll up finished days
+        run: node scripts/rollup-install-stats.mjs
+
+      # Additive copy: the daily files are the only long-term record (Analytics
+      # Engine forgets after three months), so nothing here ever deletes one.
+      - name: Push stats to R2
+        run: |
+          rclone copy "$STATS_DIR" "r2:$R2_BUCKET/stats" --checksum --fast-list \
+            --header-upload "Cache-Control: public, max-age=0, must-revalidate"
+          node -e 'const t=require(process.argv[1]);console.log(`### Install stats\n- through ${t.through}, since ${t.since}\n- ${Object.keys(t.apps).length} app(s) counted`)' \
+            "$STATS_DIR/totals.json" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Alert on a failed rollup
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ./scripts/ci-alert.sh open install-stats "install stats rollup failed" <<EOF
+          The daily install-stats rollup did not finish, so dl.flatpark.org/stats/
+          is not current. Nothing user-facing breaks: the next green run backfills
+          every missed day still inside its window (scripts/rollup-install-stats.mjs).
+
+          This issue closes itself on the next green run.
+          EOF
+
+      - name: Clear the rollup alert
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/ci-alert.sh resolve install-stats "The rollup succeeded again."
