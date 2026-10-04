@@ -1,0 +1,67 @@
+id: com.ayugram.desktop
+# GNOME rather than the bare freedesktop runtime: Telegram's in-app browser
+# (bot mini apps, payments, Instant View pages) loads WebKitGTK at run time, and
+# only the GNOME runtime carries it. The binary itself links nothing beyond glibc,
+# libstdc++ and the X11/GL/fontconfig base every runtime has.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: AyuGram
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Telegram client: needs the network and display; audio for calls and
+  # notification sounds; dri for hardware-accelerated video. No --filesystem=home
+  # — files go through the portal file chooser.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=dri
+  # Desktop integration: notifications, tray icon, idle/lock detection.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --system-talk-name=org.freedesktop.login1
+  # Media-key control of in-app audio/video. Inside Flatpak the MPRIS name is
+  # built from $FLATPAK_ID (lib_base base_system_media_controls_linux.cpp), so
+  # it lies outside the app-id prefix Flatpak grants by default.
+  - --own-name=org.mpris.MediaPlayer2.com.ayugram.desktop
+  # Default save location for downloaded files (the portal is used otherwise).
+  - --filesystem=xdg-download
+modules:
+  - name: ayugram
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ayugram-wrapper /app/bin/AyuGram
+      - install -Dm644 com.ayugram.desktop.desktop /app/share/applications/com.ayugram.desktop.desktop
+      # The desktop entry is DBusActivatable, as upstream's is; the service's
+      # Exec points at the wrapper instead of upstream's /usr/bin/AyuGram.
+      - install -Dm644 com.ayugram.desktop.service /app/share/dbus-1/services/com.ayugram.desktop.service
+      - install -Dm644 com.ayugram.desktop.metainfo.xml /app/share/metainfo/com.ayugram.desktop.metainfo.xml
+      - install -Dm644 com.ayugram.desktop.png /app/share/icons/hicolor/512x512/apps/com.ayugram.desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ayugram.tar.zst
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/ayugram-release/releases/download/v7.0.9/ayugram-7.0.9-x86_64.tar.zst
+        sha256: 47111bdf979acc4b6efd60ef94f9f9b099d14087fba920f393a2e20dbac387dc
+        size: 86491660
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ayugram-wrapper
+      - type: file
+        path: com.ayugram.desktop.desktop
+      - type: file
+        path: com.ayugram.desktop.service
+      - type: file
+        path: com.ayugram.desktop.metainfo.xml
+      - type: file
+        path: com.ayugram.desktop.png

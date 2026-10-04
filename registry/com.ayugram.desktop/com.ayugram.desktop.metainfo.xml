@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.ayugram.desktop</id>
+  <name>AyuGram</name>
+  <summary>Telegram Desktop fork with ghost mode, message history and anti-recall</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-GPL-3.0-with-OpenSSL-exception</project_license>
+  <developer id="one.ayugram">
+    <name>Radolyn Labs</name>
+  </developer>
+  <url type="homepage">https://ayugram.one/</url>
+  <url type="help">https://docs.ayugram.one/desktop/</url>
+  <url type="faq">https://t.me/AyuGramFAQ</url>
+  <url type="translate">https://crowdin.com/project/ayugram</url>
+  <url type="vcs-browser">https://github.com/AyuGram/AyuGramDesktop</url>
+  <description>
+    <p>This is a community package of AyuGram and is not affiliated with or endorsed by its developers. Upstream publishes no Linux binary, so FlatPark builds one from the unmodified upstream source with upstream's own Linux build environment; the recipe and per-release build logs are public at github.com/flatpark/ayugram-release.</p>
+    <p>AyuGram is a Telegram Desktop based client with extra privacy and customization features:</p>
+    <ul>
+      <li>Flexible ghost mode: read messages and go online without others seeing it</li>
+      <li>Local message history and anti-recall for edited and deleted messages</li>
+      <li>Streamer mode, font customization and appearance tweaks</li>
+      <li>Message filters and a built-in translator</li>
+    </ul>
+    <p>Upstream itself describes AyuGram as a client that breaks Telegram's Terms of Service. Using it is at your own risk.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>AyuGram preferences</caption>
+      <image>https://raw.githubusercontent.com/AyuGram/AyuGramDesktop/dev/.github/demos/demo1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>AyuGram options</caption>
+      <image>https://raw.githubusercontent.com/AyuGram/AyuGramDesktop/dev/.github/demos/demo2.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Message filters</caption>
+      <image>https://raw.githubusercontent.com/AyuGram/AyuGramDesktop/dev/.github/demos/demo3.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Appearance</caption>
+      <image>https://raw.githubusercontent.com/AyuGram/AyuGramDesktop/dev/.github/demos/demo4.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.ayugram.desktop.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+  </categories>
+  <keywords>
+    <keyword>tg</keyword>
+    <keyword>telegram</keyword>
+    <keyword>tdesktop</keyword>
+    <keyword>ayugram</keyword>
+    <keyword>messaging</keyword>
+    <keyword>messenger</keyword>
+    <keyword>chat</keyword>
+  </keywords>
+  <requires>
+    <internet>always</internet>
+    <control>keyboard</control>
+    <display_length compare="ge">480</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+    <content_attribute id="money-purchasing">intense</content_attribute>
+    <content_attribute id="money-advertising">moderate</content_attribute>
+  </content_rating>
+  <provides>
+    <binary>AyuGram</binary>
+    <mediatype>x-scheme-handler/tg</mediatype>
+    <mediatype>x-scheme-handler/tonsite</mediatype>
+  </provides>
+  <releases>
+    <release version="7.0.9" date="2026-08-08" />
+  </releases>
+</component>

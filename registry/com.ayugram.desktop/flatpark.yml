@@ -1,0 +1,22 @@
+id: com.ayugram.desktop
+name: AyuGram
+summary: Telegram Desktop fork with ghost mode, message history and anti-recall
+website: https://ayugram.one
+source_url: https://github.com/AyuGram/AyuGramDesktop
+build:
+  manifest: com.ayugram.desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - Telegram
+    - Chat
+    - Messaging
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# AyuGram ships as one self-contained binary (Qt, FFmpeg, OpenSSL et al. are
+# statically linked in upstream's Rocky Linux 8 build environment), staged by
+# apply_extra at /app/extra/AyuGram. Flatpak already redirects $HOME into the
+# per-app data dir, so the messenger's data lands in the sandbox with no
+# redirection needed. Qt picks Wayland or xcb on its own from the sockets granted
+# in finish-args.
+exec /app/extra/AyuGram "$@"
