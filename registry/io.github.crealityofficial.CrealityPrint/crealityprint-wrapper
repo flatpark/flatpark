@@ -1,0 +1,46 @@
+#!/bin/sh
+# CrealityPrint's AppDir is staged by apply_extra at /app/extra/creality.
+#
+# The library path is the one the AppImage's own AppRun sets — the AppDir's
+# bin/ and usr/lib/, where the vendor bundles the few libraries it ships —
+# followed by the two this package adds: /app/lib/creality holds a
+# libbz2.so.1.0 link to the runtime's libbz2.so.1 (the binary asks for the
+# Debian-style soname; the library is the same), and /app/extra/deps/lib holds
+# libdeflate from Debian, which neither the AppImage nor the runtime has.
+app=/app/extra/creality
+LD_LIBRARY_PATH="$app/bin:$app/usr/lib:/app/lib/creality:/app/extra/deps/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH
+
+# The two settings below are the ones upstream's own Flatpak entrypoint
+# (flatpak/entrypoint in the CrealityPrint repository) makes for this app id:
+# WebKitGTK's DMA-BUF renderer is turned off under the NVIDIA GL extension
+# (upstream cites gnome-build-meta issue 754), and the locale is pinned to
+# C.UTF-8 (upstream cites BambuStudio issue 3440).
+if grep -q org.freedesktop.Platform.GL.nvidia /.flatpak-info 2>/dev/null; then
+    : "${WEBKIT_DISABLE_DMABUF_RENDERER:=1}"
+    export WEBKIT_DISABLE_DMABUF_RENDERER
+fi
+export LC_ALL=C.UTF-8
+
+# Fonts. The binary carries its own statically linked FreeType and exports its
+# FT_* entry points, so in this process the runtime's fontconfig can end up
+# handing a face created by one FreeType to the other. That is harmless for
+# ordinary fonts and fatal for variable ones: scanning the host's
+# Cantarell-VF.otf crashes the app before its window opens. Two steps keep
+# fontconfig away from that path:
+#
+#   * fonts.conf is the runtime's own configuration plus a rule that rejects
+#     variable font files by name, so they are never matched or rendered.
+#   * fc-cache — the runtime's, which only ever sees the runtime's FreeType —
+#     builds the font caches first. A directory whose cache is missing or stale
+#     (host font directories are, inside the sandbox) would otherwise be
+#     scanned by CrealityPrint itself, variable fonts included: the rejection
+#     rule only applies once a font is added, not while a cache is built. With
+#     the caches current, fc-cache returns at once.
+#
+# CREALITYPRINT_FONTCONFIG_FILE overrides the configuration.
+FONTCONFIG_FILE="${CREALITYPRINT_FONTCONFIG_FILE:-/app/share/crealityprint/fonts.conf}"
+export FONTCONFIG_FILE
+fc-cache >/dev/null 2>&1 || true
+
+exec "$app/bin/CrealityPrint" "$@"

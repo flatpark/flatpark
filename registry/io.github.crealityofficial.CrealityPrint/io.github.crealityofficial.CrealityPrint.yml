@@ -1,0 +1,113 @@
+id: io.github.crealityofficial.CrealityPrint
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: crealityprint
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# CrealityPrint is a wxWidgets (GTK 3) slicer with an embedded WebKitGTK view
+# for the device and cloud pages. Its AppImage brings only a few libraries of
+# its own; GTK 3, WebKitGTK 4.1, libsoup 3, GStreamer and the GL stack it links
+# come from the GNOME runtime (verified against the binary's NEEDED set — only
+# libbz2.so.1.0 and libdeflate.so.0 are not satisfied, see the wrapper). Its
+# statically linked FreeType needs fontconfig kept away from variable fonts;
+# see fonts.conf.
+#
+# The permissions follow the finish-args of upstream's own Flatpak manifest for
+# this same app id (flatpak/io.github.crealityofficial.CrealityPrint.yml), so
+# someone moving over from upstream's bundle gets the same sandbox.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Sending prints to and monitoring printers on the LAN, Creality Cloud, and
+  # the printer camera's live view.
+  - --share=network
+  # USB-connected printers and serial ports.
+  - --device=all
+  # Upstream's choice: the home directory, plus removable media and GVFS
+  # mounts, for loading models and writing G-code to an SD card or USB stick.
+  - --filesystem=home
+  - --filesystem=xdg-run/gvfs
+  - --filesystem=/run/media
+  - --filesystem=/media
+  # 3D mice through spacenavd.
+  - --filesystem=/run/spnav.sock:ro
+  - --env=SPNAV_SOCKET=/run/spnav.sock
+  # Theme and font settings, read-only.
+  - --filesystem=xdg-config/gtk-3.0
+  - --filesystem=xdg-config/gtk-4.0
+  - --filesystem=xdg-config/fontconfig:ro
+  # Lets a second launch hand its files to the running instance.
+  - --talk-name=io.github.crealityofficial.CrealityPrint.InstanceCheck.*
+  # Ejecting an SD card or USB stick after exporting G-code.
+  - --system-talk-name=org.freedesktop.UDisks2
+modules:
+  - name: crealityprint
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 crealityprint-wrapper /app/bin/crealityprint
+      # The binary asks for the Debian-style soname libbz2.so.1.0; the runtime
+      # ships the same library as libbz2.so.1. ldconfig would file a link under
+      # its target's soname, so the wrapper puts this directory on
+      # LD_LIBRARY_PATH for the loader to find it by name.
+      - install -d /app/lib/creality
+      - ln -s /usr/lib/x86_64-linux-gnu/libbz2.so.1 /app/lib/creality/libbz2.so.1.0
+      # Font configuration the wrapper points FONTCONFIG_FILE at; see the
+      # comments in fonts.conf and the wrapper.
+      - install -Dm644 fonts.conf /app/share/crealityprint/fonts.conf
+      - install -Dm644 io.github.crealityofficial.CrealityPrint.desktop /app/share/applications/io.github.crealityofficial.CrealityPrint.desktop
+      - install -Dm644 io.github.crealityofficial.CrealityPrint.metainfo.xml /app/share/metainfo/io.github.crealityofficial.CrealityPrint.metainfo.xml
+      - install -Dm644 io.github.crealityofficial.CrealityPrint.svg /app/share/icons/hicolor/scalable/apps/io.github.crealityofficial.CrealityPrint.svg
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: crealityprint.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/CrealityOfficial/CrealityPrint/releases/download/v7.2.1/CrealityPrint-V7.2.1.5476-x86_64-Release.AppImage
+        sha256: b28f66c25d0c6652ed6ae49d0766780f46a5b839b93ce1968e639823e1f6e2f3
+        size: 181815800
+      # END MANAGED EXTRA-DATA
+      # CrealityPrint links libdeflate.so.0 directly; neither the AppImage nor
+      # the GNOME runtime carries it. scripts/update-debian-pins.mjs re-resolves
+      # this from the suite index; filename minus .deb is the binary package
+      # name, and that is the whole contract.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libdeflate0.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libd/libdeflate/libdeflate0_1.23-2_amd64.deb
+        sha256: 5fe37fb79d53f5c91da6ba3ac4c1a8453e1f2b1ff0e0ea45189c5338bbfdbf82
+        size: 47344
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: crealityprint-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: io.github.crealityofficial.CrealityPrint.desktop
+      - type: file
+        path: io.github.crealityofficial.CrealityPrint.metainfo.xml
+      - type: file
+        path: io.github.crealityofficial.CrealityPrint.svg

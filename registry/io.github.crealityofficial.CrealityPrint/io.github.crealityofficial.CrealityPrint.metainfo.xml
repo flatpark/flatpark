@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.crealityofficial.CrealityPrint</id>
+  <name>CrealityPrint</name>
+  <summary>Slice models and control Creality 3D printers</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="io.github.crealityofficial">
+    <name>Shenzhen Creality 3D Technology Co., Ltd.</name>
+  </developer>
+  <url type="homepage">https://github.com/CrealityOfficial/CrealityPrint</url>
+  <url type="help">https://wiki.creality.com/en/software/6-0</url>
+  <url type="bugtracker">https://github.com/CrealityOfficial/CrealityPrint/issues</url>
+  <url type="vcs-browser">https://github.com/CrealityOfficial/CrealityPrint</url>
+  <description>
+    <p>This is a community package of CrealityPrint, maintained independently. It repackages the official upstream AppImage unmodified and uses the same app id as upstream's own Flatpak build.</p>
+    <p>Creality Print is a self-developed FDM slicing software produced by Shenzhen Creality 3D Technology Co., Ltd. It's a practical and easy-to-use tool that can help you remote control and monitor your 3D printer and help print directly from your computer.</p>
+    <ul>
+      <li>Slices STL, 3MF, OBJ and AMF models with ready-made profiles for Creality printers and filaments.</li>
+      <li>Sends jobs to printers on your network and monitors them, including the camera view.</li>
+      <li>Multi-plate projects, supports, painting and calibration tools.</li>
+    </ul>
+    <p>Permissions follow upstream's own Flatpak build: network, all devices (USB printers and serial ports), your home directory, removable media, and UDisks for ejecting an SD card or USB stick.</p>
+  </description>
+  <launchable type="desktop-id">io.github.crealityofficial.CrealityPrint.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>3D printing</keyword>
+    <keyword>slicer</keyword>
+    <keyword>G-code</keyword>
+    <keyword>STL</keyword>
+    <keyword>3MF</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <requires>
+    <display_length compare="gt">768</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>crealityprint</binary>
+    <mediatype>model/stl</mediatype>
+    <mediatype>application/vnd.ms-3mfdocument</mediatype>
+  </provides>
+  <branding>
+    <color type="primary" scheme_preference="light">#009688</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A model ready to be sliced on a build plate</caption>
+      <image>https://github.com/CrealityOfficial/CrealityPrint/raw/master/flatpak/images/1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Control and manage multiple devices</caption>
+      <image>https://github.com/CrealityOfficial/CrealityPrint/raw/master/flatpak/images/2.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="7.2.1" date="2026-08-04" />
+    <release version="7.2.0" date="2026-06-30" />
+    <release version="7.1.1" date="2026-04-28" />
+  </releases>
+</component>

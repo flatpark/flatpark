@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=CrealityPrint
+GenericName=3D Printing Slicer
+Comment=Slice models and control Creality 3D printers
+Exec=crealityprint %F
+Icon=io.github.crealityofficial.CrealityPrint
+Terminal=false
+StartupWMClass=CrealityPrint
+MimeType=model/stl;application/vnd.ms-3mfdocument;application/prs.wavefront-obj;application/x-amf;
+Categories=Graphics;3DGraphics;Engineering;
+Keywords=3d;printing;slicer;gcode;stl;3mf;creality;

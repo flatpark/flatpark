@@ -1,0 +1,28 @@
+id: io.github.crealityofficial.CrealityPrint
+name: CrealityPrint
+summary: Slice models and control Creality 3D printers
+website: https://github.com/CrealityOfficial/CrealityPrint
+source_url: https://github.com/CrealityOfficial/CrealityPrint
+build:
+  manifest: io.github.crealityofficial.CrealityPrint.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - 3D Printing
+    - Slicer
+    - G-code
+    - Creality
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Both come from upstream's own Flatpak manifest for this app id.
+    # USB-connected printers and serial ports have no narrower --device.
+    - --device=all
+    # Loading models from anywhere and exporting G-code next to them.
+    - --filesystem=home
