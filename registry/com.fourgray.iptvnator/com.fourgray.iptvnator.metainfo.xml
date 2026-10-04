@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.fourgray.iptvnator</id>
+  <name>IPTVnator</name>
+  <summary>Open-source IPTV player for M3U, Xtream Codes, and Stalker portals</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.fourgray">
+    <name>4gray</name>
+  </developer>
+  <url type="homepage">https://4gray.github.io/iptvnator/</url>
+  <url type="bugtracker">https://github.com/4gray/iptvnator/issues</url>
+  <url type="help">https://4gray.github.io/iptvnator/blog/</url>
+  <url type="vcs-browser">https://github.com/4gray/iptvnator</url>
+  <description>
+    <p>This is a community package of IPTVnator, maintained independently. It repackages the official upstream build unmodified and uses the same app id as upstream's own Flatpak build.</p>
+    <p>IPTVnator is a cross-platform IPTV player for user-supplied playlists and portal connections.</p>
+    <p>It supports M3U and M3U8 playlists, Xtream Codes API, and Stalker portals with EPG, catch-up, favorites, and external player integration.</p>
+    <p>The app does not include channels, playlists, or media catalogs. Any IPTV sources, logos, metadata, and programme information come from services the user configures.</p>
+    <p>Permissions follow upstream's own Flatpak build: network, audio, and your home directory for opening playlist files. One permission is left out: upstream's build can start an external player (MPV or VLC installed on your system), which requires letting the app run commands on the host. To enable it: <code>flatpak override --user --talk-name=org.freedesktop.Flatpak com.fourgray.iptvnator</code>.</p>
+    <p>The built-in player plays streams out of the box. The optional embedded MPV player needs libmpv, which this package does not include; leave the player setting on the built-in player.</p>
+    <p>Updates come through Flatpak. If the application says a new release is available, update with Flatpak instead of installing it from the app.</p>
+  </description>
+  <launchable type="desktop-id">com.fourgray.iptvnator.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Player</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>IPTV</keyword>
+    <keyword>M3U</keyword>
+    <keyword>M3U8</keyword>
+    <keyword>EPG</keyword>
+    <keyword>Xtream</keyword>
+    <keyword>Stalker</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>iptvnator</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browse channels and watch live IPTV streams</caption>
+      <image>https://4gray.github.io/iptvnator/appstream/player.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Manage playlists and switch between sources</caption>
+      <image>https://4gray.github.io/iptvnator/appstream/playlists.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>View programme schedules in the integrated EPG</caption>
+      <image>https://4gray.github.io/iptvnator/appstream/epg.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.24.0" date="2026-09-24" />
+    <release version="0.23.0" date="2026-08-30" />
+    <release version="0.22.0" date="2026-07-05" />
+  </releases>
+</component>

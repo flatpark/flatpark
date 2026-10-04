@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=IPTVnator
+Comment=IPTV player for M3U playlists, Xtream Codes and Stalker portals
+Exec=iptvnator %U
+Icon=com.fourgray.iptvnator
+Terminal=false
+StartupWMClass=iptvnator
+MimeType=audio/x-mpegurl;application/vnd.apple.mpegurl;
+Categories=AudioVideo;Video;Player;
+Keywords=iptv;m3u;m3u8;epg;xtream;stalker;tv;

@@ -1,0 +1,26 @@
+id: com.fourgray.iptvnator
+name: IPTVnator
+summary: Open-source IPTV player for M3U, Xtream Codes, and Stalker portals
+website: https://4gray.github.io/iptvnator/
+source_url: https://github.com/4gray/iptvnator
+build:
+  manifest: com.fourgray.iptvnator.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - IPTV
+    - M3U
+    - Player
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Upstream's own Flatpak grants the home directory, for opening playlist
+    # files from anywhere.
+    - --filesystem=home

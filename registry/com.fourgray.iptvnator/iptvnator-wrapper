@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+# Electron app staged by apply_extra to /app/extra/app, started through the
+# `launch` symlink apply_extra created for the Electron binary (the .deb's
+# iptvnator.bin; its iptvnator shell launcher only chooses --no-sandbox, which
+# zypak makes unnecessary). zypak-wrapper (from org.electronjs.Electron2.BaseApp)
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps
+# an internal sandbox instead of running with --no-sandbox.
+#
+# --ozone-platform=x11 is what upstream starts IPTVnator with on Linux (its
+# .desktop Exec line and electron-builder executableArgs); it runs through
+# XWayland on a Wayland session.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (a terminal inside VS Code, for instance), the binary would start
+# as plain Node instead of the GUI app.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/app/launch --ozone-platform=x11 "$@"
