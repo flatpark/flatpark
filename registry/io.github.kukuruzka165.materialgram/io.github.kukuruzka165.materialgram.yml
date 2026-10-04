@@ -1,7 +1,11 @@
 id: io.github.kukuruzka165.materialgram
-runtime: org.freedesktop.Platform
-runtime-version: "26.08"
-sdk: org.freedesktop.Sdk
+# GNOME rather than the bare freedesktop runtime: Telegram's in-app browser
+# (bot mini apps, payments, Instant View pages) loads WebKitGTK at run time, and
+# only the GNOME runtime carries it. The binary itself links nothing beyond glibc,
+# libstdc++ and the X11/GL/fontconfig base every runtime has.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
 command: materialgram
 separate-locales: false
 build-options:
