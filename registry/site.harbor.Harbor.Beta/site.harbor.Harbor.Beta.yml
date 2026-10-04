@@ -18,6 +18,10 @@ finish-args:
   - --device=dri
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher
+  # Harbor registers org.mpris.MediaPlayer2.harbor, and a second instance
+  # falls back to org.mpris.MediaPlayer2.harbor.instance<N>; the wildcard
+  # covers both.
+  - --own-name=org.mpris.MediaPlayer2.harbor.*
   - --filesystem=xdg-run/discord-ipc-0
   - --filesystem=xdg-run/tray-icon:create
 modules:
