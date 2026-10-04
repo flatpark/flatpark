@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Gitify
+Comment=GitHub notifications on your menu bar
+Exec=gitify %U
+Icon=io.gitify.Gitify
+Terminal=false
+StartupWMClass=Gitify
+MimeType=x-scheme-handler/gitify;
+Categories=Development;
+Keywords=github;notifications;git;pull request;issues;

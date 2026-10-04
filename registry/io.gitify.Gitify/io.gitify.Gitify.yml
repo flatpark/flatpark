@@ -1,0 +1,71 @@
+id: io.gitify.Gitify
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: gitify
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron tray app for GitHub notifications. The prebuilt build bundles
+  # Chromium plus its own ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, dbus, gbm and
+  # X11 stacks it links come from the runtime.
+  - --share=ipc
+  # Polls the GitHub (or GitHub Enterprise Server) API for notifications; that
+  # is the whole app.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The optional notification sound.
+  - --socket=pulseaudio
+  # Desktop notifications for new GitHub notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Gitify lives in the tray: the tray icon is its main window's only entry
+  # point. The tray backend registers with the StatusNotifier watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # The access token is encrypted with Electron's safeStorage, which keeps its
+  # key in the Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately not granted:
+  #   --filesystem=*  -> Gitify reads and writes no user files; its settings and
+  #                      accounts live in its own config directory, which
+  #                      Flatpak keeps under ~/.var/app/io.gitify.Gitify
+modules:
+  - name: gitify
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gitify-wrapper /app/bin/gitify
+      - install -Dm644 io.gitify.Gitify.desktop /app/share/applications/io.gitify.Gitify.desktop
+      - install -Dm644 io.gitify.Gitify.metainfo.xml /app/share/metainfo/io.gitify.Gitify.metainfo.xml
+      - install -Dm644 io.gitify.Gitify.png /app/share/icons/hicolor/512x512/apps/io.gitify.Gitify.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/gitify-app/gitify/releases/download/v7.9.0/gitify_7.9.0_amd64.deb
+        sha256: cde863b78d2305bb61c6b5c1b2e056356ae82b98e78c5aafba9e67352d77f1fd
+        size: 99310336
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gitify-wrapper
+      - type: file
+        path: io.gitify.Gitify.desktop
+      - type: file
+        path: io.gitify.Gitify.metainfo.xml
+      - type: file
+        path: io.gitify.Gitify.png

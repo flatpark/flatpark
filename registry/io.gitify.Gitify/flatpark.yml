@@ -1,0 +1,23 @@
+id: io.gitify.Gitify
+name: Gitify
+summary: GitHub notifications on your menu bar
+website: https://gitify.io
+source_url: https://github.com/gitify-app/gitify
+build:
+  manifest: io.gitify.Gitify.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - GitHub
+    - Notifications
+    - Tray
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

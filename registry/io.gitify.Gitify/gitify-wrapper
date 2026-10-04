@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+# Electron app staged by apply_extra to /app/extra/app, started through the
+# `launch` symlink apply_extra created for the launcher binary the vendor's
+# .desktop names. zypak-wrapper (from org.electronjs.Electron2.BaseApp)
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps
+# an internal sandbox instead of running with --no-sandbox.
+# --ozone-platform-hint=auto uses Wayland when available and falls back to X11.
+# Electron keeps Gitify's settings and accounts under $XDG_CONFIG_HOME, which
+# Flatpak points at ~/.var/app/io.gitify.Gitify/config.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (a terminal inside VS Code, for instance), the binary would start
+# as plain Node instead of the GUI app.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/app/launch --ozone-platform-hint=auto "$@"
