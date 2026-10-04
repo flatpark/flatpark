@@ -1,0 +1,26 @@
+#!/bin/sh
+# GoldenCheetah's AppDir is staged by apply_extra at /app/extra/goldencheetah.
+# The binary carries RUNPATH $ORIGIN/lib and a qt.conf beside it, so the bundled
+# Qt 6, its plugins and QtWebEngineProcess are all found relative to the binary
+# with nothing set here. `launch` is the link apply_extra made to the binary
+# AppRun names; it is resolved and the binary exec'd under its own name, because
+# Qt takes the X11 window class from argv[0] and the desktop file's
+# StartupWMClass matches the real name, not the link.
+#
+# QT_QPA_PLATFORM=xcb: the bundle ships only the xcb platform plugin, so Qt
+# cannot come up on Wayland and runs through XWayland instead. Respect an
+# explicit override.
+: "${QT_QPA_PLATFORM:=xcb}"
+export QT_QPA_PLATFORM
+
+# QtWebEngine (the maps, the browser-based charts and the cloud-service login
+# pages) runs Chromium, whose own sandbox needs user namespaces that Flatpak does
+# not hand out to apps — it would abort at start. The Flatpak sandbox around the
+# whole app stays in place.
+: "${QTWEBENGINE_DISABLE_SANDBOX:=1}"
+export QTWEBENGINE_DISABLE_SANDBOX
+
+app=/app/extra/goldencheetah
+bin="$(readlink "$app/launch" 2>/dev/null || true)"
+[ -n "$bin" ] || bin=launch
+exec "$app/$bin" "$@"

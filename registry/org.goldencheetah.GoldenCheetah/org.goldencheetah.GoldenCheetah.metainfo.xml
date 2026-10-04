@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.goldencheetah.GoldenCheetah</id>
+  <name>GoldenCheetah</name>
+  <summary>Analyze and plan cycling, running and swimming training</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <developer id="org.goldencheetah">
+    <name>GoldenCheetah</name>
+  </developer>
+  <url type="homepage">https://www.goldencheetah.org/</url>
+  <url type="bugtracker">https://github.com/GoldenCheetah/GoldenCheetah/issues</url>
+  <url type="help">https://github.com/GoldenCheetah/GoldenCheetah/wiki</url>
+  <url type="vcs-browser">https://github.com/GoldenCheetah/GoldenCheetah</url>
+  <description>
+    <p>This is a community package of GoldenCheetah, maintained independently. It repackages the official upstream AppImage unmodified.</p>
+    <p>GoldenCheetah is a desktop application for cyclists, triathletes and coaches. It imports rides and runs from bike computers, watches and online services, and analyzes power, heart rate and pace data with the models sports scientists use.</p>
+    <ul>
+      <li>Critical power, W' balance, training stress, Banister and other performance models.</li>
+      <li>Activity, trends and season views with customizable charts, plus R and Python charts.</li>
+      <li>Imports from Garmin, Wahoo, SRM and many more formats, and syncs with Strava, Intervals.icu, Dropbox and other services.</li>
+      <li>Training mode for indoor workouts with smart trainers.</li>
+    </ul>
+    <p>Your athlete library is kept inside the sandbox, in <code>~/.var/app/org.goldencheetah.GoldenCheetah/.goldencheetah</code>. The package can read and write your Downloads and Documents folders for importing and exporting activities, has network access for syncing, and can talk to BlueZ for Bluetooth sensors.</p>
+    <p>Grant more with <code>flatpak override</code>:</p>
+    <ul>
+      <li>ANT+ USB sticks and serial trainers in training mode: <code>flatpak override --user --device=all org.goldencheetah.GoldenCheetah</code></li>
+      <li>Importing from a mounted bike computer or another folder: <code>flatpak override --user --filesystem=/run/media org.goldencheetah.GoldenCheetah</code></li>
+    </ul>
+    <p>The R charts need an R installation, which the sandbox does not have, so GoldenCheetah turns them off on first start. The Python charts use the Python bundled with the application instead.</p>
+    <p>The application runs through XWayland on Wayland sessions, because the upstream build ships only the X11 platform plugin.</p>
+  </description>
+  <launchable type="desktop-id">org.goldencheetah.GoldenCheetah.desktop</launchable>
+  <categories>
+    <category>Science</category>
+    <category>Sports</category>
+  </categories>
+  <keywords>
+    <keyword>cycling</keyword>
+    <keyword>power</keyword>
+    <keyword>training</keyword>
+    <keyword>running</keyword>
+    <keyword>FIT</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>goldencheetah</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Activity analysis</caption>
+      <image>https://raw.githubusercontent.com/GoldenCheetah/GoldenCheetah/067696aafdad21c702672b2c9c41da03c076451c/doc/wiki/GoldenCheetah-Screenshot.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Critical power chart</caption>
+      <image>https://www.goldencheetah.org/img/CPchart.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.8" date="2026-09-20" />
+    <release version="3.7-SP1" date="2025-11-21" />
+    <release version="3.7" date="2025-03-30" />
+  </releases>
+</component>

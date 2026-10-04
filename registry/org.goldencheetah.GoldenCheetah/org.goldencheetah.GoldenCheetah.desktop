@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=GoldenCheetah
+GenericName=Training Analysis
+Comment=Analyze and plan cycling, running and swimming training
+Exec=goldencheetah
+Icon=org.goldencheetah.GoldenCheetah
+Terminal=false
+StartupWMClass=GoldenCheetah
+Categories=Science;Sports;
+Keywords=cycling;power;training;running;swimming;fit;strava;garmin;

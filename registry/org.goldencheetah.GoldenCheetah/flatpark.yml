@@ -1,0 +1,23 @@
+id: org.goldencheetah.GoldenCheetah
+name: GoldenCheetah
+summary: Analyze and plan cycling, running and swimming training
+website: https://www.goldencheetah.org/
+source_url: https://github.com/GoldenCheetah/GoldenCheetah
+build:
+  manifest: org.goldencheetah.GoldenCheetah.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Science
+  upstream_approved: false
+  tags:
+    - Cycling
+    - Training
+    - Sports
+    - Qt
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

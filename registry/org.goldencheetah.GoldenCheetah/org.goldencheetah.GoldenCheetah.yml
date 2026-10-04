@@ -1,0 +1,95 @@
+id: org.goldencheetah.GoldenCheetah
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: goldencheetah
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GoldenCheetah's Linux build is a self-contained linuxdeployqt AppImage: it
+  # brings its own Qt 6 (WebEngine, Charts, Multimedia, Bluetooth, SerialPort),
+  # ICU, GSL, its own ffmpeg and a relocatable Python 3.11. Nothing Qt comes from
+  # the runtime, so this is the freedesktop base rather than KDE. Verified
+  # against the bundle's NEEDED set: everything it does not carry — display, GL,
+  # X11, fontconfig, NSS and audio — org.freedesktop.Platform 26.08 provides.
+  - --share=ipc
+  # X11 only: the bundle ships just the xcb platform plugin, so it runs through
+  # XWayland on a Wayland session. --socket=fallback-x11 would withhold the X
+  # socket exactly when a compositor is present, so this is a plain x11 socket.
+  - --socket=x11
+  # A Wayland host session can export QT_QPA_PLATFORM=wayland, which would beat
+  # the wrapper's xcb default; drop it here.
+  - --unset-env=QT_QPA_PLATFORM
+  # OpenGL charts, the 3D plot and the training-mode video.
+  - --device=dri
+  # Training mode: workout videos and audio cues.
+  - --socket=pulseaudio
+  # Syncing with Strava, Garmin Connect, Intervals.icu, Dropbox and others, the
+  # CloudDB of shared charts and workouts, and map tiles.
+  - --share=network
+  # Bluetooth LE sensors and smart trainers in training mode. QtBluetooth talks
+  # to BlueZ over the system bus.
+  - --system-talk-name=org.bluez
+  # Importing activities. The bundled Qt has no portal platform theme, so its
+  # file dialog only sees what the sandbox grants. Downloads and Documents are
+  # where exported .fit/.tcx/.gpx files usually land; other places (a mounted
+  # head unit, for instance) are an opt-in `flatpak override` in the metainfo.
+  - --filesystem=xdg-download
+  - --filesystem=xdg-documents
+  # Flatpak does not redirect $HOME, and with no home grant it is a tmpfs that
+  # is discarded on exit. GoldenCheetah keeps its athlete library in
+  # QDir::homePath() + "/.goldencheetah", so without this every athlete,
+  # activity and setting would be gone after a restart. --persist binds
+  # ~/.goldencheetah to ~/.var/app/org.goldencheetah.GoldenCheetah/.goldencheetah
+  # — persistent, and inside the sandbox rather than in the user's real home.
+  # (It works precisely because no --filesystem=home grant is present to shadow
+  # it.)
+  - --persist=.goldencheetah
+  # Not granted by default — opt in per the metainfo:
+  #   --device=all  -> ANT+ USB sticks and serial-connected trainers in
+  #                    training mode
+modules:
+  - name: goldencheetah
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 goldencheetah-wrapper /app/bin/goldencheetah
+      - install -Dm644 org.goldencheetah.GoldenCheetah.desktop /app/share/applications/org.goldencheetah.GoldenCheetah.desktop
+      - install -Dm644 org.goldencheetah.GoldenCheetah.metainfo.xml /app/share/metainfo/org.goldencheetah.GoldenCheetah.metainfo.xml
+      - install -Dm644 org.goldencheetah.GoldenCheetah.png /app/share/icons/hicolor/512x512/apps/org.goldencheetah.GoldenCheetah.png
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: goldencheetah.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/GoldenCheetah/GoldenCheetah/releases/download/v3.8/GoldenCheetah_v3.8_x64.AppImage
+        sha256: a8e96e4ebbf250443cf41fdbac82892a5671564651569b300b2b0d5bb549172d
+        size: 286439928
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: goldencheetah-wrapper
+      - type: file
+        path: org.goldencheetah.GoldenCheetah.desktop
+      - type: file
+        path: org.goldencheetah.GoldenCheetah.metainfo.xml
+      - type: file
+        path: org.goldencheetah.GoldenCheetah.png
