@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=ExifCleaner
+Comment=Clean metadata from images, media files and PDF documents
+Exec=exifcleaner
+Icon=com.exifcleaner.ExifCleaner
+Terminal=false
+StartupWMClass=exifcleaner
+Categories=Graphics;Utility;
+Keywords=exif;metadata;privacy;gps;clean;remove;

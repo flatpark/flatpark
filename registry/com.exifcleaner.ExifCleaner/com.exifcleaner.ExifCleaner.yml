@@ -1,0 +1,96 @@
+id: com.exifcleaner.ExifCleaner
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: exifcleaner
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron metadata cleaner. The .deb bundles Chromium plus its own
+  # ffmpeg/ANGLE/SwiftShader and the ExifTool Perl script; the GTK3, NSS, dbus,
+  # gbm and X11 stacks it links come from the runtime, and the Perl interpreter
+  # is Debian's perl-base, fetched alongside (see the sources below).
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # No --share=network: ExifCleaner makes no network requests at all — no
+  # update check, no telemetry — so it gets none.
+  #
+  # The files to clean. ExifCleaner rewrites files where they are (ExifTool
+  # writes a temporary file beside the original and renames it over), can save
+  # a cleaned copy next to the original instead, and accepts whole folders
+  # dropped onto its window, so it needs the folders themselves rather than
+  # per-file grants from the file chooser. These are where photos, videos,
+  # documents and downloaded files usually live; anywhere else is a documented
+  # `flatpak override`.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: exifcleaner
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 exifcleaner-wrapper /app/bin/exifcleaner
+      - install -Dm755 perl-wrapper /app/bin/perl
+      # Debian's perl links libcrypt.so.1; the runtime ships libxcrypt as
+      # libcrypt.so.2 only, which exports the XCRYPT_2.0 symbols perl binds.
+      # ldconfig would file a link under its target's soname, so the perl
+      # wrapper puts this directory on LD_LIBRARY_PATH for the loader to find
+      # it by name.
+      - install -d /app/lib/perl
+      - ln -s /usr/lib/x86_64-linux-gnu/libcrypt.so.2 /app/lib/perl/libcrypt.so.1
+      - install -Dm644 com.exifcleaner.ExifCleaner.desktop /app/share/applications/com.exifcleaner.ExifCleaner.desktop
+      - install -Dm644 com.exifcleaner.ExifCleaner.metainfo.xml /app/share/metainfo/com.exifcleaner.ExifCleaner.metainfo.xml
+      - install -Dm644 com.exifcleaner.ExifCleaner.png /app/share/icons/hicolor/512x512/apps/com.exifcleaner.ExifCleaner.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/szTheory/exifcleaner/releases/download/v4.5.0/exifcleaner_4.5.0_amd64.deb
+        sha256: c7df4e21fd5cdfbb8c0de84afa74d27496f3eed78a63cfb8428d5ef7f80dfffd
+        size: 115688692
+      # END MANAGED EXTRA-DATA
+      # The interpreter for the ExifTool script the .deb bundles: ExifTool is a
+      # Perl program, ExifCleaner does not ship Perl, and the runtime has none.
+      # perl-base alone covers ExifTool (its core modules are all it loads);
+      # only the interpreter and that module tree are kept. Kept OUTSIDE the
+      # managed extra-data block, which update-pins.mjs rebuilds from the
+      # resolver. scripts/update-debian-pins.mjs re-resolves this one from the
+      # suite index; filename minus .deb is the binary package name, and that is
+      # the whole contract.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: perl-base.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/p/perl/perl-base_5.40.1-6+deb13u1_amd64.deb
+        sha256: b795464137a0f4d443fc9284f4b93e883fb83883cb533adf300ac660807a352a
+        size: 1666320
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: exifcleaner-wrapper
+      - type: file
+        path: perl-wrapper
+      - type: file
+        path: com.exifcleaner.ExifCleaner.desktop
+      - type: file
+        path: com.exifcleaner.ExifCleaner.metainfo.xml
+      - type: file
+        path: com.exifcleaner.ExifCleaner.png

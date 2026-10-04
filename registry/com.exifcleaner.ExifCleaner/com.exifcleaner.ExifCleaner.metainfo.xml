@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.exifcleaner.ExifCleaner</id>
+  <name>ExifCleaner</name>
+  <summary>Clean metadata from images, media files and PDFs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.exifcleaner">
+    <name>szTheory</name>
+  </developer>
+  <url type="homepage">https://exifcleaner.com</url>
+  <url type="bugtracker">https://github.com/szTheory/exifcleaner/issues</url>
+  <url type="vcs-browser">https://github.com/szTheory/exifcleaner</url>
+  <description>
+    <p>This is a community package of ExifCleaner, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>ExifCleaner removes EXIF, GPS, XMP and other metadata from images, videos and PDF files. Drop files or whole folders onto the window and they are cleaned in place, or saved as a cleaned copy.</p>
+    <ul>
+      <li>Supports JPEG, PNG, WebP, HEIC, TIFF, camera RAW, MP4, MOV, PDF and more.</li>
+      <li>Optionally keeps the orientation and file timestamps.</li>
+      <li>Shows a before-and-after diff of the metadata for every file.</li>
+      <li>Batch processing, dark mode and 25 languages.</li>
+    </ul>
+    <p>ExifCleaner works offline and this package has no network access. It can read and write your Pictures, Videos, Documents and Downloads folders. To clean files elsewhere, grant that location, for example your whole home directory: <code>flatpak override --user --filesystem=home com.exifcleaner.ExifCleaner</code>.</p>
+    <p>The package also installs Debian's perl-base, the Perl interpreter that ExifCleaner's bundled ExifTool runs on.</p>
+  </description>
+  <launchable type="desktop-id">com.exifcleaner.ExifCleaner.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>EXIF</keyword>
+    <keyword>metadata</keyword>
+    <keyword>privacy</keyword>
+    <keyword>GPS</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>exifcleaner</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A batch of cleaned files</caption>
+      <image>https://exifcleaner.com/images/screenshots/light-processed.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Before-and-after metadata diff</caption>
+      <image>https://exifcleaner.com/images/screenshots/metadata-diff.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="4.5.0" date="2026-09-29" />
+    <release version="4.4.0" date="2026-09-24" />
+    <release version="4.3.0" date="2026-09-18" />
+  </releases>
+</component>

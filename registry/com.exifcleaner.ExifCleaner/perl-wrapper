@@ -1,0 +1,15 @@
+#!/bin/sh
+# Installed as /app/bin/perl. ExifCleaner runs its bundled ExifTool script
+# directly, and the script's `#!/usr/bin/env perl` resolves to this through
+# PATH. It runs Debian's perl-base interpreter that apply_extra staged at
+# /app/extra/perl.
+#
+# That interpreter was built to find its modules under
+# /usr/lib/x86_64-linux-gnu/perl-base, which does not exist in the runtime, so
+# PERL5LIB points it at the staged copy. It also links libcrypt.so.1, and the
+# runtime ships libxcrypt as libcrypt.so.2 only; /app/lib/perl holds a
+# libcrypt.so.1 link to it (the symbol versions perl asks for, XCRYPT_2.0, are
+# the ones .so.2 exports). Both settings are scoped to this one process tree.
+PERL5LIB="/app/extra/perl/lib${PERL5LIB:+:$PERL5LIB}" \
+LD_LIBRARY_PATH="/app/lib/perl${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" \
+  exec /app/extra/perl/bin/perl "$@"

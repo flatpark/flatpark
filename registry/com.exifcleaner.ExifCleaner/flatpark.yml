@@ -1,0 +1,23 @@
+id: com.exifcleaner.ExifCleaner
+name: ExifCleaner
+summary: Clean metadata from images, media files and PDFs
+website: https://exifcleaner.com
+source_url: https://github.com/szTheory/exifcleaner
+build:
+  manifest: com.exifcleaner.ExifCleaner.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - EXIF
+    - Metadata
+    - Privacy
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
