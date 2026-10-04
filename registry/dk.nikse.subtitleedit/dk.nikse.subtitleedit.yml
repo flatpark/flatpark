@@ -1,6 +1,6 @@
 id: dk.nikse.subtitleedit
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: subtitleedit
 separate-locales: false
@@ -41,8 +41,8 @@ modules:
       - /bin/mpv
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/mpv-v1/mpv-stack-mpv-v1-gnome-50-x86_64.tar.xz
-        sha256: 900008f2263d53f72061e42f27775ab985510f496320aa366b2493662ec5a3be
+        url: https://github.com/flatpark/prebuilt/releases/download/mpv-v2/mpv-stack-mpv-v2-gnome-51-x86_64.tar.xz
+        sha256: 3d4a1c48d8a466bd86badbf683f21dfd05ea15c2f8f512414316e7842c863c93
 
   # Built from source, after mpv-stack, so this 0.17.4 build - matching
   # upstream's own pin exactly - is what actually ships: installing it here
@@ -80,72 +80,72 @@ modules:
         filename: x264.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/x264-v1/x264-x264-v1-gnome-50-x86_64.tar.xz
-        sha256: f6d5ecf8620a60164d191aeb83ae9ba371e17fb0b3f217cce3d371f260c5f63f
-        size: 564664
+        url: https://github.com/flatpark/prebuilt/releases/download/x264-v2/x264-x264-v2-gnome-51-x86_64.tar.xz
+        sha256: 31f63c4cc872a8cfb07354cf9b648d0949474f498e447c13d8d43ad4695a9b16
+        size: 566272
       - type: extra-data
         filename: x265.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/x265-v1/x265-x265-v1-gnome-50-x86_64.tar.xz
-        sha256: 0e11378f93862669a832cfb58ae016d039aa65d2acbb8c64fc2a5a9db41a337e
-        size: 1051268
+        url: https://github.com/flatpark/prebuilt/releases/download/x265-v2/x265-x265-v2-gnome-51-x86_64.tar.xz
+        sha256: 2d81543116406f447e9d551f8bb88f80ddcde07471b5da99dd30047e15d32a60
+        size: 1058264
       - type: extra-data
         filename: lame.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/lame-v1/lame-lame-v1-gnome-50-x86_64.tar.xz
-        sha256: cf65e7f57f5532f692ed7107af0cafb36afb2277f31c7cb749da206f56f0b396
-        size: 143068
+        url: https://github.com/flatpark/prebuilt/releases/download/lame-v2/lame-lame-v2-gnome-51-x86_64.tar.xz
+        sha256: b915c4bba401299d7424c5c66ef0bff8da779a4455b10aedd0af45424271ec67
+        size: 144768
       - type: extra-data
         filename: rubberband.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/rubberband-v1/rubberband-rubberband-v1-gnome-50-x86_64.tar.xz
-        sha256: 8f88a7640b9eba33cba667d14f72b1261934e28fa6ba9dfbaa1396eac0c63f5f
-        size: 218688
+        url: https://github.com/flatpark/prebuilt/releases/download/rubberband-v2/rubberband-rubberband-v2-gnome-51-x86_64.tar.xz
+        sha256: ec3673aa6d901047aaeaf4911253ec359bb6c5202cb7adfdd3a183c7e8814237
+        size: 230016
       - type: extra-data
         filename: libass.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/libass-v1/libass-libass-v1-gnome-50-x86_64.tar.xz
-        sha256: 2b246bd7d9f658b0678e366c8196d40daf1088433daeab9a01b06c15884b375d
-        size: 114504
+        url: https://github.com/flatpark/prebuilt/releases/download/libass-v2/libass-libass-v2-gnome-51-x86_64.tar.xz
+        sha256: 2319d0b986c80e07ea263e37b3a843360d31e064b99325428dafbee9795bf9a6
+        size: 117516
       - type: extra-data
         filename: ffmpeg-full.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v1/ffmpeg-full-ffmpeg-full-v1-gnome-50-x86_64.tar.xz
-        sha256: 220c5aa8b691ddec31fc4a7148fd33169a59012045cb1e5bf339ddc5f7b25465
-        size: 11446284
+        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v2/ffmpeg-full-ffmpeg-full-v2-gnome-51-x86_64.tar.xz
+        sha256: a865927ef54932ba1c1c49dc9cc256b6b425c46e71e04c3e4160d1d73b02d55b
+        size: 11738064
       - type: extra-data
         filename: leptonica.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/leptonica-v1/leptonica-leptonica-v1-gnome-50-x86_64.tar.xz
-        sha256: 150639275c0b5487d530289610a62f9626e9e74c51aa45cba865461937a7bead
-        size: 1155844
+        url: https://github.com/flatpark/prebuilt/releases/download/leptonica-v2/leptonica-leptonica-v2-gnome-51-x86_64.tar.xz
+        sha256: c031417db8170f8e2553cab28d674cd78bd86056e53ae423af7fdd1da6822340
+        size: 1228816
       - type: extra-data
         filename: tesseract.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/tesseract-v1/tesseract-tesseract-v1-gnome-50-x86_64.tar.xz
-        sha256: 5ee03744ac7bf1d688bcd6905da4c4fb788ce99caf0641bcc3ffe0499cc25ef8
-        size: 1627480
+        url: https://github.com/flatpark/prebuilt/releases/download/tesseract-v2/tesseract-tesseract-v2-gnome-51-x86_64.tar.xz
+        sha256: 43cf6dd9cc48845b577cef72bff9eb471a51cce0c3ec72f14ab4d7ee28366149
+        size: 1691656
       - type: extra-data
         filename: uchardet.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/uchardet-v1/uchardet-uchardet-v1-gnome-50-x86_64.tar.xz
-        sha256: a6affdd2b5a451bc26afa067360c709fc9cfcbe6cf2955aec65f8936c59cded6
-        size: 70268
+        url: https://github.com/flatpark/prebuilt/releases/download/uchardet-v2/uchardet-uchardet-v2-gnome-51-x86_64.tar.xz
+        sha256: 7c33add34057328c1cc99b4facc8ac7d1796dc5c32fbcc899250dd401dd79f09
+        size: 72632
       - type: extra-data
         filename: sevenzip.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/sevenzip-v1/sevenzip-sevenzip-v1-gnome-50-x86_64.tar.xz
-        sha256: b7b7f202c528d0eb200fe609f143177d50dc646bd71309a13284a535b69185e9
-        size: 463620
+        url: https://github.com/flatpark/prebuilt/releases/download/sevenzip-v2/sevenzip-sevenzip-v2-gnome-51-x86_64.tar.xz
+        sha256: 282a276bdf963420efcd5ca2d4014bb6ba66d78c1a423e137711f229deaa7725
+        size: 496732
       - type: extra-data
         filename: eng.traineddata
         only-arches:
