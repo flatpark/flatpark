@@ -1,6 +1,6 @@
 id: site.harbor.Harbor.Beta
 runtime: org.gnome.Platform
-runtime-version: "50"
+runtime-version: "51"
 sdk: org.gnome.Sdk
 command: harbor-beta
 separate-locales: false
@@ -27,8 +27,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v1/ayatana-stack-ayatana-v1-gnome-50-x86_64.tar.xz
-        sha256: 37a91a0840b06da5319c36275fad2b1dca906152553f295944b81f202d1476fc
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
 
   - name: mpv-stack
     buildsystem: simple
@@ -36,8 +36,8 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/mpv-v1/mpv-stack-mpv-v1-gnome-50-x86_64.tar.xz
-        sha256: 900008f2263d53f72061e42f27775ab985510f496320aa366b2493662ec5a3be
+        url: https://github.com/flatpark/prebuilt/releases/download/mpv-v2/mpv-stack-mpv-v2-gnome-51-x86_64.tar.xz
+        sha256: 3d4a1c48d8a466bd86badbf683f21dfd05ea15c2f8f512414316e7842c863c93
 
   - name: media-tools
     buildsystem: simple
