@@ -13,7 +13,7 @@ FlatPark 网站是静态站点。它**不设置 cookie**、**不运行分析工�
 
 应用下载由内容分发网络（Cloudflare Pages / R2）提供。与任何 Web 服务器一样，CDN 可能会为防止滥用而保留标准的短期访问日志（IP 地址、时间戳、请求的文件）；FlatPark 不会使用这些日志来分析用户特征。
 
-为了展示每个应用的安装量，FlatPark 会在安装和更新发生时计数。Flatpak 本身会告诉服务器它正在获取哪个应用（`Flatpak-Ref` 请求头）以及这是否是一次更新；FlatPark 只记录这些信息，外加 Cloudflare 边缘节点报告的国家/地区，作为匿名计数。不会保存 IP 地址、User-Agent 或任何其他可识别你或你的设备的信息。每日汇总公开在 [dl.flatpark.org/stats/](https://dl.flatpark.org/stats/totals.json)。
+为了展示每个应用的安装量，FlatPark 会在安装和更新发生时计数。Flatpak 本身会告诉服务器它正在获取哪个应用（`Flatpak-Ref` 请求头）、哪个版本，以及这是否是一次更新；FlatPark 只记录这些信息，外加 Cloudflare 边缘节点报告的国家/地区，作为匿名计数。不会保存 IP 地址、User-Agent 或任何其他可识别你或你的设备的信息。每日汇总公开在 [dl.flatpark.org/stats/](https://dl.flatpark.org/stats/totals.json)。
 
 ## 条款
 

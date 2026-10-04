@@ -72,7 +72,7 @@ if [ ! -d "$ROOT/site/node_modules" ]; then
 fi
 # Install counts for TestOne only: TestTwo was "listed after the last rollup".
 cat > "$tmp/totals.json" <<'EOF'
-{"since":"2026-10-01","through":"2026-10-03","apps":{"io.flatpark.TestOne":{"installs":1234,"updates":9,"installs30":56,"updates30":9}}}
+{"since":"2026-10-01","through":"2026-10-03","apps":{"io.flatpark.TestOne":{"installs":1234,"updates":9,"installs30":56,"updates30":9,"downloads":1243,"active":40}}}
 EOF
 FLATPARK_DATA_DIR="$data" FLATPARK_STATS_URL="$tmp/totals.json" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1 || true
 if ! ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" SITE_OUT_DIR="$site_out" \
@@ -91,10 +91,10 @@ assert_contains "$index" "Test Two"
 assert_contains "$index" "Search apps"
 assert_contains "$index" "data-app-card"
 # Install counts: a detail row, and the browse page's "Popular" order.
-assert_contains "$detail" "1,234 · 56 in 30 days"
+assert_contains "$detail" "1,243 · 56 new in 30 days"
 assert_contains "$site_out/apps/index.html" 'value="popular"'
 assert_contains "$site_out/apps/index.html" 'data-popular="56"'
-assert_contains "$site_out/zh-Hans/apps/io.flatpark.TestOne/index.html" "近 30 天 56"
+assert_contains "$site_out/zh-Hans/apps/io.flatpark.TestOne/index.html" "1,243 · 近 30 天新装 56"
 # The first row needs enough clearance to lift beneath the sticky controls.
 assert_contains "$index" "pt-0.5"
 assert_contains "$index" "hover:-translate-y-0.5"

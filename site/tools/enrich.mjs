@@ -570,14 +570,21 @@ async function enrichOne(file) {
   out.updated = out.releases?.[0]?.date || gitUpdated(srcDir) || '';
   // Listing date — when we added the app, never an upstream date.
   out.added = gitAdded(srcDir);
-  // Fresh installs only: updates count the same people again every release.
+  // Downloads are every pull (installs + updates); the 30-day figure is fresh
+  // installs only, since updates count the same people again every release.
+  // `active` (see rollup-install-stats.mjs) is carried but not shown yet.
   // An app with no row yet (listed after the last rollup) counts as zero —
   // but only once anything has been counted at all (`since` set). Before the
   // first counted day, totals.json exists but is empty, and a "0" on every
   // page would read as "nobody uses this", not "not measured yet".
   if (installStats?.since && installStats.apps) {
     const s = installStats.apps[out.id];
-    out.installs = { total: s?.installs ?? 0, last30: s?.installs30 ?? 0, since: installStats.since };
+    out.stats = {
+      downloads: s?.downloads ?? (s ? s.installs + s.updates : 0),
+      installs30: s?.installs30 ?? 0,
+      active: s?.active ?? null,
+      since: installStats.since,
+    };
   }
 
   writeFileSync(path, JSON.stringify(out, null, 2) + '\n');

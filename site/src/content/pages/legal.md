@@ -18,8 +18,9 @@ not use them to profile users.
 
 To show how many people install each app, FlatPark counts installs and updates
 as they happen. Flatpak itself tells the server which app it is fetching (the
-`Flatpak-Ref` header) and whether it is an update; FlatPark records only that,
-plus the country Cloudflare's edge reports, as an anonymous tally. No IP
+`Flatpak-Ref` header), which version of it, and whether it is an update;
+FlatPark records only that, plus the country Cloudflare's edge reports, as an
+anonymous tally. No IP
 address, user agent or anything else that could identify you or your machine
 is stored. The daily totals are public at
 [dl.flatpark.org/stats/](https://dl.flatpark.org/stats/totals.json).

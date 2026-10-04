@@ -2,9 +2,24 @@
 // Roll the install-stats Worker's Analytics Engine rows up into the public,
 // durable aggregates served from dl.flatpark.org/stats/:
 //
-//   daily/<YYYY-MM-DD>.json  {date, apps: {<id>: {installs, updates}}}
+//   daily/<YYYY-MM-DD>.json  {date, apps: {<id>: {installs, updates, commits?}}}
 //   totals.json              {generated, since, through,
-//                             apps: {<id>: {installs, updates, installs30, updates30}}}
+//                             apps: {<id>: {installs, updates, installs30, updates30,
+//                                           downloads, active}}}
+//
+// `commits` maps each pulled commit to its pulls (installs + updates) that day.
+// It is absent on days, and for rows, from before the Worker recorded the
+// commit (2026-10-04) — those still count toward installs/updates/downloads,
+// they just cannot place a pull on a version.
+//
+// `downloads` is every pull, installs + updates. `active` estimates how many
+// installations are in use: the repo keeps one version per ref, so each
+// installation pulls a given commit once, and pulls of one commit ≈
+// installations that reached it. A version released yesterday has not been
+// pulled by everyone yet, so `active` is the most-pulled commit among those
+// pulled in the last 30 days, counting each such commit's pulls on every day
+// it was ever pulled. It is null until the app has any commit-tagged pull.
+// Installations that never update are invisible to it, so it is a floor.
 //
 // Analytics Engine keeps rows for three months, so the daily files are the
 // record. The script works on a local mirror of stats/ (the workflow syncs it
@@ -55,11 +70,12 @@ async function query(date) {
   if (!account || !token) throw new Error('set CF_ACCOUNT_ID and CF_ANALYTICS_TOKEN');
   // _sample_interval: Analytics Engine may sample under load; each row then
   // stands for that many points, so it is summed rather than counted.
-  const sql = `SELECT blob1 AS id, blob2 AS kind, SUM(_sample_interval) AS n
+  // blob6 (commit) reads back as "" on rows written before it existed.
+  const sql = `SELECT blob1 AS id, blob2 AS kind, blob6 AS commit, SUM(_sample_interval) AS n
 FROM ${DATASET}
 WHERE timestamp >= toDateTime('${date} 00:00:00')
   AND timestamp < toDateTime('${addDays(date, 1)} 00:00:00')
-GROUP BY id, kind
+GROUP BY id, kind, commit
 FORMAT JSON`;
   const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/analytics_engine/sql`, {
     method: 'POST',
@@ -76,8 +92,13 @@ function toDaily(date, result) {
     if (!known.has(row.id)) continue;
     const key = row.kind === 'update' ? 'updates' : row.kind === 'install' ? 'installs' : null;
     if (!key) continue;
-    apps[row.id] ??= { installs: 0, updates: 0 };
-    apps[row.id][key] += Number(row.n) || 0;
+    const n = Number(row.n) || 0;
+    const a = (apps[row.id] ??= { installs: 0, updates: 0 });
+    a[key] += n;
+    if (/^[0-9a-f]{64}$/.test(row.commit ?? '')) {
+      a.commits ??= {};
+      a.commits[row.commit] = (a.commits[row.commit] ?? 0) + n;
+    }
   }
   return { date, apps };
 }
@@ -97,6 +118,8 @@ const dailies = readdirSync(dailyDir)
   .map((f) => JSON.parse(readFileSync(join(dailyDir, f), 'utf8')));
 const recentFrom = addDays(today, -30);
 const apps = {};
+const pulls = {}; // id -> commit -> pulls, all time
+const recent = {}; // id -> commits pulled in the last 30 days
 let since = null;
 for (const d of dailies) {
   for (const [id, c] of Object.entries(d.apps)) {
@@ -109,7 +132,16 @@ for (const d of dailies) {
       a.installs30 += c.installs;
       a.updates30 += c.updates;
     }
+    for (const [commit, n] of Object.entries(c.commits ?? {})) {
+      (pulls[id] ??= {})[commit] = (pulls[id][commit] ?? 0) + n;
+      if (d.date >= recentFrom) (recent[id] ??= new Set()).add(commit);
+    }
   }
+}
+for (const [id, a] of Object.entries(apps)) {
+  a.downloads = a.installs + a.updates;
+  const seen = [...(recent[id] ?? [])];
+  a.active = seen.length ? Math.max(...seen.map((c) => pulls[id][c])) : null;
 }
 const totals = {
   generated: new Date().toISOString(),
