@@ -16,13 +16,14 @@ finish-args:
   - --socket=fallback-x11
   - --socket=pulseaudio
   - --device=dri
-  # Desktop integration: notifications, tray icon, idle/lock detection, and
-  # the app's own MPRIS name for media-key control of in-app audio/video.
+  # Desktop integration: notifications, tray icon, idle/lock detection.
+  # Media keys need no grant: inside Flatpak the MPRIS name is
+  # org.mpris.MediaPlayer2.$FLATPAK_ID (lib_base), which Flatpak lets every
+  # app own by default.
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.freedesktop.ScreenSaver
   - --system-talk-name=org.freedesktop.login1
-  - --own-name=org.mpris.MediaPlayer2.materialgram.*
   # Default save location for downloaded files (the app uses portals otherwise).
   - --filesystem=xdg-download
 modules:
