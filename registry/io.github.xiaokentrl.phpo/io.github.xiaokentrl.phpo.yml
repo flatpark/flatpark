@@ -1,0 +1,68 @@
+id: io.github.xiaokentrl.phpo
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: phpo
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Wails v3 (Go + WebKitGTK 6) GUI: network pulls container images and PHP
+  # extension sources, probes site health over localhost, and carries the
+  # update check; dri for hardware-accelerated WebKit rendering.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Closing the window hides it to the tray by default, so without a working
+  # tray icon there is no way back to a closed window. Wails registers its
+  # StatusNotifierItem under the connection's unique bus name; the
+  # org.kde.StatusNotifierItem-<pid>-1 name it also requests is optional (the
+  # request fails harmlessly in the sandbox, where every app is PID 2).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # phpo is a front end for the host's Docker daemon: every service it manages
+  # is a container started through the Docker API socket. Rootful Docker listens
+  # on /run/docker.sock (/var/run is a symlink to /run), rootless Docker on
+  # $XDG_RUNTIME_DIR/docker.sock. Access to that socket is root-equivalent on the
+  # host — this is the app's core function, not something a sandbox can narrow.
+  - --filesystem=/run/docker.sock
+  - --filesystem=xdg-run/docker.sock
+  # The daemon bind-mounts host paths into the containers, so the paths phpo
+  # writes must be the same inside and outside the sandbox — which holds because
+  # Flatpak does not redirect $HOME. These are phpo's two default roots: the
+  # data root (service configs, logs, offline cache, backups) and the site root.
+  # Both are phpo's own directories, so they are created on first run. Roots
+  # moved elsewhere in Settings need a matching `flatpak override`, documented in
+  # the metainfo.
+  - --filesystem=~/phpo:create
+  - --filesystem=~/www:create
+modules:
+  - name: phpo
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 phpo-wrapper /app/bin/phpo
+      - install -Dm644 io.github.xiaokentrl.phpo.desktop /app/share/applications/io.github.xiaokentrl.phpo.desktop
+      - install -Dm644 io.github.xiaokentrl.phpo.metainfo.xml /app/share/metainfo/io.github.xiaokentrl.phpo.metainfo.xml
+      - install -Dm644 io.github.xiaokentrl.phpo.png /app/share/icons/hicolor/512x512/apps/io.github.xiaokentrl.phpo.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: phpo.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/xiaokentrl/phpo/releases/download/v0.1.45/phpo_0.1.45_amd64.deb
+        sha256: 4dd5d4909aba226d4264f8088d5a20fae9943598cd6e6351c8265ada1a849675
+        size: 8723114
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: phpo-wrapper
+      - type: file
+        path: io.github.xiaokentrl.phpo.desktop
+      - type: file
+        path: io.github.xiaokentrl.phpo.metainfo.xml
+      - type: file
+        path: io.github.xiaokentrl.phpo.png

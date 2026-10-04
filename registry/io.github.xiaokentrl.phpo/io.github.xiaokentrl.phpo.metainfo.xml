@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.xiaokentrl.phpo</id>
+  <name>phpo</name>
+  <summary>Run multiple PHP, database and Nginx versions side by side in Docker</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>NOASSERTION</project_license>
+  <developer id="io.github.xiaokentrl">
+    <name>xiaokentrl</name>
+  </developer>
+  <url type="homepage">https://github.com/xiaokentrl/phpo</url>
+  <url type="bugtracker">https://github.com/xiaokentrl/phpo/issues</url>
+  <url type="vcs-browser">https://github.com/xiaokentrl/phpo</url>
+  <description>
+    <p>This is a community package of phpo, maintained by FlatPark at the request of phpo's developer. It repackages the official upstream Linux build unmodified. phpo does not yet publish a license; until it does, the upstream README states that all rights are reserved.</p>
+    <p>phpo is a GUI-only manager for local PHP development environments built on Docker. Each service version runs as its own container, so projects that need different PHP or database versions work at the same time without reconfiguring anything.</p>
+    <ul>
+      <li>Install PHP, MySQL, PostgreSQL, Redis and Nginx in several versions at once, and switch a site's PHP version from a drop-down.</li>
+      <li>Pick PHP extensions from a per-version catalog when installing, with the build log streamed live.</li>
+      <li>Edit each site's Nginx vhost directly; changes are checked with nginx -t and rolled back if they fail.</li>
+      <li>Rewrite presets for Laravel, ThinkPHP, Yii2, Symfony, WordPress and others.</li>
+      <li>Offline cache for images and extension sources, plus backups with logical database dumps.</li>
+    </ul>
+    <p>Requirements and permissions: phpo needs a running Docker daemon on the host. This package can reach the rootful socket at /run/docker.sock and the rootless socket at $XDG_RUNTIME_DIR/docker.sock. Access to the Docker socket is equivalent to root on the host, so the sandbox does not contain what phpo does through Docker. It also has network access, and read-write access to phpo's default data root ~/phpo and site root ~/www, created on first run. Docker bind-mounts these paths into the containers, so they must be visible at the same path inside the sandbox.</p>
+    <p>If you move either root in Settings, grant the new location, for example <code>flatpak override --user --filesystem=~/code io.github.xiaokentrl.phpo</code>. To use Podman or another endpoint, point phpo at it, for example <code>flatpak override --user --filesystem=xdg-run/podman --env=DOCKER_HOST=unix:///run/user/1000/podman/podman.sock io.github.xiaokentrl.phpo</code> (replace 1000 with your user id). Adding a site to /etc/hosts needs pkexec, which is not available inside the sandbox, so add the entry to /etc/hosts yourself. Updates are delivered by Flatpak; the in-app updater cannot replace the read-only install.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+  </categories>
+  <keywords>
+    <keyword>PHP</keyword>
+    <keyword>Docker</keyword>
+    <keyword>Nginx</keyword>
+    <keyword>MySQL</keyword>
+    <keyword>PostgreSQL</keyword>
+    <keyword>Redis</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>phpo</binary>
+  </provides>
+  <launchable type="desktop-id">io.github.xiaokentrl.phpo.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/xiaokentrl/phpo/main/docs/screenshots/01-overview.png</image>
+      <caption>Overview of the installed services</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/xiaokentrl/phpo/main/docs/screenshots/02-service-php.png</image>
+      <caption>Several PHP versions side by side</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/xiaokentrl/phpo/main/docs/screenshots/03-sites.png</image>
+      <caption>Sites with per-site PHP version and health</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/xiaokentrl/phpo/main/docs/screenshots/04-vhost-editor.png</image>
+      <caption>Editing a site's Nginx vhost</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/xiaokentrl/phpo/main/docs/screenshots/06-install-extensions.png</image>
+      <caption>Choosing PHP extensions at install time</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.45" date="2026-09-26">
+      <url>https://github.com/xiaokentrl/phpo/releases/tag/v0.1.45</url>
+    </release>
+  </releases>
+</component>

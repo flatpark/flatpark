@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+# phpo is a single Wails v3 (Go + WebKitGTK 6 / GTK 4) binary staged by
+# apply_extra to /app/extra/phpo/bin. Its frontend assets are embedded in the
+# executable. The .deb declares libwebkit2gtk-4.1, but the binary actually links
+# webkitgtk-6.0 and gtk-4, both of which org.gnome.Platform ships.
+#
+# phpo drives the host's Docker daemon through its API socket: it probes
+# /var/run/docker.sock, /run/docker.sock and $XDG_RUNTIME_DIR/docker.sock in that
+# order, and an explicit DOCKER_HOST wins over all of them. The manifest exposes
+# the rootful and rootless socket paths; any other endpoint (Podman, Docker
+# Desktop, tcp://) is reached by setting DOCKER_HOST with `flatpak override`.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox; the compositing path is the reliable default here.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# WebKitGTK 6 always runs its web process in its own bubblewrap sandbox, which
+# inside Flatpak goes through the portal's sandboxed spawn. That spawn requires
+# the web process's accessibility bus name to start with the Flatpak app id, but
+# WebKit derives it from the GApplication id, which Wails sets to
+# org.wails.phpo. The portal refuses the spawn and the app aborts at start-up
+# ("Invalid sandbox a11y own name ... doesn't match app id"). Turning the inner
+# sandbox off lets the web process run directly inside this app's Flatpak
+# sandbox, which still applies. Drop this once upstream sets Wails'
+# Linux.ApplicationID to the Flatpak app id.
+export WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1
+
+exec /app/extra/phpo/bin/phpo "$@"

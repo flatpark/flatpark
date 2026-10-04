@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=phpo
+GenericName=PHP Dev Environment Manager
+Comment=Run multiple PHP, MySQL, PostgreSQL, Redis and Nginx versions side by side in Docker
+Comment[zh_CN]=面向 PHP 开发者的本地 Docker 化开发环境管理器
+Exec=phpo
+Icon=io.github.xiaokentrl.phpo
+Terminal=false
+Categories=Development;
+Keywords=php;docker;nginx;mysql;postgresql;redis;
+StartupNotify=true
+StartupWMClass=phpo

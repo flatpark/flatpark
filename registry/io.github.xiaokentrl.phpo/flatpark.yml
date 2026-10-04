@@ -1,0 +1,30 @@
+id: io.github.xiaokentrl.phpo
+name: phpo
+summary: Local PHP development environments on Docker, with several PHP, database and Nginx versions side by side
+website: https://github.com/xiaokentrl/phpo
+source_url: https://github.com/xiaokentrl/phpo
+build:
+  manifest: io.github.xiaokentrl.phpo.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  # The developer asked FlatPark to package phpo in flatpark#428.
+  upstream_approved: true
+  tags:
+    - PHP
+    - Docker
+    - Nginx
+    - MySQL
+    - Development Environment
+update:
+  command: ./resolve-update.sh
+policy:
+  # No license has been published yet; the upstream README says to treat the
+  # project as all rights reserved until one is chosen.
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions:
+    # The Docker API socket is root-equivalent on the host. Driving the host's
+    # Docker daemon is phpo's whole purpose.
+    - --filesystem=/run/docker.sock
