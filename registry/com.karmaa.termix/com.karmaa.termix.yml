@@ -1,0 +1,78 @@
+id: com.karmaa.termix
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: termix
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The permissions follow the finish-args of upstream's own Flatpak manifest for
+# this same app id (packaging/flatpak/com.karmaa.termix.yml), so someone moving
+# over from upstream's bundle gets the same sandbox. The one grant left out is
+# --socket=session-bus: unfiltered session-bus access lets an app ask other
+# services on the bus to act for it outside the sandbox, and nothing Termix
+# does needs it — notifications, the tray, the keyring and the portals are
+# reachable through the filtered bus with the talk-names below.
+finish-args:
+  # Electron SSH / remote-desktop client. The .deb bundles Chromium plus its own
+  # ffmpeg/ANGLE/SwiftShader, and the backend's native modules (ssh2, node-pty,
+  # sharp with its own libvips, serialport); the GTK3, NSS, ALSA, dbus, gbm and
+  # X11 stacks it links come from the runtime.
+  - --share=ipc
+  # SSH, RDP, VNC and Telnet sessions to your servers, and the optional sync with
+  # a self-hosted Termix server.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audio from remote-desktop sessions.
+  - --socket=pulseaudio
+  # Upstream's choice: the home directory, so SSH keys can be picked from
+  # ~/.ssh and files moved between this machine and a server's file manager.
+  # Termix keeps its own settings and host database under $XDG_CONFIG_HOME,
+  # which Flatpak still points at ~/.var/app/com.karmaa.termix/config.
+  - --filesystem=home
+  # Authenticate with keys loaded in the host's ssh-agent.
+  - --socket=ssh-auth
+  # Saved credentials go through the Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Cursor theme from the host, as upstream sets it.
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+modules:
+  - name: termix
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 termix-wrapper /app/bin/termix
+      - install -Dm644 com.karmaa.termix.desktop /app/share/applications/com.karmaa.termix.desktop
+      - install -Dm644 com.karmaa.termix.metainfo.xml /app/share/metainfo/com.karmaa.termix.metainfo.xml
+      - install -Dm644 com.karmaa.termix.png /app/share/icons/hicolor/512x512/apps/com.karmaa.termix.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Termix-SSH/Termix/releases/download/release-2.9.0-tag/termix_linux_x64_deb.deb
+        sha256: 4fb91bcbd315e0e5293464818887dcecd9f0d6c2a7f9cf7c09a01cb1eb74c350
+        size: 153598260
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: termix-wrapper
+      - type: file
+        path: com.karmaa.termix.desktop
+      - type: file
+        path: com.karmaa.termix.metainfo.xml
+      - type: file
+        path: com.karmaa.termix.png

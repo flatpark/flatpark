@@ -1,0 +1,28 @@
+id: com.karmaa.termix
+name: Termix
+summary: Self-hosted SSH and remote desktop management
+website: https://termix.site/
+source_url: https://github.com/Termix-SSH/Termix
+build:
+  manifest: com.karmaa.termix.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - SSH
+    - Terminal
+    - RDP
+    - VNC
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Upstream's own Flatpak grants the home directory: SSH keys are picked
+    # from ~/.ssh and files move between this machine and a server's file
+    # manager.
+    - --filesystem=home
