@@ -90,16 +90,17 @@ assert_contains "$index" "Test One"
 assert_contains "$index" "Test Two"
 assert_contains "$index" "Search apps"
 assert_contains "$index" "data-app-card"
-# Install counts: a detail row, and a "Popular" order (total downloads) — a
+# Install counts: a badge in the detail page's chip row, and a "Popular" order (total downloads) — a
 # dropdown option on the browse page, the default tab on the home page.
-assert_contains "$detail" "1,243 · 56 new in 30 days"
+assert_contains "$detail" ">1,243</span>"
+assert_contains "$detail" "+56 in 30 days"
 assert_contains "$site_out/apps/index.html" 'value="popular"'
 assert_contains "$site_out/apps/index.html" 'data-popular="1243"'
 assert_contains "$index" 'class="seg is-active" aria-selected="true" data-sort-tab="popular"'
 assert_contains "$index" 'data-sort-tab="added"'
 assert_contains "$index" 'data-sort-tab="updated"'
 assert_contains "$index" 'data-sort-tab="approved"'
-assert_contains "$site_out/zh-Hans/apps/io.flatpark.TestOne/index.html" "1,243 · 近 30 天新装 56"
+assert_contains "$site_out/zh-Hans/apps/io.flatpark.TestOne/index.html" "近 30 天 +56"
 # The first row needs enough clearance to lift beneath the sticky controls.
 assert_contains "$index" "pt-0.5"
 assert_contains "$index" "hover:-translate-y-0.5"

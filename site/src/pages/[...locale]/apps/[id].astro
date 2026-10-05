@@ -43,13 +43,6 @@ const detailRows = [
     value: app.license.label,
     href: app.license.url,
   },
-  app.stats && {
-    label: t('detail.row.downloads'),
-    value: t('detail.row.downloads.value', {
-      total: app.stats.downloads.toLocaleString(lang),
-      recent: app.stats.installs30.toLocaleString(lang),
-    }),
-  },
   runtimeLabel && { label: t('detail.row.runtime'), value: runtimeLabel, title: runtimeRef },
   latest && { label: t('detail.row.version'), value: `${latest.version}${latest.date ? ` · ${latest.date}` : ''}` },
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
@@ -202,6 +195,24 @@ const ld = {
         }
         {app.license ? <span class="chip">{app.license.label}</span> : null}
         {latest ? <span class="chip">v{latest.version}</span> : null}
+        {
+          app.stats && (
+            <span
+              class="inline-flex min-h-6 items-center gap-1.5 rounded-full border border-brand/25 bg-brand/10 pr-2.5 pl-2 text-xs text-muted"
+              title={t('detail.downloads.title')}
+            >
+              <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" class="shrink-0 text-brand" aria-hidden="true">
+                <path d="M8 1a.75.75 0 0 1 .75.75v6.69l1.97-1.97a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.53a.75.75 0 0 1 1.06-1.06l1.97 1.97V1.75A.75.75 0 0 1 8 1Z"></path>
+                <path d="M2.75 10a.75.75 0 0 1 .75.75v1.75c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V10.75a.75.75 0 0 1 1.5 0v1.75A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.5V10.75A.75.75 0 0 1 2.75 10Z"></path>
+              </svg>
+              <span class="text-sm font-extrabold tabular-nums text-brand">{app.stats.downloads.toLocaleString(lang)}</span>
+              <span class="font-semibold">{t('detail.downloads.label')}</span>
+              {app.stats.installs30 > 0 && (
+                <span class="font-semibold text-emerald-600">{t('detail.downloads.recent', { recent: app.stats.installs30.toLocaleString(lang) })}</span>
+              )}
+            </span>
+          )
+        }
       </div>
     </section>
 
