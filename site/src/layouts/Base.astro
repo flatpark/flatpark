@@ -152,6 +152,8 @@ const searchMeta = {
       const grid = document.querySelector('[data-grid]');
       const empty = document.querySelector('[data-empty]');
       let activeSection = '';
+      // Home page's Approved tab: show only developer-approved (blue shield) cards.
+      let approvedOnly = false;
 
       // Card fold (home page only — the button is what turns it on). The cap is
       // counted in rows rather than cards so the fold lands on a clean edge at
@@ -183,7 +185,9 @@ const searchMeta = {
       function apply() {
         const shown = [];
         for (const card of cards) {
-          const show = !activeSection || card.dataset.section === activeSection;
+          const show =
+            (!activeSection || card.dataset.section === activeSection) &&
+            (!approvedOnly || card.dataset.approved === '1');
           card.hidden = !show;
           if (show) shown.push(card);
         }
@@ -240,16 +244,15 @@ const searchMeta = {
         if (urlSection()) selectFromUrl();
       }
 
-      // Sort dropdown: reorder the grid in place. ISO dates sort as text.
-      const sortSel = document.querySelector('[data-sort]');
-      sortSel?.addEventListener('change', () => {
-        const mode = sortSel.value;
+      // Sort: reorder the grid in place. ISO dates sort as text. The browse
+      // page drives it from a dropdown, the home page from Flathub-style tabs.
+      function sortCards(mode) {
         const sorted = cards.slice().sort((a, b) => {
           if (mode === 'name') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
           if (mode === 'updated') return (b.dataset.updated || '').localeCompare(a.dataset.updated || '');
           // added: newest listing first — when *we* shipped it, not when upstream released
           if (mode === 'added') return (b.dataset.added || '').localeCompare(a.dataset.added || '');
-          // popular: most fresh installs in the last 30 days, then name
+          // popular: most downloads (installs + updates), then name
           if (mode === 'popular') {
             const d = Number(b.dataset.popular || 0) - Number(a.dataset.popular || 0);
             return d || (a.dataset.name || '').localeCompare(b.dataset.name || '');
@@ -263,7 +266,24 @@ const searchMeta = {
         // and a stale order would fold away the wrong ones after a re-sort.
         cards.splice(0, cards.length, ...sorted);
         apply();
-      });
+      }
+
+      const sortSel = document.querySelector('[data-sort]');
+      sortSel?.addEventListener('change', () => sortCards(sortSel.value));
+
+      const sortTabs = Array.from(document.querySelectorAll('[data-sort-tab]'));
+      for (const tab of sortTabs) {
+        tab.addEventListener('click', () => {
+          for (const t of sortTabs) {
+            t.classList.toggle('is-active', t === tab);
+            t.setAttribute('aria-selected', String(t === tab));
+          }
+          // A new order starts over from the first five rows.
+          foldRows = FOLD_ROWS;
+          approvedOnly = tab.dataset.sortTab === 'approved';
+          sortCards(tab.dataset.sortTab);
+        });
+      }
 
       // Featured carousel: stop rotation on interaction or reduced motion.
       for (const car of document.querySelectorAll<HTMLElement>('[data-fcarousel]')) {

@@ -174,12 +174,14 @@ body {
     text-white hover:bg-brand-dark;
 }
 
+/* Segmented tabs (home catalog order). h-8 + the track's p-0.5 and border
+   lines up with the h-9 buttons beside it. */
 .seg {
-  @apply h-9 rounded-md px-3 font-semibold text-muted;
+  @apply h-8 cursor-pointer rounded-md px-3 font-semibold text-muted hover:text-ink;
 }
 
 .seg.is-active {
-  @apply bg-canvas text-ink;
+  @apply bg-brand/10 text-brand;
 }
 
 /* Browse-page category sidebar buttons. */

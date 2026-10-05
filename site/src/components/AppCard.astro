@@ -47,7 +47,7 @@ const updatedLabel = ago(app.updated);
   data-approved={app.upstreamApproved ? '1' : '0'}
   data-updated={app.updated || ''}
   data-added={app.added || ''}
-  data-popular={app.stats?.installs30 ?? ''}
+  data-popular={app.stats?.downloads ?? ''}
 >
   {
     app.icon ? (

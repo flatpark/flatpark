@@ -14,9 +14,10 @@ const t = useTranslations(lang);
 
 const { repo } = loadCatalog();
 const apps = loadApps();
-// Default order: newest listing first, matching the home grid.
+// Default order: newest listing first (the home grid opens on Popular).
 // Install counts are optional (the build reads them best-effort), so the
-// "Popular" order only appears when there is something to order by.
+// "Popular" order (total downloads) only appears when there is something to
+// order by.
 const hasStats = apps.some((a) => a.stats);
 const ordered = [...apps].sort((a, b) => (b.added || '').localeCompare(a.added || ''));
 

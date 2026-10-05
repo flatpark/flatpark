@@ -15,10 +15,22 @@ const t = useTranslations(lang);
 
 const { repo } = loadCatalog();
 const apps = loadApps();
-// Default order: newest listing first. What's new *here* is the front page's
-// job; "recently updated" tracks upstream release dates, which is a different
-// question and stays one dropdown pick away.
-const ordered = [...apps].sort((a, b) => (b.added || '').localeCompare(a.added || ''));
+// Default order: most downloaded first, the way Flathub's front page leads
+// with Popular. New (when *we* listed it) and Updated (upstream's release
+// date) are the next two tabs, and Approved narrows the grid to the
+// blue-shield apps. Install counts are optional (the build reads them
+// best-effort), so without them the page opens on New instead.
+const hasStats = apps.some((a) => a.stats);
+const byAdded = (a, b) => (b.added || '').localeCompare(a.added || '');
+const byDownloads = (a, b) =>
+  (b.stats?.downloads ?? 0) - (a.stats?.downloads ?? 0) || a.name.localeCompare(b.name);
+const ordered = [...apps].sort(hasStats ? byDownloads : byAdded);
+const tabs = [
+  ...(hasStats ? [{ mode: 'popular', label: t('apps.tab.popular') }] : []),
+  { mode: 'added', label: t('apps.tab.added') },
+  { mode: 'updated', label: t('apps.tab.updated') },
+  { mode: 'approved', label: t('apps.tab.approved') },
+];
 // Hero stat: developer approvals are the one claim on this page we cannot issue
 // ourselves, so it is counted from the registry rather than written into copy.
 const approvedCount = apps.filter((a) => a.upstreamApproved).length;
@@ -74,7 +86,7 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
       <h2 class="sr-only">{t('apps.all')}</h2>
       <!--
         The catalog controls follow you down the grid: 51 cards is several
-        screens, and sort is useless once it has scrolled away. It parks under
+        screens, and the order tabs are useless once it has scrolled away. It parks under
         the header (--topbar-h) rather than at the top of the viewport, and the
         negative margin lets its background span the container's gutters.
       -->
@@ -82,20 +94,25 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
         class="sticky top-[var(--topbar-h)] z-10 -mx-5 mt-4 flex flex-wrap items-center justify-between gap-3
           border-t border-line bg-canvas/90 px-5 py-3 backdrop-blur"
       >
+        <!--
+          Flathub-style tabs rather than a dropdown: three orders, all one
+          click away, and the active one is visible without opening anything.
+        -->
+        <div role="tablist" aria-label={t('apps.sort.label')} class="inline-grid grid-flow-col auto-cols-fr rounded-lg border border-line bg-surface p-0.5 text-sm">
+          {tabs.map((tab, i) => (
+            <button
+              type="button"
+              role="tab"
+              class:list={['seg', i === 0 && 'is-active']}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              data-sort-tab={tab.mode}
+            >{tab.label}</button>
+          ))}
+        </div>
         <a
           href={localizePath('/apps/', lang)}
           class="inline-flex h-9 items-center rounded-lg border border-line bg-surface px-3 text-sm font-semibold transition hover:border-brand"
         >{t('apps.browse')}</a>
-        <select
-          data-sort
-          aria-label={t('apps.sort.label')}
-          class="h-9 rounded-lg border border-line bg-surface px-3 text-sm font-semibold outline-none focus:border-brand"
-        >
-          <option value="added" selected>{t('apps.sort.added')}</option>
-          <option value="updated">{t('apps.sort.recent')}</option>
-          <option value="approved">{t('apps.sort.approved')}</option>
-          <option value="name">{t('apps.sort.name')}</option>
-        </select>
       </div>
 
       <!--
