@@ -70,6 +70,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.1.75" date="2026-10-04">
+      <description></description>
+    </release>
     <release version="0.1.45" date="2026-09-26">
       <url>https://github.com/xiaokentrl/phpo/releases/tag/v0.1.45</url>
     </release>

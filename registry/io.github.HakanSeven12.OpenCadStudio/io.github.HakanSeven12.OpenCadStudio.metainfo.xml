@@ -52,6 +52,9 @@
     <mediatype>image/vnd.dxf</mediatype>
   </provides>
   <releases>
+    <release version="2026.40" date="2026-10-04">
+      <description></description>
+    </release>
     <release version="2026.39" date="2026-09-27">
       <description></description>
     </release>
