@@ -49,9 +49,9 @@ modules:
         filename: ayugram.tar.zst
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/ayugram-release/releases/download/v7.0.9/ayugram-7.0.9-x86_64.tar.zst
-        sha256: 47111bdf979acc4b6efd60ef94f9f9b099d14087fba920f393a2e20dbac387dc
-        size: 86491660
+        url: https://github.com/flatpark/ayugram-release/releases/download/v7.2.9/ayugram-7.2.9-x86_64.tar.zst
+        sha256: be17150f3d0914cec718f6beb69104c87807440e3467525115a5fc721f2d035c
+        size: 87400684
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
