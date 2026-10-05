@@ -78,6 +78,7 @@
   "detail.row.developer": "Developer",
   "detail.row.license": "License",
   "detail.row.version": "Version",
+  "detail.row.runtime": "Runtime",
   "detail.row.downloads.value": "{total} · {recent} new in 30 days",
   "detail.row.downloads": "Downloads",
   "detail.row.website": "Website",

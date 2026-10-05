@@ -78,6 +78,7 @@
   "detail.row.developer": "开发者",
   "detail.row.license": "许可证",
   "detail.row.version": "版本",
+  "detail.row.runtime": "运行时",
   "detail.row.downloads.value": "{total} · 近 30 天新装 {recent}",
   "detail.row.downloads": "下载量",
   "detail.row.website": "网站",

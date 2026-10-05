@@ -23,6 +23,19 @@ const t = useTranslations(lang);
 const fallback = (app.name.match(/[A-Za-z0-9]/g) ?? []).slice(0, 2).join('').toUpperCase();
 const latest = app.releases?.[0];
 
+// The shared runtime the app runs on, pulled from Flathub on install. The
+// panel is narrow, so the row shows the familiar short name and keeps the full
+// ref (what `flatpak list --runtime` prints) in the hover title.
+const runtimeNames = {
+  'org.freedesktop.Platform': 'Freedesktop',
+  'org.gnome.Platform': 'GNOME',
+  'org.kde.Platform': 'KDE',
+};
+const runtimeRef = app.runtime ? `${app.runtime}//${app.runtimeVersion}` : '';
+const runtimeLabel = app.runtime
+  ? `${runtimeNames[app.runtime] ?? app.runtime} ${app.runtimeVersion}`.trim()
+  : '';
+
 const detailRows = [
   app.developer && { label: t('detail.row.developer'), value: app.developer },
   app.license && {
@@ -37,6 +50,7 @@ const detailRows = [
       recent: app.stats.installs30.toLocaleString(lang),
     }),
   },
+  runtimeLabel && { label: t('detail.row.runtime'), value: runtimeLabel, title: runtimeRef },
   latest && { label: t('detail.row.version'), value: `${latest.version}${latest.date ? ` · ${latest.date}` : ''}` },
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
   app.urls?.help && { label: t('detail.row.support'), value: t('detail.row.help'), href: app.urls.help },

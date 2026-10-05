@@ -25,7 +25,7 @@ const sensitive = permissions.filter((p) => p.level === 'warning' || p.level ===
           {rows.map((row) => (
             <div class="flex items-baseline justify-between gap-4">
               <dt class="shrink-0 text-muted">{row.label}</dt>
-              <dd class="min-w-0 truncate text-right font-medium">
+              <dd class="min-w-0 truncate text-right font-medium" title={row.title}>
                 {row.href ? (
                   <a class="text-brand hover:underline" href={row.href}>
                     {row.value}
