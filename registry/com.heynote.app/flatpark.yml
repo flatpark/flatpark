@@ -1,0 +1,22 @@
+id: com.heynote.app
+name: Heynote
+summary: A dedicated scratchpad for developers and power users
+website: https://heynote.com
+source_url: https://github.com/heyman/heynote
+build:
+  manifest: com.heynote.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - Notes
+    - Scratchpad
+    - TextEditor
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []

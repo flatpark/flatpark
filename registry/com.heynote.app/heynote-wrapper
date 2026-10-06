@@ -1,0 +1,52 @@
+#!/bin/sh
+set -eu
+
+# Heynote is an Electron app staged by apply_extra to /app/extra/heynote from
+# the AppDir inside the upstream AppImage. Run it through zypak-wrapper (from
+# org.electronjs.Electron2.BaseApp): zypak redirects Chromium's SUID sandbox
+# onto the Flatpak sandbox, so renderer and GPU processes stay isolated without
+# --no-sandbox. --ozone-platform-hint=auto lets Chromium pick Wayland when
+# available and fall back to X11.
+#
+# LD_LIBRARY_PATH mirrors what the AppDir's own AppRun sets, so the handful of
+# libraries the bundle carries for older hosts (libnotify, libXtst, libXss and
+# the appindicator trio) resolve exactly as they do outside Flatpak.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE so a value leaked from the launching
+# environment (a terminal inside VS Code / another Electron app) cannot make the
+# binary start as plain Node instead of the GUI.
+unset ELECTRON_RUN_AS_NODE
+
+export LD_LIBRARY_PATH="/app/extra/heynote/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# Updates arrive through Flatpak. Heynote's updater is electron-updater's
+# AppImage backend, which only switches itself on when APPIMAGE names the
+# running AppImage — something only the AppImage's own runtime sets. This
+# wrapper does not set it, so the updater stays inactive and never tries to
+# download a new AppImage.
+unset APPIMAGE
+
+# The optional tray icon ("Show in menu bar" in Heynote's settings): Chromium's
+# tray backend claims the bus name "org.freedesktop.StatusNotifierItem-<getpid()>-1"
+# and gives up if that name is refused. Inside the sandbox the app is always
+# PID 2 in its own PID namespace, so every Flatpak app with a tray races for the
+# same name. Report a fixed, distinctive PID instead, and grant exactly that one
+# bus name in finish-args. The preload goes through ZYPAK_LD_PRELOAD rather than
+# LD_PRELOAD: zypak-helper builds the LD_PRELOAD of the app and of every
+# Chromium child from it, and would otherwise drop ours.
+export HEYNOTE_FAKE_PID="${HEYNOTE_FAKE_PID:-959595}"
+export ZYPAK_LD_PRELOAD="/app/lib/heynote/libfakepid.so${ZYPAK_LD_PRELOAD:+:$ZYPAK_LD_PRELOAD}"
+
+# The optional global show/hide hotkey: on Wayland, Chromium can only register a
+# global shortcut through the GlobalShortcuts portal, which it uses when this
+# feature is on. On X11 the flag is ignored and the hotkey works as before.
+#
+# apply_extra resolves the launcher's upstream name from the AppDir's own AppRun
+# and records it next to the app tree, so an upstream rename cannot break an
+# automated pin refresh.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=heynote
+exec zypak-wrapper "/app/extra/heynote/$launcher" \
+    --ozone-platform-hint=auto \
+    --enable-features=GlobalShortcutsPortal \
+    "$@"

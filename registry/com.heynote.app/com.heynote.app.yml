@@ -1,0 +1,99 @@
+id: com.heynote.app
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so renderers keep
+# their sandbox (the wrapper runs it via zypak-wrapper). The base is merged into
+# the app at build time; the payload itself is still the vendor's own release,
+# fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: heynote
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron scratchpad. Upstream ships its Linux build as an electron-builder
+  # AppImage (and a snap); this repackages the AppDir inside the AppImage
+  # unmodified. The bundle carries Chromium, its own ffmpeg/SwiftShader/libvulkan,
+  # ripgrep for buffer search and the app sources; the GTK3, NSS, ATK, X11 and
+  # ALSA stacks they link come from the runtime.
+  # zypak spawns the sandboxed children through flatpak-spawn --expose-pids.
+  - --require-version=1.8.2
+  - --share=ipc
+  # Exchange rates for currency conversion in math blocks, and Chromium's
+  # spellcheck dictionaries.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The optional tray icon ("Show in menu bar"). Chromium claims
+  # org.freedesktop.StatusNotifierItem-<getpid()>-1 and gives up on the first
+  # refusal. Every sandboxed app is PID 2, so heynote-wrapper pins the reported
+  # PID to 959595 (see the fake-getpid module) and this single name is all it
+  # ever needs, instead of racing every other Flatpak tray app for the PID-2
+  # name.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.freedesktop.StatusNotifierItem-959595-1
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately not granted:
+  #   --filesystem=home / =host -> buffers live in the app's own data folder.
+  #                                A custom buffer folder is an opt-in
+  #                                override, see the metainfo.
+  #   --socket=pulseaudio       -> the app plays and records no audio
+modules:
+  - name: heynote-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/heynote/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
+  - name: heynote
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 heynote-wrapper /app/bin/heynote
+      - install -Dm644 com.heynote.app.desktop /app/share/applications/com.heynote.app.desktop
+      - install -Dm644 com.heynote.app.metainfo.xml /app/share/metainfo/com.heynote.app.metainfo.xml
+      - install -Dm644 com.heynote.app.png /app/share/icons/hicolor/512x512/apps/com.heynote.app.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source rather
+      # than an archive module, because apply_extra runs in a sandbox that binds
+      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
+      # reproduces this). Kept OUTSIDE the managed block: update-pins.mjs
+      # rebuilds that block from the resolver output and would drop anything
+      # else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: heynote.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/heyman/heynote/releases/download/v2.9.1/Heynote_2.9.1_x86_64.AppImage
+        sha256: dfb6acdbd261e57cf79c45b96abc83e76a6ea9a0a203194c06cf9a44865b6d4f
+        size: 125641966
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: heynote-wrapper
+      - type: file
+        path: com.heynote.app.desktop
+      - type: file
+        path: com.heynote.app.metainfo.xml
+      - type: file
+        path: com.heynote.app.png

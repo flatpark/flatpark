@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.heynote.app</id>
+  <name>Heynote</name>
+  <summary>A dedicated scratchpad for developers and power users</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://github.com/heyman/heynote/blob/main/LICENSE</project_license>
+  <developer id="com.heynote">
+    <name>Jonatan Heyman</name>
+  </developer>
+  <url type="homepage">https://heynote.com</url>
+  <url type="help">https://heynote.com/docs/</url>
+  <url type="bugtracker">https://github.com/heyman/heynote/issues</url>
+  <url type="vcs-browser">https://github.com/heyman/heynote</url>
+  <description>
+    <p>This is a community package of Heynote, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Heynote is a scratchpad for developers and power users: a large persistent text buffer for anything you need to jot down — a JSON response you are working with, notes from a meeting, a message you don't want to send by accident, a to-do list. Buffers are split into blocks, and each block has its own language, with syntax highlighting and auto-formatting.</p>
+    <ul>
+      <li>Persistent, block-based buffers, several of them in tabs</li>
+      <li>Syntax highlighting and language auto-detection for over 30 languages</li>
+      <li>Search across one buffer or all of them</li>
+      <li>Math and calculator blocks, with currency conversion</li>
+      <li>Inline images, multi-cursor editing and spellchecking</li>
+      <li>Default, Emacs-like or custom key bindings</li>
+      <li>An optional global hotkey to show and hide the window</li>
+    </ul>
+    <p>Updates are delivered through Flatpak; Heynote's own updater stays inactive in this package.</p>
+    <p>Buffers are kept in the app's own data folder. To keep them in a folder of your own instead — a synced directory, for example — grant access to that folder and then pick it under Settings, for example:</p>
+    <ul>
+      <li>flatpak override --user --filesystem=~/Notes/heynote com.heynote.app</li>
+    </ul>
+    <p>The global hotkey uses the desktop's Global Shortcuts portal on Wayland, so it needs a desktop that provides one.</p>
+  </description>
+  <launchable type="desktop-id">com.heynote.app.desktop</launchable>
+  <categories>
+    <category>Utility</category>
+    <category>TextEditor</category>
+  </categories>
+  <keywords>
+    <keyword>scratchpad</keyword>
+    <keyword>notes</keyword>
+    <keyword>snippet</keyword>
+    <keyword>calculator</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>heynote</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Blocks in several languages, with the buffer tree in the sidebar</caption>
+      <image>https://heynote.com/img/light/screenshot3.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The dark theme</caption>
+      <image>https://heynote.com/img/dark/screenshot3.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.9.1" date="2026-07-15" />
+    <release version="2.9.0" date="2026-05-06" />
+    <release version="2.8.2" date="2026-02-11" />
+    <release version="2.8.1" date="2026-02-09" />
+    <release version="2.8.0" date="2026-02-04" />
+  </releases>
+</component>

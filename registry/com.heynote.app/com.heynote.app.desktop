@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Heynote
+GenericName=Scratchpad
+Comment=A dedicated scratchpad for developers and power users
+Exec=heynote
+Icon=com.heynote.app
+Terminal=false
+Categories=Utility;TextEditor;Development;
+StartupWMClass=Heynote
+Keywords=scratchpad;notes;text;buffer;snippet;calculator;markdown;
