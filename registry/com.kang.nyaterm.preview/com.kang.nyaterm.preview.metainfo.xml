@@ -54,6 +54,9 @@
   </provides>
   <launchable type="desktop-id">com.kang.nyaterm.preview.desktop</launchable>
   <releases>
+    <release version="2.0.0-preview.5" date="2026-10-05">
+      <description></description>
+    </release>
     <release version="2.0.0-preview.4" date="2026-09-29">
       <url>https://github.com/nyakang/nyaterm/releases/tag/v2.0.0-preview.4</url>
     </release>
