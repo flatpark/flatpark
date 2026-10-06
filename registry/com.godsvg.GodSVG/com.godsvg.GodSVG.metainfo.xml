@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.godsvg.GodSVG</id>
+  <name>GodSVG</name>
+  <summary>A vector graphics application for structured SVG editing</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.godsvg">
+    <name>The GodSVG community</name>
+  </developer>
+  <url type="homepage">https://godsvg.com</url>
+  <url type="bugtracker">https://github.com/MewPurPur/GodSVG/issues</url>
+  <url type="faq">https://godsvg.com/#faq</url>
+  <url type="donation">https://godsvg.com/#donate</url>
+  <url type="translate">https://github.com/MewPurPur/GodSVG/tree/main/translations</url>
+  <url type="vcs-browser">https://github.com/MewPurPur/GodSVG</url>
+  <description>
+    <p>This is a community package of GodSVG, maintained independently. It repackages the official upstream Linux build unmodified. GodSVG is in late alpha.</p>
+    <p>GodSVG is a structured SVG editor. It represents the SVG code directly and lets you edit it in real time, without adding any metadata to it. GodSVG aims to be a structured SVG editor with low abstraction, producing clean, precise, optimized files.</p>
+    <p>SVG is a common vector graphics format, which allows for renderings at unlimited resolution. Unlike raster graphics, which are bound to pixels, SVGs are defined by geometric operations that are agnostic to resolution.</p>
+    <p>Despite being focused on representing the actual code structure of SVGs, GodSVG has a solid user interface derived from this structure, making it helpful for learning how the SVG format works under the hood.</p>
+    <p>Opening and saving go through the system file dialog, which gives GodSVG access to the files you pick. Dropping a file onto the window needs read access to where that file lives, which is not granted by default. To allow it for your home folder, for example:</p>
+    <ul>
+      <li>flatpak override --user --filesystem=home com.godsvg.GodSVG</li>
+    </ul>
+    <p>GodSVG's built-in file dialog (Settings, "Use native file dialog" off) likewise only sees the folders granted this way.</p>
+  </description>
+  <launchable type="desktop-id">com.godsvg.GodSVG.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>VectorGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>svg</keyword>
+    <keyword>vector</keyword>
+    <keyword>icon</keyword>
+    <keyword>editor</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <branding>
+    <color type="primary" scheme_preference="light">#a0aafb</color>
+    <color type="primary" scheme_preference="dark">#303454</color>
+  </branding>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>tablet</control>
+  </supports>
+  <provides>
+    <binary>godsvg</binary>
+    <mediatype>image/svg+xml</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A vector graphic being edited in GodSVG</caption>
+      <image>https://godsvg.com/assets/screenshot1.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0-alpha17" date="2026-08-30" type="development" />
+    <release version="1.0-alpha16" date="2026-07-13" type="development" />
+    <release version="1.0-alpha15" date="2026-04-26" type="development" />
+  </releases>
+</component>
