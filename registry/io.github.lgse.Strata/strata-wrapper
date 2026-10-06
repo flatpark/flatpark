@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Strata is a GTK 4 file manager staged by apply_extra to /app/extra/strata.
+# Everything it links comes from org.gnome.Platform except libpoppler-glib,
+# which apply_extra unpacked from the prebuilt stack to /app/extra/poppler-glib;
+# /app/extra is not on the loader's default search path.
+export LD_LIBRARY_PATH="/app/extra/poppler-glib/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/strata/bin/strata "$@"

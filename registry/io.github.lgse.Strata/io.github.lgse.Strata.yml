@@ -1,0 +1,96 @@
+# Strata - a GTK 4 file manager, the official Linux release tarball repackaged
+# unmodified as extra-data.
+#
+# Upstream publishes one tarball per architecture with a single `strata` binary
+# beside its licenses, desktop entry, icon and D-Bus service files. The binary
+# links GTK 4, GtkSourceView 5, GStreamer and cairo/pango from
+# org.gnome.Platform//51; libpoppler-glib, the one library the runtime lacks,
+# comes from FlatPark's prebuilt poppler-glib stack.
+#
+# Image, PDF, RAW, media and archive previews are unavailable in this package:
+# Strata runs those parsers in a nested Bubblewrap sandbox and fails closed when
+# it cannot create one, and Flatpak forbids creating namespaces from inside the
+# sandbox. Text, source, Markdown and HTML previews run in process and work.
+id: io.github.lgse.Strata
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: strata
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK 4 file manager.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Remote locations (SMB, SFTP through GVfs) and the opt-in update check.
+  - --share=network
+  # Audio and video preview playback goes through GStreamer.
+  - --socket=pulseaudio
+  # Browsing a directory tree is the whole point of the app, and the document
+  # portal can hand over a file the user picked once but cannot back a browsable
+  # tree. Grant home plus the three usual mount points for removable and
+  # secondary drives. Deliberately NOT --filesystem=host: /etc, /opt, /srv and
+  # the real /usr stay out of reach unless the user opts in (documented in the
+  # metainfo).
+  - --filesystem=home
+  - --filesystem=/media
+  - --filesystem=/run/media
+  - --filesystem=/mnt
+  # Trash view, the Devices list and network locations are GIO/GVfs: the GVfs
+  # daemons and volume monitors run on the host session bus, and gvfsd-fuse
+  # exposes mounted remote locations under the runtime dir.
+  - --talk-name=org.gtk.vfs.*
+  - --filesystem=xdg-run/gvfs
+  - --filesystem=xdg-run/gvfsd
+modules:
+  - name: strata
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 strata-wrapper /app/bin/strata
+      - install -Dm644 io.github.lgse.Strata.desktop /app/share/applications/io.github.lgse.Strata.desktop
+      - install -Dm644 io.github.lgse.Strata.metainfo.xml /app/share/metainfo/io.github.lgse.Strata.metainfo.xml
+      - install -Dm644 io.github.lgse.Strata.svg /app/share/icons/hicolor/scalable/apps/io.github.lgse.Strata.svg
+    sources:
+      # libpoppler-glib.so.8 - the payload's only DT_NEEDED that
+      # org.gnome.Platform//51 lacks - from FlatPark's prebuilt poppler-glib
+      # stack (Poppler 26.10.0, GLib binding only, curl/gpgme/NSS off). The tag's
+      # manifest records the exact sources. apply_extra unpacks it to
+      # /app/extra/poppler-glib and the wrapper puts its lib/ on LD_LIBRARY_PATH.
+      #
+      # Extra-data rather than a build module: Strata is the stack's only
+      # consumer, so content addressing in FlatPark's repository would have
+      # nothing to deduplicate, and this way the bytes travel over GitHub's
+      # bandwidth at install time.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: poppler-glib.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v1/poppler-glib-poppler-glib-v1-gnome-51-x86_64.tar.xz
+        sha256: c8eddb747c9d7ff794b8dc02a01ea8bcaa9b9ecbc7e3d6a6fec83d6211c7fea9
+        size: 1561500
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: strata.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/lgse/strata/releases/download/v0.21.0/strata-0.21.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 51182868ce734a48a41780f2c15fcbdfa5b70b89ef6a88570db6a6b8fa1844e1
+        size: 16733125
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: strata-wrapper
+      - type: file
+        path: io.github.lgse.Strata.desktop
+      - type: file
+        path: io.github.lgse.Strata.metainfo.xml
+      - type: file
+        path: io.github.lgse.Strata.svg

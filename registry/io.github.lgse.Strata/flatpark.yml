@@ -1,0 +1,23 @@
+id: io.github.lgse.Strata
+name: Strata
+summary: Fast, keyboard-first file manager with Miller columns and previews
+website: https://github.com/lgse/strata
+source_url: https://github.com/lgse/strata
+build:
+  manifest: io.github.lgse.Strata.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - File manager
+    - GTK
+    - Rust
+    - Open source
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --filesystem=home

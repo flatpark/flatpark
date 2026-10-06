@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.lgse.Strata</id>
+  <name>Strata</name>
+  <summary>Fast, keyboard-first file manager with Miller columns</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.lgse">
+    <name>lgse</name>
+  </developer>
+  <url type="homepage">https://github.com/lgse/strata</url>
+  <url type="bugtracker">https://github.com/lgse/strata/issues</url>
+  <url type="vcs-browser">https://github.com/lgse/strata</url>
+  <description>
+    <p>This is a community package of Strata, maintained independently and unaffiliated with the Strata project. It repackages the official upstream Linux release unmodified.</p>
+    <p>Strata is a fast, keyboard-first GTK 4 file manager. It combines spatial Miller-column navigation with Icons and List views, instant fuzzy filename search and everyday file operations.</p>
+    <ul>
+      <li>Three browser modes: navigable Columns, an Icons grid and a sortable List table.</li>
+      <li>Keyboard-first control: directional movement, history, location entry, pane filtering and an F1 shortcut reference.</li>
+      <li>Recursive search with Ctrl+K that works while the tree is still being indexed.</li>
+      <li>Create, rename, cut, copy, paste, trash and delete, with pins, history and a jobs dashboard.</li>
+      <li>GIO/GVfs remote locations such as SMB shares and SFTP servers.</li>
+      <li>Six bundled themes, custom themes and compact or airy density.</li>
+    </ul>
+    <p>Previews in this package: text, source code, Markdown and HTML previews work. Image, PDF, camera RAW, audio, video and archive previews and thumbnails show "Preview unavailable". Strata parses those formats in a separate Bubblewrap sandbox and deliberately never falls back to parsing them unsandboxed; Flatpak does not allow an application to create that nested sandbox, so these previews stay off until Strata supports a Flatpak-compatible isolation path.</p>
+    <p>Permissions: this package can read and write your home directory and the usual removable-media mount points (/media, /run/media, /mnt) - a file manager cannot browse a directory tree through the file-chooser portal. The rest of the host filesystem is not exposed. To browse the whole filesystem, run <code>flatpak override --user --filesystem=host io.github.lgse.Strata</code>.</p>
+    <p>The Trash view, the Devices list and network locations come from GVfs running on your desktop session; install your distribution's gvfs package if they stay empty. Updates come from Flatpak: Strata's own in-place updater is disabled in this package. The system file-chooser backend and encrypted-volume unlock integrations change host configuration and are not available from the sandbox.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+    <category>FileTools</category>
+    <category>FileManager</category>
+  </categories>
+  <keywords>
+    <keyword>file manager</keyword>
+    <keyword>files</keyword>
+    <keyword>folders</keyword>
+    <keyword>explorer</keyword>
+    <keyword>miller columns</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">800</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>strata</binary>
+  </provides>
+  <launchable type="desktop-id">io.github.lgse.Strata.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/lgse/strata/v0.21.0/docs/assets/strata-columns.png</image>
+      <caption>Columns, Icons and List views, search, a context menu and settings</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lgse/strata/v0.21.0/docs/assets/strata-themes.png</image>
+      <caption>Theme and appearance settings</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.21.0" date="2026-10-04"/>
+  </releases>
+</component>
