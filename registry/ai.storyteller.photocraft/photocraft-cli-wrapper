@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless converter / command runner, reachable as
+#   flatpak run --command=photocraft-cli ai.storyteller.photocraft ...
+exec /app/extra/photocraft/bin/photocraft-cli "$@"

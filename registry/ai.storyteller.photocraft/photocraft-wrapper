@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# PhotoCraft is staged by apply_extra at /app/extra/photocraft.
+exec /app/extra/photocraft/bin/photocraft "$@"

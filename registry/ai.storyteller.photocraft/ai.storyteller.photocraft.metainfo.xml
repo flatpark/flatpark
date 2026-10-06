@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.photocraft</id>
+  <name>PhotoCraft</name>
+  <summary>Edit photos and layered Photoshop documents</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/photocraft</url>
+  <url type="bugtracker">https://github.com/storytold/photocraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/photocraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of PhotoCraft, maintained independently and unaffiliated with the PhotoCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>PhotoCraft is an open-source, native image editor written in Rust that works the way Photoshop users expect: familiar menus, shortcuts, panels and tools, with layers, masks, adjustment layers, layer styles, type and brushes.</p>
+    <ul>
+      <li>Open, edit and save layered PSD and PSB files</li>
+      <li>8-bit, 16-bit and 32-bit float documents in RGB, grayscale, CMYK and Lab</li>
+      <li>Camera RAW: DNG, Canon CR2, Sony ARW, Panasonic RW2 and uncompressed Olympus ORF</li>
+      <li>A GPU compositor (wgpu) with multithreaded filters</li>
+      <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
+    </ul>
+    <p>The headless converter and command runner is included: <code>flatpak run --command=photocraft-cli ai.storyteller.photocraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest — display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser or by drag and drop. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.photocraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.photocraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing The Great Wave off Kanagawa with type layers and adjustment layers</caption>
+      <image>https://raw.githubusercontent.com/storytold/photocraft/main/docs/images/photocraft-demo.jpg</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.photocraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>RasterGraphics</category>
+    <category>Photography</category>
+  </categories>
+  <keywords>
+    <keyword>photo</keyword>
+    <keyword>image editor</keyword>
+    <keyword>psd</keyword>
+    <keyword>layers</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>tablet</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>photocraft</binary>
+    <binary>photocraft-cli</binary>
+    <mediatype>application/x-photocraft</mediatype>
+    <mediatype>image/vnd.adobe.photoshop</mediatype>
+    <mediatype>image/x-psb</mediatype>
+  </provides>
+  <releases>
+    <release version="0.2.0" date="2026-10-05">
+      <description></description>
+    </release>
+  </releases>
+</component>

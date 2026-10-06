@@ -1,0 +1,23 @@
+id: ai.storyteller.photocraft
+name: PhotoCraft
+summary: Open-source image editor for layered Photoshop documents
+website: https://getartcraft.com/apps/photocraft
+source_url: https://github.com/storytold/photocraft
+build:
+  manifest: ai.storyteller.photocraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Photo
+    - ImageEditor
+    - PSD
+    - Painting
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

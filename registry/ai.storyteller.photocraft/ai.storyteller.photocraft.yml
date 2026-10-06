@@ -1,0 +1,66 @@
+id: ai.storyteller.photocraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: photocraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id, runtime and finish-args follow upstream's own Flatpak manifests
+# (packaging/linux/flatpak/ in storytold/photocraft), so this package and the
+# single-file bundle upstream builds are the same application.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal and drag-and-drop through the
+  # document portal. Pictures and Documents are granted so files passed by path
+  # (command line, File > Open Recent, saving next to the original) keep working.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: photocraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 photocraft-wrapper /app/bin/photocraft
+      - install -Dm755 photocraft-cli-wrapper /app/bin/photocraft-cli
+      - install -Dm644 ai.storyteller.photocraft.desktop /app/share/applications/ai.storyteller.photocraft.desktop
+      - install -Dm644 ai.storyteller.photocraft.metainfo.xml /app/share/metainfo/ai.storyteller.photocraft.metainfo.xml
+      # .pcraft, .psb and .qoi; the runtime's shared-mime-info covers PSD and the rest.
+      - install -Dm644 ai.storyteller.photocraft.mime.xml /app/share/mime/packages/ai.storyteller.photocraft.xml
+      - install -Dm644 ai.storyteller.photocraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.photocraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: photocraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/photocraft/releases/download/v0.2.0/photocraft-0.2.0-linux-x86_64.tar.gz
+        sha256: 2d55aed968418447f514ac87e6a3f1eb3df885f0e3b46bc04e54122f52c77430
+        size: 29816234
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: photocraft-wrapper
+      - type: file
+        path: photocraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.photocraft.desktop
+      - type: file
+        path: ai.storyteller.photocraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.photocraft.mime.xml
+      - type: file
+        path: ai.storyteller.photocraft.png
