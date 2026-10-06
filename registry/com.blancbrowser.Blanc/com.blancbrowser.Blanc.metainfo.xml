@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.blancbrowser.Blanc</id>
+  <name>Blanc</name>
+  <summary>Minimal, privacy-focused browser with built-in ad and tracker blocking</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.blancbrowser">
+    <name>Blanc</name>
+  </developer>
+  <url type="homepage">https://blancbrowser.com</url>
+  <url type="bugtracker">https://github.com/bnfy/blanc/issues</url>
+  <url type="vcs-browser">https://github.com/bnfy/blanc</url>
+  <description>
+    <p>This is a community package of Blanc, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Blanc is a desktop web browser built around a minimal floating "Island" toolbar that keeps out of the way of the page, with ad and tracker blocking built in.</p>
+    <ul>
+      <li>Built-in ad and tracker blocking, no extension needed</li>
+      <li>Private tabs</li>
+      <li>Tab groups, workspaces and profiles</li>
+      <li>A command palette for tabs, history and actions</li>
+      <li>A start page with your shortcuts</li>
+    </ul>
+    <p>Updates are delivered through Flatpak; Blanc's own updater is switched off in this package.</p>
+    <p>Downloads go to your Downloads folder by default; saving anywhere else goes through the file-chooser portal. Importing bookmarks and history from another browser needs read access to that browser's profile, which is not granted by default. To allow it for Chrome, for example:</p>
+    <ul>
+      <li>flatpak override --user --filesystem=~/.config/google-chrome:ro com.blancbrowser.Blanc</li>
+    </ul>
+    <p>The other supported sources are ~/.config/chromium, ~/.config/BraveSoftware/Brave-Browser, ~/.config/microsoft-edge and ~/.config/vivaldi.</p>
+  </description>
+  <launchable type="desktop-id">com.blancbrowser.Blanc.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>web</keyword>
+    <keyword>adblock</keyword>
+    <keyword>privacy</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>blanc</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A page with the floating Island toolbar</caption>
+      <image>https://raw.githubusercontent.com/bnfy/blanc/b35a3aee3c79e951a97f4f37fe73df129f095f79/docs/audits/named-workspaces-2026-09-13/screenshots/01-resting-window.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.27.0" date="2026-10-04" />
+    <release version="1.26.0" date="2026-10-02" />
+    <release version="1.25.0" date="2026-10-01" />
+    <release version="1.24.0" date="2026-10-01" />
+    <release version="1.23.0" date="2026-09-27" />
+    <release version="1.22.0" date="2026-09-24" />
+    <release version="1.21.0" date="2026-09-21" />
+  </releases>
+</component>

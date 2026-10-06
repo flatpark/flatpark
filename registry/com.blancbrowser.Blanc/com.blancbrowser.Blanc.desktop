@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Blanc
+GenericName=Web Browser
+Comment=Minimal, privacy-focused browser with built-in ad and tracker blocking
+Exec=blanc %U
+Icon=com.blancbrowser.Blanc
+Terminal=false
+Categories=Network;WebBrowser;
+StartupWMClass=Blanc
+MimeType=x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/blanc-import;
+Keywords=browser;web;internet;adblock;privacy;tracker;

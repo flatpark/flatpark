@@ -1,0 +1,22 @@
+id: com.blancbrowser.Blanc
+name: Blanc
+summary: Minimal, privacy-focused browser with built-in ad and tracker blocking
+website: https://blancbrowser.com
+source_url: https://github.com/bnfy/blanc
+build:
+  manifest: com.blancbrowser.Blanc.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - WebBrowser
+    - Privacy
+    - AdBlock
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

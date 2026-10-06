@@ -1,0 +1,99 @@
+id: com.blancbrowser.Blanc
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so web content keeps
+# its renderer sandbox (the wrapper runs it via zypak-wrapper). The base is
+# merged into the app at build time; the payload itself is still the vendor's
+# own release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: blanc
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) web browser. Upstream ships its Linux build as an
+  # electron-builder AppImage; this repackages the AppDir inside it unmodified.
+  # The bundle carries Chromium, its own ffmpeg/SwiftShader/libvulkan and the
+  # app sources; the GTK3, NSS, CUPS, ATK, X11, ALSA and libatomic stacks they
+  # link come from the runtime.
+  # zypak spawns the sandboxed children through flatpak-spawn --expose-pids.
+  - --require-version=1.8.2
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering and video decode.
+  - --device=dri
+  # Audio and video playback in web pages.
+  - --socket=pulseaudio
+  # Printing pages.
+  - --socket=cups
+  # Site notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Saved site passwords and cookies are encrypted with a key Chromium keeps in
+  # the desktop keyring (Secret Service / KWallet).
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Media keys and the desktop's now-playing controls for audio/video in tabs.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # Where downloads land. Saving anywhere else goes through the file-chooser
+  # portal and needs no grant of its own.
+  - --filesystem=xdg-download
+  # Screen sharing in web pages (getDisplayMedia) goes through the ScreenCast
+  # portal, whose PipeWire stream needs this socket.
+  - --filesystem=xdg-run/pipewire-0
+  # Not granted by default — the browser works without it; opt in per the
+  # metainfo:
+  #   --filesystem=~/.config/google-chrome:ro (or chromium, BraveSoftware,
+  #     microsoft-edge, vivaldi) -> "Import from another browser"
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: blanc
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 blanc-wrapper /app/bin/blanc
+      - install -Dm644 com.blancbrowser.Blanc.desktop /app/share/applications/com.blancbrowser.Blanc.desktop
+      - install -Dm644 com.blancbrowser.Blanc.metainfo.xml /app/share/metainfo/com.blancbrowser.Blanc.metainfo.xml
+      - install -Dm644 com.blancbrowser.Blanc.png /app/share/icons/hicolor/512x512/apps/com.blancbrowser.Blanc.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source rather
+      # than an archive module, because apply_extra runs in a sandbox that binds
+      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
+      # reproduces this). Kept OUTSIDE the managed block: update-pins.mjs
+      # rebuilds that block from the resolver output and would drop anything
+      # else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: blanc.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/bnfy/blanc/releases/download/v1.27.0/Blanc-1.27.0.AppImage
+        sha256: 7e7279be3ea54821e2d956837b7ab3ebcf57021933a56d74426c7474f8a9cc38
+        size: 155293077
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: blanc-wrapper
+      - type: file
+        path: com.blancbrowser.Blanc.desktop
+      - type: file
+        path: com.blancbrowser.Blanc.metainfo.xml
+      - type: file
+        path: com.blancbrowser.Blanc.png
