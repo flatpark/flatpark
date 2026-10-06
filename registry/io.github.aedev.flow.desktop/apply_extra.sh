@@ -17,8 +17,15 @@ set -eu
 # first of <exe dir>/../lib/<name> (only if it exists), $APPDIR/usr/lib/<name>,
 # or /usr/lib/<name>. Staged at /app/extra/flow/usr/bin, the first branch
 # resolves inside /app/extra. The binary name is read from the vendor's own
-# .desktop Exec line, and a `launch` symlink gives the wrapper a fixed entry
-# point.
+# .desktop Exec line, and a symlink named after the app id gives the wrapper a
+# fixed entry point.
+#
+# The symlink's name becomes the program name, and with it the window class and
+# the id WebKitGTK uses for its MPRIS player
+# (org.mpris.MediaPlayer2.<id>.Sandboxed.*). Flow sets no GApplication id, so a
+# name without dots makes WebKit hash the executable path into
+# org.webkit.app-<hash>. Flatpak only lets the app own MPRIS names under its
+# own id, so media controls would never see the player.
 LC_ALL=C
 export LC_ALL
 
@@ -47,5 +54,5 @@ binary=$(sed -n 's/^Exec=//p' "$desktop" | head -n 1 | sed 's/ %[A-Za-z]*$//; s:
 
 mkdir flow
 mv stage/usr flow/usr
-ln -s "$binary" flow/usr/bin/launch
+ln -s "$binary" flow/usr/bin/io.github.aedev.flow.desktop
 rm -rf stage app.deb

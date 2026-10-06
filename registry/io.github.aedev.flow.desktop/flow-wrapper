@@ -9,4 +9,4 @@ set -eu
 # fails to render, escalates its own GPU workarounds on the next start, so the
 # wrapper sets nothing; any of those variables can still be set with
 # `flatpak override --env=`.
-exec /app/extra/flow/usr/bin/launch "$@"
+exec /app/extra/flow/usr/bin/io.github.aedev.flow.desktop "$@"
