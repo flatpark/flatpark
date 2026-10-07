@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.lightcraft</id>
+  <name>LightCraft</name>
+  <summary>Organise photos and develop raw files, non-destructively</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/lightcraft</url>
+  <url type="bugtracker">https://github.com/storytold/lightcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/lightcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of LightCraft, maintained independently and unaffiliated with the LightCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>LightCraft is an open-source, native photo library and raw developer written in Rust that follows the Adobe Lightroom workflow. It is local-first: no account, no cloud and no telemetry.</p>
+    <ul>
+      <li>Its own raw decoders: DNG, Canon CR2, Sony ARW, Nikon NEF, Fujifilm RAF and more</li>
+      <li>Scene-referred, wide-gamut develop pipeline running on the GPU</li>
+      <li>Color grading, tone curves, the Color Mixer, presets and profiles</li>
+      <li>Brush, linear, radial and range masks</li>
+      <li>A catalog with collections, ratings, flags and keywords</li>
+      <li>Scriptable from a CLI and an MCP server</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=lightcraft-cli ai.storyteller.lightcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.lightcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.lightcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Developing a landscape raw file</caption>
+      <image>https://raw.githubusercontent.com/storytold/lightcraft/main/docs/images/hero-tetons.jpg</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.lightcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>RasterGraphics</category>
+    <category>Photography</category>
+  </categories>
+  <keywords>
+    <keyword>photo</keyword>
+    <keyword>raw</keyword>
+    <keyword>camera</keyword>
+    <keyword>library</keyword>
+    <keyword>develop</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>lightcraft</binary>
+    <binary>lightcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.2.1" date="2026-10-06">
+      <description></description>
+    </release>
+  </releases>
+</component>

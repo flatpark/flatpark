@@ -1,0 +1,61 @@
+id: ai.storyteller.lightcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: lightcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/lightcraft), so this package and the
+# single-file bundle upstream builds are the same application. The runtime is
+# 26.08, shared with PhotoCraft; the binaries need only glibc from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Pictures is granted so
+  # files passed by path from the command line keep working.
+  - --filesystem=xdg-pictures
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: lightcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 lightcraft-wrapper /app/bin/lightcraft
+      - install -Dm755 lightcraft-cli-wrapper /app/bin/lightcraft-cli
+      - install -Dm644 ai.storyteller.lightcraft.desktop /app/share/applications/ai.storyteller.lightcraft.desktop
+      - install -Dm644 ai.storyteller.lightcraft.metainfo.xml /app/share/metainfo/ai.storyteller.lightcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.lightcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.lightcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: lightcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/lightcraft/releases/download/v0.2.1/lightcraft-0.2.1-linux-x86_64.tar.gz
+        sha256: 543f91c96e4081e86065ec8fb3d62447b08bfd6ae0da22df50fc27a55bb9777d
+        size: 50921955
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: lightcraft-wrapper
+      - type: file
+        path: lightcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.lightcraft.desktop
+      - type: file
+        path: ai.storyteller.lightcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.lightcraft.png

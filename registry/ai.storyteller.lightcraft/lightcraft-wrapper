@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# LightCraft is staged by apply_extra at /app/extra/lightcraft.
+exec /app/extra/lightcraft/bin/lightcraft "$@"

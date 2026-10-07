@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=lightcraft-cli ai.storyteller.lightcraft ...
+exec /app/extra/lightcraft/bin/lightcraft-cli "$@"

@@ -1,0 +1,22 @@
+id: ai.storyteller.lightcraft
+name: LightCraft
+summary: Open-source photo library and raw developer in the Lightroom mould
+website: https://getartcraft.com/apps/lightcraft
+source_url: https://github.com/storytold/lightcraft
+build:
+  manifest: ai.storyteller.lightcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Photo
+    - RAW
+    - Photography
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
