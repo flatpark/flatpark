@@ -7,6 +7,6 @@ Exec=min %U
 Icon=org.minbrowser.Min
 Terminal=false
 Categories=Network;WebBrowser;
-StartupWMClass=Min
+StartupWMClass=min
 MimeType=x-scheme-handler/http;x-scheme-handler/https;text/html;
 Keywords=browser;web;internet;minimal;privacy;adblock;

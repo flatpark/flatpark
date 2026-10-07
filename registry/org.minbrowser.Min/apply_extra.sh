@@ -14,10 +14,8 @@ set -eu
 # Neither the directory name nor the launcher name is written down here: pin
 # refreshes are automated, and both are names upstream can change between
 # releases, so they are read out of the artifact instead. The .deb's own
-# .desktop Exec line is the authoritative launcher name; a `min` symlink next to it gives the wrapper a
-# fixed entry point. Chromium derives the window's WM_CLASS from the name it was
-# started under, so that entry point is called `min` (class "Min", what the
-# vendor's desktop entry declares as StartupWMClass) rather than a generic name.
+# .desktop Exec line is the authoritative launcher name; a `min` symlink next to
+# it gives the wrapper a fixed entry point should upstream ever rename it.
 LC_ALL=C
 export LC_ALL
 

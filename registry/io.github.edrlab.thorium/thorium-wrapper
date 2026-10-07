@@ -11,8 +11,12 @@ set -eu
 # $XDG_CONFIG_HOME, which Flatpak points at
 # ~/.var/app/io.github.edrlab.thorium/config.
 #
-# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
-# environment (a terminal inside VS Code, for instance), the binary would start
-# as plain Node instead of the GUI app.
-unset ELECTRON_RUN_AS_NODE
+# Clear every ELECTRON_* variable inherited from the launching environment.
+# A terminal inside VS Code or another Electron app exports some
+# (ELECTRON_RUN_AS_NODE, ELECTRON_NO_ATTACH_CONSOLE, ...), and Thorium's
+# packaged build exits at start-up, silently and with status 0, when it finds
+# any ELECTRON_* variable in its environment.
+for var in $(env | sed -n 's/^\(ELECTRON_[A-Za-z0-9_]*\)=.*/\1/p'); do
+  unset "$var"
+done
 exec zypak-wrapper /app/extra/app/launch --ozone-platform-hint=auto "$@"

@@ -44,6 +44,10 @@ finish-args:
   - --filesystem=xdg-run/speech-dispatcher
   # Keep the screen awake during calls.
   - --talk-name=org.freedesktop.ScreenSaver
+  # Media keys and the desktop's now-playing controls for audio and video in
+  # chats. The embedded Chromium publishes the player under a
+  # chromium.instance<pid> name.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
   # Message notifications.
   - --talk-name=org.freedesktop.Notifications
   # Tray icon with the unread badge.

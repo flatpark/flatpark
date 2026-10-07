@@ -27,6 +27,10 @@ finish-args:
   # Read aloud through the desktop's speech-dispatcher; the base app provides
   # the client library, this exposes the host daemon's socket.
   - --filesystem=xdg-run/speech-dispatcher:ro
+  # Media keys and the desktop's now-playing controls while an audiobook plays.
+  # The embedded Chromium publishes the player under a chromium.instance<pid>
+  # name.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
   # No filesystem grant for books: importing goes through the file chooser
   # portal and Thorium copies each publication into its own library, which lives
   # in the private per-app directory.
