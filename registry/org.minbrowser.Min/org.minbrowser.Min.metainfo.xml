@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.minbrowser.Min</id>
+  <name>Min</name>
+  <summary>Fast, minimal browser that protects your privacy</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="org.minbrowser">
+    <name>Min Developers</name>
+  </developer>
+  <url type="homepage">https://minbrowser.org/</url>
+  <url type="bugtracker">https://github.com/minbrowser/min/issues</url>
+  <url type="vcs-browser">https://github.com/minbrowser/min</url>
+  <url type="help">https://github.com/minbrowser/min/wiki</url>
+  <description>
+    <p>This is a community package of Min, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>Min is a web browser with an interface designed to stay out of the way. The search bar answers questions directly from DuckDuckGo, searches your full browsing history and bookmarks, and lets you group tabs into tasks.</p>
+    <ul>
+      <li>Built-in blocking of ads and trackers.</li>
+      <li>Full-text search of your history and tagged bookmarks.</li>
+      <li>Tasks for grouping tabs, focus mode and reader view.</li>
+      <li>Dark mode, password manager integration and userscripts.</li>
+    </ul>
+    <p>The package has network access, plays audio and video, can print, and saves downloads to your Downloads directory. Uploading or saving files elsewhere goes through the system file chooser. Saved passwords are encrypted with a key kept in the desktop keyring.</p>
+    <p>The 1Password integration calls the <code>op</code> command-line tool, which is not available inside the sandbox; the Bitwarden integration downloads its own copy of the <code>bw</code> tool and works as is.</p>
+    <p>Updates come through Flatpak. If the browser says a new release is available, update with Flatpak instead of downloading it.</p>
+  </description>
+  <launchable type="desktop-id">org.minbrowser.Min.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>web</keyword>
+    <keyword>internet</keyword>
+    <keyword>minimal</keyword>
+    <keyword>privacy</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>min</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The browser window</caption>
+      <image>https://user-images.githubusercontent.com/10314059/53312382-67ca7d80-387a-11e9-9ccc-88ac592c9b1c.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Instant answers in the search bar</caption>
+      <image>https://minbrowser.org/tour/img/searchbar_duckduckgo_answers.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Grouping tabs into tasks</caption>
+      <image>https://minbrowser.org/tour/img/tasks.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.35.7" date="2026-08-23" />
+    <release version="1.35.6" date="2026-07-06" />
+    <release version="1.35.5" date="2026-04-12" />
+  </releases>
+</component>

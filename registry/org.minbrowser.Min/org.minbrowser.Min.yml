@@ -1,0 +1,74 @@
+id: org.minbrowser.Min
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: min
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) web browser. The prebuilt build bundles Chromium plus
+  # its own ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, CUPS, ALSA, dbus, gbm and
+  # X11 stacks it links come from the runtime.
+  # zypak spawns the sandboxed children through flatpak-spawn --expose-pids.
+  - --require-version=1.8.2
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering and video decode.
+  - --device=dri
+  # Audio and video playback in web pages.
+  - --socket=pulseaudio
+  # Printing pages.
+  - --socket=cups
+  # Site notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # The built-in password manager encrypts its store with Electron safeStorage,
+  # whose key lives in the desktop keyring (Secret Service / KWallet).
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Media keys and the desktop's now-playing controls for audio/video in tabs.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # Where downloads land. Saving anywhere else goes through the file-chooser
+  # portal and needs no grant of its own.
+  - --filesystem=xdg-download
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: min
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 min-wrapper /app/bin/min
+      - install -Dm644 org.minbrowser.Min.desktop /app/share/applications/org.minbrowser.Min.desktop
+      - install -Dm644 org.minbrowser.Min.metainfo.xml /app/share/metainfo/org.minbrowser.Min.metainfo.xml
+      - install -Dm644 org.minbrowser.Min.png /app/share/icons/hicolor/256x256/apps/org.minbrowser.Min.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/minbrowser/min/releases/download/v1.35.7/min-1.35.7-amd64.deb
+        sha256: 11741cb9606b68dc5f8371c335571e72726acefd5e8c327638e80e9f14ab737f
+        size: 93095934
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: min-wrapper
+      - type: file
+        path: org.minbrowser.Min.desktop
+      - type: file
+        path: org.minbrowser.Min.metainfo.xml
+      - type: file
+        path: org.minbrowser.Min.png

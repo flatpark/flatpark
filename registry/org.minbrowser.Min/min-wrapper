@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# Electron app staged by apply_extra to /app/extra/app, started as `min`: the
+# vendor's launcher binary, or a symlink to it should upstream rename it.
+# Chromium names the window class after argv[0], so this keeps it "Min", the
+# StartupWMClass in the desktop entry. zypak-wrapper (from
+# org.electronjs.Electron2.BaseApp) redirects Chromium's SUID sandbox onto the
+# Flatpak sandbox, so web content keeps its renderer sandbox instead of running
+# with --no-sandbox.
+# --ozone-platform-hint=auto uses Wayland when available and falls back to X11.
+# Min keeps its profile (history, bookmarks, settings, password store) under
+# $XDG_CONFIG_HOME/Min, which Flatpak points at
+# ~/.var/app/org.minbrowser.Min/config.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (a terminal inside VS Code, for instance), the binary would start
+# as plain Node instead of the GUI app.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/app/min --ozone-platform-hint=auto "$@"

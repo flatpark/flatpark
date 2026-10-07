@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Min
+GenericName=Web Browser
+Comment=Fast, minimal browser that protects your privacy
+Exec=min %U
+Icon=org.minbrowser.Min
+Terminal=false
+Categories=Network;WebBrowser;
+StartupWMClass=Min
+MimeType=x-scheme-handler/http;x-scheme-handler/https;text/html;
+Keywords=browser;web;internet;minimal;privacy;adblock;

@@ -1,0 +1,23 @@
+id: org.minbrowser.Min
+name: Min
+summary: Fast, minimal browser that protects your privacy
+website: https://minbrowser.org/
+source_url: https://github.com/minbrowser/min
+build:
+  manifest: org.minbrowser.Min.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - Browser
+    - Privacy
+    - Adblock
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
