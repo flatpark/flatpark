@@ -1,0 +1,22 @@
+id: ai.storyteller.vectorcraft
+name: VectorCraft
+summary: Open-source vector illustration app in the Illustrator mould
+website: https://getartcraft.com/apps/vectorcraft
+source_url: https://github.com/storytold/vectorcraft
+build:
+  manifest: ai.storyteller.vectorcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Vector
+    - Illustration
+    - SVG
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

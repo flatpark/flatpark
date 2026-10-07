@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.vectorcraft</id>
+  <name>VectorCraft</name>
+  <summary>Draw and edit vector illustrations, SVG and PDF</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/vectorcraft</url>
+  <url type="bugtracker">https://github.com/storytold/vectorcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/vectorcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of VectorCraft, maintained independently and unaffiliated with the VectorCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>VectorCraft is an open-source, native vector illustration app written in Rust that follows the Adobe Illustrator workflow: the same layout, tools, menus, panels and shortcuts.</p>
+    <ul>
+      <li>Pen, Direct Selection, shape and brush tools, artboards and type</li>
+      <li>Fills, strokes, gradients and live effects</li>
+      <li>Exact curve booleans and unlimited undo</li>
+      <li>A documented native format (.vectorcraft), plus SVG and PDF</li>
+      <li>Every menu item, tool and panel can be driven by AI agents over a JSON control channel</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=vectorcraft-cli ai.storyteller.vectorcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.vectorcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.vectorcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing the Neon Drive poster with a live glow effect in the Appearance panel</caption>
+      <image>https://raw.githubusercontent.com/storytold/vectorcraft/main/docs/images/shot-1-neon.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.vectorcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>2DGraphics</category>
+    <category>VectorGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>vector</keyword>
+    <keyword>illustration</keyword>
+    <keyword>svg</keyword>
+    <keyword>pdf</keyword>
+    <keyword>drawing</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>vectorcraft</binary>
+    <binary>vectorcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.4.0" date="2026-10-07">
+      <description></description>
+    </release>
+  </releases>
+</component>

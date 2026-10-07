@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# VectorCraft is staged by apply_extra at /app/extra/vectorcraft.
+exec /app/extra/vectorcraft/bin/vectorcraft "$@"
