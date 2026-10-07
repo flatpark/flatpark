@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# PrintCraft is staged by apply_extra at /app/extra/printcraft.
+exec /app/extra/printcraft/bin/printcraft "$@"

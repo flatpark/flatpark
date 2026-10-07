@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.printcraft</id>
+  <name>PrintCraft</name>
+  <summary>Read, organize, combine, split and secure PDFs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/printcraft</url>
+  <url type="bugtracker">https://github.com/storytold/printcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/printcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of PrintCraft, maintained independently and unaffiliated with the PrintCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>PrintCraft is an open-source, native PDF workbench written in Rust that follows the Adobe Acrobat workflow. Documents never leave your machine.</p>
+    <ul>
+      <li>Fast, sharp rendering with continuous, two-up and Read mode layouts</li>
+      <li>Find, select and copy text; bookmarks and thumbnails for long documents</li>
+      <li>Rotate, delete, insert and reorder pages</li>
+      <li>Combine and split documents</li>
+      <li>Open protected documents; comments, forms, layers and attachments</li>
+      <li>An opt-in MCP server for AI agents: printcraft-cli mcp</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=printcraft-cli ai.storyteller.printcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.printcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.printcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Reading a PDF in PrintCraft</caption>
+      <image>https://raw.githubusercontent.com/storytold/printcraft/main/docs/images/printcraft-viewer.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.printcraft.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Viewer</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>pdf</keyword>
+    <keyword>viewer</keyword>
+    <keyword>editor</keyword>
+    <keyword>merge</keyword>
+    <keyword>split</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>printcraft</binary>
+    <binary>printcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.2.1" date="2026-10-06">
+      <description></description>
+    </release>
+  </releases>
+</component>

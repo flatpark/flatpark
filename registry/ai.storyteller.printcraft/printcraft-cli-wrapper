@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=printcraft-cli ai.storyteller.printcraft ...
+exec /app/extra/printcraft/bin/printcraft-cli "$@"
