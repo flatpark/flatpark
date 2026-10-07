@@ -1,8 +1,0 @@
-#!/bin/sh
-set -eu
-
-# GodSVG is a Godot export staged by apply_extra to /app/extra/godsvg/GodSVG.
-# Godot loads its windowing, GL, audio and font libraries from the runtime at
-# start-up; nothing else is needed. Files passed on the command line (through
-# Flatpak's file forwarding) are opened as documents.
-exec /app/extra/godsvg/GodSVG "$@"
