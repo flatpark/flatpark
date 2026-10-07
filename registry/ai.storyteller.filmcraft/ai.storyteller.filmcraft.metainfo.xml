@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.filmcraft</id>
+  <name>FilmCraft</name>
+  <summary>Edit video, color and sound</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/filmcraft</url>
+  <url type="bugtracker">https://github.com/storytold/filmcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/filmcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of FilmCraft, maintained independently and unaffiliated with the FilmCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>FilmCraft is an open-source, native non-linear video editor written in Rust for people who know Premiere Pro: the same panels, workspaces, tools and shortcuts. Its H.264, HEVC, ProRes and AAC codecs are written in Rust, with no FFmpeg.</p>
+    <ul>
+      <li>Three-point editing, every trim tool, markers, nesting and unlimited undo</li>
+      <li>Frame-exact integer timing, so 23.976, 29.97 drop-frame and 59.94 never drift</li>
+      <li>Color: basic correction, curves, color wheels, HSL secondary and scopes</li>
+      <li>Around 90 video effects, transitions and Premiere-style keyframes on a GPU compositor</li>
+      <li>Audio effects and broadcast loudness meters (EBU R128)</li>
+      <li>Atomic saves, rolling auto-save and crash recovery</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=filmcraft-cli ai.storyteller.filmcraft --help</code></p>
+    <p>Permissions: this package uses upstream's own Flatpak sandbox plus the Videos and Music folders, so project media stored there is found: display (Wayland, with X11 as a fallback), the GPU device, audio playback, and the Pictures, Videos and Music folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted, so speech to text needs the override below.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Download the optional Whisper speech-to-text models (off by default), or let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.filmcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.filmcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The FilmCraft editing workspace</caption>
+      <image>https://raw.githubusercontent.com/storytold/filmcraft/main/docs/images/filmcraft-hero.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.filmcraft.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>AudioVideoEditing</category>
+  </categories>
+  <keywords>
+    <keyword>video</keyword>
+    <keyword>editor</keyword>
+    <keyword>timeline</keyword>
+    <keyword>color grading</keyword>
+    <keyword>nle</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>filmcraft</binary>
+    <binary>filmcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.2.1" date="2026-10-06">
+      <description></description>
+    </release>
+  </releases>
+</component>

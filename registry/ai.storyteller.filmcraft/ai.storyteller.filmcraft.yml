@@ -1,0 +1,70 @@
+id: ai.storyteller.filmcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: filmcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/filmcraft),
+# plus the Videos and Music folders (see below), so this package and the
+# single-file bundle upstream builds are the same application. The runtime is
+# 26.08, shared with PhotoCraft; the binaries need only glibc from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # ALSA output (cpal), routed to PulseAudio/PipeWire by the runtime's plugin.
+  - --socket=pulseaudio
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Projects reference their
+  # media by absolute path, and the portal exposes only the project file, so
+  # the usual media folders are granted for footage and audio to resolve
+  # (upstream's xdg-pictures-only grant reports them missing: filmcraft#107).
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-music
+  # Deliberately not granted:
+  #   --share=network          -> needed only to download the optional Whisper
+  #                               speech-to-text models (off by default); the
+  #                               metainfo documents the override. The optional
+  #                               --control automation server listens on
+  #                               127.0.0.1 inside the sandbox either way
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: filmcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 filmcraft-wrapper /app/bin/filmcraft
+      - install -Dm755 filmcraft-cli-wrapper /app/bin/filmcraft-cli
+      - install -Dm644 ai.storyteller.filmcraft.desktop /app/share/applications/ai.storyteller.filmcraft.desktop
+      - install -Dm644 ai.storyteller.filmcraft.metainfo.xml /app/share/metainfo/ai.storyteller.filmcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.filmcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.filmcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: filmcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/filmcraft/releases/download/v0.2.1/filmcraft-0.2.1-linux-x86_64.tar.gz
+        sha256: dff27e644bcb06b3d4c1f667b8fd544bd15ee4b446c8aee61706712f212887af
+        size: 33318002
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: filmcraft-wrapper
+      - type: file
+        path: filmcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.filmcraft.desktop
+      - type: file
+        path: ai.storyteller.filmcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.filmcraft.png
