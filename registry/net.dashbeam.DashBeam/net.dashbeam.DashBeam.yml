@@ -1,0 +1,79 @@
+id: net.dashbeam.DashBeam
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: dashbeam
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK peer-to-peer file transfer. dri for hardware-accelerated
+  # WebKit rendering; network for the direct (NAT hole-punched) connections,
+  # the relays and LAN discovery of nearby devices.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # System tray (Tauri tray-icon) — the app can keep running in the tray to
+  # stay reachable for paired devices.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Notifications for incoming and finished transfers.
+  - --talk-name=org.freedesktop.Notifications
+  # tauri-plugin-single-instance (2.4) claims "<tauri identifier>.SingleInstance"
+  # on the session bus; a second launch hands over to the running instance
+  # through that name and brings its window back. The identifier of this build
+  # is com.dashbeam.desktop.
+  - --own-name=com.dashbeam.desktop.SingleInstance
+  # Sending and receiving arbitrary files and folders. This build's file
+  # dialogs are GTK's own rather than the file-chooser portal, and files are
+  # also dropped onto the window from the file manager, so both only see paths
+  # that are granted. Home access is what upstream chose for its own Flatpak
+  # package (dashbeam#228: "P2P transfer needs arbitrary send/receive paths +
+  # drag-drop").
+  - --filesystem=home
+modules:
+  # The Tauri tray-icon dlopen-s libayatana-appindicator3.so.1 and PANICS if it is
+  # missing — the GNOME runtime does not ship it (upstream's .deb declares
+  # libayatana-appindicator3-1 as a dependency).
+  # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
+  # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
+  # against org.gnome.Sdk//51; the tag's manifest records the exact sources,
+  # pins and patches.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: dashbeam
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dashbeam-wrapper /app/bin/dashbeam
+      - install -Dm644 net.dashbeam.DashBeam.desktop /app/share/applications/net.dashbeam.DashBeam.desktop
+      - install -Dm644 net.dashbeam.DashBeam.metainfo.xml /app/share/metainfo/net.dashbeam.DashBeam.metainfo.xml
+      - install -Dm644 net.dashbeam.DashBeam.png /app/share/icons/hicolor/512x512/apps/net.dashbeam.DashBeam.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: dashbeam.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/tonyantony300/dashbeam/releases/download/v0.7.1/DashBeam_0.7.1_amd64.deb
+        sha256: f0e0c5319276ca6f98e492a0a466b4ddbfda982cad62def5273e1b867f39842f
+        size: 14442618
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dashbeam-wrapper
+      - type: file
+        path: net.dashbeam.DashBeam.desktop
+      - type: file
+        path: net.dashbeam.DashBeam.metainfo.xml
+      - type: file
+        path: net.dashbeam.DashBeam.png

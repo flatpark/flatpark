@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.dashbeam.DashBeam</id>
+  <name>DashBeam</name>
+  <summary>Frictionless peer-to-peer file transfer</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="net.dashbeam">
+    <name>Tony Antony</name>
+  </developer>
+  <url type="homepage">https://dashbeam.net</url>
+  <url type="bugtracker">https://github.com/tonyantony300/dashbeam/issues</url>
+  <url type="vcs-browser">https://github.com/tonyantony300/dashbeam</url>
+  <description>
+    <p>This is a community package of DashBeam, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>DashBeam sends files directly between devices over an encrypted peer-to-peer connection with NAT hole punching, so transfers do not pass through a central server. Pick files, share a code, link or QR code, and the receiver pulls them straight from your machine — in the app on another desktop or phone, or in a browser with nothing to install.</p>
+    <ul>
+      <li>Direct device-to-device transfer with NAT traversal.</li>
+      <li>Any file or folder, any size, verified with BLAKE3.</li>
+      <li>Nearby devices on the local network are discovered automatically and can be paired.</li>
+      <li>No account, no tracking, and a local transfer history.</li>
+    </ul>
+    <p>The package can read and write your home directory, so you can send any file or folder, drop files onto the window and receive into any location. It has network access for the transfers themselves, can show notifications and a tray icon, and keeps its settings and transfer history inside its own sandbox data directory.</p>
+    <p>Starting the app when you log in is not available in this package.</p>
+    <p>Updates come through Flatpak.</p>
+  </description>
+  <launchable type="desktop-id">net.dashbeam.DashBeam.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>p2p</keyword>
+    <keyword>share</keyword>
+    <keyword>transfer</keyword>
+    <keyword>send</keyword>
+    <keyword>files</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <branding>
+    <color type="primary" scheme_preference="light">#25d365</color>
+    <color type="primary" scheme_preference="dark">#1a6b3a</color>
+  </branding>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>dashbeam</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>DashBeam in action</caption>
+      <image>https://dashbeam.net/assets/flatpak/screenshot-1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Transferring files</caption>
+      <image>https://dashbeam.net/assets/flatpak/screenshot-2.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Receiving files</caption>
+      <image>https://dashbeam.net/assets/flatpak/screenshot-3.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.7.1" date="2026-09-01" />
+    <release version="0.7.0" date="2026-08-21" />
+    <release version="0.6.2" date="2026-07-30" />
+  </releases>
+</component>

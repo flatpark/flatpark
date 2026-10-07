@@ -1,0 +1,24 @@
+id: net.dashbeam.DashBeam
+name: DashBeam
+summary: Frictionless peer-to-peer file transfer
+website: https://dashbeam.net
+source_url: https://github.com/tonyantony300/dashbeam
+build:
+  manifest: net.dashbeam.DashBeam.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - FileTransfer
+    - P2P
+    - LAN
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --filesystem=home

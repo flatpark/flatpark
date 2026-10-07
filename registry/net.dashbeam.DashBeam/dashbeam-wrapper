@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+# DashBeam is a Tauri (WebKitGTK) app staged by apply_extra to
+# /app/extra/dashbeam, keeping upstream's bin/ + lib/ layout because Tauri
+# derives the resource directory (<exe dir>/../lib/DashBeam) from the
+# executable's own location. It links only against libraries in
+# org.gnome.Platform (webkit2gtk-4.1, gtk-3, libsoup-3) plus
+# libayatana-appindicator, which the tray code dlopen-s and which the manifest
+# adds to /app/lib.
+#
+# The app notices FLATPAK_ID at start-up and leaves out its in-app updater, so
+# updates come only through Flatpak. Its transfer history and settings land
+# under $XDG_DATA_HOME / $XDG_CONFIG_HOME, which Flatpak points into
+# ~/.var/app/net.dashbeam.DashBeam.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
+# Flatpak sandbox. The main window is opaque, so disabling it is the reliable
+# default; ${VAR:-1} keeps
+#   flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=0 net.dashbeam.DashBeam
+# available for hardware where the accelerated path is the one that works.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/dashbeam/bin/DashBeam "$@"
