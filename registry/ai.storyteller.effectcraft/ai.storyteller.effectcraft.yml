@@ -1,0 +1,70 @@
+id: ai.storyteller.effectcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: effectcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/effectcraft),
+# plus the Videos and Music folders (see below), so this package and the
+# single-file bundle upstream builds are the same application. The runtime is
+# 26.08, shared with PhotoCraft; the binaries need only glibc from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # ALSA output (cpal), routed to PulseAudio/PipeWire by the runtime's plugin.
+  - --socket=pulseaudio
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Projects reference their
+  # media by absolute path, and the portal exposes only the project file, so
+  # the usual media folders are granted for footage and audio to resolve
+  # (upstream's xdg-pictures-only grant reports them missing: filmcraft#107).
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-music
+  # Deliberately not granted:
+  #   --share=network          -> needed only to download the optional
+  #                               segmentation and face-tracking models; the
+  #                               metainfo documents the override. The optional
+  #                               --control automation server listens on
+  #                               127.0.0.1 inside the sandbox either way
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: effectcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 effectcraft-wrapper /app/bin/effectcraft
+      - install -Dm755 effectcraft-cli-wrapper /app/bin/effectcraft-cli
+      - install -Dm644 ai.storyteller.effectcraft.desktop /app/share/applications/ai.storyteller.effectcraft.desktop
+      - install -Dm644 ai.storyteller.effectcraft.metainfo.xml /app/share/metainfo/ai.storyteller.effectcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.effectcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.effectcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: effectcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/effectcraft/releases/download/v0.4.0/effectcraft-0.4.0-linux-x86_64.tar.gz
+        sha256: 3b7b616ba837910e812e53cff1776c56159fe9644ef8dc47a45759bd7ab7679a
+        size: 59093773
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: effectcraft-wrapper
+      - type: file
+        path: effectcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.effectcraft.desktop
+      - type: file
+        path: ai.storyteller.effectcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.effectcraft.png

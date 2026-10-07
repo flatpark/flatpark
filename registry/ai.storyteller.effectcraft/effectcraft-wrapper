@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# EffectCraft is staged by apply_extra at /app/extra/effectcraft.
+exec /app/extra/effectcraft/bin/effectcraft "$@"

@@ -1,0 +1,22 @@
+id: ai.storyteller.effectcraft
+name: EffectCraft
+summary: Open-source motion graphics compositor in the After Effects mould
+website: https://getartcraft.com/apps/effectcraft
+source_url: https://github.com/storytold/effectcraft
+build:
+  manifest: ai.storyteller.effectcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - MotionGraphics
+    - VFX
+    - Animation
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

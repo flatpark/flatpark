@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.effectcraft</id>
+  <name>EffectCraft</name>
+  <summary>Motion graphics and visual effects compositor</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/effectcraft</url>
+  <url type="bugtracker">https://github.com/storytold/effectcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/effectcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of EffectCraft, maintained independently and unaffiliated with the EffectCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>EffectCraft is an open-source, native motion graphics and visual effects compositor written in Rust, in the spirit of Adobe After Effects. Video and audio are decoded and encoded in pure Rust, with no FFmpeg.</p>
+    <ul>
+      <li>Compositions, layers of every kind, keyframes and a graph editor</li>
+      <li>Shapes and masks, text animators and JavaScript expressions</li>
+      <li>Over 300 effects and layer styles, GPU compositing</li>
+      <li>3D cameras and lights, and a render queue</li>
+      <li>Lottie import and export; projects are readable JSON (.ecproj)</li>
+      <li>Scriptable from a CLI, an MCP server and a control channel</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=effectcraft-cli ai.storyteller.effectcraft --help</code></p>
+    <p>Permissions: this package uses upstream's own Flatpak sandbox plus the Videos and Music folders, so project media stored there is found: display (Wayland, with X11 as a fallback), the GPU device, audio playback, and the Pictures, Videos and Music folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted, so model downloads needs the override below.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Download the optional segmentation and face-tracking models, or let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.effectcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.effectcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The EffectCraft composition workspace</caption>
+      <image>https://raw.githubusercontent.com/storytold/effectcraft/main/docs/images/effectcraft-hero.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.effectcraft.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>Graphics</category>
+    <category>2DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>motion graphics</keyword>
+    <keyword>animation</keyword>
+    <keyword>compositor</keyword>
+    <keyword>effects</keyword>
+    <keyword>vfx</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>effectcraft</binary>
+    <binary>effectcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.4.0" date="2026-10-07">
+      <description></description>
+    </release>
+  </releases>
+</component>
