@@ -20,7 +20,7 @@
       <li>Nearby devices on the local network are discovered automatically and can be paired.</li>
       <li>No account, no tracking, and a local transfer history.</li>
     </ul>
-    <p>The package can read and write your home directory, so you can send any file or folder, drop files onto the window and receive into any location. It has network access for the transfers themselves, can show notifications and a tray icon, and keeps its settings and transfer history inside its own sandbox data directory.</p>
+    <p>The package can read and write your home directory, so you can send any file or folder, drop files onto the window and receive into any location. It has network access for the transfers themselves, can show notifications, and keeps its settings and transfer history inside its own sandbox data directory.</p>
     <p>Starting the app when you log in is not available in this package.</p>
     <p>Updates come through Flatpak.</p>
   </description>

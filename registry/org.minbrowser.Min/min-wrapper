@@ -17,4 +17,23 @@ set -eu
 # environment (a terminal inside VS Code, for instance), the binary would start
 # as plain Node instead of the GUI app.
 unset ELECTRON_RUN_AS_NODE
-exec zypak-wrapper /app/extra/app/min --ozone-platform-hint=auto "$@"
+
+# The built-in password manager encrypts its store with Electron safeStorage.
+# Chromium picks the keyring backend from XDG_CURRENT_DESKTOP; on a desktop it
+# does not recognise (Hyprland, Sway, ...) it falls back to plain-text storage
+# and safeStorage reports encryption as unavailable, so saving a password
+# fails. Point it at the Secret Service there. KDE is left alone so Chromium
+# keeps choosing KWallet, and an explicit --password-store on the command line
+# wins.
+store=
+case ":${XDG_CURRENT_DESKTOP:-}:" in
+  *:KDE:*) ;;
+  *)
+    case " $* " in
+      *" --password-store="*) ;;
+      *) store=--password-store=gnome-libsecret ;;
+    esac
+    ;;
+esac
+
+exec zypak-wrapper /app/extra/app/min --ozone-platform-hint=auto ${store:+"$store"} "$@"
