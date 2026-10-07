@@ -59,9 +59,9 @@ modules:
         filename: cc-switch.deb
         only-arches:
           - x86_64
-        url: https://github.com/farion1231/cc-switch/releases/download/v4.0.2/CC-Switch-v4.0.2-Linux-x86_64.deb
-        sha256: 912b3dbdab07281ac35ae4d1d97797b74412d1b754eae90db475c340d4710cd0
-        size: 16677814
+        url: https://github.com/farion1231/cc-switch/releases/download/v4.0.4/CC-Switch-v4.0.4-Linux-x86_64.deb
+        sha256: 4193072133eb1c108d75f9805efba91140f18eacf831b4849d3837e2a70db9ba
+        size: 16730920
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

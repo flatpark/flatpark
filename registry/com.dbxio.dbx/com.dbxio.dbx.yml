@@ -65,9 +65,9 @@ modules:
         filename: dbx.deb
         only-arches:
           - x86_64
-        url: https://dl.dbxio.com/releases/v0.6.34/DBX_0.6.34_amd64.deb
-        sha256: fcf4b29c413d706e280c6e0634b219e7ca1c1c6bc17484059f5a564f49f94976
-        size: 41767958
+        url: https://dl.dbxio.com/releases/v0.6.35/DBX_0.6.35_amd64.deb
+        sha256: 41f74db5c5b9f7f378da69508fb37b17f4cf26e144ce8ee639da24434f03ba96
+        size: 42137542
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
