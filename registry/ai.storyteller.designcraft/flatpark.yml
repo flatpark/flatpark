@@ -1,0 +1,22 @@
+id: ai.storyteller.designcraft
+name: DesignCraft
+summary: Open-source page layout app in the InDesign mould
+website: https://getartcraft.com/apps/designcraft
+source_url: https://github.com/storytold/designcraft
+build:
+  manifest: ai.storyteller.designcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Publishing
+    - Layout
+    - DTP
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

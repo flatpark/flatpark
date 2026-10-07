@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.designcraft</id>
+  <name>DesignCraft</name>
+  <summary>Lay out magazines, books and print documents</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/designcraft</url>
+  <url type="bugtracker">https://github.com/storytold/designcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/designcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of DesignCraft, maintained independently and unaffiliated with the DesignCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>DesignCraft is an open-source, native page layout app written in Rust that follows the Adobe InDesign workflow: the same layout, tools, menus, panels and shortcuts.</p>
+    <ul>
+      <li>Spreads and parent pages, frames and threaded text</li>
+      <li>A Knuth-Plass paragraph composer with dictionary hyphenation</li>
+      <li>IDML import and export, and PNG export</li>
+      <li>Fast multithreaded rendering and instant undo</li>
+      <li>Every menu item, tool and panel can be driven by AI agents</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=designcraft-cli ai.storyteller.designcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.designcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.designcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Laying out a magazine spread</caption>
+      <image>https://raw.githubusercontent.com/storytold/designcraft/main/docs/images/ui-spread.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.designcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>Publishing</category>
+  </categories>
+  <keywords>
+    <keyword>layout</keyword>
+    <keyword>desktop publishing</keyword>
+    <keyword>magazine</keyword>
+    <keyword>book</keyword>
+    <keyword>idml</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>designcraft</binary>
+    <binary>designcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.2.1" date="2026-10-06">
+      <description></description>
+    </release>
+  </releases>
+</component>

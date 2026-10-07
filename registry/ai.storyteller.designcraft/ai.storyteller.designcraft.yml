@@ -1,0 +1,61 @@
+id: ai.storyteller.designcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: designcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/designcraft), so this package and the
+# single-file bundle upstream builds are the same application. The runtime is
+# 26.08, shared with PhotoCraft; the binaries need only glibc from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Pictures is granted so
+  # files passed by path from the command line keep working.
+  - --filesystem=xdg-pictures
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: designcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 designcraft-wrapper /app/bin/designcraft
+      - install -Dm755 designcraft-cli-wrapper /app/bin/designcraft-cli
+      - install -Dm644 ai.storyteller.designcraft.desktop /app/share/applications/ai.storyteller.designcraft.desktop
+      - install -Dm644 ai.storyteller.designcraft.metainfo.xml /app/share/metainfo/ai.storyteller.designcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.designcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.designcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: designcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/designcraft/releases/download/v0.2.1/designcraft-0.2.1-linux-x86_64.tar.gz
+        sha256: 0a66a34192203d5f53d6a38e95c9f556396a12edc1b73f9e66c40b371e100970
+        size: 48526980
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: designcraft-wrapper
+      - type: file
+        path: designcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.designcraft.desktop
+      - type: file
+        path: ai.storyteller.designcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.designcraft.png

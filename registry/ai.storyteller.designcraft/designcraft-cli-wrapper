@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=designcraft-cli ai.storyteller.designcraft ...
+exec /app/extra/designcraft/bin/designcraft-cli "$@"

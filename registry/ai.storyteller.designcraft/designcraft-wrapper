@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# DesignCraft is staged by apply_extra at /app/extra/designcraft.
+exec /app/extra/designcraft/bin/designcraft "$@"

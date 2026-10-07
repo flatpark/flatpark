@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=DesignCraft
+GenericName=Page Layout
+Comment=Lay out magazines, books and print documents
+Exec=designcraft %F
+TryExec=designcraft
+Icon=ai.storyteller.designcraft
+Terminal=false
+StartupNotify=true
+StartupWMClass=ai.storyteller.designcraft
+Categories=Graphics;Publishing;
+Keywords=layout;page;desktop publishing;dtp;magazine;book;indesign;idml;typesetting;
