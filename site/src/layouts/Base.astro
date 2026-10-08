@@ -494,10 +494,12 @@ const searchMeta = {
           }
         });
       }
+      // Only the detail page's split button has a menu; the collection page's
+      // plain install button reuses the copy + hint above.
       const installRoot = document.querySelector('[data-install]');
-      if (installRoot) {
+      const menu = installRoot?.querySelector('[data-install-menu]');
+      if (installRoot && menu) {
         const toggle = installRoot.querySelector('[data-install-toggle]');
-        const menu = installRoot.querySelector('[data-install-menu]');
         const hint = installRoot.querySelector('[data-install-hint]');
         toggle?.addEventListener('click', (e) => {
           e.stopPropagation();
