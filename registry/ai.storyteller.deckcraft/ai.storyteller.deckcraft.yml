@@ -1,0 +1,69 @@
+id: ai.storyteller.deckcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: deckcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/deckcraft), so this package and the
+# single-file bundle upstream builds are the same application; the one
+# addition is pulseaudio, for sound in slides. The runtime is 26.08, shared
+# with the other ArtCraft apps; the binaries need only glibc and libasound
+# from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Sound in slides plays through cpal's ALSA backend, which the runtime's
+  # ALSA config routes to PulseAudio/PipeWire.
+  - --socket=pulseaudio
+  # Open/Save go through the file-chooser portal. Documents is granted so
+  # decks passed by path from the command line keep working.
+  - --filesystem=xdg-documents
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: deckcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 deckcraft-wrapper /app/bin/deckcraft
+      - install -Dm755 deckcraft-cli-wrapper /app/bin/deckcraft-cli
+      - install -Dm644 ai.storyteller.deckcraft.desktop /app/share/applications/ai.storyteller.deckcraft.desktop
+      - install -Dm644 ai.storyteller.deckcraft.metainfo.xml /app/share/metainfo/ai.storyteller.deckcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.deckcraft.mime.xml /app/share/mime/packages/ai.storyteller.deckcraft.xml
+      - install -Dm644 ai.storyteller.deckcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.deckcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: deckcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/deckcraft/releases/download/v0.1.0/deckcraft-0.1.0-linux-x86_64.tar.gz
+        sha256: 2f5a4eb90194324d6c175500530ec80b8f4b2408b1b96ece7f853ea31301f628
+        size: 74154693
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: deckcraft-wrapper
+      - type: file
+        path: deckcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.deckcraft.desktop
+      - type: file
+        path: ai.storyteller.deckcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.deckcraft.mime.xml
+      - type: file
+        path: ai.storyteller.deckcraft.png

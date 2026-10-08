@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.deckcraft</id>
+  <name>DeckCraft</name>
+  <summary>Create and present slide decks</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/deckcraft</url>
+  <url type="bugtracker">https://github.com/storytold/deckcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/deckcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of DeckCraft, maintained independently and unaffiliated with the DeckCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>DeckCraft is an open-source, native presentation app written in Rust that follows the Microsoft PowerPoint workflow.</p>
+    <ul>
+      <li>Themes, layouts, shapes, pictures, tables and charts</li>
+      <li>Transitions and animations</li>
+      <li>Opens and saves PowerPoint (.pptx) files</li>
+      <li>Full-screen slide show with a presenter view</li>
+      <li>Every command can be driven by AI agents</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=deckcraft-cli ai.storyteller.deckcraft --help</code></p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, sound playback, and the Documents folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.deckcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.deckcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing a slide deck</caption>
+      <image>https://raw.githubusercontent.com/storytold/deckcraft/v0.1.0/docs/images/editor.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.deckcraft.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Presentation</category>
+  </categories>
+  <keywords>
+    <keyword>presentation</keyword>
+    <keyword>slides</keyword>
+    <keyword>slide show</keyword>
+    <keyword>pptx</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#ffc9a8</color>
+    <color type="primary" scheme_preference="dark">#b8471f</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>deckcraft</binary>
+    <binary>deckcraft-cli</binary>
+    <mediatype>application/x-deckcraft</mediatype>
+    <mediatype>application/vnd.openxmlformats-officedocument.presentationml.presentation</mediatype>
+  </provides>
+  <releases>
+    <release version="0.1.0" date="2026-10-08">
+      <description></description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# DeckCraft is staged by apply_extra at /app/extra/deckcraft.
+exec /app/extra/deckcraft/bin/deckcraft "$@"
