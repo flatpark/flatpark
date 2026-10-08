@@ -8,7 +8,8 @@ build-options:
   no-debuginfo: true
 # The app id and finish-args follow upstream's own Flatpak manifest
 # (packaging/linux/flatpak/ in storytold/printcraft), so this package and the
-# single-file bundle upstream builds are the same application. The runtime is
+# single-file bundle upstream builds are the same application; the one
+# addition is xdg-documents, matching PhotoCraft. The runtime is
 # 26.08, shared with PhotoCraft; the binaries need only glibc from it.
 finish-args:
   # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
@@ -19,9 +20,11 @@ finish-args:
   - --share=ipc
   # wgpu GPU compositor (Vulkan, or GL as a fallback).
   - --device=dri
-  # Open/Save go through the file-chooser portal. Pictures is granted so
-  # files passed by path from the command line keep working.
+  # Open/Save go through the file-chooser portal. Pictures and Documents are
+  # granted so files passed by path (command line, saving next to the
+  # original) keep working; print layouts usually live under Documents.
   - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
   # Deliberately not granted:
   #   --share=network          -> the optional --control automation server
   #                               listens on 127.0.0.1 inside the sandbox; the

@@ -24,7 +24,7 @@
       <li>An opt-in MCP server for AI agents: printcraft-cli mcp</li>
     </ul>
     <p>The headless command runner and MCP server is included: <code>flatpak run --command=printcraft-cli ai.storyteller.printcraft --help</code></p>
-    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
     <p>Optional overrides:</p>
     <ul>
       <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.printcraft</code></li>
