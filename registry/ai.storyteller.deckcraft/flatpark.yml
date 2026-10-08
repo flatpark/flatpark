@@ -1,7 +1,7 @@
 id: ai.storyteller.deckcraft
 name: DeckCraft
 summary: Open-source presentation app in the PowerPoint mould
-website: https://getartcraft.com/apps/deckcraft
+website: https://github.com/storytold/deckcraft
 source_url: https://github.com/storytold/deckcraft
 build:
   manifest: ai.storyteller.deckcraft.yml
