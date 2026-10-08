@@ -1,0 +1,65 @@
+id: ai.storyteller.wordcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: wordcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/wordcraft), so this package and the
+# single-file bundle upstream builds are the same application; the one
+# addition is xdg-documents, matching PrintCraft. The runtime is
+# 26.08, shared with the other ArtCraft apps; the binaries need only glibc
+# from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Documents and Pictures are
+  # granted so files passed by path (command line, saving next to the
+  # original) keep working; documents usually live under Documents.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-pictures
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: wordcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 wordcraft-wrapper /app/bin/wordcraft
+      - install -Dm755 wordcraft-cli-wrapper /app/bin/wordcraft-cli
+      - install -Dm644 ai.storyteller.wordcraft.desktop /app/share/applications/ai.storyteller.wordcraft.desktop
+      - install -Dm644 ai.storyteller.wordcraft.metainfo.xml /app/share/metainfo/ai.storyteller.wordcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.wordcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.wordcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: wordcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/wordcraft/releases/download/v0.1.0/wordcraft-0.1.0-linux-x86_64.tar.gz
+        sha256: 3feecd284517fa291f8d6235303301841868f4cfd55c1369d19986d7fae50f5b
+        size: 57242783
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: wordcraft-wrapper
+      - type: file
+        path: wordcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.wordcraft.desktop
+      - type: file
+        path: ai.storyteller.wordcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.wordcraft.png

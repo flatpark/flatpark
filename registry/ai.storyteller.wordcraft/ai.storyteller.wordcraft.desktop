@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=WordCraft
+GenericName=Word Processor
+Comment=Write and design documents; open and save Word files
+Exec=wordcraft %F
+TryExec=wordcraft
+Icon=ai.storyteller.wordcraft
+Terminal=false
+StartupNotify=true
+StartupWMClass=ai.storyteller.wordcraft
+Categories=Office;WordProcessor;
+Keywords=word;processor;document;docx;writer;text;letter;report;
+MimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.oasis.opendocument.text;application/rtf;text/markdown;text/html;text/plain;

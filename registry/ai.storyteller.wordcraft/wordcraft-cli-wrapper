@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=wordcraft-cli ai.storyteller.wordcraft ...
+exec /app/extra/wordcraft/bin/wordcraft-cli "$@"

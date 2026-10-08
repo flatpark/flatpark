@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.wordcraft</id>
+  <name>WordCraft</name>
+  <summary>Write and design documents; open and save Word files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/wordcraft</url>
+  <url type="bugtracker">https://github.com/storytold/wordcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/wordcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of WordCraft, maintained independently and unaffiliated with the WordCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>WordCraft is an open-source, native word processor written in Rust that follows the Microsoft Word workflow, with a familiar ribbon.</p>
+    <ul>
+      <li>Styles, tables, track changes, references and mail merge</li>
+      <li>Opens and saves .docx, ODT, RTF, HTML and Markdown, and exports PDF</li>
+      <li>Navigation pane and live style gallery</li>
+      <li>Every command can be driven by AI agents</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=wordcraft-cli ai.storyteller.wordcraft --help</code></p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, and the Documents and Pictures folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.wordcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.wordcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The Open Studio Handbook sample with the Navigation pane</caption>
+      <image>https://raw.githubusercontent.com/storytold/wordcraft/v0.1.0/docs/images/hero.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.wordcraft.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>WordProcessor</category>
+  </categories>
+  <keywords>
+    <keyword>word processor</keyword>
+    <keyword>docx</keyword>
+    <keyword>document</keyword>
+    <keyword>writer</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#b9c7f5</color>
+    <color type="primary" scheme_preference="dark">#2b47b5</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>wordcraft</binary>
+    <binary>wordcraft-cli</binary>
+    <mediatype>application/vnd.openxmlformats-officedocument.wordprocessingml.document</mediatype>
+    <mediatype>application/vnd.oasis.opendocument.text</mediatype>
+    <mediatype>application/rtf</mediatype>
+    <mediatype>text/markdown</mediatype>
+  </provides>
+  <releases>
+    <release version="0.1.0" date="2026-10-07">
+      <description></description>
+    </release>
+  </releases>
+</component>

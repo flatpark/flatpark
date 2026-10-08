@@ -1,0 +1,21 @@
+id: ai.storyteller.wordcraft
+name: WordCraft
+summary: Open-source word processor in the Word mould
+website: https://getartcraft.com/apps/wordcraft
+source_url: https://github.com/storytold/wordcraft
+build:
+  manifest: ai.storyteller.wordcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - WordProcessor
+    - Office
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

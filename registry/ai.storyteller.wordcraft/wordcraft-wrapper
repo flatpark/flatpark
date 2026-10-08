@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# WordCraft is staged by apply_extra at /app/extra/wordcraft.
+exec /app/extra/wordcraft/bin/wordcraft "$@"
