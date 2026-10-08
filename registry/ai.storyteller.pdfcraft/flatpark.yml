@@ -1,0 +1,21 @@
+id: ai.storyteller.pdfcraft
+name: PdfCraft
+summary: Open-source PDF workbench in the Acrobat mould
+website: https://getartcraft.com/apps/pdfcraft
+source_url: https://github.com/storytold/pdfcraft
+build:
+  manifest: ai.storyteller.pdfcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - PDF
+    - Viewer
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

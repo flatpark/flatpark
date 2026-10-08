@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=pdfcraft-cli ai.storyteller.pdfcraft ...
+exec /app/extra/pdfcraft/bin/pdfcraft-cli "$@"

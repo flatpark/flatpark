@@ -1,0 +1,67 @@
+id: ai.storyteller.pdfcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pdfcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/pdfcraft), so this package and the
+# single-file bundle upstream builds are the same application. The runtime is
+# 26.08, shared with PhotoCraft; the binaries need only glibc from it.
+#
+# PdfCraft is the renamed PrintCraft (storytold/pdfcraft#174). The rename
+# changed the app id, so this is a new package; ai.storyteller.printcraft is
+# de-listed once this one is live.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Documents and Downloads,
+  # where PDFs usually live, are granted so files passed by path (command
+  # line, Open Recent, saving next to the original) keep working there.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: pdfcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pdfcraft-wrapper /app/bin/pdfcraft
+      - install -Dm755 pdfcraft-cli-wrapper /app/bin/pdfcraft-cli
+      - install -Dm644 ai.storyteller.pdfcraft.desktop /app/share/applications/ai.storyteller.pdfcraft.desktop
+      - install -Dm644 ai.storyteller.pdfcraft.metainfo.xml /app/share/metainfo/ai.storyteller.pdfcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.pdfcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.pdfcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pdfcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/pdfcraft/releases/download/v0.4.0/pdfcraft-0.4.0-linux-x86_64.tar.gz
+        sha256: 4879b3cdb4d1261945af03b1c5f00f3e868d05e84e77911960cac505aa16c1db
+        size: 55283710
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pdfcraft-wrapper
+      - type: file
+        path: pdfcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.pdfcraft.desktop
+      - type: file
+        path: ai.storyteller.pdfcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.pdfcraft.png
