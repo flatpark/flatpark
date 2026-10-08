@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.cadcraft</id>
+  <name>CADCraft</name>
+  <summary>Draft, dimension and plot 2D drawings</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://github.com/storytold/cadcraft</url>
+  <url type="bugtracker">https://github.com/storytold/cadcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/cadcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of CADCraft, maintained independently and unaffiliated with the CADCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>CADCraft is an open-source, native computer-aided design and drafting app written in Rust that follows the AutoCAD workflow: the command line, object snaps, layers, dimensions, hatches and blocks.</p>
+    <ul>
+      <li>Opens and saves DXF and DWG drawings</li>
+      <li>Dimensions, multileaders, tables and TrueType text</li>
+      <li>Paper-space layouts with viewports, plotting to PDF</li>
+      <li>SVG and PNG export</li>
+      <li>Every command can be driven by AI agents over MCP</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=cadcraft-cli ai.storyteller.cadcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest, plus the Documents folder: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.cadcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.cadcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>An apartment floor plan with hatched walls, room labels and dimensions</caption>
+      <image>https://raw.githubusercontent.com/storytold/cadcraft/v0.1.0/docs/images/ui-apartment.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A mechanical part drawing with a section hatch and a title block</caption>
+      <image>https://raw.githubusercontent.com/storytold/cadcraft/v0.1.0/docs/images/ui-bracket.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A paper-space layout with a scaled viewport</caption>
+      <image>https://raw.githubusercontent.com/storytold/cadcraft/v0.1.0/docs/images/ui-layout.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.cadcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>CAD</keyword>
+    <keyword>drafting</keyword>
+    <keyword>DXF</keyword>
+    <keyword>DWG</keyword>
+    <keyword>drawing</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9ee3f2</color>
+    <color type="primary" scheme_preference="dark">#0b6f88</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>tablet</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>cadcraft</binary>
+    <binary>cadcraft-cli</binary>
+    <mediatype>image/vnd.dxf</mediatype>
+    <mediatype>image/vnd.dwg</mediatype>
+  </provides>
+  <releases>
+    <release version="0.1.0" date="2026-10-08">
+      <description></description>
+    </release>
+  </releases>
+</component>

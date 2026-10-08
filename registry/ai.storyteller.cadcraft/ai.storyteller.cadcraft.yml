@@ -1,0 +1,67 @@
+id: ai.storyteller.cadcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: cadcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/cadcraft), so this package and the
+# single-file bundle upstream builds are the same application; the one
+# addition is the Documents folder. The runtime is 26.08, shared with the
+# other ArtCraft apps; the binaries need only glibc from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Pictures (as upstream) and
+  # Documents are granted so drawings passed by path from the command line
+  # keep working.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: cadcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 cadcraft-wrapper /app/bin/cadcraft
+      - install -Dm755 cadcraft-cli-wrapper /app/bin/cadcraft-cli
+      - install -Dm644 ai.storyteller.cadcraft.desktop /app/share/applications/ai.storyteller.cadcraft.desktop
+      - install -Dm644 ai.storyteller.cadcraft.metainfo.xml /app/share/metainfo/ai.storyteller.cadcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.cadcraft.mime.xml /app/share/mime/packages/ai.storyteller.cadcraft.xml
+      - install -Dm644 ai.storyteller.cadcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.cadcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cadcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/cadcraft/releases/download/v0.1.0/cadcraft-0.1.0-linux-x86_64.tar.gz
+        sha256: 3c5fa2b0c6db20e8421fe533987b1f446442ace76feed843e90d4a2a96f44bfb
+        size: 19824195
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cadcraft-wrapper
+      - type: file
+        path: cadcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.cadcraft.desktop
+      - type: file
+        path: ai.storyteller.cadcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.cadcraft.mime.xml
+      - type: file
+        path: ai.storyteller.cadcraft.png

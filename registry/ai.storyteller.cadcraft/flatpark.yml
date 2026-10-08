@@ -1,0 +1,22 @@
+id: ai.storyteller.cadcraft
+name: CADCraft
+summary: Open-source 2D drafting app in the AutoCAD mould
+website: https://github.com/storytold/cadcraft
+source_url: https://github.com/storytold/cadcraft
+build:
+  manifest: ai.storyteller.cadcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - CAD
+    - Drafting
+    - DXF
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

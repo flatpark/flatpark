@@ -22,13 +22,13 @@ collections:
     summary:
       en: >-
         Open-source creative and office apps written in pure Rust, each one
-        following the workflow of a familiar Adobe or Microsoft Office app.
-        FlatPark carries every released one, so the whole suite installs from a
-        single remote.
+        following the workflow of a familiar Adobe, Autodesk or Microsoft
+        Office app. FlatPark carries every released one, so the whole suite
+        installs from a single remote.
       zh-Hans: >-
-        一套纯 Rust 编写的开源创作与办公应用，每一个都沿用一款熟悉的 Adobe 或
-        Microsoft Office 软件的工作方式。FlatPark 收录了其中所有已发布的应用，
-        整套都能从同一个源安装。
+        一套纯 Rust 编写的开源创作与办公应用，每一个都沿用一款熟悉的 Adobe、
+        Autodesk 或 Microsoft Office 软件的工作方式。FlatPark 收录了其中所有
+        已发布的应用，整套都能从同一个源安装。
     groups:
       - title:
           en: Graphics and design
@@ -46,6 +46,11 @@ collections:
           - ai.storyteller.filmcraft
           - ai.storyteller.effectcraft
       - title:
+          en: CAD and drafting
+          zh-Hans: 计算机辅助设计
+        apps:
+          - ai.storyteller.cadcraft
+      - title:
           en: Office
           zh-Hans: 办公
         apps:
@@ -54,7 +59,5 @@ collections:
           - ai.storyteller.deckcraft
     # Announced upstream but not released yet; shown as plain links.
     upcoming:
-      - name: CADCraft
-        url: https://github.com/storytold/cadcraft
       - name: SoundCraft
         url: https://github.com/storytold/soundcraft
