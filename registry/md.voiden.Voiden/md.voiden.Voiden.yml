@@ -58,9 +58,9 @@ modules:
         filename: voiden.deb
         only-arches:
           - x86_64
-        url: https://github.com/VoidenHQ/voiden/releases/download/v2.3.0/voiden_2.3.0_amd64.deb
-        sha256: 5f1197a05892baa7d0e74f49d51598ee896a06872e557b68ac1161b34c0fb0f8
-        size: 106522232
+        url: https://github.com/VoidenHQ/voiden/releases/download/v2.3.1/voiden_2.3.1_amd64.deb
+        sha256: 4d241eaba24166b3caae450b8c00689f9a718d5b0f1636eb1e94ec3fe6d30548
+        size: 106653854
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

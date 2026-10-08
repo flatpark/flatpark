@@ -71,9 +71,9 @@ modules:
         filename: meatshell.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/yituorou/meatshell/releases/download/v0.7.4/meatshell-v0.7.4-linux-x86_64.tar.gz
-        sha256: dce9dacb7e212cce53dd25552bdacfb9bcff7dcf2b5f422f987ff5506e1cc4d9
-        size: 21439810
+        url: https://github.com/yituorou/meatshell/releases/download/v0.7.5/meatshell-v0.7.5-linux-x86_64.tar.gz
+        sha256: a9039be2481646355c7ce22d052e57cf58cf9df0b0b07e2347deeab7692d6d39
+        size: 23232080
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -51,6 +51,9 @@
     <keyword>postman</keyword>
   </keywords>
   <releases>
+    <release version="2.3.1" date="2026-10-01">
+      <description></description>
+    </release>
     <release version="2.3.0" date="2026-09-22"/>
   </releases>
 </component>
