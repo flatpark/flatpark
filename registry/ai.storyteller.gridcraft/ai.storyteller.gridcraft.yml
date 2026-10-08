@@ -1,0 +1,63 @@
+id: ai.storyteller.gridcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: gridcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/gridcraft), so this package and the
+# single-file bundle upstream builds are the same application. The runtime is
+# 26.08, shared with the other ArtCraft apps; the binaries need only glibc
+# from it.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Documents and Downloads are
+  # granted so workbooks passed by path from the command line keep working.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: gridcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gridcraft-wrapper /app/bin/gridcraft
+      - install -Dm755 gridcraft-cli-wrapper /app/bin/gridcraft-cli
+      - install -Dm644 ai.storyteller.gridcraft.desktop /app/share/applications/ai.storyteller.gridcraft.desktop
+      - install -Dm644 ai.storyteller.gridcraft.metainfo.xml /app/share/metainfo/ai.storyteller.gridcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.gridcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.gridcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gridcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/gridcraft/releases/download/v0.1.0/gridcraft-0.1.0-linux-x86_64.tar.gz
+        sha256: 4f3385f2319b36014f8a9a845d9fde9e7e5127d46012e553d87650d7193da3a5
+        size: 16178387
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gridcraft-wrapper
+      - type: file
+        path: gridcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.gridcraft.desktop
+      - type: file
+        path: ai.storyteller.gridcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.gridcraft.png

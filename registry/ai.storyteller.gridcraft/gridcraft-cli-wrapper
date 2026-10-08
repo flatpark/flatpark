@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=gridcraft-cli ai.storyteller.gridcraft ...
+exec /app/extra/gridcraft/bin/gridcraft-cli "$@"

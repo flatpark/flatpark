@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.gridcraft</id>
+  <name>GridCraft</name>
+  <summary>Calculate, analyse and chart data in workbooks</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/gridcraft</url>
+  <url type="bugtracker">https://github.com/storytold/gridcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/gridcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of GridCraft, maintained independently and unaffiliated with the GridCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>GridCraft is an open-source, native spreadsheet written in Rust that follows the Microsoft Excel workflow.</p>
+    <ul>
+      <li>Opens and saves .xlsx workbooks and CSV/TSV files</li>
+      <li>Hundreds of worksheet functions</li>
+      <li>Formatting, sorting, filtering, pivot tables and charts</li>
+      <li>Every command can be driven by AI agents</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=gridcraft-cli ai.storyteller.gridcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Documents and Downloads folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.gridcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.gridcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Analysing a sales workbook</caption>
+      <image>https://raw.githubusercontent.com/storytold/gridcraft/v0.1.0/docs/images/hero-sales.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.gridcraft.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Spreadsheet</category>
+  </categories>
+  <keywords>
+    <keyword>spreadsheet</keyword>
+    <keyword>workbook</keyword>
+    <keyword>formula</keyword>
+    <keyword>xlsx</keyword>
+    <keyword>csv</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#a7e3bf</color>
+    <color type="primary" scheme_preference="dark">#147a40</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>gridcraft</binary>
+    <binary>gridcraft-cli</binary>
+    <mediatype>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mediatype>
+    <mediatype>application/vnd.ms-excel.sheet.macroEnabled.12</mediatype>
+    <mediatype>text/csv</mediatype>
+    <mediatype>text/tab-separated-values</mediatype>
+  </provides>
+  <releases>
+    <release version="0.1.0" date="2026-10-08">
+      <description></description>
+    </release>
+  </releases>
+</component>

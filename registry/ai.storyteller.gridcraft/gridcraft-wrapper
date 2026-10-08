@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# GridCraft is staged by apply_extra at /app/extra/gridcraft.
+exec /app/extra/gridcraft/bin/gridcraft "$@"
