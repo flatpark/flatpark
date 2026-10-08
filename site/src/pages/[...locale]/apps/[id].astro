@@ -5,6 +5,7 @@ import Screenshots from '../../../components/Screenshots.astro';
 import InfoPanel from '../../../components/InfoPanel.astro';
 import ProseBlocks from '../../../components/ProseBlocks.astro';
 import { loadApps, loadCatalog } from '../../../lib/data.mjs';
+import { collectionsOf } from '../../../lib/collections.mjs';
 import { jsonForScript } from '../../../lib/json-script.mjs';
 import { pathsForLocales } from '../../../i18n/paths.mjs';
 import { getLangFromUrl, localizePath, sectionLabel, useTranslations } from '../../../i18n';
@@ -14,10 +15,12 @@ export function getStaticPaths() {
   const apps = loadApps();
   // App data itself is locale-independent for now — only the chrome around it
   // is translated — so every locale gets the same entries.
-  return pathsForLocales(() => apps.map((app) => ({ params: { id: app.id }, props: { app, repo } })));
+  return pathsForLocales(() =>
+    apps.map((app) => ({ params: { id: app.id }, props: { app, repo, collections: collectionsOf(apps, app.id) } })),
+  );
 }
 
-const { app, repo } = Astro.props;
+const { app, repo, collections } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const fallback = (app.name.match(/[A-Za-z0-9]/g) ?? []).slice(0, 2).join('').toUpperCase();
@@ -128,6 +131,12 @@ const ld = {
             {app.proprietary ? <span class="ml-2 chip">{t('detail.proprietary')}</span> : null}
           </p>
           <p class="mt-2 max-w-2xl text-muted">{app.summary}</p>
+          {collections.map((c) => (
+            <a
+              href={localizePath(`/collections/${c.slug}/`, lang)}
+              class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
+            >{t('collection.member', { name: c.name, count: c.apps.length })} &rarr;</a>
+          ))}
         </div>
         <div class="flex shrink-0 flex-col items-start gap-2 sm:items-end">
           <div class="relative inline-flex" data-install>

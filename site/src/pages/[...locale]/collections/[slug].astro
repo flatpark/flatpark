@@ -1,0 +1,103 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Topbar from '../../../components/Topbar.astro';
+import AppCard from '../../../components/AppCard.astro';
+import CollectionIcons from '../../../components/CollectionIcons.astro';
+import { loadApps, loadCatalog } from '../../../lib/data.mjs';
+import { installAllCmd, loadCollections, localized } from '../../../lib/collections.mjs';
+import { pathsForLocales } from '../../../i18n/paths.mjs';
+import { getLangFromUrl, localizePath, useTranslations } from '../../../i18n';
+
+export function getStaticPaths() {
+  const apps = loadApps();
+  return pathsForLocales(() =>
+    loadCollections(apps).map((collection) => ({ params: { slug: collection.slug }, props: { collection } })),
+  );
+}
+
+const { collection } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { repo } = loadCatalog();
+const summary = localized(collection.summary, lang);
+const installCmd = installAllCmd(collection, repo.remoteName);
+const count = collection.apps.length;
+// One group needs no heading of its own: the page title already names it.
+const showGroupTitles = collection.groups.length > 1;
+---
+
+<Base
+  title={t('collection.title', { name: collection.name, repo: repo.title })}
+  description={t('collection.meta', { name: collection.name, count, repo: repo.title })}
+>
+  <Topbar repo={repo} />
+  <main>
+    <div class="mx-auto max-w-6xl px-5 pt-6 text-sm text-muted">
+      <a href={localizePath('/collections/', lang)} class="hover:text-ink">&larr; {t('collections.all')}</a>
+    </div>
+
+    <!-- header -->
+    <section class="mx-auto max-w-6xl px-5 pt-4">
+      <div class="rounded-2xl border border-line bg-surface p-6 md:p-8">
+        <span class="text-[11px] font-extrabold tracking-widest text-brand uppercase">{t('collection.kicker')}</span>
+        <h1 class="mt-2 text-3xl font-extrabold tracking-tight md:text-4xl">{collection.name}</h1>
+        <p class="mt-1 text-sm font-semibold text-muted">{t('collection.count', { count })}</p>
+        {summary && <p class="mt-3 max-w-3xl text-muted">{summary}</p>}
+        <div class="mt-5">
+          <CollectionIcons apps={collection.apps} size={48} wrap />
+        </div>
+
+        <div class="mt-6">
+          <h2 class="text-sm font-bold">{t('collection.install_all', { count })}</h2>
+          <div class="mt-2 flex items-start gap-2">
+            <code class="cmd flex-1">{installCmd}</code>
+            <button class="btn-ghost shrink-0" type="button" data-copy={installCmd}>{t('action.copy')}</button>
+          </div>
+          <p class="mt-2 text-xs text-muted">
+            {t('collection.setup_hint', { repo: repo.title })}{' '}
+            <a href={localizePath('/setup/', lang)} class="text-brand hover:underline">{t('collection.setup_link')} &rarr;</a>
+          </p>
+        </div>
+
+        <p class="mt-6 border-t border-line pt-4 text-xs text-muted">
+          {t('collection.disclaimer', { name: collection.name, repo: repo.title })}
+          {collection.upstream && (
+            <>
+              {' '}
+              <a href={collection.upstream} class="text-brand hover:underline" rel="noopener">{t('collection.upstream', { name: collection.name })} &rarr;</a>
+            </>
+          )}
+        </p>
+      </div>
+    </section>
+
+    <!-- members -->
+    <section class="mx-auto max-w-6xl px-5 pt-8 pb-12">
+      {collection.groups.map((group) => (
+        <div class="mb-8">
+          {showGroupTitles && (
+            <h2 class="mb-3 text-lg font-extrabold tracking-tight">{localized(group.title, lang)}</h2>
+          )}
+          <div class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
+            {group.apps.map((app) => <AppCard app={app} />)}
+          </div>
+        </div>
+      ))}
+
+      {collection.upcoming.length > 0 && (
+        <div class="rounded-2xl border border-dashed border-line p-5">
+          <h2 class="text-sm font-bold">{t('collection.upcoming')}</h2>
+          <p class="mt-1 text-sm text-muted">
+            {collection.upcoming.map((u, i) => (
+              <>
+                {i > 0 && ' · '}
+                {u.url ? <a href={u.url} class="font-semibold text-ink hover:text-brand" rel="noopener">{u.name}</a> : <span class="font-semibold text-ink">{u.name}</span>}
+              </>
+            ))}
+          </p>
+          <p class="mt-1 text-xs text-muted">{t('collection.upcoming.body')}</p>
+        </div>
+      )}
+    </section>
+  </main>
+</Base>

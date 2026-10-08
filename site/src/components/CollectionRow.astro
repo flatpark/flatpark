@@ -1,0 +1,28 @@
+---
+// One collection as a single strip: member icons, name and pitch, the way in.
+// Used by the homepage Collections tab and the /collections/ index.
+import CollectionIcons from './CollectionIcons.astro';
+import { getLangFromUrl, localizePath, useTranslations } from '../i18n';
+const { collection } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<a
+  href={localizePath(`/collections/${collection.slug}/`, lang)}
+  class="group flex min-w-0 flex-col gap-5 rounded-2xl border border-brand/20 bg-brand/5 p-5 transition sm:px-6 sm:py-7 hover:border-brand/50 hover:shadow-lg sm:flex-row sm:items-center"
+  data-collection-row
+>
+  <!-- Overlapping strip where there is room; a wrapped grid on a phone. -->
+  <div class="hidden min-w-0 overflow-hidden sm:block">
+    <CollectionIcons apps={collection.apps} size={52} />
+  </div>
+  <div class="sm:hidden">
+    <CollectionIcons apps={collection.apps} size={44} wrap />
+  </div>
+  <div class="min-w-0 flex-1">
+    <p class="text-lg font-extrabold">{collection.name}</p>
+    <p class="mt-0.5 text-sm text-muted">{t('collection.banner', { name: collection.name, count: collection.apps.length })}</p>
+  </div>
+  <span class="shrink-0 text-sm font-semibold text-brand group-hover:underline">{t('collection.view')} &rarr;</span>
+</a>

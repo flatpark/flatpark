@@ -1,0 +1,19 @@
+---
+// A collection's member icons as one overlapping strip: the set reads as a set
+// without borrowing upstream's own logo. `size` is the icon edge in px; `wrap`
+// lays them out side by side and lets them wrap, for places with no room to
+// spare on a phone.
+const { apps, size = 40, wrap = false } = Astro.props;
+const overlap = wrap ? 0 : Math.round(size * 0.22);
+---
+
+<div class:list={['flex items-center', wrap && 'flex-wrap gap-2']} aria-hidden="true">
+  {apps.map((app, i) => (
+    <span
+      class="grid shrink-0 place-items-center rounded-xl border border-line bg-canvas shadow-sm"
+      style={`width:${size}px;height:${size}px;${i && overlap ? `margin-left:-${overlap}px;` : ''}z-index:${apps.length - i}`}
+    >
+      {app.icon && <img src={app.icon} alt="" width={size} height={size} loading="lazy" class="h-[78%] w-[78%] object-contain" />}
+    </span>
+  ))}
+</div>

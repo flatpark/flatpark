@@ -177,7 +177,7 @@ body {
 /* Segmented tabs (home catalog order). h-8 + the track's p-0.5 and border
    lines up with the h-9 buttons beside it. */
 .seg {
-  @apply h-8 cursor-pointer rounded-md px-3 font-semibold text-muted hover:text-ink;
+  @apply h-8 cursor-pointer whitespace-nowrap rounded-md px-2.5 font-semibold text-muted hover:text-ink sm:px-3;
 }
 
 .seg.is-active {

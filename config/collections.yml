@@ -1,0 +1,60 @@
+# Curated app collections: one page each at /collections/<slug>/, a row under
+# the homepage Collections tab (in this order, first four) and on the
+# /collections/ index, and a backlink on every member's detail page. With
+# `carousel: true` a collection also leads the homepage Editor's pick
+# carousel; without it, the tab is its only homepage entry.
+#
+# A collection groups apps that belong together, usually one upstream's suite,
+# so a reader can find and install the set in one place. It is a third axis,
+# independent of the editor's pick (config/featured.yml) and the blue shield:
+# it says "these ship together", not "we recommend these" or "upstream
+# approved this". Members are listed in display order; ids not in the catalog
+# are skipped with a build warning, and a collection left with no listed app
+# renders nothing.
+#
+# Text fields are either a plain string or a per-locale map; a locale without
+# its own text falls back to `en`.
+collections:
+  - slug: artcraft
+    name: ArtCraft
+    carousel: true
+    upstream: https://getartcraft.com/apps
+    summary:
+      en: >-
+        Open-source creative and office apps written in pure Rust, each one
+        following the workflow of a familiar Adobe or Microsoft Office app.
+        FlatPark carries every released one, so the whole suite installs from a
+        single remote.
+      zh-Hans: >-
+        一套纯 Rust 编写的开源创作与办公应用，每一个都沿用一款熟悉的 Adobe 或
+        Microsoft Office 软件的工作方式。FlatPark 收录了其中所有已发布的应用，
+        整套都能从同一个源安装。
+    groups:
+      - title:
+          en: Graphics and design
+          zh-Hans: 图形与设计
+        apps:
+          - ai.storyteller.photocraft
+          - ai.storyteller.vectorcraft
+          - ai.storyteller.lightcraft
+          - ai.storyteller.designcraft
+          - ai.storyteller.printcraft
+      - title:
+          en: Video and effects
+          zh-Hans: 视频与特效
+        apps:
+          - ai.storyteller.filmcraft
+          - ai.storyteller.effectcraft
+      - title:
+          en: Office
+          zh-Hans: 办公
+        apps:
+          - ai.storyteller.wordcraft
+          - ai.storyteller.gridcraft
+          - ai.storyteller.deckcraft
+    # Announced upstream but not released yet; shown as plain links.
+    upcoming:
+      - name: CADCraft
+        url: https://github.com/storytold/cadcraft
+      - name: SoundCraft
+        url: https://github.com/storytold/soundcraft

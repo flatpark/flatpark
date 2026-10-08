@@ -74,6 +74,12 @@ printf 'featured: []\n' > "$tmp/config/featured.yml"
 snap featured-edit
 assert_eq "$(scope)" "site"
 
+# 4b. so are the collections
+reset
+printf 'collections: []\n' > "$tmp/config/collections.yml"
+snap collections-edit
+assert_eq "$(scope)" "site"
+
 # 5. docs never trigger the workflow, but may ride along with a site push
 reset
 printf 'notes\n' > "$tmp/docs/notes.md"

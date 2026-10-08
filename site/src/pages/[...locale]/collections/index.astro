@@ -1,0 +1,31 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Topbar from '../../../components/Topbar.astro';
+import CollectionRow from '../../../components/CollectionRow.astro';
+import { loadApps, loadCatalog } from '../../../lib/data.mjs';
+import { loadCollections } from '../../../lib/collections.mjs';
+import { localeOnlyPaths } from '../../../i18n/paths.mjs';
+import { getLangFromUrl, localizePath, useTranslations } from '../../../i18n';
+
+// Same page in every locale; the chrome around it is what differs.
+export const getStaticPaths = localeOnlyPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { repo } = loadCatalog();
+const collections = loadCollections(loadApps());
+---
+
+<Base title={t('collections.title', { repo: repo.title })} description={t('collections.meta', { repo: repo.title })}>
+  <Topbar repo={repo} />
+  <main class="mx-auto max-w-6xl px-5 py-8">
+    <div class="text-sm text-muted">
+      <a href={localizePath('/', lang)} class="hover:text-ink">&larr; {t('apps.all')}</a>
+    </div>
+    <h1 class="mt-4 text-xl font-extrabold tracking-tight">{t('collections.heading')}</h1>
+    <p class="mt-1 text-sm text-muted">{t('collections.intro')}</p>
+    <div class="mt-6 grid gap-4">
+      {collections.map((collection) => <CollectionRow collection={collection} />)}
+    </div>
+  </main>
+</Base>

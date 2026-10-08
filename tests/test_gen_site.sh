@@ -75,7 +75,26 @@ cat > "$tmp/totals.json" <<'EOF'
 {"since":"2026-10-01","through":"2026-10-03","apps":{"io.flatpark.TestOne":{"installs":1234,"updates":9,"installs30":56,"updates30":9,"downloads":1243,"active":40}}}
 EOF
 FLATPARK_DATA_DIR="$data" FLATPARK_STATS_URL="$tmp/totals.json" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1 || true
+# One collection over both fixtures, plus an unknown id that must be skipped.
+cat > "$tmp/collections.yml" <<'EOF'
+collections:
+  - slug: testsuite
+    name: Test Suite
+    carousel: true
+    summary:
+      en: Both test apps together.
+      zh-Hans: 两个测试应用。
+    groups:
+      - title: Tools
+        apps: [io.flatpark.TestOne, io.flatpark.Missing]
+      - title: More
+        apps: [io.flatpark.TestTwo]
+    upcoming:
+      - name: Test Three
+        url: https://example.com/three
+EOF
 if ! ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" SITE_OUT_DIR="$site_out" \
+        FLATPARK_COLLECTIONS_FILE="$tmp/collections.yml" \
         npm run build >/dev/null 2>&1 ); then
     echo "test_gen_site: SKIP (astro build failed)"; exit 0
 fi
@@ -178,4 +197,25 @@ assert_contains "$detail" "data-search-meta"
 assert_file "$site_out/search-index.json"
 assert_contains "$site_out/search-index.json" '"id":"io.flatpark.TestOne"'
 assert_contains "$site_out/search-index.json" '"section":"utilities"'
+
+# Collections: a page per collection (both locales), members in config order
+# with unknown ids dropped, one install-all line, the homepage carousel slide, and the
+# backlink on each member's detail page.
+collection="$site_out/collections/testsuite/index.html"
+assert_file "$collection"
+assert_file "$site_out/zh-Hans/collections/testsuite/index.html"
+assert_contains "$collection" "Both test apps together."
+assert_contains "$site_out/zh-Hans/collections/testsuite/index.html" "两个测试应用。"
+assert_contains "$collection" "flatpak install flatpark io.flatpark.TestOne io.flatpark.TestTwo"
+assert_contains "$collection" "Test Three"
+! grep -qF "io.flatpark.Missing" "$collection" || { echo "FAIL: unknown collection member rendered"; exit 1; }
+assert_contains "$index" "data-collection-slide"
+assert_contains "$index" "/collections/testsuite/"
+assert_contains "$index" 'data-sort-tab="collections"'
+assert_contains "$index" "data-collections-panel"
+assert_contains "$index" "data-collection-row"
+assert_file "$site_out/collections/index.html"
+assert_contains "$site_out/collections/index.html" "/collections/testsuite/"
+assert_contains "$detail" "Part of the Test Suite collection (2 apps)"
+assert_contains "$detail_two" "/collections/testsuite/"
 echo "test_gen_site: PASS"

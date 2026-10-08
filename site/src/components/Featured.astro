@@ -2,15 +2,23 @@
 // Editor's pick carousel for the homepage hero — screenshot-led so it reads as a
 // showcase, not another grid card. Picks come from config/featured.yml (curated,
 // ordered, small) — an axis independent of the upstream-approved shield, which
-// accumulates while the pick must not. Renders nothing when the list is empty.
+// accumulates while the pick must not. Collections marked `carousel: true` in
+// config/collections.yml lead the carousel as slides of their own, an icon
+// wall in place of the screenshot. Renders nothing when there is no slide.
 import { getLangFromUrl, localizePath, useTranslations, sectionLabel } from '../i18n';
+import { loadCollections } from '../lib/collections.mjs';
 import CarouselArrows from './CarouselArrows.astro';
 const { apps } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const featured = (apps ?? [])
+const collections = loadCollections(apps ?? []).filter((c) => c.carousel);
+const picks = (apps ?? [])
   .filter((a) => a.featured)
   .sort((a, b) => (a.featuredRank ?? 0) - (b.featuredRank ?? 0));
+const featured = [
+  ...collections.map((collection) => ({ name: collection.name, collection })),
+  ...picks.map((app) => ({ name: app.name, app })),
+];
 ---
 
 {featured.length > 0 && (
@@ -24,7 +32,26 @@ const featured = (apps ?? [])
     </div>
 
     <div class="relative overflow-hidden" data-carousel-viewport>
-      {featured.map((app, i) => (
+      {featured.map(({ app, collection }, i) => collection ? (
+        <div class={i === 0 ? '' : 'hidden'} data-fslide data-collection-slide>
+          <a href={localizePath(`/collections/${collection.slug}/`, lang)} class="grid h-64 place-items-center bg-brand/5 px-14">
+            <div class="flex max-w-[22rem] flex-wrap justify-center gap-2.5 sm:gap-3" aria-hidden="true">
+              {collection.apps.map((member) => (
+                <span class="grid h-12 w-12 place-items-center rounded-2xl border border-line bg-surface shadow-sm sm:h-14 sm:w-14">
+                  {member.icon && <img src={member.icon} alt="" width="56" height="56" loading="lazy" class="h-9 w-9 object-contain sm:h-11 sm:w-11" />}
+                </span>
+              ))}
+            </div>
+          </a>
+          <div class="flex items-center gap-3 p-4">
+            <div class="min-w-0">
+              <a href={localizePath(`/collections/${collection.slug}/`, lang)} class="block truncate text-base font-extrabold hover:text-brand">{collection.name}</a>
+              <div class="truncate text-xs text-muted">{t('featured.collection', { count: collection.apps.length })}</div>
+            </div>
+            <a href={localizePath(`/collections/${collection.slug}/`, lang)} class="ml-auto shrink-0 text-sm font-semibold text-brand hover:underline">{t('collection.view')} &rarr;</a>
+          </div>
+        </div>
+      ) : (
         <div class={i === 0 ? '' : 'hidden'} data-fslide>
           {app.screenshots?.[0]?.url && (
             <a href={localizePath(`/apps/${app.id}/`, lang)} class="block h-64 overflow-hidden bg-[#0d0e12]">

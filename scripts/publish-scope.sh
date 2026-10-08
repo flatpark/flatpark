@@ -10,9 +10,10 @@
 # published bytes are untouched, so the rule here is deliberately one-sided:
 # anything not known to be repo-neutral answers "full".
 #
-# Repo-neutral (site-only): site/**, config/featured.yml, docs, tests, other
-# workflows, and the registry edits that already do not trigger a rebuild
-# (catalog/policy fields, metainfo, icons, screenshots — see changed-apps.sh).
+# Repo-neutral (site-only): site/**, config/featured.yml, config/collections.yml,
+# docs, tests, other workflows, and the registry edits that already do not
+# trigger a rebuild (catalog/policy fields, metainfo, icons, screenshots — see
+# changed-apps.sh).
 #
 # Repo-affecting (full), in the order checked below:
 #   1. the publish tooling itself (scripts/, config/flatpark.conf, publish.yml)

@@ -2,8 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import Topbar from '../../components/Topbar.astro';
 import Featured from '../../components/Featured.astro';
+import CollectionRow from '../../components/CollectionRow.astro';
 import AppCard from '../../components/AppCard.astro';
 import { loadApps, loadCatalog } from '../../lib/data.mjs';
+import { loadCollections } from '../../lib/collections.mjs';
 import { localeOnlyPaths } from '../../i18n/paths.mjs';
 import { getLangFromUrl, localizePath, useTranslations } from '../../i18n';
 
@@ -15,6 +17,9 @@ const t = useTranslations(lang);
 
 const { repo } = loadCatalog();
 const apps = loadApps();
+const collections = loadCollections(apps);
+// The tab shows the first few; the rest are a click away on /collections/.
+const HOME_COLLECTIONS = 4;
 // Default order: most downloaded first, the way Flathub's front page leads
 // with Popular. New (when *we* listed it) and Updated (upstream's release
 // date) are the next two tabs, and Approved narrows the grid to the
@@ -30,6 +35,8 @@ const tabs = [
   { mode: 'added', label: t('apps.tab.added') },
   { mode: 'updated', label: t('apps.tab.updated') },
   { mode: 'approved', label: t('apps.tab.approved') },
+  // Not an order: swaps the grid for the collection rows (see Base.astro).
+  ...(collections.length ? [{ mode: 'collections', label: t('apps.tab.collections') }] : []),
 ];
 // Hero stat: developer approvals are the one claim on this page we cannot issue
 // ourselves, so it is counted from the registry rather than written into copy.
@@ -97,8 +104,10 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
         <!--
           Flathub-style tabs rather than a dropdown: three orders, all one
           click away, and the active one is visible without opening anything.
+          On a phone the tabs size to their labels and the track scrolls
+          sideways if they still do not fit.
         -->
-        <div role="tablist" aria-label={t('apps.sort.label')} class="inline-grid grid-flow-col auto-cols-fr rounded-lg border border-line bg-surface p-0.5 text-sm">
+        <div role="tablist" aria-label={t('apps.sort.label')} class="inline-grid max-w-full grid-flow-col auto-cols-max overflow-x-auto rounded-lg border border-line bg-surface p-0.5 text-sm sm:auto-cols-fr">
           {tabs.map((tab, i) => (
             <button
               type="button"
@@ -122,6 +131,19 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
       <div data-grid class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4 pt-0.5">
         {ordered.map((app) => <AppCard app={app} />)}
       </div>
+      {collections.length > 0 && (
+        <div data-collections-panel hidden class="min-h-[28rem] pt-0.5">
+          <div class="grid gap-4">
+            {collections.slice(0, HOME_COLLECTIONS).map((collection) => <CollectionRow collection={collection} />)}
+          </div>
+          <div class="mt-6 flex justify-center">
+            <a
+              href={localizePath('/collections/', lang)}
+              class="inline-flex h-11 items-center rounded-full border border-line bg-surface px-6 text-sm font-semibold transition hover:border-brand"
+            >{t('collections.all')} &rarr;</a>
+          </div>
+        </div>
+      )}
       <!-- Folded to the first five rows until asked; see the fold in Base.astro. -->
       <div class="mt-6 flex justify-center">
         <button

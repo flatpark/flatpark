@@ -5,7 +5,9 @@
 # forever, while this list is an editorial choice on an independent axis —
 # a pick needs no shield, a shield earns no pick. Keep it small (3-5 apps)
 # or the pick loses its meaning. Order here is the carousel order; unknown
-# ids are skipped with a build warning.
+# ids are skipped with a build warning. Collections with `carousel: true` in
+# config/collections.yml lead the carousel ahead of these and do not count
+# toward the 3-5.
 featured:
   - is.folo.Folo
   - com.dbxio.dbx
