@@ -1,7 +1,7 @@
 id: ai.storyteller.wordcraft
 name: WordCraft
 summary: Open-source word processor in the Word mould
-website: https://getartcraft.com/apps/wordcraft
+website: https://github.com/storytold/wordcraft
 source_url: https://github.com/storytold/wordcraft
 build:
   manifest: ai.storyteller.wordcraft.yml
