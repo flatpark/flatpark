@@ -9,8 +9,8 @@
     <name>Learning Machines LLC</name>
   </developer>
   <url type="homepage">https://getartcraft.com/apps/printcraft</url>
-  <url type="bugtracker">https://github.com/storytold/printcraft/issues</url>
-  <url type="vcs-browser">https://github.com/storytold/printcraft</url>
+  <url type="bugtracker">https://github.com/storytold/pdfcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/pdfcraft</url>
   <url type="contact">https://discord.gg/artcraft</url>
   <description>
     <p>This is a community package of PrintCraft, maintained independently and unaffiliated with the PrintCraft project. It repackages the official upstream Linux release build unmodified.</p>
@@ -34,7 +34,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Reading a PDF in PrintCraft</caption>
-      <image>https://raw.githubusercontent.com/storytold/printcraft/main/docs/images/printcraft-viewer.png</image>
+      <image>https://raw.githubusercontent.com/storytold/pdfcraft/v0.2.1/docs/images/printcraft-viewer.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">ai.storyteller.printcraft.desktop</launchable>
