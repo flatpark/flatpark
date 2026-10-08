@@ -1,7 +1,7 @@
 id: ai.storyteller.gridcraft
 name: GridCraft
 summary: Open-source spreadsheet app in the Excel mould
-website: https://getartcraft.com/apps/gridcraft
+website: https://github.com/storytold/gridcraft
 source_url: https://github.com/storytold/gridcraft
 build:
   manifest: ai.storyteller.gridcraft.yml
