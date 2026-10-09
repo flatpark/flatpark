@@ -1,0 +1,90 @@
+id: ai.storyteller.soundcraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: soundcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id, finish-args and plugin extension point follow upstream's own
+# Flatpak manifest (packaging/linux/flatpak/ in storytold/soundcraft), so this
+# package and the single-file bundle upstream builds are the same application.
+# The runtime is 26.08, shared with the other ArtCraft apps (upstream targets
+# 25.08); the binaries need only glibc and libasound from it, and the plugin
+# extension follows the runtime version.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Playback and recording: cpal's ALSA backend, which the runtime's ALSA
+  # config routes to PulseAudio/PipeWire.
+  - --socket=pulseaudio
+  # Open/Save go through the file-chooser portal. Music is granted so sessions
+  # and their audio files opened by path keep working.
+  - --filesystem=xdg-music
+  # VST3 and CLAP hosting: the per-user plugin folders, read-only, plus the
+  # merged plugin extensions (add-extensions below).
+  - --filesystem=~/.vst3:ro
+  - --filesystem=~/.clap:ro
+  - --env=VST3_PATH=/app/extensions/Plugins/vst3
+  - --env=CLAP_PATH=/app/extensions/Plugins/clap
+  # Deliberately not granted:
+  #   --share=network          -> the optional --control automation server
+  #                               listens on 127.0.0.1 inside the sandbox; the
+  #                               metainfo documents the override that exposes it
+  #   --device=all             -> raw ALSA hardware; audio goes through the
+  #                               sound server (as upstream)
+  #   --filesystem=home / host -> everything else goes through the portals
+# Flathub's shared audio-plugin extension point (org.freedesktop.LinuxAudio.
+# Plugins.*). Optional: nothing is downloaded unless the user installs a plugin
+# extension from Flathub.
+add-extensions:
+  org.freedesktop.LinuxAudio.Plugins:
+    directory: extensions/Plugins
+    version: "26.08"
+    add-ld-path: lib
+    merge-dirs: vst3;clap
+    subdirectories: true
+    no-autodownload: true
+modules:
+  - name: soundcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 soundcraft-wrapper /app/bin/soundcraft
+      - install -Dm755 soundcraft-cli-wrapper /app/bin/soundcraft-cli
+      - install -Dm644 ai.storyteller.soundcraft.desktop /app/share/applications/ai.storyteller.soundcraft.desktop
+      - install -Dm644 ai.storyteller.soundcraft.metainfo.xml /app/share/metainfo/ai.storyteller.soundcraft.metainfo.xml
+      - install -Dm644 ai.storyteller.soundcraft.mime.xml /app/share/mime/packages/ai.storyteller.soundcraft.xml
+      - install -Dm644 ai.storyteller.soundcraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.soundcraft.png
+      # Mount point for the plugin extensions (add-extensions).
+      - install -d /app/extensions/Plugins
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: soundcraft-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/soundcraft/releases/download/v0.3.0/soundcraft-0.3.0-linux-x86_64.tar.gz
+        sha256: 31d4a3e4efe88aa47291b2b5aa85e45679fd73988eb951015ddb24eb2bba9322
+        size: 15117269
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: soundcraft-wrapper
+      - type: file
+        path: soundcraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.soundcraft.desktop
+      - type: file
+        path: ai.storyteller.soundcraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.soundcraft.mime.xml
+      - type: file
+        path: ai.storyteller.soundcraft.png

@@ -10,7 +10,8 @@
 # it says "these ship together", not "we recommend these" or "upstream
 # approved this". Members are listed in display order; ids not in the catalog
 # are skipped with a build warning, and a collection left with no listed app
-# renders nothing.
+# renders nothing. An optional `upcoming` list of {name, url} shows apps
+# announced upstream but not released yet, as plain links.
 #
 # Text fields are either a plain string or a per-locale map; a locale without
 # its own text falls back to `en`.
@@ -22,12 +23,12 @@ collections:
     summary:
       en: >-
         Open-source creative and office apps written in pure Rust, each one
-        following the workflow of a familiar Adobe, Autodesk or Microsoft
-        Office app. FlatPark carries every released one, so the whole suite
-        installs from a single remote.
+        following the workflow of a familiar Adobe, Autodesk, Avid or
+        Microsoft Office app. FlatPark carries every released one, so the
+        whole suite installs from a single remote.
       zh-Hans: >-
         一套纯 Rust 编写的开源创作与办公应用，每一个都沿用一款熟悉的 Adobe、
-        Autodesk 或 Microsoft Office 软件的工作方式。FlatPark 收录了其中所有
+        Autodesk、Avid 或 Microsoft Office 软件的工作方式。FlatPark 收录了其中所有
         已发布的应用，整套都能从同一个源安装。
     groups:
       - title:
@@ -45,6 +46,11 @@ collections:
           - ai.storyteller.filmcraft
           - ai.storyteller.effectcraft
       - title:
+          en: Audio
+          zh-Hans: 音频
+        apps:
+          - ai.storyteller.soundcraft
+      - title:
           en: CAD and drafting
           zh-Hans: 计算机辅助设计
         apps:
@@ -57,7 +63,3 @@ collections:
           - ai.storyteller.gridcraft
           - ai.storyteller.deckcraft
           - ai.storyteller.pdfcraft
-    # Announced upstream but not released yet; shown as plain links.
-    upcoming:
-      - name: SoundCraft
-        url: https://github.com/storytold/soundcraft

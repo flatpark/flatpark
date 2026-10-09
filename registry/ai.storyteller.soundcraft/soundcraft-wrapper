@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# SoundCraft is staged by apply_extra at /app/extra/soundcraft.
+exec /app/extra/soundcraft/bin/soundcraft "$@"
