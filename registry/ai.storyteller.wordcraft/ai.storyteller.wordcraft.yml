@@ -9,7 +9,7 @@ build-options:
 # The app id and finish-args follow upstream's own Flatpak manifest
 # (packaging/linux/flatpak/ in storytold/wordcraft), so this package and the
 # single-file bundle upstream builds are the same application; the one
-# addition is xdg-documents, matching PrintCraft. The runtime is
+# addition is xdg-documents, matching PdfCraft. The runtime is
 # 26.08, shared with the other ArtCraft apps; the binaries need only glibc
 # from it.
 finish-args:
