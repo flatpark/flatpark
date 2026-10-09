@@ -38,7 +38,6 @@ collections:
           - ai.storyteller.vectorcraft
           - ai.storyteller.lightcraft
           - ai.storyteller.designcraft
-          - ai.storyteller.printcraft
       - title:
           en: Video and effects
           zh-Hans: 视频与特效
@@ -57,6 +56,7 @@ collections:
           - ai.storyteller.wordcraft
           - ai.storyteller.gridcraft
           - ai.storyteller.deckcraft
+          - ai.storyteller.pdfcraft
     # Announced upstream but not released yet; shown as plain links.
     upcoming:
       - name: SoundCraft

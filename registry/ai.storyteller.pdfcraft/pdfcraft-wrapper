@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# PdfCraft is staged by apply_extra at /app/extra/pdfcraft.
+exec /app/extra/pdfcraft/bin/pdfcraft "$@"

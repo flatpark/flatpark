@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.pdfcraft</id>
+  <name>PdfCraft</name>
+  <summary>Read, organize, combine, split and secure PDFs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/pdfcraft</url>
+  <url type="bugtracker">https://github.com/storytold/pdfcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/pdfcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of PdfCraft, maintained independently and unaffiliated with the PdfCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>PdfCraft was called PrintCraft before. The rename changed the application identifier, so this package is a separate installation from the PrintCraft package (ai.storyteller.printcraft): its settings, recent files and recovery data stay in the old sandbox and are not carried over.</p>
+    <p>PdfCraft is an open-source, native PDF workbench written in Rust that follows the Adobe Acrobat workflow. Documents never leave your machine.</p>
+    <ul>
+      <li>Fast, sharp rendering with continuous, two-up and Read mode layouts</li>
+      <li>Find, select and copy text; bookmarks and thumbnails for long documents</li>
+      <li>Comment on, fill in and sign documents</li>
+      <li>Rotate, delete, insert and reorder pages; combine and split documents</li>
+      <li>Edit, redact, protect and export documents</li>
+      <li>An opt-in MCP server for AI agents: pdfcraft-cli mcp</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=pdfcraft-cli ai.storyteller.pdfcraft --help</code></p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, and the Documents and Downloads folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.pdfcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.pdfcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A PDF open with its threaded comments</caption>
+      <image>https://raw.githubusercontent.com/storytold/pdfcraft/main/docs/images/pdfcraft-viewer.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.pdfcraft.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Viewer</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>pdf</keyword>
+    <keyword>viewer</keyword>
+    <keyword>editor</keyword>
+    <keyword>merge</keyword>
+    <keyword>split</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd0ff</color>
+    <color type="primary" scheme_preference="dark">#1f64ba</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>pdfcraft</binary>
+    <binary>pdfcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.4.0" date="2026-10-08">
+      <description>
+        <p>First release under the PdfCraft name.</p>
+      </description>
+    </release>
+  </releases>
+</component>
