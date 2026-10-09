@@ -1,7 +1,7 @@
 id: ai.storyteller.soundcraft
 name: SoundCraft
 summary: Open-source digital audio workstation in the Pro Tools mould
-website: https://getartcraft.com/apps/soundcraft
+website: https://github.com/storytold/soundcraft
 source_url: https://github.com/storytold/soundcraft
 build:
   manifest: ai.storyteller.soundcraft.yml
