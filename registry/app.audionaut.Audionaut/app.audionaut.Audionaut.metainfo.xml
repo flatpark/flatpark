@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.audionaut.Audionaut</id>
+  <launchable type="desktop-id">app.audionaut.Audionaut.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Audionaut</name>
+  <summary>Edit and record multitrack audio</summary>
+  <developer id="app.audionaut">
+    <name>Klaus Voltmer</name>
+  </developer>
+  <url type="homepage">https://audionaut.app/</url>
+  <url type="bugtracker">https://github.com/kvoltmer/Audionaut/issues</url>
+  <url type="help">https://github.com/kvoltmer/Audionaut/tree/main/docs/manual</url>
+  <url type="vcs-browser">https://github.com/kvoltmer/Audionaut</url>
+  <description>
+    <p>This is a community package of Audionaut, maintained independently and unaffiliated with its developer. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
+    <p>Audionaut is a free, open-source desktop application for audio editing and recording. Whether you are working on music, podcasts or multitrack recordings, it gives you precise cutting, per-track playlists, multi-channel support and clean exports, without the weight of a full DAW.</p>
+    <ul>
+      <li>Multitrack, multichannel, region-based and non-destructive editing</li>
+      <li>Clip gain, bendable fades and crossfades, clip speed with pitch-preserving time-stretch</li>
+      <li>Audio analysis and Auto Edit: segment boundaries, onsets and beat tracking</li>
+      <li>Stem separation into drums, bass, other and vocals, running locally</li>
+      <li>Recording with takes, loop playback, snap to grid, tempo sync via Ableton Link</li>
+      <li>Export to WAV, FLAC, Ogg Vorbis and MP3</li>
+    </ul>
+    <p>Stem separation downloads the Demucs model weights (about 80 MB) on first use; all processing then happens on your machine. Anonymous usage statistics are opt-in and asked about on first launch.</p>
+    <p>Permissions: this package grants the display, the GPU, the sound server (playback and recording), network access (the model download, the update notice, Ableton Link and the opt-in statistics) and your home folder, because projects are folders that the app's own file browser opens directly. With that grant the app uses the same places as a native install: settings in ~/.config/voltmer-systems and new projects in ~/Music/Audionaut. The update notice only tells you a new version exists; updates arrive through this Flatpak remote.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/kvoltmer/Audionaut/59b6079d8b21bbffc778cb3a7817e689243d7083/docs/media/screenshot-arrangement.png</image>
+      <caption>Editing a multitrack session: clips on the timeline, per-track playlist and region list</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>AudioVideoEditing</category>
+    <category>Recorder</category>
+  </categories>
+  <keywords>
+    <keyword>audio</keyword>
+    <keyword>editor</keyword>
+    <keyword>recording</keyword>
+    <keyword>multitrack</keyword>
+  </keywords>
+  <provides>
+    <binary>audionaut</binary>
+    <mediatype>application/x-audium-project</mediatype>
+  </provides>
+  <releases>
+    <release version="1.6.4" date="2026-10-01"/>
+  </releases>
+</component>
