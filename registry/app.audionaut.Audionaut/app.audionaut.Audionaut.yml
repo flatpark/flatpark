@@ -1,0 +1,59 @@
+id: app.audionaut.Audionaut
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: audionaut
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # JUCE 9 app, a single binary. It links ALSA, curl, fontconfig, freetype and
+  # libdrm, and dlopens the X11 client libraries; the freedesktop runtime has
+  # all of them. (JUCE also carries its WebKitGTK webview code, but Audionaut
+  # never creates a web view, so nothing loads GTK or WebKit at runtime.)
+  - --share=ipc
+  # JUCE has no Wayland backend; X11, or XWayland on a Wayland session.
+  - --socket=x11
+  - --device=dri
+  # Playback and recording: JUCE's ALSA backend reaches the host sound server
+  # through the runtime's ALSA PulseAudio plugin, so no raw device access.
+  - --socket=pulseaudio
+  # The Demucs model download for stem separation, the update notice, Ableton
+  # Link (LAN UDP multicast) and the opt-in usage statistics.
+  - --share=network
+  # Projects are .audium directory packages, and JUCE's own file browser (no
+  # zenity/kdialog in the sandbox, and no portal support in JUCE) needs to
+  # see them on disk. Home, as in upstream's own Flatpak manifest.
+  - --filesystem=home
+modules:
+  - name: audionaut
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 audionaut-wrapper /app/bin/audionaut
+      - install -Dm644 app.audionaut.Audionaut.desktop /app/share/applications/app.audionaut.Audionaut.desktop
+      - install -Dm644 app.audionaut.Audionaut.metainfo.xml /app/share/metainfo/app.audionaut.Audionaut.metainfo.xml
+      - install -Dm644 app.audionaut.Audionaut.png /app/share/icons/hicolor/512x512/apps/app.audionaut.Audionaut.png
+      - install -Dm644 app.audionaut.Audionaut.mime.xml /app/share/mime/packages/app.audionaut.Audionaut.xml
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: audionaut.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/kvoltmer/Audionaut/releases/download/v1.6.4/audionaut_1.6.4_amd64.deb
+        sha256: c1386d50c81e17724dd8693aff6dcec62a5a39dcdf98169730339f9a31f84d8d
+        size: 11206428
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: audionaut-wrapper
+      - type: file
+        path: app.audionaut.Audionaut.desktop
+      - type: file
+        path: app.audionaut.Audionaut.metainfo.xml
+      - type: file
+        path: app.audionaut.Audionaut.png
+      - type: file
+        path: app.audionaut.Audionaut.mime.xml

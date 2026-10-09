@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=Audionaut
+GenericName=Audio Editor
+Comment=Audio editing application for multitrack recordings
+Exec=audionaut %f
+Icon=app.audionaut.Audionaut
+Terminal=false
+StartupNotify=true
+StartupWMClass=Audionaut
+Categories=AudioVideo;Audio;AudioVideoEditing;Recorder;
+MimeType=application/x-audium-project;
+Keywords=audio;editor;recording;multitrack;

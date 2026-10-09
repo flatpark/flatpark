@@ -1,0 +1,23 @@
+id: app.audionaut.Audionaut
+name: Audionaut
+summary: Edit and record multitrack audio
+website: https://audionaut.app
+source_url: https://github.com/kvoltmer/Audionaut
+build:
+  manifest: app.audionaut.Audionaut.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Audio Editor
+    - Recording
+    - Multitrack
+    - Stem Separation
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --filesystem=home

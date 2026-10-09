@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Installed to /usr/share/mime/packages/ so file managers recognise .audium
+     projects. A project is a directory package (it holds Project.json plus the
+     project's audio files), hence the inode/directory sub-class. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-audium-project">
+    <comment>Audionaut project</comment>
+    <sub-class-of type="inode/directory"/>
+    <glob pattern="*.audium"/>
+    <icon name="app.audionaut.Audionaut"/>
+  </mime-type>
+</mime-info>

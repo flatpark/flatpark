@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# Audionaut is a single JUCE binary staged by apply_extra at
+# /app/extra/audionaut. With the home grant it keeps its settings in
+# ~/.config/voltmer-systems and new projects in ~/Music/Audionaut, the same
+# places as the native .deb.
+exec /app/extra/audionaut "$@"
