@@ -47,9 +47,9 @@ modules:
         filename: cadcraft-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/cadcraft/releases/download/v0.1.0/cadcraft-0.1.0-linux-x86_64.tar.gz
-        sha256: 3c5fa2b0c6db20e8421fe533987b1f446442ace76feed843e90d4a2a96f44bfb
-        size: 19824195
+        url: https://github.com/storytold/cadcraft/releases/download/v0.3.0/cadcraft-0.3.0-linux-x86_64.tar.gz
+        sha256: 4239b0545c0006c13f6419fe9bc20462d727096912cf3cb1eb2523934102bd78
+        size: 19825998
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

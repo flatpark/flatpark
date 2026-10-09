@@ -63,9 +63,9 @@ modules:
         filename: tabby.deb
         only-arches:
           - x86_64
-        url: https://github.com/Eugeny/tabby/releases/download/v1.0.237/tabby-1.0.237-linux-x64.deb
-        sha256: 9b6a440bf513536b99de959be485a064414203220307d687d77a1f1cb9ba92f2
-        size: 130343632
+        url: https://github.com/Eugeny/tabby/releases/download/v1.0.238/tabby-1.0.238-linux-x64.deb
+        sha256: 5ea2b9aa84f2b5cdcb98cb7e94bd3d92de48c96254a98b52bf2d1f30a52d1d1c
+        size: 130349456
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

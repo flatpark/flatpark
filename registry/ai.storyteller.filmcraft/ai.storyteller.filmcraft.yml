@@ -52,9 +52,9 @@ modules:
         filename: filmcraft-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/filmcraft/releases/download/v0.2.1/filmcraft-0.2.1-linux-x86_64.tar.gz
-        sha256: dff27e644bcb06b3d4c1f667b8fd544bd15ee4b446c8aee61706712f212887af
-        size: 33318002
+        url: https://github.com/storytold/filmcraft/releases/download/v0.4.0/filmcraft-0.4.0-linux-x86_64.tar.gz
+        sha256: 841790ff6649f0d49daa4a8ade1cb18d948e5ca43d00771046663e06c8d8ce83
+        size: 63265768
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
