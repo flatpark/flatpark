@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.soundcraft</id>
+  <name>SoundCraft</name>
+  <summary>Record, edit and mix audio and MIDI</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/soundcraft</url>
+  <url type="bugtracker">https://github.com/storytold/soundcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/soundcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of SoundCraft, maintained independently and unaffiliated with the SoundCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>SoundCraft is an open-source, native digital audio workstation written in Rust that follows the Avid Pro Tools workflow. Record, edit and mix multitrack audio and MIDI in Edit and Mix windows that work the way studio engineers expect.</p>
+    <ul>
+      <li>Non-destructive clip editing with fades, playlists, grids and markers</li>
+      <li>A mixer with inserts, sends, buses, automation and metering</li>
+      <li>Built-in EQ, dynamics, reverb, delay, modulation and instruments</li>
+      <li>MIDI piano roll and score editor, video track, surround and object panning</li>
+      <li>Imports WAV, AIFF, FLAC, MP3 and MIDI; bounces to disk</li>
+      <li>Hosts VST3 and CLAP plugins</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=soundcraft-cli ai.storyteller.soundcraft --help</code></p>
+    <p>Plugins: VST3 and CLAP plugins in ~/.vst3 and ~/.clap are visible read-only, as are the org.freedesktop.LinuxAudio.Plugins extensions from Flathub. Plugins built for your distribution link against its libraries, not the Flatpak runtime's, and may fail to load; the Flatpak extensions are built for the runtime.</p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, sound playback and recording, the Music folder, and the user plugin folders (read-only). Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.soundcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, recent sessions): <code>flatpak override --user --filesystem=home ai.storyteller.soundcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The Edit window with a multitrack session</caption>
+      <image>https://raw.githubusercontent.com/storytold/soundcraft/v0.3.0/docs/images/edit.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Mix window with inserts, sends and an EQ plugin</caption>
+      <image>https://raw.githubusercontent.com/storytold/soundcraft/v0.3.0/docs/images/mix.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The MIDI editor</caption>
+      <image>https://raw.githubusercontent.com/storytold/soundcraft/v0.3.0/docs/images/midi.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.soundcraft.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <keywords>
+    <keyword>daw</keyword>
+    <keyword>audio</keyword>
+    <keyword>mixer</keyword>
+    <keyword>recording</keyword>
+    <keyword>multitrack</keyword>
+    <keyword>midi</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#8fd9e6</color>
+    <color type="primary" scheme_preference="dark">#0b7385</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>soundcraft</binary>
+    <binary>soundcraft-cli</binary>
+    <mediatype>application/x-soundcraft-session</mediatype>
+  </provides>
+  <releases>
+    <release version="0.3.0" date="2026-10-08">
+      <description></description>
+    </release>
+  </releases>
+</component>
