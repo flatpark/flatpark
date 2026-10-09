@@ -1,0 +1,22 @@
+id: io.github.realgarit.PKHeX-Avalonia
+name: PKHeX-Avalonia
+summary: Cross-platform Pokémon save file editor
+website: https://github.com/realgarit/PKHeX-Avalonia
+source_url: https://github.com/realgarit/PKHeX-Avalonia
+build:
+  manifest: io.github.realgarit.PKHeX-Avalonia.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  tags:
+    - Pokémon
+    - Save Editor
+    - PKHeX
+    - Avalonia
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
