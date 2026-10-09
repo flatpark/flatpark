@@ -1,0 +1,54 @@
+id: io.github.realgarit.PKHeX-Avalonia
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pkhex-avalonia
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Self-contained .NET 10 / Avalonia app: a single-file PKHeX.Avalonia apphost
+  # plus the SkiaSharp and HarfBuzzSharp native libraries. The freedesktop
+  # runtime supplies the X11 client libraries, fontconfig and ICU it loads.
+  # These are the same four grants as upstream's own Flatpak manifest.
+  - --share=ipc
+  # Avalonia's Linux backend is X11; on a Wayland session it runs through
+  # XWayland.
+  - --socket=x11
+  - --device=dri
+  # The update notice. Under Flatpak the app turns its self-updater off
+  # (it checks FLATPAK_ID) and leaves updates to the remote.
+  - --share=network
+  # No filesystem grant: save files are opened and written through the
+  # xdg-desktop-portal file chooser, which Avalonia uses on Linux. Settings
+  # and backups live under the XDG dirs Flatpak redirects into
+  # ~/.var/app/io.github.realgarit.PKHeX-Avalonia.
+modules:
+  - name: pkhex-avalonia
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pkhex-avalonia-wrapper /app/bin/pkhex-avalonia
+      - install -Dm644 io.github.realgarit.PKHeX-Avalonia.desktop /app/share/applications/io.github.realgarit.PKHeX-Avalonia.desktop
+      - install -Dm644 io.github.realgarit.PKHeX-Avalonia.metainfo.xml /app/share/metainfo/io.github.realgarit.PKHeX-Avalonia.metainfo.xml
+      - install -Dm644 io.github.realgarit.PKHeX-Avalonia.png /app/share/icons/hicolor/512x512/apps/io.github.realgarit.PKHeX-Avalonia.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pkhex-avalonia.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/realgarit/PKHeX-Avalonia/releases/download/v1.89.4/PKHeX-Avalonia-linux-x64.zip
+        sha256: 4e695ccfed67da20211fdbdf72d6aa168c5c447db27501a6e6033c37e635af38
+        size: 70277922
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pkhex-avalonia-wrapper
+      - type: file
+        path: io.github.realgarit.PKHeX-Avalonia.desktop
+      - type: file
+        path: io.github.realgarit.PKHeX-Avalonia.metainfo.xml
+      - type: file
+        path: io.github.realgarit.PKHeX-Avalonia.png

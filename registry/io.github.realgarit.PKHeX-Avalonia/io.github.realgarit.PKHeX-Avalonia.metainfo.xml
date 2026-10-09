@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.realgarit.PKHeX-Avalonia</id>
+  <launchable type="desktop-id">io.github.realgarit.PKHeX-Avalonia.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>PKHeX-Avalonia</name>
+  <summary>Cross-platform Pokémon save file editor</summary>
+  <developer id="ch.realgar">
+    <name>realgarit</name>
+  </developer>
+  <url type="homepage">https://github.com/realgarit/PKHeX-Avalonia</url>
+  <url type="bugtracker">https://github.com/realgarit/PKHeX-Avalonia/issues</url>
+  <url type="vcs-browser">https://github.com/realgarit/PKHeX-Avalonia</url>
+  <description>
+    <p>This is a community package of PKHeX-Avalonia, maintained independently and unaffiliated with its developer. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
+    <p>PKHeX-Avalonia is a cross-platform Pokémon save file editor built with Avalonia and the upstream PKHeX core.</p>
+    <ul>
+      <li>Inspect and edit Pokémon, boxes and party slots.</li>
+      <li>Check legality with the PKHeX core.</li>
+      <li>Game-specific trainer, inventory and save editors.</li>
+    </ul>
+    <p>Back up your original save before editing.</p>
+    <p>Permissions: this package grants the display, the GPU and network access (the update notice). It grants no access to your files; save files are opened and written through the file chooser, and settings stay inside the sandbox. Updates arrive through this Flatpak remote; the app's built-in self-updater stays off.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/realgarit/PKHeX-Avalonia/08d5137b976407d4b0db46e4dc47ae610a5c0da9/docs/screenshots/pokemon-editor-dark.png</image>
+      <caption>Pokémon editor with a Pokémon Legends: Z-A save in the dark theme</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/realgarit/PKHeX-Avalonia/08d5137b976407d4b0db46e4dc47ae610a5c0da9/docs/screenshots/pokemon-editor-light.png</image>
+      <caption>Pokémon editor in the light theme</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Game</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>pokemon</keyword>
+    <keyword>save editor</keyword>
+    <keyword>pkhex</keyword>
+  </keywords>
+  <releases>
+    <release version="1.89.4" date="2026-10-08"/>
+  </releases>
+</component>

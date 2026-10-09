@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PKHeX-Avalonia
+GenericName=Save File Editor
+Comment=Pokémon save file editor
+Exec=pkhex-avalonia
+Icon=io.github.realgarit.PKHeX-Avalonia
+Terminal=false
+Categories=Game;Utility;
+Keywords=pokemon;pokémon;save;editor;pkhex;
+StartupNotify=true
