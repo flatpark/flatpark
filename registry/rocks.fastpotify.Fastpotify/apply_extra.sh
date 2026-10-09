@@ -3,8 +3,9 @@ set -eu
 
 # Runs offline at install time inside org.freedesktop.Platform. Upstream ships
 # the official Linux build as a .tar.gz with a single version-stamped top
-# directory (fastpotify-v<ver>-<arch>-unknown-linux-gnu/) holding the
-# `fastpotify` executable next to README.md, LICENSE and a packaging/ dir.
+# directory (spotifast-v<ver>-<arch>-unknown-linux-gnu/, fastpotify-v<ver>-...
+# before the rename) holding the `spotifast` executable next to README.md,
+# LICENSE and a packaging/ dir.
 # Rename that directory to a stable path the wrapper execs across updates, and
 # record the executable's name so the wrapper never hardcodes it.
 
@@ -21,8 +22,8 @@ done
 # with every capability dropped, so restoring the archive's recorded uid/gid
 # fails and aborts the unpack even though every member extracted fine.
 tar --no-same-owner -xzf "$archive"
-app_dir="$(find . -maxdepth 1 -type d -name 'fastpotify-*' | sort | head -n1)"
-[ -n "$app_dir" ] || { echo "no fastpotify-* directory in tarball" >&2; exit 1; }
+app_dir="$(find . -maxdepth 1 -type d \( -name 'spotifast-v*' -o -name 'fastpotify-v*' \) | sort | head -n1)"
+[ -n "$app_dir" ] || { echo "no spotifast-v* directory in tarball" >&2; exit 1; }
 
 rm -rf fastpotify
 mv "$app_dir" fastpotify
