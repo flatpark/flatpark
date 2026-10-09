@@ -65,9 +65,9 @@ modules:
         filename: freeoffice.deb
         only-arches:
           - x86_64
-        url: https://www.softmaker.net/down/softmaker-freeoffice-2024_1234-01_amd64.deb
-        sha256: d518ce8058cfae4314f828b3885236aeb964551f3589f2b83d74ef02d80c1e23
-        size: 141930772
+        url: https://www.softmaker.net/down/softmaker-freeoffice-2024_1238-01_amd64.deb
+        sha256: fddd0d829982d4bb0fd080fa26118134a110f0ae39a0e5902b2609172c84387a
+        size: 167839604
       # END MANAGED EXTRA-DATA
       # libXmu is the one library TextMaker, PlanMaker and Presentations link
       # against that the runtime does not ship. scripts/update-debian-pins.mjs

@@ -55,6 +55,9 @@
     <binary>hiresti</binary>
   </provides>
   <releases>
+    <release version="1.9.11" date="2026-10-09">
+      <description></description>
+    </release>
     <release version="1.9.10" date="2026-09-27">
       <description></description>
     </release>
