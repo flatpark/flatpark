@@ -18,7 +18,7 @@ set -eu
 # ZYPAK_LD_PRELOAD name /app paths that do not exist on the host, and the XDG
 # variables point into ~/.var/app/com.openai.ChatGPT, which would send the
 # host's git looking for its configuration inside the sandbox's data directory.
-unset LD_PRELOAD ZYPAK_LD_PRELOAD CHATGPT_FAKE_PID
+unset LD_PRELOAD ZYPAK_LD_PRELOAD
 unset XDG_CONFIG_HOME XDG_DATA_HOME XDG_CACHE_HOME XDG_STATE_HOME
 
 exec flatpak-spawn --host git "$@"
