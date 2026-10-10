@@ -5,7 +5,7 @@ for arg in "$@"; do
     case "$arg" in
         /proc/*)
             cd /
-            unset LD_PRELOAD ENPASS_FAKE_PID
+            unset LD_PRELOAD
             exec flatpak-spawn --clear-env --host /usr/bin/readlink "$@"
             ;;
     esac
