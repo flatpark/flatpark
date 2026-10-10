@@ -22,6 +22,11 @@ support libraries come from FlatPark's audited
 source. That is packaging scaffolding around the app — it never replaces or
 patches the vendor's binary.
 
+Open-source apps get nothing injected into their process. A closed-source app
+occasionally needs a small injected adaptation to work in the sandbox (an
+`LD_PRELOAD` shim, for example); when it does, the app's description says
+exactly what it is and why.
+
 ## Pinned and signed
 
 Each release is pinned by `sha256` and size in the manifest, so a build cannot

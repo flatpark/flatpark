@@ -13,6 +13,8 @@ FlatPark 会在安装时下载**厂商自己的发布产物**，并将其封装�
 
 有些软件包包含少量厂商下载产物之外的内容，例如 wrapper 脚本，或 Flatpak runtime 没有提供的库（比如托盘图标库）。共享的支持库来自 FlatPark 经过审核的 [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) repo，由固定源码构建。这些只是应用外围的打包支撑，不会替换或修改厂商的 binary。
 
+开源应用的进程中不会被注入任何代码。闭源应用偶尔需要一个小型的注入适配才能在 sandbox 中工作（例如 `LD_PRELOAD` shim）；遇到这种情况，应用说明中会准确写明它是什么、为什么需要。
+
 ## 固定并签名
 
 每个发布版本都在 manifest 中按 `sha256` 和大小固定，因此构建过程无法悄悄替换 binary。由于固定项指定了精确 checksum，即使厂商悄悄更改某个 URL 背后的文件，变更也**不会**传递给你——构建反而会失败。每日检查会发现新的 upstream 发布版本，并新建 Pull Request 重新固定版本，再由维护者审核和合并。

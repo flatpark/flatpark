@@ -48,7 +48,10 @@ own:
   Rather than patch the vendor binary, the package puts small `lsof`/`readlink`/
   `cat` shims on `PATH` that forward to the host via `flatpak-spawn --host`, and
   `LD_PRELOAD`s a tiny `getpid` override. The shipped Enpass binary is still the
-  vendor's own, byte for byte. Note what this costs: it needs
+  vendor's own, byte for byte. The `LD_PRELOAD` part is code injected into the
+  app's process, which is only acceptable because Enpass is closed source — and
+  the package says so in its description. An open-source app that needs injected
+  code is not listed; the fix belongs upstream. Note what this costs: it needs
   `--talk-name=org.freedesktop.Flatpak`, normally an auto-reject, so the package
   declares it under `policy.dangerous_permissions` and argues for it — expect
   that level of scrutiny if you go this route.
@@ -378,7 +381,10 @@ To pre-empt the common rejections, make sure your submission:
   download; don't patch, recompile, or change the app's behavior. Adapting the
   app to the sandbox *from the outside* is fine — wrapper env vars, missing
   libraries built as extra modules, `PATH` shims (see cc-switch and Enpass
-  above) — as long as the vendor's own bytes are what actually run.
+  above) — as long as the vendor's own bytes are what actually run. Injecting
+  code into the app's process (an `LD_PRELOAD` shim, a patched or replaced file)
+  is not accepted for open-source apps; a closed-source app may carry it only if
+  its metainfo description says what is injected and why.
 - **Uses a plain resolver** — `update.command` is a simple relative script path
   like `./resolve-update.sh` (it runs in CI).
 - **Declares its `policy`** — set `proprietary` honestly and list any high-risk

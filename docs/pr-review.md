@@ -44,9 +44,12 @@ tier:
   URL serves. *External* sandbox adaptation is allowed and does not break Tier 2:
   wrapper env vars, a library the runtime lacks (from a shared `flatpark/prebuilt`
   stack or a second `extra-data` source — not a per-app source build into the ref;
-  see Phase 3), `PATH` shims, an `LD_PRELOAD` shim (`com.ccswitch.desktop`,
-  `io.enpass.Enpass`) — review those as code, since they run. (3) **pinned bytes** —
-  sha256 (+ size for extra-data).
+  see Phase 3), `PATH` scripts that forward host commands — review those as code,
+  since they run. **Code injected into the app process** (an `LD_PRELOAD` shim, a
+  patched or replaced upstream file) is not external adaptation: an open-source app
+  that needs it is rejected (the fix belongs upstream), and a proprietary app may
+  carry it only when its metainfo description says plainly what is injected and why
+  (`io.enpass.Enpass`). (3) **pinned bytes** — sha256 (+ size for extra-data).
 - **Tier 3 — opaque third-party / submitter-built binary.** Neither
   source-verifiable nor a pinned official-upstream release (PR #13). **Reject.**
 
@@ -171,8 +174,11 @@ Reviewer recommends only — a human merges.
 - [Tier 1] shipped code ≠ public source.
 - [Tier 2] download source not official, OR packaging patches/recompiles the
   payload, OR shipped artifact ≠ official download. (External adaptation —
-  wrapper env, extra library modules, `PATH`/`LD_PRELOAD` shims — is not a
-  modification; review it as code.)
+  wrapper env, extra library modules, `PATH` scripts — is not a modification;
+  review it as code.)
+- Code injected into the app process (`LD_PRELOAD` shim, patched/replaced upstream
+  file) in an **open-source** app; or in a **proprietary** app without a plain
+  metainfo disclosure of what is injected and why.
 - AppImage recipe that executes the stub or needs libfuse (offline `unsquashfs` via
   `flatpark/prebuilt` `appimage-tools` is the only accepted path).
 - A `type: archive` / `type: git` / remote source landing bytes in `/app` that is **not**
@@ -215,7 +221,7 @@ source-verifiable · 2 = official prebuilt · ★ = all.
 | 3.1b | Manifest | Only a shared `flatpark/prebuilt` stack lands remote bytes in `/app`; app payload + single-app deps are `extra-data`, not built into the ref | ★ | | |
 | 3.2 | Manifest | finish-args has no escape perms (or: declared in `dangerous_permissions` + justified → needs-human); broad perms justified | ★ | | |
 | 3.3 | Manifest | `policy:` block honest: `proprietary` accurate, `dangerous_permissions` vs actual (warn until schema) | ★ | | |
-| 3.4 | Manifest | build-commands install-only; no patch/recompile of vendor payload (external wrapper/module/shim adaptation OK, reviewed as code) | ★ | | |
+| 3.4 | Manifest | build-commands install-only; no patch/recompile of vendor payload (external wrapper/module/`PATH`-script adaptation OK, reviewed as code); injected code (`LD_PRELOAD` shim etc.) → reject if open-source, metainfo disclosure required if proprietary | ★ | | |
 | 3.5 | Manifest | source URLs = genuine upstream (no lookalike / fork) | ★ | | |
 | 3.6 | Manifest | `app-id` reverse-DNS matches real vendor (no impersonation) | ★ | | |
 | 3.7 | Manifest | `update.command` is a simple relative script path | ★ | | |
