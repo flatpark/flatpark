@@ -24,3 +24,11 @@ policy:
     # Sending books to MTP e-readers goes through libmtp over raw USB; there is
     # no narrower --device for it, and device sync is a core calibre feature.
     - --device=all
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "On first launch, sets the library location to a Calibre folder in your Documents."
+      zh-Hans: "首次启动时把书库位置设为“文档”下的 Calibre 文件夹。"

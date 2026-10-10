@@ -385,6 +385,11 @@ To pre-empt the common rejections, make sure your submission:
   code into the app's process (an `LD_PRELOAD` shim, a patched or replaced file)
   is not accepted for open-source apps; a closed-source app may carry it only if
   its metainfo description says what is injected and why.
+- **Declares its packaging level** — anything beyond a plain launch (preset
+  settings, injected code, changed files, host commands, a disabled inner
+  sandbox) is listed under `packaging:` in `flatpark.yml` with a one-sentence
+  English and Chinese description. It shows on the app page; see
+  [Trust & safety](/trust/#packaging) for the levels.
 - **Uses a plain resolver** — `update.command` is a simple relative script path
   like `./resolve-update.sh` (it runs in CI).
 - **Declares its `policy`** — set `proprietary` honestly and list any high-risk

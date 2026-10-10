@@ -31,3 +31,11 @@ policy:
   proprietary: true
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: injected-code
+    detail:
+      en: "A small LD_PRELOAD library reports a fixed process ID to the tray code, because every Flatpak app is process 2 and the tray icon would otherwise compete for the same name. The real ID still goes out wherever the system checks it."
+      zh-Hans: "一个小型 LD_PRELOAD 库向托盘代码报告固定的进程号：每个 Flatpak 应用都是 2 号进程，否则托盘图标会和其他应用争同一个名字。凡是系统需要核对进程号的地方，用的仍是真实进程号。"

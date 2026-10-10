@@ -21,3 +21,11 @@ policy:
   extra_data_first: true
   dangerous_permissions:
     - --filesystem=home
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Adds Strata's own install-source marker, so its Updates settings say Flatpak manages updates and in-app self-update stays off."
+      zh-Hans: "加入 Strata 自己的安装来源标记，让它的更新设置显示由 Flatpak 管理更新，并关闭应用内自更新。"

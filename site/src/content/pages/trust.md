@@ -50,6 +50,32 @@ app can do more with a broader permission, its page documents the `flatpak
 override` command that grants it, so the choice stays yours — see the
 [user guide](/guide/).
 
+<span id="packaging"></span>
+
+## Packaging changes
+
+Every app page shows a packaging level under **Packaging**, next to its
+permissions. It describes what the package does around — or to — the vendor's
+build, separately from the permissions it is granted:
+
+- **Unmodified** — the vendor's build runs as shipped. The launcher may set an
+  environment variable or a command-line flag, nothing more.
+- **Adapted** — the package adds something next to the app without changing it:
+  a library or tool the Flatpak runtime lacks, fonts, or preset settings such as
+  turning off an in-app updater that cannot work inside Flatpak.
+- **Modified** — the package changes how the vendor's build runs: code injected
+  into the app's process (an `LD_PRELOAD` library), files in the vendor's build
+  added or changed, or the vendor's own installer run at first launch. Only
+  closed-source apps may be modified; open-source apps that would need it are
+  not listed, because the fix belongs upstream.
+- **Reduced isolation** — the app can run commands on your system outside the
+  sandbox, or runs with its own internal sandbox (such as Chromium's) turned
+  off. The app page says what and why.
+
+Leaving out parts of a vendor package that cannot work inside Flatpak at all —
+a setuid sandbox helper, a `pkexec` updater, a file-manager extension — is not
+counted as a change.
+
 ## Community package, not endorsement
 
 FlatPark is independent and **not affiliated with the apps it packages**. An

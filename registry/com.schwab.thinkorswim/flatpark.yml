@@ -19,3 +19,19 @@ policy:
   proprietary: true
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: sandbox-off
+    detail:
+      en: "The Chromium inside JxBrowser that shows the Schwab login page runs with --no-sandbox: its own sandbox needs user namespaces, which Flatpak does not allow."
+      zh-Hans: "显示嘉信登录页的 JxBrowser 内置 Chromium 以 --no-sandbox 运行：它自己的沙箱需要用户命名空间，而 Flatpak 不允许。"
+  - kind: injected-code
+    detail:
+      en: "A small LD_PRELOAD library adds that --no-sandbox flag when thinkorswim starts JxBrowser's Chromium."
+      zh-Hans: "一个小型 LD_PRELOAD 库在 thinkorswim 启动 JxBrowser 的 Chromium 时加上这个 --no-sandbox 参数。"
+  - kind: runtime-install
+    detail:
+      en: "At first launch the package runs Schwab's own installer into the app's data folder, with a stand-in df and JRE version file so the installer accepts the sandbox, and then points the installed launcher at the bundled JRE. Setting UI_SCALE rewrites the installed vmoptions."
+      zh-Hans: "首次启动时，软件包会把嘉信自己的安装器运行到应用的数据目录里；为了让安装器认可沙箱环境，提供了替身的 df 命令和 JRE 版本文件，装完后再把安装好的启动器指向随附的 JRE。设置 UI_SCALE 会改写安装好的 vmoptions。"

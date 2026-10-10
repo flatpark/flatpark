@@ -18,3 +18,11 @@ policy:
   proprietary: true
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: runtime-install
+    detail:
+      en: "At first launch the package runs IBKR's own installer into the app's data folder, with a stand-in df and JRE version file so the installer accepts the sandbox, and then points the installed launcher at the bundled JRE."
+      zh-Hans: "首次启动时，软件包会把盈透自己的安装器运行到应用的数据目录里；为了让安装器认可沙箱环境，提供了替身的 df 命令和 JRE 版本文件，装完后再把安装好的启动器指向随附的 JRE。"

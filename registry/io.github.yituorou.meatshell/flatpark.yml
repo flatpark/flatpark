@@ -25,3 +25,11 @@ policy:
   proprietary: false
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "On first launch, turns off meatshell's update check; Flatpak delivers updates instead."
+      zh-Hans: "首次启动时关闭 meatshell 的更新检查，改由 Flatpak 负责更新。"

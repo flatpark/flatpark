@@ -28,3 +28,11 @@ policy:
     - --talk-name=org.freedesktop.Flatpak
     - --filesystem=home
     - --device=all
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "A local terminal tab opens your login shell on the host through flatpak-spawn, with the same access as a terminal outside the sandbox."
+      zh-Hans: "本地终端标签页通过 flatpak-spawn 打开你在宿主系统上的登录 shell，权限与沙箱外的终端相同。"

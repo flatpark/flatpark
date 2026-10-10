@@ -20,3 +20,11 @@ policy:
   proprietary: false
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "On first launch, writes a settings file that turns off the in-app updater and the tray icon."
+      zh-Hans: "首次启动时写入一份设置，关闭应用内更新器和托盘图标。"

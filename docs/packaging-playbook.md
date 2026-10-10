@@ -27,7 +27,20 @@ and the other should be updated to match.
    a **proprietary** app may carry it as a last resort, and its metainfo description must
    then say plainly what is injected and why. (AB Download Manager was de-listed in #598
    for this; Fastpotify's bare getpid shim broke playback for upstream's users,
-   crmne/spotifast#73.)
+   crmne/spotifast#73.) Leaving out parts of the vendor package that cannot work in
+   Flatpak at all (a setuid `chrome-sandbox`, a `pkexec` updater, a file-manager
+   extension) is not a change.
+
+   **Declare it.** Anything beyond a plain launch goes under `packaging:` in
+   `flatpark.yml` as `{kind, detail: {en, zh-Hans}}` and shows on the site as the app's
+   packaging level (Unmodified / Adapted / Modified / Reduced isolation — see the trust
+   page). Kinds: `seeded-config` (adapted); `injected-code`, `file-change`,
+   `runtime-install` (modified, proprietary only); `host-command`, `sandbox-off`
+   (reduced isolation). `support-files` is derived from the manifest (prebuilt stacks and
+   extra-data from another origin), so don't declare it. `audit-descriptor.mjs` fails a
+   descriptor whose scripts show LD_PRELOAD / a C module, flatpak-spawn /
+   `org.freedesktop.Flatpak`, or `--no-sandbox` / `WEBKIT_DISABLE_SANDBOX` without the
+   matching kind.
 2. **Nothing an app fetches goes into R2 except a shared `flatpark/prebuilt` stack.**
    `type: archive` / `type: git` / any remote source that lands bytes in `/app` bakes
    those bytes into the flatpak ref and ships them from `dl.flatpark.org` (R2) — we pay

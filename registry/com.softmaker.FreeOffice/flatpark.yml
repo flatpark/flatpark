@@ -20,3 +20,11 @@ update:
 policy:
   proprietary: true
   extra_data_first: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: injected-code
+    detail:
+      en: "A small LD_PRELOAD library answers FreeOffice's screen-size query from the desktop's Xft.dpi, so the interface is not half size on HiDPI Wayland sessions."
+      zh-Hans: "一个小型 LD_PRELOAD 库按桌面的 Xft.dpi 回答 FreeOffice 的屏幕尺寸查询，这样在 HiDPI 的 Wayland 会话里界面不会只有一半大。"
