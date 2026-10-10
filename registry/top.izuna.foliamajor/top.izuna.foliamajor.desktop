@@ -6,5 +6,5 @@ Exec=folia %U
 Icon=top.izuna.foliamajor
 Terminal=false
 Categories=AudioVideo;Audio;Player;
-StartupWMClass=Folia
+StartupWMClass=folia-major
 Keywords=music;lyrics;player;netease;navidrome;
