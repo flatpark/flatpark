@@ -47,6 +47,7 @@ const detailRows = [
     href: app.license.url,
   },
   runtimeLabel && { label: t('detail.row.runtime'), value: runtimeLabel, title: runtimeRef },
+  app.arches?.length && { label: t('detail.row.arches'), value: app.arches.join(', ') },
   latest && { label: t('detail.row.version'), value: `${latest.version}${latest.date ? ` · ${latest.date}` : ''}` },
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
   app.urls?.help && { label: t('detail.row.support'), value: t('detail.row.help'), href: app.urls.help },

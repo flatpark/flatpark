@@ -84,6 +84,7 @@
   "detail.row.license": "许可证",
   "detail.row.version": "版本",
   "detail.row.runtime": "运行时",
+  "detail.row.arches": "架构",
   "detail.downloads.label": "次下载",
   "detail.downloads.recent": "近 30 天 +{recent}",
   "detail.downloads.title": "累计下载 · 近 30 天新装",

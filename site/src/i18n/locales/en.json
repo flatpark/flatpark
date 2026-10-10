@@ -84,6 +84,7 @@
   "detail.row.license": "License",
   "detail.row.version": "Version",
   "detail.row.runtime": "Runtime",
+  "detail.row.arches": "Architectures",
   "detail.downloads.label": "downloads",
   "detail.downloads.recent": "+{recent} in 30 days",
   "detail.downloads.title": "Total downloads · new installs in the last 30 days",

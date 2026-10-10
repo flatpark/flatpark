@@ -7,6 +7,11 @@ need flatpak; need gpg
 need_flatpak_builder
 export GNUPGHOME="$GNUPGHOME_DIR"
 [ -f "$MANIFEST" ] || die "manifest not found: $MANIFEST"
+# Each arch is built natively on its own machine (CI has an arm runner), so the
+# target is the host's arch. An app that does not list it in build.arches has
+# never been reviewed for it, and its extra-data may not even have a pin there.
+arch="$(flatpak --default-arch)"
+app_has_arch "$arch" || die "$APP_ID is not published for $arch (build.arches: $APP_ARCHES)"
 fpr="$(gpg --list-keys --with-colons "$KEY_EMAIL" | awk -F: '/^fpr:/{print $10; exit}')"
 [ -n "$fpr" ] || die "no signing key (run gen-signing-key.sh)"
 mkdir -p "$OUT_DIR"

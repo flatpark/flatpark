@@ -121,6 +121,7 @@ for app_id in "${apps[@]}"; do
         printf '  "name": "%s",\n' "$(json_escape "$APP_NAME")"
         printf '  "summary": "%s",\n' "$(json_escape "$APP_SUMMARY")"
         printf '  "branch": "%s",\n' "$(json_escape "$APP_BRANCH")"
+        printf '  "arches": [%s],\n' "$(printf '"%s", ' $APP_ARCHES | sed 's/, $//')"
         printf '  "category": "%s",\n' "$(json_escape "$APP_CATEGORY")"
         printf '  "tags": %s,\n' "$(tags_json)"
         printf '  "updateMode": "%s",\n' "$(json_escape "$UPDATE_MODE")"

@@ -226,6 +226,7 @@ build:
   manifest: com.example.App.yml  # required — relative to this directory
   branch: stable              # optional (default: stable)
   mode: extra-data            # packaging mode (internal label)
+  arches: [x86_64, aarch64]   # optional (default: [x86_64]) — see below
 catalog:                      # optional — drives the catalog page
   category: Productivity
   tags:
@@ -240,6 +241,13 @@ policy:                       # optional — informational
 ```
 
 Only `id`, `name`, `summary`, and `build.manifest` are required.
+
+`build.arches` opts an app into aarch64. Every app ships x86_64; list `aarch64`
+only when upstream publishes an arm build and the manifest pins it — each
+extra-data source carries its own `only-arches`, and the resolver emits one
+source per arch (see `registry/rocks.spotifast.Spotifast`). The arm build runs
+natively on an arm runner, both in PR checks (with an installable aarch64 bundle)
+and on publish.
 
 ## Auto-updating (optional)
 

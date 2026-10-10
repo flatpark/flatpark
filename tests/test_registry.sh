@@ -46,4 +46,36 @@ case "$override_scan" in
     *"/tmp/flatpark-app.yml") ;;
     *) echo "FAIL: scan did not preserve explicit manifest override: $override_scan"; exit 1 ;;
 esac
+assert_eq "$APP_ARCHES" "x86_64"   # no build.arches => x86_64 only
+
+# build.arches opts an app into aarch64; scan-registry --arch picks per arch.
+mkdir -p "$reg/io.flatpark.TestArm"
+cat > "$reg/io.flatpark.TestArm/flatpark.yml" <<'EOF'
+id: io.flatpark.TestArm
+name: Test Arm
+summary: Multi-arch test app
+build:
+  manifest: io.flatpark.TestArm.yml
+  arches:
+    - aarch64
+    - x86_64
+  branch: stable
+EOF
+load_app "io.flatpark.TestArm"
+assert_eq "$APP_ARCHES" "x86_64 aarch64"   # canonical order
+assert_eq "$APP_BRANCH" "stable"           # keys after the list still parse
+app_has_arch aarch64 || { echo "FAIL: app_has_arch aarch64"; exit 1; }
+arm="$(REGISTRY_DIR="$reg" "$ROOT/scripts/scan-registry.sh" --ids --arch aarch64)"
+assert_eq "$arm" "io.flatpark.TestArm"
+x86="$(REGISTRY_DIR="$reg" "$ROOT/scripts/scan-registry.sh" --ids --arch x86_64 io.flatpark.TestOne io.flatpark.TestArm | tr '\n' ' ')"
+assert_eq "$x86" "io.flatpark.TestOne io.flatpark.TestArm "
+
+# inline form, and unknown arches are rejected
+sed -i '/^  arches:/,/^    - x86_64/c\  arches: [x86_64, aarch64]' "$reg/io.flatpark.TestArm/flatpark.yml"
+load_app "io.flatpark.TestArm"
+assert_eq "$APP_ARCHES" "x86_64 aarch64"
+sed -i 's/^  arches: .*/  arches: [x86_64, riscv64]/' "$reg/io.flatpark.TestArm/flatpark.yml"
+if node "$ROOT/scripts/read-descriptor.mjs" "$reg/io.flatpark.TestArm/flatpark.yml" >/dev/null 2>&1; then
+    echo "FAIL: unknown arch accepted"; exit 1
+fi
 echo "test_registry: PASS"
