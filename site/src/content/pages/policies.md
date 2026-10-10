@@ -20,6 +20,14 @@ filesystem is read directly, never executed). A package may build supporting
 libraries the runtime lacks from pinned source — the application is always the
 vendor's own binary.
 
+**Open-source apps run exactly as upstream ships them.** Nothing is injected into
+the app's process — no `LD_PRELOAD` shim, no patched or replaced files. A wrapper
+may set environment variables or launch flags, and missing libraries may be
+added, but if an open-source app can't work in the sandbox without injected
+code, the fix belongs upstream and the app isn't listed until then.
+**Closed-source apps** may carry a small injected adaptation when there is no
+other way, and the app's description says plainly what it is and why.
+
 Toolkit and license don't gate a listing. **Electron and Tauri apps are welcome**
 — the registry already ships both — and so are **closed-source apps**. If
 upstream publishes a `.deb`, `.rpm`, tarball, zip, or official installer, it can
@@ -73,7 +81,9 @@ The trust question is **where the bytes you run come from**, not the license:
 
 - FlatPark either verifies source-built packages against their public source, or
   repackages an **official upstream prebuilt unmodified** — the bytes you run are
-  the vendor's own.
+  the vendor's own. Code injected into an app's process is rejected for
+  open-source apps, and must be disclosed in the description for closed-source
+  ones.
 - Official prebuilts must come from the real upstream/vendor release channel. A
   binary hosted on a submitter's personal account or a mirror, or one rebuilt or
   patched during packaging, is rejected.

@@ -19,8 +19,15 @@ and the other should be updated to match.
 
 1. **Repackage the official binary, unmodified.** extra-data only — fetch the vendor's
    own release, unpack it, wrap it. Never patch or recompile the payload. Adapting it to
-   the sandbox from the *outside* — wrapper env, extra modules for missing libs, `PATH`
-   shims — is fine; the bytes that run must still be the vendor's.
+   the sandbox from the *outside* — wrapper env and flags, extra modules for missing libs,
+   `PATH` scripts that forward host commands — is fine; the bytes that run must still be
+   the vendor's. **Injecting code into the app process** (an `LD_PRELOAD` shim, a patched
+   or replaced upstream file) is a different thing: an **open-source** app never gets it —
+   if it can't work without, the fix belongs upstream and the app isn't listed until then;
+   a **proprietary** app may carry it as a last resort, and its metainfo description must
+   then say plainly what is injected and why. (AB Download Manager was de-listed in #598
+   for this; Fastpotify's bare getpid shim broke playback for upstream's users,
+   crmne/spotifast#73.)
 2. **Nothing an app fetches goes into R2 except a shared `flatpark/prebuilt` stack.**
    `type: archive` / `type: git` / any remote source that lands bytes in `/app` bakes
    those bytes into the flatpak ref and ships them from `dl.flatpark.org` (R2) — we pay
@@ -201,7 +208,8 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
     apps, prefer one reproducible release in `flatpark/prebuilt` over per-app copies.
   - **Host-dependent behavior** (the app shells out to host tools or probes `/proc`) → adapt
     from the *outside*, never by patching the payload: wrapper env, `PATH` shims that
-    `flatpak-spawn --host` the tool, an `LD_PRELOAD` shim. Reference:
+    `flatpak-spawn --host` the tool, and — proprietary apps only, disclosed in the
+    metainfo (golden rule 1) — an `LD_PRELOAD` shim. Reference:
     [`registry/io.enpass.Enpass`](../registry/io.enpass.Enpass) (`lsof`/`readlink`/`cat`
     shims + a `getpid` override for browser-extension validation). This costs
     `--talk-name=org.freedesktop.Flatpak` — declare it in `policy.dangerous_permissions`,
@@ -247,7 +255,8 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   document optional caps (`~/.ssh`, `--device=all`, `--filesystem=home`) as opt-in
   `flatpak override` in the **metainfo**, not in `finish-args`.
 - **metainfo:** mark it a **community package** ("repackages the official upstream build
-  unmodified"), honest `project_license`, screenshot `<image>` URLs pointing **at upstream**
+  unmodified"; a proprietary package that injects code says what it injects instead of
+  "unmodified"), honest `project_license`, screenshot `<image>` URLs pointing **at upstream**
   (never upload to R2). The site's `enrich` step downloads those and serves recompressed webp
   from Pages — a CDN win, and it drops the upstream fetch from page load — falling back to the
   upstream hotlink only if the fetch fails.

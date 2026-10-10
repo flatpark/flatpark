@@ -20,7 +20,7 @@ order: 1
   [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) 中经过审核的预构建 stack，并如下所示按 SHA-256 固定 release archive。它的 `finish-args` 也是权限范围设计的良好范例：它仅授权所管理的各个 CLI 配置路径，而不是 `--filesystem=home`。
 - **依赖 host 的行为，payload 保持不变**——
   [`io.enpass.Enpass`](https://github.com/flatpark/flatpark/tree/main/registry/io.enpass.Enpass)：
-  Enpass 会运行 `lsof` 并读取 `/proc`，以验证通过 localhost 连接到其扩展的浏览器；这在 sandbox 内无法完成。该软件包没有修改厂商 binary，而是在 `PATH` 中放入小型 `lsof`/`readlink`/`cat` shim，通过 `flatpak-spawn --host` 将调用转发给 host，并通过 `LD_PRELOAD` 加载一个小型 `getpid` override。所提供的 Enpass binary 仍然逐字节保持厂商原样。请注意其代价：它需要通常会被自动拒绝的 `--talk-name=org.freedesktop.Flatpak`，因此软件包在 `policy.dangerous_permissions` 中声明了该权限并说明理由——如果采用这种方式，你也应预期接受同等严格的审核。
+  Enpass 会运行 `lsof` 并读取 `/proc`，以验证通过 localhost 连接到其扩展的浏览器；这在 sandbox 内无法完成。该软件包没有修改厂商 binary，而是在 `PATH` 中放入小型 `lsof`/`readlink`/`cat` shim，通过 `flatpak-spawn --host` 将调用转发给 host，并通过 `LD_PRELOAD` 加载一个小型 `getpid` override。所提供的 Enpass binary 仍然逐字节保持厂商原样。其中 `LD_PRELOAD` 属于向应用进程注入代码，之所以可以接受，是因为 Enpass 是闭源应用，而且软件包在说明中写明了这一点；需要注入代码的开源应用不予收录，应当在 upstream 修复。请注意其代价：它需要通常会被自动拒绝的 `--talk-name=org.freedesktop.Flatpak`，因此软件包在 `policy.dangerous_permissions` 中声明了该权限并说明理由——如果采用这种方式，你也应预期接受同等严格的审核。
 
 ## 复用 FlatPark 预构建支持库
 
@@ -246,7 +246,7 @@ jq -n --arg v "$version" \
 - **默认不授予任何可选权限**——范围宽泛的功能应在 metainfo 中记录为可选启用的 `flatpak override` 命令，而不是直接写入 `finish-args`；保留在 `finish-args` 中的所有权限都必须在 PR 中说明理由。
 - **固定每个 remote source**——`extra-data`/`archive` 需要 `sha256`（`extra-data` 还需非零 `size`）；`git` 需要不可变的 `commit`。（打包文件使用的 `type: file` 无需固定。）
 - **只从官方渠道下载**——使用厂商自己的域名或真正的 upstream repo，绝不使用个人账户或 mirror。
-- **未经修改地重新打包官方构建**——`build-commands` 只安装 wrapper/desktop/metainfo/icon，以及用于解压下载产物的 `apply_extra`；不要 patch、重新编译或改变应用行为。可以*从外部*让应用适配 sandbox——例如 wrapper 环境变量、作为额外 module 构建的缺失库、`PATH` shim（参见上文的 cc-switch 和 Enpass）——前提是实际运行的仍然是厂商自己的内容。
+- **未经修改地重新打包官方构建**——`build-commands` 只安装 wrapper/desktop/metainfo/icon，以及用于解压下载产物的 `apply_extra`；不要 patch、重新编译或改变应用行为。可以*从外部*让应用适配 sandbox——例如 wrapper 环境变量、作为额外 module 构建的缺失库、`PATH` shim（参见上文的 cc-switch 和 Enpass）——前提是实际运行的仍然是厂商自己的内容。向应用进程注入代码（`LD_PRELOAD` shim、修改或替换文件）：开源应用不接受；闭源应用只有在 metainfo 说明中写明注入了什么、为什么时才可以。
 - **使用普通 resolver**——`update.command` 应是简单的相对脚本路径，例如 `./resolve-update.sh`（它会在 CI 中运行）。
 - **声明 `policy`**——如实设置 `proprietary`，并在 `dangerous_permissions` 中列出所有高风险权限。
 - **不会获取并运行任意代码**——厂商自己的 self-updater 写入应用数据目录没有问题；下载并执行未固定的第三方代码则不可接受。
