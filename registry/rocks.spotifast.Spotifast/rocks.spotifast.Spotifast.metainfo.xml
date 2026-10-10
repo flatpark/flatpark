@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>rocks.spotifast.Spotifast</id>
+  <name>Spotifast</name>
+  <summary>Fast native Spotify client with local playback and Connect</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="rocks.spotifast">
+    <name>Carmine Paolino</name>
+  </developer>
+  <url type="homepage">https://spotifast.rocks/</url>
+  <url type="bugtracker">https://github.com/crmne/spotifast/issues</url>
+  <url type="vcs-browser">https://github.com/crmne/spotifast</url>
+  <description>
+    <p>This is a community package of Spotifast, maintained independently and unaffiliated with the Spotifast project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>Spotifast is a lightweight Spotify client written in Rust with egui, playing music through librespot. There is no browser engine in the process and it starts in well under a second.</p>
+    <ul>
+      <li>Plays music on this computer as a Spotify Connect device: gapless, up to 320 kbps, with optional volume normalisation and an on-disk audio cache.</li>
+      <li>Controls playback on your other devices — speakers, phones, other computers — from the device picker.</li>
+      <li>Discovers librespot, spotifyd and hardware Connect receivers on the local network over mDNS.</li>
+      <li>Your whole library: playlists, Liked Songs, saved albums, followed artists, podcasts and saved episodes, with search and Home recommendations.</li>
+      <li>Owned playlists can be created, renamed, described, reordered and edited.</li>
+      <li>Keyboard-first, light and dark themes, MPRIS integration so media keys and playerctl work, and a system tray icon that keeps playback running when the window is closed.</li>
+    </ul>
+    <p>Sign-in uses Spotify's own consent page (Authorization Code with PKCE); the app never sees your password. Playing music on this computer needs Spotify Premium. Spotifast is an independent project and is not affiliated with Spotify.</p>
+    <p>Permissions: this package grants display, audio (PulseAudio/PipeWire), network access, the GPU device, MPRIS, the StatusNotifier tray and the Secret Service. Settings and the audio/artwork caches stay inside the sandbox under <code>~/.var/app/rocks.spotifast.Spotifast</code>; the Spotify sign-in grants are kept in the desktop's secret store (Secret Service). No host filesystem access is granted or needed.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Silence the tray and rely on MPRIS only: <code>flatpak override --user --no-talk-name=org.kde.StatusNotifierWatcher rocks.spotifast.Spotifast</code></li>
+      <li>Desktop notifications (not used by default): <code>flatpak override --user --talk-name=org.freedesktop.Notifications rocks.spotifast.Spotifast</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Spotifast showing a playlist, with the queue open and a track playing on a remote speaker</caption>
+      <image>https://raw.githubusercontent.com/crmne/spotifast/main/docs/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">rocks.spotifast.Spotifast.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+    <category>Music</category>
+  </categories>
+  <keywords>
+    <keyword>spotify</keyword>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>streaming</keyword>
+    <keyword>librespot</keyword>
+    <keyword>connect</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>spotifast</binary>
+  </provides>
+  <replaces>
+    <id>rocks.fastpotify.Fastpotify</id>
+  </replaces>
+  <releases>
+    <release version="0.12.0" date="2026-10-03">
+      <description></description>
+    </release>
+    <release version="0.8.0" date="2026-09-14">
+      <description></description>
+    </release>
+    <release version="0.7.1" date="2026-09-09">
+      <description></description>
+    </release>
+    <release version="0.7.0" date="2026-09-06">
+      <description></description>
+    </release>
+    <release version="0.6.0" date="2026-09-03">
+      <description></description>
+    </release>
+    <release version="0.5.0" date="2026-09-02">
+      <description></description>
+    </release>
+    <release version="0.4.1" date="2026-08-31">
+      <description></description>
+    </release>
+    <release version="0.4.0" date="2026-08-30">
+      <description></description>
+    </release>
+    <release version="0.3.0" date="2026-08-29">
+      <description></description>
+    </release>
+    <release version="0.2.0" date="2026-08-28">
+      <description></description>
+    </release>
+    <release version="0.1.3" date="2026-08-27">
+      <description>
+        <p>Fast native Spotify client: Connect playback, remote control, library browsing, search and playlist editing.</p>
+      </description>
+    </release>
+  </releases>
+</component>

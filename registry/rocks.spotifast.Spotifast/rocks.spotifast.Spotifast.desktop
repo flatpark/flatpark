@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Spotifast
+GenericName=Music Player
+Comment=A fast, native Spotify client
+Exec=spotifast %u
+Terminal=false
+Categories=AudioVideo;Audio;Player;Music;
+Keywords=spotify;music;player;streaming;fastpotify;
+Icon=rocks.spotifast.Spotifast
+StartupNotify=true
+StartupWMClass=rocks.spotifast.Spotifast
+MimeType=x-scheme-handler/spotify;
