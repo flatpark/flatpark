@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.heretek_games.Drop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Drop</name>
+  <summary>Self-hosted game distribution and multiplayer platform client</summary>
+  <description>
+    <p>
+      Drop is an open-source, self-hosted game library and distribution platform.
+      This desktop client connects to your Drop server instance to download,
+      manage, update, and launch your games with native Proton/Wine and emulator support.
+    </p>
+  </description>
+  <launchable type="desktop-id">org.heretek_games.Drop.desktop</launchable>
+  <url type="homepage">https://github.com/Heretek-Games/drop</url>
+  <url type="bugtracker">https://github.com/Heretek-Games/drop/issues</url>
+  <developer id="org.heretek_games">
+    <name>Heretek Games</name>
+  </developer>
+  <provides>
+    <binary>drop-desktop-client</binary>
+  </provides>
+  <releases>
+    <release version="0.4.0" date="2026-09-12"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

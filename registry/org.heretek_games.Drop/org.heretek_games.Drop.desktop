@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Drop
+Comment=Self-hosted game distribution and multiplayer platform client
+Exec=drop-desktop-client %u
+Icon=org.heretek_games.Drop
+Type=Application
+Categories=Game;Network;
+MimeType=x-scheme-handler/drop;
+Terminal=false
+StartupWMClass=Drop Desktop Client
