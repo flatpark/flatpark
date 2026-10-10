@@ -57,7 +57,7 @@ export WEBKIT_DISABLE_COMPOSITING_MODE="${WEBKIT_DISABLE_COMPOSITING_MODE:-0}"
 # for itself and re-executing the process to apply its choice.
 
 # No LD_PRELOAD getpid shim here, unlike io.enpass.Enpass and
-# com.abdownloadmanager.AbDownloadManager. Those pin the reported PID so their
+# com.getupnote.UpNote. Those pin the reported PID so their
 # tray backend stops competing for the one org.kde.StatusNotifierItem-2-1 name
 # every sandboxed app would otherwise ask for; this app's tray registers under
 # its unique D-Bus connection name instead, so it never asks for that name and
