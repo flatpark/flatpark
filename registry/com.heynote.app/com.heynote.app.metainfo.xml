@@ -13,7 +13,8 @@
   <url type="bugtracker">https://github.com/heyman/heynote/issues</url>
   <url type="vcs-browser">https://github.com/heyman/heynote</url>
   <description>
-    <p>This is a community package of Heynote, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>This is a community package of Heynote, maintained independently. It repackages the official upstream Linux build.</p>
+    <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that reports a fixed process ID to the tray code. Every Flatpak app runs as process 2 in its own sandbox, so without it the optional tray icon competes with other sandboxed apps for the same name and may not appear. The real process ID is still used wherever the system checks it, and nothing else is changed.</p>
     <p>Heynote is a scratchpad for developers and power users: a large persistent text buffer for anything you need to jot down — a JSON response you are working with, notes from a meeting, a message you don't want to send by accident, a to-do list. Buffers are split into blocks, and each block has its own language, with syntax highlighting and auto-formatting.</p>
     <ul>
       <li>Persistent, block-based buffers, several of them in tabs</li>

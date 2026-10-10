@@ -12,7 +12,8 @@
   <url type="help">https://help.getupnote.com/</url>
   <url type="bugtracker">https://help.getupnote.com/resources/contact-us</url>
   <description>
-    <p>This is a community package of UpNote, maintained independently and unaffiliated with UpNote Pte. Ltd. It repackages the official Linux Debian package unmodified.</p>
+    <p>This is a community package of UpNote, maintained independently and unaffiliated with UpNote Pte. Ltd. It repackages the official Linux Debian package.</p>
+    <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that reports a fixed process ID to the tray code. Every Flatpak app runs as process 2 in its own sandbox, so without it the tray icon competes with other sandboxed apps for the same name and may not appear. The real process ID is still used wherever the system checks it, and nothing else is changed.</p>
     <p>UpNote is a note app for long-form writing: notes live in notebooks that nest as deeply as you like, and the editor mixes rich text with Markdown shortcuts.</p>
     <ul>
       <li>Nested notebooks, tags, links between notes and full-text search.</li>
