@@ -11,7 +11,7 @@
   <project_license>LicenseRef-proprietary=https://meeting.tencent.com/</project_license>
   <description>
     <p>This is a community package that repackages the official upstream WeMeet
-    (Tencent Meeting) build unmodified. It is not verified by, affiliated with,
+    (Tencent Meeting) build. It is not verified by, affiliated with,
     or supported by Tencent, Inc.</p>
     <p>Tencent Meeting, An Expert in Conferencing. Across any device.</p>
     <p>Cloud meeting solutions covering 100+ countries and regions.</p>

@@ -12,6 +12,7 @@
   <url type="help">https://www.schwab.com/trading/thinkorswim/desktop</url>
   <description>
     <p>This is a community package of thinkorswim and not officially supported by Charles Schwab &amp; Co., Inc.</p>
+    <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that adds --no-sandbox when thinkorswim starts the embedded Chromium that shows the Schwab login page. Chromium's own sandbox needs user namespaces, which Flatpak does not allow, so without this the login form never appears. The login page still runs inside the Flatpak sandbox, and nothing else is changed.</p>
     <p>thinkorswim is a desktop trading platform for Charles Schwab brokerage accounts, with charting, analysis, and order entry for stocks, options, and futures. A paperMoney simulated-trading mode is included.</p>
     <p>HiDPI note: if the interface looks too small on a high-resolution display, set the UI_SCALE environment variable to scale it — for example, run <code>flatpak override --user --env=UI_SCALE=2 com.schwab.thinkorswim</code> for 200% scaling.</p>
   </description>

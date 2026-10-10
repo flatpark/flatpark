@@ -12,7 +12,8 @@
   <url type="help">https://www.freeoffice.com/en/download/manuals</url>
   <url type="bugtracker">https://forum.softmaker.com/</url>
   <description>
-    <p>This is a community package of FreeOffice, maintained independently and unaffiliated with SoftMaker. It repackages the official upstream Linux .deb unmodified, downloaded from SoftMaker at install time, and follows upstream releases automatically.</p>
+    <p>This is a community package of FreeOffice, maintained independently and unaffiliated with SoftMaker. It repackages the official upstream Linux .deb, downloaded from SoftMaker at install time, and follows upstream releases automatically.</p>
+    <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that answers FreeOffice's screen-size query from the desktop's Xft.dpi setting. XWayland always reports 96 dpi, so on a HiDPI Wayland session the interface would otherwise come up at half size. Nothing else is changed.</p>
     <p>FreeOffice is a free office suite from SoftMaker that works with Microsoft Word, Excel and PowerPoint files. SoftMaker offers it free of charge for personal and business use.</p>
     <ul>
       <li>TextMaker: a word processor for DOCX, DOC, ODT and RTF documents.</li>
