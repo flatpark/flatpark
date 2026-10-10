@@ -26,14 +26,10 @@ finish-args:
   - --device=dri
   # Audio for voice mode and the notification sound shipped with the app.
   - --socket=pulseaudio
-  # Tray icon. The app claims org.freedesktop.StatusNotifierItem-<getpid()>-1
-  # and gives up on the first refusal, so without a matching own-name the launch
-  # log only carries a ServiceUnknown from the bus proxy and no icon appears.
-  # Every sandboxed app is PID 2, so chatgpt-wrapper pins the reported PID to
-  # 919191 (see the fake-getpid module) and this single name is all it ever
-  # needs, instead of racing every other Flatpak tray app for the PID-2 name.
+  # Tray icon. The bundled Chromium (155+) registers it under the connection's
+  # unique name, so it owns no StatusNotifierItem name and needs only the
+  # watcher.
   - --talk-name=org.kde.StatusNotifierWatcher
-  - --own-name=org.freedesktop.StatusNotifierItem-919191-1
   # Encrypt the stored account session with the login keyring when present.
   - --talk-name=org.freedesktop.secrets
   # Codex keeps its config, credentials and session history in ~/.codex, and
@@ -69,15 +65,6 @@ finish-args:
   # under Flatpak's redirected HOME; the metainfo documents the per-directory
   # overrides for working on projects.
 modules:
-  - name: chatgpt-fakepid
-    buildsystem: simple
-    build-commands:
-      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
-      - install -Dm755 libfakepid.so /app/lib/chatgpt/libfakepid.so
-    sources:
-      - type: file
-        path: fake-getpid.c
-
   - name: chatgpt
     buildsystem: simple
     build-commands:

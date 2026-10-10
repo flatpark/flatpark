@@ -20,14 +20,4 @@ set -eu
 
 unset ELECTRON_RUN_AS_NODE
 
-# The tray backend claims the bus name
-# "org.freedesktop.StatusNotifierItem-<getpid()>-1" and gives up if that name is
-# refused. Inside the sandbox the app is always PID 2 in its own PID namespace,
-# so every Flatpak app with a tray races for the same name. Report a fixed,
-# distinctive PID instead, and grant exactly that one bus name in finish-args.
-# The preload goes through ZYPAK_LD_PRELOAD rather than LD_PRELOAD: zypak-helper
-# sets its own LD_PRELOAD for the Chromium processes and would drop ours.
-export CHATGPT_FAKE_PID="${CHATGPT_FAKE_PID:-919191}"
-export ZYPAK_LD_PRELOAD="/app/lib/chatgpt/libfakepid.so${ZYPAK_LD_PRELOAD:+:$ZYPAK_LD_PRELOAD}"
-
 exec zypak-wrapper "$APP_BIN" --ozone-platform-hint=auto --enable-wayland-ime "$@"
