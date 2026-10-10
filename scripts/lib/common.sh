@@ -177,7 +177,7 @@ load_app() {
         declare -g "_FLATPARK_APP_OVERRIDE_STATE_READY=1"
     fi
 
-    unset APP_ID APP_NAME APP_SUMMARY APP_BRANCH APP_SRC MANIFEST UPDATE_MODE APP_REF_URL \
+    unset APP_ID APP_NAME APP_SUMMARY APP_BRANCH APP_ARCHES APP_SRC MANIFEST UPDATE_MODE APP_REF_URL \
         APP_ICON APP_CATEGORY APP_TAGS APP_SOURCE_URL APP_WEBSITE
     local override_var override_marker override_value has_override
     local overridable_vars=(APP_SRC MANIFEST UPDATE_MODE APP_REF_URL APP_ICON APP_CATEGORY APP_TAGS APP_SOURCE_URL APP_WEBSITE)
@@ -194,7 +194,7 @@ load_app() {
     local desc
     desc="$(node "$ROOT/scripts/read-descriptor.mjs" "$record")" \
         || die "failed to read descriptor: $record"
-    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE \
+    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND
     # shellcheck disable=SC1090
     eval "$desc"
@@ -202,6 +202,7 @@ load_app() {
     APP_ID="$_FP_ID"
     APP_NAME="$_FP_NAME"
     APP_SUMMARY="$_FP_SUMMARY"
+    APP_ARCHES="$_FP_ARCHES"   # space-separated, x86_64 when the descriptor is silent
     [ "$APP_ID" = "$app_id" ] || die "registry id mismatch: wanted $app_id got $APP_ID"
 
     # Defaults compose the descriptor values; any explicit env override (captured
@@ -219,13 +220,19 @@ load_app() {
     APP_UPDATE_COMMAND="$_FP_UPDATE_COMMAND"
 
     local var
-    for var in APP_ID APP_NAME APP_SUMMARY APP_BRANCH APP_SRC MANIFEST APP_REF_URL UPDATE_MODE; do
+    for var in APP_ID APP_NAME APP_SUMMARY APP_BRANCH APP_ARCHES APP_SRC MANIFEST APP_REF_URL UPDATE_MODE; do
         [ -n "${!var-}" ] || die "app registry entry $record did not set $var"
         declare -g "$var=${!var}"
     done
     for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND; do
         declare -g "$var=${!var}"
     done
-    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE \
+    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND
+}
+
+# True when the loaded app (load_app) is published for the given arch.
+app_has_arch() {
+    case " $APP_ARCHES " in *" $1 "*) return 0 ;; esac
+    return 1
 }

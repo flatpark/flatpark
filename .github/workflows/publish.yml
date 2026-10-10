@@ -44,36 +44,36 @@ permissions:
   issues: write   # open/close the publish alert (scripts/ci-alert.sh)
 
 jobs:
-  publish:
+  # Decide what this push publishes, before any build starts: the scope (site
+  # only, or the repo too) and which apps each arch has to build. Its own job so
+  # the aarch64 build below can start from the same answer. Reads R2 (the
+  # .published-sha marker and whether a summary exists) but writes nothing.
+  plan:
     # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
     # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    outputs:
+      scope: ${{ steps.scope.outputs.scope }}
+      ids_x86_64: ${{ steps.apps.outputs.ids_x86_64 }}
+      ids_aarch64: ${{ steps.apps.outputs.ids_aarch64 }}
     env:
-      OUT_DIR: ${{ github.workspace }}/out
-      REPO_DIR: ${{ github.workspace }}/out/repo
-      GNUPGHOME_DIR: ${{ github.workspace }}/.gnupg-flatpark
       R2_BUCKET: ${{ vars.R2_BUCKET }}
-      CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
-      # rclone S3 remote "r2" — the name must be a single token (no _/-), since
-      # rclone derives it from the env var up to the first underscore.
       RCLONE_CONFIG_R2_TYPE: s3
       RCLONE_CONFIG_R2_PROVIDER: Cloudflare
       RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
       RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
-      RCLONE_CONFIG_R2_ACL: private
       RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      # scan-registry.sh reads the descriptors with node.
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
-          cache-dependency-path: site/package-lock.json
       # Every run needs rclone: even a site publish reads the .published-sha
       # marker from R2 to know what it is diffing against.
       - name: Install rclone
@@ -105,8 +105,128 @@ jobs:
           echo "base=$base" >> "$GITHUB_OUTPUT"
           echo "publish scope: $scope ($reason)"
 
-      - name: Install flatpak toolchain
+      - name: Decide which apps to build
+        id: apps
         if: steps.scope.outputs.scope != 'site'
+        env:
+          REBUILD_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.rebuild_all }}
+          BEFORE: ${{ github.event.before }}
+          BASE: ${{ steps.scope.outputs.base }}
+        run: |
+          # Diff base: the last successfully PUBLISHED commit, read from R2 by
+          # the scope step above. Diffing from it (not from this push's BEFORE)
+          # means a failed run's apps are picked up by the next one, and a
+          # manual dispatch re-publishes cheaply instead of rebuilding
+          # everything. BEFORE stays as the fallback until the marker exists.
+          base="$BASE"
+          git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1 || base="$BEFORE"
+          if [ "$REBUILD_ALL" = "true" ]; then
+            ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # full rebuild
+          # A published repo always has a signed summary; its absence in R2
+          # means a cold start (or wiped bucket) => full rebuild.
+          elif [ -n "$(rclone lsf "r2:$R2_BUCKET/summary" 2>/dev/null)" ] && git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1; then
+            ids="$(./scripts/changed-apps.sh "$base" "$GITHUB_SHA" | tr '\n' ' ')"
+          else
+            ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # cold start / unknown base
+          fi
+          # Each arch builds its own share: every app is x86_64 unless its
+          # descriptor narrows it, aarch64 only when build.arches opts in.
+          ids_x86_64="" ids_aarch64=""
+          if [ -n "$ids" ]; then
+            ids_x86_64="$(./scripts/scan-registry.sh --ids --arch x86_64 $ids | tr '\n' ' ')"
+            ids_aarch64="$(./scripts/scan-registry.sh --ids --arch aarch64 $ids | tr '\n' ' ')"
+          fi
+          echo "ids_x86_64=$ids_x86_64" >> "$GITHUB_OUTPUT"
+          echo "ids_aarch64=$ids_aarch64" >> "$GITHUB_OUTPUT"
+          echo "building x86_64: ${ids_x86_64:-<none>}"
+          echo "building aarch64: ${ids_aarch64:-<none>}"
+          echo "(diff base: ${base:-<none>})"
+
+  # aarch64 apps are built natively on an arm runner. This job has no secrets:
+  # it signs with a throwaway key, and the publish job re-commits its refs into
+  # the real repo under the FlatPark key (scripts/import-arch-repo.sh). Since
+  # every app is extra-data, the hand-over repo holds only wrappers and small
+  # shims — the payload is fetched on the user's machine.
+  build-aarch64:
+    needs: plan
+    if: needs.plan.outputs.ids_aarch64 != ''
+    # The arm images take apt from ports.ubuntu.com, not the broken azure
+    # mirror the x86 jobs avoid with 26.04.
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install flatpak toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder ostree
+          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      - name: Build aarch64 apps (throwaway signing key)
+        env:
+          IDS: ${{ needs.plan.outputs.ids_aarch64 }}
+        run: |
+          export OUT_DIR="$PWD/out" GNUPGHOME_DIR="$PWD/.gnupg-ci"
+          ./scripts/gen-signing-key.sh >/dev/null
+          for id in $IDS; do
+            echo "::group::build $id"; ./scripts/build-app.sh "$id"; echo "::endgroup::"
+          done
+          tar -C out -cf repo-aarch64.tar repo
+      - uses: actions/upload-artifact@v7
+        with:
+          name: repo-aarch64
+          path: repo-aarch64.tar
+          retention-days: 1
+          if-no-files-found: error
+
+  publish:
+    needs: [plan, build-aarch64]
+    # Runs even when a needed job failed, so the alert below still fires; the
+    # first step after checkout turns that failure into this job's.
+    if: ${{ !cancelled() }}
+    # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
+    # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
+    # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
+    # 那边的源恢复之后换回 ubuntu-latest。
+    runs-on: ubuntu-26.04
+    env:
+      OUT_DIR: ${{ github.workspace }}/out
+      REPO_DIR: ${{ github.workspace }}/out/repo
+      GNUPGHOME_DIR: ${{ github.workspace }}/.gnupg-flatpark
+      R2_BUCKET: ${{ vars.R2_BUCKET }}
+      CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
+      # rclone S3 remote "r2" — the name must be a single token (no _/-), since
+      # rclone derives it from the env var up to the first underscore.
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      RCLONE_CONFIG_R2_ACL: private
+      RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Require the plan and the aarch64 build
+        env:
+          PLAN: ${{ needs.plan.result }}
+          ARM: ${{ needs.build-aarch64.result }}
+        run: |
+          [ "$PLAN" = success ] || { echo "::error::plan job: $PLAN"; exit 1; }
+          case "$ARM" in success|skipped) ;; *) echo "::error::build-aarch64 job: $ARM"; exit 1 ;; esac
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install rclone
+        if: needs.plan.outputs.scope != 'site'
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash
+
+      - name: Install flatpak toolchain
+        if: needs.plan.outputs.scope != 'site'
         run: |
           sudo apt-get update
           # The distro package, not the Flathub app a developer machine uses:
@@ -117,7 +237,7 @@ jobs:
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
       - name: Import signing subkey (master never reaches CI)
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         env:
           FLATPAK_GPG_PRIVATE_KEY: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
         run: |
@@ -133,7 +253,7 @@ jobs:
       # *.commit) is NOT an alternative: build-update-repo regenerates the
       # merged appstream branch and hard-fails without the full object store.
       - name: Restore repo cache
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         uses: actions/cache@v6
         with:
           path: out/repo
@@ -142,7 +262,7 @@ jobs:
             flatpak-repo-
 
       - name: Reconcile repo with R2 (authoritative base)
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         run: |
           mkdir -p "$REPO_DIR"
           # sync (not copy), so objects pruned from R2 by delist-prune are also
@@ -162,47 +282,32 @@ jobs:
       # later publishes, not just the one after the de-list. Drop those refs here
       # and queue the same keys for a targeted delete in the R2 sync below.
       - name: Drop dangling refs left by a de-list
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/drop-dangling-refs.sh
 
-      - name: Decide which apps to build
-        id: apps
-        if: steps.scope.outputs.scope != 'site'
+      - name: Build changed x86_64 apps into the repo
+        if: needs.plan.outputs.ids_x86_64 != ''
         env:
-          REBUILD_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.rebuild_all }}
-          BEFORE: ${{ github.event.before }}
-          BASE: ${{ steps.scope.outputs.base }}
-        run: |
-          # Diff base: the last successfully PUBLISHED commit, read from R2 by
-          # the scope step above. Diffing from it (not from this push's BEFORE)
-          # means a failed run's apps are picked up by the next one, and a
-          # manual dispatch re-publishes cheaply instead of rebuilding
-          # everything. BEFORE stays as the fallback until the marker exists.
-          base="$BASE"
-          git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1 || base="$BEFORE"
-          if [ "$REBUILD_ALL" = "true" ]; then
-            ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # full rebuild
-          # A published repo always has a signed summary; its absence after the
-          # R2 sync means a cold start (or wiped bucket) => full rebuild.
-          elif [ -f "$REPO_DIR/summary" ] && git rev-parse --verify -q "${base}^{commit}" >/dev/null 2>&1; then
-            ids="$(./scripts/changed-apps.sh "$base" "$GITHUB_SHA" | tr '\n' ' ')"
-          else
-            ids="$(./scripts/scan-registry.sh --ids | tr '\n' ' ')"          # cold start / unknown base
-          fi
-          echo "ids=$ids" >> "$GITHUB_OUTPUT"
-          echo "building: ${ids:-<none>} (diff base: ${base:-<none>})"
-
-      - name: Build changed apps into the repo
-        if: steps.apps.outputs.ids != ''
-        env:
-          IDS: ${{ steps.apps.outputs.ids }}
+          IDS: ${{ needs.plan.outputs.ids_x86_64 }}
         run: |
           for id in $IDS; do
             echo "::group::build $id"; ./scripts/build-app.sh "$id"; echo "::endgroup::"
           done
 
+      - uses: actions/download-artifact@v7
+        if: needs.plan.outputs.ids_aarch64 != ''
+        with:
+          name: repo-aarch64
+          path: ${{ runner.temp }}
+      - name: Import the aarch64 builds, signed with the FlatPark key
+        if: needs.plan.outputs.ids_aarch64 != ''
+        run: |
+          mkdir -p "$RUNNER_TEMP/aarch64"
+          tar -C "$RUNNER_TEMP/aarch64" -xf "$RUNNER_TEMP/repo-aarch64.tar"
+          ./scripts/import-arch-repo.sh "$RUNNER_TEMP/aarch64/repo"
+
       - name: Re-sign summary + write discovery files
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         run: |
           ./scripts/publish-repo.sh
           while IFS= read -r id; do ./scripts/gen-discovery.sh "$id"; done < <(./scripts/scan-registry.sh --ids)
@@ -224,14 +329,14 @@ jobs:
         run: ./scripts/gen-site.sh $(./scripts/scan-registry.sh --ids | tr '\n' ' ')
 
       - name: Sync repo to R2 (objects first, summary last)
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/sync-r2.sh
 
       - name: Deploy site to Cloudflare Pages (atomic)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          SCOPE: ${{ steps.scope.outputs.scope }}
+          SCOPE: ${{ needs.plan.outputs.scope }}
         run: |
           npx -y wrangler@3 pages deploy "$OUT_DIR/site" \
             --project-name="$CF_PAGES_PROJECT" --branch=main
@@ -248,7 +353,7 @@ jobs:
       # keeps its old value and the next run rebuilds this push's apps too.
       # Also written locally so the repo cache saved from this job matches R2.
       - name: Record published commit
-        if: steps.scope.outputs.scope != 'site'
+        if: needs.plan.outputs.scope != 'site'
         run: |
           printf '%s\n' "$GITHUB_SHA" > "$REPO_DIR/.published-sha"
           printf '%s\n' "$GITHUB_SHA" | rclone rcat "r2:$R2_BUCKET/.published-sha" \

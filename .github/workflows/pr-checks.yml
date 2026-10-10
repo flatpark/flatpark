@@ -143,25 +143,48 @@ jobs:
   # signing key and R2/Pages creds are never exposed. Untrusted build-commands are
   # gated by GitHub's "require approval for fork PR workflows" setting — approve a
   # fork run only after reviewing its manifest.
+  #
+  # One leg per arch, each on a native runner: x86_64 builds every changed app,
+  # aarch64 only the ones whose build.arches opt in (its bundles are what an arm
+  # user test-installs before the app goes live).
   build-changed:
-    # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
-    # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
-    # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
-    # 那边的源恢复之后换回 ubuntu-latest。
-    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
+          # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
+          # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
+          # 那边的源恢复之后换回 ubuntu-latest。
+          - arch: x86_64
+            runner: ubuntu-26.04
+          # The arm images take apt from ports.ubuntu.com, not that mirror.
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    name: build-changed (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # Decide first, install after: a PR with no build-relevant app changes
-      # skips the whole toolchain setup (changed-apps.sh only needs git+awk).
+      # skips the whole toolchain setup. Node is the exception: scan-registry.sh
+      # reads the descriptors with it to pick this arch's share.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
       - name: Determine changed apps
         id: changed
+        env:
+          ARCH: ${{ matrix.arch }}
         run: |
           base="${{ github.event.pull_request.base.sha }}"
           ids="$(./scripts/changed-apps.sh "$base" HEAD | tr '\n' ' ')"
+          if [ -n "$ids" ]; then
+            ids="$(./scripts/scan-registry.sh --ids --arch "$ARCH" $ids | tr '\n' ' ')"
+          fi
           echo "ids=$ids" >> "$GITHUB_OUTPUT"
-          echo "changed apps: ${ids:-<none>}"
+          echo "changed apps for $ARCH: ${ids:-<none>}"
           # Apps where an unpack script meets a tree it has not been run against:
           # a new submission, a pin bump to an artifact no apply_extra has ever
           # unpacked (both show up as a changed `sha256:` line), or an edit to
@@ -184,12 +207,6 @@ jobs:
           done
           echo "payload_ids=${payload_ids# }" >> "$GITHUB_OUTPUT"
           echo "apps needing an apply_extra run: ${payload_ids:-<none>}"
-      - uses: actions/setup-node@v6
-        if: steps.changed.outputs.ids != ''
-        with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: site/package-lock.json
       - name: Install the Flatpak build toolchain
         if: steps.changed.outputs.ids != ''
         run: |
@@ -237,7 +254,7 @@ jobs:
         if: steps.changed.outputs.ids != ''
         uses: actions/upload-artifact@v7
         with:
-          name: flatpak-bundles-pr${{ github.event.pull_request.number }}
+          name: flatpak-bundles-${{ matrix.arch }}-pr${{ github.event.pull_request.number }}
           path: out/bundles/*.flatpak
           retention-days: 14
           if-no-files-found: error

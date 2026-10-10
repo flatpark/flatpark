@@ -136,6 +136,7 @@ build:
   manifest: com.example.App.yml  # required — relative to this directory
   branch: stable              # optional (default: stable)
   mode: extra-data            # packaging mode (internal label)
+  arches: [x86_64, aarch64]   # optional (default: [x86_64]) — see below
 catalog:                      # optional — drives the catalog page
   category: Productivity
   tags:
@@ -150,6 +151,8 @@ policy:                       # optional — informational
 ```
 
 只有 `id`、`name`、`summary` 和 `build.manifest` 是必填项。
+
+`build.arches` 用于让应用同时发布 aarch64。所有应用都发布 x86_64；只有上游提供 arm 构建、且 manifest 已为其钉好 pin 时才列出 `aarch64`——每个 extra-data 源都有自己的 `only-arches`，resolver 按架构各输出一个源（参见 `registry/rocks.spotifast.Spotifast`）。arm 构建在 arm runner 上原生进行：PR 检查中会产出可安装的 aarch64 bundle，合并后由 publish 一并发布。
 
 ## 自动更新（可选）
 
