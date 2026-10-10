@@ -20,7 +20,7 @@ order: 1
   [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) 中经过审核的预构建 stack，并如下所示按 SHA-256 固定 release archive。它的 `finish-args` 也是权限范围设计的良好范例：它仅授权所管理的各个 CLI 配置路径，而不是 `--filesystem=home`。
 - **依赖 host 的行为，payload 保持不变**——
   [`io.enpass.Enpass`](https://github.com/flatpark/flatpark/tree/main/registry/io.enpass.Enpass)：
-  Enpass 会运行 `lsof` 并读取 `/proc`，以验证通过 localhost 连接到其扩展的浏览器；这在 sandbox 内无法完成。该软件包没有修改厂商 binary，而是在 `PATH` 中放入小型 `lsof`/`readlink`/`cat` shim，通过 `flatpak-spawn --host` 将调用转发给 host，并通过 `LD_PRELOAD` 加载一个小型 `getpid` override。所提供的 Enpass binary 仍然逐字节保持厂商原样。其中 `LD_PRELOAD` 属于向应用进程注入代码，之所以可以接受，是因为 Enpass 是闭源应用，而且软件包在说明中写明了这一点；需要注入代码的开源应用不予收录，应当在 upstream 修复。请注意其代价：它需要通常会被自动拒绝的 `--talk-name=org.freedesktop.Flatpak`，因此软件包在 `policy.dangerous_permissions` 中声明了该权限并说明理由——如果采用这种方式，你也应预期接受同等严格的审核。
+  Enpass 会运行 `lsof` 并读取 `/proc`，以验证通过 localhost 连接到其扩展的浏览器；这在 sandbox 内无法完成。该软件包没有修改厂商 binary，而是在 `PATH` 中放入小型 `lsof`/`readlink`/`cat` shim，通过 `flatpak-spawn --host` 将调用转发给 host。应用进程中没有注入任何代码，所提供的 Enpass binary 仍然逐字节保持厂商原样。（注入代码，例如 `LD_PRELOAD` shim，只接受出现在闭源应用中，并且说明中要写明它是什么、为什么需要；需要注入代码的开源应用不予收录，应当在 upstream 修复。）请注意其代价：它需要通常会被自动拒绝的 `--talk-name=org.freedesktop.Flatpak`，因此软件包在 `policy.dangerous_permissions` 中声明了该权限并说明理由——如果采用这种方式，你也应预期接受同等严格的审核。
 
 ## 复用 FlatPark 预构建支持库
 

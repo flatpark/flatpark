@@ -22,7 +22,7 @@
       Enpass stores passwords and other credentials locally, supports password generation, autofill through browser extensions, and optional sync across devices.
     </p>
     <p>
-      Browser extension support in this build includes host-tool shims for debugging Enpass browser validation inside Flatpak.
+      This package repackages the official Enpass Debian package; nothing is added inside the app. Before the browser extension may connect, Enpass checks which program is on the other end with lsof and /proc, which cannot see the browser from inside the sandbox, so small lsof, readlink and cat scripts run those checks on the host (through flatpak-spawn, which is why this package can start host commands).
     </p>
   </description>
   <releases>

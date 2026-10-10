@@ -10,5 +10,5 @@ cd /
     printf '\n'
 } >>/tmp/enpass-lsof-host.log 2>/dev/null || :
 
-unset LD_PRELOAD ENPASS_FAKE_PID
+unset LD_PRELOAD
 exec flatpak-spawn --clear-env --host /usr/bin/lsof "$@"

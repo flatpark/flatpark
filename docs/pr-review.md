@@ -49,7 +49,7 @@ tier:
   patched or replaced upstream file) is not external adaptation: an open-source app
   that needs it is rejected (the fix belongs upstream), and a proprietary app may
   carry it only when its metainfo description says plainly what is injected and why
-  (`io.enpass.Enpass`). (3) **pinned bytes** — sha256 (+ size for extra-data).
+  (`com.schwab.thinkorswim`). (3) **pinned bytes** — sha256 (+ size for extra-data).
 - **Tier 3 — opaque third-party / submitter-built binary.** Neither
   source-verifiable nor a pinned official-upstream release (PR #13). **Reject.**
 

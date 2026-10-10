@@ -21,8 +21,9 @@ finish-args:
   - --socket=fallback-x11
   - --device=dri
   - --talk-name=org.freedesktop.Notifications
+  # Tray icon. Inside Flatpak the bundled Qt registers it under the
+  # connection's unique name, so no org.kde.* name has to be owned.
   - --talk-name=org.kde.StatusNotifierWatcher
-  - --own-name=org.kde.*
   - --filesystem=xdg-run/tray-icon:create
   - --own-name=org.freedesktop.secrets
   - --filesystem=xdg-documents
@@ -31,15 +32,6 @@ finish-args:
   # browser process behind a localhost WebSocket connection.
   - --talk-name=org.freedesktop.Flatpak
 modules:
-  - name: enpass-fakepid
-    buildsystem: simple
-    build-commands:
-      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
-      - install -Dm755 libfakepid.so /app/lib/enpass/libfakepid.so
-    sources:
-      - type: file
-        path: fake-getpid.c
-
   - name: enpass
     buildsystem: simple
     build-commands:
