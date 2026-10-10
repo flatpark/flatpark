@@ -43,6 +43,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y appstream
       - name: Recompute pins from upstream
+        env:
+          # Every resolver that reaches the GitHub API already reads this, 131 of
+          # the 154 (130 by curl, OpenTubeX by gh api). Unset, they go out
+          # anonymously on one 60-per-hour IP budget, and the ones that run after
+          # it is gone fail to resolve instead of being held back, so they keep
+          # their pins and the run still goes green (update-check #131 lost 89).
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           ids="$(./scripts/check-updates.sh | tr '\n' ' ')"
           echo "changed=$ids" >> "$GITHUB_ENV"
