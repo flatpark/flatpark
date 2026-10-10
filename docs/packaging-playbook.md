@@ -137,18 +137,9 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   the existing manifests pin, never an older major to dodge a build break. A single straggler
   forces every user to keep a second runtime major on disk. If an app genuinely can't run on the
   current major, that's a **flag-and-ask**, not a quiet downgrade.
-  - **Where the catalog stands (2026-09-19).** The freedesktop apps are on `//26.08` and 43
-    GTK / WebKitGTK / Tauri apps are on `org.gnome.Platform//51`, both freedesktop 26.08
-    bases. Four apps are held back, each for its own reason:
-    - *Runtime-level blockers.* `com.usebottles.bottles` — its payload is built by
-      [`flatpark/bottles-release`](https://github.com/flatpark/bottles-release) against the
-      runtime's own interpreter and carries `cpython-313` extension modules and `.pyc`, so it
-      moves only when that pipeline is rebuilt on Python 3.14. `yara-python` has no cp314
-      wheel, so that means building it from its sdist; this may simply stay on 50.
-      `dk.nikse.subtitleedit` and `site.harbor.Harbor.Beta` — both consume `prebuilt`'s
-      `mpv-stack`, and mpv v0.40.0 does not compile against the ffmpeg 8 in the 26.08 base
-      (the `FF_PROFILE_*` aliases are gone). Re-cutting that stack means moving mpv to
-      v0.41.0, which is its own change.
+  - **Where the catalog stands (2026-10-10).** Every freedesktop app is on `//26.08` and every
+    GTK / WebKitGTK / Tauri app on `org.gnome.Platform//51`, both freedesktop 26.08 bases.
+    One app is held back:
     - *No runtime to move to.* `com.heidisql.HeidiSQL` — on `org.kde.Platform//6.11`; Flathub
       publishes no 26.08-based KDE branch.
 
