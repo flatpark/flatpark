@@ -139,13 +139,8 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
   current major, that's a **flag-and-ask**, not a quiet downgrade.
   - **Where the catalog stands (2026-09-19).** The freedesktop apps are on `//26.08` and 43
     GTK / WebKitGTK / Tauri apps are on `org.gnome.Platform//51`, both freedesktop 26.08
-    bases. Four apps are held back, each for its own reason:
-    - *Runtime-level blockers.* `com.usebottles.bottles` — its payload is built by
-      [`flatpark/bottles-release`](https://github.com/flatpark/bottles-release) against the
-      runtime's own interpreter and carries `cpython-313` extension modules and `.pyc`, so it
-      moves only when that pipeline is rebuilt on Python 3.14. `yara-python` has no cp314
-      wheel, so that means building it from its sdist; this may simply stay on 50.
-      `dk.nikse.subtitleedit` and `site.harbor.Harbor.Beta` — both consume `prebuilt`'s
+    bases. Three apps are held back, each for its own reason:
+    - *Runtime-level blockers.* `dk.nikse.subtitleedit` and `site.harbor.Harbor.Beta` — both consume `prebuilt`'s
       `mpv-stack`, and mpv v0.40.0 does not compile against the ffmpeg 8 in the 26.08 base
       (the `FF_PROFILE_*` aliases are gone). Re-cutting that stack means moving mpv to
       v0.41.0, which is its own change.

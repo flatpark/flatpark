@@ -1,9 +1,0 @@
-#!/bin/sh
-set -eu
-
-# The payload lives at /app/extra/bottles; the shell manifest's symlinks and the
-# environment variables in finish-args reconnect the paths, so there is nothing
-# left to do here. This wrapper exists only because Flatpak's command must point
-# at an executable under /app/bin, and /app/bin has to be a real directory
-# (apply_extra is installed there), so it cannot be symlinked away.
-exec /app/extra/bottles/bin/bottles "$@"
