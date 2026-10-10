@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.rizonesoft.Notepad3</id>
+  <name>Notepad3</name>
+  <summary>Fast and light-weight Scintilla-based text editor with syntax highlighting</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+  <developer id="com.rizonesoft">
+    <name>Rizonesoft</name>
+  </developer>
+  <url type="homepage">https://rizonesoft.com</url>
+  <url type="bugtracker">https://github.com/rizonesoft/Notepad3/issues</url>
+  <url type="vcs-browser">https://github.com/rizonesoft/Notepad3</url>
+  <url type="donation">https://github.com/sponsors/rizonesoft</url>
+  <description>
+    <p>This is a community package of Notepad3, maintained independently. It repackages the official upstream build unmodified. Notepad3 is a Windows application, so this package runs the vendor's own x64 portable build under the Wine compatibility layer, provided by the official org.winehq.Wine Flatpak base.</p>
+    <p>Notepad3 is a fast and light-weight Scintilla-based text editor with syntax highlighting. It has a small memory footprint, but is powerful enough to handle most programming jobs: the editing component is the same one SciTE uses, extended with code folding, case conversion, accent-free transliteration, block indentation, whitespace trimming, line sorting, brace matching, comment toggling, encoding conversion and conversion between Unix, Mac and DOS line endings.</p>
+    <ul>
+      <li>Syntax highlighting for dozens of languages and file formats, with multiple color themes and word-wrap</li>
+      <li>Regular-expression find and replace (backreferences, substitution counters), incremental search and a persistent find band</li>
+      <li>grepWin integration for regex-based search and replace across directories, plus the bundled minipath file browser</li>
+      <li>Support for very long lines and large files, Unicode, UTF-8, UTF-16 and many ANSI code pages</li>
+      <li>Optional file encryption with the bundled np3encrypt tool</li>
+      <li>Portable or installed settings, dark mode, multi-level undo, bookmark and marker management</li>
+    </ul>
+    <p>Being upstream's Windows build running under Wine, the interface looks and behaves like the Windows version. Settings, favorites and the Wine prefix are kept in this application's own data directory.</p>
+    <p>Your home directory is granted by default, because Notepad3's own file dialogs are Windows dialogs that browse the host through Wine's Z: drive and cannot use the desktop portal's file chooser. A few further capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Open and save files on removable media (USB drives, SD cards): <code>flatpak override --user --filesystem=/run/media com.rizonesoft.Notepad3</code></li>
+      <li>Follow symlinks into locations outside the sandbox that you have granted separately: <code>flatpak override --user --filesystem=xdg-config/com.rizonesoft.Notepad3:create com.rizonesoft.Notepad3</code></li>
+    </ul>
+    <p>New upstream releases are picked up by FlatPark and delivered through "flatpak update".</p>
+  </description>
+  <launchable type="desktop-id">com.rizonesoft.Notepad3.desktop</launchable>
+  <categories>
+    <category>Utility</category>
+    <category>TextEditor</category>
+  </categories>
+  <keywords>
+    <keyword>notepad</keyword>
+    <keyword>text</keyword>
+    <keyword>editor</keyword>
+    <keyword>code</keyword>
+    <keyword>scintilla</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>notepad3</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The main editing window</caption>
+      <image>https://rizonesoft.com/wp-content/uploads/2023/09/notepad3-screenshot-1.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="7.26.602.1" date="2026-06-02">
+      <description></description>
+    </release>
+  </releases>
+</component>
