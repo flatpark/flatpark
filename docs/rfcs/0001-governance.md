@@ -206,12 +206,27 @@ packages on Flathub. The eighth, Bottles, is published on Flathub by its develop
 so under this rule it doesn't qualify. It will be removed through the normal process
 once a replacement is in place.
 
-**Renames.** The new id is listed first. Where Flatpak supports it, the old ref then
-moves to end-of-life with a rebase to the new id. `flatpak update` offers installed
-users the switch, and the new package declares the old id so that `~/.var/app` data
-moves with it. (The exact mechanism will be verified during implementation.) The old
-ref is pruned after 90 days. A news entry gives the steps, including any data that
-can't be moved.
+**Renames.** We follow Flatpak's own mechanism, end-of-life rebase, and the
+procedure is the same every time:
+
+1. List the app under the new id in its own PR.
+2. In the same PR, or a follow-up, delete `registry/<old-id>/` and add a line to
+   `config/renames.yml`: old id, new id, date.
+3. On publish, the pipeline doesn't prune a renamed ref. It commits a copy of the old
+   ref marked `--end-of-life-rebase=<old-id>=<new-id>` and re-signs.
+4. On `flatpak update`, installed users are offered the switch (`-y` accepts it), and
+   GNOME Software follows it. On the new app's first run, Flatpak itself moves
+   `~/.var/app/<old-id>` to the new id and leaves a symlink. Flatpak also writes
+   `X-Flatpak-RenamedFrom` into the new desktop file, so the new package needs no
+   change for any of this.
+5. After 90 days, the old ref is pruned and its line is removed from
+   `config/renames.yml`.
+6. A news entry gives the steps and lists what doesn't move: data kept outside
+   `~/.var/app`, keyring entries, and installs where the user already installed the
+   new id by hand.
+
+The first case is AeroFTP. Upstream renamed `com.aeroftp.AeroFTP` to
+`app.aeroftp.AeroFTP` (axpdev-lab/aeroftp#814), and FlatPark still ships the old id.
 
 **De-listing.** An app is removed only for one of these reasons, each through a public
 issue with one reviewer's sign-off:
@@ -225,6 +240,13 @@ issue with one reviewer's sign-off:
   can't be justified go through an issue.
 
 Nobody, the owner included, can remove an app for any other reason.
+
+Removal uses the same machinery as a rename. The old ref isn't pruned at once: it
+gets a commit marked `--end-of-life=<reason>`, so `flatpak update` tells installed
+users that the app was removed from FlatPark and why. The ref is pruned after
+90 days. A malicious release is the exception: it is marked end-of-life at once,
+so installed users are warned on their next update, and pruned without the 90-day
+wait.
 
 ## 7. Documentation: one `/docs/` section
 
