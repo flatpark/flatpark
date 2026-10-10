@@ -23,6 +23,9 @@ finish-args:
   - --device=dri
   # Desktop notifications / media status notifications.
   - --talk-name=org.freedesktop.Notifications
+  # MPRIS: media keys and the desktop's "now playing" applet. The embedded
+  # Chromium publishes the player under a chromium.instance<pid> name.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
   # Let Electron safeStorage use the Secret Service if Folia stores credentials
   # through Electron's encrypted storage path.
   - --talk-name=org.freedesktop.secrets

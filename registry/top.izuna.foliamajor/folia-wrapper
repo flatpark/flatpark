@@ -5,5 +5,9 @@ set -eu
 # through zypak-wrapper (from org.electronjs.Electron2.BaseApp) so Chromium's
 # internal sandbox is redirected onto the Flatpak sandbox. Flatpak redirects
 # $HOME, so Folia's config and local indexes stay under the per-app data dir.
+# Chromium hands MPRIS cover art to the desktop as a file:// URL in TMPDIR;
+# the sandbox's /tmp is private, so point TMPDIR at the per-app runtime dir,
+# which the host sees at the same path.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
 unset ELECTRON_RUN_AS_NODE
 exec zypak-wrapper /app/extra/folia/folia-major --ozone-platform-hint=auto "$@"
