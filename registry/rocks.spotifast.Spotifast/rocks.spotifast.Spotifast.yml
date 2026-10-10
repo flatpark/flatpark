@@ -1,0 +1,85 @@
+id: rocks.spotifast.Spotifast
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: spotifast
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native Rust/egui desktop app (no browser engine). It renders with egui's
+  # glow OpenGL backend on winit, so it needs a GPU device and the display
+  # sockets; ALSA/PulseAudio are linked directly for librespot playback and the
+  # runtime's Mesa, Wayland, xkbcommon and X11 stacks cover the rest.
+  - --share=ipc
+  # Spotify Web API, the librespot session, and mDNS discovery of Connect
+  # receivers on the local network.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # egui/glow rendering.
+  - --device=dri
+  # Playback. --socket=pulseaudio also covers PipeWire; the extra read-only
+  # PipeWire socket lets the ALSA backend option in Settings work too.
+  - --socket=pulseaudio
+  - --filesystem=xdg-run/pipewire-0:ro
+  # MPRIS: media keys, the shell and playerctl. The player owns this fixed
+  # well-known name (no instance suffix), which is a sibling of the app ID
+  # rather than a child, so it has to be granted explicitly.
+  - --own-name=org.mpris.MediaPlayer2.spotifast
+  # Tray icon (Linux StatusNotifierItem). Inside Flatpak the tray registers
+  # under the connection's unique name, so it owns no well-known name and
+  # needs only the watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # The Spotify grants (refresh token, librespot credential) live in the
+  # platform secret store, as in upstream's own Flatpak manifest.
+  - --talk-name=org.freedesktop.secrets
+  # Older Flatpak versions leave XDG_STATE_HOME unset; keep upstream's fallback
+  # state directory (session, history, logs) durable.
+  - --persist=.local/state
+  # Deliberately not granted:
+  #   --filesystem=home / =host  -> settings, session state and the
+  #                                 audio/artwork cache live under the
+  #                                 redirected XDG dirs in
+  #                                 ~/.var/app/rocks.spotifast.Spotifast
+  #   --talk-name=org.freedesktop.Notifications -> the app integrates through
+  #                                 MPRIS and the tray, not desktop notifications
+  #   a single-instance bus name -> the guard is a lock and socket under
+  #                                 $XDG_RUNTIME_DIR/app/$FLATPAK_ID, which every
+  #                                 instance of the app already shares
+modules:
+  - name: spotifast
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 spotifast-wrapper /app/bin/spotifast
+      - install -Dm644 rocks.spotifast.Spotifast.desktop /app/share/applications/rocks.spotifast.Spotifast.desktop
+      - install -Dm644 rocks.spotifast.Spotifast.metainfo.xml /app/share/metainfo/rocks.spotifast.Spotifast.metainfo.xml
+      - install -Dm644 rocks.spotifast.Spotifast.png /app/share/icons/hicolor/512x512/apps/rocks.spotifast.Spotifast.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: spotifast-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/crmne/spotifast/releases/download/v0.12.0/spotifast-v0.12.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 823011b1d0270141a75562cf4f05287fa985187ba85e298fd819c6d2f3aeb4fb
+        size: 17676380
+      - type: extra-data
+        filename: spotifast-aarch64.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/crmne/spotifast/releases/download/v0.12.0/spotifast-v0.12.0-aarch64-unknown-linux-gnu.tar.gz
+        sha256: b8c2ff661bbd2c5d3ebf72832671d3db8af52ae0e5e7a1636f9fdeb51636e0b6
+        size: 16740933
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: spotifast-wrapper
+      - type: file
+        path: rocks.spotifast.Spotifast.desktop
+      - type: file
+        path: rocks.spotifast.Spotifast.metainfo.xml
+      - type: file
+        path: rocks.spotifast.Spotifast.png

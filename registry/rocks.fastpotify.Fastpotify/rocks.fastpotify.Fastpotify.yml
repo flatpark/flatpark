@@ -25,23 +25,19 @@ finish-args:
   - --filesystem=xdg-run/pipewire-0:ro
   # MPRIS: media keys, the shell and playerctl. The player owns this fixed
   # well-known name (no instance suffix), which is a sibling of the app ID
-  # rather than a child, so it has to be granted explicitly. Upstream renamed
-  # it from ...fastpotify with the Spotifast rename.
-  - --own-name=org.mpris.MediaPlayer2.spotifast
+  # rather than a child, so it has to be granted explicitly.
+  - --own-name=org.mpris.MediaPlayer2.fastpotify
   # Single-instance guard: a second launch hands off to the running copy over
   # this bus name and exits. Also a sibling of the app ID.
   - --own-name=rocks.fastpotify.Instance
-  # Tray icon (Linux StatusNotifierItem, via ksni), as upstream's own Flatpak
-  # manifest grants it. No getpid() override: a spoofed PID makes the kernel
-  # reject libpulse's SCM_CREDENTIALS, so PulseAudio drops the connection and
-  # playback fails.
+  # Tray icon (Linux StatusNotifierItem, via the ksni crate). ksni claims
+  # org.kde.StatusNotifierItem-<getpid()>-1; every Flatpak app is PID 2 in its
+  # own PID namespace, so fastpotify-wrapper preloads a getpid override that
+  # reports a fixed distinctive value (see the fake-getpid module) and this is
+  # the single name it then needs, instead of racing every other sandboxed tray
+  # app for the PID-2 name.
+  - --own-name=org.kde.StatusNotifierItem-919191-1
   - --talk-name=org.kde.StatusNotifierWatcher
-  # Since 0.12 the Spotify grants (refresh token, librespot credential) live in
-  # the platform secret store, as in upstream's own Flatpak manifest.
-  - --talk-name=org.freedesktop.secrets
-  # Older Flatpak versions leave XDG_STATE_HOME unset; keep upstream's fallback
-  # state directory (session, history, logs) durable.
-  - --persist=.local/state
   # Deliberately not granted:
   #   --filesystem=home / =host  -> all state (settings, refresh token,
   #                                 librespot credential, audio/artwork cache)
@@ -50,6 +46,15 @@ finish-args:
   #   --talk-name=org.freedesktop.Notifications -> the app integrates through
   #                                 MPRIS and the tray, not desktop notifications
 modules:
+  - name: fastpotify-fakepid
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
+      - install -Dm755 libfakepid.so /app/lib/fastpotify/libfakepid.so
+    sources:
+      - type: file
+        path: fake-getpid.c
+
   - name: fastpotify
     buildsystem: simple
     build-commands:
@@ -64,16 +69,16 @@ modules:
         filename: fastpotify-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/crmne/spotifast/releases/download/v0.12.0/spotifast-v0.12.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 823011b1d0270141a75562cf4f05287fa985187ba85e298fd819c6d2f3aeb4fb
-        size: 17676380
+        url: https://github.com/crmne/spotifast/releases/download/v0.8.0/fastpotify-v0.8.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 279caf363897e165a9f95c03a34313a8afa16128032eba3bf6b2cb88723394a4
+        size: 31372998
       - type: extra-data
         filename: fastpotify-aarch64.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/crmne/spotifast/releases/download/v0.12.0/spotifast-v0.12.0-aarch64-unknown-linux-gnu.tar.gz
-        sha256: b8c2ff661bbd2c5d3ebf72832671d3db8af52ae0e5e7a1636f9fdeb51636e0b6
-        size: 16740933
+        url: https://github.com/crmne/spotifast/releases/download/v0.8.0/fastpotify-v0.8.0-aarch64-unknown-linux-gnu.tar.gz
+        sha256: a09e4b11a96f0a36dc4ba66a7ef5c4238741acd270f9124a97f70ccab116e359
+        size: 29468729
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
