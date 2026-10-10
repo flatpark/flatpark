@@ -19,3 +19,11 @@ policy:
   extra_data_first: true
   dangerous_permissions:
     - --talk-name=org.freedesktop.Flatpak
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "lsof, readlink and cat run on your system through flatpak-spawn so Enpass can verify the browser behind its extension. The permission this needs would let the app start any command on the host."
+      zh-Hans: "lsof、readlink 和 cat 通过 flatpak-spawn 在你的系统上运行，让 Enpass 能核实连接其扩展的浏览器。这需要的权限本身允许应用在宿主机上启动任意命令。"

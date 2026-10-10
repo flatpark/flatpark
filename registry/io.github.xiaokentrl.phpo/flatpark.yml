@@ -28,3 +28,11 @@ policy:
     # The Docker API socket is root-equivalent on the host. Driving the host's
     # Docker daemon is phpo's whole purpose.
     - --filesystem=/run/docker.sock
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: sandbox-off
+    detail:
+      en: "WebKit's own web-process sandbox is turned off (WEBKIT_DISABLE_SANDBOX): the app's Wails runtime registers a name the Flatpak portal rejects, so the sandboxed web process cannot start. The Flatpak sandbox still applies."
+      zh-Hans: "WebKit 自带的网页进程沙箱被关闭（WEBKIT_DISABLE_SANDBOX）：应用的 Wails 运行时注册的名字被 Flatpak portal 拒绝，带沙箱的网页进程起不来。Flatpak 沙箱仍然有效。"

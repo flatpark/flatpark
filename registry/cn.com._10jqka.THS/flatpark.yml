@@ -20,3 +20,15 @@ policy:
   proprietary: true
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: sandbox-off
+    detail:
+      en: "The embedded browser (CEF) runs with --no-sandbox: its own namespace sandbox cannot start inside Flatpak, so the Flatpak sandbox is the only boundary."
+      zh-Hans: "内置浏览器（CEF）以 --no-sandbox 运行：它自己的命名空间沙箱无法在 Flatpak 里启动，因此 Flatpak 沙箱是唯一的边界。"
+  - kind: file-change
+    detail:
+      en: "Folders the app writes inside its own install (logs, config, workspace) are replaced with links into the app's data folder, and the shipped config is copied there as a starting point."
+      zh-Hans: "应用会在自己安装目录里写入的文件夹（日志、配置、工作区）被替换成指向应用数据目录的链接，自带的配置会先复制过去作为初始值。"

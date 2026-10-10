@@ -24,3 +24,11 @@ policy:
   proprietary: true
   extra_data_first: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Links your VS Code, VS Code Insiders and Antigravity IDE config folders into the app's config directory, so it manages the same settings as on your system."
+      zh-Hans: "把你的 VS Code、VS Code Insiders 和 Antigravity IDE 配置目录链接到应用的配置目录，让它管理的就是你系统上的那份设置。"

@@ -25,3 +25,15 @@ policy:
     # is the pragmatic grant WeMeet's own build uses; scoping to --device=dri
     # would drop camera/mic access that the core feature requires.
     - --device=all
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: injected-code
+    detail:
+      en: "A preloaded hook forces the app onto XWayland and restores screen sharing on Wayland sessions such as Hyprland."
+      zh-Hans: "一个预加载的 hook 让应用走 XWayland，并在 Hyprland 等 Wayland 会话里恢复屏幕共享。"
+  - kind: seeded-config
+    detail:
+      en: "Writes an empty screen-cast config (xcast.conf) next to the app, the default upstream recommends."
+      zh-Hans: "在应用旁写入一个空的投屏配置（xcast.conf），这是上游建议的默认值。"

@@ -201,5 +201,25 @@
   "perm.own_name": "占用服务名 {value}",
   "perm.persist": "持久化存储：{value}",
   "perm.other": "{flag}",
-  "perm.other.valued": "{flag}：{value}"
+  "perm.other.valued": "{flag}：{value}",
+
+  "pack.level.unmodified": "原样",
+  "pack.level.adapted": "有适配",
+  "pack.level.modified": "有改动",
+  "pack.level.reduced": "隔离降低",
+  "pack.level.unmodified.title": "按厂商发布的原样运行",
+  "pack.level.adapted.title": "在厂商构建之外补充了组件或预设了设置，应用本身没有改动",
+  "pack.level.modified.title": "改变了厂商构建的运行方式：注入了代码、修改了文件，或在首次启动时运行厂商的安装器",
+  "pack.level.reduced.title": "可以在沙箱之外、在你的系统上执行命令，或在关闭应用自带沙箱的情况下运行",
+  "pack.kind.support-files": "补充 runtime 缺少的组件",
+  "pack.kind.support-files.auto": "随应用附带：{value}",
+  "pack.kind.seeded-config": "预设了应用设置",
+  "pack.kind.injected-code": "向应用注入了代码",
+  "pack.kind.file-change": "修改了厂商的文件",
+  "pack.kind.runtime-install": "首次启动时运行厂商的安装器",
+  "pack.kind.host-command": "在你的系统上执行命令",
+  "pack.kind.sandbox-off": "关闭了应用自带的沙箱",
+  "panel.packaging": "打包方式",
+  "panel.packaging.none": "按厂商发布的原样运行，没有添加或修改任何东西。",
+  "panel.packaging.more": "这些级别是什么意思"
 }

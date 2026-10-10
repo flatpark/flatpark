@@ -46,6 +46,7 @@ let manifestName = '';
 let updateCommand = '';
 let proprietary = null;
 const dangerousPerms = [];
+const packagingKinds = [];
 {
   let section = null;
   let inDanger = false;
@@ -58,6 +59,11 @@ const dangerousPerms = [];
       const m = s.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
       if (m && m[1] === 'id' && m[2] !== '') appId = unquote(m[2]);
       section = m && m[2] === '' ? m[1] : null;
+      continue;
+    }
+    if (section === 'packaging') {
+      const km = s.match(/^(?:-\s+)?kind:\s*(.*)$/);
+      if (km) packagingKinds.push(unquote(km[1]));
       continue;
     }
     if (s.startsWith('- ')) {
@@ -209,6 +215,44 @@ try {
 for (const text of scan) {
   for (const re of FETCH) {
     if (re.test(text)) { warn(`possible runtime fetch-and-exec: ${text.trim().split('\n')[0].slice(0, 80)}`); break; }
+  }
+}
+
+// G6 — packaging transparency (shown on the site as the packaging level). What
+// the scripts plainly do must be declared under `packaging:`, and an
+// open-source app may not modify the vendor's build at all.
+const PACKAGING_KINDS = new Set([
+  'support-files', 'seeded-config', 'injected-code', 'file-change', 'runtime-install', 'host-command', 'sandbox-off',
+]);
+for (const k of packagingKinds) if (!PACKAGING_KINDS.has(k)) fail(`packaging: unknown kind "${k}"`);
+{
+  const declared = new Set(packagingKinds);
+  const codeOnly = (text) => text.split('\n').filter((l) => !/^\s*(#|\/\/|\*|\/\*)/.test(l)).join('\n');
+  let code = '';
+  let hasC = false;
+  try {
+    for (const f of readdirSync(dir)) {
+      if (/\.(xml|png|svg|desktop|md)$/.test(f) || f === 'flatpark.yml' || f === 'resolve-update.sh') continue;
+      if (/\.c$/.test(f)) hasC = true;
+      try { code += '\n' + codeOnly(readText(join(dir, f))); } catch { /* ignore */ }
+    }
+  } catch { /* ignore */ }
+  const need = (kind, why) => {
+    if (!declared.has(kind)) fail(`packaging: ${why}, but packaging: declares no "${kind}" entry`);
+  };
+  if (hasC || /(^|[\s;"'])(export\s+)?(ZYPAK_)?LD_PRELOAD=|--env=LD_PRELOAD=/m.test(code)) {
+    need('injected-code', 'a C module or an LD_PRELOAD puts code into the app process');
+  }
+  if (finishArgs.includes('--talk-name=org.freedesktop.Flatpak') || /\bflatpak-spawn\b/.test(code)) {
+    need('host-command', 'the app can run host commands (org.freedesktop.Flatpak / flatpak-spawn)');
+  }
+  if (/--no-sandbox\b|WEBKIT_DISABLE_SANDBOX/.test(code)) {
+    need('sandbox-off', "the app's own sandbox is turned off (--no-sandbox / WEBKIT_DISABLE_SANDBOX)");
+  }
+  if (proprietary === false) {
+    for (const k of ['injected-code', 'file-change', 'runtime-install']) {
+      if (declared.has(k)) fail(`packaging: "${k}" is not allowed for an open-source app (it ships unmodified; the fix belongs upstream)`);
+    }
   }
 }
 

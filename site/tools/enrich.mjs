@@ -363,6 +363,98 @@ function parseLicense(raw) {
   return { label: cleaned.replace(/LicenseRef-proprietary\b/g, 'Proprietary'), url };
 }
 
+// Packaging transparency: what the package does around (or to) the vendor's
+// build, shown as a level badge and a per-item list. Each kind has a fixed
+// level; `support-files` is derived from the manifest, the rest are declared
+// under `packaging:` in flatpark.yml (scripts/audit-descriptor.mjs fails a
+// descriptor whose scripts show a kind it does not declare).
+export const PACKAGING_KINDS = {
+  'support-files': 'adapted',
+  'seeded-config': 'adapted',
+  'injected-code': 'modified',
+  'file-change': 'modified',
+  'runtime-install': 'modified',
+  'host-command': 'reduced',
+  'sandbox-off': 'reduced',
+};
+const PACKAGING_LEVELS = ['unmodified', 'adapted', 'modified', 'reduced'];
+
+// The extra-data/archive sources of every module, flattened.
+function manifestSources(m) {
+  const out = [];
+  const walk = (mods) => {
+    for (const mod of toArray(mods)) {
+      if (!mod || typeof mod !== 'object') continue;
+      for (const src of toArray(mod.sources)) if (src && typeof src === 'object' && src.url) out.push(src);
+      walk(mod.modules);
+    }
+  };
+  walk(m.modules);
+  return out;
+}
+
+// Where a download comes from, coarse enough that one project's per-arch
+// builds compare equal: host, plus owner/repo on github.com.
+function originKey(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname === 'github.com') return `github.com/${u.pathname.split('/').slice(1, 3).join('/')}`;
+    return u.hostname;
+  } catch {
+    return url;
+  }
+}
+
+// Components the package adds next to the vendor's build: FlatPark prebuilt
+// stacks (appimage-tools only unpacks at install time, so it is not one) and
+// extra-data from a different origin than the main payload.
+// The main payload is whatever the resolver manages (between the BEGIN/END
+// MANAGED EXTRA-DATA markers in the manifest text); without markers, the first
+// non-prebuilt extra-data source.
+export function supportFiles(m, rawText = '') {
+  const names = new Set();
+  const srcs = manifestSources(m);
+  const prebuilt = /github\.com\/flatpark\/prebuilt\/releases\/download\/([A-Za-z0-9._-]+?)-v\d+\//;
+  const managed = /# BEGIN MANAGED EXTRA-DATA([\s\S]*?)# END MANAGED EXTRA-DATA/.exec(rawText);
+  const mainOrigins = new Set(
+    managed
+      ? [...managed[1].matchAll(/url:\s*(\S+)/g)].map((x) => originKey(x[1].replace(/^["']|["']$/g, '')))
+      : [srcs.find((s) => s.type === 'extra-data' && !prebuilt.test(s.url))?.url].filter(Boolean).map(originKey),
+  );
+  for (const s of srcs) {
+    const pb = prebuilt.exec(s.url);
+    if (pb) {
+      if (pb[1] !== 'appimage-tools') names.add(pb[1]);
+      continue;
+    }
+    if (s.type === 'extra-data' && mainOrigins.size && !mainOrigins.has(originKey(s.url))) {
+      names.add(String(s.filename || s.url.split('/').pop()).replace(/(\.tar)?\.(gz|xz|zst|bz2|zip|deb|ttc|ttf|tgz|txz)$/, '').replace(/[-_](x86_64|aarch64|amd64|arm64)$/, ''));
+    }
+  }
+  return [...names].sort();
+}
+
+// Declared entries + the derived support-files entry -> { level, items }.
+// `detail` may be a string (English) or a { en, zh-Hans } map.
+export function packagingOf(declared, derivedSupport) {
+  const items = [];
+  for (const e of toArray(declared)) {
+    if (!e || typeof e !== 'object' || !PACKAGING_KINDS[e.kind]) {
+      console.warn(`[enrich] unknown packaging entry: ${JSON.stringify(e)}`);
+      continue;
+    }
+    const detail = typeof e.detail === 'object' && e.detail ? e.detail : { en: e.detail || '' };
+    items.push({ kind: e.kind, level: PACKAGING_KINDS[e.kind], detail });
+  }
+  if (derivedSupport.length && !items.some((i) => i.kind === 'support-files')) {
+    items.push({ kind: 'support-files', level: 'adapted', detail: null, value: derivedSupport.join(', ') });
+  }
+  const rank = (l) => PACKAGING_LEVELS.indexOf(l);
+  items.sort((a, b) => rank(b.level) - rank(a.level));
+  const level = items.reduce((acc, i) => (rank(i.level) > rank(acc) ? i.level : acc), 'unmodified');
+  return { level, items };
+}
+
 // Map a single Flatpak finish-arg to a human label + risk level + group.
 const NON_PERMISSION_FLAGS = new Set([
   'require-version', 'env', 'extra-languages', 'cwd', 'metadata', 'sdk', 'command', 'runtime', 'version',
@@ -475,6 +567,8 @@ async function enrichOne(file) {
   out.proprietary = false;
   out.maintainer = null;
   out.permissions = [];
+  let supportDerived = [];
+  let packagingDeclared = [];
 
   // 1. Flatpak manifest -> permissions, runtime, proprietary tag
   try {
@@ -484,6 +578,7 @@ async function enrichOne(file) {
       out.runtimeVersion = m['runtime-version'] ? String(m['runtime-version']) : '';
       out.command = m.command || '';
       out.permissions = toArray(m['finish-args']).map(describePermission).filter(Boolean);
+      supportDerived = supportFiles(m, readFileSync(base._manifest, 'utf8'));
       if (toArray(m.tags).includes('proprietary')) out.proprietary = true;
     }
   } catch (e) {
@@ -547,10 +642,13 @@ async function enrichOne(file) {
       if (fy.policy?.proprietary) out.proprietary = true;
       if (fy.build?.mode) out.buildMode = fy.build.mode;
       out.upstreamApproved = !!fy.catalog?.upstream_approved; // upstream developer consented to this listing
+      packagingDeclared = fy.packaging;
     }
   } catch (e) {
     console.warn(`[enrich] ${base.id}: flatpark.yml parse failed: ${e.message}`);
   }
+
+  out.packaging = packagingOf(packagingDeclared, supportDerived);
 
   out.screenshots = await cacheScreenshots(out.id, out.screenshots);
 

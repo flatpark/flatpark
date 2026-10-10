@@ -23,3 +23,11 @@ policy:
   extra_data_first: true
   dangerous_permissions:
     - --talk-name=org.freedesktop.Flatpak
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "Commands the agent runs go to your system through a host-command bridge (flatpak-spawn), so they run outside the sandbox with your user's access. The sandbox's own shell and core tools stay local."
+      zh-Hans: "智能体执行的命令通过宿主命令桥（flatpak-spawn）转到你的系统上运行，在沙箱之外、拥有你这个用户的权限。沙箱自带的 shell 和基础工具仍在沙箱内运行。"

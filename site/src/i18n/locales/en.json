@@ -201,5 +201,25 @@
   "perm.own_name": "Owns service {value}",
   "perm.persist": "Persistent storage: {value}",
   "perm.other": "{flag}",
-  "perm.other.valued": "{flag}: {value}"
+  "perm.other.valued": "{flag}: {value}",
+
+  "pack.level.unmodified": "Unmodified",
+  "pack.level.adapted": "Adapted",
+  "pack.level.modified": "Modified",
+  "pack.level.reduced": "Reduced isolation",
+  "pack.level.unmodified.title": "Runs the vendor's build as shipped",
+  "pack.level.adapted.title": "Adds components or preset settings around the vendor's build; the app itself is unchanged",
+  "pack.level.modified.title": "Changes how the vendor's build runs: injected code, changed files, or the vendor's installer run at first launch",
+  "pack.level.reduced.title": "Can run commands on your system outside the sandbox, or runs with its own sandbox turned off",
+  "pack.kind.support-files": "Adds components the runtime lacks",
+  "pack.kind.support-files.auto": "Shipped next to the app: {value}",
+  "pack.kind.seeded-config": "Presets app settings",
+  "pack.kind.injected-code": "Injects code into the app",
+  "pack.kind.file-change": "Changes the vendor's files",
+  "pack.kind.runtime-install": "Runs the vendor's installer at first launch",
+  "pack.kind.host-command": "Runs commands on your system",
+  "pack.kind.sandbox-off": "Turns off the app's own sandbox",
+  "panel.packaging": "Packaging",
+  "panel.packaging.none": "Runs the vendor's build as shipped — nothing added or changed.",
+  "panel.packaging.more": "What the levels mean"
 }

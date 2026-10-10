@@ -40,6 +40,28 @@ out="$($AUDIT "$F/warn-runtimefetch/flatpark.yml" 2>&1)"; rc=$?
 assert_eq "$rc" "0"
 printf '%s' "$out" | grep -qF "WARN:" || { echo "FAIL: expected WARN line for runtime fetch"; exit 1; }
 
+# G6: packaging transparency. An LD_PRELOAD in a wrapper must be declared as
+# injected-code; an open-source app may not declare it at all; kinds are a
+# closed set.
+pk="$(mktemp -d)"
+cp "$F/good/flatpark.yml" "$F/good/manifest.yml" "$F/good/com.example.App.svg" "$pk/"
+printf '#!/bin/sh\nexport LD_PRELOAD=/app/lib/shim.so\nexec /app/extra/app "$@"\n' > "$pk/app-wrapper"
+out="$($AUDIT "$pk/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "1"
+printf '%s' "$out" | grep -qF '"injected-code"' || { echo "FAIL: undeclared LD_PRELOAD not reported"; exit 1; }
+printf 'packaging:\n  - kind: injected-code\n    detail: Reports a fixed PID to the tray code.\n' >> "$pk/flatpark.yml"
+$AUDIT "$pk/flatpark.yml" >/dev/null 2>&1
+assert_eq "$?" "0"
+sed -i 's/proprietary: true/proprietary: false/' "$pk/flatpark.yml"
+out="$($AUDIT "$pk/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "1"
+printf '%s' "$out" | grep -qF "not allowed for an open-source app" || { echo "FAIL: OSS injected-code not rejected"; exit 1; }
+sed -i 's/proprietary: false/proprietary: true/; s/kind: injected-code/kind: magic/' "$pk/flatpark.yml"
+out="$($AUDIT "$pk/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "1"
+printf '%s' "$out" | grep -qF 'unknown kind "magic"' || { echo "FAIL: unknown packaging kind not reported"; exit 1; }
+rm -rf "$pk"
+
 # Regression: every shipping registry app must pass (no hard fail)
 for d in "$ROOT"/registry/*/flatpark.yml; do
   $AUDIT "$d" >/dev/null 2>&1 || { echo "FAIL: audit hard-failed on shipping app $d"; $AUDIT "$d"; exit 1; }

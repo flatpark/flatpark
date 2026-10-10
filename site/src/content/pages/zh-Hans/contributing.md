@@ -247,6 +247,7 @@ jq -n --arg v "$version" \
 - **固定每个 remote source**——`extra-data`/`archive` 需要 `sha256`（`extra-data` 还需非零 `size`）；`git` 需要不可变的 `commit`。（打包文件使用的 `type: file` 无需固定。）
 - **只从官方渠道下载**——使用厂商自己的域名或真正的 upstream repo，绝不使用个人账户或 mirror。
 - **未经修改地重新打包官方构建**——`build-commands` 只安装 wrapper/desktop/metainfo/icon，以及用于解压下载产物的 `apply_extra`；不要 patch、重新编译或改变应用行为。可以*从外部*让应用适配 sandbox——例如 wrapper 环境变量、作为额外 module 构建的缺失库、`PATH` shim（参见上文的 cc-switch 和 Enpass）——前提是实际运行的仍然是厂商自己的内容。向应用进程注入代码（`LD_PRELOAD` shim、修改或替换文件）：开源应用不接受；闭源应用只有在 metainfo 说明中写明注入了什么、为什么时才可以。
+- **声明打包级别**——凡是超出普通启动的处理（预设设置、注入代码、修改文件、宿主命令、关闭内部沙箱），都要在 `flatpark.yml` 的 `packaging:` 下列出，并附一句中英文说明。它会显示在应用页上；级别含义见[信任与安全](/zh-Hans/trust/#packaging)。
 - **使用普通 resolver**——`update.command` 应是简单的相对脚本路径，例如 `./resolve-update.sh`（它会在 CI 中运行）。
 - **声明 `policy`**——如实设置 `proprietary`，并在 `dangerous_permissions` 中列出所有高风险权限。
 - **不会获取并运行任意代码**——厂商自己的 self-updater 写入应用数据目录没有问题；下载并执行未固定的第三方代码则不可接受。

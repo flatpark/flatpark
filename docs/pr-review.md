@@ -222,6 +222,7 @@ source-verifiable · 2 = official prebuilt · ★ = all.
 | 3.2 | Manifest | finish-args has no escape perms (or: declared in `dangerous_permissions` + justified → needs-human); broad perms justified | ★ | | |
 | 3.3 | Manifest | `policy:` block honest: `proprietary` accurate, `dangerous_permissions` vs actual (warn until schema) | ★ | | |
 | 3.4 | Manifest | build-commands install-only; no patch/recompile of vendor payload (external wrapper/module/`PATH`-script adaptation OK, reviewed as code); injected code (`LD_PRELOAD` shim etc.) → reject if open-source, metainfo disclosure required if proprietary | ★ | | |
+| 3.4b | Manifest | `packaging:` declares what the scripts do (audit G6 enforces injected-code / host-command / sandbox-off); detail text is plain and accurate in en + zh-Hans | ★ | | |
 | 3.5 | Manifest | source URLs = genuine upstream (no lookalike / fork) | ★ | | |
 | 3.6 | Manifest | `app-id` reverse-DNS matches real vendor (no impersonation) | ★ | | |
 | 3.7 | Manifest | `update.command` is a simple relative script path | ★ | | |

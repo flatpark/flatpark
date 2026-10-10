@@ -22,3 +22,11 @@ policy:
   extra_data_first: true
   dangerous_permissions:
     - --talk-name=org.freedesktop.Flatpak
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "kubectl and the cloud CLI auth helpers (aws, az, gcloud, doctl and others) run on your system through flatpak-spawn, so your own tools and kubeconfig credentials work."
+      zh-Hans: "kubectl 和云平台 CLI 的认证助手（aws、az、gcloud、doctl 等）通过 flatpak-spawn 在你的系统上运行，这样你自己的工具和 kubeconfig 凭据才能用。"

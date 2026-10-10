@@ -70,6 +70,11 @@ website: https://example.org/
 maintainer:
   github: testuser
   email: test@example.org
+packaging:
+  - kind: seeded-config
+    detail:
+      en: Turns off the in-app updater on first launch.
+      zh-Hans: 首次启动时关闭应用内更新器。
 EOF
 
 # The listing date ("Recently added" sort) is read out of git, so the fixture
@@ -133,4 +138,11 @@ assert_contains "$out" "\"github\": \"testuser\""
 # enrichment must strip the private source-path fields
 if grep -q "_manifest\|_srcDir" "$out"; then echo "FAIL: enriched file still has _ fields"; exit 1; fi
 assert_ok node -e "JSON.parse(require('fs').readFileSync('$out','utf8'))"
+# packaging transparency: declared seeded-config -> level adapted, detail kept per locale
+assert_ok node -e "
+const a = JSON.parse(require('fs').readFileSync('$out','utf8'));
+if (a.packaging.level !== 'adapted') throw new Error('level ' + a.packaging.level);
+const i = a.packaging.items[0];
+if (i.kind !== 'seeded-config' || i.detail['zh-Hans'] !== '首次启动时关闭应用内更新器。') throw new Error(JSON.stringify(i));
+"
 echo "test_enrich: PASS"

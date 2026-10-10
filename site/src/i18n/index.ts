@@ -91,6 +91,31 @@ export function permissionText(
   return { label, detail };
 }
 
+// Packaging transparency (see site/tools/enrich.mjs packagingOf): the badge
+// colour per level and the localized title/detail of one declared item. A
+// declared `detail` is a { en, zh-Hans } map; a missing locale falls back to
+// English. The derived support-files item has no detail, only `value`.
+export const packagingDot: Record<string, string> = {
+  unmodified: 'bg-emerald-500',
+  adapted: 'bg-slate-400',
+  modified: 'bg-amber-500',
+  reduced: 'bg-red-500',
+};
+
+export function packagingText(
+  lang: Lang,
+  item: { kind: string; detail?: Record<string, string> | null; value?: string },
+): { label: string; detail: string } {
+  const t = useTranslations(lang);
+  const label = t(`pack.kind.${item.kind}`);
+  const detail = item.detail
+    ? (item.detail[lang] ?? item.detail[defaultLang] ?? '')
+    : item.value
+      ? t(`pack.kind.${item.kind}.auto`, { value: item.value })
+      : '';
+  return { label, detail };
+}
+
 export function useTranslations(lang: Lang) {
   const dict = dictionaries[lang] ?? dictionaries[defaultLang as Lang];
   const base = dictionaries[defaultLang as Lang];
