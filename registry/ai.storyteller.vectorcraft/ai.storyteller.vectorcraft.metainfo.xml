@@ -66,6 +66,9 @@
     <binary>vectorcraft-cli</binary>
   </provides>
   <releases>
+    <release version="0.8.0" date="2026-10-10">
+      <description></description>
+    </release>
     <release version="0.7.0" date="2026-10-08">
       <description></description>
     </release>

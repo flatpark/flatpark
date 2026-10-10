@@ -70,9 +70,9 @@ modules:
         filename: soundcraft-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/soundcraft/releases/download/v0.3.0/soundcraft-0.3.0-linux-x86_64.tar.gz
-        sha256: 31d4a3e4efe88aa47291b2b5aa85e45679fd73988eb951015ddb24eb2bba9322
-        size: 15117269
+        url: https://github.com/storytold/soundcraft/releases/download/v0.4.0/soundcraft-0.4.0-linux-x86_64.tar.gz
+        sha256: 01de7569826d390f3e43009d237218df488b28eca3a8457de182e33412052e77
+        size: 15478154
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
