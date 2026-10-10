@@ -57,6 +57,7 @@ jobs:
       # Worker validates them, but they still originate outside this repo.
       - name: Recompute pins for the released app
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           APP_ID: ${{ github.event.client_payload.app_id }}
           TAG: ${{ github.event.client_payload.tag }}
           UPSTREAM: ${{ github.event.client_payload.repo }}
