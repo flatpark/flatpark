@@ -211,7 +211,7 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
     `flatpak-spawn --host` the tool, and — proprietary apps only, disclosed in the
     metainfo (golden rule 1) — an `LD_PRELOAD` shim. Reference:
     [`registry/io.enpass.Enpass`](../registry/io.enpass.Enpass) (`lsof`/`readlink`/`cat`
-    shims + a `getpid` override for browser-extension validation). This costs
+    shims for browser-extension validation; nothing injected). This costs
     `--talk-name=org.freedesktop.Flatpak` — declare it in `policy.dangerous_permissions`,
     justify it, and expect human review; it is otherwise an auto-reject.
   - **Bundled JRE** (Java desktop apps) → [`registry/com.interactivebrokers.ibkrdesktop`](../registry/com.interactivebrokers.ibkrdesktop),

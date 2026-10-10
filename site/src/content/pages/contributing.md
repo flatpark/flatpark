@@ -46,12 +46,12 @@ own:
   Enpass validates the browser behind its extension's localhost connection by
   running `lsof` and reading `/proc`, which can't work from inside the sandbox.
   Rather than patch the vendor binary, the package puts small `lsof`/`readlink`/
-  `cat` shims on `PATH` that forward to the host via `flatpak-spawn --host`, and
-  `LD_PRELOAD`s a tiny `getpid` override. The shipped Enpass binary is still the
-  vendor's own, byte for byte. The `LD_PRELOAD` part is code injected into the
-  app's process, which is only acceptable because Enpass is closed source — and
-  the package says so in its description. An open-source app that needs injected
-  code is not listed; the fix belongs upstream. Note what this costs: it needs
+  `cat` shims on `PATH` that forward to the host via `flatpak-spawn --host`.
+  Nothing is injected into the app's process, and the shipped Enpass binary is
+  still the vendor's own, byte for byte. (Injected code, such as an `LD_PRELOAD`
+  shim, is only accepted in a closed-source app whose description says what it
+  is and why; an open-source app that needs it is not listed — the fix belongs
+  upstream.) Note what this costs: it needs
   `--talk-name=org.freedesktop.Flatpak`, normally an auto-reject, so the package
   declares it under `policy.dangerous_permissions` and argues for it — expect
   that level of scrutiny if you go this route.
