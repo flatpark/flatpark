@@ -27,13 +27,11 @@ finish-args:
   - --talk-name=org.freedesktop.secrets
   # New-message notifications while the window is hidden or unfocused.
   - --talk-name=org.freedesktop.Notifications
-  # Tray icon (Linux StatusNotifierItem, via the ksni crate). ksni claims
-  # org.kde.StatusNotifierItem-<getpid()>-1; every Flatpak app is PID 2 in its
-  # own PID namespace, so zapfast-wrapper preloads a getpid override that
-  # reports a fixed distinctive value (see the fake-getpid module) and this is
-  # the single name it then needs, instead of racing every other sandboxed tray
-  # app for the PID-2 name.
-  - --own-name=org.kde.StatusNotifierItem-929292-1
+  # Tray icon (Linux StatusNotifierItem). Inside Flatpak the tray registers
+  # under the connection's unique name, so it owns no well-known name and
+  # needs only the watcher. No getpid() override: a spoofed PID makes the
+  # kernel reject libpulse's SCM_CREDENTIALS, so the PulseAudio connection
+  # (ALSA's default device goes through it) is dropped and audio fails.
   - --talk-name=org.kde.StatusNotifierWatcher
   # Config, the encrypted archive and the media/avatar/sticker caches live in
   # the redirected XDG dirs under ~/.var/app/rocks.zapfast.ZapFast. Older
@@ -46,15 +44,6 @@ finish-args:
   #                                filesystem access
   #   --device=all              -> no camera; there are no calls in the app
 modules:
-  - name: zapfast-fakepid
-    buildsystem: simple
-    build-commands:
-      - cc -shared -fPIC -O2 fake-getpid.c -o libfakepid.so -ldl
-      - install -Dm755 libfakepid.so /app/lib/zapfast/libfakepid.so
-    sources:
-      - type: file
-        path: fake-getpid.c
-
   - name: zapfast
     buildsystem: simple
     build-commands:
