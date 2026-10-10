@@ -49,9 +49,9 @@ modules:
         filename: pdfcraft-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/pdfcraft/releases/download/v0.4.0/pdfcraft-0.4.0-linux-x86_64.tar.gz
-        sha256: 4879b3cdb4d1261945af03b1c5f00f3e868d05e84e77911960cac505aa16c1db
-        size: 55283710
+        url: https://github.com/storytold/pdfcraft/releases/download/v0.5.0/pdfcraft-0.5.0-linux-x86_64.tar.gz
+        sha256: 20b35b3fd099c0ef02a727bf9badbaeeb6639c56742b4d0444cc2974dbff5fdf
+        size: 79710675
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

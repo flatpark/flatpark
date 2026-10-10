@@ -74,8 +74,8 @@ modules:
         only-arches:
           - x86_64
         url: https://download.getupnote.com/app/upnote_amd64.deb
-        sha256: aaecfcb6a439ffc3cd2f4570a2f6f0a8deb22f7a895ebda6c2efb984c708c48a
-        size: 106539504
+        sha256: 855658b3a752cb60b886c174d4cf500979f3cc5f4cbf0c5ca2dc174cefecd3f3
+        size: 106540196
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
