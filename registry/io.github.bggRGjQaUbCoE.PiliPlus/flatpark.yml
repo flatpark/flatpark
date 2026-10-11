@@ -1,10 +1,10 @@
-id: com.example.piliplus
+id: io.github.bggRGjQaUbCoE.PiliPlus
 name: PiliPlus
 summary: Third-party Bilibili client developed in Flutter
 website: https://github.com/bggRGjQaUbCoE/PiliPlus
 source_url: https://github.com/bggRGjQaUbCoE/PiliPlus
 build:
-  manifest: com.example.piliplus.yml
+  manifest: io.github.bggRGjQaUbCoE.PiliPlus.yml
   branch: stable
   mode: extra-data
 catalog:

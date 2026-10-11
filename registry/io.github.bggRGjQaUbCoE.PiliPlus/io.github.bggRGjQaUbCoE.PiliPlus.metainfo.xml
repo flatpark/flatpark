@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>com.example.piliplus</id>
+  <id>io.github.bggRGjQaUbCoE.PiliPlus</id>
   <name>PiliPlus</name>
   <summary>Third-party Bilibili client developed in Flutter</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
-  <developer id="com.example.piliplus">
+  <developer id="io.github.bggRGjQaUbCoE">
     <name>bggRGjQaUbCoE</name>
   </developer>
   <url type="homepage">https://github.com/bggRGjQaUbCoE/PiliPlus</url>
@@ -21,10 +21,10 @@
       <li>Support for user login, history, favorites, and watch later.</li>
       <li>Dark mode and customizable UI themes.</li>
     </ul>
-    <p>Permissions: this package grants display, GPU acceleration, audio playback (PulseAudio/PipeWire), network access for streaming and API requests, desktop notifications, and the StatusNotifier tray. Settings and cache files stay inside the sandbox under <code>~/.var/app/com.example.piliplus</code>. No host filesystem access is granted by default.</p>
+    <p>Permissions: this package grants display, GPU acceleration, audio playback (PulseAudio/PipeWire), network access for streaming and API requests, desktop notifications, and the StatusNotifier tray. Settings and cache files stay inside the sandbox under <code>~/.var/app/io.github.bggRGjQaUbCoE.PiliPlus</code>. No host filesystem access is granted by default.</p>
     <p>Optional capabilities:</p>
     <ul>
-      <li>Save downloaded videos to your Downloads directory: <code>flatpak override --user --filesystem=xdg-download com.example.piliplus</code></li>
+      <li>Save downloaded videos to your Downloads directory: <code>flatpak override --user --filesystem=xdg-download io.github.bggRGjQaUbCoE.PiliPlus</code></li>
     </ul>
   </description>
   <screenshots>
@@ -33,7 +33,7 @@
       <image>https://raw.githubusercontent.com/bggRGjQaUbCoE/PiliPlus/main/assets/screenshots/main_screen.png</image>
     </screenshot>
   </screenshots>
-  <launchable type="desktop-id">com.example.piliplus.desktop</launchable>
+  <launchable type="desktop-id">io.github.bggRGjQaUbCoE.PiliPlus.desktop</launchable>
   <provides>
     <binary>piliplus</binary>
     <mediatype>x-scheme-handler/bilibili</mediatype>

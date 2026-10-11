@@ -1,4 +1,4 @@
-id: com.example.piliplus
+id: io.github.bggRGjQaUbCoE.PiliPlus
 runtime: org.gnome.Platform
 runtime-version: "51"
 sdk: org.gnome.Sdk
@@ -17,8 +17,13 @@ finish-args:
   - --socket=pulseaudio
   # Network access for Bilibili streaming, search, and API
   - --share=network
-  # StatusNotifier tray icon
+  # The upstream GApplication id is still the Flutter template default; without
+  # owning it, g_application_register fails and the app exits at start-up.
+  - --own-name=com.example.piliplus
+  # StatusNotifier tray icon. nativeapi registers only after owning
+  # org.kde.StatusNotifierItem-<pid>-<n>, and the app is always PID 2 in the sandbox.
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
   # Desktop notifications
   - --talk-name=org.freedesktop.Notifications
 modules:
@@ -36,9 +41,9 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 piliplus-wrapper /app/bin/piliplus
-      - install -Dm644 com.example.piliplus.desktop /app/share/applications/com.example.piliplus.desktop
-      - install -Dm644 com.example.piliplus.metainfo.xml /app/share/metainfo/com.example.piliplus.metainfo.xml
-      - install -Dm644 com.example.piliplus.png /app/share/icons/hicolor/512x512/apps/com.example.piliplus.png
+      - install -Dm644 io.github.bggRGjQaUbCoE.PiliPlus.desktop /app/share/applications/io.github.bggRGjQaUbCoE.PiliPlus.desktop
+      - install -Dm644 io.github.bggRGjQaUbCoE.PiliPlus.metainfo.xml /app/share/metainfo/io.github.bggRGjQaUbCoE.PiliPlus.metainfo.xml
+      - install -Dm644 io.github.bggRGjQaUbCoE.PiliPlus.png /app/share/icons/hicolor/512x512/apps/io.github.bggRGjQaUbCoE.PiliPlus.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
@@ -54,8 +59,8 @@ modules:
       - type: file
         path: piliplus-wrapper
       - type: file
-        path: com.example.piliplus.desktop
+        path: io.github.bggRGjQaUbCoE.PiliPlus.desktop
       - type: file
-        path: com.example.piliplus.metainfo.xml
+        path: io.github.bggRGjQaUbCoE.PiliPlus.metainfo.xml
       - type: file
-        path: com.example.piliplus.png
+        path: io.github.bggRGjQaUbCoE.PiliPlus.png
