@@ -10,7 +10,7 @@
   </developer>
   <url type="homepage">https://www.codebuddy.cn/ide/</url>
   <url type="download">https://www.codebuddy.cn/ide/</url>
-  <url type="help">https://www.codebuddy.ai/docs/ide/Introduction</url>
+  <url type="help">https://www.codebuddy.cn/docs/ide/Introduction</url>
   <description>
     <p>This is a community package of CodeBuddy CN, maintained independently and unaffiliated with Tencent. It repackages the official upstream Linux Debian build unmodified.</p>
     <p>CodeBuddy is Tencent's AI-native code editor, built on Code - OSS (the open-source core of Visual Studio Code). It keeps the editor, extensions and keybindings of VS Code and adds an agent that plans and carries out multi-step work across a codebase, inline edits from a prompt, and a chat with the open project in context. Extensions are installed from the Open VSX registry.</p>
