@@ -193,7 +193,8 @@ jobs:
           # pin refresh shipped it, and users got `apply_extra script failed, exit
           # status 256` on update (issue #130). The check downloads the full
           # artifact (hundreds of MB for some apps), so it stays scoped to those
-          # two signals — a wrapper or descriptor edit does not pull it in.
+          # signals plus a change to build.arches (an arch opted in has never
+          # unpacked its pins) — other wrapper or descriptor edits do not pull it in.
           # No grep -q: with pipefail, grep closing the pipe on its first match
           # can fail the pipeline on SIGPIPE even though it matched.
           payload_ids=""
@@ -201,7 +202,10 @@ jobs:
             app_diff="$(git diff -U0 --name-only "$base" HEAD -- "registry/$id/apply_extra.sh")"
             pin_diff="$(git diff -U0 "$base" HEAD -- "registry/$id/" \
                           | grep -E '^[+-][[:space:]]*sha256:' || true)"
-            if [ -n "$pin_diff" ] || [ -n "$app_diff" ]; then
+            # An app newly opted into an arch has pins this arch never unpacked.
+            arch_diff="$(git diff -U0 "$base" HEAD -- "registry/$id/flatpark.yml" \
+                          | grep -E '^[+-][[:space:]]*arches:' || true)"
+            if [ -n "$pin_diff" ] || [ -n "$app_diff" ] || [ -n "$arch_diff" ]; then
               payload_ids="$payload_ids $id"
             fi
           done
