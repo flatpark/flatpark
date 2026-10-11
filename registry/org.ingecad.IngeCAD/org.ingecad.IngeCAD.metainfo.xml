@@ -64,6 +64,9 @@
     <keyword>engineering</keyword>
   </keywords>
   <releases>
+    <release version="0.6.6" date="2026-10-09">
+      <description></description>
+    </release>
     <release version="0.6.4" date="2026-09-27"/>
   </releases>
 </component>

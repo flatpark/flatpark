@@ -47,9 +47,9 @@ modules:
         filename: wordcraft-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/wordcraft/releases/download/v0.4.0/wordcraft-0.4.0-linux-x86_64.tar.gz
-        sha256: 840f985c98ffaeb152a86421399e51b905d6cf8bcb0802ecd2682d7d77231a26
-        size: 57331770
+        url: https://github.com/storytold/wordcraft/releases/download/v0.5.0/wordcraft-0.5.0-linux-x86_64.tar.gz
+        sha256: 994bb376479ef6d76735cf4029e5ef3c2d52a85a4c9acde2b37c33b19c570203
+        size: 90044436
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
