@@ -152,7 +152,7 @@ policy:                       # optional — informational
 
 只有 `id`、`name`、`summary` 和 `build.manifest` 是必填项。
 
-`build.arches` 用于让应用同时发布 aarch64。所有应用都发布 x86_64；只有上游提供 arm 构建、且 manifest 已为其钉好 pin 时才列出 `aarch64`——每个 extra-data 源都有自己的 `only-arches`，resolver 按架构各输出一个源（参见 `registry/rocks.spotifast.Spotifast`）。arm 构建在 arm runner 上原生进行：PR 检查中会产出可安装的 aarch64 bundle，合并后由 publish 一并发布。
+`build.arches` 用于让应用同时发布 aarch64。所有应用都发布 x86_64；只有上游提供 arm 构建、且 manifest 已为其钉好 pin 时才列出 `aarch64`——每个 extra-data 源都有自己的 `only-arches`，resolver 按架构各输出一个源。最简单的写法是两个架构的 payload 用同一个 `filename`，resolver 给每个源标上 `"arch": "x86_64"` 或 `"arch": "aarch64"`，这样 `apply_extra` 在两个架构上解的都是同一个文件名。arm 构建在 arm runner 上原生进行：PR 检查中会产出可安装的 aarch64 bundle，合并后由 publish 一并发布。
 
 ## 自动更新（可选）
 

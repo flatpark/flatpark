@@ -248,7 +248,9 @@ Only `id`, `name`, `summary`, and `build.manifest` are required.
 `build.arches` opts an app into aarch64. Every app ships x86_64; list `aarch64`
 only when upstream publishes an arm build and the manifest pins it — each
 extra-data source carries its own `only-arches`, and the resolver emits one
-source per arch (see `registry/rocks.spotifast.Spotifast`). The arm build runs
+source per arch. The simplest shape gives both payloads the same `filename` and
+tags each resolver source with `"arch": "x86_64"` or `"arch": "aarch64"`, so
+`apply_extra` unpacks one name on either arch. The arm build runs
 natively on an arm runner, both in PR checks (with an installable aarch64 bundle)
 and on publish.
 

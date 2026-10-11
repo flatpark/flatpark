@@ -101,4 +101,22 @@ if command -v appstreamcli >/dev/null 2>&1; then
     || { echo "FAIL: metainfo does not validate after the update"; exit 1; }
 fi
 
+# 6) per-arch payloads share a filename; `arch` picks the pin. Adding an aarch64
+#    source next to an existing x86_64 pin creates a new record scoped to it and,
+#    with no version anchor, leaves the unchanged x86_64 pin alone.
+mk_manifest "file://$tmp/old.bin" "$old_sha" "$old_size"
+mk_metainfo "1.0"
+run "$(printf '{"sources":[{"filename":"app.bin","arch":"x86_64","url":"file://%s/old.bin"},{"filename":"app.bin","arch":"aarch64","url":"file://%s/new.bin"}]}' "$tmp" "$tmp")"
+assert_eq "$RC" "0"
+assert_eq "$(grep -c 'filename: app.bin' "$tmp/manifest.yml")" "2"
+arm_block="$(awk '/- aarch64/{f=1} f' "$tmp/manifest.yml")"
+case "$arm_block" in *"sha256: $new_sha"*) ;; *) echo "FAIL: aarch64 pin missing"; exit 1 ;; esac
+x86_block="$(awk '/- x86_64/{f=1} /- aarch64/{f=0} f' "$tmp/manifest.yml")"
+case "$x86_block" in *"sha256: $old_sha"*) ;; *) echo "FAIL: x86_64 pin changed"; exit 1 ;; esac
+
+# 7) once a filename is pinned for two arches, a source without `arch` is
+#    ambiguous and must fail rather than cross-pin.
+run "$(printf '{"version":"9.0","sources":[{"filename":"app.bin","url":"file://%s/new.bin"}]}' "$tmp")"
+assert_eq "$RC" "1"
+
 echo "test_update_pins: PASS"

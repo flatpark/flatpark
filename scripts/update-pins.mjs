@@ -4,8 +4,13 @@
 //
 //   <resolver JSON on stdin> | update-pins.mjs <manifest> [metainfo]
 //
-// Resolver JSON: { version, releaseDate, sources: [ { filename, url } ],
+// Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch? } ],
 //                  releaseUrl?, releaseNotes? }
+//
+// `arch` scopes a source to one architecture (it becomes the pin's only-arches).
+// An app published for several arches gives each payload the same filename and
+// an arch, so apply_extra unpacks one name whichever arch it runs on. Without
+// `arch` a source keeps the only-arches it already has (x86_64 when it is new).
 //
 // releaseUrl and releaseNotes are optional per-app opt-ins. releaseUrl becomes
 // the release's <url type="details">, i.e. a link to upstream's own notes.
@@ -53,15 +58,15 @@ if (bi < 0 || ei < 0 || ei < bi) die('manifest has no MANAGED EXTRA-DATA block')
 const baseIndent = (lines[bi].match(/^(\s*)/)[1]) || '      ';
 const oldBlock = lines.slice(bi + 1, ei);
 
-// Parse the current block: filename -> { url, sha256, size, arches }.
-const current = {};
+// Parse the current block into { filename, url, sha256, size, arches } records.
+const current = [];
 let cur = null;
 for (const l of oldBlock) {
   const t = l.trim();
-  if (t === '- type: extra-data') { cur = { arches: [] }; continue; }
+  if (t === '- type: extra-data') { cur = { arches: [] }; current.push(cur); continue; }
   if (!cur) continue;
   let m;
-  if ((m = t.match(/^filename:\s*(.+)$/))) { cur.filename = m[1].trim(); current[cur.filename] = cur; }
+  if ((m = t.match(/^filename:\s*(.+)$/))) cur.filename = m[1].trim();
   else if ((m = t.match(/^url:\s*(.+)$/))) cur.url = m[1].trim();
   else if ((m = t.match(/^sha256:\s*(.+)$/))) cur.sha256 = m[1].trim();
   else if ((m = t.match(/^size:\s*(.+)$/))) cur.size = m[1].trim();
@@ -102,10 +107,20 @@ async function pin(url) {
 const fields = `${baseIndent}  `;
 const archItem = `${baseIndent}    `;
 const out = [];
+// The pin a resolver source refreshes: same filename and, when the source names
+// an arch, the record scoped to it. A filename shared across arches with no arch
+// to tell them apart is ambiguous, and guessing would cross-pin the payloads.
+function previous(src) {
+  const named = current.filter((c) => c.filename === src.filename);
+  if (src.arch) return named.find((c) => c.arches.includes(src.arch));
+  if (named.length > 1) die(`${src.filename} is pinned for several arches; the resolver must give each source an arch`);
+  return named[0];
+}
+
 for (const src of resolver.sources) {
   if (!src.filename || !src.url) die('each source needs filename + url');
-  const prev = current[src.filename];
-  const arches = prev && prev.arches.length ? prev.arches : ['x86_64'];
+  const prev = previous(src);
+  const arches = src.arch ? [src.arch] : prev && prev.arches.length ? prev.arches : ['x86_64'];
   let sha256, size;
   if (!versionBump && prev && prev.url === src.url && prev.sha256 && prev.size) {
     ({ sha256, size } = prev); // URL unchanged and no version bump -> keep the pin
