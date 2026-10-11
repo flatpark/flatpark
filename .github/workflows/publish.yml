@@ -177,6 +177,11 @@ jobs:
           node-version: 24
       - name: Install flatpak toolchain
         run: |
+          # ubuntu-24.04-arm ships flatpak 1.14, which rejects finish-args added
+          # since (--device=input, used by OpenTubeX). The x86 runner is 26.04.
+          if [ "$(uname -m)" = aarch64 ]; then
+            sudo add-apt-repository -y ppa:flatpak/stable
+          fi
           sudo apt-get update
           # The distro package, not the Flathub app a developer machine uses:
           # the sandboxed builder reaches the host's flatpak over the session
