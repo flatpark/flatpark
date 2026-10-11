@@ -40,12 +40,19 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: designcraft-x86_64.tar.gz
+        filename: designcraft.tar.gz
         only-arches:
           - x86_64
         url: https://github.com/storytold/designcraft/releases/download/v0.6.0/designcraft-0.6.0-linux-x86_64.tar.gz
         sha256: abb661cd2fc53677d040fe0be3f241bbb8c0fad9619192a83109d53bd514bfb9
         size: 70445125
+      - type: extra-data
+        filename: designcraft.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/storytold/designcraft/releases/download/v0.6.0/designcraft-0.6.0-linux-aarch64.tar.gz
+        sha256: 9fd4a056aea68e80fc705098d96033e0c6768e8ffb9cb9b3d0f738d5a0efeeb5
+        size: 67380815
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

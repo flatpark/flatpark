@@ -4,7 +4,8 @@
 # Prints the current version + the official Linux release tarball as JSON on
 # stdout:
 #   { "version": "0.4.0", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "effectcraft-x86_64.tar.gz", "url": "..." } ] }
+#     "sources": [ { "filename": "effectcraft.tar.gz", "arch": "x86_64",  "url": "..." },
+#                  { "filename": "effectcraft.tar.gz", "arch": "aarch64", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -22,17 +23,23 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 
-# effectcraft-<ver>-linux-x86_64.tar.gz exactly: excludes the .AppImage/.deb/.rpm
-# of the same build and the aarch64 tarball.
-url="$(jq -r --arg v "$version" \
-  '.assets[] | select(.name == "effectcraft-\($v)-linux-x86_64.tar.gz") | .browser_download_url' \
-  <<<"$rel" | head -n1)"
+# effectcraft-<ver>-linux-<arch>.tar.gz exactly: excludes the .AppImage/.deb/.rpm/
+# .flatpak of the same builds.
+asset_url() {
+  jq -r --arg n "effectcraft-$version-linux-$1.tar.gz" \
+    '.assets[] | select(.name == $n) | .browser_download_url' <<<"$rel" | head -n1
+}
+url_x86_64="$(asset_url x86_64)"
+url_aarch64="$(asset_url aarch64)"
 
-[ -n "$version" ] && [ -n "$url" ] || {
+[ -n "$version" ] && [ -n "$url_x86_64" ] && [ -n "$url_aarch64" ] || {
   echo "failed to resolve EffectCraft release" >&2
   exit 1
 }
-echo "resolved EffectCraft $version ($date): $url" >&2
+echo "resolved EffectCraft $version ($date): $url_x86_64" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"effectcraft-x86_64.tar.gz", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg ux "$url_x86_64" --arg ua "$url_aarch64" \
+  '{version:$v, releaseDate:$d, sources:[
+     {filename:"effectcraft.tar.gz", arch:"x86_64",  url:$ux},
+     {filename:"effectcraft.tar.gz", arch:"aarch64", url:$ua}
+   ]}'

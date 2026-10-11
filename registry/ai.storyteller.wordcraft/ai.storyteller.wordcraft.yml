@@ -44,12 +44,19 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: wordcraft-x86_64.tar.gz
+        filename: wordcraft.tar.gz
         only-arches:
           - x86_64
         url: https://github.com/storytold/wordcraft/releases/download/v0.5.0/wordcraft-0.5.0-linux-x86_64.tar.gz
         sha256: 994bb376479ef6d76735cf4029e5ef3c2d52a85a4c9acde2b37c33b19c570203
         size: 90044436
+      - type: extra-data
+        filename: wordcraft.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/storytold/wordcraft/releases/download/v0.5.0/wordcraft-0.5.0-linux-aarch64.tar.gz
+        sha256: c14496d00b7f9a4bf658453a5f9eacc69141dcc49f2631035fd984cefc90cbf3
+        size: 87906339
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

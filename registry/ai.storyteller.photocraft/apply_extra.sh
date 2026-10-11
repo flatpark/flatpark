@@ -10,7 +10,7 @@ set -eu
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-archive=photocraft-x86_64.tar.gz
+archive=photocraft.tar.gz
 [ -f "$archive" ] || { echo "missing extra-data: $archive" >&2; exit 1; }
 
 # --no-same-owner: the tarball records uid/gid 1001, and on a system-wide

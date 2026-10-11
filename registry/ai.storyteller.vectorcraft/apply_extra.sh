@@ -10,7 +10,7 @@ set -eu
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-archive=vectorcraft-x86_64.tar.gz
+archive=vectorcraft.tar.gz
 [ -f "$archive" ] || { echo "missing extra-data: $archive" >&2; exit 1; }
 
 # --no-same-owner: the tarball records a non-root owner, and on a system-wide
