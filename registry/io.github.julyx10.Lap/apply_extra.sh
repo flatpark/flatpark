@@ -45,5 +45,6 @@ mv stage/usr/lib/Lap lap/lib/Lap
 rm -rf stage lap.deb
 
 chmod +x lap/bin/Lap
-chmod +x lap/lib/Lap/ffmpeg/ffmpeg-x86_64-unknown-linux-gnu \
-          lap/lib/Lap/ffmpeg/ffprobe-x86_64-unknown-linux-gnu
+triple="$(uname -m)-unknown-linux-gnu"
+chmod +x "lap/lib/Lap/ffmpeg/ffmpeg-$triple" \
+          "lap/lib/Lap/ffmpeg/ffprobe-$triple"

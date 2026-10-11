@@ -66,6 +66,13 @@ modules:
         url: https://github.com/wavetermdev/waveterm/releases/download/v0.14.5/waveterm-linux-amd64-0.14.5.deb
         sha256: 691ace562e66a20d9727b8beeaf98fe64a445df65523bb1fd11ed30f56fd137b
         size: 160100992
+      - type: extra-data
+        filename: waveterm.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/wavetermdev/waveterm/releases/download/v0.14.5/waveterm-linux-arm64-0.14.5.deb
+        sha256: d77f638301e4890dd7fd64ce6d753227072289783ae0f84063f2d151e186aa55
+        size: 152822780
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

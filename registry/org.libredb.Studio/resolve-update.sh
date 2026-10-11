@@ -32,6 +32,9 @@ date="$(jq -r '.published_at' <<< "$rel" | cut -c1-10)"
 # there; the two must change together.
 url="$(jq -r '.assets[] | select(.name | test("^libredb-studio-desktop_.*_amd64\\.deb$")) | .browser_download_url' \
   <<< "$rel" | head -n1)"
+url_arm="$(jq -r '.assets[] | select(.name | test("^libredb-studio-desktop_.*_arm64\\.deb$")) | .browser_download_url' \
+  <<< "$rel" | head -n1)"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || {
   echo "failed to resolve libredb-studio release" >&2
@@ -39,5 +42,5 @@ url="$(jq -r '.assets[] | select(.name | test("^libredb-studio-desktop_.*_amd64\
 }
 echo "resolved libredb-studio $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"libredb-studio-desktop.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"libredb-studio-desktop.deb", arch:"x86_64", url:$u}, {filename:"libredb-studio-desktop.deb", arch:"aarch64", url:$ua}]}'

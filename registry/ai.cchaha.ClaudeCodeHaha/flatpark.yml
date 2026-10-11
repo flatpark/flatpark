@@ -7,6 +7,7 @@ build:
   manifest: ai.cchaha.ClaudeCodeHaha.yml
   branch: stable
   mode: extra-data
+  arches: [x86_64, aarch64]
 catalog:
   category: AI
   upstream_approved: true

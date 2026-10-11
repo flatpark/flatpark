@@ -5,7 +5,7 @@ set -eu
 # Wave as an electron-builder .deb: a plain FHS tree with the whole app under
 # /opt/Wave (the Chromium binary, app.asar, libffmpeg.so, ANGLE and SwiftShader
 # libs, plus resources/app.asar.unpacked/dist/bin holding the Go backend
-# `wavesrv.x64` and the per-platform `wsh` helpers) alongside icons and a
+# `wavesrv.x64` / `wavesrv.arm64` and the per-platform `wsh` helpers) alongside icons and a
 # .desktop. Unpack the .deb's data member and keep just the app directory at a
 # stable path the wrapper execs: /app/extra/waveterm.
 #
@@ -52,5 +52,9 @@ rm -rf stage waveterm.deb
 
 # The Go backend and the wsh helpers are executed directly by the app; the .deb
 # carries the exec bits, but assert it rather than discovering it at first run.
-[ -x waveterm/resources/app.asar.unpacked/dist/bin/wavesrv.x64 ] \
-    || { echo "wavesrv backend missing after stage" >&2; exit 1; }
+case "$(uname -m)" in
+  aarch64) wavesrv=wavesrv.arm64 ;;
+  *)       wavesrv=wavesrv.x64 ;;
+esac
+[ -x "waveterm/resources/app.asar.unpacked/dist/bin/$wavesrv" ] \
+    || { echo "wavesrv backend ($wavesrv) missing after stage" >&2; exit 1; }

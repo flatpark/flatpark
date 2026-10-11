@@ -25,10 +25,12 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # publishes waveterm-linux-arm64-<version>.deb, and a loose `\.deb$` match would
 # pick whichever sorted first.
 url="$(jq -r '.assets[] | select(.name | test("^waveterm-linux-amd64-.*\\.deb$")) | .browser_download_url' <<<"$rel")"
+url_arm="$(jq -r '.assets[] | select(.name | test("^waveterm-linux-arm64-.*\\.deb$")) | .browser_download_url' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve waveterm release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "expected exactly one amd64 .deb asset, got:" >&2; echo "$url" >&2; exit 1; }
 echo "resolved waveterm $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"waveterm.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"waveterm.deb", arch:"x86_64", url:$u}, {filename:"waveterm.deb", arch:"aarch64", url:$ua}]}'

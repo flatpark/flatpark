@@ -16,6 +16,7 @@ build:
   manifest: org.libredb.Studio.yml
   branch: stable
   mode: extra-data
+  arches: [x86_64, aarch64]
 catalog:
   category: Development
   # LibreDB packages its own application - approved by construction, with the

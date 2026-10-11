@@ -24,9 +24,11 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # The x86_64 Linux build is `pi-desktop_<ver>_amd64.deb`. Match it exactly so
 # the .rpm/.AppImage assets and the macOS/Windows assets are all excluded.
 url="$(jq -r '.assets[] | select(.name | test("^pi-desktop_[0-9.]+_amd64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+url_arm="$(jq -r '.assets[] | select(.name | test("^pi-desktop_[0-9.]+_arm64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve PI-Desktop release" >&2; exit 1; }
 echo "resolved PI-Desktop $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"pi-desktop.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"pi-desktop.deb", arch:"x86_64", url:$u}, {filename:"pi-desktop.deb", arch:"aarch64", url:$ua}]}'

@@ -7,6 +7,7 @@ build:
   manifest: io.github.pear_devs.pear_desktop.yml
   branch: stable
   mode: extra-data
+  arches: [x86_64, aarch64]
 catalog:
   category: AudioVideo
   tags:

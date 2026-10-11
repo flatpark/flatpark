@@ -42,6 +42,13 @@ modules:
         url: https://github.com/martinkoutecky/tine/releases/download/v0.7.1/Tine_0.7.1_amd64.deb
         sha256: 47770e2b66e7655667a4f264b953724cfbd8e0035ce1c9a70df02e6f603a84e1
         size: 21841666
+      - type: extra-data
+        filename: tine.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/martinkoutecky/tine/releases/download/v0.7.1/Tine_0.7.1_arm64.deb
+        sha256: 0c48f9a070f431b7c4715cc929e6fe5798dbe2e3593b2540a509650d2fe6b68a
+        size: 21355792
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

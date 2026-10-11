@@ -33,6 +33,13 @@ modules:
         url: https://github.com/kanriapp/kanri/releases/download/app-v0.8.2/kanri_0.8.2_amd64.deb
         sha256: f3de8628500e57275d34644b7994b4ec3a5dfa956b8468fe676fb6e6d0ba6f15
         size: 5623752
+      - type: extra-data
+        filename: kanri.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/kanriapp/kanri/releases/download/app-v0.8.2/kanri_0.8.2_arm64.deb
+        sha256: e6b80e338afa9b3f7a5693fdd73262ea38117c197b5990f660f6b00999386940
+        size: 5498188
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

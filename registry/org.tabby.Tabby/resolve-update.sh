@@ -23,9 +23,11 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # the arm64/armv7l .deb, the .rpm/.pacman/.tar.gz/.AppImage, the portable .zip
 # and the macOS assets are all excluded.
 url="$(jq -r '.assets[] | select(.name | test("-linux-x64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+url_arm="$(jq -r '.assets[] | select(.name | test("-linux-arm64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve Tabby release" >&2; exit 1; }
 echo "resolved Tabby $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"tabby.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"tabby.deb", arch:"x86_64", url:$u}, {filename:"tabby.deb", arch:"aarch64", url:$ua}]}'

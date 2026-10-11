@@ -62,6 +62,7 @@ modules:
         filename: NotoSansCJK-Regular.ttc
         only-arches:
           - x86_64
+          - aarch64
         url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
         sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
         size: 19484784
@@ -73,6 +74,13 @@ modules:
         url: https://github.com/jub0t/concat/releases/download/v0.2.6/Concat-0.2.6-linux-x86_64.deb
         sha256: fca5f4e8a763caeb9ab8654feb55f9743eb01763f18cee71ef83bffb20259eec
         size: 137490492
+      - type: extra-data
+        filename: concat.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/jub0t/concat/releases/download/v0.2.6/Concat-0.2.6-linux-aarch64.deb
+        sha256: 99215754f7a964489385cb817868863557b554899b9d24118a3dcfa0b692c14d
+        size: 126136862
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

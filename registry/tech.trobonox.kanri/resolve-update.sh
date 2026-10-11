@@ -19,6 +19,9 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # rather than silently taking the first hit.
 url="$(jq -r '[.assets[] | select(.name | test("_amd64\\.deb$")) | .browser_download_url]
               | if length == 1 then .[0] else empty end' <<<"$rel")"
+url_arm="$(jq -r '[.assets[] | select(.name | test("_arm64\\.deb$")) | .browser_download_url]
+              | if length == 1 then .[0] else empty end' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$tag" ] && [ -n "$version" ] && [ -n "$url" ] || {
   echo "failed to resolve Kanri release" >&2
@@ -26,5 +29,5 @@ url="$(jq -r '[.assets[] | select(.name | test("_amd64\\.deb$")) | .browser_down
 }
 echo "resolved Kanri $version from $tag ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"kanri.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"kanri.deb", arch:"x86_64", url:$u}, {filename:"kanri.deb", arch:"aarch64", url:$ua}]}'

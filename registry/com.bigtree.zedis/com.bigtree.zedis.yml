@@ -54,6 +54,7 @@ modules:
         filename: NotoSansCJK-Regular.ttc
         only-arches:
           - x86_64
+          - aarch64
         url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
         sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
         size: 19484784
@@ -65,6 +66,13 @@ modules:
         url: https://github.com/vicanso/zedis/releases/download/v0.12.4/zedis-linux-x86_64.deb
         sha256: cae5db150ed40a6ce06948912967d3cb5e3c516f535e38b92dcd0512014a0821
         size: 16993776
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/vicanso/zedis/releases/download/v0.12.4/zedis-linux-aarch64.deb
+        sha256: c00f01c465709e3654acd31bb2be1ffd2c26b4d2ff505cc1850a244286b27f1d
+        size: 14940060
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

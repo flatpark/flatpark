@@ -23,9 +23,11 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # an arm64 .deb, macOS .dmg/.app.tar.gz, Windows .msi and AppImages, so anchor
 # the match on the amd64 .deb suffix.
 url="$(jq -r '.assets[] | select(.name | test("_amd64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+url_arm="$(jq -r '.assets[] | select(.name | test("_arm64\\.deb$")) | .browser_download_url' <<<"$rel" | head -n1)"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve lap release" >&2; exit 1; }
 echo "resolved lap $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"lap.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"lap.deb", arch:"x86_64", url:$u}, {filename:"lap.deb", arch:"aarch64", url:$ua}]}'

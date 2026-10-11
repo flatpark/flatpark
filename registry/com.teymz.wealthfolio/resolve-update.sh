@@ -23,9 +23,12 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # .AppImage, the detached .sig files and the macOS/Windows builds are skipped).
 url="$(jq -r '[.assets[] | select(.name | test("_amd64\\.deb$")) | .browser_download_url]
               | if length == 1 then .[0] else empty end' <<<"$rel")"
+url_arm="$(jq -r '[.assets[] | select(.name | test("_arm64\\.deb$")) | .browser_download_url]
+              | if length == 1 then .[0] else empty end' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve Wealthfolio release" >&2; exit 1; }
 echo "resolved Wealthfolio $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"app.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"app.deb", arch:"x86_64", url:$u}, {filename:"app.deb", arch:"aarch64", url:$ua}]}'

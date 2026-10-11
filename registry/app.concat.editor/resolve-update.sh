@@ -26,9 +26,13 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 url="$(jq -r --arg v "$version" \
         '.assets[] | select(.name == ("Concat-" + $v + "-linux-x86_64.deb")) | .browser_download_url' \
         <<<"$rel")"
+url_arm="$(jq -r --arg v "$version" \
+        '.assets[] | select(.name == ("Concat-" + $v + "-linux-aarch64.deb")) | .browser_download_url' \
+        <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve concat release" >&2; exit 1; }
 echo "resolved concat $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"concat.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"concat.deb", arch:"x86_64", url:$u}, {filename:"concat.deb", arch:"aarch64", url:$ua}]}'

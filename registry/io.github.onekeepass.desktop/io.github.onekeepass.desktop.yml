@@ -47,6 +47,13 @@ modules:
         url: https://github.com/OneKeePass/desktop/releases/download/v0.27.0/OneKeePass_0.27.0_Linux_x86_64.deb
         sha256: 1f934b32bc02f7c6eb082f8a9730cc7ea0772afde960de56b15008941c612faf
         size: 20487012
+      - type: extra-data
+        filename: onekeepass.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/OneKeePass/desktop/releases/download/v0.27.0/OneKeePass_0.27.0_Linux_aarch64.deb
+        sha256: e1efca782668cbdaed3729b292f08b24bec708d789e462225d476a9c4553e43e
+        size: 21242994
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

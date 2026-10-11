@@ -56,6 +56,13 @@ modules:
         url: https://github.com/edrlab/thorium-reader/releases/download/v3.5.1/Thorium-3.5.1-amd64.deb
         sha256: 72ab951d4963500b68c91a6496c662f30698dc27422a1b1af720b1cfbdfd327e
         size: 106569576
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/edrlab/thorium-reader/releases/download/v3.5.1/Thorium-3.5.1-arm64.deb
+        sha256: a085339ee6da4ae80a2e8f2ff3ca1aa51b8b50abfd2f3d08f0bdfe72b22e08b1
+        size: 100966616
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

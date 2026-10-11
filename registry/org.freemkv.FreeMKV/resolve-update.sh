@@ -24,10 +24,12 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # carries bare binaries, an AppImage, a .flatpak bundle and the macOS/Windows
 # builds. The version comes from the tag, and the URL stays per-release.
 url="$(jq -r '.assets[] | select(.name == "freemkv-amd64.deb") | .browser_download_url' <<<"$rel")"
+url_arm="$(jq -r '.assets[] | select(.name == "freemkv-arm64.deb") | .browser_download_url' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve freemkv release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "expected exactly one amd64 .deb asset, got:" >&2; echo "$url" >&2; exit 1; }
 echo "resolved freemkv $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"freemkv.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"freemkv.deb", arch:"x86_64", url:$u}, {filename:"freemkv.deb", arch:"aarch64", url:$ua}]}'

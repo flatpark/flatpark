@@ -47,6 +47,13 @@ modules:
         url: https://github.com/mockoon/mockoon/releases/download/v9.9.0/mockoon-9.9.0.amd64.deb
         sha256: 5ad57a6a3900e4857810802a8d0c49869f2c72defa01d360a99559728c605eb5
         size: 105238912
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/mockoon/mockoon/releases/download/v9.9.0/mockoon-9.9.0.arm64.deb
+        sha256: ef6b149b6819673a485da916e26063972d069371069e3acdca6d6850ef62ff15
+        size: 100447368
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

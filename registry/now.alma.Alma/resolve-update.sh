@@ -22,6 +22,14 @@ url="$(jq -er --arg name "$asset" \
   echo "refusing unexpected release asset URL: $url" >&2
   exit 1
 }
+asset_arm="alma-${version}-linux-arm64.deb"
+url_arm="$(jq -er --arg name "$asset_arm" \
+  '[.assets[] | select(.name == $name)] | if length == 1 then .[0].browser_download_url else error("expected exactly one arm64 .deb") end' \
+  <<<"$release")"
+[[ "$url_arm" == "https://github.com/$repo/releases/download/$tag/$asset_arm" ]] || {
+  echo "refusing unexpected release asset URL: $url_arm" >&2
+  exit 1
+}
 echo "resolved Alma $version ($date): $url" >&2
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"alma.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"alma.deb", arch:"x86_64", url:$u}, {filename:"alma.deb", arch:"aarch64", url:$ua}]}'
