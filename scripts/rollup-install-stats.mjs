@@ -2,24 +2,29 @@
 // Roll the install-stats Worker's Analytics Engine rows up into the public,
 // durable aggregates served from dl.flatpark.org/stats/:
 //
-//   daily/<YYYY-MM-DD>.json  {date, apps: {<id>: {installs, updates, commits?}}}
+//   daily/<YYYY-MM-DD>.json  {date, apps: {<id>: {installs, updates,
+//                                                 commits?: {<arch>: {<commit>: n}}}}}
 //   totals.json              {generated, since, through,
 //                             apps: {<id>: {installs, updates, installs30, updates30,
 //                                           downloads, active}}}
 //
-// `commits` maps each pulled commit to its pulls (installs + updates) that day.
-// It is absent on days, and for rows, from before the Worker recorded the
-// commit (2026-10-04) — those still count toward installs/updates/downloads,
-// they just cannot place a pull on a version.
+// `commits` maps each arch to its pulled commits and their pulls (installs +
+// updates) that day. It is absent on days, and for rows, from before the Worker
+// recorded the commit (2026-10-04) — those still count toward
+// installs/updates/downloads, they just cannot place a pull on a version. Daily
+// files written before arches were told apart (through 2026-10-10, when every
+// app was x86_64 only) hold a flat {<commit>: n}, read as x86_64.
 //
 // `downloads` is every pull, installs + updates. `active` estimates how many
 // installations are in use: the repo keeps one version per ref, so each
 // installation pulls a given commit once, and pulls of one commit ≈
 // installations that reached it. A version released yesterday has not been
-// pulled by everyone yet, so `active` is the most-pulled commit among those
-// pulled in the last 30 days, counting each such commit's pulls on every day
-// it was ever pulled. It is null until the app has any commit-tagged pull.
-// Installations that never update are invisible to it, so it is a floor.
+// pulled by everyone yet, so per arch it takes the most-pulled commit among
+// those pulled in the last 30 days, counting each such commit's pulls on every
+// day it was ever pulled. Each arch is its own ref with its own commits, so
+// `active` is the sum of those per-arch figures. It is null until the app has
+// any commit-tagged pull. Installations that never update are invisible to it,
+// so it is a floor.
 //
 // Analytics Engine keeps rows for three months, so the daily files are the
 // record. The script works on a local mirror of stats/ (the workflow syncs it
@@ -71,11 +76,11 @@ async function query(date) {
   // _sample_interval: Analytics Engine may sample under load; each row then
   // stands for that many points, so it is summed rather than counted.
   // blob6 (commit) reads back as "" on rows written before it existed.
-  const sql = `SELECT blob1 AS id, blob2 AS kind, blob6 AS commit, SUM(_sample_interval) AS n
+  const sql = `SELECT blob1 AS id, blob2 AS kind, blob3 AS arch, blob6 AS commit, SUM(_sample_interval) AS n
 FROM ${DATASET}
 WHERE timestamp >= toDateTime('${date} 00:00:00')
   AND timestamp < toDateTime('${addDays(date, 1)} 00:00:00')
-GROUP BY id, kind, commit
+GROUP BY id, kind, arch, commit
 FORMAT JSON`;
   const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/analytics_engine/sql`, {
     method: 'POST',
@@ -84,6 +89,19 @@ FORMAT JSON`;
   });
   if (!res.ok) throw new Error(`SQL API ${res.status} for ${date}: ${(await res.text()).slice(0, 300)}`);
   return res.json();
+}
+
+// The arch every commit in a pre-arch (flat) daily `commits` map belongs to.
+const LEGACY_ARCH = 'x86_64';
+
+// A daily `commits` map as [arch, commit, pulls] triples, either shape.
+function commitPulls(commits) {
+  const out = [];
+  for (const [k, v] of Object.entries(commits ?? {})) {
+    if (typeof v === 'number') out.push([LEGACY_ARCH, k, v]);
+    else for (const [commit, n] of Object.entries(v)) out.push([k, commit, n]);
+  }
+  return out;
 }
 
 function toDaily(date, result) {
@@ -96,8 +114,8 @@ function toDaily(date, result) {
     const a = (apps[row.id] ??= { installs: 0, updates: 0 });
     a[key] += n;
     if (/^[0-9a-f]{64}$/.test(row.commit ?? '')) {
-      a.commits ??= {};
-      a.commits[row.commit] = (a.commits[row.commit] ?? 0) + n;
+      const byArch = ((a.commits ??= {})[row.arch || LEGACY_ARCH] ??= {});
+      byArch[row.commit] = (byArch[row.commit] ?? 0) + n;
     }
   }
   return { date, apps };
@@ -118,8 +136,8 @@ const dailies = readdirSync(dailyDir)
   .map((f) => JSON.parse(readFileSync(join(dailyDir, f), 'utf8')));
 const recentFrom = addDays(today, -30);
 const apps = {};
-const pulls = {}; // id -> commit -> pulls, all time
-const recent = {}; // id -> commits pulled in the last 30 days
+const pulls = {}; // id -> arch -> commit -> pulls, all time
+const recent = {}; // id -> arch -> commits pulled in the last 30 days
 let since = null;
 for (const d of dailies) {
   for (const [id, c] of Object.entries(d.apps)) {
@@ -132,16 +150,19 @@ for (const d of dailies) {
       a.installs30 += c.installs;
       a.updates30 += c.updates;
     }
-    for (const [commit, n] of Object.entries(c.commits ?? {})) {
-      (pulls[id] ??= {})[commit] = (pulls[id][commit] ?? 0) + n;
-      if (d.date >= recentFrom) (recent[id] ??= new Set()).add(commit);
+    for (const [arch, commit, n] of commitPulls(c.commits)) {
+      const p = ((pulls[id] ??= {})[arch] ??= {});
+      p[commit] = (p[commit] ?? 0) + n;
+      if (d.date >= recentFrom) ((recent[id] ??= {})[arch] ??= new Set()).add(commit);
     }
   }
 }
 for (const [id, a] of Object.entries(apps)) {
   a.downloads = a.installs + a.updates;
-  const seen = [...(recent[id] ?? [])];
-  a.active = seen.length ? Math.max(...seen.map((c) => pulls[id][c])) : null;
+  const arches = Object.entries(recent[id] ?? {});
+  a.active = arches.length
+    ? arches.reduce((sum, [arch, seen]) => sum + Math.max(...[...seen].map((c) => pulls[id][arch][c])), 0)
+    : null;
 }
 const totals = {
   generated: new Date().toISOString(),

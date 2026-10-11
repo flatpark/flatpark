@@ -60,6 +60,7 @@ done
 fixture="$tmp/sql"; mkdir -p "$fixture"
 A=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 B=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+C=cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 # 10-01: rows from before the Worker recorded the commit ("" — what Analytics
 # Engine returns for a blob that was never written).
 cat > "$fixture/2026-10-01.json" <<'EOF'
@@ -67,14 +68,17 @@ cat > "$fixture/2026-10-01.json" <<'EOF'
          {"id":"io.flatpark.TestOne","kind":"update","commit":"","n":2},
          {"id":"io.example.Spoofed","kind":"install","commit":"","n":50}]}
 EOF
-# 10-02: version A goes out; 10-03: version B replaces it, half-adopted so far.
+# 10-02: version A goes out; 10-03: version B replaces it, half-adopted so far,
+# and the aarch64 build (its own ref, so its own commit C) gets two installs.
+# Rows with no arch read as x86_64.
 cat > "$fixture/2026-10-02.json" <<EOF
-{"data":[{"id":"io.flatpark.TestOne","kind":"install","commit":"$A","n":1},
+{"data":[{"id":"io.flatpark.TestOne","kind":"install","arch":"x86_64","commit":"$A","n":1},
          {"id":"io.flatpark.TestOne","kind":"update","commit":"$A","n":4}]}
 EOF
 cat > "$fixture/2026-10-03.json" <<EOF
-{"data":[{"id":"io.flatpark.TestOne","kind":"update","commit":"$B","n":2},
-         {"id":"io.flatpark.TestOne","kind":"install","commit":"$B","n":1},
+{"data":[{"id":"io.flatpark.TestOne","kind":"update","arch":"x86_64","commit":"$B","n":2},
+         {"id":"io.flatpark.TestOne","kind":"install","arch":"x86_64","commit":"$B","n":1},
+         {"id":"io.flatpark.TestOne","kind":"install","arch":"aarch64","commit":"$C","n":2},
          {"id":"io.flatpark.TestTwo","kind":"install","commit":"","n":4}]}
 EOF
 stats="$tmp/stats"; mkdir -p "$stats/daily"
@@ -82,7 +86,8 @@ stats="$tmp/stats"; mkdir -p "$stats/daily"
 # only record once Analytics Engine has forgotten it) but not in the 30 days.
 echo '{"date":"2026-08-01","apps":{"io.flatpark.TestOne":{"installs":10,"updates":0}}}' > "$stats/daily/2026-08-01.json"
 # Version A was first pulled long ago: all its pulls count toward `active`
-# because it was still pulled inside the last 30 days.
+# because it was still pulled inside the last 30 days. This day file predates
+# per-arch commits, so its flat map reads as x86_64.
 echo "{\"date\":\"2026-08-20\",\"apps\":{\"io.flatpark.TestOne\":{\"installs\":0,\"updates\":7,\"commits\":{\"$A\":7}}}}" > "$stats/daily/2026-08-20.json"
 
 rollup() {
@@ -96,7 +101,8 @@ assert_file "$stats/daily/2026-10-03.json"
 [ ! -e "$stats/daily/2026-10-04.json" ] || { echo "FAIL rolled up an unfinished day"; exit 1; }
 # pre-commit rows: counted, but no commits map
 assert_contains "$stats/daily/2026-10-01.json" '"io.flatpark.TestOne":{"installs":3,"updates":2}}'
-assert_contains "$stats/daily/2026-10-02.json" "\"io.flatpark.TestOne\":{\"installs\":1,\"updates\":4,\"commits\":{\"$A\":5}}"
+assert_contains "$stats/daily/2026-10-02.json" "\"io.flatpark.TestOne\":{\"installs\":1,\"updates\":4,\"commits\":{\"x86_64\":{\"$A\":5}}}"
+assert_contains "$stats/daily/2026-10-03.json" "\"commits\":{\"x86_64\":{\"$B\":3},\"aarch64\":{\"$C\":2}}"
 if grep -q Spoofed "$stats/daily/2026-10-01.json"; then echo "FAIL kept an id not in the registry"; exit 1; fi
 
 check_totals() {
@@ -105,9 +111,10 @@ check_totals() {
       const a = require("node:assert/strict");
       a.equal(t.since, "2026-08-01");
       a.equal(t.through, "2026-10-03");
-      // active: A has 7 (08-20) + 5 (10-02) = 12 pulls, B only 3 so far
+      // active, per arch then summed: x86_64 A has 7 (08-20) + 5 (10-02) = 12
+      // pulls (B only 3 so far), aarch64 C has 2 -> 14
       a.deepEqual(t.apps["io.flatpark.TestOne"],
-        { installs: 15, updates: 15, installs30: 5, updates30: 8, downloads: 30, active: 12 });
+        { installs: 17, updates: 15, installs30: 7, updates30: 8, downloads: 32, active: 14 });
       // only pre-commit rows: no version to place them on, so no estimate
       a.deepEqual(t.apps["io.flatpark.TestTwo"],
         { installs: 4, updates: 0, installs30: 4, updates30: 0, downloads: 4, active: null });
@@ -129,7 +136,7 @@ if [ -d "$ROOT/site/node_modules/yaml" ] && [ -d "$ROOT/site/node_modules/sharp"
         node tools/enrich.mjs >/dev/null 2>&1 )
     assert_ok node -e '
       const a = require("node:assert/strict");
-      a.deepEqual(require(process.argv[1]).stats, { downloads: 30, installs30: 5, active: 12, since: "2026-08-01" });
+      a.deepEqual(require(process.argv[1]).stats, { downloads: 32, installs30: 7, active: 14, since: "2026-08-01" });
       // listed after the last rollup: zero, not missing
       a.deepEqual(require(process.argv[2]).stats, { downloads: 0, installs30: 0, active: null, since: "2026-08-01" });
     ' "$data/apps/io.flatpark.TestOne.json" "$data/apps/io.flatpark.Fresh.json"
