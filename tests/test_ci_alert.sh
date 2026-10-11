@@ -48,6 +48,18 @@ case "$sub" in
          '. + [{number: $n, title: $t, body: $b, state: "open"}]' "$state" | write
       echo "issue #$n"
       ;;
+  "issue edit")
+      n="$1"; shift; title=""; body=""
+      while [ $# -gt 0 ]; do
+          case "$1" in
+              --title) title="$2"; shift 2 ;;
+              --body)  body="$2";  shift 2 ;;
+              *) shift ;;
+          esac
+      done
+      jq --argjson n "$n" --arg t "$title" --arg b "$body" \
+         'map(if .number == $n then .title = $t | .body = $b else . end)' "$state" | write
+      ;;
   "issue close")
       n="$1"
       jq --argjson n "$n" 'map(if .number == $n then .state = "closed" else . end)' "$state" | write
@@ -96,4 +108,19 @@ assert_eq "$("$ROOT/scripts/ci-alert.sh" list update-check/)" ""
 
 # Resolving a key with nothing open is a no-op, not an error.
 "$ROOT/scripts/ci-alert.sh" resolve "update-check/com.example.App" >/dev/null
+assert_eq "$(open_count)" "1"
+
+# `sync` keeps one issue per key too, but a repeat rewrites it with the latest
+# batch instead of staying on the first run's list.
+printf -- '- com.example.A\n- com.example.B\n' \
+    | "$ROOT/scripts/ci-alert.sh" sync "update-check/resolvers" "2 resolvers failed" >/dev/null
+assert_eq "$(open_count)" "2"
+printf -- '- com.example.C\n' \
+    | "$ROOT/scripts/ci-alert.sh" sync "update-check/resolvers" "1 resolver failed" >/dev/null
+assert_eq "$(open_count)" "2"
+assert_eq "$(creates)" "3"
+synced="$(jq -c '[.[] | select(.state == "open" and (.body | contains("ci-alert:update-check/resolvers")))][0]' "$CI_ALERT_TEST_STATE")"
+assert_eq "$(jq -r .title <<<"$synced")" "1 resolver failed"
+assert_eq "$(jq -r '.body | contains("com.example.C") and (contains("com.example.A") | not)' <<<"$synced")" "true"
+"$ROOT/scripts/ci-alert.sh" resolve "update-check/resolvers" >/dev/null
 assert_eq "$(open_count)" "1"

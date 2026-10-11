@@ -7,6 +7,10 @@
 # an auto-merge tells nobody. This opens a labelled issue instead, and closes it
 # again once the same key succeeds.
 #
+# `sync` is for an alert that stands for a batch rather than one thing: it is
+# still one issue per key, but a repeat rewrites the title and body so the
+# issue always shows the latest run's list instead of the first one's.
+#
 # Deduped by a hidden marker in the issue body rather than by title, so an issue
 # someone renamed is still found, and re-titling one never opens a second. A
 # repeat failure is deliberately quiet: a daily job that keeps failing keeps ONE
@@ -14,6 +18,7 @@
 #
 # Usage:
 #   ci-alert.sh open    <key> <title> [body-file]   # body on stdin if omitted
+#   ci-alert.sh sync    <key> <title> [body-file]   # open, or rewrite the open one
 #   ci-alert.sh resolve <key> [comment]
 #   ci-alert.sh list    [key-prefix]                # keys with an open alert
 #
@@ -68,6 +73,26 @@ cmd_open() {
     log "ci-alert: opened for $key"
 }
 
+cmd_sync() {
+    local key="$1" title="$2" body_file="${3:-}" body existing url
+    [ -n "$key" ] && [ -n "$title" ] || die "usage: ci-alert.sh sync <key> <title> [body-file]"
+    if [ -n "$body_file" ]; then
+        body="$(cat "$body_file")"
+    else
+        body="$(cat)"
+    fi
+    existing="$(find_open "$key")"
+    if [ -z "$existing" ]; then
+        printf '%s\n' "$body" | cmd_open "$key" "$title"
+        return
+    fi
+    url="$(run_url)"
+    [ -z "$url" ] || body="$(printf '%s\n\nLatest run: %s' "$body" "$url")"
+    body="$(printf '%s\n\n%s\n' "$body" "$(marker "$key")")"
+    gh issue edit "$existing" --title "$title" --body "$body" >&2
+    log "ci-alert: refreshed #$existing for $key"
+}
+
 cmd_resolve() {
     local key="$1" comment="${2:-}" existing url
     [ -n "$key" ] || die "usage: ci-alert.sh resolve <key> [comment]"
@@ -94,7 +119,8 @@ cmd_list() {
 
 case "${1:-}" in
     open)    shift; cmd_open "${1:-}" "${2:-}" "${3:-}" ;;
+    sync)    shift; cmd_sync "${1:-}" "${2:-}" "${3:-}" ;;
     resolve) shift; cmd_resolve "${1:-}" "${2:-}" ;;
     list)    shift; cmd_list "${1:-}" ;;
-    *) die "usage: ci-alert.sh open|resolve|list ..." ;;
+    *) die "usage: ci-alert.sh open|sync|resolve|list ..." ;;
 esac

@@ -50,10 +50,19 @@ jobs:
           # it is gone fail to resolve instead of being held back, so they keep
           # their pins and the run still goes green (update-check #131 lost 89).
           GITHUB_TOKEN: ${{ github.token }}
+          # A resolver that fails keeps its app on the current pin and is in
+          # neither `changed` nor `held`, so nothing else in this run would
+          # notice it (update-check #131 lost 89 that way and went green).
+          FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
         run: |
+          : > "$FAILED_OUT"
           ids="$(./scripts/check-updates.sh | tr '\n' ' ')"
           echo "changed=$ids" >> "$GITHUB_ENV"
           echo "changed apps: ${ids:-<none>}"
+          failed="$(cut -f1 "$FAILED_OUT" | tr '\n' ' ')"
+          echo "failed=${failed% }" >> "$GITHUB_ENV"
+          echo "failed to resolve: ${failed:-<none>}"
+          echo "sweep_done=1" >> "$GITHUB_ENV"
       # The auto/update-pins-* PR this job opens is squash-merged seconds later,
       # so the pr-checks run its `opened` event queues never gets to look inside
       # the artifact just pinned (its merge ref is deleted before setup — the
@@ -212,7 +221,30 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
+          FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
         run: |
+          # Resolver failures are one alert for the whole batch, rewritten each
+          # run with that day's list, so they get fixed together in one PR.
+          if [ -s "$FAILED_OUT" ]; then
+            n="$(wc -l < "$FAILED_OUT")"
+            {
+              echo "These apps' update resolvers failed in the latest sweep, so they"
+              echo "stay on their current pin and get no updates until fixed:"
+              echo
+              echo "| App | Last error |"
+              echo "|---|---|"
+              sed 's/|/\\|/g' "$FAILED_OUT" | awk -F'\t' '{ printf "| `%s` | %s |\n", $1, $2 }'
+              echo
+              echo "Reproduce one with \`./scripts/check-updates.sh <app-id>\` (set"
+              echo "\`GITHUB_TOKEN\`). This issue is rewritten every run and closes itself"
+              echo "once every resolver succeeds."
+            } | ./scripts/ci-alert.sh sync "update-check/resolvers" \
+                  "update-check: $n resolver(s) failed"
+          elif [ "${sweep_done:-}" = 1 ]; then
+            ./scripts/ci-alert.sh resolve "update-check/resolvers" \
+              "Every resolver succeeded in this run."
+          fi
+
           for id in ${held:-}; do
             ./scripts/ci-alert.sh open "update-check/$id" \
               "update-check: $id no longer unpacks" <<EOF
@@ -263,8 +295,9 @@ jobs:
 
       # Last, so a held-back app still gets its PR opened for the apps that passed.
       # A red daily run is the point: an upstream that repackaged needs a human.
-      - name: Fail if any pin was held back
-        if: env.held != ''
+      - name: Fail if any pin was held back or failed to resolve
+        if: env.held != '' || env.failed != ''
         run: |
-          echo "held back — apply_extra failed against the new payload:$held" >&2
+          [ -z "${held:-}" ] || echo "held back — apply_extra failed against the new payload: $held" >&2
+          [ -z "${failed:-}" ] || echo "failed to resolve: $failed" >&2
           exit 1
