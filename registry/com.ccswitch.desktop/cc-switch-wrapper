@@ -5,10 +5,8 @@ set -eu
 # /app/extra/cc-switch. It links only against libraries in org.gnome.Platform
 # (webkit2gtk-4.1, gtk-3, libsoup-3) plus libayatana-appindicator, which the
 # binary dlopen-s for its tray icon and which the manifest builds into /app/lib
-# (the GNOME runtime does not ship it). Only ~/.cc-switch (the app's own data)
-# is granted by default; each managed tool's config is reached via per-tool
-# `flatpak override` grants documented in the app description (Claude Code
-# needs home — see the manifest note on single-file bind mounts and EBUSY).
+# (the GNOME runtime does not ship it). Home is granted so every managed
+# tool's config is reachable (see the manifest note).
 
 # WebKitGTK's DMABUF renderer paints a blank window under many drivers inside the
 # Flatpak sandbox — this is the same blank-screen failure some users hit running

@@ -18,16 +18,17 @@ finish-args:
   # System tray (Tauri tray-icon).
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-run/tray-icon:create
-  # Core function: read/write the live CLI configs. The only default grant is
-  # cc-switch's own data dir; every managed tool (Claude, Codex, Gemini, ...)
-  # is granted by the user with `flatpak override` (commands in the app
-  # description). Never expose a bare config file as a single-file
-  # --filesystem grant: it becomes a bind mount, and cc-switch updates configs
-  # by write-temp-then-rename, which cannot replace a mount point (rename(2)
-  # EBUSY). Tools with a directory get the directory; tools with a bare config
-  # file get the file's parent directory — for ~/.claude.json that parent is
-  # $HOME itself, hence Claude Code users grant --filesystem=home.
-  - --filesystem=~/.cc-switch:create
+  # Core function: read/write the live configs of every AI tool cc-switch
+  # manages (Claude Code, Codex, Gemini CLI, OpenCode, OpenClaw, ...). They
+  # live in ~/.<tool>, ~/.config/<tool> and bare files such as ~/.claude.json,
+  # and upstream adds tools quickly, so a per-tool grant list always falls
+  # behind. These configs may hold provider keys and OAuth tokens. A bare file
+  # must never be granted on its own: it becomes a bind mount, and cc-switch's
+  # write-temp-then-rename cannot replace a mount point (rename(2) EBUSY).
+  - --filesystem=home
+  # "Launch at login" writes ~/.config/autostart/CC Switch.desktop with the
+  # in-sandbox executable path, which the host cannot run.
+  - --nofilesystem=xdg-config/autostart
 modules:
   # The Tauri tray-icon dlopen-s libayatana-appindicator at startup and PANICS if
   # it is missing — and the GNOME runtime does not ship it, so the app cannot

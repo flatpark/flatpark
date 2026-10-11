@@ -19,16 +19,8 @@
       <li>One-click switch and sync to client live configurations</li>
       <li>MCP servers and Prompt/Skills management</li>
     </ul>
-    <p>By default this package can access only its own data (~/.cc-switch) — your home stays private. Grant access for the tools you actually use, otherwise changes cc-switch makes for them are silently discarded by the sandbox:</p>
-    <ul>
-      <li>Claude Code: flatpak override --user --filesystem=home com.ccswitch.desktop. Claude keeps ~/.claude.json directly in the home root, and exposing a single file to the sandbox breaks cc-switch's atomic config writes (EBUSY on rename), so the parent directory — your home — must be granted instead.</li>
-      <li>Codex: flatpak override --user --filesystem=~/.codex:create com.ccswitch.desktop</li>
-      <li>Gemini CLI: flatpak override --user --filesystem=~/.gemini:create com.ccswitch.desktop</li>
-      <li>OpenCode: flatpak override --user --filesystem=~/.config/opencode:create com.ccswitch.desktop</li>
-      <li>OpenClaw: flatpak override --user --filesystem=~/.openclaw:create com.ccswitch.desktop</li>
-    </ul>
-    <p>General rule for any other tool (or a custom config directory): if the tool's config lives in a directory, grant that directory; if it is a bare file, grant the file's parent directory, never the file itself — and when that file sits in the home root, the parent is home.</p>
-    <p>Warning: even after granting home, do not remove the default ~/.cc-switch permission (for example by toggling it off in Flatseal). Removing a directory permission records an explicit deny, and the sandbox masks a denied directory with an empty one that overrides the home grant — cc-switch would then lose its own settings on every restart.</p>
+    <p>This package grants read/write access to the home directory so CC Switch can find and update the configuration of every tool it manages, without a separate permission for each one. These configurations may contain API keys, OAuth tokens, or other credentials.</p>
+    <p>Launch at login is not available in this package.</p>
   </description>
   <launchable type="desktop-id">com.ccswitch.desktop.desktop</launchable>
   <categories>
