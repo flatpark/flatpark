@@ -22,10 +22,12 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # Exact name: the same release carries the macOS tarball, the arm64 build and
 # the .deb/.rpm/AppImage/.flatpak variants.
 url="$(jq -r --arg v "$version" '.assets[] | select(.name == "XerahS-\($v)-linux-x64.tar.gz") | .browser_download_url' <<<"$rel")"
+url_arm="$(jq -r --arg v "$version" '.assets[] | select(.name == "XerahS-\($v)-linux-arm64.tar.gz") | .browser_download_url' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve XerahS release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "expected exactly one linux-x64 tarball, got:" >&2; echo "$url" >&2; exit 1; }
 echo "resolved xerahs $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"xerahs.tar.gz", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"xerahs.tar.gz", arch:"x86_64", url:$u}, {filename:"xerahs.tar.gz", arch:"aarch64", url:$ua}]}'

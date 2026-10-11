@@ -7,6 +7,7 @@ build:
   manifest: io.github.yituorou.meatshell.yml
   branch: stable
   mode: extra-data
+  arches: [x86_64, aarch64]
 catalog:
   category: Development
   # yituorou, MeatShell's author and repo owner, approved the FlatPark listing

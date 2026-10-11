@@ -42,6 +42,13 @@ modules:
         url: https://github.com/Tyrrrz/DiscordChatExporter/releases/download/2.48/DiscordChatExporter.linux-x64.zip
         sha256: aafec3a2020c82a718f89123e864f9e7f9db756530bc8b8505ef7bb074134a61
         size: 22200686
+      - type: extra-data
+        filename: dce.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/Tyrrrz/DiscordChatExporter/releases/download/2.48/DiscordChatExporter.linux-arm64.zip
+        sha256: e6cd0c31319dddd57e3dbce710f977f95c5b5d71d8966b11ace4d5da698ee3f0
+        size: 21233817
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

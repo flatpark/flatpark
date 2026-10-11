@@ -2,7 +2,7 @@
 set -eu
 
 # Runs offline at install time. Upstream ships the Electron app as a tarball
-# whose single top-level directory is version-stamped (electerm-<ver>-linux-x64).
+# whose single top-level directory is version-stamped (electerm-<ver>-linux-<x64|arm64>).
 # Unpack it and rename that directory to a stable path the wrapper execs.
 # Everything Electron needs (Chromium, ffmpeg, app.asar) is inside; only the
 # system GTK3/NSS/CUPS/X11 stack comes from the runtime. The desktop file, icon
@@ -18,7 +18,7 @@ cd "$extra_root"
 # every capability dropped, so restoring the archive's recorded uid/gid fails and
 # aborts the unpack even though every member extracted fine.
 tar --no-same-owner -xzf electerm.tar.gz
-d="$(echo electerm-*-linux-x64)"
+d="$(echo electerm-*-linux-*)"
 [ -d "$d" ] || { echo "electerm app dir not found in tarball" >&2; exit 1; }
 rm -rf electerm
 mv "$d" electerm

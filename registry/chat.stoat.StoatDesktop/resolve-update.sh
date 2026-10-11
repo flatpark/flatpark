@@ -25,6 +25,9 @@ version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 url="$(jq -r '[.assets[] | select(.name | test("^Stoat-linux-x64-[^/]*\\.zip$")) | .browser_download_url]
               | if length == 1 then .[0] else empty end' <<<"$rel")"
+url_arm="$(jq -r '[.assets[] | select(.name | test("^Stoat-linux-arm64-[^/]*\\.zip$")) | .browser_download_url]
+              | if length == 1 then .[0] else empty end' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$date" ] && [ -n "$url" ] || {
   echo "failed to resolve Stoat release" >&2
@@ -32,5 +35,5 @@ url="$(jq -r '[.assets[] | select(.name | test("^Stoat-linux-x64-[^/]*\\.zip$"))
 }
 echo "resolved Stoat $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"app.zip", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"app.zip", arch:"x86_64", url:$u}, {filename:"app.zip", arch:"aarch64", url:$ua}]}'

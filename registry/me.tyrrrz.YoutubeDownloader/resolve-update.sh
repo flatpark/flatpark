@@ -26,9 +26,11 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # The x86_64 desktop GUI build is the lone `YoutubeDownloader.linux-x64.zip`
 # asset — NOT the arm64/x86 variants or the macOS/Windows zips.
 url="$(jq -r '.assets[] | select(.name == "YoutubeDownloader.linux-x64.zip") | .browser_download_url' <<<"$rel" | head -n1)"
+url_arm="$(jq -r '.assets[] | select(.name == "YoutubeDownloader.linux-arm64.zip") | .browser_download_url' <<<"$rel" | head -n1)"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve YoutubeDownloader release" >&2; exit 1; }
 echo "resolved YoutubeDownloader $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"ytd.zip", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"ytd.zip", arch:"x86_64", url:$u}, {filename:"ytd.zip", arch:"aarch64", url:$ua}]}'

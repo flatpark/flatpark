@@ -26,10 +26,13 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # "*-linux-x86_64*.tar.gz" match would happily pick the wrong one.
 url="$(jq -r --arg re "^meatshell-v[^/]+-linux-x86_64\\.tar\\.gz$" \
         '.assets[] | select(.name | test($re)) | .browser_download_url' <<<"$rel")"
+url_arm="$(jq -r --arg re "^meatshell-v[^/]+-linux-aarch64\\.tar\\.gz$" \
+        '.assets[] | select(.name | test($re)) | .browser_download_url' <<<"$rel")"
+[ -n "$url_arm" ] || { echo "no aarch64 build in this release" >&2; exit 1; }
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve meatshell release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "ambiguous meatshell asset match:" >&2; echo "$url" >&2; exit 1; }
 echo "resolved meatshell $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"meatshell.tar.gz", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"meatshell.tar.gz", arch:"x86_64", url:$u}, {filename:"meatshell.tar.gz", arch:"aarch64", url:$ua}]}'

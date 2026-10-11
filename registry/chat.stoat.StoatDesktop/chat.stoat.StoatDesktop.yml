@@ -76,6 +76,13 @@ modules:
         url: https://github.com/stoatchat/for-desktop/releases/download/v1.5.4/Stoat-linux-x64-1.5.4.zip
         sha256: 28a08289fd396568f69af47d77c26a538419258baa80fc037756694659b2f71a
         size: 123537511
+      - type: extra-data
+        filename: app.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/stoatchat/for-desktop/releases/download/v1.5.4/Stoat-linux-arm64-1.5.4.zip
+        sha256: ea3ce2c75c8e9cce0df3c3ad670fd813af358dfa476916e9f09418e55c3590d8
+        size: 124666534
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
