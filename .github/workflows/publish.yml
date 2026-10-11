@@ -1,7 +1,13 @@
 # Trusted publish: only on push to main (merged PR) or manual dispatch. This is
 # the ONLY workflow that touches the signing key, R2, and Pages. It builds just
-# the changed apps into the authoritative repo pulled from R2, re-signs, and
-# republishes the repo + site with an atomic cutover.
+# the changed apps, one job per arch on a native runner with no secrets, then
+# imports those builds into the authoritative repo pulled from R2, signs them,
+# and republishes the repo + site with an atomic cutover.
+#
+#   plan ──┬─> build (x86_64)  ─┐
+#          └─> build (aarch64) ─┴─> publish
+#
+# An arch with nothing to build gets no matrix leg, so no runner starts for it.
 #
 # Two scopes, decided up front by scripts/publish-scope.sh: a "full" publish
 # does all of that, while a "site" publish — a push whose diff cannot change a
@@ -58,6 +64,7 @@ jobs:
       scope: ${{ steps.scope.outputs.scope }}
       ids_x86_64: ${{ steps.apps.outputs.ids_x86_64 }}
       ids_aarch64: ${{ steps.apps.outputs.ids_aarch64 }}
+      build_matrix: ${{ steps.apps.outputs.build_matrix }}
     env:
       R2_BUCKET: ${{ vars.R2_BUCKET }}
       RCLONE_CONFIG_R2_TYPE: s3
@@ -136,23 +143,33 @@ jobs:
             ids_x86_64="$(./scripts/scan-registry.sh --ids --arch x86_64 $ids | tr '\n' ' ')"
             ids_aarch64="$(./scripts/scan-registry.sh --ids --arch aarch64 $ids | tr '\n' ' ')"
           fi
+          # One build leg per arch that has work, on its native runner. Left
+          # empty when neither has any, which skips the build job outright.
+          legs=""
+          [ -n "${ids_x86_64// }" ] && legs='{"arch":"x86_64","runner":"ubuntu-26.04"}'
+          [ -n "${ids_aarch64// }" ] && legs="${legs:+$legs,}"'{"arch":"aarch64","runner":"ubuntu-24.04-arm"}'
           echo "ids_x86_64=$ids_x86_64" >> "$GITHUB_OUTPUT"
           echo "ids_aarch64=$ids_aarch64" >> "$GITHUB_OUTPUT"
+          echo "build_matrix=${legs:+{\"include\":[$legs]\}}" >> "$GITHUB_OUTPUT"
           echo "building x86_64: ${ids_x86_64:-<none>}"
           echo "building aarch64: ${ids_aarch64:-<none>}"
           echo "(diff base: ${base:-<none>})"
 
-  # aarch64 apps are built natively on an arm runner. This job has no secrets:
-  # it signs with a throwaway key, and the publish job re-commits its refs into
-  # the real repo under the FlatPark key (scripts/import-arch-repo.sh). Since
-  # every app is extra-data, the hand-over repo holds only wrappers and small
-  # shims — the payload is fetched on the user's machine.
-  build-aarch64:
+  # Each arch is built natively on its own runner. These jobs hold no secrets:
+  # app build-commands run here, signed with a throwaway key, and the publish
+  # job re-commits the refs into the real repo under the FlatPark key
+  # (scripts/import-arch-repo.sh). Since every app is extra-data, the hand-over
+  # repo holds only wrappers and small shims — the payload is fetched on the
+  # user's machine.
+  build:
     needs: plan
-    if: needs.plan.outputs.ids_aarch64 != ''
-    # The arm images take apt from ports.ubuntu.com, not the broken azure
-    # mirror the x86 jobs avoid with 26.04.
-    runs-on: ubuntu-24.04-arm
+    if: needs.plan.outputs.build_matrix != ''
+    strategy:
+      matrix: ${{ fromJSON(needs.plan.outputs.build_matrix) }}
+    name: build (${{ matrix.arch }})
+    # x86_64 runs on 26.04 to dodge the broken azure apt mirror (see plan);
+    # the arm images take apt from ports.ubuntu.com instead.
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
@@ -161,27 +178,32 @@ jobs:
       - name: Install flatpak toolchain
         run: |
           sudo apt-get update
+          # The distro package, not the Flathub app a developer machine uses:
+          # the sandboxed builder reaches the host's flatpak over the session
+          # bus, and this runner has none it can use. build-app.sh picks
+          # whichever is present.
           sudo apt-get install -y flatpak flatpak-builder ostree
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-      - name: Build aarch64 apps (throwaway signing key)
+      - name: Build ${{ matrix.arch }} apps (throwaway signing key)
         env:
-          IDS: ${{ needs.plan.outputs.ids_aarch64 }}
+          IDS: ${{ needs.plan.outputs[format('ids_{0}', matrix.arch)] }}
+          ARCH: ${{ matrix.arch }}
         run: |
           export OUT_DIR="$PWD/out" GNUPGHOME_DIR="$PWD/.gnupg-ci"
           ./scripts/gen-signing-key.sh >/dev/null
           for id in $IDS; do
             echo "::group::build $id"; ./scripts/build-app.sh "$id"; echo "::endgroup::"
           done
-          tar -C out -cf repo-aarch64.tar repo
+          tar -C out -cf "repo-$ARCH.tar" repo
       - uses: actions/upload-artifact@v7
         with:
-          name: repo-aarch64
-          path: repo-aarch64.tar
+          name: repo-${{ matrix.arch }}
+          path: repo-${{ matrix.arch }}.tar
           retention-days: 1
           if-no-files-found: error
 
   publish:
-    needs: [plan, build-aarch64]
+    needs: [plan, build]
     # Runs even when a needed job failed, so the alert below still fires; the
     # first step after checkout turns that failure into this job's.
     if: ${{ !cancelled() }}
@@ -209,13 +231,13 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: Require the plan and the aarch64 build
+      - name: Require the plan and the builds
         env:
           PLAN: ${{ needs.plan.result }}
-          ARM: ${{ needs.build-aarch64.result }}
+          BUILD: ${{ needs.build.result }}
         run: |
           [ "$PLAN" = success ] || { echo "::error::plan job: $PLAN"; exit 1; }
-          case "$ARM" in success|skipped) ;; *) echo "::error::build-aarch64 job: $ARM"; exit 1 ;; esac
+          case "$BUILD" in success|skipped) ;; *) echo "::error::build job: $BUILD"; exit 1 ;; esac
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -229,12 +251,9 @@ jobs:
         if: needs.plan.outputs.scope != 'site'
         run: |
           sudo apt-get update
-          # The distro package, not the Flathub app a developer machine uses:
-          # the sandboxed builder reaches the host's flatpak over the session
-          # bus, and this runner has none it can use. build-app.sh picks
-          # whichever is present.
-          sudo apt-get install -y flatpak flatpak-builder ostree
-          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          # Nothing is built here, so no flatpak-builder: this job only imports
+          # the build jobs' refs, signs, and regenerates the summary.
+          sudo apt-get install -y flatpak ostree
 
       - name: Import signing subkey (master never reaches CI)
         if: needs.plan.outputs.scope != 'site'
@@ -285,26 +304,23 @@ jobs:
         if: needs.plan.outputs.scope != 'site'
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/drop-dangling-refs.sh
 
-      - name: Build changed x86_64 apps into the repo
-        if: needs.plan.outputs.ids_x86_64 != ''
-        env:
-          IDS: ${{ needs.plan.outputs.ids_x86_64 }}
-        run: |
-          for id in $IDS; do
-            echo "::group::build $id"; ./scripts/build-app.sh "$id"; echo "::endgroup::"
-          done
-
       - uses: actions/download-artifact@v7
-        if: needs.plan.outputs.ids_aarch64 != ''
+        if: needs.build.result == 'success'
         with:
-          name: repo-aarch64
-          path: ${{ runner.temp }}
-      - name: Import the aarch64 builds, signed with the FlatPark key
-        if: needs.plan.outputs.ids_aarch64 != ''
+          pattern: repo-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/handover
+      - name: Import the builds, signed with the FlatPark key
+        if: needs.build.result == 'success'
         run: |
-          mkdir -p "$RUNNER_TEMP/aarch64"
-          tar -C "$RUNNER_TEMP/aarch64" -xf "$RUNNER_TEMP/repo-aarch64.tar"
-          ./scripts/import-arch-repo.sh "$RUNNER_TEMP/aarch64/repo"
+          for tar in "$RUNNER_TEMP"/handover/repo-*.tar; do
+            arch="$(basename "$tar" .tar)"; arch="${arch#repo-}"
+            mkdir -p "$RUNNER_TEMP/$arch"
+            tar -C "$RUNNER_TEMP/$arch" -xf "$tar"
+            echo "::group::import $arch"
+            ./scripts/import-arch-repo.sh "$RUNNER_TEMP/$arch/repo"
+            echo "::endgroup::"
+          done
 
       - name: Re-sign summary + write discovery files
         if: needs.plan.outputs.scope != 'site'

@@ -2,14 +2,17 @@
 # Import the app refs another machine built into the authoritative repo, signed
 # with the FlatPark key.
 #
-# The aarch64 apps are built natively on an arm runner, which never gets the
-# signing key: it builds into its own repo signed with a throwaway key and hands
-# that repo over. Here every app/ and runtime/ ref in it is re-committed into
-# REPO_DIR with `flatpak build-commit-from` — the same step flat-manager uses to
-# publish Flathub's builds. It copies the tree and the commit metadata (the
-# extra-data sources included) and signs the new commit with our key; the
-# throwaway signature is never looked at. The summary is left alone:
-# publish-repo.sh regenerates and signs it once everything is in.
+# Every arch is built in its own CI job on a native runner, and none of them
+# gets the signing key: each builds into its own repo signed with a throwaway
+# key and hands that repo over. Here every app/ and runtime/ ref in it is
+# re-committed into REPO_DIR with `flatpak build-commit-from` — the same step
+# flat-manager uses to publish Flathub's builds. It copies the tree (whose
+# `metadata` file carries the extra-data pins) and the commit metadata, parents
+# the new commit on the ref's current one, and signs it with our key; the
+# throwaway signature is never looked at. A tree identical to the published one
+# is skipped ("no change"), so a rebuild that changed nothing pushes no update.
+# The summary is left alone: publish-repo.sh regenerates and signs it once
+# everything is in.
 #
 # Usage: import-arch-repo.sh <src-repo>
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
