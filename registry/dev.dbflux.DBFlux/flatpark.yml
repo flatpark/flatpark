@@ -1,0 +1,24 @@
+id: dev.dbflux.DBFlux
+name: DBFlux
+summary: Keyboard-first client for SQL and NoSQL databases
+website: https://dbflux.dev
+source_url: https://github.com/0xErwin1/dbflux
+build:
+  manifest: dev.dbflux.DBFlux.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - Database
+    - SQL
+    - Developer
+    - GPUI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

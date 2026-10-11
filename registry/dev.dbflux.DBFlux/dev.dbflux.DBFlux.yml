@@ -1,0 +1,91 @@
+id: dev.dbflux.DBFlux
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: dbflux
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # DBFlux is a native GPUI application: it links only libc, OpenSSL, D-Bus,
+  # zlib, xcb and xkbcommon and loads Vulkan, Wayland and the rest at run time,
+  # all of which the freedesktop runtime provides. It renders through Vulkan, so
+  # it needs the GPU.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # DBFlux implements accessibility through AccessKit's AT-SPI adapter, which
+  # asks org.a11y.Bus where the accessibility bus lives. Without this name a
+  # screen reader never sees the application.
+  - --talk-name=org.a11y.Bus
+  # The core function: every database server, cloud API (DynamoDB, S3,
+  # CloudWatch, ClickHouse Cloud, Turso), SSH tunnel and proxy is a network
+  # connection, including to 127.0.0.1.
+  - --share=network
+  # Passwords, SSH passphrases and provider secrets go to the desktop's Secret
+  # Service keyring; dbflux.db only stores references to them.
+  - --talk-name=org.freedesktop.secrets
+  # No filesystem grant: dbflux.db, session scratch files and SSH known hosts
+  # live in $XDG_DATA_HOME/dbflux inside the per-app directory. SQLite and
+  # DuckDB files, .sql scripts and exports are picked through the file chooser
+  # portal. SSH keys and agent, ~/.aws and persistent access to database files
+  # are opt-in overrides documented in the metainfo.
+modules:
+  - name: dbflux
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dbflux-wrapper /app/bin/dbflux
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 dev.dbflux.DBFlux.desktop /app/share/applications/dev.dbflux.DBFlux.desktop
+      - install -Dm644 dev.dbflux.DBFlux.metainfo.xml /app/share/metainfo/dev.dbflux.DBFlux.metainfo.xml
+      - install -Dm644 dev.dbflux.DBFlux.svg /app/share/icons/hicolor/scalable/apps/dev.dbflux.DBFlux.svg
+    sources:
+      # GPUI asks for "Noto Sans CJK" for CJK text, and neither the freedesktop
+      # runtime nor a typical non-CJK host ships it, so CJK data and DBFlux's
+      # Simplified Chinese and Korean UI would render as tofu. The face is
+      # extra-data rather than a build module so its 19.5 MB stay out of
+      # FlatPark's repository for a file jsDelivr already serves; apply_extra
+      # stages it into /app/extra/fonts and fonts.conf adds that directory.
+      # Same tag-pinned URL and sha256 as dev.navop.Navop.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: NotoSansCJK-Regular.ttc
+        only-arches:
+          - x86_64
+          - aarch64
+        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
+        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
+        size: 19484784
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/0xErwin1/dbflux/releases/download/v0.8.9/dbflux-linux-amd64.deb
+        sha256: f27dbbd6cf463ef074dc44dbcd30b3de4572b128bfb81167425bb1ab36eadea3
+        size: 56661320
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/0xErwin1/dbflux/releases/download/v0.8.9/dbflux-linux-arm64.deb
+        sha256: 81a0f7dfa620b549dac950ee064edfc005a4e3f3d2246d2fcecbedd2e055d9d9
+        size: 54319584
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dbflux-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: dev.dbflux.DBFlux.desktop
+      - type: file
+        path: dev.dbflux.DBFlux.metainfo.xml
+      - type: file
+        path: dev.dbflux.DBFlux.svg

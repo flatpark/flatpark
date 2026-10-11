@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.dbflux.DBFlux</id>
+  <name>DBFlux</name>
+  <summary>Keyboard-first client for SQL and NoSQL databases</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="dev.dbflux">
+    <name>Ignacio</name>
+  </developer>
+  <url type="homepage">https://dbflux.dev</url>
+  <url type="help">https://docs.dbflux.dev/</url>
+  <url type="bugtracker">https://github.com/0xErwin1/dbflux/issues</url>
+  <url type="vcs-browser">https://github.com/0xErwin1/dbflux</url>
+  <url type="translate">https://hosted.weblate.org/engage/dbflux/</url>
+  <description>
+    <p>This is a community package of DBFlux, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>DBFlux is a database client written in Rust with the GPUI toolkit, built around the keyboard and one workspace for every database you use.</p>
+    <ul>
+      <li>Built-in drivers for PostgreSQL, Redshift, MySQL and MariaDB, SQLite, SQL Server, MongoDB, Redis, DynamoDB, InfluxDB, ClickHouse, Turso and libSQL, DuckDB, CloudWatch Logs and S3.</li>
+      <li>Multi-tab SQL editor, virtualized result tables with inline editing, and a visual query builder.</li>
+      <li>Charts and dashboards from any query result.</li>
+      <li>SSH tunnels, SOCKS5 and HTTP proxies, and AWS SSO and SSM access profiles.</li>
+      <li>An MCP server for AI agents, gated by trusted clients, policies and an audit log.</li>
+    </ul>
+    <p>The package has network access to reach your databases, keeps passwords and secrets in your desktop keyring, and has no filesystem grant: settings, history and the audit log stay in the application's private per-app directory, and database files, scripts and exports go through the file chooser portal. It bundles Noto Sans CJK so Chinese, Japanese and Korean text renders on any host.</p>
+    <p>Connection hooks and external RPC drivers run inside the sandbox, so they only see the commands the freedesktop runtime provides. The MCP server runs with <code>flatpak run dev.dbflux.DBFlux mcp --client-id ID</code>.</p>
+    <p>Optional grants, each with <code>flatpak override --user</code>: <code>--filesystem=~/.ssh:ro --socket=ssh-auth</code> for SSH key and agent authentication on tunnels; <code>--filesystem=~/.aws</code> to import AWS profiles and share the AWS SSO cache; <code>--filesystem=/path/to/databases</code> so SQLite and DuckDB connections keep working across restarts. Remove custom grants with <code>flatpak override --user --reset dev.dbflux.DBFlux</code>.</p>
+  </description>
+  <launchable type="desktop-id">dev.dbflux.DBFlux.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>database</keyword>
+    <keyword>sql</keyword>
+    <keyword>postgres</keyword>
+    <keyword>mysql</keyword>
+    <keyword>sqlite</keyword>
+    <keyword>mongodb</keyword>
+    <keyword>redis</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>dbflux</binary>
+    <mediatype>text/x-sql</mediatype>
+    <mediatype>application/sql</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The workspace</caption>
+      <image>https://raw.githubusercontent.com/0xErwin1/dbflux/main/resources/dbflux.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing query results</caption>
+      <image>https://raw.githubusercontent.com/0xErwin1/dbflux/main/docs/images/results/editing-dark.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Charting a query</caption>
+      <image>https://raw.githubusercontent.com/0xErwin1/dbflux/main/docs/images/charts/chart-view-dark.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Schema diagram</caption>
+      <image>https://raw.githubusercontent.com/0xErwin1/dbflux/main/docs/images/schema-browser/diagram-dark.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.8.9" date="2026-10-08" />
+    <release version="0.8.8" date="2026-10-06" />
+    <release version="0.8.7" date="2026-10-05" />
+    <release version="0.8.6" date="2026-10-03" />
+    <release version="0.8.5" date="2026-09-30" />
+  </releases>
+</component>
