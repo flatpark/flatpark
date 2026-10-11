@@ -5,11 +5,11 @@
 # releasing the same day just means several small parallel PRs — no shared
 # branch, no races.
 #
-# The PR is merged here, on the same terms as the daily sweep (see the
+# The PR is merged here, on the same terms as the scheduled sweep (see the
 # auto-merge block below): the diff is one app's pins, and that payload was
 # already unpacked with the app's own apply_extra.sh two steps up. Waiting for
 # a human would only mean the app is late — the same bytes land automatically
-# at 06:17 UTC anyway.
+# at the next update-check run (06:17 or 18:17 UTC) anyway.
 #
 # update-check.yml (the daily full sweep) stays the safety net: it catches
 # releases whose Linux asset was uploaded after the ping, and its supersede
@@ -95,7 +95,7 @@ jobs:
           AUTO_MERGE: ${{ vars.AUTO_MERGE_PINS }}
         run: |
           if git diff --quiet -- registry/; then
-            echo "no pin changes — asset not uploaded yet or already current; daily update-check is the fallback"
+            echo "no pin changes — asset not uploaded yet or already current; scheduled update-check is the fallback"
             exit 0
           fi
           # What the resolver actually rewrote, captured before the commit so

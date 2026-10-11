@@ -13,7 +13,7 @@ name: update-check
 
 on:
   schedule:
-    - cron: "17 6 * * *"   # daily, 06:17 UTC
+    - cron: "17 6,18 * * *"   # twice daily, 06:17 and 18:17 UTC
   workflow_dispatch:
 
 permissions:
@@ -113,27 +113,29 @@ jobs:
           # this needs no git history (the checkout is shallow). Untracked files
           # count too — `git add registry/` below would sweep them in.
           touched="$(git status --porcelain --untracked-files=all -- registry/ | sed 's/^...//')"
-          date="$(date -u +%Y-%m-%d)"
-          branch="auto/update-pins-$date"
+          # Date plus UTC time: tells apart the two runs a day without listing
+          # every app id (the list made the squash commit subject unreadable).
+          stamp="$(date -u '+%Y-%m-%d %H:%M UTC')"
+          branch="auto/update-pins-$(date -u +%Y-%m-%d-%H%M)"
           git config user.name "flatpark-bot"
           git config user.email "bot@flatpark.org"
           git checkout -B "$branch"
           git add registry/
-          git commit -m "chore(update): refresh extra-data pins (${changed:-apps})"
+          git commit -m "chore(update): refresh extra-data pins ($stamp)"
           head_sha="$(git rev-parse HEAD)"   # to find the doomed pr-checks run after --delete-branch
           git push -f origin "$branch"
 
           # One app id per line, as a markdown list
           apps_md="$(for id in ${changed:-}; do printf -- '- `%s`\n' "$id"; done)"
           [ -n "$apps_md" ] || apps_md='- (see diff)'
-          title="Update extra-data pins ($date)"
-          body="$(printf 'Automated extra-data pin refresh — %s\n\n**Updated apps:**\n\n%s\n\nEach payload was unpacked with the app'"'"'s `apply_extra.sh` before being pinned here.\n\nMerging triggers a rebuild + publish of the changed app(s).' "$date" "$apps_md")"
+          title="chore(update): refresh extra-data pins ($stamp)"
+          body="$(printf 'Automated extra-data pin refresh — %s\n\n**Updated apps:**\n\n%s\n\nEach payload was unpacked with the app'"'"'s `apply_extra.sh` before being pinned here.\n\nMerging triggers a rebuild + publish of the changed app(s).' "$stamp" "$apps_md")"
           if [ -n "${held:-}" ]; then
             held_md="$(for id in $held; do printf -- '- `%s`\n' "$id"; done)"
             body="$(printf '%s\n\n**Held back — the new upstream artifact does not unpack:**\n\n%s\n\nThese keep their current pin. Their `apply_extra.sh` needs a look before the update can ship.' "$body" "$held_md")"
           fi
 
-          # Create today's PR, or refresh it if this branch already opened one earlier today
+          # Create this run's PR, or refresh it if the branch somehow already has one
           if [ -z "$(gh pr list --head "$branch" --state open --json number -q '.[].number')" ]; then
             gh pr create --base main --head "$branch" --title "$title" --body "$body"
           else
@@ -141,14 +143,14 @@ jobs:
           fi
 
           # Supersede older open auto-update PRs and per-app release PRs
-          # (release-dispatch.yml, auto/release-*): today's batch is recomputed
+          # (release-dispatch.yml, auto/release-*): this batch is recomputed
           # against main, so it's a superset of any unmerged earlier one — keep
           # a single open PR.
           new="$(gh pr list --head "$branch" --state open --json number -q '.[0].number')"
           for n in $(gh pr list --state open --json number,headRefName \
                        -q ".[] | select((.headRefName | startswith(\"auto/update-pins-\")) or (.headRefName | startswith(\"auto/release-\"))) | select(.headRefName != \"$branch\") | .number"); do
             echo "superseding older auto-update PR #$n"
-            gh pr close "$n" --comment "Superseded by #$new ($date pin refresh)." --delete-branch || true
+            gh pr close "$n" --comment "Superseded by #$new ($stamp pin refresh)." --delete-branch || true
           done
 
           # Auto-merge. Nothing here waits for a review: the diff is pins only,
