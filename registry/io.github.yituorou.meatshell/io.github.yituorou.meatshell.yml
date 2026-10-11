@@ -63,6 +63,7 @@ modules:
         filename: NotoSansCJK-Regular.ttc
         only-arches:
           - x86_64
+          - aarch64
         url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
         sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
         size: 19484784
