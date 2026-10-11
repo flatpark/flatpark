@@ -155,9 +155,8 @@ Detail + schema in the [contributing guide](https://flatpark.org/contributing/).
     `dev.aninsomniacy.rayburst` is the worked example — upstream renamed Motrix Next to
     *Rayburst* and its identifier to `dev.aninsomniacy.rayburst` in v4.0.0-beta.1, and says
     itself that moving over is a fresh installation with no data import. The new package
-    tracks the 4.x line (its resolver deliberately includes prereleases, since 4.x has no
-    stable release yet); `com.motrix.next` stays for the 3.9.x line that still ships under
-    the old name. An approval carries across a rename — cite the original link and say so in
+    tracked the 4.x betas while `com.motrix.next` stayed on the 3.9.x stable line under the
+    old name; once v4.0.0 went stable, the old id was de-listed. An approval carries across a rename — cite the original link and say so in
     the new row (see [`upstream-approvals.md`](upstream-approvals.md)).
   - **Bumping a runtime major is a measurement, not an assumption.** A new major is not a
     superset of the old one: across 25.08 → 26.08 (and so 50 → 51) ICU went 77 → 78, ffmpeg

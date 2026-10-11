@@ -18,9 +18,8 @@ catalog:
     - BitTorrent
     - aria2
     - Tauri
-    # Upstream's former name, kept so the listing is still findable by it while
-    # the rename is in flight. See com.motrix.next, which packages the 3.9.x
-    # line that still ships under that name.
+    # Upstream's former name, kept so users looking for Motrix Next still
+    # find it now that com.motrix.next is de-listed.
     - MotrixNext
 update:
   command: ./resolve-update.sh
