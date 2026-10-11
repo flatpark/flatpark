@@ -39,6 +39,22 @@ version="$(sed -n 's|.*/stable/\([0-9.]*\)-.*|\1|p' <<<"$url")"
 last_modified="$(curl -fsSI "$url_encoded" | sed -n 's/^[Ll]ast-[Mm]odified:[[:space:]]*//p' | tr -d '\r' || true)"
 date="$(date -u -d "$last_modified" +%Y-%m-%d 2>/dev/null || date -u +%Y-%m-%d)"
 
+# The arm64 build comes from the same updater (its path says linux-arm, but the
+# tarball is aarch64) and must be the same release.
+json_arm="$(curl -fsSL "${feed/linux-x64/linux-arm64}")"
+url_arm="$(jq -r '.url // empty' <<<"$json_arm")"
+case "$url_arm" in
+  https://edgedl.me.gvt1.com/edgedl/release2/*) ;;
+  *) echo "refusing an arm64 download URL outside Google's CDN: $url_arm" >&2; exit 1 ;;
+esac
+[ "$(sed -n 's|.*/stable/\([0-9.]*\)-.*|\1|p' <<<"$url_arm")" = "$version" ] || {
+  echo "Antigravity IDE arm64 feed is not on $version: $url_arm" >&2
+  exit 1
+}
+url_arm_encoded="${url_arm// /%20}"
 echo "resolved Antigravity IDE $version ($date): $url_encoded" >&2
-jq -n --arg v "$version" --arg d "$date" --arg u "$url_encoded" \
-  '{version: $v, releaseDate: $d, sources: [{filename: "Antigravity IDE.tar.gz", url: $u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url_encoded" --arg ua "$url_arm_encoded" \
+  '{version: $v, releaseDate: $d, sources: [
+     {filename: "Antigravity IDE.tar.gz", arch: "x86_64",  url: $u},
+     {filename: "Antigravity IDE.tar.gz", arch: "aarch64", url: $ua}
+   ]}'

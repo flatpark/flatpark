@@ -5,11 +5,11 @@
 # download links (learn.chatgpt.com/docs/linux/linux-app) point at a rolling
 # "latest" path, so read the versioned pool URLs out of the repo index instead.
 #
-# Prints the current version + the official amd64 Debian package URL:
+# Prints the current version + the official amd64 and arm64 Debian package URLs:
 #   { "version": "26.810.52044", "sources": [
-#       { "filename": "chatgpt-amd64.deb", "url": "..." }
+#       { "filename": "chatgpt.deb", "arch": "x86_64",  "url": "..." },
+#       { "filename": "chatgpt.deb", "arch": "aarch64", "url": "..." }
 #   ] }
-# Only x86_64 is packaged, so only binary-amd64 is read.
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URLs and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -39,19 +39,29 @@ resolve_arch() {
 }
 
 amd64="$(resolve_arch amd64)"
+arm64="$(resolve_arch arm64)"
 
-[ -n "$amd64" ] || {
+[ -n "$amd64" ] && [ -n "$arm64" ] || {
   echo "failed to resolve the ChatGPT package" >&2
   exit 1
 }
 
 IFS=$'\t' read -r version_amd64 url_amd64 <<<"$amd64"
+IFS=$'\t' read -r version_arm64 url_arm64 <<<"$arm64"
+
+# One <release> covers both pins, so both arches must be the same version.
+[ "$version_amd64" = "$version_arm64" ] || {
+  echo "architecture versions differ: amd64=$version_amd64 arm64=$version_arm64" >&2
+  exit 1
+}
 
 echo "resolved ChatGPT $version_amd64" >&2
 
 jq -n \
   --arg v "$version_amd64" \
   --arg u_amd64 "$url_amd64" \
+  --arg u_arm64 "$url_arm64" \
   '{version:$v, sources:[
-    {filename:"chatgpt-amd64.deb", url:$u_amd64}
+    {filename:"chatgpt.deb", arch:"x86_64",  url:$u_amd64},
+    {filename:"chatgpt.deb", arch:"aarch64", url:$u_arm64}
   ]}'

@@ -32,7 +32,7 @@ export LC_ALL
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-deb="codebuddy-amd64.deb"
+deb="codebuddy.deb"
 [ -f "$deb" ] || { echo "missing extra-data: $deb" >&2; exit 1; }
 
 # The Platform runtime has no ar/dpkg, but bsdtar (libarchive) reads the .deb ar

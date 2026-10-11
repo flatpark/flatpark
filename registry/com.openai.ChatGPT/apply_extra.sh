@@ -12,7 +12,7 @@ set -eu
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-deb="chatgpt-amd64.deb"
+deb="chatgpt.deb"
 [ -f "$deb" ] || {
   echo "missing extra-data: $deb" >&2
   exit 1

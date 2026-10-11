@@ -3,7 +3,7 @@
 #
 # Prints the current version + the Linux x86_64 .deb as JSON on stdout:
 #   { "version": "3.16.17", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "cursor-amd64.deb", "url": "..." } ] }
+#     "sources": [ { "filename": "cursor.deb", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -40,10 +40,26 @@ esac
 # Last-Modified supplies the <release> date. Keep the fetch out of the `date -d`
 # argument so a HEAD that fails falls back to today rather than aborting under
 # `set -e` before the fallback can run.
+# The arm64 build comes from the same feed for platform=linux-arm64, and must be
+# the same release.
+json_arm="$(curl -fsSL "https://cursor.com/api/download?platform=linux-arm64&releaseTrack=stable")"
+url_arm="$(jq -r '.debUrl // empty' <<<"$json_arm")"
+[ "$(jq -r '.version // empty' <<<"$json_arm")" = "$version" ] && [ -n "$url_arm" ] || {
+  echo "Cursor linux-arm64 feed does not offer a $version .deb" >&2
+  exit 1
+}
+case "$url_arm" in
+  https://downloads.cursor.com/production/*) ;;
+  *) echo "refusing a download URL outside Cursor's download host: $url_arm" >&2; exit 1 ;;
+esac
+
 last_modified="$(curl -fsSI "$url" | sed -n 's/^[Ll]ast-[Mm]odified:[[:space:]]*//p' | tr -d '\r' | tail -n 1 || true)"
 date="$(date -u -d "$last_modified" +%Y-%m-%d 2>/dev/null || date -u +%Y-%m-%d)"
 
 echo "resolved Cursor $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"cursor-amd64.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[
+     {filename:"cursor.deb", arch:"x86_64",  url:$u},
+     {filename:"cursor.deb", arch:"aarch64", url:$ua}
+   ]}'

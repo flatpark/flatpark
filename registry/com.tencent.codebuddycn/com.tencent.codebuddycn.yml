@@ -77,12 +77,19 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: codebuddy-amd64.deb
+        filename: codebuddy.deb
         only-arches:
           - x86_64
         url: https://download.codebuddy.cn/aiide/linux-x64/CodeBuddy-linux-x64-4.12.0.37847260-b4c35ed0-cn.deb
         sha256: 1d6d88eb13bb04f4953fc3702130f28cd8bb8b0a5688cd5023230ff2cfcdf7f0
         size: 158765152
+      - type: extra-data
+        filename: codebuddy.deb
+        only-arches:
+          - aarch64
+        url: https://download.codebuddy.cn/aiide/linux-arm64/CodeBuddy-linux-arm64-4.12.0.37847260-b4c35ed0-cn.deb
+        sha256: 13277ebeab69b83441098d07ffdcfe954eb2cd1149c93964afa07d2812afe0b0
+        size: 152326932
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -3,7 +3,7 @@
 #
 # Prints the current version + the Linux x86_64 .deb as JSON on stdout:
 #   { "version": "3.6.5", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "zcode-amd64.deb", "url": "..." } ] }
+#     "sources": [ { "filename": "zcode.deb", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URLs and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -44,7 +44,19 @@ latest_version="$(sed -n 's/^version: *//p' <<<"$latest" | head -n 1 | tr -d "'\
 
 date="$(sed -n "s/^releaseDate: *//p" <<<"$latest" | head -n 1 | tr -d "'\"" | cut -c1-10)"
 
+# The arm64 .deb sits beside it under linux-arm64/; take it only from the same
+# page, for the same version.
+url_arm64="$(grep -oE "${cdn}/${version//./\\.}/linux-arm64/ZCode-${version//./\\.}-linux-arm64\.deb" <<<"$page" \
+  | head -n 1 || true)"
+[ -n "$url_arm64" ] || {
+  echo "no ZCode $version Linux arm64 .deb link on $page_url" >&2
+  exit 1
+}
+
 echo "resolved ZCode $version (${date:-unknown date})" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url_amd64" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"zcode-amd64.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url_amd64" --arg ua "$url_arm64" \
+  '{version:$v, releaseDate:$d, sources:[
+     {filename:"zcode.deb", arch:"x86_64",  url:$u},
+     {filename:"zcode.deb", arch:"aarch64", url:$ua}
+   ]}'

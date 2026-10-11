@@ -3,7 +3,8 @@
 #
 # Prints the current version + the Linux x86_64 .deb as JSON on stdout:
 #   { "version": "4.11.3.37298507-2345dde1-cn", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "codebuddy-amd64.deb", "url": "..." } ] }
+#     "sources": [ { "filename": "codebuddy.deb", "arch": "x86_64",  "url": "..." },
+#                  { "filename": "codebuddy.deb", "arch": "aarch64", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -47,10 +48,25 @@ head="$(curl -fsSI "$url")" || {
   echo "resolved version $version but its .deb is not published yet: $url" >&2
   exit 1
 }
+# The arm64 build is listed separately in the same feed; one <release> covers
+# both pins, so it must be the same version and already published.
+[ "$(jq -r '."linux-arm64".stable.version // empty' <<<"$json")" = "$version" ] || {
+  echo "CodeBuddy CN linux-arm64 stable is not on $version yet" >&2
+  exit 1
+}
+url_arm="https://download.codebuddy.cn/aiide/linux-arm64/CodeBuddy-linux-arm64-${version}.deb"
+curl -fsSI "$url_arm" >/dev/null || {
+  echo "resolved version $version but its arm64 .deb is not published yet: $url_arm" >&2
+  exit 1
+}
+
 last_modified="$(sed -n 's/^[Ll]ast-[Mm]odified:[[:space:]]*//p' <<<"$head" | tr -d '\r' | tail -n 1 || true)"
 date="$(date -u -d "$last_modified" +%Y-%m-%d 2>/dev/null || date -u +%Y-%m-%d)"
 
 echo "resolved CodeBuddy CN $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"codebuddy-amd64.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[
+     {filename:"codebuddy.deb", arch:"x86_64",  url:$u},
+     {filename:"codebuddy.deb", arch:"aarch64", url:$ua}
+   ]}'

@@ -29,7 +29,16 @@ paths="$(sed -n 's/^ *- url: *//p' <<<"$feed" | tr -d "'\"" | grep -E '_amd64\.d
   exit 1
 }
 url="$base/$paths"
+# The arm64 build has its own feed; it must be the same release.
+feed_arm="$(curl -fsSL "$base/latest-linux-arm64.yml")"
+paths_arm="$(sed -n 's/^ *- url: *//p' <<<"$feed_arm" | tr -d "'\"" | grep -E '_arm64\.deb$' | sort -u)"
+[ "$(sed -n 's/^version: *//p' <<<"$feed_arm" | head -n 1 | tr -d "'\"")" = "$version" ] \
+  && [ -n "$paths_arm" ] && [ "$(wc -l <<<"$paths_arm")" -eq 1 ] || {
+  echo "failed to resolve the SurrealDB Studio $version arm64 .deb" >&2
+  exit 1
+}
+url_arm="$base/$paths_arm"
 echo "resolved SurrealDB Studio $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"app.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"app.deb", arch:"x86_64", url:$u}, {filename:"app.deb", arch:"aarch64", url:$ua}]}'
