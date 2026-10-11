@@ -10,9 +10,13 @@
 # CrealityPrint-V<version>.<build>-x86_64-Release.AppImage, some releases carry
 # distro-specific (ubuntu2204/ubuntu2404), Wayland or Flatpak-tuned Beta
 # AppImages, sometimes with a newer build number than the tag. Only the plain
-# Release name is accepted, and it must match exactly once; anything else is an
-# error rather than a silent first-match, so a release that drops the plain
-# build holds the pin instead of shipping a variant.
+# Release name is accepted; a release that drops the plain build fails instead
+# of shipping a variant.
+#
+# A release can carry several plain builds: v7.3.0 has .6149, .6151 and .6157,
+# re-uploaded fixes under the same tag. The highest build is the current one,
+# and the version reported is <tag>.<build>, so a later re-upload under the
+# same tag still counts as an update.
 set -euo pipefail
 
 repo="CrealityOfficial/CrealityPrint"
@@ -24,10 +28,16 @@ need jq
 rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         "https://api.github.com/repos/$repo/releases/latest")"
 
-version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
+tag="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-url="$(jq -r '[.assets[] | select(.name | test("^CrealityPrint-V[0-9.]+-x86_64-Release\\.AppImage$")) | .browser_download_url]
-              | if length == 1 then .[0] else empty end' <<<"$rel")"
+asset="$(jq -c --arg t "$tag" '
+  [.assets[]
+   | (.name | capture("^CrealityPrint-V(?<v>[0-9.]+)-x86_64-Release\\.AppImage$")) as $m
+   | select($m.v | startswith($t + "."))
+   | {build: ($m.v | ltrimstr($t + ".") | tonumber), v: $m.v, url: .browser_download_url}]
+  | sort_by(.build) | last // empty' <<<"$rel")"
+version="$(jq -r '.v // empty' <<<"${asset:-null}")"
+url="$(jq -r '.url // empty' <<<"${asset:-null}")"
 
 [ -n "$version" ] && [ -n "$date" ] && [ -n "$url" ] || {
   echo "failed to resolve CrealityPrint release" >&2
