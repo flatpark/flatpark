@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.example.piliplus</id>
+  <name>PiliPlus</name>
+  <summary>Third-party Bilibili client developed in Flutter</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="com.example.piliplus">
+    <name>bggRGjQaUbCoE</name>
+  </developer>
+  <url type="homepage">https://github.com/bggRGjQaUbCoE/PiliPlus</url>
+  <url type="bugtracker">https://github.com/bggRGjQaUbCoE/PiliPlus/issues</url>
+  <url type="vcs-browser">https://github.com/bggRGjQaUbCoE/PiliPlus</url>
+  <description>
+    <p>This is a community package of PiliPlus, maintained independently and unaffiliated with upstream. It repackages the official upstream Linux release build unmodified.</p>
+    <p>PiliPlus is a cross-platform Bilibili client developed with Flutter, providing a clean and feature-rich viewing experience.</p>
+    <ul>
+      <li>Browse and watch videos, anime, live streams, and dynamic feeds.</li>
+      <li>Danmaku (bullet comments) display and settings.</li>
+      <li>Video playback powered by mpv and media_kit.</li>
+      <li>Support for user login, history, favorites, and watch later.</li>
+      <li>Dark mode and customizable UI themes.</li>
+    </ul>
+    <p>Permissions: this package grants display, GPU acceleration, audio playback (PulseAudio/PipeWire), network access for streaming and API requests, desktop notifications, and the StatusNotifier tray. Settings and cache files stay inside the sandbox under <code>~/.var/app/com.example.piliplus</code>. No host filesystem access is granted by default.</p>
+    <p>Optional capabilities:</p>
+    <ul>
+      <li>Save downloaded videos to your Downloads directory: <code>flatpak override --user --filesystem=xdg-download com.example.piliplus</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>PiliPlus home screen</caption>
+      <image>https://raw.githubusercontent.com/bggRGjQaUbCoE/PiliPlus/main/assets/screenshots/main_screen.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.example.piliplus.desktop</launchable>
+  <provides>
+    <binary>piliplus</binary>
+    <mediatype>x-scheme-handler/bilibili</mediatype>
+  </provides>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>bilibili</keyword>
+    <keyword>video</keyword>
+    <keyword>player</keyword>
+    <keyword>danmaku</keyword>
+    <keyword>anime</keyword>
+    <keyword>flutter</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="2.1.6.2" date="2026-10-10">
+      <description></description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,23 @@
+id: com.example.piliplus
+name: PiliPlus
+summary: Third-party Bilibili client developed in Flutter
+website: https://github.com/bggRGjQaUbCoE/PiliPlus
+source_url: https://github.com/bggRGjQaUbCoE/PiliPlus
+build:
+  manifest: com.example.piliplus.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Video
+    - Audio
+    - Media
+    - Bilibili
+    - Flutter
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

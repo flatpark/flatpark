@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# PiliPlus is the official upstream Linux Flutter bundle, extracted unchanged
+# at install time.
+#
+# WebKitGTK under Flatpak needs DMABUF renderer disabled to prevent blank
+# windows under several GPU drivers.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# mpv-stack from flatpark/prebuilt supplies libmpv.so.2 under /app/lib.
+export LD_LIBRARY_PATH="/app/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+exec /app/extra/bundle/piliplus "$@"
