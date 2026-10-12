@@ -59,11 +59,11 @@
   <launchable type="desktop-id">io.github.abcwyc.pi-agent-desktop.desktop</launchable>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/abcwyc/pi-agent-desktop/main/docs/screenshots/pi-agent-light%402x.png</image>
+      <image>https://raw.githubusercontent.com/abcwyc/pi-agent-desktop/1cabde8059db8f1a9bf262dd04a75e78ebe8c461/docs/screenshots/pi-agent-light.webp</image>
       <caption>A Pi session in the desktop app, light mode</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/abcwyc/pi-agent-desktop/main/docs/screenshots/pi-agent-dark%402x.png</image>
+      <image>https://raw.githubusercontent.com/abcwyc/pi-agent-desktop/1cabde8059db8f1a9bf262dd04a75e78ebe8c461/docs/screenshots/pi-agent-dark.webp</image>
       <caption>A Pi session in the desktop app, dark mode</caption>
     </screenshot>
   </screenshots>

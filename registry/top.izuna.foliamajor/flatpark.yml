@@ -1,7 +1,7 @@
 id: top.izuna.foliamajor
 name: Folia
 summary: Lyrics-focused online and local music player
-website: https://folia-site.vercel.app
+website: https://folia-site.cielaniska.top/
 source_url: https://github.com/chthollyphile/folia-major
 build:
   manifest: top.izuna.foliamajor.yml
