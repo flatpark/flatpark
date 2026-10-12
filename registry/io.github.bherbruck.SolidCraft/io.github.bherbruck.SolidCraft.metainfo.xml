@@ -62,6 +62,9 @@
     <mediatype>application/x-solvecraft</mediatype>
   </provides>
   <releases>
+    <release version="0.3.2" date="2026-10-12">
+      <description></description>
+    </release>
     <release version="0.3.1" date="2026-10-11"/>
   </releases>
 </component>

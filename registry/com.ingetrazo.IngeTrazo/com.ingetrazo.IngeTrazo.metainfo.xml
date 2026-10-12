@@ -66,6 +66,9 @@
     <keyword>IFC</keyword>
   </keywords>
   <releases>
+    <release version="0.5.8" date="2026-10-12">
+      <description></description>
+    </release>
     <release version="0.5.7" date="2026-09-30"/>
   </releases>
 </component>

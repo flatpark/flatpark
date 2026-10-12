@@ -46,16 +46,16 @@ modules:
         filename: solvecraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.3.1/solvecraft-0.3.1-linux-x86_64.tar.gz
-        sha256: d81b0d5796d530241cafeda11b1350a750d7c7c32a0b37632c6ad258d7d3a6da
-        size: 26540228
+        url: https://github.com/bherbruck/solidcraft/releases/download/v0.3.2/solvecraft-0.3.2-linux-x86_64.tar.gz
+        sha256: 344d9a1d9175fc715c9b7a60b11b3b28455fb0bacebb6639463069882fd1226c
+        size: 26557988
       - type: extra-data
         filename: solvecraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.3.1/solvecraft-0.3.1-linux-aarch64.tar.gz
-        sha256: f6e78b9b033c903316499802153a6f2442849dfcb6b39d27a98b7a5d507bb148
-        size: 24316860
+        url: https://github.com/bherbruck/solidcraft/releases/download/v0.3.2/solvecraft-0.3.2-linux-aarch64.tar.gz
+        sha256: 9c0a1cbf9116c7bad6cb484de041424bc8cfdc9ac7d62a5cbf7c247b5077343c
+        size: 24378381
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
