@@ -51,17 +51,11 @@ jobs:
         run: bash tests/run-tests.sh
       # Scoped to the apps this PR touches (any file, not just build inputs):
       # a full-catalog sweep per PR is O(catalog) upstream fetches and lets an
-      # unrelated flaky upstream block the PR. The weekly link-check workflow
-      # still sweeps everything.
-      - name: Dead-link check (changed apps only)
-        run: |
-          ids="$(./scripts/changed-apps.sh --any-change \
-                   "${{ github.event.pull_request.base.sha }}" HEAD | tr '\n' ' ')"
-          if [ -z "$ids" ]; then
-            echo "no app changes; skipping link check"
-          else
-            ./scripts/check-links.sh $ids
-          fi
+      # unrelated flaky upstream block the PR. Within those apps, only links the
+      # PR itself added can fail it; one that was already dead on main is a
+      # warning here and belongs to the daily link-check workflow's alert.
+      - name: Dead-link check (links this PR adds)
+        run: ./scripts/check-links-pr.sh "${{ github.event.pull_request.base.sha }}" HEAD
 
   # Tripwire: a PR that touches CI-executed automation is gated. Two surfaces
   # qualify, and the difference matters:

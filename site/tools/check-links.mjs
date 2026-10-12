@@ -1,8 +1,10 @@
 // Batch-check the external URLs the site hotlinks (screenshots, homepage,
 // help, license, source). Reads enriched apps/<id>.json from the data dir.
 // Human summary by default, --json for machine output. Exits 1 if any link
-// is broken so CI / a remediation job can act on it.
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+// is broken so CI / a remediation job can act on it. LINK_CHECK_JSON_OUT also
+// writes the JSON report to that file, next to the human summary — the
+// workflows want both, and stdout is shared with the data regeneration.
+import { readFileSync, readdirSync, existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const dataDir = process.env.FLATPARK_DATA_DIR || 'public';
@@ -149,8 +151,10 @@ const results = await pool(entries, CONCURRENCY, check);
 const broken = results.filter((r) => !r.ok);
 const warned = results.filter((r) => r.warn);
 
+const report = { checked: results.length, broken: broken.length, warned: warned.length, results };
+if (process.env.LINK_CHECK_JSON_OUT) writeFileSync(process.env.LINK_CHECK_JSON_OUT, JSON.stringify(report, null, 2));
 if (asJson) {
-  console.log(JSON.stringify({ checked: results.length, broken: broken.length, warned: warned.length, results }, null, 2));
+  console.log(JSON.stringify(report, null, 2));
 } else {
   console.log(`[check-links] checked ${results.length} link(s)`);
   if (warned.length > 0) {

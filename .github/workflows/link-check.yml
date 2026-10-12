@@ -1,16 +1,18 @@
-# Weekly full-catalog dead-link sweep. PR checks only verify the apps a PR
-# touches (see pr-checks.yml), so this catches links that rot while nobody is
-# editing the app — icons, screenshots, websites, extra-data URLs. No secrets;
-# a failure just shows up red in the Actions tab.
+# Daily full-catalog dead-link sweep. PR checks only fail on links the PR
+# itself adds (scripts/check-links-pr.sh), so this is where links that rot
+# while nobody is editing the app — screenshots, websites, docs, license and
+# source URLs — get noticed. The broken list is mirrored into one ci-alert
+# issue, rewritten every run and closed once the catalog is clean.
 name: link-check
 
 on:
   schedule:
-    - cron: "43 5 * * 1"   # weekly, Monday 05:43 UTC
+    - cron: "43 5 * * *"   # daily, 05:43 UTC
   workflow_dispatch:
 
 permissions:
   contents: read
+  issues: write         # open/rewrite/close the broken-links alert (scripts/ci-alert.sh)
 
 jobs:
   links:
@@ -27,4 +29,37 @@ jobs:
           cache: npm
           cache-dependency-path: site/package-lock.json
       - name: Check every hotlinked URL across the catalog
+        env:
+          LINK_CHECK_JSON_OUT: ${{ runner.temp }}/links.json
         run: ./scripts/check-links.sh
+      # A red scheduled run only emails whoever last touched the cron line.
+      # One issue for the whole batch, rewritten with each run's list, so the
+      # fixes go out together in one PR.
+      - name: Open / update / close the broken-links alert
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT: ${{ runner.temp }}/links.json
+        run: |
+          [ -s "$REPORT" ] || { echo "no report; the sweep died before checking"; exit 0; }
+          n="$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).broken)' "$REPORT")"
+          if [ "$n" -eq 0 ]; then
+            ./scripts/ci-alert.sh resolve "link-check" "Every hotlinked URL answered in this run."
+            exit 0
+          fi
+          {
+            echo "These links failed the latest daily sweep. They are not blocking any PR"
+            echo "(PR checks only fail on links a PR adds), but the site shows them broken:"
+            echo
+            echo "| App | Type | Status | URL |"
+            echo "|---|---|---|---|"
+            node -e '
+              const d = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+              const esc = (s) => String(s).replace(/\|/g, "\\|");
+              for (const r of d.results.filter((x) => !x.ok))
+                console.log(`| \`${r.app}\` | ${r.type} | ${esc(r.status || r.error)} | ${esc(r.url)} |`);
+            ' "$REPORT"
+            echo
+            echo "Reproduce with \`./scripts/check-links.sh <app-id>\`. This issue is"
+            echo "rewritten every run and closes itself once every link answers."
+          } | ./scripts/ci-alert.sh sync "link-check" "link-check: $n broken link(s)"
