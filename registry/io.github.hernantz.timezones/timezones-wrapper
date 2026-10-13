@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+# The release tree, unpacked by apply_extra, is built for /app/extra/timezones.
+# Its launcher already knows its own code and locale paths; what the runtime
+# cannot find by itself are the libraries and schemas it brings:
+#
+#   LD_LIBRARY_PATH, GI_TYPELIB_PATH  libgweather 4 and geocode-glib, and their
+#                                     GObject introspection typelibs.
+#   GSETTINGS_SCHEMA_DIR              the app's settings schema and GWeather's,
+#                                     compiled together in the tree.
+#   XDG_DATA_DIRS                     libgweather's icons and data.
+tree=/app/extra/timezones
+export LD_LIBRARY_PATH="$tree/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export GI_TYPELIB_PATH="$tree/lib/girepository-1.0${GI_TYPELIB_PATH:+:$GI_TYPELIB_PATH}"
+export GSETTINGS_SCHEMA_DIR="$tree/share/glib-2.0/schemas"
+export XDG_DATA_DIRS="$tree/share:${XDG_DATA_DIRS:-/app/share:/usr/share}"
+exec "$tree/bin/timezones" "$@"

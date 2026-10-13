@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name[es]=Husos horarios
+Name=Timezones
+Comment[es]=Relojes mundiales con interfaz GTK4 nativa
+Comment=World time clocks with native GTK4 UI
+Exec=timezones
+Icon=io.github.hernantz.timezones
+Terminal=false
+Categories=Utility;Clock;
+StartupNotify=true
+StartupWMClass=io.github.hernantz.timezones

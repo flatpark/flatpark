@@ -1,0 +1,23 @@
+id: io.github.hernantz.timezones
+name: Timezones
+summary: World time clocks with native GTK4 UI
+website: https://github.com/hernantz/timezones
+source_url: https://github.com/hernantz/timezones
+build:
+  manifest: io.github.hernantz.timezones.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  # Submitted and maintained by the app's own developer.
+  upstream_approved: true
+  tags:
+    - Clock
+    - Timezones
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

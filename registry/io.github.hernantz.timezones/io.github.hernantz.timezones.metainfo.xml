@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.hernantz.timezones</id>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Timezones</name>
+  <name xml:lang="es">Husos horarios</name>
+  <summary>World time clocks with native GTK4 UI</summary>
+  <summary xml:lang="es">Relojes mundiales con interfaz GTK4 nativa</summary>
+  <description>
+    <p>
+      Keep track of the time in the cities that matter to you. Timezones shows a
+      row per city on a shared timeline, so a glance tells you who is asleep, who
+      is at work, and what an hour of your day looks like everywhere at once.
+    </p>
+    <p xml:lang="es">Sigue la hora en las ciudades que te importan. Husos horarios muestra una fila por ciudad sobre una línea de tiempo compartida, así que de un vistazo sabes quién duerme, quién está trabajando y cómo se ve una hora de tu día en todas partes a la vez.</p>
+    <p>Features:</p>
+    <p xml:lang="es">Características:</p>
+    <ul>
+      <li>Scrub the timeline to read the same moment in every city</li>
+      <li xml:lang="es">Recorre la línea de tiempo para leer el mismo momento en cada ciudad</li>
+      <li>Daylight shading, so working hours and the middle of the night are obvious</li>
+      <li xml:lang="es">Sombreado de día y noche, para distinguir el horario laboral de la madrugada</li>
+      <li>Pick any date to plan ahead across daylight saving changes</li>
+      <li xml:lang="es">Elige cualquier fecha para planificar a través de los cambios de horario de verano</li>
+      <li>Share a time as a calendar invitation or as text</li>
+      <li xml:lang="es">Comparte una hora como invitación de calendario o como texto</li>
+      <li>12- or 24-hour clocks, light and dark themes</li>
+      <li xml:lang="es">Relojes de 12 o 24 horas, temas claro y oscuro</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>An hour parked on the shared timeline</caption>
+      <caption xml:lang="es">Una hora fijada en la línea de tiempo compartida</caption>
+      <image>https://raw.githubusercontent.com/hernantz/timezones/master/data/screenshots/main-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Four cities across a full day, with daylight shading</caption>
+      <caption xml:lang="es">Cuatro ciudades a lo largo de un día completo, con sombreado de día y noche</caption>
+      <image>https://raw.githubusercontent.com/hernantz/timezones/master/data/screenshots/fullscreen-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Searching the timezone list</caption>
+      <caption xml:lang="es">Buscando en la lista de husos horarios</caption>
+      <image>https://raw.githubusercontent.com/hernantz/timezones/master/data/screenshots/add-timezone-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The stacked layout at phone width</caption>
+      <caption xml:lang="es">El diseño apilado en el ancho de un teléfono</caption>
+      <image>https://raw.githubusercontent.com/hernantz/timezones/master/data/screenshots/mobile-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Appearance, time format and view options</caption>
+      <caption xml:lang="es">Apariencia, formato de hora y opciones de vista</caption>
+      <image>https://raw.githubusercontent.com/hernantz/timezones/master/data/screenshots/mobile-preferences-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The same list in the dark theme</caption>
+      <caption xml:lang="es">La misma lista con el tema oscuro</caption>
+      <image>https://raw.githubusercontent.com/hernantz/timezones/master/data/screenshots/main-dark.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.hernantz.timezones.desktop</launchable>
+  <url type="homepage">https://github.com/hernantz/timezones</url>
+  <url type="bugtracker">https://github.com/hernantz/timezones/issues</url>
+  <url type="vcs-browser">https://github.com/hernantz/timezones</url>
+  <developer id="io.github.hernantz">
+    <name translate="no">Hernan Lozano</name>
+  </developer>
+  <!-- Nothing in the app falls under any OARS category. -->
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.1.0" date="2026-10-12">
+      <description>
+        <p>A smaller release with one change of behavior and one fix:</p>
+        <p xml:lang="es">Una versión pequeña, con un cambio de comportamiento y una corrección:</p>
+        <ul>
+          <li>New installs start with an empty list instead of a preset selection of cities</li>
+          <li xml:lang="es">Las instalaciones nuevas comienzan con una lista vacía en lugar de una selección de ciudades predeterminada</li>
+          <li>Long city descriptions no longer break the layout of the add dialog</li>
+          <li xml:lang="es">Las descripciones largas de ciudades ya no rompen el diseño del diálogo para agregar</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.0" date="2026-10-06">
+      <description>
+        <p>First release.</p>
+        <p xml:lang="es">Primera versión.</p>
+      </description>
+    </release>
+  </releases>
+</component>

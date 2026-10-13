@@ -1,0 +1,58 @@
+id: io.github.hernantz.timezones
+# Timezones is a Python GTK 4 / libadwaita app. The extra-data is upstream's
+# own release asset, timezones-<version>-flatpark-x86_64.tar.xz: the install
+# tree of the app plus the three libraries the GNOME runtime lacks
+# (libgweather 4, geocode-glib, gweather-locations), built by upstream's release
+# workflow in org.gnome.Sdk//51 from the same modules as its Flatpak manifest.
+#
+# That tree is built for /app/extra/timezones, where apply_extra unpacks it:
+# its launcher, locale dir and libgweather's location database are absolute
+# paths, so it only runs from there.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: timezones
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GTK 4 renders through GL.
+  - --device=dri
+  # No --share=network: the clocks, the city search (libgweather's bundled
+  # location database) and the daylight shading all work offline.
+  #
+  # No --filesystem=: sharing a time writes an .ics into the app's own cache
+  # and hands it to the calendar through the OpenURI portal. The city list is
+  # kept in the per-app XDG_CONFIG_HOME under ~/.var/app.
+modules:
+  - name: timezones
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 timezones-wrapper /app/bin/timezones
+      - install -Dm644 io.github.hernantz.timezones.desktop /app/share/applications/io.github.hernantz.timezones.desktop
+      - install -Dm644 io.github.hernantz.timezones.metainfo.xml /app/share/metainfo/io.github.hernantz.timezones.metainfo.xml
+      - install -Dm644 io.github.hernantz.timezones.svg /app/share/icons/hicolor/scalable/apps/io.github.hernantz.timezones.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: timezones.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/hernantz/timezones/releases/download/v1.1.0/timezones-1.1.0-flatpark-x86_64.tar.xz
+        sha256: b70e7358f8771d6a2672a32742e4cd2d39776bf66f8d4878f7714b66c4f5f1d1
+        size: 2988760
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: timezones-wrapper
+      - type: file
+        path: io.github.hernantz.timezones.desktop
+      - type: file
+        path: io.github.hernantz.timezones.metainfo.xml
+      - type: file
+        path: io.github.hernantz.timezones.svg
