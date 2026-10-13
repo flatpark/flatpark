@@ -62,16 +62,16 @@ modules:
         filename: spotifast-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/crmne/spotifast/releases/download/v0.12.0/spotifast-v0.12.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 823011b1d0270141a75562cf4f05287fa985187ba85e298fd819c6d2f3aeb4fb
-        size: 17676380
+        url: https://github.com/crmne/spotifast/releases/download/v0.13.0/spotifast-v0.13.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 54ad7d1137ab4ec76177298fb226dbfc63999e74dc1d7fd9248dda0009c995b7
+        size: 18490175
       - type: extra-data
         filename: spotifast-aarch64.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/crmne/spotifast/releases/download/v0.12.0/spotifast-v0.12.0-aarch64-unknown-linux-gnu.tar.gz
-        sha256: b8c2ff661bbd2c5d3ebf72832671d3db8af52ae0e5e7a1636f9fdeb51636e0b6
-        size: 16740933
+        url: https://github.com/crmne/spotifast/releases/download/v0.13.0/spotifast-v0.13.0-aarch64-unknown-linux-gnu.tar.gz
+        sha256: 84f926636c960213b4020cac24fe1746ccf52f071f58caf7851d1d67eb5ca855
+        size: 17524487
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

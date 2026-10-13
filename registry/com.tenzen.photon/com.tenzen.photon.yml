@@ -75,9 +75,9 @@ modules:
         filename: photon.AppImage
         only-arches:
           - x86_64
-        url: https://downloads.tenzen.studio/photon/stable/linux/0.1.50/Photon-Studio-0.1.50-linux-x64.AppImage
-        sha256: e6be488b6c81dfae066eb5d77d18c18f6bc830d0cc0efdd80393d14f8e8b14d7
-        size: 1335906675
+        url: https://downloads.tenzen.studio/photon/stable/linux/0.1.52/Photon-Studio-0.1.52-linux-x64.AppImage
+        sha256: 39bc0dc0cf7816f4e24ff31c259d1388bd4e9059f73199f618515e9631c8c482
+        size: 1283699884
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
