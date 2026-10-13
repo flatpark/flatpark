@@ -8,7 +8,7 @@ id: io.github.bherbruck.SolidCraft
 runtime: org.freedesktop.Platform
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
-command: solvecraft
+command: solidcraft
 separate-locales: false
 build-options:
   no-debuginfo: true
@@ -30,12 +30,14 @@ finish-args:
   #                               documents the override that exposes it
   #   --filesystem=home / host -> everything else goes through the portal
 modules:
-  - name: solvecraft
+  - name: solidcraft
     buildsystem: simple
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
-      - install -Dm755 solvecraft-wrapper /app/bin/solvecraft
-      - install -Dm755 solvecraft-cli-wrapper /app/bin/solvecraft-cli
+      - install -Dm755 solidcraft-wrapper /app/bin/solidcraft
+      - install -Dm755 solidcraft-cli-wrapper /app/bin/solidcraft-cli
+      # Pre-0.5 command name, kept so existing MCP/CLI setups keep working.
+      - ln -s solidcraft-cli /app/bin/solvecraft-cli
       - install -Dm644 io.github.bherbruck.SolidCraft.desktop /app/share/applications/io.github.bherbruck.SolidCraft.desktop
       - install -Dm644 io.github.bherbruck.SolidCraft.metainfo.xml /app/share/metainfo/io.github.bherbruck.SolidCraft.metainfo.xml
       - install -Dm644 io.github.bherbruck.SolidCraft.mime.xml /app/share/mime/packages/io.github.bherbruck.SolidCraft.xml
@@ -43,26 +45,26 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: solvecraft.tar.gz
+        filename: solidcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.3.2/solvecraft-0.3.2-linux-x86_64.tar.gz
-        sha256: 344d9a1d9175fc715c9b7a60b11b3b28455fb0bacebb6639463069882fd1226c
-        size: 26557988
+        url: https://github.com/bherbruck/solidcraft/releases/download/v0.6.0/solidcraft-0.6.0-linux-x86_64.tar.gz
+        sha256: afb503ab49063f063dd25252202d38b8c32c8e0e2974cd92b3f00ccceac395cc
+        size: 28683000
       - type: extra-data
-        filename: solvecraft.tar.gz
+        filename: solidcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.3.2/solvecraft-0.3.2-linux-aarch64.tar.gz
-        sha256: 9c0a1cbf9116c7bad6cb484de041424bc8cfdc9ac7d62a5cbf7c247b5077343c
-        size: 24378381
+        url: https://github.com/bherbruck/solidcraft/releases/download/v0.6.0/solidcraft-0.6.0-linux-aarch64.tar.gz
+        sha256: 43e503b943fb989ab7cda8e965a95f50345ee6ab9845f50385bef9cabadc7a9b
+        size: 26261296
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
       - type: file
-        path: solvecraft-wrapper
+        path: solidcraft-wrapper
       - type: file
-        path: solvecraft-cli-wrapper
+        path: solidcraft-cli-wrapper
       - type: file
         path: io.github.bherbruck.SolidCraft.desktop
       - type: file

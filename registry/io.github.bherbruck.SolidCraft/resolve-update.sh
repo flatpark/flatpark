@@ -4,8 +4,8 @@
 # Prints the current version + the official Linux release tarballs as JSON on
 # stdout:
 #   { "version": "0.3.1", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "solvecraft.tar.gz", "arch": "x86_64",  "url": "..." },
-#                  { "filename": "solvecraft.tar.gz", "arch": "aarch64", "url": "..." } ] }
+#     "sources": [ { "filename": "solidcraft.tar.gz", "arch": "x86_64",  "url": "..." },
+#                  { "filename": "solidcraft.tar.gz", "arch": "aarch64", "url": "..." } ] }
 # Logs go to stderr. No hashing — FlatPark downloads the URL and computes the
 # extra-data sha256/size. The version is compared against the latest
 # <release> in the AppStream metainfo.
@@ -23,10 +23,10 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 
-# solvecraft-<ver>-linux-<arch>.tar.gz exactly: excludes the AppImage, deb,
+# solidcraft-<ver>-linux-<arch>.tar.gz exactly: excludes the AppImage, deb,
 # rpm, flatpak and the FreeBSD tarball.
 asset_url() {
-  jq -r --arg n "solvecraft-$version-linux-$1.tar.gz" \
+  jq -r --arg n "solidcraft-$version-linux-$1.tar.gz" \
     '.assets[] | select(.name == $n) | .browser_download_url' <<<"$rel" | head -n1
 }
 url_x86_64="$(asset_url x86_64)"
@@ -40,6 +40,6 @@ echo "resolved SolidCraft $version ($date): $url_x86_64" >&2
 
 jq -n --arg v "$version" --arg d "$date" --arg ux "$url_x86_64" --arg ua "$url_aarch64" \
   '{version:$v, releaseDate:$d, sources:[
-     {filename:"solvecraft.tar.gz", arch:"x86_64",  url:$ux},
-     {filename:"solvecraft.tar.gz", arch:"aarch64", url:$ua}
+     {filename:"solidcraft.tar.gz", arch:"x86_64",  url:$ux},
+     {filename:"solidcraft.tar.gz", arch:"aarch64", url:$ua}
    ]}'

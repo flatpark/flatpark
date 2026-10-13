@@ -21,7 +21,7 @@
       <li>STEP and IGES import and export; 3MF, STL and OBJ</li>
       <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
     </ul>
-    <p>The headless command runner and MCP server is included: <code>flatpak run --command=solvecraft-cli io.github.bherbruck.SolidCraft --help</code></p>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=solidcraft-cli io.github.bherbruck.SolidCraft --help</code></p>
     <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Documents folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
     <p>Optional overrides:</p>
     <ul>
@@ -57,11 +57,14 @@
   </supports>
   <content_rating type="oars-1.1"/>
   <provides>
-    <binary>solvecraft</binary>
-    <binary>solvecraft-cli</binary>
-    <mediatype>application/x-solvecraft</mediatype>
+    <binary>solidcraft</binary>
+    <binary>solidcraft-cli</binary>
+    <mediatype>application/x-solidcraft</mediatype>
   </provides>
   <releases>
+    <release version="0.6.0" date="2026-10-13">
+      <description></description>
+    </release>
     <release version="0.3.2" date="2026-10-12">
       <description></description>
     </release>

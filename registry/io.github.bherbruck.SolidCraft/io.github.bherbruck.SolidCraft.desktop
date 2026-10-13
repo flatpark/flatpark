@@ -4,13 +4,13 @@ Type=Application
 Name=SolidCraft
 GenericName=3D CAD
 Comment=Parametric 3D CAD: sketch, constrain, extrude, and change a parameter to rebuild
-Exec=solvecraft %f
-TryExec=solvecraft
+Exec=solidcraft %f
+TryExec=solidcraft
 Icon=io.github.bherbruck.SolidCraft
 Terminal=false
 StartupNotify=true
-# Compiled into the binary (still ai.storyteller.solvecraft as of 0.3.1); the window class does not follow this package id.
+# Compiled into the binary (still ai.storyteller.solvecraft as of 0.6.0); the window class does not follow this package id.
 StartupWMClass=ai.storyteller.solvecraft
 Categories=Graphics;3DGraphics;Engineering;
 Keywords=cad;3d;parametric;sketch;step;stl;modelling;modeling;
-MimeType=application/x-solvecraft;model/step;model/iges;model/stl;model/3mf;
+MimeType=application/x-solidcraft;model/step;model/iges;model/stl;model/3mf;

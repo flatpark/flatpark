@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# SolidCraft is staged by apply_extra at /app/extra/solidcraft.
+exec /app/extra/solidcraft/bin/solidcraft "$@"

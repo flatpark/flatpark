@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-  <mime-type type="application/x-solvecraft">
+  <mime-type type="application/x-solidcraft">
     <comment>SolidCraft design</comment>
+    <glob pattern="*.solidcraft"/>
+    <!-- Designs saved before the 0.5 rename. -->
     <glob pattern="*.solvecraft"/>
+    <alias type="application/x-solvecraft"/>
     <sub-class-of type="application/json"/>
   </mime-type>
 </mime-info>
