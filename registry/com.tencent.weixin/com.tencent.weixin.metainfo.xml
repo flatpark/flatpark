@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.tencent.weixin</id>
+  <name>Weixin</name>
+  <summary>Second WeChat client that runs alongside Flathub's WeChat</summary>
+  <summary xml:lang="zh-Hans">微信双开：可与 Flathub 版微信同时运行</summary>
+  <developer_name>Tencent</developer_name>
+  <launchable type="desktop-id">com.tencent.weixin.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://weixin.qq.com/</project_license>
+  <description>
+    <p>This is a community package that repackages the official Weixin (WeChat)
+    Linux client from Tencent, unmodified. It is not verified by, affiliated
+    with, or supported by Tencent, Inc.</p>
+    <p>How it differs from WeChat on Flathub: it is the same client under a
+    different app id (com.tencent.weixin), with its own data directory, so you
+    can run it next to com.tencent.WeChat and sign in to a second account. Both
+    get their own tray icon. Installed alone, it works as a normal WeChat
+    client.</p>
+    <p>这是社区打包的官方微信 Linux 客户端，未做修改，与腾讯公司无关联。它和
+    Flathub 上的微信是同一个客户端，但用了不同的应用 ID 和独立的数据目录，
+    可以与 Flathub 版微信同时运行、登录第二个账号（双开），两边各有托盘图标。</p>
+    <p>Chat data is kept in ~/.var/app/com.tencent.weixin/. The package has
+    camera, microphone and GPU access for calls; to restrict it run:
+    flatpak override --user --nodevice=all com.tencent.weixin</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://res.wx.qq.com/t/wx_fed/base/weixin_portal/res/static/img/1jGi1IH.jpg</image>
+      <caption>Text messaging</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://res.wx.qq.com/t/wx_fed/base/weixin_portal/res/static/img/bLyYj3G.jpg</image>
+      <caption>Video calling</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="4.1.13.26" date="2026-10-12">
+      <description/>
+    </release>
+  </releases>
+  <url type="homepage">https://weixin.qq.com/</url>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+  </content_rating>
+</component>

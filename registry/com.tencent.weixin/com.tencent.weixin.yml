@@ -1,0 +1,69 @@
+id: com.tencent.weixin
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: weixin
+separate-locales: false
+finish-args:
+  # Weixin (微信). Repackages Tencent's official Linux .deb unmodified, under its
+  # own app id so it runs side by side with Flathub's com.tencent.WeChat as a
+  # second account — that is the whole point of this package (flatpark#281).
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=pulseaudio
+  # Camera, microphone and GPU for calls. Declared in policy.dangerous_permissions.
+  - --device=all
+  - --talk-name=org.freedesktop.Notifications
+  # Input method: the bundled fcitx5 Qt plugin talks to fcitx5 directly, or
+  # through its portal. The wrapper sets QT_IM_MODULE from XMODIFIERS.
+  - --talk-name=org.fcitx.Fcitx5
+  - --talk-name=org.freedesktop.portal.Fcitx
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # WeChat's bundled Qt tray claims org.kde.StatusNotifierItem-<pid>-<n>. The
+  # wrapper keeps the app off PID 2 so this name differs from Flathub WeChat's;
+  # flatpak can only grant the prefix, same grant Flathub's package uses.
+  - --own-name=org.kde.*
+  # Account data lives in the app's own ~/.var/app/com.tencent.weixin, never
+  # shared with another WeChat install.
+  - --persist=.xwechat
+  - --persist=xwechat_files
+  # X11 only, like Flathub's package. Pin Qt to xcb so a host-wide
+  # QT_QPA_PLATFORM=wayland does not reach the app: without a Wayland socket
+  # WeChat's Qt aborts at start instead of falling back.
+  - --env=QT_QPA_PLATFORM=xcb
+  - --env=QT_AUTO_SCREEN_SCALE_FACTOR=1
+  # Qt UI breaks on locales with a comma decimal separator.
+  - --env=LC_NUMERIC=C
+modules:
+  - name: weixin
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 weixin-wrapper /app/bin/weixin
+      - install -Dm755 dde-file-manager /app/bin/dde-file-manager
+      - install -Dm644 com.tencent.weixin.metainfo.xml -t /app/share/metainfo
+      - install -Dm644 com.tencent.weixin.png /app/share/icons/hicolor/256x256/apps/com.tencent.weixin.png
+      - install -Dm644 com.tencent.weixin.desktop -t /app/share/applications
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: wechat.deb
+        only-arches:
+          - x86_64
+        url: https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_x86_64.deb
+        sha256: a0db8caeee8d1e6cfe0aa5ce58710270f8d74a90ff4920f53a3fc22aa0956fe9
+        size: 231861976
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: weixin-wrapper
+      - type: file
+        path: dde-file-manager
+      - type: file
+        path: com.tencent.weixin.metainfo.xml
+      - type: file
+        path: com.tencent.weixin.png
+      - type: file
+        path: com.tencent.weixin.desktop

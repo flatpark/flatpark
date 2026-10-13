@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Weixin
+Comment=Weixin desktop client, runs alongside another WeChat install
+Comment[zh_CN]=微信桌面版，可与另一个微信同时运行（双开）
+Keywords=weixin;wechat;微信;双开;
+Exec=weixin %U
+Icon=com.tencent.weixin
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Network;InstantMessaging;Chat;

@@ -1,0 +1,25 @@
+id: com.tencent.weixin
+name: Weixin
+summary: Second WeChat client that runs alongside Flathub's WeChat
+website: https://weixin.qq.com/
+source_url: https://linux.weixin.qq.com/
+build:
+  manifest: com.tencent.weixin.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Chat
+    - Messaging
+    - Tencent
+    - WeChat
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions:
+    # Voice/video calls need camera, microphone and GPU; same grant as Flathub's
+    # com.tencent.WeChat.
+    - --device=all

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# WeChat's bundled Qt has the fcitx5 and ibus input-method plugins but does not
+# pick one on its own; follow the session's XMODIFIERS unless the user set
+# QT_IM_MODULE already (e.g. with flatpak override --env).
+if [ -z "${QT_IM_MODULE:-}" ]; then
+    case "${XMODIFIERS:-}" in
+        *fcitx*) export QT_IM_MODULE=fcitx ;;
+        *ibus*) export QT_IM_MODULE=ibus ;;
+    esac
+fi
+
+# WeChat's bundled Qt names its tray icon org.kde.StatusNotifierItem-<pid>-<n>
+# and gives up if that name is taken. Every sandbox starts its command as PID 2,
+# so with exec this would collide with Flathub's com.tencent.WeChat running
+# alongside and only one of the two would get a tray icon. Starting the app as a
+# child keeps it off PID 2; the shell just waits and passes the exit status on.
+/app/extra/wechat/wechat "$@"
+exit $?

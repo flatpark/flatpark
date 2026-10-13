@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# WeChat's "Show in folder" runs `dde-file-manager --show-item <file>`. Answer it
+# through the OpenURI portal, which opens the containing folder on the host.
+[ "${1:-}" = "--show-item" ] && [ -n "${2:-}" ] || exit 0
+[ -e "$2" ] || { echo "dde-file-manager: $2 not found" >&2; exit 1; }
+
+exec gdbus call --session \
+  --dest org.freedesktop.portal.Desktop \
+  --object-path /org/freedesktop/portal/desktop \
+  --method org.freedesktop.portal.OpenURI.OpenDirectory \
+  "" 3 '{}' 3< "$2"
