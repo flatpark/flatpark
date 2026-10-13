@@ -80,9 +80,9 @@ modules:
         filename: strata.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/lgse/strata/releases/download/v0.21.0/strata-0.21.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 51182868ce734a48a41780f2c15fcbdfa5b70b89ef6a88570db6a6b8fa1844e1
-        size: 16733125
+        url: https://github.com/lgse/strata/releases/download/v1.0.0/strata-1.0.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: e15095a201165132a88032df15ecbeab795a13d6cacc4ebb943e276c35ff492e
+        size: 18465237
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

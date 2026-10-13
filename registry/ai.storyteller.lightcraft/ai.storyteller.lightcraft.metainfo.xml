@@ -67,6 +67,9 @@
     <binary>lightcraft-cli</binary>
   </provides>
   <releases>
+    <release version="0.7.1" date="2026-10-12">
+      <description></description>
+    </release>
     <release version="0.6.0" date="2026-10-11">
       <description></description>
     </release>
