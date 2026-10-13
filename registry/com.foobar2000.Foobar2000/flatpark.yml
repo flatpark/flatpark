@@ -1,0 +1,33 @@
+# FlatPark catalog descriptor for foobar2000.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; com.foobar2000.Foobar2000.yml is the Flatpak
+# manifest it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: com.foobar2000.Foobar2000
+name: foobar2000
+summary: Advanced freeware audio player
+website: https://www.foobar2000.org
+source_url: https://www.foobar2000.org/download
+build:
+  manifest: com.foobar2000.Foobar2000.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Music
+    - Player
+    - Audio
+    - Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions:
+    # Flatpak's seccomp filter otherwise kills new-WoW64 Wine's 32-bit processes.
+    - --allow=multiarch

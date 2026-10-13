@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=foobar2000
+GenericName=Audio Player
+Comment=Advanced freeware audio player
+Exec=cellar %F
+Icon=com.foobar2000.Foobar2000
+Terminal=false
+StartupNotify=true
+StartupWMClass=foobar2000.exe
+Categories=AudioVideo;Audio;Player;
+MimeType=audio/mpeg;audio/flac;audio/x-flac;audio/ogg;audio/x-vorbis+ogg;audio/opus;audio/x-wav;audio/mp4;audio/aac;audio/x-ape;audio/x-wavpack;audio/x-musepack;audio/x-ms-wma;audio/x-mpegurl;audio/x-scpls;
+Keywords=music;player;audio;playlist;

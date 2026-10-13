@@ -1,0 +1,21 @@
+# foobar2000: the vendor's official x64 installer (NSIS), unmodified
+# (extra-data). It is not unpacked at install time: on first launch cellar
+# runs it silently in the user's prefix, as a person would in Bottles, and
+# again whenever the package brings a newer installer.
+
+locale = "en_US"
+font_sets = ["core"]  # Arial, Times New Roman, Courier New: Liberation
+
+[install]
+source = "foobar2000-setup.exe"   # the extra-data filename
+method = "run"
+args = ["/S"]                     # NSIS silent install, default folder
+
+[drives]
+# Windows file dialogs see the home folder as H: (there is no Z:).
+h = "~"
+
+[[apps]]
+id = "foobar2000"
+name = "foobar2000"
+exe = 'C:\Program Files\foobar2000\foobar2000.exe'

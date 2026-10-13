@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.foobar2000.Foobar2000</id>
+  <name>foobar2000</name>
+  <summary>Advanced freeware audio player</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer id="com.foobar2000">
+    <name>Peter Pawłowski</name>
+  </developer>
+  <url type="homepage">https://www.foobar2000.org</url>
+  <url type="help">https://wiki.hydrogenaud.io/index.php?title=Foobar2000:Foobar2000</url>
+  <url type="bugtracker">https://hydrogenaud.io/index.php/board,28.0.html</url>
+  <description>
+    <p>foobar2000 is a freeware audio player with gapless playback, ReplayGain, full Unicode tag support, a customizable interface and a large library of third-party components. It plays MP3, AAC, FLAC, Opus, Vorbis, WavPack, Musepack, ALAC, WAV and more, converts between formats and rips audio CDs.</p>
+    <p>This package runs the official Windows x64 build under Wine. The vendor's installer is downloaded unmodified and run silently in your own Wine prefix on first launch, and again when the package brings a newer version, so the first start takes a little longer. The prefix is managed by cellar, a declarative Wine prefix manager.</p>
+    <p>Permissions: your Music folder, network access for internet radio and component downloads, and sound. Files opened from the desktop are passed in whatever folder they are in. To give foobar2000 another folder, use for example <code>flatpak override --user --filesystem=/mnt/music com.foobar2000.Foobar2000</code>; Windows programs see the home folder as drive H:.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>audio</keyword>
+    <keyword>Wine</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <launchable type="desktop-id">com.foobar2000.Foobar2000.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://www.foobar2000.org/images/screenshots-windows/example-layout.png</image>
+      <caption>Library, playlist and album art</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.26.1" date="2026-10-09">
+      <description></description>
+    </release>
+  </releases>
+</component>

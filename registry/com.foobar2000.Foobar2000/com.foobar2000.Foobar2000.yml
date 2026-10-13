@@ -1,0 +1,69 @@
+id: com.foobar2000.Foobar2000
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+# Wine from the org.winehq.Wine base (/app/bin/wine). The launcher is cellar's
+# static CLI: it builds the user's Wine prefix from /app/share/cellar/cellar.toml,
+# runs the vendor's installer there on first launch (and again when the package
+# brings a newer one), then starts foobar2000.
+base: org.winehq.Wine
+base-version: stable-26.08
+command: cellar
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Internet radio, album art and component downloads.
+  - --share=network
+  # Wine draws through its X11 driver (XWayland on Wayland desktops).
+  - --socket=x11
+  - --device=dri
+  # Sound, through Wine's winepulse driver.
+  - --socket=pulseaudio
+  # The music library. cellar.toml shows the home folder to Windows programs as
+  # H:, where only granted folders are visible; files opened from the desktop
+  # arrive through the document portal whatever folder they are in.
+  - --filesystem=xdg-music
+  # New-WoW64 Wine runs 32-bit Windows code with no 32-bit Linux libraries, but
+  # Flatpak's default seccomp filter still kills it without this.
+  - --allow=multiarch
+modules:
+  - name: foobar2000
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 cellar.toml /app/share/cellar/cellar.toml
+      - install -Dm644 com.foobar2000.Foobar2000.desktop /app/share/applications/com.foobar2000.Foobar2000.desktop
+      - install -Dm644 com.foobar2000.Foobar2000.metainfo.xml /app/share/metainfo/com.foobar2000.Foobar2000.metainfo.xml
+      - install -Dm644 com.foobar2000.Foobar2000.png /app/share/icons/hicolor/256x256/apps/com.foobar2000.Foobar2000.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: foobar2000-setup.exe
+        only-arches:
+          - x86_64
+        url: https://www.foobar2000.org/downloads/foobar2000-x64_v2.26.1.exe
+        sha256: 72fe15a88b085ee4e49d68114e2bb9655000c2e0fdf40dcc128bbef8bcaf3600
+        size: 8013712
+      # END MANAGED EXTRA-DATA
+      # cellar's static CLI (github.com/jing2uo/cellar), the launcher shared by
+      # FlatPark's Wine packages. Pinned by hand, outside the managed block.
+      - type: extra-data
+        filename: cellar-cli-x86_64
+        only-arches:
+          - x86_64
+        url: https://github.com/jing2uo/cellar/releases/download/v0.1.0/cellar-cli-x86_64
+        sha256: 284e457158c1988ef97011de4f50529db72236df369b4658bc9178bb924c7b7d
+        size: 9412768
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cellar.toml
+      - type: file
+        path: com.foobar2000.Foobar2000.desktop
+      - type: file
+        path: com.foobar2000.Foobar2000.metainfo.xml
+      - type: file
+        path: com.foobar2000.Foobar2000.png
