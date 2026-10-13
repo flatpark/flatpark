@@ -1,0 +1,92 @@
+id: org.flatpark.Cellar
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+# Wine is a hard dependency: the org.winehq.Wine base puts /app/bin/wine (the
+# "system" runner) in the app. stable-26.08 targets org.freedesktop.Platform
+# 26.08, which GNOME 51 is built on. Community runners cellar downloads live in
+# the app's data dir.
+base: org.winehq.Wine
+base-version: stable-26.08
+command: cellar
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  # x11, not fallback-x11: Wine draws through its X11 driver, which needs the
+  # X socket even when the GUI itself is on Wayland.
+  - --socket=x11
+  - --socket=pulseaudio
+  # USB keys and other devices some Windows programs talk to, plus the GPU.
+  - --device=all
+  - --filesystem=xdg-download
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-desktop:create
+  # Menu launchers for apps (cellar desktop / the GUI's launcher button).
+  - --filesystem=xdg-data/applications:create
+  # Read-only, to import bottles from the Bottles Flatpak.
+  - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles:ro
+  # New-WoW64 Wine runs 32-bit Windows code with no 32-bit Linux libraries,
+  # but Flatpak's default seccomp filter still kills it: without this every
+  # 32-bit program fails in NtCreateUserProcess.
+  - --allow=multiarch
+
+inherit-extensions:
+  - org.winehq.Wine.gecko
+  - org.winehq.Wine.mono
+
+# Only legacy (non-WoW64) community runners such as Bottles' vaniglia need these.
+# Not auto-downloaded: the base Wine and the recommended runners are WoW64 and
+# load no i386 Linux libraries. Turning on 32-bit runners in the settings shows
+# the install command when they are missing.
+add-extensions:
+  org.freedesktop.Platform.Compat.i386:
+    directory: lib/i386-linux-gnu
+    version: '26.08'
+    no-autodownload: true
+    autodelete: false
+  org.freedesktop.Platform.GL32:
+    directory: lib/i386-linux-gnu/GL
+    version: '1.4'
+    versions: 26.08;26.08-extra;1.4
+    subdirectories: true
+    no-autodownload: true
+    autodelete: false
+    add-ld-path: lib
+    merge-dirs: vulkan/icd.d;glvnd/egl_vendor.d;egl/egl_external_platform.d;OpenCL/vendors;lib/dri;lib/d3d;lib/gbm;vulkan/explicit_layer.d;vulkan/implicit_layer.d;vdpau
+
+modules:
+  - name: cellar
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      # The release asset is the whole app: one Wails v3 (Go + GTK 4 /
+      # WebKitGTK 6) binary carrying both the GUI and the CLI. apply_extra
+      # stages it at /app/extra/cellar.
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 org.flatpark.Cellar.desktop /app/share/applications/org.flatpark.Cellar.desktop
+      - install -Dm644 org.flatpark.Cellar.metainfo.xml /app/share/metainfo/org.flatpark.Cellar.metainfo.xml
+      - install -Dm644 org.flatpark.Cellar.svg /app/share/icons/hicolor/scalable/apps/org.flatpark.Cellar.svg
+      # Mount point the 26.08 Wine base no longer creates (it is WoW64-only).
+      - mkdir -p /app/lib/i386-linux-gnu/GL
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cellar-x86_64
+        only-arches:
+          - x86_64
+        url: https://github.com/jing2uo/cellar/releases/download/v0.1.0/cellar-x86_64
+        sha256: 17dc68b85a4cbfdff7ed5fbced7e5a56eac3d970b775779c26d1b51a88489875
+        size: 13720184
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: org.flatpark.Cellar.desktop
+      - type: file
+        path: org.flatpark.Cellar.metainfo.xml
+      - type: file
+        path: org.flatpark.Cellar.svg

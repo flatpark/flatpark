@@ -1,0 +1,30 @@
+id: org.flatpark.Cellar
+name: Cellar
+summary: Declarative Wine prefix manager, with a GUI and a CLI
+website: https://github.com/jing2uo/cellar
+source_url: https://github.com/jing2uo/cellar
+build:
+  manifest: org.flatpark.Cellar.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  # Cellar's developer opened this package (jing2uo/cellar).
+  upstream_approved: true
+  tags:
+    - Wine
+    - Windows
+    - Compatibility
+    - CLI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # A runtime for arbitrary Windows software: --device=all for USB keys,
+    # gamepads and other devices Windows programs talk to; --allow=multiarch
+    # because Flatpak's seccomp filter otherwise kills new-WoW64 Wine's 32-bit
+    # processes.
+    - --device=all
+    - --allow=multiarch

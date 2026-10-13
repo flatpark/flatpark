@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.flatpark.Cellar</id>
+  <name>Cellar</name>
+  <summary>Declarative Wine prefix manager, with a GUI and a CLI</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.jing2uo">
+    <name>jing2uo</name>
+  </developer>
+  <url type="homepage">https://github.com/jing2uo/cellar</url>
+  <url type="bugtracker">https://github.com/jing2uo/cellar/issues</url>
+  <url type="vcs-browser">https://github.com/jing2uo/cellar</url>
+  <description>
+    <p>Cellar is a Wine prefix manager in the spirit of Bottles, where each prefix is described by one declarative file, cellar.toml. The GUI, the command line and anything scripted all edit that same file, and Cellar reconciles the prefix to match it. This package ships the official release build unmodified.</p>
+    <ul>
+      <li>Declarative prefixes: runner, locale, fonts, Windows version, virtual desktop, DPI, drives, winetricks verbs and apps, all in cellar.toml. plan shows what would change, apply makes it so.</li>
+      <li>Runners: the Wine that comes with this package, or community builds (Kron4ek vanilla and Proton) downloaded on demand. WoW64 builds run 32-bit programs with no 32-bit host libraries.</li>
+      <li>Core and CJK font sets wired up with font links and substitutes, so CJK text renders without manual registry work.</li>
+      <li>Every winetricks verb, searchable, with the common ones described.</li>
+      <li>Finds installed programs, extracts their icons and adds desktop launchers.</li>
+      <li>A log for every run, and import of existing bottles from the Bottles Flatpak.</li>
+    </ul>
+    <p>The command line is available as <code>flatpak run --command=cellar org.flatpark.Cellar help</code>.</p>
+    <p>Permissions: network access for runners and winetricks downloads; all devices, for USB keys, gamepads and the GPU; your Downloads, Documents and Desktop folders; the applications menu folder, for launchers; and read-only access to the Bottles Flatpak's data, for import. To give Windows programs another folder, use for example <code>flatpak override --user --filesystem=~/Games org.flatpark.Cellar</code>. Legacy 32-bit runners, an opt-in in the settings, also need <code>flatpak install flathub org.freedesktop.Platform.Compat.i386//26.08 org.freedesktop.Platform.GL32.default//26.08</code>.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>Wine</keyword>
+    <keyword>Windows</keyword>
+    <keyword>Bottles</keyword>
+    <keyword>exe</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>cellar</binary>
+  </provides>
+  <launchable type="desktop-id">org.flatpark.Cellar.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/jing2uo/cellar/main/docs/preview/prefix-settings.png</image>
+      <caption>Prefix settings</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/jing2uo/cellar/main/docs/preview/prefix-menu.png</image>
+      <caption>Prefix actions</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/jing2uo/cellar/main/docs/preview/apps-dark.png</image>
+      <caption>Apps in a prefix, dark theme</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.0" date="2026-10-13">
+      <url>https://github.com/jing2uo/cellar/releases/tag/v0.1.0</url>
+    </release>
+  </releases>
+</component>

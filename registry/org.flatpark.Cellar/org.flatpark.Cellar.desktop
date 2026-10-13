@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Cellar
+GenericName=Wine Manager
+GenericName[zh_CN]=Wine 应用管理
+Comment=Run Windows applications with Wine
+Comment[zh_CN]=用 Wine 运行 Windows 应用
+Exec=cellar
+Icon=org.flatpark.Cellar
+Terminal=false
+Categories=Utility;
+Keywords=wine;windows;bottles;exe;
+StartupWMClass=org.flatpark.Cellar

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Cellar</title>
+  <defs>
+    <linearGradient id="glass" x1="0" x2="1">
+      <stop offset="0" stop-color="#94283f"/>
+      <stop offset=".6" stop-color="#7c1c33"/>
+      <stop offset="1" stop-color="#5e1226"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(256 262) scale(1.1) translate(-248 -262)">
+  <!-- sticker outline -->
+  <g fill="#fff" stroke="#fff" stroke-width="24" stroke-linejoin="round">
+    <ellipse cx="180" cy="420" rx="48" ry="25"/>
+    <ellipse cx="316" cy="420" rx="48" ry="25"/>
+    <path d="M248 90C322 90 364 140 372 202C378 250 402 288 402 332C402 394 340 426 248 426C156 426 94 394 94 332C94 288 118 250 124 202C132 140 174 90 248 90Z"/>
+    <path d="M-50-4C-50-32-22-44-18-64V-120H18V-64C22-44 50-32 50-4V100C50 116 38 128 22 128H-22C-38 128-50 116-50 100Z" transform="translate(300 262) rotate(35)"/>
+    <rect x="-22" y="-136" width="44" height="40" rx="10" transform="translate(300 262) rotate(35)"/>
+  </g>
+
+  <!-- feet -->
+  <g fill="#f7a738">
+    <ellipse cx="180" cy="420" rx="48" ry="25"/>
+    <ellipse cx="316" cy="420" rx="48" ry="25"/>
+  </g>
+
+  <!-- body -->
+  <path d="M248 90C322 90 364 140 372 202C378 250 402 288 402 332C402 394 340 426 248 426C156 426 94 394 94 332C94 288 118 250 124 202C132 140 174 90 248 90Z" fill="#1d2735"/>
+  <g fill="#fff">
+    <circle cx="210" cy="184" r="50"/>
+    <circle cx="286" cy="184" r="50"/>
+    <ellipse cx="248" cy="318" rx="124" ry="96"/>
+    <ellipse cx="248" cy="224" rx="44" ry="22"/>
+  </g>
+
+  <!-- face -->
+  <g fill="#f6a7b2">
+    <ellipse cx="186" cy="207" rx="17" ry="13"/>
+    <ellipse cx="310" cy="207" rx="17" ry="13"/>
+  </g>
+  <g fill="#1d2735">
+    <circle cx="214" cy="184" r="11"/>
+    <circle cx="282" cy="184" r="11"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="217.5" cy="179.5" r="4"/>
+    <circle cx="285.5" cy="179.5" r="4"/>
+  </g>
+  <path d="M229 197C236 189 260 189 267 197C270 203 260 216 248 217C236 216 226 203 229 197Z" fill="#f7a738"/>
+
+  <!-- bottle -->
+  <g transform="translate(300 262) rotate(35)">
+    <path d="M-50-4C-50-32-22-44-18-64V-120H18V-64C22-44 50-32 50-4V100C50 116 38 128 22 128H-22C-38 128-50 116-50 100Z" fill="url(#glass)"/>
+    <rect x="-22" y="-136" width="44" height="40" rx="10" fill="#a8354d"/>
+    <rect x="-36" y="14" width="72" height="74" rx="12" fill="#f8e8d2"/>
+    <path d="M-34-6C-34-20-27-29-16-38" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <!-- flippers hugging the bottle -->
+  <path d="M110 268C150 244 228 250 256 282C272 302 260 328 232 328C190 330 138 314 114 298C102 290 100 274 110 268Z" fill="#1d2735"/>
+  <path d="M386 274C354 256 302 262 280 290C266 308 280 332 306 330C340 328 374 310 388 298C398 290 396 278 386 274Z" fill="#1d2735"/>
+  </g>
+</svg>
