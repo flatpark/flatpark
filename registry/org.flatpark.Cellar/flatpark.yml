@@ -9,7 +9,8 @@ build:
   mode: extra-data
 catalog:
   category: Utility
-  # Cellar's developer opened this package (jing2uo/cellar).
+  # Packaged by Cellar's developer in flatpark#642. Row in
+  # docs/upstream-approvals.md.
   upstream_approved: true
   tags:
     - Wine
