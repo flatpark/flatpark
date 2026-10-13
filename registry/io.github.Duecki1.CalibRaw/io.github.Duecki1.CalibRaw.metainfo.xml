@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Duecki1.CalibRaw</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>CalibRaw</name>
+  <summary>Develop RAW photos with non-destructive editing</summary>
+  <developer id="io.github.duecki1">
+    <name>Duecki</name>
+  </developer>
+  <description>
+    <p>
+      CalibRaw is a GPU-accelerated RAW photo editor. Browse your photo library,
+      develop camera RAW files, and fine-tune color, tone, and detail in one
+      workflow. Adjustments are saved in sidecar files so your original photos
+      remain intact.
+    </p>
+    <p>
+      Shape your images with tone curves, color wheels, and targeted color
+      adjustments. Apply lens corrections, recover highlights, and combine
+      bracketed exposures with HDR merge. Brush, gradient, and shape masks let
+      you make local adjustments, while optional AI tools process masks, noise
+      reduction, and object removal on your device after downloading their
+      models.
+    </p>
+    <ul>
+      <li>Develop RAW files from a wide range of cameras, including Fujifilm X-Trans sensors</li>
+      <li>Adjust exposure, white balance, tone curves, and individual color ranges</li>
+      <li>Correct lens distortion, chromatic aberration, and vignetting</li>
+      <li>Apply local masks and creative effects with independent adjustments</li>
+      <li>Export finished photos, including lossless JPEG XL images</li>
+      <li>AI tools: subject/sky selection, object removal, denoise (models downloaded on first use)</li>
+    </ul>
+    <p>
+      This is a community package of CalibRaw, maintained independently. It repackages the official upstream AppImage unmodified.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.Duecki1.CalibRaw.desktop</launchable>
+  <provides>
+    <binary>calibraw</binary>
+  </provides>
+  <categories>
+    <category>Graphics</category>
+    <category>Photography</category>
+  </categories>
+  <keywords>
+    <keyword>RAW</keyword>
+    <keyword>Photo</keyword>
+    <keyword>Photography</keyword>
+    <keyword>Editor</keyword>
+    <keyword>Color grading</keyword>
+    <keyword>GPU</keyword>
+    <keyword>wgpu</keyword>
+  </keywords>
+  <url type="homepage">https://github.com/Duecki1/CalibRaw</url>
+  <url type="bugtracker">https://github.com/Duecki1/CalibRaw/issues</url>
+  <url type="vcs-browser">https://github.com/Duecki1/CalibRaw</url>
+  <url type="help">https://github.com/Duecki1/CalibRaw#readme</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Develop RAW photos with color, tone, and local adjustment tools</caption>
+      <image type="source">https://github.com/user-attachments/assets/b4afad3f-89d5-411c-a310-995e71a79cb4</image>
+    </screenshot>
+    <screenshot>
+      <caption>Browse photos in the library before editing</caption>
+      <image type="source">https://github.com/user-attachments/assets/c64bbc1e-d2c1-4498-8d64-7ba6ee552af6</image>
+    </screenshot>
+    <screenshot>
+      <caption>AI subject mask for selective adjustments</caption>
+      <image type="source">https://github.com/user-attachments/assets/b4afad3f-89d5-411c-a310-995e71a79cb4</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </recommends>
+  <releases>
+    <release version="1.2.1" date="2026-10-08" type="stable">
+      <url>https://github.com/Duecki1/CalibRaw/releases/tag/v1.2.1</url>
+      <description>
+        <p>This release adds sharing and opens RAW files from cameras that LibRaw does not support yet.</p>
+        <ul>
+          <li>Export and share a photo in one step</li>
+          <li>Open RAW files from newer cameras, such as the Nikon Z 5 II, through Rawler</li>
+          <li>Show errors in a dialog</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>
