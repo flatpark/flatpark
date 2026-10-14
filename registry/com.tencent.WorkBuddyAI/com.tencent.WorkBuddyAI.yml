@@ -1,0 +1,102 @@
+id: com.tencent.WorkBuddyAI
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so WorkBuddy keeps
+# Chromium's internal sandbox instead of launching with --no-sandbox. The base
+# is a prebuilt ref merged in at build time; the official upstream application
+# tree is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: workbuddyai
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron 37 / Chromium 138. The upstream .deb bundles Chromium, its ffmpeg
+  # and swiftshader libraries, a Node 22 and a CPython 3.13 runtime for the
+  # agent's tools, and the Tencent Docs rendering engine; the GTK3, NSS, ATK,
+  # CUPS, DRM/GBM, ALSA and X11 stacks come from org.freedesktop.Platform 26.08.
+  - --share=ipc
+  # Model requests, sign-in (a workbuddy.ai account), the plugin/skill marketplace
+  # and update checks.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Chromium compositing for the task view, document previews and charts.
+  - --device=dri
+  # Voice input (the microphone button in the composer) and notification sounds.
+  - --socket=pulseaudio
+  # Desktop notifications when a long-running task finishes.
+  - --talk-name=org.freedesktop.Notifications
+  # Sign-in tokens go to the system keyring when one is available; without this
+  # every launch starts signed out.
+  - --talk-name=org.freedesktop.secrets
+  # Tray icon: closing the window hides WorkBuddy to the tray, so without this
+  # the running app becomes unreachable. No --own-name is needed — this Electron
+  # publishes the item under its unique connection name
+  # (":1.NNN/StatusNotifierItem") rather than a well-known
+  # org.kde.StatusNotifierItem-<pid>-<n> name, so there is no name to grant.
+  # Verified against the watcher's RegisteredStatusNotifierItems: with the
+  # watcher talk grant alone the item registers; without it the app logs a
+  # successful tray init and no icon ever reaches the panel.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # WorkBuddy AI keeps its account state, sessions, settings, plugins, skills
+  # and the Node/Python runtimes it downloads in a hardcoded ~/.workbuddy-ai
+  # (os.homedir), and it creates every task workspace under a hardcoded
+  # "~/WorkBuddy AI". Flatpak redirects only the XDG directories, so both would
+  # land on the throwaway tmpfs $HOME and be lost on every restart. Granted
+  # user-accessible rather than --persist so the files the agent produces are
+  # reachable from the host file manager; `:create` is required or a fresh
+  # first run has no directory to write into.
+  - --filesystem=~/.workbuddy-ai:create
+  - --filesystem=~/WorkBuddy AI:create
+  # Connectors are the one part that keeps the China build's paths: their
+  # sealed credentials go to ~/.workbuddy/connectors/<user id>, and the key that
+  # unseals them to the system keyring or else ~/.workbuddy-key-fallback, both
+  # hardcoded the same in either build and keyed by the signed-in user. Without
+  # these grants that state lands on the tmpfs $HOME, so stored connector
+  # sessions can no longer be decrypted after a restart. Shared with
+  # com.tencent.WorkBuddy when both are installed, as it is between the two
+  # native builds.
+  - --filesystem=~/.workbuddy:create
+  - --filesystem=~/.workbuddy-key-fallback:create
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the app — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — never start as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately NOT granted by default (documented as opt-in in the metainfo):
+  #   --filesystem=home            -> let the agent read and write existing
+  #                                   host files at their real paths
+  #   --filesystem=xdg-documents   -> the same, scoped to Documents
+  # Files picked through the file-chooser portal are reachable without either.
+modules:
+  - name: workbuddyai
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 workbuddyai-wrapper /app/bin/workbuddyai
+      - install -Dm644 com.tencent.WorkBuddyAI.desktop /app/share/applications/com.tencent.WorkBuddyAI.desktop
+      - install -Dm644 com.tencent.WorkBuddyAI.metainfo.xml /app/share/metainfo/com.tencent.WorkBuddyAI.metainfo.xml
+      - install -Dm644 com.tencent.WorkBuddyAI.png /app/share/icons/hicolor/512x512/apps/com.tencent.WorkBuddyAI.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: workbuddyai-amd64.deb
+        only-arches:
+          - x86_64
+        url: https://codebuddy-1328495429.cos.accelerate.myqcloud.com/workbuddy/saas/linux-x64/WorkBuddy-linux-x64-5.7.6.40488862-3e43260f.deb
+        sha256: 3cf1244520d54eca391378a29579918122006f5bfdba942fe977b908365e93db
+        size: 421733316
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: workbuddyai-wrapper
+      - type: file
+        path: com.tencent.WorkBuddyAI.desktop
+      - type: file
+        path: com.tencent.WorkBuddyAI.metainfo.xml
+      - type: file
+        path: com.tencent.WorkBuddyAI.png
