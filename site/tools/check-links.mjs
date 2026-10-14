@@ -1,5 +1,8 @@
 // Batch-check the external URLs the site hotlinks (screenshots, homepage,
 // help, license, source). Reads enriched apps/<id>.json from the data dir.
+// LINK_CHECK_EXTRA_DATA names a TSV of extra-data pins (app, url, size), one
+// per line, which scripts/check-links.sh lists from the manifests: each must
+// answer and still be the pinned size, or installs of that app fail.
 // Human summary by default, --json for machine output. Exits 1 if any link
 // is broken so CI / a remediation job can act on it. LINK_CHECK_JSON_OUT also
 // writes the JSON report to that file, next to the human summary — the
@@ -68,6 +71,13 @@ function collect() {
     if (app.license?.url) add('license', app.license.url);
     add('source', app.sourceUrl);
   }
+  const pinsFile = process.env.LINK_CHECK_EXTRA_DATA;
+  if (pinsFile && existsSync(pinsFile)) {
+    for (const line of readFileSync(pinsFile, 'utf8').split('\n')) {
+      const [app, url, size] = line.split('\t');
+      if (app && /^https?:\/\//.test(url || '')) urls.push({ app, type: 'extra-data', url, size: Number(size) });
+    }
+  }
   const seen = new Set();
   return urls.filter((u) => {
     const k = `${u.app}|${u.type}|${u.url}`;
@@ -77,14 +87,28 @@ function collect() {
   });
 }
 
-async function request(method, url) {
+async function request(method, url, headers) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT);
   try {
-    return await fetch(url, { method, redirect: 'follow', signal: ctrl.signal });
+    return await fetch(url, { method, headers, redirect: 'follow', signal: ctrl.signal });
   } finally {
     clearTimeout(timer);
   }
+}
+
+// An extra-data pin is downloaded by flatpak itself, so nothing a browser
+// would clear applies: a 403 is a failed install, and the payload must still be
+// the size the manifest pins (flatpak checks it before the sha256), which also
+// catches an upstream re-uploading different bytes under the same URL. Only the
+// headers are read; a GET fallback is cancelled before the body comes down.
+function judgePin(entry, res) {
+  if (!res.ok) return { ...entry, status: res.status, ok: false };
+  const len = res.headers.get('content-length');
+  if (len !== null && entry.size && Number(len) !== entry.size) {
+    return { ...entry, status: `size ${len}, pinned ${entry.size}`, ok: false };
+  }
+  return { ...entry, status: res.status, ok: true };
 }
 
 async function probe(entry) {
@@ -94,9 +118,12 @@ async function probe(entry) {
     // every HEAD while serving the same URL fine over GET — CodeBuddy's site
     // does exactly this). So on a missing HEAD or any non-2xx HEAD, confirm with
     // a GET before believing it. A genuinely dead URL still fails the GET.
-    let res = await request('HEAD', entry.url).catch(() => null);
+    // fetch asks for gzip/br by default, and a CDN that compresses (jsDelivr)
+    // then reports the compressed length; a pin is compared uncompressed.
+    const headers = entry.type === 'extra-data' ? { 'accept-encoding': 'identity' } : undefined;
+    let res = await request('HEAD', entry.url, headers).catch(() => null);
     if (!res || !res.ok) {
-      res = await request('GET', entry.url);
+      res = await request('GET', entry.url, headers);
     }
     // A 403 that survives the GET fallback means the host answered but refuses
     // automated clients — Cloudflare-style bot/region gating that a real browser
@@ -106,6 +133,11 @@ async function probe(entry) {
     // open in the user's browser. Keep it a hard failure for screenshots: those
     // are hotlinked into our own pages, so a 403 there is a genuinely broken
     // image, not a false positive.
+    if (entry.type === 'extra-data') {
+      const out = judgePin(entry, res);
+      try { await res.body?.cancel(); } catch {}
+      return out;
+    }
     if (res.status === 403 && entry.type !== 'screenshot') {
       try { await res.body?.cancel(); } catch {}
       return { ...entry, status: 403, ok: true, warn: true };

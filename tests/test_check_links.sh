@@ -89,4 +89,42 @@ set -e
 # All-clean data dir -> exit 0.
 rm "$data/apps/io.flatpark.Reset.json"
 assert_ok env FLATPARK_DATA_DIR="$data" node "$ROOT/site/tools/check-links.mjs"
+
+# Extra-data pins (LINK_CHECK_EXTRA_DATA): a pin must answer AND still be the
+# pinned size. A local server serves a 10-byte payload, gzipped when the client
+# allows it, so a size read off a compressed response would be caught too.
+cat > "$tmp/pin-server.mjs" <<'EOF'
+import { createServer } from 'node:http';
+import { gzipSync } from 'node:zlib';
+const body = Buffer.from('0123456789');
+const srv = createServer((req, res) => {
+  if (req.url !== '/payload.bin') { res.writeHead(404); return res.end(); }
+  const gz = /gzip/.test(req.headers['accept-encoding'] || '');
+  const out = gz ? gzipSync(body) : body;
+  res.writeHead(200, { 'content-length': out.length, ...(gz ? { 'content-encoding': 'gzip' } : {}) });
+  res.end(req.method === 'HEAD' ? undefined : out);
+});
+srv.listen(0, '127.0.0.1', () => console.log(srv.address().port));
+EOF
+: > "$tmp/port"
+node "$tmp/pin-server.mjs" > "$tmp/port" &
+srv_pid=$!
+for _ in $(seq 50); do [ -s "$tmp/port" ] && break; sleep 0.1; done
+port="$(cat "$tmp/port")"
+[ -n "$port" ] || { echo "FAIL: pin server did not report a port"; exit 1; }
+pins="$tmp/pins.tsv"
+
+# Right size -> clean.
+printf 'io.flatpark.Pin\thttp://127.0.0.1:%s/payload.bin\t10\n' "$port" > "$pins"
+assert_ok env FLATPARK_DATA_DIR="$data" LINK_CHECK_EXTRA_DATA="$pins" node "$ROOT/site/tools/check-links.mjs"
+
+# Re-uploaded (size drifted from the pin) and deleted (404) -> both broken.
+printf 'io.flatpark.Pin\thttp://127.0.0.1:%s/payload.bin\t11\nio.flatpark.Pin\thttp://127.0.0.1:%s/gone.bin\t10\n' "$port" "$port" > "$pins"
+set +e
+out="$(FLATPARK_DATA_DIR="$data" LINK_CHECK_EXTRA_DATA="$pins" LINK_CHECK_RETRIES=0 node "$ROOT/site/tools/check-links.mjs" --json)"
+rc=$?
+set -e
+[ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 on a drifted and a deleted pin, got $rc"; exit 1; }
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); const b=d.results.filter(r=>!r.ok&&r.type==="extra-data"); if(d.broken!==2||b.length!==2){console.error(JSON.stringify(d.results));process.exit(1)}'
+kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
 echo "test_check_links: PASS"

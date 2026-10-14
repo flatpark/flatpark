@@ -1,7 +1,9 @@
 # Daily full-catalog dead-link sweep. PR checks only fail on links the PR
 # itself adds (scripts/check-links-pr.sh), so this is where links that rot
 # while nobody is editing the app — screenshots, websites, docs, license and
-# source URLs — get noticed. The broken list is mirrored into one ci-alert
+# source URLs — get noticed. It also checks every extra-data pin in the
+# manifests: the download must answer and still be the pinned size, or new
+# installs of the app fail. The broken list is mirrored into one ci-alert
 # issue, rewritten every run and closed once the catalog is clean.
 name: link-check
 
@@ -28,7 +30,7 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: site/package-lock.json
-      - name: Check every hotlinked URL across the catalog
+      - name: Check every hotlinked URL and extra-data pin across the catalog
         env:
           LINK_CHECK_JSON_OUT: ${{ runner.temp }}/links.json
         run: ./scripts/check-links.sh
@@ -49,7 +51,9 @@ jobs:
           fi
           {
             echo "These links failed the latest daily sweep. They are not blocking any PR"
-            echo "(PR checks only fail on links a PR adds), but the site shows them broken:"
+            echo "(PR checks only fail on links a PR adds), but the site shows them broken."
+            echo "An \`extra-data\` row is a pinned download that is gone or no longer the"
+            echo "pinned size: installing that app fails until the pin is refreshed."
             echo
             echo "| App | Type | Status | URL |"
             echo "|---|---|---|---|"
