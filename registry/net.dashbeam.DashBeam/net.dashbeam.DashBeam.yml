@@ -63,9 +63,9 @@ modules:
         filename: dashbeam.deb
         only-arches:
           - x86_64
-        url: https://github.com/tonyantony300/dashbeam/releases/download/v0.7.1/DashBeam_0.7.1_amd64.deb
-        sha256: f0e0c5319276ca6f98e492a0a466b4ddbfda982cad62def5273e1b867f39842f
-        size: 14442618
+        url: https://github.com/tonyantony300/dashbeam/releases/download/v0.7.2/DashBeam_0.7.2_amd64.deb
+        sha256: 900b22744f5f7d5d8c0dde4ac02861205c130f83d4fdd970a10687ea0f0e9715
+        size: 14347018
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

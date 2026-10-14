@@ -43,16 +43,16 @@ modules:
         filename: vectorcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/vectorcraft/releases/download/v0.10.0/vectorcraft-0.10.0-linux-x86_64.tar.gz
-        sha256: a55735a192877038c9b4c3069504f7a73a05433a48edddd8e94fc7d2995aa6fc
-        size: 116773175
+        url: https://github.com/storytold/vectorcraft/releases/download/v0.11.0/vectorcraft-0.11.0-linux-x86_64.tar.gz
+        sha256: 83ca62a455bbb1d1c61c6b05133bc41ceda1d1d99e4be7509d287c364ceb8f39
+        size: 120177805
       - type: extra-data
         filename: vectorcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/vectorcraft/releases/download/v0.10.0/vectorcraft-0.10.0-linux-aarch64.tar.gz
-        sha256: 1ab5a2739c4f06d27538914c86839f6a78582f94aed7c411caa1988fe22b8a6b
-        size: 112201817
+        url: https://github.com/storytold/vectorcraft/releases/download/v0.11.0/vectorcraft-0.11.0-linux-aarch64.tar.gz
+        sha256: fd594494e2f1498cb7dab01a3a10a70ec8ee69e8dd26a8ed468219a0f4192b53
+        size: 115307344
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
