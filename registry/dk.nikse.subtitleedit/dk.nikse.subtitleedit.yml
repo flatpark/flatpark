@@ -158,9 +158,9 @@ modules:
         filename: subtitleedit.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/SubtitleEdit/subtitleedit/releases/download/v5.2.0/SubtitleEdit-Linux-x64.tar.gz
-        sha256: 6e2d46e66522759df32ef10fad3b753e10eacfbb184b6ab7351209514957e54e
-        size: 59383033
+        url: https://github.com/SubtitleEdit/subtitleedit/releases/download/v5.3.0/SubtitleEdit-Linux-x64.tar.gz
+        sha256: 93b487e115560da33c4557c780d387e311d93a6ab6abe000093576ccb9d44889
+        size: 61521435
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

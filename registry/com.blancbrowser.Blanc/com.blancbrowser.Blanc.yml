@@ -83,9 +83,9 @@ modules:
         filename: blanc.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/bnfy/blanc/releases/download/v1.32.0/Blanc-1.32.0.AppImage
-        sha256: 0539a11715aaa83f45ee1c026693bd841ab6602420b867eba950804c6cf1c71e
-        size: 155670539
+        url: https://github.com/bnfy/blanc/releases/download/v1.33.0/Blanc-1.33.0.AppImage
+        sha256: 07d84d09ede28685be325f4fde6052d2ab7b490223e5efaafc343e062f2f7200
+        size: 155736143
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -48,16 +48,16 @@ modules:
         filename: solidcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.9.0/solidcraft-0.9.0-linux-x86_64.tar.gz
-        sha256: 8a980f867ca60b5ad7efd069e458cf6da787587a7dc9857b4ff35075a0e4659d
-        size: 31212403
+        url: https://github.com/bherbruck/solidcraft/releases/download/v0.10.0/solidcraft-0.10.0-linux-x86_64.tar.gz
+        sha256: 81aedfa168ef28f8292cc068164443c819fc0cbe4472e0fc4d6ba4e301b3110f
+        size: 32954616
       - type: extra-data
         filename: solidcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.9.0/solidcraft-0.9.0-linux-aarch64.tar.gz
-        sha256: 4faf13f8234cbb468a0200efb55b7933d6f651d100e57c2c61bcf0814d0e13fd
-        size: 28360789
+        url: https://github.com/bherbruck/solidcraft/releases/download/v0.10.0/solidcraft-0.10.0-linux-aarch64.tar.gz
+        sha256: e478e64c088d241cc3396dc5de980c90d324af612c2f2a82c9f72839e61eb70d
+        size: 29994247
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
