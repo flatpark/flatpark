@@ -51,6 +51,9 @@
     <mediatype>application/x-audium-project</mediatype>
   </provides>
   <releases>
+    <release version="1.6.5" date="2026-10-14">
+      <description></description>
+    </release>
     <release version="1.6.4" date="2026-10-01"/>
   </releases>
 </component>
