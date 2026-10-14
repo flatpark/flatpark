@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=WorkBuddy
+Name=WorkBuddy CN
 Comment=AI agent that plans and carries out desktop work
 Comment[zh_CN]=自主规划并执行桌面任务的 AI 智能体
 Exec=workbuddy %U
