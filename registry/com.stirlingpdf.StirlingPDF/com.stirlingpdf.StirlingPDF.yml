@@ -80,8 +80,8 @@ modules:
         only-arches:
           - x86_64
         url: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10080/gs_10.08.0_amd64_snap.tgz
-        sha256: 01dcc00927b5ded2cf1f150dc09464032efc90cd983780d250e24c5de7b6da3c
-        size: 54060051
+        sha256: ca843a6ab0031fe9e969a8af55bcec9510d1cda9fecf77d80432fb88d43da99e
+        size: 54062085
       # unsquashfs + appimage-offset, built against the same freedesktop base as
       # this runtime. Never executed as an AppImage tool here — only unsquashfs is
       # used, to crack the squashfs above. Same pin as registry/is.folo.Folo.
