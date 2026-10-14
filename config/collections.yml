@@ -23,12 +23,12 @@ collections:
     summary:
       en: >-
         Open-source creative and office apps written in pure Rust, each one
-        following the workflow of a familiar Adobe, Autodesk, Avid or
-        Microsoft Office app. FlatPark carries every released one, so the
+        following the workflow of a familiar Adobe, Autodesk, Avid, Figma
+        or Microsoft Office app. FlatPark carries every released one, so the
         whole suite installs from a single remote.
       zh-Hans: >-
         一套纯 Rust 编写的开源创作与办公应用，每一个都沿用一款熟悉的 Adobe、
-        Autodesk、Avid 或 Microsoft Office 软件的工作方式。FlatPark 收录了其中所有
+        Autodesk、Avid、Figma 或 Microsoft Office 软件的工作方式。FlatPark 收录了其中所有
         已发布的应用，整套都能从同一个源安装。
     groups:
       - title:
@@ -39,6 +39,7 @@ collections:
           - ai.storyteller.vectorcraft
           - ai.storyteller.lightcraft
           - ai.storyteller.designcraft
+          - ai.storyteller.figcraft
       - title:
           en: Video and effects
           zh-Hans: 视频与特效

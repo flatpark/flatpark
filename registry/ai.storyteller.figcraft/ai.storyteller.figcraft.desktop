@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=FigCraft
+GenericName=Interface Design Tool
+Comment=Design and prototype user interfaces
+Exec=figcraft %U
+TryExec=figcraft
+Icon=ai.storyteller.figcraft
+Terminal=false
+StartupNotify=true
+StartupWMClass=FigCraft
+Categories=Graphics;2DGraphics;VectorGraphics;
+MimeType=application/x-figcraft;image/svg+xml;image/png;image/jpeg;x-scheme-handler/figcraft;
+Keywords=design;interface;ui;ux;prototype;wireframe;mockup;vector;layout;components;

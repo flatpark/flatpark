@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.figcraft</id>
+  <name>FigCraft</name>
+  <summary>Design and prototype user interfaces</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/figcraft</url>
+  <url type="bugtracker">https://github.com/storytold/figcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/figcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of FigCraft, maintained independently and unaffiliated with the FigCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>FigCraft is an open-source, native interface design and prototyping app written in Rust that follows the Figma workflow: the same toolbar, layers panel, Design panel, menus and shortcuts.</p>
+    <ul>
+      <li>Frames, vector networks, text and images on an infinite canvas</li>
+      <li>Auto layout and constraints for responsive designs</li>
+      <li>Components, variants, shared styles and variables</li>
+      <li>Prototyping with interactions and transitions, and a presentation mode</li>
+      <li>Inspect panel with measurements and code snippets; SVG, PNG, JPG, WebP and PDF export</li>
+      <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=figcraft-cli ai.storyteller.figcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted, so live sharing sessions are unavailable until you allow it.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Share files online or on the local network, and let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.figcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.figcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Three phone screens built from components with auto layout, in light and dark modes</caption>
+      <image>https://raw.githubusercontent.com/storytold/figcraft/v0.5.1/docs/images/shot-1-hero.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A button component set with style and state variants</caption>
+      <image>https://raw.githubusercontent.com/storytold/figcraft/v0.5.1/docs/images/shot-2-components.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>An onboarding flow wired up as a clickable prototype</caption>
+      <image>https://raw.githubusercontent.com/storytold/figcraft/v0.5.1/docs/images/shot-3-prototype.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Dev Mode with annotations and generated code in the Inspect panel</caption>
+      <image>https://raw.githubusercontent.com/storytold/figcraft/v0.5.1/docs/images/shot-4-devmode.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.figcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>2DGraphics</category>
+    <category>VectorGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>interface design</keyword>
+    <keyword>prototyping</keyword>
+    <keyword>UI</keyword>
+    <keyword>UX</keyword>
+    <keyword>wireframe</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#9fd3ff</color>
+    <color type="primary" scheme_preference="dark">#0b5fa5</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>figcraft</binary>
+    <binary>figcraft-cli</binary>
+    <mediatype>application/x-figcraft</mediatype>
+  </provides>
+  <releases>
+    <release version="0.5.1" date="2026-10-12">
+      <description></description>
+    </release>
+  </releases>
+</component>

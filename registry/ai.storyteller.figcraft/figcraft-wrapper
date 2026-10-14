@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# FigCraft is staged by apply_extra at /app/extra/figcraft.
+exec /app/extra/figcraft/bin/figcraft "$@"

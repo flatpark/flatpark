@@ -1,0 +1,23 @@
+id: ai.storyteller.figcraft
+name: FigCraft
+summary: Open-source interface design app in the Figma mould
+website: https://getartcraft.com/apps/figcraft
+source_url: https://github.com/storytold/figcraft
+build:
+  manifest: ai.storyteller.figcraft.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags:
+    - UI Design
+    - Prototyping
+    - Vector
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
