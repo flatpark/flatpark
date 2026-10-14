@@ -119,4 +119,25 @@ case "$x86_block" in *"sha256: $old_sha"*) ;; *) echo "FAIL: x86_64 pin changed"
 run "$(printf '{"version":"9.0","sources":[{"filename":"app.bin","url":"file://%s/new.bin"}]}' "$tmp")"
 assert_eq "$RC" "1"
 
+# 8) same version, but upstream re-uploaded the payload in place: a source that
+#    reports its size re-pins when the size drifts, adds no <release>, and is a
+#    no-op once the pin matches again. Without `size` the version gate holds.
+cp "$tmp/new.bin" "$tmp/recut.bin"
+mk_manifest "file://$tmp/recut.bin" "$old_sha" "$old_size"
+mk_metainfo "1.0"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/recut.bin"}]}' "$tmp")"
+assert_eq "$RC" "10"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/recut.bin","size":%s}]}' "$tmp" "$new_size")"
+assert_eq "$RC" "0"
+assert_contains "$tmp/manifest.yml" "sha256: $new_sha"
+assert_contains "$tmp/manifest.yml" "size: $new_size"
+assert_eq "$(grep -c '<release ' "$tmp/app.metainfo.xml")" "1"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/recut.bin","size":%s}]}' "$tmp" "$new_size")"
+assert_eq "$RC" "10"
+
+# 9) same version, same size, but the source moved to another URL -> re-pinned.
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/new.bin","size":%s}]}' "$tmp" "$new_size")"
+assert_eq "$RC" "0"
+assert_contains "$tmp/manifest.yml" "url: file://$tmp/new.bin"
+
 echo "test_update_pins: PASS"

@@ -4,7 +4,7 @@
 //
 //   <resolver JSON on stdin> | update-pins.mjs <manifest> [metainfo]
 //
-// Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch? } ],
+// Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch?, size? } ],
 //                  releaseUrl?, releaseNotes? }
 //
 // `arch` scopes a source to one architecture (it becomes the pin's only-arches).
@@ -20,11 +20,18 @@
 // an empty <description></description> for a human to fill in later, which is
 // also what Flathub's external-data-checker writes.
 //
+// `size` is an optional per-source opt-in for upstreams that re-upload a build
+// under the same versioned URL: the resolver reports the payload's current
+// Content-Length (a cheap HEAD), and a source whose size or URL no longer
+// matches its pin is re-pinned even though the version did not move. No
+// <release> is added for such a re-pin — it is the same version.
+//
 // The comparison anchor is the VERSION: the latest <release version="..."> in
-// the metainfo is "what we have". If the resolver's version equals it, nothing
-// changed (exit 10, no download). On a new version we download every source,
-// recompute the extra-data sha256/size FlatPark-side, rewrite the MANAGED block,
-// and prepend a <release> to the metainfo. With no version anchor (resolver
+// the metainfo is "what we have". If the resolver's version equals it and no
+// source reports drift, nothing changed (exit 10, no download). On a new
+// version we download every source, recompute the extra-data sha256/size
+// FlatPark-side, rewrite the MANAGED block, and prepend a <release> to the
+// metainfo. With no version anchor (resolver
 // emits no version), we fall back to per-source URL comparison.
 //
 // Exit 0  = changed (manifest and/or metainfo rewritten); prints the version.
@@ -80,13 +87,6 @@ const firstReleaseVersion = (xml) => {
 };
 const knownVersion = firstReleaseVersion(metainfo);
 
-// Version gate: cheap short-circuit when upstream hasn't moved (no downloads).
-if (resolver.version && knownVersion && resolver.version === knownVersion) process.exit(10);
-
-// A version present here means a real bump (or no anchor yet) -> re-pin fresh.
-// Without a version we fall back to URL comparison and only fetch moved sources.
-const versionBump = !!resolver.version;
-
 async function pin(url) {
   const hash = createHash('sha256');
   let size = 0;
@@ -117,13 +117,30 @@ function previous(src) {
   return named[0];
 }
 
+// A source that reports its upstream size has drifted when that size (or its
+// URL) no longer matches the pin: upstream replaced the bytes in place.
+function drifted(src) {
+  if (src.size == null) return false;
+  const prev = previous(src);
+  return !prev || prev.url !== src.url || prev.size !== String(src.size);
+}
+
+// Version gate: cheap short-circuit when upstream hasn't moved (no downloads).
+const sameVersion = !!resolver.version && !!knownVersion && resolver.version === knownVersion;
+if (sameVersion && !resolver.sources.some(drifted)) process.exit(10);
+
+// A version present here means a real bump (or no anchor yet) -> re-pin fresh.
+// Otherwise (no version, or same version with drift) only moved sources are
+// fetched: a changed URL, or a size that no longer matches the pin.
+const versionBump = !!resolver.version && !sameVersion;
+
 for (const src of resolver.sources) {
   if (!src.filename || !src.url) die('each source needs filename + url');
   const prev = previous(src);
   const arches = src.arch ? [src.arch] : prev && prev.arches.length ? prev.arches : ['x86_64'];
   let sha256, size;
-  if (!versionBump && prev && prev.url === src.url && prev.sha256 && prev.size) {
-    ({ sha256, size } = prev); // URL unchanged and no version bump -> keep the pin
+  if (!versionBump && prev && prev.url === src.url && prev.sha256 && prev.size && !drifted(src)) {
+    ({ sha256, size } = prev); // URL and size unchanged, no version bump -> keep the pin
   } else {
     try { ({ sha256, size } = await pin(src.url)); }
     catch (e) { die(e.message); }
