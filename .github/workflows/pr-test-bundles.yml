@@ -1,0 +1,30 @@
+# After pr-checks builds a PR's changed apps, point testers at the result: one
+# comment on the PR with the bundle downloads and the commands to install them,
+# rewritten on every push (#585).
+#
+# pr-checks itself cannot comment: a fork PR's `pull_request` run gets a
+# read-only token. This runs on workflow_run instead, from main's code, with a
+# token that can write comments and nothing else, and it never checks out or
+# executes the PR. What it reads from the untrusted run (artifact names and the
+# file names inside them) is checked in scripts/pr-bundle-comment.sh before use.
+name: pr-test-bundles
+
+on:
+  workflow_run:
+    workflows: [pr-checks]
+    types: [completed]
+
+permissions:
+  actions: read          # list and download the run's artifacts
+  pull-requests: write   # post / update the comment
+
+jobs:
+  comment:
+    if: github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7   # main, not the PR: only this repo's own script runs
+      - name: Post or update the test-bundle comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/pr-bundle-comment.sh "${{ github.event.workflow_run.id }}" "${{ github.event.workflow_run.head_sha }}"
