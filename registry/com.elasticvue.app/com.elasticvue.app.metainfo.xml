@@ -50,15 +50,15 @@
   <screenshots>
     <screenshot type="default">
       <caption>Elasticvue cluster overview</caption>
-      <image>https://raw.githubusercontent.com/cars10/elasticvue.com/main/src/assets/images/screenshots/website_1_home_light.webp</image>
+      <image>https://elasticvue.com/_astro/website_1_home_light.DsIpXoKB_15hOyc.webp</image>
     </screenshot>
     <screenshot>
       <caption>Managing indices</caption>
-      <image>https://raw.githubusercontent.com/cars10/elasticvue.com/main/src/assets/images/screenshots/website_4_indices_light.webp</image>
+      <image>https://elasticvue.com/_astro/website_4_indices_light.DBdgGZL1_Z1YGtPC.webp</image>
     </screenshot>
     <screenshot>
       <caption>Searching documents in Elasticvue</caption>
-      <image>https://raw.githubusercontent.com/cars10/elasticvue.com/main/src/assets/images/screenshots/website_6_search_light.webp</image>
+      <image>https://elasticvue.com/_astro/website_6_search_light.BA8ZFUPF_1XMDW4.webp</image>
     </screenshot>
   </screenshots>
   <releases>
