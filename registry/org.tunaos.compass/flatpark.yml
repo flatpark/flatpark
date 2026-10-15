@@ -1,0 +1,35 @@
+id: org.tunaos.compass
+name: Compass
+summary: A fast, extensible command palette for Linux
+website: https://github.com/tuna-os/compass
+source_url: https://github.com/tuna-os/compass
+build:
+  manifest: org.tunaos.compass.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - Launcher
+    - Command Palette
+    - Wayland
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Compass is an application launcher. Inside a Flatpak, starting an
+    # application the user picked means starting it on the host, which Compass
+    # does through `flatpak-spawn --host` (compass-platform-linux/src/launch.rs).
+    # Host commands an extension asks for go the same way, and only after the
+    # user answers Allow Once or Always Allow (compass/src/host_commands.rs).
+    # Without this Compass can search but cannot launch.
+    - --talk-name=org.freedesktop.Flatpak
+# What the package does beyond copying the vendor's files, declared at the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "Applications you launch, and commands an extension runs once you allow them, start on the host through flatpak-spawn, outside the sandbox."
+      zh-Hans: "从 Compass 启动的应用程序，以及扩展在你允许后运行的命令，会通过 flatpak-spawn 在宿主系统上、沙盒之外运行。"

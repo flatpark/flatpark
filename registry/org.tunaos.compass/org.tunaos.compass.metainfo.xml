@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.tunaos.compass</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Compass</name>
+  <summary>A fast, extensible command palette for Linux</summary>
+
+  <description>
+    <p>
+      Compass is a native command palette: application search, clipboard history, snippets,
+      file search, a calculator, an emoji picker and a window switcher, extensible with
+      Raycast-compatible extensions and script commands.
+    </p>
+    <p>
+      It is a memory-safe Rust rewrite of the Vicinae launcher, drawn with Iced and wgpu
+      instead of Qt, and it runs extensions in a sandbox.
+    </p>
+    <p>
+      File search reads the folders it indexes, your home folder by default. This package
+      does not grant that access up front. To turn it on, run:
+      flatpak override --user --filesystem=home:ro org.tunaos.compass
+    </p>
+  </description>
+
+  <developer id="org.tunaos">
+    <name>TunaOS</name>
+  </developer>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Fuzzy search across applications and commands</caption>
+      <image>https://raw.githubusercontent.com/tuna-os/compass/main/packaging/screenshots/search.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A calculator with unit conversion, right in the search bar</caption>
+      <image>https://raw.githubusercontent.com/tuna-os/compass/main/packaging/screenshots/calculator.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The emoji picker</caption>
+      <image>https://raw.githubusercontent.com/tuna-os/compass/main/packaging/screenshots/emoji.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Settings</caption>
+      <image>https://raw.githubusercontent.com/tuna-os/compass/main/packaging/screenshots/settings.png</image>
+    </screenshot>
+  </screenshots>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#3584e4</color>
+    <color type="primary" scheme_preference="dark">#1c71d8</color>
+  </branding>
+
+  <launchable type="desktop-id">org.tunaos.compass.desktop</launchable>
+  <url type="homepage">https://github.com/tuna-os/compass</url>
+  <url type="bugtracker">https://github.com/tuna-os/compass/issues</url>
+
+  <provides>
+    <binary>compass</binary>
+  </provides>
+
+  <replaces>
+    <id>com.vicinae.Vicinae</id>
+  </replaces>
+
+  <url type="vcs-browser">https://github.com/tuna-os/compass</url>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.28.3" date="2026-10-08">
+      <description>
+        <p>Each release now carries the AppImage as a download. Distributions can ship system-wide default settings. Developers can use vici develop with Compass.</p>
+      </description>
+    </release>
+    <release version="0.28.2" date="2026-09-26">
+      <description>
+        <p>The first release of Compass on the TunaOS Flatpak remote.</p>
+      </description>
+    </release>
+  </releases>
+</component>

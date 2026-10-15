@@ -1,0 +1,100 @@
+id: org.tunaos.compass
+# The freedesktop base, as upstream's own Flatpak uses: Compass draws with Iced
+# and wgpu and needs neither GTK nor Qt. The AppImage carries its own libssl /
+# libcrypto (RUNPATH $ORIGIN/../lib) and Node; the GPU, Wayland and xkbcommon
+# libraries it opens at run time come from the runtime.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: compass
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Wayland only, as upstream ships it: the engine has no X11 path. wgpu
+  # renders on the GPU.
+  - --socket=wayland
+  - --device=dri
+  # Extensions fetch their data, views load remote images, OAuth exchanges its
+  # code and the extension store downloads bundles.
+  - --share=network
+  # Single instance, CLI activation and the services the engine exports
+  # (org.tunaos.compass.WindowTracker, ...).
+  - --own-name=org.tunaos.compass.*
+  # On GNOME, window switching, clipboard history and paste go through
+  # Compass's GNOME Shell extension when the user has installed it. Its objects
+  # live on the Shell's own bus connection, so the talk-name is the Shell's.
+  # Compass never installs the extension itself.
+  - --talk-name=org.gnome.Shell
+  # Compass's tray icon, and Search Tray reading other applications' icons.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Power off, reboot, suspend, lock and log out. Every action is still
+  # subject to logind's polkit policy.
+  - --system-talk-name=org.freedesktop.login1
+  - --talk-name=org.gnome.SessionManager
+  - --talk-name=org.kde.Shutdown
+  # Launching the application the user picked: inside the sandbox that is
+  # `flatpak-spawn --host` (compass-platform-linux/src/launch.rs). Host
+  # commands an extension asks for run the same way after the user allows
+  # them. This is the sandbox escape FlatPark rejects by default; it is
+  # declared under policy.dangerous_permissions in flatpark.yml.
+  - --talk-name=org.freedesktop.Flatpak
+  # Read-only: the application catalogue Compass searches. host-os for the
+  # system's .desktop files and icons, the user's and Homebrew's application
+  # directories, and the Flatpak exports with the deploy trees their symlinks
+  # point into (without those every Flatpak app is missing from search).
+  - --filesystem=host-os:ro
+  - --filesystem=xdg-data/applications:ro
+  - --filesystem=xdg-data/icons:ro
+  - --filesystem=xdg-data/flatpak/exports/share/applications:ro
+  - --filesystem=xdg-data/flatpak/exports/share/icons:ro
+  - --filesystem=xdg-data/flatpak/app:ro
+  - --filesystem=/var/lib/flatpak/exports/share/applications:ro
+  - --filesystem=/var/lib/flatpak/exports/share/icons:ro
+  - --filesystem=/var/lib/flatpak/app:ro
+  - --filesystem=/home/linuxbrew/.linuxbrew/share/applications:ro
+  # Not granted: --filesystem=home:ro, which only File Search uses. The
+  # metainfo description gives the `flatpak override` that turns it on.
+modules:
+  - name: compass
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 compass-wrapper /app/bin/compass
+      - install -Dm644 org.tunaos.compass.desktop /app/share/applications/org.tunaos.compass.desktop
+      # The compass://, raycast://, com.raycast: and vicinae:// handler that
+      # carries an extension's OAuth redirect back to it (`compass deeplink`).
+      - install -Dm644 org.tunaos.compass.UrlHandler.desktop /app/share/applications/org.tunaos.compass.UrlHandler.desktop
+      - install -Dm644 org.tunaos.compass.metainfo.xml /app/share/metainfo/org.tunaos.compass.metainfo.xml
+      - install -Dm644 org.tunaos.compass.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.compass.svg
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: compass.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/tuna-os/compass/releases/download/v0.28.3/Compass-x86_64.AppImage
+        sha256: b8c139493c064275ce5aed0b8557d56667d325d7dd38936d8bbe35d1e689ebbb
+        size: 71305720
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: compass-wrapper
+      - type: file
+        path: org.tunaos.compass.desktop
+      - type: file
+        path: org.tunaos.compass.UrlHandler.desktop
+      - type: file
+        path: org.tunaos.compass.metainfo.xml
+      - type: file
+        path: org.tunaos.compass.svg
