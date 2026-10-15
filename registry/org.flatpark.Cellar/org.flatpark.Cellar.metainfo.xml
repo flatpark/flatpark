@@ -57,6 +57,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.2.0" date="2026-10-15">
+      <description></description>
+    </release>
     <release version="0.1.0" date="2026-10-13">
       <url>https://github.com/jing2uo/cellar/releases/tag/v0.1.0</url>
     </release>
