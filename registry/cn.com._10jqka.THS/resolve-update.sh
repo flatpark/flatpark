@@ -19,7 +19,8 @@ set -euo pipefail
 readonly DOWNLOAD_ID=596
 readonly REDIRECT_URL="https://download.10jqka.com.cn/index/download/id/${DOWNLOAD_ID}/"
 
-url="$(curl -fsSL -o /dev/null -w '%{url_effective}' "$REDIRECT_URL")"
+# The download center answers 403 to curl's default User-Agent.
+url="$(curl -fsSL -A 'Mozilla/5.0' -o /dev/null -w '%{url_effective}' "$REDIRECT_URL")"
 
 filename="${url##*/}"
 if [[ ! "$filename" =~ ^cn\.com\.10jqka_kylin_([0-9]+(\.[0-9]+)+)_amd64\.deb$ ]]; then
