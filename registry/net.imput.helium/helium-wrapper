@@ -1,0 +1,41 @@
+#!/bin/sh
+set -eu
+
+# Helium's official Linux tarball is staged by apply_extra to /app/extra/helium
+# and run through zypak-wrapper, which comes from
+# org.electronjs.Electron2.BaseApp. Flatpak refuses the namespace syscalls
+# Chromium's own sandbox needs; zypak redirects Chromium's sandbox onto the
+# Flatpak sandbox, so the browser starts without --no-sandbox and keeps
+# per-renderer isolation.
+#
+# This replaces upstream's helium-wrapper from the same tarball, which only
+# sets the three variables below and execs the binary.
+
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+# Upstream's wrapper asks packagers to set this, so bug reports show where the
+# build came from.
+export CHROME_VERSION_EXTRA=flatpark
+
+# chrome://restart re-execs the browser. CHROME_WRAPPER has to name this
+# script or the re-exec would bypass it (zypak README, "Usage with a wrapper
+# script").
+export CHROME_WRAPPER=/app/bin/helium
+export ZYPAK_SPAWN_LATEST_ON_REEXEC=1
+# Widevine cannot be redistributed with the browser; when the component
+# updater downloads it into the profile, zypak has to be told that path or the
+# CDM never loads. The profile lives in $XDG_CONFIG_HOME/net.imput.helium.
+export ZYPAK_EXPOSE_WIDEVINE_PATH="$config_dir/net.imput.helium/WidevineCdm"
+export LD_LIBRARY_PATH="/app/extra/helium${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# Extra command-line flags, read from the file the Chromium family uses
+# everywhere else — here ~/.var/app/net.imput.helium/config/helium-flags.conf.
+# One flag per line, # starts a comment.
+flags=""
+if [ -r "$config_dir/helium-flags.conf" ]; then
+    flags="$(sed -e 's/#.*//' "$config_dir/helium-flags.conf" | tr '\n' ' ')"
+fi
+
+# $flags is deliberately unquoted: it has to word-split into separate arguments.
+# shellcheck disable=SC2086
+exec zypak-wrapper /app/extra/helium/helium --ozone-platform-hint=auto $flags "$@"

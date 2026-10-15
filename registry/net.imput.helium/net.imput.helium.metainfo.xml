@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.imput.helium</id>
+  <launchable type="desktop-id">net.imput.helium.desktop</launchable>
+  <name>Helium</name>
+  <developer id="net.imput">
+    <name>imput</name>
+  </developer>
+  <summary>Private, fast, and honest web browser</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <url type="homepage">https://helium.computer/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/imputnet/helium-linux</url>
+  <description>
+    <p>Helium is a private, fast, and honest web browser based on Chromium. It prioritizes user privacy while maintaining excellent performance and a clean browsing experience.</p>
+    <p>This Flatpak repackages the official Helium Linux build. It is not an official release: Helium's developers do not support Flatpak, and this package is maintained by FlatPark independently of them. If you installed Helium from FlatPark, please report any problem to FlatPark first at https://github.com/flatpark/flatpark/issues rather than to the Helium project.</p>
+    <p>The browser stores its profile in its private Flatpak data directory. Files outside the Downloads directory are opened and saved through the desktop file chooser portal. Browser updates are delivered through FlatPark.</p>
+  </description>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>web</keyword>
+    <keyword>internet</keyword>
+    <keyword>privacy</keyword>
+    <keyword>chromium</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#8fa0e8</color>
+    <color type="primary" scheme_preference="dark">#22348a</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/imputnet/helium-linux/refs/heads/main/package/screenshots/lead.png</image>
+      <caption>Kagi search results showing web pages and videos</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/imputnet/helium-linux/refs/heads/main/package/screenshots/split-view.png</image>
+      <caption>Viewing Wikipedia articles with image galleries</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.19.3.1" date="2026-10-14" />
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>

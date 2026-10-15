@@ -1,0 +1,86 @@
+id: net.imput.helium
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Helium is a Chromium browser, so it needs zypak: Flatpak refuses the
+# namespace syscalls Chromium's own sandbox is built on, and zypak redirects
+# that sandbox onto the Flatpak sandbox. The Electron base app is where zypak
+# ships prebuilt, and it is the base the rest of this catalog's Chromium-family
+# apps already use.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: helium
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # zypak spawns the sandboxed children through flatpak-spawn --expose-pids.
+  - --require-version=1.8.2
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --socket=pulseaudio
+  - --socket=cups
+  - --socket=pcsc
+  - --allow=bluetooth
+  - --system-talk-name=org.bluez
+  - --system-talk-name=org.freedesktop.UPower
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.gnome.ScreenSaver
+  - --talk-name=org.gnome.Mutter.IdleMonitor.*
+  - --talk-name=org.cinnamon.ScreenSaver
+  - --talk-name=org.mate.ScreenSaver
+  - --talk-name=org.xfce.ScreenSaver
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  - --filesystem=xdg-download
+  - --filesystem=xdg-run/pipewire-0
+  - --persist=.pki
+  # No GSettings backend is shipped, so proxy settings configured on the host
+  # desktop are not read. A proxy is configured with --proxy-server in
+  # ~/.var/app/net.imput.helium/config/helium-flags.conf, which the launcher
+  # reads.
+  # The browser can use file chooser portals for paths outside Downloads. PWA
+  # desktop integration and host policy loading are deliberately opt-in rather
+  # than granting host-etc and host application/icon directories by default.
+modules:
+  - name: helium
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 helium-wrapper /app/bin/helium
+      - install -Dm644 net.imput.helium.desktop /app/share/applications/net.imput.helium.desktop
+      - install -Dm644 net.imput.helium.metainfo.xml /app/share/metainfo/net.imput.helium.metainfo.xml
+      - install -Dm644 net.imput.helium.svg -t /app/share/icons/hicolor/scalable/apps
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: helium-x86_64.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/imputnet/helium-linux/releases/download/0.19.3.1/helium-0.19.3.1-x86_64_linux.tar.xz
+        sha256: 8f4e012b5d921fa59269aaf9c54160abf7294c633b1a6aa5edb7725945314570
+        size: 119536708
+      - type: extra-data
+        filename: helium-arm64.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/imputnet/helium-linux/releases/download/0.19.3.1/helium-0.19.3.1-arm64_linux.tar.xz
+        sha256: 5883d005bbc2092b27966a601f7153f446645693825a387c70bb22ed83a1a6f1
+        size: 114359200
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: helium-wrapper
+      - type: file
+        path: net.imput.helium.desktop
+      - type: file
+        path: net.imput.helium.metainfo.xml
+      - type: file
+        path: net.imput.helium.svg

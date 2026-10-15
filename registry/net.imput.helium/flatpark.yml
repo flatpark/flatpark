@@ -1,0 +1,29 @@
+# FlatPark catalog descriptor for Helium.
+#
+# This repackages imput's official Linux tarball. The browser payload is
+# fetched as extra-data at install time; the manifest and launcher keep the
+# desktop integration and sandbox policy reviewable here. Upstream does not
+# support Flatpak (helium-linux README), so the metainfo sends FlatPark users
+# to FlatPark's issue tracker first.
+id: net.imput.helium
+name: Helium
+summary: Private, fast, and honest web browser
+website: https://helium.computer/
+source_url: https://github.com/imputnet/helium-linux
+build:
+  manifest: net.imput.helium.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Network
+  tags:
+    - Web Browser
+    - Privacy
+    - Chromium
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
