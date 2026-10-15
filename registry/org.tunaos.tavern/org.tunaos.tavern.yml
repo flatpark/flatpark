@@ -1,0 +1,89 @@
+id: org.tunaos.tavern
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: tavern
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A GTK 4 / libadwaita app, native on Wayland. fallback-x11 (with ipc) only
+  # for X11 sessions.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # Package metadata, READMEs, screenshots and install analytics come from the
+  # Homebrew API and GitHub.
+  - --share=network
+  # Tavern is a front end for the Homebrew on the host: every install, removal,
+  # upgrade, tap and doctor run is `brew`, and brew has to run on the host,
+  # where it installs. Tavern does that through `flatpak-spawn --host`
+  # (tavern/backend.py, _brew_cmd), quoting every argument. This is the
+  # sandbox escape FlatPark rejects by default; it is declared under
+  # policy.dangerous_permissions in flatpark.yml.
+  - --talk-name=org.freedesktop.Flatpak
+  # Read inside the sandbox, never written: the host brew's signed API cache
+  # (formula.jws.json, cask.jws.json), which saves downloading the catalog
+  # again (tavern/backend_cache.py), and the installed taps
+  # (tavern/taps.py). Tavern's own Flatpak grants all of home read-write and
+  # all of /home/linuxbrew; it reads nothing else there, and writes go
+  # through brew on the host or the file chooser portal.
+  - --filesystem=~/.cache/Homebrew:ro
+  - --filesystem=/home/linuxbrew/.linuxbrew/Homebrew:ro
+  # GNOME Shell search: "Search Homebrew packages" from the overview.
+  - --own-name=org.tunaos.tavern.SearchProvider
+modules:
+  - name: tavern
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 tavern-wrapper /app/bin/tavern
+      - install -Dm755 tavern-search-provider-wrapper /app/bin/tavern-search-provider
+      - install -Dm644 org.tunaos.tavern.desktop /app/share/applications/org.tunaos.tavern.desktop
+      - install -Dm644 org.tunaos.tavern.metainfo.xml /app/share/metainfo/org.tunaos.tavern.metainfo.xml
+      - install -Dm644 org.tunaos.tavern.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.tavern.svg
+      - install -Dm644 org.tunaos.tavern.mime.xml /app/share/mime/packages/org.tunaos.tavern.xml
+      - install -Dm644 org.tunaos.tavern.service /app/share/dbus-1/services/org.tunaos.tavern.service
+      - install -Dm644 org.tunaos.tavern.SearchProvider.service /app/share/dbus-1/services/org.tunaos.tavern.SearchProvider.service
+      - install -Dm644 org.tunaos.tavern.search-provider.ini /app/share/gnome-shell/search-providers/org.tunaos.tavern.search-provider.ini
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output. The fd-26.08 build of the tools, as the other GNOME
+      # 51 AppImage packages use.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tavern.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/tuna-os/Tavern/releases/download/v0.1.64/Tavern-Linux.AppImage
+        sha256: f9c5b5def4ba742d46e655fc4cd6baf965121317a5c2667251e085fad8b64dfb
+        size: 32999928
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tavern-wrapper
+      - type: file
+        path: tavern-search-provider-wrapper
+      - type: file
+        path: org.tunaos.tavern.desktop
+      - type: file
+        path: org.tunaos.tavern.metainfo.xml
+      - type: file
+        path: org.tunaos.tavern.svg
+      - type: file
+        path: org.tunaos.tavern.mime.xml
+      - type: file
+        path: org.tunaos.tavern.service
+      - type: file
+        path: org.tunaos.tavern.SearchProvider.service
+      - type: file
+        path: org.tunaos.tavern.search-provider.ini

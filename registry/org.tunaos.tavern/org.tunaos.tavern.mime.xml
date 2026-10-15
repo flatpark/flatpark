@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="text/x-brewfile">
+    <comment>Homebrew Bundle file</comment>
+    <comment xml:lang="en">Homebrew Bundle file</comment>
+    <glob pattern="*.Brewfile"/>
+    <glob pattern="Brewfile"/>
+    <sub-class-of type="text/plain"/>
+  </mime-type>
+</mime-info>

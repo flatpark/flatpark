@@ -1,0 +1,5 @@
+#!/bin/sh
+# The GNOME Shell search provider, run the same way as tavern-wrapper.
+export TAVERN_DATADIR=/app/extra/tavern/usr/share/tavern
+export GSETTINGS_SCHEMA_DIR=/app/extra/tavern/usr/share/glib-2.0/schemas
+exec python3 /app/extra/tavern/usr/bin/tavern-search-provider "$@"

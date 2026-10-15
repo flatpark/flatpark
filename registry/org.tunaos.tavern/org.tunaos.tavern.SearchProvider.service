@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.tunaos.tavern.SearchProvider
+Exec=/app/bin/tavern-search-provider

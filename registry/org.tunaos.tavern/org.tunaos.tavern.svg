@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <!-- Background plate gradient: dark warm charcoal to deep slate -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d2a26"/>
+      <stop offset="100%" stop-color="#181615"/>
+    </linearGradient>
+    
+    <!-- Gold wood/accent gradient -->
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8a317"/>
+      <stop offset="100%" stop-color="#a0640c"/>
+    </linearGradient>
+
+    <!-- Beer/Liquid gradient (Amber Ale) -->
+    <linearGradient id="beerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7b731"/>
+      <stop offset="50%" stop-color="#eb9812"/>
+      <stop offset="100%" stop-color="#a85a03"/>
+    </linearGradient>
+    
+    <!-- Glass Highlight gradient -->
+    <linearGradient id="glassHighlight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="30%" stop-color="#ffffff" stop-opacity="0.1"/>
+      <stop offset="70%" stop-color="#ffffff" stop-opacity="0.0"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.4"/>
+    </linearGradient>
+
+    <!-- Foam gradient -->
+    <linearGradient id="foamGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1f2f6"/>
+    </linearGradient>
+    
+    <!-- Foam shadow -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded base plate (GNOME App Icon Style) -->
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="url(#bgGrad)" stroke="#110f0e" stroke-width="1.5" filter="url(#shadow)"/>
+  
+  <!-- Outer glowing accent ring -->
+  <rect x="11" y="11" width="106" height="106" rx="23" fill="none" stroke="url(#goldGrad)" stroke-width="2" opacity="0.8"/>
+
+  <!-- Beer Mug Group -->
+  <g transform="translate(0, 4)">
+    <!-- Mug Handle -->
+    <path d="M 80 50 Q 102 50 102 70 Q 102 90 80 90" fill="none" stroke="#e1b12c" stroke-width="12" stroke-linecap="round" filter="url(#shadow)"/>
+    <path d="M 80 50 Q 102 50 102 70 Q 102 90 80 90" fill="none" stroke="#fbc531" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 80 50 Q 102 50 102 70 Q 102 90 80 90" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+
+    <!-- Mug Body (Amber Beer Glass) -->
+    <rect x="36" y="40" width="48" height="58" rx="10" fill="url(#beerGrad)" stroke="#834c03" stroke-width="2" filter="url(#shadow)"/>
+
+    <!-- Vertical Glass Highlights (Ridges) -->
+    <rect x="42" y="44" width="8" height="50" rx="4" fill="#ffffff" opacity="0.15"/>
+    <rect x="56" y="44" width="8" height="50" rx="4" fill="#ffffff" opacity="0.2"/>
+    <rect x="70" y="44" width="8" height="50" rx="4" fill="#ffffff" opacity="0.15"/>
+    
+    <!-- Curved base highlight -->
+    <path d="M 40 90 Q 60 95 80 90" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+
+    <!-- Glass Rim / Top Highlight -->
+    <rect x="36" y="40" width="48" height="58" rx="10" fill="none" stroke="url(#glassHighlight)" stroke-width="2"/>
+
+    <!-- Star / Sparkle of freshness -->
+    <path d="M 30 35 L 32 40 L 37 42 L 32 44 L 30 49 L 28 44 L 23 42 L 28 40 Z" fill="#fbc531" opacity="0.9"/>
+    
+    <!-- Foam Head (Fluffy white bubbles overflowing) -->
+    <!-- Shadow for the foam -->
+    <g filter="url(#shadow)">
+      <circle cx="44" cy="38" r="12" fill="url(#foamGrad)"/>
+      <circle cx="60" cy="34" r="14" fill="url(#foamGrad)"/>
+      <circle cx="76" cy="38" r="12" fill="url(#foamGrad)"/>
+      <circle cx="50" cy="28" r="11" fill="url(#foamGrad)"/>
+      <circle cx="68" cy="28" r="11" fill="url(#foamGrad)"/>
+      <circle cx="36" cy="44" r="8" fill="url(#foamGrad)"/>
+      <circle cx="84" cy="44" r="8" fill="url(#foamGrad)"/>
+    </g>
+
+    <!-- Foam Inner Highlights (giving depth to bubbles) -->
+    <circle cx="42" cy="36" r="10" fill="#ffffff" opacity="0.6"/>
+    <circle cx="58" cy="32" r="12" fill="#ffffff" opacity="0.6"/>
+    <circle cx="74" cy="36" r="10" fill="#ffffff" opacity="0.6"/>
+    <circle cx="48" cy="26" r="9" fill="#ffffff" opacity="0.6"/>
+    <circle cx="66" cy="26" r="9" fill="#ffffff" opacity="0.6"/>
+    
+    <!-- Little floating foam bubbles -->
+    <circle cx="32" cy="22" r="3" fill="#ffffff"/>
+    <circle cx="88" cy="28" r="4" fill="#ffffff"/>
+    <circle cx="78" cy="18" r="2" fill="#ffffff"/>
+  </g>
+</svg>

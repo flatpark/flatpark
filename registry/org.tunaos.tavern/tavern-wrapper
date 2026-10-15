@@ -1,0 +1,8 @@
+#!/bin/sh
+# Runs the vendor's own Python program from the AppImage tree apply_extra
+# unpacked, on the runtime's Python, GTK 4 and libadwaita. The AppImage's
+# AppRun is not used: its GTK hook forces GDK_BACKEND=x11 and the bundled GTK.
+export TAVERN_DATADIR=/app/extra/tavern/usr/share/tavern
+export TAVERN_LOCALEDIR=/app/extra/tavern/usr/share/locale
+export GSETTINGS_SCHEMA_DIR=/app/extra/tavern/usr/share/glib-2.0/schemas
+exec python3 /app/extra/tavern/usr/bin/tavern "$@"

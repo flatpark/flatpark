@@ -1,0 +1,35 @@
+id: org.tunaos.tavern
+name: Tavern
+summary: Browse and install Homebrew packages
+website: https://github.com/tuna-os/Tavern
+source_url: https://github.com/tuna-os/Tavern
+build:
+  manifest: org.tunaos.tavern.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: System
+  tags:
+    - Homebrew
+    - Package Manager
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    # Tavern is a graphical front end for the host's Homebrew. Every operation
+    # it offers is a `brew` command, and brew installs into the host's
+    # Linuxbrew prefix, so it must run outside the sandbox: Tavern calls
+    # `flatpak-spawn --host bash -c '... brew <args>'` with every argument
+    # shell-quoted (tavern/backend.py). Without this the app can browse but
+    # cannot install, remove, upgrade, tap or run brew doctor.
+    - --talk-name=org.freedesktop.Flatpak
+# What the package does beyond copying the vendor's files, declared at the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "Installing, removing, upgrading and tapping run the host's brew through flatpak-spawn, with the same access as brew in a terminal."
+      zh-Hans: "安装、卸载、升级和添加 tap 会通过 flatpak-spawn 在宿主系统上运行 brew，权限与在终端中运行 brew 相同。"

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.tunaos.tavern</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Tavern</name>
+  <summary>Browse and install Homebrew packages</summary>
+  <description>
+    <p>
+      Tavern is a graphical app store for Homebrew, letting you browse, search,
+      install, and remove both formulae and casks with a beautiful GNOME interface.
+    </p>
+  </description>
+  <url type="homepage">https://github.com/tuna-os/Tavern</url>
+  <url type="bugtracker">https://github.com/tuna-os/Tavern/issues</url>
+  <url type="vcs-browser">https://github.com/tuna-os/Tavern</url>
+  <!-- <developer_name> is deprecated in favour of this; appstreamcli flags
+       the old form and reports developer-info-missing alongside it. -->
+  <developer id="org.tunaos">
+    <name>TunaOS</name>
+  </developer>
+
+  <launchable type="desktop-id">org.tunaos.tavern.desktop</launchable>
+  <provides>
+    <binary>tavern</binary>
+  </provides>
+  <content_rating type="oars-1.1" />
+
+  <!-- 1000x700 is Flathub's maximum for a non-HiDPI screenshot. Regenerated
+       by .github/workflows/screenshots.yml, which photographs the published
+       Flatpak. Committed deliberately rather than pushed by CI, so a bad
+       capture cannot publish itself unreviewed. -->
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/tuna-os/Tavern/main/docs/screenshots/main-window.png</image>
+      <caption>Browsing popular Homebrew formulae</caption>
+    </screenshot>
+  </screenshots>
+
+  <!-- Without these a store shows "Desktop Only" and cannot say the app fits
+       the viewer's device. The GNOME/Adwaita layout goes down to phone width. -->
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  <releases>
+    <release version="0.1.64" date="2026-09-15">
+      <description>
+        <p>Improves Homebrew maintenance, diagnostics, cache freshness, and release automation.</p>
+      </description>
+    </release>
+    <release version="0.1.63" date="2026-08-26">
+      <description>
+        <p>Improves package browsing, Brewfile handling, task progress, and build reliability.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-02-28">
+      <description>
+        <p>Initial release.</p>
+      </description>
+    </release>
+  </releases>
+  <branding>
+    <color type="primary" scheme_preference="light">#b5deff</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+</component>

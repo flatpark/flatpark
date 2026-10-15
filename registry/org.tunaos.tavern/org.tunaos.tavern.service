@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.tunaos.tavern
+Exec=/app/bin/tavern --gapplication-service
