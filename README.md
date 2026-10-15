@@ -45,6 +45,31 @@ test-builds them, and opens a PR. If it can't get there from the rules and the
 existing PRs, open an issue — letting an agent submit, test, and PR end-to-end
 is the goal.
 
+## Badge
+
+If your app is on FlatPark, you can link to it from your README or website with
+this badge:
+
+[![Get it on FlatPark](site/public/badges/get-it-on-flatpark.svg)](https://flatpark.org)
+
+Markdown (replace `<app-id>`):
+
+```md
+[![Get it on FlatPark](https://flatpark.org/badges/get-it-on-flatpark.svg)](https://flatpark.org/apps/<app-id>)
+```
+
+HTML:
+
+```html
+<a href="https://flatpark.org/apps/<app-id>">
+  <img alt="Get it on FlatPark" height="56" src="https://flatpark.org/badges/get-it-on-flatpark.svg">
+</a>
+```
+
+A PNG (2×, 308×112) is at
+<https://flatpark.org/badges/get-it-on-flatpark.png> for places that don't render
+SVG.
+
 ## License
 
 FlatPark's own code is [MIT](LICENSE). It does **not** license the packaged
