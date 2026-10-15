@@ -1,9 +1,0 @@
-#!/bin/sh
-set -eu
-
-# Harbor Beta is the official upstream Debian payload, extracted unchanged at
-# install time. The support stack below is supplied by the Flatpak runtime.
-export WEBKIT_DISABLE_DMABUF_RENDERER=1
-export LD_LIBRARY_PATH="/app/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-
-exec /app/extra/usr/bin/harbor "$@"
