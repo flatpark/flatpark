@@ -22,7 +22,8 @@
       <li>A log for every run, and import of existing bottles from the Bottles Flatpak.</li>
     </ul>
     <p>The command line is available as <code>flatpak run --command=cellar org.flatpark.Cellar help</code>.</p>
-    <p>Permissions: network access for runners and winetricks downloads; all devices, for USB keys, gamepads and the GPU; your Downloads, Documents and Desktop folders; the applications menu folder, for launchers; and read-only access to the Bottles Flatpak's data, for import. To give Windows programs another folder, use for example <code>flatpak override --user --filesystem=~/Games org.flatpark.Cellar</code>. Legacy 32-bit runners, an opt-in in the settings, also need <code>flatpak install flathub org.freedesktop.Platform.Compat.i386//26.08 org.freedesktop.Platform.GL32.default//26.08</code>.</p>
+    <p>Permissions: network, the GPU, the applications menu folder for launchers, and your Documents, Downloads, Pictures, Music and Videos folders, which Windows programs use as their own. Anything else is an override, for example <code>flatpak override --user --device=all org.flatpark.Cellar</code> for USB keys and gamepads. Importing from Bottles needs <code>--filesystem=~/.var/app/com.usebottles.bottles/data/bottles:ro</code> the same way.</p>
+    <p>Legacy 32-bit runners, an opt-in in the settings, need <code>flatpak install flathub org.freedesktop.Platform.Compat.i386//26.08 org.freedesktop.Platform.GL32.default//26.08</code>.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>

@@ -20,15 +20,20 @@ finish-args:
   # X socket even when the GUI itself is on Wayland.
   - --socket=x11
   - --socket=pulseaudio
-  # USB keys and other devices some Windows programs talk to, plus the GPU.
-  - --device=all
-  - --filesystem=xdg-download
+  # GPU only. Devices a particular Windows program needs (USB keys, gamepads)
+  # and Bottles import are overrides, documented in the metainfo.
+  - --device=dri
+  # The host folders Wine links into each new prefix's user profile, so
+  # Windows programs use them as their own. Not xdg-desktop: Wine would link
+  # Desktop too, and installer shortcuts would land on the host desktop.
   - --filesystem=xdg-documents
-  - --filesystem=xdg-desktop:create
-  # Menu launchers for apps (cellar desktop / the GUI's launcher button).
+  - --filesystem=xdg-download
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-music
+  - --filesystem=xdg-videos
+  # Host menu launchers for prefix apps (`cellar desktop`, the GUI's launcher
+  # button) go to ~/.local/share/applications.
   - --filesystem=xdg-data/applications:create
-  # Read-only, to import bottles from the Bottles Flatpak.
-  - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles:ro
   # New-WoW64 Wine runs 32-bit Windows code with no 32-bit Linux libraries,
   # but Flatpak's default seccomp filter still kills it: without this every
   # 32-bit program fails in NtCreateUserProcess.

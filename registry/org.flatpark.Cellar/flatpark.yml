@@ -23,9 +23,6 @@ policy:
   proprietary: false
   extra_data_first: true
   dangerous_permissions:
-    # A runtime for arbitrary Windows software: --device=all for USB keys,
-    # gamepads and other devices Windows programs talk to; --allow=multiarch
-    # because Flatpak's seccomp filter otherwise kills new-WoW64 Wine's 32-bit
+    # Flatpak's seccomp filter otherwise kills new-WoW64 Wine's 32-bit
     # processes.
-    - --device=all
     - --allow=multiarch
