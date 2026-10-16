@@ -1,0 +1,23 @@
+id: com.follow.clash
+name: FlClash
+summary: Graphical client for the ClashMeta and mihomo proxy cores
+website: https://chen08209.github.io/FlClash
+source_url: https://github.com/chen08209/FlClash
+build:
+  manifest: com.follow.clash.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - Proxy
+    - Clash
+    - Network
+    - Flutter
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

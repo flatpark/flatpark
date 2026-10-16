@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=FlClash
+Comment=Graphical client for the ClashMeta and mihomo proxy cores
+Exec=flclash %U
+Icon=com.follow.clash
+Terminal=false
+StartupWMClass=com.follow.clash
+Categories=Network;
+MimeType=x-scheme-handler/clash;x-scheme-handler/clashmeta;x-scheme-handler/flclash;
+Keywords=FlClash;Clash;ClashMeta;mihomo;Proxy;

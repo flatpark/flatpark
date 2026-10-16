@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.follow.clash</id>
+  <name>FlClash</name>
+  <summary>Graphical client for the ClashMeta and mihomo proxy cores</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="com.follow">
+    <name>chen08209</name>
+  </developer>
+  <url type="homepage">https://chen08209.github.io/FlClash</url>
+  <url type="bugtracker">https://github.com/chen08209/FlClash/issues</url>
+  <url type="vcs-browser">https://github.com/chen08209/FlClash</url>
+  <description>
+    <p>This is a community package of FlClash, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>FlClash is a graphical client for the ClashMeta and mihomo proxy cores. It manages profiles from subscription URLs and local files, switches proxies and rules, and watches the traffic and connections the core reports.</p>
+    <ul>
+      <li>Profiles from subscription URLs and local files, with proxy groups, rules and DNS settings.</li>
+      <li>Connection and traffic monitoring, plus the core's dashboard on localhost.</li>
+      <li>System proxy and enhanced running modes, with a tray icon for quick switching.</li>
+      <li>clash://, clashmeta:// and flclash:// links open as new profiles.</li>
+    </ul>
+    <p>The package has network access and shows a tray icon. It has no filesystem grant: profiles, logs and settings stay in the application's private per-app directory, and importing a profile from disk goes through the file chooser portal.</p>
+    <p>Two features need more than the sandbox allows and are unavailable: TUN mode, which requires creating a network interface, and the privileged helper service, which needs to register a system service on the host. The system-proxy and HTTP/SOCKS modes of the cores work as they are.</p>
+    <p>Updates come through Flatpak; the in-app update notice points at the upstream releases page.</p>
+  </description>
+  <launchable type="desktop-id">com.follow.clash.desktop</launchable>
+  <categories>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>flclash</keyword>
+    <keyword>clash</keyword>
+    <keyword>clashmeta</keyword>
+    <keyword>mihomo</keyword>
+    <keyword>proxy</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>flclash</binary>
+  </provides>
+  <releases>
+    <release version="0.9.0" date="2026-10-14">
+      <description></description>
+    </release>
+  </releases>
+</component>

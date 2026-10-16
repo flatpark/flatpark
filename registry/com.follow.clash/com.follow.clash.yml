@@ -1,0 +1,67 @@
+id: com.follow.clash
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: flclash
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter/GTK3 app. The GTK3 stack and the Flutter engine's system
+  # dependencies come from org.gnome.Platform.
+  - --share=ipc
+  # Proxy client: talks to the upstream proxies and DNS servers the profiles
+  # point at, including local ones such as the core's own controller on
+  # 127.0.0.1.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering.
+  - --device=dri
+  # Tray icon. The tray plugin registers with the StatusNotifier watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # No filesystem grant: profiles, logs and settings live in the private
+  # per-app directory, and importing a profile from disk goes through the file
+  # chooser portal. TUN mode and the privileged helper service need more than
+  # the sandbox allows and are documented as limitations in the metainfo.
+modules:
+  # The tray plugin links libayatana-appindicator3, which the GNOME runtime does
+  # not ship. Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido,
+  # libayatana-indicator, libayatana-appindicator) from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: flclash
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 flclash-wrapper /app/bin/flclash
+      - install -Dm644 com.follow.clash.desktop /app/share/applications/com.follow.clash.desktop
+      - install -Dm644 com.follow.clash.metainfo.xml /app/share/metainfo/com.follow.clash.metainfo.xml
+      - install -Dm644 com.follow.clash.png /app/share/icons/hicolor/256x256/apps/com.follow.clash.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/chen08209/FlClash/releases/download/v0.9.0/FlClash-0.9.0-linux-amd64.deb
+        sha256: f0c2ca66a38c5facf0a23737323343e258ed90e67f03ccc270afc5faa156a0d6
+        size: 47631780
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: flclash-wrapper
+      - type: file
+        path: com.follow.clash.desktop
+      - type: file
+        path: com.follow.clash.metainfo.xml
+      - type: file
+        path: com.follow.clash.png

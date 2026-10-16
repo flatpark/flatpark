@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+# The Flutter bundle staged by apply_extra to /app/extra/app, started through
+# the fixed `flclash` entry point: a symlink to the vendor's launcher, kept
+# stable should upstream rename the binary. The launcher finds its own lib/
+# through its RUNPATH and locates the FlClashCore process next to itself, so no
+# LD_LIBRARY_PATH is needed here: the tray plugin's ayatana libraries live in
+# /app/lib, which the sandbox's loader configuration already searches.
+# Profiles, logs and settings go to $XDG_DATA_HOME, inside the per-app
+# directory.
+exec /app/extra/app/flclash "$@"
