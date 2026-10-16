@@ -11,6 +11,13 @@ FlatPark fetches that release at build time, repackages it as a Flatpak
 ([extra-data](trust.md)), pins it, and signs the result. It never builds the app
 itself from source.
 
+## Goal
+
+FlatPark aims to be a Flatpak remote that runs efficiently and is easy to take
+part in. Speed matters most: apps often land minutes after an upstream release,
+and a fix reaches users just as fast. Every rule is weighed by two questions:
+does it stop us shipping our own bugs, and does it keep that speed?
+
 ## Why it exists
 
 - **One runtime version, always the latest.** Every app targets the *current*
