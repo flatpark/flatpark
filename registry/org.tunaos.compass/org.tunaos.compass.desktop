@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Compass
+GenericName=Application Launcher
+Comment=A fast, extensible command palette for Linux
+Exec=compass start
+Icon=org.tunaos.compass
+Terminal=false
+Categories=Utility;
+Keywords=launcher;search;command;palette;
+StartupWMClass=org.tunaos.compass

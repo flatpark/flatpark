@@ -1,0 +1,6 @@
+#!/bin/sh
+# Runs the vendor's own AppRun from the AppImage tree apply_extra unpacked. It
+# points COMPASS_NODE and COMPASS_BUILTIN_ICONS at the bundled Node and icon
+# set and execs usr/bin/compass, which finds compass-sandbox-exec,
+# compass-file-indexer and the extension runtime beside itself.
+exec /app/extra/compass/AppRun "$@"

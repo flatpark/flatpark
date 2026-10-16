@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Compass Deeplink Handler
+Comment=Hands compass://, raycast:// and vicinae:// links, such as an extension's sign-in, to Compass
+Exec=compass deeplink %u
+Icon=org.tunaos.compass
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/compass;x-scheme-handler/vicinae;x-scheme-handler/raycast;x-scheme-handler/com.raycast;
