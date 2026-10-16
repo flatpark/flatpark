@@ -73,7 +73,7 @@ jobs:
   # contributor may bring a resolver inside a brand-new registry/<id>/ dir; they
   # may not edit one the repo already trusts. update.command shape is enforced
   # separately and unconditionally by scripts/audit-descriptor.mjs, and every
-  # resolver — new or not — is still read as code per docs/pr-review.md Phase 4.2.
+  # resolver — new or not — is still read as code per docs/reviewers/review-runbook.md Phase 4.2.
   #
   # For a trusted author (OWNER / MEMBER / COLLABORATOR) a hit is a notice, not a
   # failure, so the maintainer's own infra PRs aren't blocked. No secrets;
@@ -125,7 +125,7 @@ jobs:
             OWNER|MEMBER|COLLABORATOR)
               echo "::notice::Automation change by a trusted author ($assoc) — surfaced for review, not blocking." ;;
             *)
-              echo "::error::External author ($assoc) modified repo-wide automation or an existing app's resolver. A maintainer must review per docs/pr-review.md (Phase 1 high-scrutiny) before merge. Adding a resolver inside a new registry/<id>/ directory does not trip this gate."
+              echo "::error::External author ($assoc) modified repo-wide automation or an existing app's resolver. A maintainer must review per docs/reviewers/review-runbook.md (Phase 1 high-scrutiny) before merge. Adding a resolver inside a new registry/<id>/ directory does not trip this gate."
               exit 1 ;;
           esac
 

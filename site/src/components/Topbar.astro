@@ -73,6 +73,23 @@ const langLinks = locales.map((l) => ({
       </div>
     </div>
 
+    <!--
+      Hidden only from 480px to sm: in that band the search shares the row and
+      one more 40px control would squeeze its text area below usable. Under
+      480px the search has its own row, so the icon fits.
+    -->
+    <a
+      href={localizePath('/docs/', lang)}
+      aria-label={t('nav.docs')}
+      title={t('nav.docs')}
+      class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-canvas hover:text-ink min-[480px]:max-sm:hidden"
+    >
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      </svg>
+    </a>
+
     <button
       type="button"
       data-theme-toggle

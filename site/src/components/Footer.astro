@@ -1,34 +1,39 @@
 ---
 import { getLangFromUrl, localizePath, useTranslations } from '../i18n';
-import { getPagesFor } from '../lib/pages';
+import { docUrl, getDocsFor } from '../lib/docs';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const order = ['Project', 'Docs', 'Community', 'Legal'];
-// Slugs stay English across locales, so the footer is structurally identical in
-// every language; only the labels and the link prefix change.
-const pages = (await getPagesFor(lang)).filter(({ entry }) => !entry.data.hideFromFooter);
+// The footer points into the docs library: each column names the pages it
+// carries by their path under docs/, and takes the titles from the pages
+// themselves, so a translated page brings its own label. A path that isn't
+// published (yet) is skipped rather than linked dead.
+const columns: { name: string; items: (string | { href: string; label: string })[] }[] = [
+  {
+    name: 'Docs',
+    items: ['README', 'users/guide', { href: '/setup/', label: t('nav.setup') }, 'packagers/publishing'],
+  },
+  { name: 'Project', items: ['project/about', 'project/policies', 'project/trust'] },
+  {
+    name: 'Community',
+    items: ['project/conduct', { href: 'https://github.com/flatpark/flatpark', label: t('footer.github') }],
+  },
+  { name: 'Legal', items: ['project/legal'] },
+];
 
-const groups = order
-  .map((name) => ({
-    name,
-    items: pages
-      .filter(({ entry }) => entry.data.group === name)
-      .sort((a, b) => a.entry.data.order - b.entry.data.order)
-      .map(({ slug, entry }) => ({ href: localizePath(`/${slug}/`, lang), label: entry.data.title })),
-  }))
-  .filter((g) => g.items.length);
-
-// Links appended to a group: GitHub lives under Community, and /setup/ under
-// Docs. Setup is a route rather than a content page, so it has no front matter
-// to place it — and the footer is the one entry point to it that every page
-// carries, now that the header no longer does.
-const extras = {
-  Docs: [{ href: localizePath('/setup/', lang), label: t('nav.setup') }],
-  Community: [{ href: 'https://github.com/flatpark/flatpark', label: t('footer.github') }],
-};
-for (const g of groups) if (extras[g.name]) g.items.push(...extras[g.name]);
+const docs = new Map((await getDocsFor(lang)).map((d) => [d.base, d]));
+const groups = columns.map((c) => ({
+  name: c.name,
+  items: c.items.flatMap((it) => {
+    if (typeof it !== 'string') {
+      return [{ href: it.href.startsWith('/') ? localizePath(it.href, lang) : it.href, label: it.label }];
+    }
+    const doc = docs.get(it);
+    if (!doc) return [];
+    return [{ href: localizePath(docUrl(it), lang), label: it === 'README' ? t('docs.title') : doc.title }];
+  }),
+}));
 ---
 
 <footer class="border-t border-line">

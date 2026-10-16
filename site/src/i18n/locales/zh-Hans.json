@@ -7,6 +7,7 @@
   "action.copy_failed": "复制失败",
   "action.copy": "复制",
 
+  "nav.docs": "文档",
   "nav.setup": "配置",
   "nav.search": "搜索应用",
   "nav.theme_toggle": "切换深色模式",
@@ -17,6 +18,12 @@
   "search.count": "{n} 个应用",
   "search.more": "还有 {n} 个 —— 继续输入以缩小范围",
   "search.empty": "没有匹配「{q}」的结果",
+
+  "docs.title": "文档",
+  "docs.nav": "文档",
+  "docs.menu": "浏览文档",
+  "docs.toc": "本页内容",
+  "docs.edit": "在 GitHub 上编辑此页",
 
   "footer.group.Project": "项目",
   "footer.group.Docs": "文档",

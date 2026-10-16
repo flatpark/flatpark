@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Audit a FlatPark registry descriptor + its manifest against the review-bar
-// guardrails (see docs/pr-review.md). Dependency-free: the PR gate runs `node`
+// guardrails (see docs/reviewers/review-runbook.md). Dependency-free: the PR gate runs `node`
 // before any `npm ci`, so this uses the same manual line-scan style as
 // read-descriptor.mjs rather than a YAML library.
 //

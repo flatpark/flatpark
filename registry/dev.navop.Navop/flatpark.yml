@@ -20,7 +20,7 @@ catalog:
   category: Development
   # Authorized by the upstream developer in feigeCode/navop#107, who amended
   # NAVOP_LICENSE in the same breath to name FlatPark as an allowed free
-  # distribution channel. Row in docs/upstream-approvals.md.
+  # distribution channel. Row in docs/reference/upstream-approvals.md.
   upstream_approved: true
   tags:
     - Database

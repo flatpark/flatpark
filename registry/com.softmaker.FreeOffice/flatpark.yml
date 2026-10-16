@@ -22,7 +22,7 @@ policy:
   extra_data_first: true
 
 # What this package does around the vendor's build; shown on the site as the
-# packaging level. See docs/packaging-playbook.md (golden rule 1).
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
 packaging:
   - kind: injected-code
     detail:

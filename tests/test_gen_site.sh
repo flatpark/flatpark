@@ -95,7 +95,11 @@ collections:
 EOF
 if ! ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" SITE_OUT_DIR="$site_out" \
         FLATPARK_COLLECTIONS_FILE="$tmp/collections.yml" \
-        npm run build >/dev/null 2>&1 ); then
+        npm run build >"$tmp/build.log" 2>&1 ); then
+    # A broken link between docs pages is a real failure, not an offline skip.
+    if grep -q "broken links in docs/" "$tmp/build.log"; then
+        echo "FAIL:"; grep -A20 "broken links in docs/" "$tmp/build.log" | grep "^  docs/"; exit 1
+    fi
     echo "test_gen_site: SKIP (astro build failed)"; exit 0
 fi
 
@@ -160,34 +164,51 @@ assert_contains "$detail" '<a href="/apps/" class="hover:text-ink">'
 assert_file "$setup"
 assert_contains "$setup" "flatpak --user remote-add --if-not-exists flatpark https://dl.flatpark.org/flatpark.flatpakrepo"
 
-# Content pages (Astro content collection) + global footer.
-about="$site_out/about/index.html"
+# Docs library: the repo's docs/ rendered under /docs/, plus the global footer.
+docs="$site_out/docs"
+about="$docs/project/about/index.html"
 assert_file "$about"
 assert_contains "$about" "About FlatPark"
 assert_contains "$about" '<meta name="description"'
 # The global footer renders on every page — check it on the catalog index.
-assert_contains "$index" "/about/"
+assert_contains "$index" "/docs/project/about/"
 assert_contains "$index" "community Flatpak hub"
 
-assert_file "$site_out/policies/index.html"
-assert_contains "$site_out/policies/index.html" "De-listing"
-assert_file "$site_out/trust/index.html"
-assert_contains "$site_out/trust/index.html" "extra-data"
-assert_contains "$index" "/policies/"
-assert_contains "$index" "/trust/"
-assert_file "$site_out/contributing/index.html"
-assert_contains "$site_out/contributing/index.html" "flatpark.yml"
-assert_file "$site_out/guide/index.html"
-assert_contains "$site_out/guide/index.html" "remote-add"
-assert_contains "$index" "/contributing/"
-assert_contains "$index" "/guide/"
-assert_file "$site_out/conduct/index.html"
-assert_contains "$site_out/conduct/index.html" "Code of conduct"
-assert_contains "$index" "/conduct/"
-assert_file "$site_out/legal/index.html"
-assert_contains "$site_out/legal/index.html" "no accounts"
-assert_contains "$site_out/legal/index.html" "without warranty"
-assert_contains "$index" "/legal/"
+assert_file "$docs/index.html"
+assert_contains "$docs/index.html" "FlatPark documentation"
+assert_file "$docs/project/policies/index.html"
+assert_contains "$docs/project/policies/index.html" "De-listing"
+assert_file "$docs/project/trust/index.html"
+assert_contains "$docs/project/trust/index.html" "extra-data"
+assert_contains "$index" "/docs/project/policies/"
+assert_contains "$index" "/docs/project/trust/"
+assert_file "$docs/packagers/publishing/index.html"
+assert_contains "$docs/packagers/publishing/index.html" "flatpark.yml"
+assert_file "$docs/users/guide/index.html"
+assert_contains "$docs/users/guide/index.html" "remote-add"
+assert_contains "$index" "/docs/packagers/publishing/"
+assert_contains "$index" "/docs/users/guide/"
+assert_file "$docs/project/conduct/index.html"
+assert_contains "$docs/project/conduct/index.html" "Code of conduct"
+assert_contains "$index" "/docs/project/conduct/"
+assert_file "$docs/project/legal/index.html"
+assert_contains "$docs/project/legal/index.html" "no accounts"
+assert_contains "$docs/project/legal/index.html" "without warranty"
+assert_contains "$index" "/docs/project/legal/"
+# Relative .md links become site URLs; links out of docs/ go to GitHub.
+assert_contains "$docs/packagers/playbook/index.html" 'href="/docs/packagers/publishing/"'
+assert_contains "$docs/packagers/playbook/index.html" "github.com/flatpark/flatpark/tree/main/registry/"
+# A section index lists its pages; internal/ and specs/ are never published.
+assert_contains "$docs/packagers/index.html" "docs-cards"
+for d in internal specs; do [ ! -e "$docs/$d" ] || { echo "FAIL: docs/$d was published"; exit 1; }; done
+# A translation replaces its page under the locale, with localised links.
+assert_contains "$site_out/zh-Hans/docs/users/guide/index.html" "用户指南"
+assert_contains "$site_out/zh-Hans/docs/users/guide/index.html" 'href="/zh-Hans/docs/project/trust/"'
+# Markdown sources for agents, and the old content-page URLs redirect.
+assert_file "$docs/users/guide.md"
+assert_contains "$site_out/llms-full.txt" "# User guide"
+assert_contains "$site_out/llms.txt" "/docs/users/guide.md"
+assert_contains "$site_out/_redirects" "/trust/ /docs/project/trust/ 301"
 
 # Header type-ahead: the dropdown ships on every page (including app pages,
 # which have no grid), and its index is a build artefact of its own.

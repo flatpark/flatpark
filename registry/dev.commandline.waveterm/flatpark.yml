@@ -24,7 +24,7 @@ policy:
   dangerous_permissions: []
 
 # What this package does around the vendor's build; shown on the site as the
-# packaging level. See docs/packaging-playbook.md (golden rule 1).
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
 packaging:
   - kind: seeded-config
     detail:

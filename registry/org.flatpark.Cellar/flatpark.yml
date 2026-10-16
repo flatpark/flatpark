@@ -10,7 +10,7 @@ build:
 catalog:
   category: Utility
   # Packaged by Cellar's developer in flatpark#642. Row in
-  # docs/upstream-approvals.md.
+  # docs/reference/upstream-approvals.md.
   upstream_approved: true
   tags:
     - Wine

@@ -219,7 +219,7 @@ body {
 
 /* Rendered markdown for content pages. Hand-rolled (no typography plugin). */
 .prose { @apply max-w-none text-[15px] leading-relaxed text-ink/90; }
-/* h1 is injected by the [...slug].astro layout from frontmatter, not the markdown body */
+/* h1 is the page's own `# Title` line (docs pages carry their title in the body) */
 .prose h1 { @apply text-3xl font-extrabold tracking-tight text-ink; }
 .prose h2 { @apply mt-8 text-xl font-bold text-ink; }
 .prose h3 { @apply mt-6 text-lg font-bold text-ink; }
@@ -232,3 +232,25 @@ body {
 .prose code { @apply rounded bg-canvas px-1.5 py-0.5 font-mono text-sm; }
 .prose pre { @apply mt-4 overflow-x-auto rounded-lg border border-line bg-[#1d1f24] p-4 text-sm text-[#e9eaed]; }
 .prose pre code { @apply bg-transparent p-0; }
+.prose h4 { @apply mt-5 font-bold text-ink; }
+.prose blockquote { @apply mt-4 border-l-4 border-line pl-4 text-ink/75; }
+.prose hr { @apply my-8 border-line; }
+.prose table { @apply mt-4 block w-full overflow-x-auto border-collapse text-sm; }
+.prose th { @apply border-b-2 border-line px-3 py-2 text-left font-semibold text-ink; }
+.prose td { @apply border-b border-line px-3 py-2 align-top; }
+.prose :is(h2, h3, h4) { scroll-margin-top: calc(var(--topbar-h) + 1rem); }
+
+/* Docs library: sidebar links, section cards, and the folded `## Details`. */
+.docs-group { @apply block rounded-md px-2 py-1 text-xs font-bold uppercase tracking-wide text-muted; }
+a.docs-group:hover { @apply text-brand; }
+.docs-link { @apply block rounded-md px-2 py-1 text-ink/75 hover:bg-canvas hover:text-ink; }
+.docs-nav a.docs-group.is-current,
+.docs-link.is-current { @apply bg-brand/10 font-semibold text-brand; }
+.prose ul.docs-cards { @apply mt-8 grid list-none gap-3 pl-0 sm:grid-cols-2; }
+.docs-cards li { @apply mt-0; }
+.docs-cards a { @apply block h-full rounded-lg border border-line bg-surface p-4 no-underline hover:border-brand; }
+.doc-details { @apply mt-10 rounded-lg border border-line bg-surface; }
+.doc-details > summary { @apply cursor-pointer px-4 py-3 text-xl font-bold text-ink; }
+.doc-details[open] > summary { @apply border-b border-line; }
+.doc-details > :not(summary) { @apply mx-4; }
+.doc-details > :last-child { @apply mb-4; }

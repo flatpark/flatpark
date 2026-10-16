@@ -1,10 +1,12 @@
-# Contributing an app to FlatPark
+# Contributing to FlatPark
 
-The publishing guide now lives on the site:
-**<https://flatpark.org/contributing/>**
+All documentation lives in [`docs/`](docs/README.md), and the site renders the
+same files at <https://flatpark.org/docs/>.
 
-Its source is [`site/src/content/pages/contributing.md`](site/src/content/pages/contributing.md).
-Edit that file to change the guide.
+- Adding an app: [publishing guide](docs/packagers/publishing.md)
+- The end-to-end packaging process: [packaging playbook](docs/packagers/playbook.md)
+- How PRs are reviewed: [review runbook](docs/reviewers/review-runbook.md)
 
-Onboarding is meant to run through an AI agent — open this repo in your agent
-(e.g. Claude Code) and ask it to publish an app, reading the guide above.
+Onboarding is meant to run through an AI agent: open this repo in your agent
+(e.g. Claude Code) and ask it to publish an app, starting from
+[`docs/README.md`](docs/README.md).

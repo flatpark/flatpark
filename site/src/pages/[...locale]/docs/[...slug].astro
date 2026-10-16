@@ -1,0 +1,132 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import Topbar from '../../../components/Topbar.astro';
+import { loadCatalog } from '../../../lib/data.mjs';
+import { buildNav, docUrl, getDocsFor } from '../../../lib/docs';
+import { pathsForLocales } from '../../../i18n/paths.mjs';
+import { getLangFromUrl, localizePath, useTranslations } from '../../../i18n';
+
+export async function getStaticPaths() {
+  return pathsForLocales(async (lang) => {
+    const docs = await getDocsFor(lang);
+    const nav = buildNav(docs);
+    return docs.map((doc) => ({
+      params: { slug: doc.slug || undefined },
+      props: { doc, nav },
+    }));
+  });
+}
+
+const { doc, nav } = Astro.props;
+const { repo } = loadCatalog();
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { Content, headings } = await render(doc.entry);
+
+// Right-hand outline: the page's own sections. The h1 is the title.
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const section = nav.find((s) => s.section === doc.section);
+// A section's index lists its pages, so a README only has to introduce them.
+const children = doc.isIndex && section && doc.slug === section.section ? section.pages : [];
+const href = (base: string) => localizePath(docUrl(base), lang);
+const current = docUrl(doc.base);
+const editUrl = `https://github.com/flatpark/flatpark/edit/main/${doc.file}`;
+---
+
+<Base title={`${doc.title} — ${repo.title}`} description={doc.description || undefined}>
+  <link slot="head" rel="alternate" type="text/markdown" href={`/docs/${doc.entry.id}.md`} />
+  <Topbar repo={repo} />
+  <div class="mx-auto flex max-w-6xl gap-10 px-5 py-10">
+    <!--
+      Below lg the sidebar folds into a <details> above the article: the docs
+      have to be navigable on a phone without a script.
+    -->
+    <aside class="docs-nav hidden w-56 shrink-0 lg:block">
+      <nav class="sticky top-[calc(var(--topbar-h)+1.5rem)] max-h-[calc(100vh-var(--topbar-h)-3rem)] overflow-y-auto pb-6 text-sm" aria-label={t('docs.nav')}>
+        <a href={href('README')} class:list={['docs-link font-semibold', current === '/docs/' && 'is-current']}>{t('docs.title')}</a>
+        {nav.map((s) => (
+          <div class="mt-5">
+            {s.index
+              ? <a href={href(s.index.base)} class:list={['docs-group', current === docUrl(s.index.base) && 'is-current']}>{s.title}</a>
+              : <span class="docs-group">{s.title}</span>}
+            <ul class="mt-1">
+              {s.pages.map((p) => (
+                <li><a href={href(p.base)} class:list={['docs-link', current === docUrl(p.base) && 'is-current']}>{p.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </aside>
+
+    <main class="min-w-0 flex-1">
+      <details class="docs-nav mb-6 rounded-lg border border-line bg-surface lg:hidden">
+        <summary class="cursor-pointer px-4 py-3 text-sm font-semibold">{t('docs.menu')}</summary>
+        <nav class="border-t border-line px-4 pb-4 text-sm" aria-label={t('docs.nav')}>
+          <a href={href('README')} class="docs-link mt-2 font-semibold">{t('docs.title')}</a>
+          {nav.map((s) => (
+            <div class="mt-3">
+              {s.index ? <a href={href(s.index.base)} class="docs-group">{s.title}</a> : <span class="docs-group">{s.title}</span>}
+              <ul class="mt-1">
+                {s.pages.map((p) => (
+                  <li><a href={href(p.base)} class:list={['docs-link', current === docUrl(p.base) && 'is-current']}>{p.title}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </details>
+
+      <article class="prose max-w-3xl">
+        <Content />
+        {children.length > 0 && (
+          <ul class="docs-cards">
+            {children.map((p) => (
+              <li>
+                <a href={href(p.base)}>
+                  <span class="font-semibold text-ink">{p.title}</span>
+                  {p.description && <span class="mt-1 block text-sm text-muted">{p.description}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </article>
+      <p class="mt-12 max-w-3xl border-t border-line pt-4 text-sm text-muted">
+        <a class="hover:text-brand" href={editUrl} target="_blank" rel="noopener noreferrer">{t('docs.edit')}</a>
+      </p>
+    </main>
+
+    {toc.length > 1 && (
+      <aside class="hidden w-48 shrink-0 xl:block">
+        <nav class="sticky top-[calc(var(--topbar-h)+1.5rem)] max-h-[calc(100vh-var(--topbar-h)-3rem)] overflow-y-auto text-sm" aria-label={t('docs.toc')}>
+          <p class="text-xs font-bold uppercase tracking-wide text-muted">{t('docs.toc')}</p>
+          <ul class="mt-2">
+            {toc.map((h) => (
+              <li class:list={[h.depth === 3 && 'pl-3']}>
+                <a class="block py-1 text-ink/70 hover:text-brand" href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    )}
+  </div>
+
+  <script>
+    // A heading inside a folded `## Details` block is still in the outline and
+    // still linkable: open the block when the hash points into it.
+    function openTarget() {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const el = id && document.getElementById(id);
+      const details = el && el.closest('details[data-doc-details]');
+      if (details) {
+        (details as HTMLDetailsElement).open = true;
+        el.scrollIntoView();
+      }
+    }
+    window.addEventListener('hashchange', openTarget);
+    openTarget();
+  </script>
+</Base>

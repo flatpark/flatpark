@@ -28,7 +28,7 @@ policy:
     # Without this Compass can search but cannot launch.
     - --talk-name=org.freedesktop.Flatpak
 # What the package does beyond copying the vendor's files, declared at the
-# packaging level. See docs/packaging-playbook.md (golden rule 1).
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
 packaging:
   - kind: host-command
     detail:

@@ -2,7 +2,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath } from 'node:url';
 import { defaultLang, languages, locales } from './src/i18n/config.mjs';
+import { satteri } from '@astrojs/markdown-satteri';
+import { docsLinkCheck, docsMarkdownPlugin } from './src/lib/docs-markdown.mjs';
+
+const repoRoot = fileURLToPath(new URL('..', import.meta.url)).replace(/\/$/, '');
+const docsRoot = `${repoRoot}/docs`;
 
 // `site` is the canonical origin used for the sitemap and absolute URLs; it is
 // overridable so the publish pipeline can pass REPO_HOMEPAGE, and defaults to
@@ -25,6 +31,7 @@ export default defineConfig({
   // `xhtml:link rel="alternate"` entries that make the translations
   // discoverable — the SEO half of the reason for doing any of this.
   integrations: [
+    docsLinkCheck({ docsRoot, repoRoot }),
     sitemap({
       i18n: {
         defaultLocale: defaultLang,
@@ -32,6 +39,15 @@ export default defineConfig({
       },
     }),
   ],
+  // Pages of the docs library link to each other as relative `.md` files; this
+  // turns those into site URLs and fails the build on a broken one.
+  markdown: {
+    processor: satteri({
+      mdastPlugins: [
+        docsMarkdownPlugin({ docsRoot, repoRoot, repoUrl: 'https://github.com/flatpark/flatpark' }),
+      ],
+    }),
+  },
   vite: {
     plugins: [tailwindcss()],
   },

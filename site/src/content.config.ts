@@ -1,20 +1,28 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-// Content pages (about, policies, trust, guides, conduct, legal). English sits
-// at the top level and each file's name is its route slug; a translation lives
-// under a locale directory (`zh-Hans/about.md`) and so carries a locale-
-// prefixed id, which `src/lib/pages.ts` splits back apart. The Footer is built
-// from this collection, so `group` + `order` are what place a page in it.
-const pages = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
+// The docs library is the repo's top-level `docs/`, read in place: agents read
+// those files from the repo and the site renders the same files, so there is
+// nothing to sync. `internal/` (operations notes) and `specs/` (plans being
+// worked through) stay in the repo and are never published.
+//
+// The id is the path without `.md`, kept verbatim. The default id generator
+// slugifies (lowercasing `zh-Hans`, dropping the dot in `guide.zh-Hans`), and
+// `src/lib/docs.ts` needs the real path back to find a page's locale, its
+// section and the file to link for editing.
+const docs = defineCollection({
+  loader: glob({
+    pattern: ['**/*.md', '!internal/**', '!specs/**'],
+    base: '../docs',
+    generateId: ({ entry }) => entry.replace(/\.md$/, ''),
+  }),
+  // The title is the page's own `# H1`, so the file reads the same on GitHub;
+  // front matter only carries what the body can't.
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    group: z.enum(['Project', 'Docs', 'Community', 'Legal']),
+    description: z.string().optional(),
     order: z.number().default(0),
-    hideFromFooter: z.boolean().default(false),
+    publish: z.boolean().default(true),
   }),
 });
 
-export const collections = { pages };
+export const collections = { docs };

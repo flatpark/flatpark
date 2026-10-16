@@ -20,7 +20,7 @@ catalog:
   category: Development
   # Ansgar Becker, HeidiSQL's author and maintainer, approved the listing in
   # flatpark#257 - "It would be ok for me if you release HeidiSQL on Flatpark."
-  # Row in docs/upstream-approvals.md cites the same comment.
+  # Row in docs/reference/upstream-approvals.md cites the same comment.
   upstream_approved: true
   tags:
     - Database

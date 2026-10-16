@@ -20,7 +20,7 @@ build:
 catalog:
   category: Development
   # LibreDB packages its own application - approved by construction, with the
-  # matching row in docs/upstream-approvals.md citing this submission PR.
+  # matching row in docs/reference/upstream-approvals.md citing this submission PR.
   upstream_approved: true
   tags:
     - Database

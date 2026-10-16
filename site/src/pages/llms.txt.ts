@@ -2,10 +2,12 @@
 // "how do I install <app> on Linux". Generated from the same catalog data as
 // the pages so it never drifts from what the remote actually serves.
 import { loadApps, loadCatalog } from '../lib/data.mjs';
+import { buildNav, getDocsFor } from '../lib/docs';
 
-export function GET() {
+export async function GET() {
   const { repo } = loadCatalog();
   const apps = loadApps();
+  const docs = buildNav(await getDocsFor('en')).flatMap((s) => [...(s.index ? [s.index] : []), ...s.pages]);
   const site = (repo.homepage || 'https://flatpark.org').replace(/\/$/, '');
 
   const lines = [
@@ -30,7 +32,10 @@ export function GET() {
     '',
     '## Docs',
     '',
+    `Every page is also served as Markdown at the same path with \`.md\`; [llms-full.txt](${site}/llms-full.txt) has all of them in one file.`,
+    '',
     `- [Setup guide](${site}/setup/): adding the remote, user vs system installs`,
+    ...docs.map((d) => `- [${d.title}](${site}/docs/${d.base}.md)${d.description ? `: ${d.description}` : ''}`),
     `- [Browse by category](${site}/apps/)`,
     `- [Packaging source](https://github.com/flatpark/flatpark): manifest and sandbox permissions for every app`,
     '',

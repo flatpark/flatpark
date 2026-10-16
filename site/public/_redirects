@@ -1,0 +1,23 @@
+# The content pages moved into the docs library (docs/ in the repo, /docs/ on
+# the site). Old links keep working.
+/about /docs/project/about/ 301
+/about/ /docs/project/about/ 301
+/policies /docs/project/policies/ 301
+/policies/ /docs/project/policies/ 301
+/trust /docs/project/trust/ 301
+/trust/ /docs/project/trust/ 301
+/legal /docs/project/legal/ 301
+/legal/ /docs/project/legal/ 301
+/conduct /docs/project/conduct/ 301
+/conduct/ /docs/project/conduct/ 301
+/guide /docs/users/guide/ 301
+/guide/ /docs/users/guide/ 301
+/contributing /docs/packagers/publishing/ 301
+/contributing/ /docs/packagers/publishing/ 301
+/zh-Hans/about/ /zh-Hans/docs/project/about/ 301
+/zh-Hans/policies/ /zh-Hans/docs/project/policies/ 301
+/zh-Hans/trust/ /zh-Hans/docs/project/trust/ 301
+/zh-Hans/legal/ /zh-Hans/docs/project/legal/ 301
+/zh-Hans/conduct/ /zh-Hans/docs/project/conduct/ 301
+/zh-Hans/guide/ /zh-Hans/docs/users/guide/ 301
+/zh-Hans/contributing/ /zh-Hans/docs/packagers/publishing/ 301

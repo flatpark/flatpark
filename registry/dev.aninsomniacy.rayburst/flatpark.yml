@@ -10,7 +10,7 @@ build:
 catalog:
   category: Network
   # Same maintainer, same project, approval given under its former name — see the
-  # row in docs/upstream-approvals.md.
+  # row in docs/reference/upstream-approvals.md.
   upstream_approved: true
   tags:
     - Download

@@ -7,6 +7,7 @@
   "action.copy_failed": "Copy failed",
   "action.copy": "Copy",
 
+  "nav.docs": "Docs",
   "nav.setup": "Setup",
   "nav.search": "Search apps",
   "nav.theme_toggle": "Toggle dark mode",
@@ -17,6 +18,12 @@
   "search.count": "{n} apps",
   "search.more": "+{n} more — keep typing to narrow",
   "search.empty": "Nothing matches “{q}”",
+
+  "docs.title": "Documentation",
+  "docs.nav": "Documentation",
+  "docs.menu": "Browse the docs",
+  "docs.toc": "On this page",
+  "docs.edit": "Edit this page on GitHub",
 
   "footer.group.Project": "Project",
   "footer.group.Docs": "Docs",

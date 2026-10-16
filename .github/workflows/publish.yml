@@ -30,6 +30,7 @@ on:
     paths:
       - "registry/**"
       - "site/**"
+      - "docs/**"
       - "scripts/**"
       - "config/**"
       - ".github/workflows/publish.yml"

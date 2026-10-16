@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Keep the developer-approved shield auditable: every registry descriptor with
 # catalog.upstream_approved: true must have an evidence row in the Approved
-# table of docs/upstream-approvals.md. That direction is a hard error; a doc
+# table of docs/reference/upstream-approvals.md. That direction is a hard error; a doc
 # row without the flag (e.g. a withdrawal in progress) only warns.
 # Usage: scripts/check-approvals.sh
 set -u
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DOC="$ROOT/docs/upstream-approvals.md"
+DOC="$ROOT/docs/reference/upstream-approvals.md"
 
 [ -f "$DOC" ] || { echo "::error::missing $DOC"; exit 1; }
 
@@ -22,13 +22,13 @@ recorded="$(awk '/^## Approved$/{on=1; next} /^## /{on=0} on' "$DOC" \
 fail=0
 for id in $flagged; do
     if ! grep -qx "$id" <<<"$recorded"; then
-        echo "::error::registry/$id/flatpark.yml sets upstream_approved: true but docs/upstream-approvals.md has no Approved row for it — add the evidence link (see the doc header for what counts)"
+        echo "::error::registry/$id/flatpark.yml sets upstream_approved: true but docs/reference/upstream-approvals.md has no Approved row for it — add the evidence link (see the doc header for what counts)"
         fail=1
     fi
 done
 for id in $recorded; do
     if ! grep -qx "$id" <<<"$flagged"; then
-        echo "::warning::docs/upstream-approvals.md lists $id as Approved but registry/$id/flatpark.yml does not set upstream_approved: true — remove the row or flip the flag"
+        echo "::warning::docs/reference/upstream-approvals.md lists $id as Approved but registry/$id/flatpark.yml does not set upstream_approved: true — remove the row or flip the flag"
     fi
 done
 
