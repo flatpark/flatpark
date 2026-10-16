@@ -37,9 +37,9 @@ modules:
         filename: mdns-browser_linux_x64
         only-arches:
           - x86_64
-        url: https://github.com/hrzlgnm/mdns-browser/releases/download/v2.9.1/mdns-browser_linux_x64
-        sha256: 8e101cfd3b8d3efe09335321b772c819b3759ed48f2d1ff69f901541d8c36a13
-        size: 7573008
+        url: https://github.com/hrzlgnm/mdns-browser/releases/download/v2.9.2/mdns-browser_linux_x64
+        sha256: caaadfd845d4c51a52d29cdcaa6219917bed435c270d335beb4767966aacb629
+        size: 7594008
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
