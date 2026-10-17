@@ -11,7 +11,7 @@
 # <release> in the AppStream metainfo.
 set -euo pipefail
 
-repo="bherbruck/solidcraft"
+repo="tangency-labs/solidcraft"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq

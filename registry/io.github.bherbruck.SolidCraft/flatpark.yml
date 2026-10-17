@@ -1,8 +1,8 @@
 id: io.github.bherbruck.SolidCraft
 name: SolidCraft
 summary: Parametric 3D CAD in the style of Fusion
-website: https://bherbruck.github.io/solidcraft/
-source_url: https://github.com/bherbruck/solidcraft
+website: https://solidcraft.io
+source_url: https://github.com/tangency-labs/solidcraft
 build:
   manifest: io.github.bherbruck.SolidCraft.yml
   branch: stable

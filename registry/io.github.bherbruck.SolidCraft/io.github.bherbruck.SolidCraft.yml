@@ -3,7 +3,7 @@ id: io.github.bherbruck.SolidCraft
 # still uses ai.storyteller.solvecraft, copied from the PhotoCraft template,
 # and that string is compiled into the binary as its Wayland app id
 # (StartupWMClass). Finish-args follow packaging/linux/flatpak/ in
-# bherbruck/solidcraft. The runtime is 26.08. The binaries need glibc and
+# tangency-labs/solidcraft. The runtime is 26.08. The binaries need glibc and
 # dlopen libwayland, libX11, xkbcommon and Vulkan from it.
 runtime: org.freedesktop.Platform
 runtime-version: "26.08"
@@ -48,14 +48,14 @@ modules:
         filename: solidcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.14.0/solidcraft-0.14.0-linux-x86_64.tar.gz
+        url: https://github.com/tangency-labs/solidcraft/releases/download/v0.14.0/solidcraft-0.14.0-linux-x86_64.tar.gz
         sha256: 1a7d32f00fb94a94f3c294ea2ffbdeb9c0dea09e714e7951b2a6f90a6be89d96
         size: 59745277
       - type: extra-data
         filename: solidcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/bherbruck/solidcraft/releases/download/v0.14.0/solidcraft-0.14.0-linux-aarch64.tar.gz
+        url: https://github.com/tangency-labs/solidcraft/releases/download/v0.14.0/solidcraft-0.14.0-linux-aarch64.tar.gz
         sha256: 0310efc861e0ee539388b0d77ea8bce33af28467d53bb812d35144d1bd221b2a
         size: 53841612
       # END MANAGED EXTRA-DATA

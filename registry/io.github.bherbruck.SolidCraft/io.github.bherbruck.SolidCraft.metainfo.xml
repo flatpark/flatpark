@@ -8,9 +8,9 @@
   <developer id="io.github.bherbruck">
     <name>SolidCraft contributors</name>
   </developer>
-  <url type="homepage">https://bherbruck.github.io/solidcraft/</url>
-  <url type="bugtracker">https://github.com/bherbruck/solidcraft/issues</url>
-  <url type="vcs-browser">https://github.com/bherbruck/solidcraft</url>
+  <url type="homepage">https://solidcraft.io</url>
+  <url type="bugtracker">https://github.com/tangency-labs/solidcraft/issues</url>
+  <url type="vcs-browser">https://github.com/tangency-labs/solidcraft</url>
   <description>
     <p>This is a community package of SolidCraft, maintained independently and unaffiliated with the SolidCraft project. It repackages the official upstream Linux release build unmodified.</p>
     <p>SolidCraft is an open-source parametric 3D CAD application written in Rust. Sketch on a plane, constrain and dimension the sketch, turn profiles into solids on a feature timeline, and change a parameter to watch the timeline rebuild.</p>
@@ -32,7 +32,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>A sample part with its sketches and feature timeline</caption>
-      <image>https://raw.githubusercontent.com/bherbruck/solidcraft/main/docs/screenshots/sample-plate.png</image>
+      <image>https://raw.githubusercontent.com/tangency-labs/solidcraft/main/docs/screenshots/sample-plate.png</image>
     </screenshot>
   </screenshots>
   <launchable type="desktop-id">io.github.bherbruck.SolidCraft.desktop</launchable>
