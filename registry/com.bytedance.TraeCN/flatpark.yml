@@ -1,0 +1,23 @@
+id: com.bytedance.TraeCN
+name: Trae CN
+summary: TRAE, The Real AI Engine
+website: https://trae.com.cn
+source_url: https://www.trae.com.cn/ide/download
+build:
+  manifest: com.bytedance.TraeCN.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AI
+  tags:
+    - Development
+    - AI
+    - IDE
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions:
+    - --filesystem=home

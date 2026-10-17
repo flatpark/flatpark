@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+# Trae CN is an Electron app staged by apply_extra to /app/extra/trae-cn. Run it
+# through zypak-wrapper from org.electronjs.Electron2.BaseApp so Chromium keeps
+# its internal sandbox inside Flatpak. --ozone-platform-hint=auto lets Chromium
+# use Wayland when available and fall back to X11.
+
+unset ELECTRON_RUN_AS_NODE
+
+extra_root=/app/extra
+launcher_file="$extra_root/trae-cn-launcher"
+launcher="trae-cn"
+if [ -r "$launcher_file" ]; then
+  read -r recorded < "$launcher_file" || recorded=""
+  [ -n "$recorded" ] && launcher="$recorded"
+fi
+
+# Launch by absolute path and leave the working directory alone: it is
+# inherited by the processes the editor spawns.
+exec zypak-wrapper "$extra_root/trae-cn/$launcher" --ozone-platform-hint=auto "$@"

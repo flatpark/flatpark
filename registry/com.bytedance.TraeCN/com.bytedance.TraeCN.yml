@@ -1,0 +1,88 @@
+id: com.bytedance.TraeCN
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so Trae CN keeps Chromium's
+# internal sandbox instead of launching with --no-sandbox. The base is a
+# prebuilt ref merged in at build time; the official upstream application tree
+# is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: trae-cn
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # VS Code-derived editor. The prebuilt tree bundles Chromium, its ffmpeg and
+  # swiftshader libraries, the Node-based extension host and every bundled
+  # extension; the GTK3, NSS, ATK, CUPS, DRM/GBM, ALSA and X11 stacks come from
+  # org.freedesktop.Platform 26.08.
+  - --share=ipc
+  # Model requests, sign-in, the extension marketplace and update checks.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Chromium compositing for the editor, diff views and agent panel.
+  - --device=dri
+  # Editor sounds: the terminal bell and the accessibility signals that announce
+  # a finished agent run.
+  - --socket=pulseaudio
+  # Desktop notifications from the editor and its extensions.
+  - --talk-name=org.freedesktop.Notifications
+  # Sign-in tokens and extension credentials go to the system keyring when one
+  # is available; without this every launch starts signed out.
+  - --talk-name=org.freedesktop.secrets
+  # An IDE is pointed at existing source trees, and it holds its own extensions,
+  # CLI state and agent rules in a hardcoded ~/.trae-cn. Both need the real home:
+  # Flatpak redirects only the XDG dirs, and a project reached through the
+  # file-chooser portal is not at the path the integrated terminal, the agent
+  # and git would have to agree on. Declared in flatpark.yml
+  # policy.dangerous_permissions.
+  - --filesystem=home
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the editor — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — never start as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: trae-cn
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 trae-cn-wrapper /app/bin/trae-cn
+      - install -Dm644 com.bytedance.TraeCN.desktop /app/share/applications/com.bytedance.TraeCN.desktop
+      - install -Dm644 com.bytedance.TraeCN.url-handler.desktop /app/share/applications/com.bytedance.TraeCN.url-handler.desktop
+      - install -Dm644 com.bytedance.TraeCN.metainfo.xml /app/share/metainfo/com.bytedance.TraeCN.metainfo.xml
+      - install -Dm644 com.bytedance.TraeCN.xml /app/share/mime/packages/com.bytedance.TraeCN.xml
+      - install -Dm644 com.bytedance.TraeCN.png /app/share/icons/hicolor/512x512/apps/com.bytedance.TraeCN.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: trae-cn.deb
+        only-arches:
+          - x86_64
+        url: https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.92182/linux/TRAE_CN-linux-x64.deb
+        sha256: 98a4493d147f7188ab2757194b97958cb5453112fec5669307b20bdfc0a4695f
+        size: 490390992
+      - type: extra-data
+        filename: trae-cn.deb
+        only-arches:
+          - aarch64
+        url: https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.92182/linux/TRAE_CN-linux-arm64.deb
+        sha256: 7a14e3662aa6d1cdbe901ee48529f417fc88bfac07a1e598591ff5a95a5534fd
+        size: 461438936
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: trae-cn-wrapper
+      - type: file
+        path: com.bytedance.TraeCN.desktop
+      - type: file
+        path: com.bytedance.TraeCN.url-handler.desktop
+      - type: file
+        path: com.bytedance.TraeCN.metainfo.xml
+      - type: file
+        path: com.bytedance.TraeCN.xml
+      - type: file
+        path: com.bytedance.TraeCN.png
