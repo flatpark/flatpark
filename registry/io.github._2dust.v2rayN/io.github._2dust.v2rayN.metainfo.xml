@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github._2dust.v2rayN</id>
+  <launchable type="desktop-id">io.github._2dust.v2rayN.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>v2rayN</name>
+  <summary>GUI client for the Xray and sing-box proxy cores</summary>
+  <developer id="io.github._2dust">
+    <name>2dust</name>
+  </developer>
+  <url type="homepage">https://github.com/2dust/v2rayN</url>
+  <url type="bugtracker">https://github.com/2dust/v2rayN/issues</url>
+  <url type="vcs-browser">https://github.com/2dust/v2rayN</url>
+  <description>
+    <p>In this Flatpak package, v2rayN only works as a local proxy: the core listens on 127.0.0.1:10808 (configurable) for SOCKS and HTTP, and you point your browser, command-line tools or system proxy settings at that address yourself. TUN mode and the system proxy toggle do not work inside the sandbox.</p>
+    <p>This is a community package of v2rayN, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>v2rayN is a GUI client for the Xray and sing-box proxy cores, both bundled with it.</p>
+    <ul>
+      <li>VLESS, VMess, Trojan, Shadowsocks, Hysteria2, TUIC, AnyTLS, WireGuard, SOCKS and HTTP servers.</li>
+      <li>Subscriptions, server import from links and QR codes, latency and speed tests.</li>
+      <li>Routing rules and DNS settings, with the geo rule sets included.</li>
+    </ul>
+    <p>The package has network access and shows a tray icon. It has no filesystem grant: profiles, logs and a copy of the cores stay in the application's private per-app directory, and importing a config from disk goes through the file chooser.</p>
+    <p>TUN mode needs root (v2rayN asks for a sudo password to start the core with it), and the system proxy toggle runs gsettings or kwriteconfig, which only reach the sandbox's own settings. Updating the cores from inside the app works and stores them in the per-app directory; v2rayN itself is updated through Flatpak.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>v2ray</keyword>
+    <keyword>xray</keyword>
+    <keyword>sing-box</keyword>
+    <keyword>proxy</keyword>
+  </keywords>
+  <provides>
+    <binary>v2rayn</binary>
+  </provides>
+  <releases>
+    <release version="7.25.6" date="2026-10-11">
+      <description></description>
+    </release>
+  </releases>
+</component>

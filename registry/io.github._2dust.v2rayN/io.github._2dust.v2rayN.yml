@@ -1,0 +1,59 @@
+id: io.github._2dust.v2rayN
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: v2rayn
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Self-contained .NET 10 / Avalonia app with the Xray and sing-box cores it
+  # starts beside it. The freedesktop runtime supplies the X11 client libraries,
+  # fontconfig, ICU and OpenSSL it loads.
+  - --share=ipc
+  # Avalonia's Linux backend is X11; on a Wayland session it runs through
+  # XWayland. The global hotkeys also go through X11.
+  - --socket=x11
+  - --device=dri
+  # Proxy client: the cores talk to the servers in the profiles, subscriptions
+  # are fetched over HTTPS, and the local SOCKS/HTTP listener (127.0.0.1:10808
+  # by default) is reachable from the host because the network namespace is
+  # shared.
+  - --share=network
+  # Tray: Avalonia's tray owns org.kde.StatusNotifierItem-<pid>-<id> and
+  # registers it with the watcher (same pair as com.xerahs.XerahS).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+  # No filesystem grant. The install dir is read-only, so v2rayN keeps its
+  # profiles, logs and a copy of bin/ (cores and rule sets) under
+  # $XDG_DATA_HOME/v2rayN, which Flatpak points into the per-app directory.
+  # Importing a config from disk goes through the file chooser portal.
+modules:
+  - name: v2rayn
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 v2rayn-wrapper /app/bin/v2rayn
+      - install -Dm644 io.github._2dust.v2rayN.desktop /app/share/applications/io.github._2dust.v2rayN.desktop
+      - install -Dm644 io.github._2dust.v2rayN.metainfo.xml /app/share/metainfo/io.github._2dust.v2rayN.metainfo.xml
+      - install -Dm644 io.github._2dust.v2rayN.png /app/share/icons/hicolor/256x256/apps/io.github._2dust.v2rayN.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/2dust/v2rayN/releases/download/7.25.6/v2rayN-linux-64.deb
+        sha256: b7220c636d17b925814804d4171cba9b3aa1f771baae8b570403f2c8850406e8
+        size: 86619748
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: v2rayn-wrapper
+      - type: file
+        path: io.github._2dust.v2rayN.desktop
+      - type: file
+        path: io.github._2dust.v2rayN.metainfo.xml
+      - type: file
+        path: io.github._2dust.v2rayN.png

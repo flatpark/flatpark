@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=v2rayN
+Comment=GUI client for the Xray and sing-box proxy cores
+Exec=v2rayn
+Icon=io.github._2dust.v2rayN
+Terminal=false
+Categories=Network;
+Keywords=v2ray;xray;sing-box;proxy;vless;vmess;trojan;hysteria;shadowsocks;
+StartupNotify=true
+StartupWMClass=v2rayN

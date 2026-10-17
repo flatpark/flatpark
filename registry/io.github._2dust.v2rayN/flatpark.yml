@@ -1,0 +1,22 @@
+id: io.github._2dust.v2rayN
+name: v2rayN
+summary: GUI client for the Xray and sing-box proxy cores
+website: https://github.com/2dust/v2rayN
+source_url: https://github.com/2dust/v2rayN
+build:
+  manifest: io.github._2dust.v2rayN.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Proxy
+    - Xray
+    - sing-box
+    - Avalonia
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

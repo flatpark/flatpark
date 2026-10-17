@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# v2rayN staged by apply_extra at /app/extra/v2rayn. That directory is
+# read-only, so v2rayN switches to its non-portable mode by itself: profiles,
+# logs and a copy of bin/ live under $XDG_DATA_HOME/v2rayN, inside the per-app
+# directory.
+exec /app/extra/v2rayn/v2rayN "$@"
