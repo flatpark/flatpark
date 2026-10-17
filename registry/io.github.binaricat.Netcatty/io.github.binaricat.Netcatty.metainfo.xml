@@ -20,6 +20,7 @@
       <li>Serial-port connections: <code>flatpak override --user --device=all io.github.binaricat.Netcatty</code></li>
       <li>Browse your whole home directory in the SFTP browser: <code>flatpak override --user --filesystem=home io.github.binaricat.Netcatty</code></li>
     </ul>
+    <p>Updates come through Flatpak: this package tracks upstream releases, so a new Netcatty build arrives with <code>flatpak update</code>. The bundled updater cannot install anything inside the sandbox, so use your package manager instead.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>

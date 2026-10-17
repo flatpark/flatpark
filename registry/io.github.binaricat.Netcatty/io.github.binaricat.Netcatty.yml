@@ -42,7 +42,9 @@ finish-args:
   #   --device=all             -> serial-port connections
   #   --filesystem=home        -> browse the whole home tree in the SFTP browser
   # File open/save otherwise goes through the portal; the app's own vault and
-  # settings live under the per-app HOME (Flatpak redirects $HOME).
+  # settings follow XDG_CONFIG_HOME into the per-app config dir
+  # (~/.var/app/<id>/config/): Flatpak redirects the XDG dirs, not $HOME itself,
+  # which is why host keys still need the ~/.ssh:ro override above.
 modules:
   - name: netcatty
     buildsystem: simple
