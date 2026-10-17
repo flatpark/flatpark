@@ -44,7 +44,7 @@ modules:
       - install -Dm755 flclash-wrapper /app/bin/flclash
       - install -Dm644 com.follow.clash.desktop /app/share/applications/com.follow.clash.desktop
       - install -Dm644 com.follow.clash.metainfo.xml /app/share/metainfo/com.follow.clash.metainfo.xml
-      - install -Dm644 com.follow.clash.png /app/share/icons/hicolor/256x256/apps/com.follow.clash.png
+      - install -Dm644 com.follow.clash.png /app/share/icons/hicolor/512x512/apps/com.follow.clash.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
