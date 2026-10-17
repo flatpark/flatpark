@@ -103,7 +103,7 @@ and Chinese. The site shows the resulting
 | `seeded-config` | Settings written before first launch, e.g. turning off an updater that can't work | Adapted | All |
 | `injected-code` | An `LD_PRELOAD` library or other code in the app's process | Modified | Closed source only |
 | `file-change` | Files in the vendor's build added, removed or changed | Modified | Closed source only |
-| `runtime-install` | The vendor's installer runs at first launch | Modified | Closed source only |
+| `runtime-install` | The vendor's installer runs at first launch with parts stood in for or its result changed (running it unmodified is not a change) | Modified | Closed source only |
 | `host-command` | The app can run commands on the host (`flatpak-spawn --host`) | Reduced isolation | All, declared |
 | `sandbox-off` | The app's own sandbox is turned off (`--no-sandbox`, `WEBKIT_DISABLE_SANDBOX`) | Reduced isolation | All, declared |
 

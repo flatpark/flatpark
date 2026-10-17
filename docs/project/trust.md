@@ -65,7 +65,8 @@ build, separately from the permissions it is granted:
   turning off an in-app updater that cannot work inside Flatpak.
 - **Modified** — the package changes how the vendor's build runs: code injected
   into the app's process (an `LD_PRELOAD` library), files in the vendor's build
-  added or changed, or the vendor's own installer run at first launch. Only
+  added or changed, or the vendor's installer run at first launch with parts
+  of it stood in for or its result changed. Only
   closed-source apps may be modified; open-source apps that would need it are
   not listed, because the fix belongs upstream.
 - **Reduced isolation** — the app can run commands on your system outside the
@@ -74,7 +75,9 @@ build, separately from the permissions it is granted:
 
 Leaving out parts of a vendor package that cannot work inside Flatpak at all —
 a setuid sandbox helper, a `pkexec` updater, a file-manager extension — is not
-counted as a change.
+counted as a change. Neither is running the vendor's own installer, unmodified,
+at first launch, which is how Windows apps are installed into their Wine
+prefix.
 
 ## Community package, not endorsement
 

@@ -87,8 +87,9 @@ through `libQt6Pas`, not a C++ Qt program; it is the exception, not a model.
 ### When upstream ships something else
 
 - **Only an installer script or `.run` file:** extract what it would install
-  without running it (many are a shell header on a tarball); if it can only be
-  run, the package is
+  without running it (many are a shell header on a tarball). If it can only be
+  run, running it unmodified at first launch is not a change; if it only works
+  with parts stood in for (a fake `df`, a patched check), the package is
   [Modified](../../project/trust.md#packaging-changes) and closed-source only.
 - **Only a Windows installer:** packaged on top of
   [Cellar](../../../registry/org.flatpark.Cellar/org.flatpark.Cellar.yml),
