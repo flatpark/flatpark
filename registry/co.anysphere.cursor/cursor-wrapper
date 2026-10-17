@@ -8,6 +8,8 @@ set -eu
 # shell out to — git, language toolchains, build and test runners — resolve to
 # the user's own host installs, which is where their projects and credentials
 # already are.
+# --disable-updates switches off the built-in update check: upstream ships an
+# updateUrl, and a new build arrives through flatpak update instead.
 
 unset ELECTRON_RUN_AS_NODE
 
@@ -30,4 +32,4 @@ fi
 # inherited by the commands Cursor spawns, and a working directory that exists
 # only inside the sandbox (such as the app tree) cannot be entered by anything
 # forwarded to the host.
-exec zypak-wrapper "$extra_root/cursor/$launcher" --ozone-platform-hint=auto "$@"
+exec zypak-wrapper "$extra_root/cursor/$launcher" --ozone-platform-hint=auto --disable-updates "$@"

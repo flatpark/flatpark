@@ -29,7 +29,7 @@
       <li>Or scope it to one directory: <code>flatpak override --user --filesystem=~/Projects com.tencent.codebuddycn</code></li>
       <li>Reuse your host SSH keys for Git remotes: <code>flatpak override --user --filesystem=~/.ssh:ro com.tencent.codebuddycn</code></li>
     </ul>
-    <p>Updates come through Flatpak: this package tracks upstream's own version feed, so a new upstream build arrives with <code>flatpak update</code>. CodeBuddy's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+    <p>Updates come through Flatpak: this package tracks upstream's own version feed, so a new upstream build arrives with <code>flatpak update</code>. CodeBuddy's built-in updater stays switched off here.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>

@@ -26,7 +26,7 @@
       <li><code>flatpak override --user --nofilesystem=home --filesystem=~/Projects co.anysphere.cursor</code></li>
     </ul>
     <p>The editor shells out to developer tools that no Flatpak runtime ships. This package puts a bridge on the app's PATH that forwards those commands to the same tools on your host, so your existing Git, language toolchains and test runners — and the credentials you have already authorized there — are what run in the integrated terminal and under the agent. FlatPark does not bundle or authenticate any of them. Commands that the sandbox provides itself, including the shell and coreutils, keep running inside it.</p>
-    <p>Updates come through Flatpak: this package tracks upstream's own download endpoint, so a new upstream build arrives with <code>flatpak update</code>. Cursor's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+    <p>Updates come through Flatpak: this package tracks upstream's own download endpoint, so a new upstream build arrives with <code>flatpak update</code>. Cursor's built-in updater stays switched off here.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>

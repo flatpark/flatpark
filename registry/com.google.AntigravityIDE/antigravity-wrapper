@@ -5,10 +5,12 @@ set -eu
 # Run it through zypak-wrapper (from org.electronjs.Electron2.BaseApp): zypak
 # redirects Chromium's SUID sandbox onto the Flatpak sandbox.
 # --ozone-platform-hint=auto lets Chromium use Wayland when available and fall back to X11.
+# --disable-updates switches off the built-in update check against Google's
+# update service; a new build arrives through flatpak update instead.
 
 unset ELECTRON_RUN_AS_NODE
 if [ -x /app/extra/antigravity/antigravity-ide ]; then
-    exec zypak-wrapper /app/extra/antigravity/antigravity-ide --ozone-platform-hint=auto "$@"
+    exec zypak-wrapper /app/extra/antigravity/antigravity-ide --ozone-platform-hint=auto --disable-updates "$@"
 else
-    exec zypak-wrapper /app/extra/antigravity/antigravity --ozone-platform-hint=auto "$@"
+    exec zypak-wrapper /app/extra/antigravity/antigravity --ozone-platform-hint=auto --disable-updates "$@"
 fi
