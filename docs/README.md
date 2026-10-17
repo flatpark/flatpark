@@ -9,6 +9,7 @@ the details below it. The same files are rendered at
 [flatpark.org/docs](https://flatpark.org/docs/).
 
 - [Users](users/README.md): installing apps, permissions, getting help.
+- [Developers](developers/README.md): your app on FlatPark, and instant updates from your releases.
 - [Packagers](packagers/README.md): adding and maintaining apps.
 - [Reviewers](reviewers/README.md): how PRs are checked and tested.
 - [Reference](reference/README.md): records and lookup tables.
