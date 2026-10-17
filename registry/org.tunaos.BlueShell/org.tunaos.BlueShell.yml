@@ -49,12 +49,19 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: blueshell-x86_64.tar.gz
+        filename: blueshell.tar.gz
         only-arches:
           - x86_64
         url: https://github.com/tuna-os/blueshell/releases/download/v1.3.1/blueshell-x86_64.tar.gz
         sha256: bc2ce22b53486a619a95e07546ff51e6d2e1f59de3c8a95be269ef067867120d
         size: 20930820
+      - type: extra-data
+        filename: blueshell.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/tuna-os/blueshell/releases/download/v1.3.1/blueshell-aarch64.tar.gz
+        sha256: 08687513d29f820639ac279c8c21f7b354c060071236994d18c219dbd0debf78
+        size: 20525111
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
