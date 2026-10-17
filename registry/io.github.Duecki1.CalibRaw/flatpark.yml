@@ -1,0 +1,31 @@
+id: io.github.Duecki1.CalibRaw
+name: CalibRaw
+summary: GPU-first RAW photo editor
+website: https://github.com/Duecki1/CalibRaw
+source_url: https://github.com/Duecki1/CalibRaw
+build:
+  manifest: io.github.Duecki1.CalibRaw.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags:
+    - Photography
+    - RAW
+    - Photo Editor
+    - GPU
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+packaging:
+  - kind: plain
+    detail:
+      en: "Repackages the official AppImage unmodified."
+      zh-Hans: "原样重新打包官方 AppImage。"

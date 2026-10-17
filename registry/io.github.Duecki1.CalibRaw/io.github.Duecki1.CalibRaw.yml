@@ -1,0 +1,86 @@
+id: io.github.Duecki1.CalibRaw
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: calibraw
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # CalibRaw is a self-contained Rust + wgpu application bundled as an AppImage.
+  # It brings its own wgpu, Vulkan ICD loader, and all dependencies. Only the
+  # display, GL, Vulkan, X11/Wayland, fontconfig, and audio stacks come from the
+  # runtime (org.freedesktop.Platform 26.08 ships them).
+  - --share=ipc
+  # Network access for downloading AI models on first use (user-initiated).
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU access for wgpu rendering.
+  - --device=dri
+  # Audio for any potential future features.
+  - --socket=pulseaudio
+  # Library access: photos are typically in Pictures, and the app needs to
+  # read/write its library data. Documents is also common for photo storage.
+  # The app uses file picker portals for opening/saving individual files.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  # Camera access for potential tethered shooting in the future (opt-in).
+  # Not granted by default - users can enable via flatpak override.
+  # Persist the CalibRaw config directory so settings and presets survive.
+  - --persist=.calibraw
+modules:
+  - name: calibraw
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 calibraw-wrapper /app/bin/calibraw
+      - install -Dm644 io.github.Duecki1.CalibRaw.desktop /app/share/applications/io.github.Duecki1.CalibRaw.desktop
+      - install -Dm644 io.github.Duecki1.CalibRaw.metainfo.xml /app/share/metainfo/io.github.Duecki1.CalibRaw.metainfo.xml
+      - install -Dm644 io.github.Duecki1.CalibRaw.png /app/share/icons/hicolor/256x256/apps/io.github.Duecki1.CalibRaw.png
+      - install -Dm644 io.github.Duecki1.CalibRaw.svg /app/share/icons/hicolor/scalable/apps/io.github.Duecki1.CalibRaw.svg
+    sources:
+      # The two-tool stack that lets apply_extra open the AppImage offline with
+      # no libfuse: appimage-offset prints the appended-SquashFS byte offset and
+      # unsquashfs unpacks from it. Fetched next to the AppImage into /app/extra
+      # rather than staged at /app/bin, because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra
+      # (scripts/check-apply-extra.sh reproduces this). Kept OUTSIDE the managed
+      # block: update-pins.mjs rebuilds that block from the resolver output and
+      # would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: CalibRaw-x86_64.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/Duecki1/CalibRaw/releases/download/v1.2.1/CalibRaw-v1.2.1-x86_64.AppImage
+        sha256: PLACEHOLDER
+        size: PLACEHOLDER
+      - type: extra-data
+        filename: CalibRaw-aarch64.AppImage
+        only-arches:
+          - aarch64
+        url: https://github.com/Duecki1/CalibRaw/releases/download/v1.2.1/CalibRaw-v1.2.1-aarch64.AppImage
+        sha256: PLACEHOLDER
+        size: PLACEHOLDER
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: calibraw-wrapper
+      - type: file
+        path: io.github.Duecki1.CalibRaw.desktop
+      - type: file
+        path: io.github.Duecki1.CalibRaw.metainfo.xml
+      - type: file
+        path: io.github.Duecki1.CalibRaw.png
+      - type: file
+        path: io.github.Duecki1.CalibRaw.svg

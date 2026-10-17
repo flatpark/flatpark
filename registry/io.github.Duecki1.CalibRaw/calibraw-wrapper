@@ -1,0 +1,15 @@
+#!/bin/sh
+# CalibRaw's AppDir is staged by apply_extra at /app/extra/calibraw.
+# The binary is self-contained with bundled dependencies.
+#
+# WGPU backend selection: prefer vulkan for best performance on most systems,
+# fall back to gl for broader compatibility.
+export WGPU_ADAPTER_NAME="vulkan"
+
+# The binary may use RUNPATH $ORIGIN/lib for its bundled libraries.
+# Exec the launch symlink that apply_extra created.
+
+app=/app/extra/calibraw
+bin="$(readlink "$app/launch" 2>/dev/null || true)"
+[ -n "$bin" ] || bin=launch
+exec "$app/$bin" "$@"
