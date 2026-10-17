@@ -21,5 +21,4 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: true
-  extra_data_first: true
   dangerous_permissions: []

@@ -31,5 +31,5 @@ the details below it. The same files are rendered at
   [governance](project/governance.md).
 - Link between pages with relative `.md` paths. The site rewrites them, and the
   build fails on a link to a page that doesn't exist.
-- `specs/` holds the plans being worked through, one step at a time, and
-  `internal/` holds operations notes. Neither is published on the site.
+- `specs/` holds the plans being worked through, one step at a time; it isn't
+  published on the site.

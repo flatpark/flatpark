@@ -7,8 +7,8 @@ order: 5
 
 FlatPark is kept simple on purpose: a change should never wait for more people
 than it needs. Day-to-day work, from a new listing to a removal, needs one
-maintainer and a test record. Only changes to the rules and the infrastructure
-ask for more.
+maintainer and an honest account of what was tested. Only changes to the rules
+and the infrastructure ask for more.
 
 ## Roles
 
@@ -24,18 +24,15 @@ ask for more.
 | Change | What it needs |
 |---|---|
 | A new version from upstream | Nothing from a person: CI merges it once the new file unpacks |
-| A new listing, a change to a package, a batch change, a removal | A record from the [testing playbook](../reviewers/testing-playbook.md) in the PR, and one maintainer merging it |
+| A new listing, a change to a package, a batch change, a removal | The PR says what was tested and what wasn't ([testing playbook](../reviewers/testing-playbook.md)), and one maintainer merges it |
 | A developer's request about their own app | Applied as asked, in its own PR |
 | [Principles](principles.md), the security floor, signing, infrastructure | A second maintainer's agreement, once there is more than one |
 | A release found to steal data or damage systems | Pulled at once by any maintainer; see [security](security.md) |
 
-- A maintainer may merge their own PR. The test record is the check, and it is
-  public.
 - An app whose main feature can't be tested (an account, a login, hardware we
   don't have) isn't listed until its developer, or someone who can test it,
   confirms it works.
-- A removal needs a stated reason: the developer asked, the app is gone or
-  abandoned, or it fails the security floor. See the
+- A removal needs a stated reason; the reasons are in the
   [listing policies](policies.md#de-listing).
 
 ## Becoming a maintainer

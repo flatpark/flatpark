@@ -15,8 +15,9 @@ Check these before writing anything. An app can be listed when:
 - **It runs on the current runtime** the rest of the catalog uses.
 - **It may be downloaded and used**, and has a legitimate purpose. Closed-source
   apps are welcome.
-- **It isn't already on Flathub from its own developer**, and if a third party
-  packages it there, there is a clear reason to offer it here too
+- **It isn't already on Flathub from its own developer** (unless the developer
+  asks), and if a third party packages it there, that package is missing a
+  feature, has fallen behind or has stopped working
   ([below](#apps-already-on-flathub)).
 
 The toolkit doesn't matter (Electron and Tauri apps are welcome), the licence
@@ -27,19 +28,20 @@ what it does, not by whether someone calls it AI-made
 ## Apps already on Flathub
 
 - **The developer publishes it on Flathub themselves** (the app is verified
-  there, or upstream maintains the Flathub manifest): we don't package it. Users
-  are best served by the developer's own build. The exception is the developer
-  asking us to.
-- **A third party packages it on Flathub:** we can package it when there is a
-  clear reason, for example:
-  - the Flathub build is missing or breaks a feature: Enpass on Flathub can't
-    verify the browser behind its extension, which ours does
+  there, or upstream maintains the Flathub manifest): we don't package it
+  again. If the developer asks us to, we do; the developer decides about their
+  own app.
+- **A third party packages it on Flathub:** we can package it when that
+  package falls short:
+  - it is missing or breaks a feature: Enpass on Flathub can't verify the
+    browser behind its extension, which ours does
     ([how](permissions.md#declaring-high-risk-permissions));
-  - the Flathub build has fallen far behind upstream and stayed there.
+  - it has fallen far behind upstream, or no longer works at all.
 
   The reason goes in the PR, and the app's description says how our package
-  differs from the Flathub one. If the reason goes away, the overlap is
-  reviewed again.
+  differs from the Flathub one.
+- **An app already on FlatPark whose developer later publishes it on Flathub**
+  stays, unless the developer asks for it to be removed.
 
 ## For agents
 
@@ -95,7 +97,9 @@ description says what doesn't work.
   GitHub project, the vendor's domain for a company.
 - **A rename is a new package.** A Flatpak ref is keyed on the id, so users don't
   move to a new id by themselves. Add the new id as its own directory and keep
-  the old one until the new one is out, then de-list it. An approval
+  the old one until the new one is out, then de-list it. There is no automatic
+  migration yet: users of the old id install the new one themselves, so say so
+  in the old app's last release note or the de-listing PR. An approval
   carries over; cite the original link in the new
   [approvals](../reference/upstream-approvals.md) row.
 - An id containing someone else's trademark (`com.youtube.…`) is avoided even if

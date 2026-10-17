@@ -20,7 +20,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     # Upstream's own Flatpak grants the home directory, for opening playlist
     # files from anywhere.

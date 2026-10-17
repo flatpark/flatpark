@@ -11,22 +11,30 @@ listed.
 
 ## What we host
 
-Any app with an official, prebuilt download at a stable public URL — an
-installer, `.deb`, `.rpm`, tarball, or AppImage. FlatPark fetches it at build,
-pins it by checksum, and signs the result. It never builds the app itself from
-source and never re-hosts the binary — the download is pulled from the vendor's
-own URL at install time. AppImages are unpacked offline (their appended
-filesystem is read directly, never executed). A package may build supporting
-libraries the runtime lacks from pinned source — the application is always the
-vendor's own binary.
+Any app with an official, prebuilt Linux download at a stable public URL: an
+installer, `.deb`, `.rpm`, tarball, zip or AppImage. When a package is added or
+updated, CI downloads the file once to record its checksum and size; FlatPark
+signs the result. Users' Flatpak then downloads the file from the vendor's own
+URL at install time. FlatPark's own storage holds only the small package around
+it, never the app. AppImages are unpacked offline (their appended filesystem is
+read directly, never executed).
+
+FlatPark doesn't build apps from source: an official release makes it
+unnecessary, and source builds would cost CI time and storage for every update.
+We assume that people install an app because they trust its developer. When an
+app people want has no official Linux release, a public
+`flatpark/<app>-release` repository may publish one, built exactly the way
+upstream builds it, unmodified and within upstream's licence; the package uses
+that release as extra-data like any other download.
 
 **Open-source apps run exactly as upstream ships them.** Nothing is injected into
 the app's process — no `LD_PRELOAD` shim, no patched or replaced files. A wrapper
 may set environment variables or launch flags, and missing libraries may be
 added, but if an open-source app can't work in the sandbox without injected
-code, the fix belongs upstream and the app isn't listed until then.
-**Closed-source apps** may carry a small injected adaptation when there is no
-other way, and the app's description says plainly what it is and why.
+code, the fix belongs upstream and the app isn't listed until then. Bugs go to
+upstream. **Closed-source apps** may carry an adaptation when there is no other
+way to make a feature work; it is reviewed, the app's page shows it, and the
+description says plainly what it is and why.
 
 Toolkit and license don't gate a listing. **Electron and Tauri apps are welcome**
 — the registry already ships both — and so are **closed-source apps**. If
@@ -40,22 +48,26 @@ be packaged here.
   license, and at least one description paragraph.
 - The **id matches reverse-DNS** and the registry directory name.
 - The **current runtime major**, matching the rest of the catalog. Pinning an
-  older major to work around a build break is not accepted — one straggler makes
-  every user keep a second runtime on disk.
+  older major to work around a build break is not accepted.
 - The **tightest `finish-args`** that still work. Optional capabilities are **not
   granted by default**: leave them out and document the `flatpak override`
   command that enables them in the app's description, so each user decides. A
-  permission the app truly needs to function stays in `finish-args` and is
-  justified in the PR.
-- **Tested locally before the PR** — the submitter has built the app, installed
-  it with `flatpak install`, launched it, and confirmed the core feature works.
+  permission the app needs to function stays in `finish-args` and is justified
+  in the PR. A broad grant (home, host commands) can be the default after
+  review, when the app's main feature needs it or leaving it out would take
+  more overrides than a user can be expected to manage.
+- **Tested before the PR**: the submitter has built the app, installed it,
+  launched it and used its main feature, and the PR says honestly what was
+  tested and what wasn't.
 - A stated **license** for the app.
 
 ## Vibe-coded apps
 
-Apps built with AI assistance ("vibe coding") are welcome. They are judged on the
-same bar as any other app: development history, upstream activity, and observed
-quality — not on how they were written.
+Apps built with AI assistance ("vibe coding") are welcome and get no special
+treatment, in either direction. Like every app, they are judged on what they
+do, how well they do it, whether people want them (requests, bug reports,
+users) and whether they are developed and released normally. Star counts and
+the project's age don't matter.
 
 We take a side here. The "AI slop" label is everywhere now — Flathub's PR
 queue, Reddit threads, all over the internet — slapped onto working software
@@ -79,46 +91,44 @@ Every submission is reviewed (AI-assisted) against a published
 [review runbook](../reviewers/review-runbook.md).
 The trust question is **where the bytes you run come from**, not the license:
 
-- FlatPark either verifies source-built packages against their public source, or
-  repackages an **official upstream prebuilt unmodified** — the bytes you run are
-  the vendor's own. Code injected into an app's process is rejected for
-  open-source apps, and must be disclosed in the description for closed-source
-  ones.
-- Official prebuilts must come from the real upstream/vendor release channel. A
+- FlatPark repackages an **official upstream build, unmodified**: the bytes you
+  run are the vendor's own. Code injected into an app's process is rejected for
+  open-source apps, and is reviewed and disclosed for closed-source ones.
+- Official builds must come from the real upstream/vendor release channel. A
   binary hosted on a submitter's personal account or a mirror, or one rebuilt or
   patched during packaging, is rejected.
-- Every download is pinned by `sha256` (and size), and any git source by an
-  immutable commit, so a build cannot silently swap it.
-- Sandbox-escape permissions (host filesystem, the Flatpak control bus) are
-  rejected; broad grants must be justified.
+- Every download is pinned by `sha256` and size, so a build cannot silently
+  swap it.
+- Permissions that reach outside the sandbox (running host commands, the whole
+  host filesystem) must be declared and argued in the PR, and a maintainer
+  reviews them. They are granted only when the app's feature needs them, and
+  the app page marks them with a warning.
+- Review looks for obvious malicious behaviour in what is shipped: persistence,
+  miners, reverse shells, downloading and running unpinned code. It doesn't
+  audit the app's source.
 - **Non-FOSS is allowed** — openness is not the bar. We reject on purpose, not
   license: piracy, malware, trademark impersonation, or anything illegal to
   distribute.
 
-We don't claim every open-source prebuilt is byte-for-byte source-verified — only
-that it is an official upstream build, pinned and unmodified.
-
 ## De-listing
 
-Removal is rare and conservative. An app leaves FlatPark for only two reasons:
+An app leaves FlatPark when:
 
-- it has **genuinely lost maintenance for the long term** — the official
-  download URL is gone, or upstream has been silent long enough that there is
-  nothing left to package; or
-- **its author explicitly asks us not to distribute it.** The vendor's word is
-  final: we remove the app, no argument.
+- **its developer asks.** The developer's word is final: we remove the app, no
+  argument;
+- **upstream has stopped:** development ended, the repository was deleted, or
+  the official download is gone;
+- **a release is malicious** or damages users' systems; it is removed at once
+  ([security](security.md));
+- **its main feature can't work in the sandbox** and can't be fixed. An app
+  that works with some features missing can stay, and its description says
+  what doesn't work (a proxy client without TUN mode, for example).
 
 An app is **never** de-listed for how it was written, what toolkit it uses, or
-because someone on the internet called it slop.
+because someone on the internet called it slop. It isn't removed because its
+developer later publishes it on Flathub either, unless the developer asks.
 
-Two footnotes. The security floor applies at all times, independent of the
-list above: a release found to be malicious, or one demanding dangerous
-permissions that cannot be justified, is removed immediately. And an app can
-also leave by *graduating* — when upstream begins publishing an official
-Flathub build, FlatPark's stopgap has done its job and we retire our package;
-that is success, not rejection.
-
-The process is public: an issue is opened describing the reason, a maintainer
-reviews it, and on removal the app's directory is deleted from the registry and
-its ref is dropped from the repo. Already-installed copies keep working until the
-user uninstalls them.
+To remove an app, a PR deletes its directory from the registry and says why,
+linking the request or issue. Once it is merged, the app is gone from the
+catalog, and the weekly `delist-prune` job drops its refs from the repository.
+Already-installed copies keep working until the user uninstalls them.

@@ -5,7 +5,7 @@ order: 1
 
 # 关于 FlatPark
 
-FlatPark 是一个社区 Flatpak 应用中心，收录提供明确下载产物的应用——即在稳定、公开的发布 URL 上提供官方安装程序或预构建归档的应用。FlatPark 会在构建时获取该发布产物，将其重新打包为 Flatpak（使用 [extra-data](trust.md)），固定其版本并对结果签名。FlatPark 从不自行从源码构建应用。
+FlatPark 是一个社区 Flatpak remote，收录提供官方 Linux 下载的应用：在稳定、公开的发布 URL 上提供安装程序、`.deb`、tarball 或 AppImage。FlatPark 用校验和与文件大小固定这份下载，把它包装成 Flatpak（[extra-data](trust.md)）并签名。你安装应用时，Flatpak 直接从开发者的服务器下载文件。FlatPark 不从源码构建应用，也不托管应用文件。
 
 ## 目标
 
@@ -13,15 +13,17 @@ FlatPark 的目标是做一个高效运转、容易参与的 Flatpak remote。�
 
 ## 为什么需要 FlatPark
 
-- **统一 runtime 版本，并始终使用最新版。** 每个应用都以其 runtime 的*当前*主版本为目标——不会出现一个应用使用 GNOME 49、另一个使用 50 的情况。旧主版本只会闲置在你的磁盘上，因此整个应用目录会同步向前升级，而你只需保留一份 runtime。
-- **在 sandbox 中运行，不侵入主目录。** Flatpak 将每个应用隔离在 sandbox 中；FlatPark 会尽量收紧权限，并在每个应用页面上明确展示这些权限。
-- **集中安装和更新。** 原本只提供原始 `.deb`、`.rpm`、tarball 或 AppImage 的应用，也能通过同一个 remote 安装并自动更新。
+- **集中安装和更新。**原本只提供原始 `.deb`、`.rpm`、tarball 或 AppImage 的应用，也能通过同一个 remote 安装并自动更新。
+- **每个应用都用当前的 runtime。**freedesktop、GNOME 或 KDE runtime 出新版本时，用它的应用会一起升级并测试，不会因为某个 FlatPark 应用让你的磁盘上留着旧 runtime。其他来源安装的应用仍可能需要它们自己的 runtime。
+- **最小权限，每个页面都写明。**每个软件包只授予应用主要功能所需的权限，页面上列出每一项权限并说明它允许什么。更多的权限由你自己用 `flatpak override` 打开。
 - **只看应用做了什么，不看它是怎么写出来的。** “AI slop”这个标签正在泛滥——Flathub 的 PR 队列、Reddit，到处都是——好软件被它随手一句打发，背后却没有任何真正的审核。FlatPark 拒绝这种反射式否定：这里的每个应用都经过实际构建、运行，并按[公开标准](policies.md)审核——我们贴出的每个标签都经得起追问。
 
 ## 与 Flatpak 和 Flathub 的关系
 
-FlatPark 基于 [Flatpak](https://flatpak.org/) 构建，且**与 [Flathub](https://flathub.org/) 没有关联**。Flathub 会从源码构建大多数应用；FlatPark 则有意只重新打包官方下载产物（extra-data）。二者相互补充。开发者自己在 Flathub 上发布的应用，请从 Flathub 安装，FlatPark 不会再打包。只有当 Flathub 上的包由别人维护、而且有明确理由（比如缺少某个功能、更新严重滞后）时，FlatPark 才会同时提供，并在应用描述里写明两者的区别。
+FlatPark 基于 [Flatpak](https://flatpak.org/) 构建，且**与 [Flathub](https://flathub.org/) 没有关联**。Flathub 会从源码构建大多数应用；FlatPark 只重新打包官方下载。二者相互补充。
+
+开发者自己在 Flathub 上发布的应用（在 Flathub 上有认证），FlatPark 不会重复打包，除非开发者要求。Flathub 上的包由别人维护、并且缺少功能、更新滞后或已经不能用时，FlatPark 可能也提供这个应用，并在应用描述里写明两者的区别。
 
 ## 谁在运营 FlatPark
 
-FlatPark 是一个独立、由社区运营的项目。FlatPark 自身的代码采用 MIT 许可证；所打包应用的所有权仍归各自厂商所有，并会在安装时从官方来源获取。
+FlatPark 是一个独立、由社区运营的项目。FlatPark 自身的代码采用 MIT 许可证；所打包应用的所有权仍归各自厂商所有，并在安装时从官方来源下载。

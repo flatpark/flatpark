@@ -17,6 +17,10 @@ order: 6
   day. Try again later, and report it if it lasts.
 - **The app won't start:** run it from a terminal to see why:
   `flatpak run <app-id>`.
+- **An app disappeared from the catalog or was renamed:** a removed app keeps
+  working until you uninstall it, but gets no more updates. A renamed app is a
+  new id: install it under the new id from its page, then uninstall the old
+  one. Your settings don't move over by themselves.
 - **Settings are gone after a restart:** check you haven't turned off one of
   its folders ([flatpak override](override.md#common-cases)). If you
   haven't, it is a packaging bug; please report it.

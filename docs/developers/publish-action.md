@@ -108,7 +108,7 @@ workflow never holds a FlatPark credential.
   terms as the twice-daily `update-check.yml`. The repository variable
   `AUTO_MERGE_PINS=false` stops both from merging.
 - **Several releases on one day** give several small PRs, each published on its
-  own. The daily sweep supersedes any per-app PR still open.
+  own. The twice-daily sweep supersedes any per-app PR still open.
 - **Which apps use it:** PRs from `auto/release-*` branches.
 - **Packaging for an adopter:** set `source_url` to the GitHub repository the
   releases come from, or the webhook refuses the pings.

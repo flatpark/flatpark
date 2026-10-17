@@ -84,5 +84,7 @@ removed without a fix commit aren't counted.
 
 When a fix for a listed app merges, add a row: severe if the app wouldn't
 install, start, keep data, or do its main job; minor otherwise. Name the check
-that would have caught it. If none would, add the check to the
-[testing playbook](../reviewers/testing-playbook.md) in the same PR.
+that would have caught it. If none would, add the check to the [testing
+playbook](../reviewers/testing-playbook.md) in the same PR. When no local check
+can reproduce it (a CDN that serves different bytes per region), say why in the
+row instead.

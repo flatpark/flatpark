@@ -21,7 +21,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     # Flatpak's seccomp filter otherwise kills new-WoW64 Wine's 32-bit
     # processes.

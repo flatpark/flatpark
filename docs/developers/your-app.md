@@ -81,18 +81,20 @@ version stays available, and we fix the package by hand.
 
 ## Flathub
 
-If you publish your app on Flathub yourself, tell us. We remove the FlatPark
-package, unless you'd like both to stay. FlatPark packages an app that is
-already on Flathub only when someone else maintains that Flathub package and
-there is a clear reason to offer it here too (a missing feature, a long
-delay), and the description says how the two differ.
+If you start publishing your app on Flathub yourself, the FlatPark package
+stays unless you ask us to remove it; tell us and it goes. An app you already
+publish on Flathub isn't packaged here again, unless you ask for it. When
+someone else maintains your app's Flathub package and it is missing a feature,
+has fallen behind or has stopped working, FlatPark may offer the app too, and
+its description says how the two differ.
 
 ## Renaming your app or changing its id
 
 A Flatpak app is identified by its id, so a new id is a new package: installed
 copies don't move over by themselves. Tell us before the release that changes
 it; the new id is listed next to the old one, and the old one is removed once
-the new one is out.
+the new one is out. Users who installed the old id have to install the new one
+themselves.
 
 ## Bug reports
 

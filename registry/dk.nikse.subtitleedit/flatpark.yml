@@ -20,7 +20,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   # Matches upstream's own flathub manifest verbatim: subtitle/video files are
   # commonly outside XDG Videos (secondary drives, NAS, sync folders). Portal-
   # mediated single-file access strands auto-renamed saves as hidden .xdp-*

@@ -7,14 +7,17 @@ order: 6
 
 ## 报告问题
 
-如果你发现了会让用户面临风险的问题（某个软件包运行或访问了不该碰的东西、某个应用版本有恶意、FlatPark 的构建、签名或发布流程有漏洞），请在 [github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues) 开一个 issue，并在标题里注明是安全问题。它会被优先处理。
+- **FlatPark 自身的漏洞**（构建、签名或发布流程、工作流、发布 webhook）：请通过 [GitHub 安全公告](https://github.com/flatpark/flatpark/security/advisories/new)私下报告，避免在修复前公开。
+- **会让用户面临风险的软件包或应用版本**（运行或访问了不该碰的东西，或者某个版本有恶意）：请在 [github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues) 开一个 issue，并在标题里注明是安全问题，让其他用户也能看到警告。
+
+两种都会被优先处理。
 
 ## 绝不允许的事
 
 无论其他规则怎么写，下面这些都不会上架，一旦发现立即下架：
 
 - 窃取数据、破坏系统或隐瞒自己行为的应用或版本；
-- 未经申报就逃出沙箱（`--filesystem=host`、Flatpak 控制总线），或者索取无法合理说明的危险权限的软件包；
+- 未经申报就触及沙箱之外（`--filesystem=host`、Flatpak 控制总线），或者索取功能并不需要的危险权限的软件包；
 - 不是开发者官方文件的下载。
 
 ## 某个版本有危险时
@@ -31,4 +34,4 @@ order: 6
 
 ## FlatPark 检查什么、不检查什么
 
-FlatPark 检查每个应用文件都是开发者的官方发布、按校验和固定，并检查每个软件包只做了它申报的事。它不审计应用本身的代码，闭源应用更是无从审计：应用做什么，你信任的是开发者；它怎么被打包和送到你手里，你信任的是 FlatPark。详见[信任与安全](trust.md)。
+FlatPark 检查每个应用文件都是开发者的官方发布、按校验和固定，每个软件包只做了它申报的事，所发布的内容没有明显的恶意行为。它不审计应用的源码，闭源应用更是无从审计：应用做什么，你信任的是开发者；它怎么被打包和送到你手里，你信任的是 FlatPark。详见[信任与安全](trust.md)。

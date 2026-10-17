@@ -123,10 +123,10 @@ modules:
     # …
 ```
 
-Use it only for a small stack many apps share. `ayatana-stack` is the case:
-nineteen apps, one stored copy, because the repository stores identical files
-once; as extra-data it would be a separate download for every app. A large stack
-or one with one or two users goes in as extra-data.
+Avoid it. Only the stacks the table already lists as `archive` are consumed
+this way, `ayatana-stack` above all: many apps, one stored copy, because the
+repository stores identical files once. A new stack, or a new consumer of a
+stack that is extra-data elsewhere, goes in as extra-data.
 
 `appimage-tools` must be extra-data whatever its use count: `apply_extra.sh`
 runs it, and a system-wide install runs that script with only the runtime's

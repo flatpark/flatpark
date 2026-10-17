@@ -18,7 +18,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     # Compass is an application launcher. Inside a Flatpak, starting an
     # application the user picked means starting it on the host, which Compass

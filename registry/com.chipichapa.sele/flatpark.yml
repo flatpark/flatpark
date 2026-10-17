@@ -21,7 +21,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     - --filesystem=host
     - --talk-name=org.freedesktop.Flatpak

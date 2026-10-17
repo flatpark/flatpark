@@ -154,11 +154,13 @@ stops only the client, so run `flatpak kill <id>` after every test.
 The [review runbook](../reviewers/review-runbook.md) is the full list. The
 common reasons a PR is sent back:
 
-- **Not run.** The PR doesn't say what was tested.
+- **Not run.** The PR doesn't say what was tested and what wasn't.
 - **Optional permissions granted by default** instead of documented as
   overrides; see [permissions](permissions.md).
-- **Unpinned sources.** `extra-data` needs `sha256` and `size`; `archive` needs
-  `sha256`; `git` needs a `commit`.
+- **The wrong kind of source.** The app and anything it needs come in as
+  `extra-data`, with `sha256` and `size`. An `archive` source is only for a
+  prebuilt stack the catalog already consumes that way. `git` sources aren't
+  accepted.
 - **Download not from the official channel:** the vendor's domain or the real
   upstream repository, never a personal account or mirror.
 - **The vendor's build changed** without declaring it, or at all for an

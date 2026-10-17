@@ -11,10 +11,18 @@ FlatPark's website is a static site. It sets **no cookies**, runs **no
 analytics**, and has **no accounts** — there is nothing to sign in to and nothing
 we track about you.
 
-App downloads are served from a content delivery network (Cloudflare
-Pages / R2). Like any web server, the CDN may keep standard, short-lived access
-logs (IP address, timestamp, requested file) for abuse prevention; FlatPark does
-not use them to profile users.
+When you install or update an app, two servers are involved:
+
+- **FlatPark's repository**, served by Cloudflare (Pages and R2), holds the
+  small Flatpak package: the signed metadata and the files around the app.
+  Cloudflare sees your IP address, like any web server, and may keep standard,
+  short-lived access logs for abuse prevention.
+- **The app itself** is downloaded straight from the developer's own servers,
+  not through FlatPark. The developer sees your IP address too, and their
+  privacy policy applies.
+
+FlatPark doesn't collect IP addresses or other personal information itself,
+and sells nothing.
 
 To show how many people install each app, FlatPark counts installs and updates
 as they happen. Flatpak itself tells the server which app it is fetching (the

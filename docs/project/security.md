@@ -7,12 +7,17 @@ order: 6
 
 ## Reporting a problem
 
-If you find something that puts users at risk (a package that runs or reaches
-something it shouldn't, an app release that is malicious, a weakness in how
-FlatPark builds, signs or publishes), open an issue at
-[github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues)
-and say in the title that it is a security problem. It is handled before
-anything else.
+- **A weakness in FlatPark itself** (how it builds, signs or publishes, its
+  workflows, the release webhook): report it privately through
+  [GitHub's security advisories](https://github.com/flatpark/flatpark/security/advisories/new),
+  so it isn't public before it is fixed.
+- **A package or app release that puts users at risk** (it runs or reaches
+  something it shouldn't, or the release is malicious): open an issue at
+  [github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues)
+  and say in the title that it is a security problem, so other users are
+  warned.
+
+Both are handled before anything else.
 
 ## What is never allowed
 
@@ -20,9 +25,9 @@ Whatever else the rules allow, these are never listed, and are removed at once
 if found:
 
 - an app or release that steals data, damages systems, or hides what it does;
-- a package that escapes the sandbox without declaring it
+- a package that reaches outside the sandbox without declaring it
   (`--filesystem=host`, the Flatpak control bus), or asks for dangerous
-  permissions it can't justify;
+  permissions its features don't need;
 - a download that isn't the developer's official file.
 
 ## When a release is dangerous
@@ -49,8 +54,9 @@ how (`flatpak uninstall --delete-data <app-id>`).
 ## What FlatPark checks and what it doesn't
 
 FlatPark checks that every app file is the developer's official release,
-pinned by checksum, and that each package does only what it declares. It
-doesn't audit the apps' own code, and closed-source apps can't be audited at
+pinned by checksum, that each package does only what it declares, and that
+what is shipped shows no obvious malicious behaviour. It doesn't audit the
+apps' source code, and closed-source apps can't be audited at
 all: you trust the developer for what the app does, and FlatPark for how it is
 packaged and delivered. [Trust & safety](trust.md) has the details.
 
@@ -59,7 +65,7 @@ packaged and delivered. [Trust & safety](trust.md) has the details.
 - **Secrets live only in trusted workflows:** `publish.yml`, `delist-prune.yml`
   and `install-stats.yml`, which run on `main`. `pr-checks.yml` has none.
 - **A PR that touches `.github/`, `scripts/` or `config/`, or the resolver of an
-  app that already exists,** is flagged by `pr-checks` and needs the owner;
+  app that already exists,** is flagged by `pr-checks` and needs a maintainer;
   these run on CI with write access.
 - **The release webhook** trusts nothing in a request: it checks the app, its
   registered GitHub source and the release before triggering an update

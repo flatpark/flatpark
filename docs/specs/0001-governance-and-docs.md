@@ -3,6 +3,12 @@
 - **Status:** accepted direction; being built. This replaces the RFC draft first
   posted in #605. The discussion that led here is in that PR, and the decision is
   summarised in [this comment](https://github.com/flatpark/flatpark/pull/605#issuecomment-6205935172).
+- **Since written (2026-10-17):** the docs settle several points differently
+  and win where they disagree. The test remote and end-of-life renames are not
+  built yet (testers build a PR's branch locally; users of a renamed app
+  install the new id themselves). Running a vendor's installer unmodified at
+  first launch is not a change; running it with parts stood in for is
+  Modified, closed source only. Review doesn't audit upstream source.
 - **Author:** @jing2uo
 - **Related:** #585 (pre-release testing), #473 (upstream self-merge), #379
   (upstream approvals), #599–#603 (packaging policy and levels)
@@ -222,7 +228,7 @@ docs/
 | Needs to run host commands | PATH script via `flatpak-spawn --host` (Reduced isolation, declared) | Same |
 | The app's own sandbox needs user namespaces | zypak for Chromium-based apps; otherwise ask upstream | May turn it off (Reduced isolation, disclosed) |
 | Needs code injected into its process, or files patched | Not listed; report upstream | Last resort (Modified, disclosed) |
-| The vendor's installer must run at first launch | Not listed | Allowed (Modified, disclosed) |
+| The vendor's installer must run at first launch | Unmodified: not a change; with parts stood in for: not listed | Unmodified: not a change; with parts stood in for: Modified, disclosed |
 
 ## Plan
 

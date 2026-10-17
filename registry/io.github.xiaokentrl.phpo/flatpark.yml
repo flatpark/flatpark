@@ -23,7 +23,6 @@ policy:
   # No license has been published yet; the upstream README says to treat the
   # project as all rights reserved until one is chosen.
   proprietary: true
-  extra_data_first: true
   dangerous_permissions:
     # The Docker API socket is root-equivalent on the host. Driving the host's
     # Docker daemon is phpo's whole purpose.

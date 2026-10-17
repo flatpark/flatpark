@@ -20,7 +20,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     # Video calls: Chromium opens webcams through /dev/video*, which no
     # narrower --device exposes. Upstream sets the same grant in its own

@@ -37,5 +37,4 @@ policy:
   # Source-available: Apache-2.0 plus the NAVOP_LICENSE supplementary terms
   # (no paid redistribution, no competing product), same shape as AFFiNE.
   proprietary: false
-  extra_data_first: true
   dangerous_permissions: []

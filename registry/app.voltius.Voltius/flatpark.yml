@@ -21,7 +21,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   # Requested by upstream (VoltiusApp/voltius#357): the local terminal tab
   # opens the host login shell through flatpak-spawn --host.
   dangerous_permissions:

@@ -18,7 +18,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     # Tavern is a graphical front end for the host's Homebrew. Every operation
     # it offers is a `brew` command, and brew installs into the host's

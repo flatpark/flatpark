@@ -34,5 +34,4 @@ policy:
   # (free for trial, evaluation and minimal use; production use needs a
   # subscription). Same shape as AFFiNE and Navop, so the same flag.
   proprietary: false
-  extra_data_first: true
   dangerous_permissions: []

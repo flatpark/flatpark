@@ -45,8 +45,8 @@ shim. Each one is listed in the manifest and explained in a comment there.
 ## The one rule: extra-data only
 
 The app always comes from the vendor's own URL, fetched at install time (Flatpak
-calls this *extra-data*). FlatPark never builds an app from source and never
-hosts its bytes. Three reasons:
+calls this *extra-data*). FlatPark doesn't build apps from source and doesn't
+host their files. Three reasons:
 
 - **You run what the vendor shipped.** A reviewer checks a pin and an unpack
   script, not a build. Users can compare the checksum with the vendor's.
@@ -54,7 +54,9 @@ hosts its bytes. Three reasons:
   vendor but not redistributing; we never redistribute.
 - **It stays cheap and fast.** A package on FlatPark's storage is a few
   megabytes of scaffolding instead of the whole app, and an update is a re-pin,
-  not a rebuild, so it ships minutes after upstream's release.
+  not a rebuild, so it ships minutes after upstream's release. CI downloads the
+  new file once to record its checksum and size; users download it from the
+  vendor, never from FlatPark.
 
 The one thing a package may build in is a shared support library from
 [`flatpark/prebuilt`](prebuilt.md). Everything else
@@ -83,7 +85,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: true           # honest; drives the licence shown on the site
-  extra_data_first: true
   dangerous_permissions: []   # high-risk finish-args, each argued in the PR
 packaging:                    # anything beyond a plain launch
   - kind: seeded-config
@@ -349,12 +350,15 @@ on the download while the app itself hasn't changed.
 
 What follows from extra-data, and what to do instead:
 
-- **No source builds in this repository.** An app that only ships source, or
-  whose binaries we have to build, gets its own `flatpark/<app>-release`
-  repository that builds on GitHub Actions and publishes a release; the package
-  here pins that release as extra-data like any vendor download
+- **No source builds.** An official release makes them unnecessary, and they
+  would cost CI time and storage on every update. When an app people want has
+  no official Linux release at all, it can get a public
+  `flatpark/<app>-release` repository that builds it on GitHub Actions exactly
+  the way upstream does, unmodified and within upstream's licence, and
+  publishes a release; the package pins that release as extra-data like any
+  vendor download
   ([`com.ayugram.desktop`](../../registry/com.ayugram.desktop/com.ayugram.desktop.yml)
-  pins `flatpark/ayugram-release`). That needs the owner's agreement first.
+  pins `flatpark/ayugram-release`). That needs a maintainer's agreement first.
 - **A library or tool the runtime lacks:** a second extra-data download (an
   upstream binary, a Debian package) or a [prebuilt stack](prebuilt.md#when-to-use-one).
   Don't compile it into `/app`.

@@ -24,12 +24,11 @@ their own yet. Where this page and a linked page disagree, the linked page wins.
 3. **Never open a PR for an app you haven't run** (step 4).
 4. **Describe only what our package does.** Never claim upstream is broken,
    needs a workaround, or that we fix their bug: not in manifest comments, PRs
-   or upstream messages (§6.1).
-5. **Don't merge your own PR** unless the maintainer tells you to.
-6. **When workarounds start stacking, stop.** If a package needs a second or
+   or upstream messages ([step 6](#6-tell-upstream)).
+5. **When workarounds start stacking, stop.** If a package needs a second or
    third workaround to run, report what you found and let the maintainer
    decide; don't keep adding them.
-7. **De-list on request, no argument.** If upstream says "please don't," remove
+6. **De-list on request, no argument.** If upstream says "please don't," remove
    it right away and don't re-post.
 
 ---
@@ -67,7 +66,8 @@ problems are in [common problems](solutions/README.md). In particular:
 
 Run the [testing playbook](../reviewers/testing-playbook.md) on the build
 installed from a local repository ([submitting an app](submitting.md#build) has
-the build and install steps), and record its table in the PR. `flatpak kill
+the build and install steps), and say in the PR what you tested and what you
+couldn't. `flatpak kill
 <id>` after every run; when the work is merged or dropped, clean up as in
 [cleaning up after a run](cleanup.md).
 
@@ -77,115 +77,90 @@ Branch, commit and PR body as in [submitting an app](submitting.md#open-the-pr).
 Add the trailer and footer your tool uses for AI-assisted work. Draft the body,
 show it, and open the PR only on approval (rule 2).
 
-> **Being reworked.** Steps 6 to 8 are being folded into one listing
-> lifecycle: listing, testing, inviting upstream and de-listing. Until that
-> page exists, they apply as written.
+## 6. Tell upstream
 
-## 6. Engage upstream
+Once the package is live and you have used it, tell the developer. We have
+made a Flatpak install for their app; if they're happy with it, a link from
+their README or download page sends users to it and saves them and their users
+work. If they'd rather not have it, it is removed.
 
-Only after the package is **live + smoke-tested**. Reuse what §1 found
-(demand + the maintainer's stated concerns).
+- **Always a new issue** on the app's own tracker, even when a Flatpak request
+  already exists there; link to that one. With no tracker or issues turned off,
+  use the maintainer's public channel and say why you're writing there.
+- **Short and plain.** A few sentences, no slang, no emoji. Long template
+  letters read as spam and have drawn objections.
+- **Only what our package does.** Never say upstream is broken, needs a
+  workaround, or that we fix their bug. Before any comparison with their own
+  build, check current upstream: we once told a maintainer our zypak setup
+  "sidesteps their `--no-sandbox` launch bug", which that same maintainer had
+  fixed months earlier. When in doubt, leave the comparison out.
+- **Nothing about it being temporary,** no "stopgap", no "in the meantime", and
+  nothing about the app's history on Flathub. Don't call FlatPark a home for
+  "apps not on Flathub", and don't call a Modified package unmodified: say what
+  its page says.
 
-### 6.1 The hard rule: no inaccurate or disparaging claims
+The message says, a sentence or two each:
 
-Describe **only what our package does**. Before writing any comparison to upstream's own
-build, **verify it against current upstream**: is the issue still open? Is a fix already
-merged, and by whom? (We once told a maintainer our zypak setup "sidesteps their `--no-sandbox`
-launch bug" — the bug had been fixed months earlier *by that same maintainer*. It didn't change
-the outcome but it read as ignorant/disparaging and had to be corrected publicly.) When in
-doubt, **drop the comparison.** A "packaging note" should *offer help* (a reusable env var,
-an override tip), never grade their work.
+1. what we did: <App> is on FlatPark, installed from their official
+   <artifact> at install time and updated automatically from their releases;
+2. how to install it, and the app's page;
+3. that our own testing is partial, and issues or PRs on the packaging are
+   welcome; they can also send PRs to the package freely;
+4. the ask: if they're happy with it, link FlatPark as an install option in
+   their README, docs or download page;
+5. the exit: if they'd rather it weren't listed, say so and it is removed; if
+   they're happy for it to stay, saying so publicly adds a developer-approved
+   shield to its page.
 
-### 6.2 Where to post
+`@`-mention the maintainer once, at the ask.
 
-- **Prefer an existing Flatpak/Flathub-request issue** on the app's own tracker (that's where
-  the demand already is). Else the context of the closed Flathub PR, or a new issue.
-- Issues disabled / no tracker → a low-key DM or public reply on the maintainer's channel,
-  explaining *why* you're reaching out there (see the Yaak DM precedent).
+~~~markdown
+Hi @<maintainer>, I've packaged <App> on [FlatPark](https://flatpark.org), a
+Flatpak remote for apps that ship their own Linux builds. It downloads your
+official <artifact> from your releases at install time and follows new
+releases automatically.
 
-### 6.3 Voice & template
-
-Warm, professional, first-person; no slang, no emoji. The proven shape (HiresTI, Tabularis,
-DiscordChatExporter, Yaak):
-
-```
-Hi @<maintainer> — thanks for <App>, it's great. I maintain **[FlatPark](https://github.com/flatpark/flatpark)**,
-a small hub that offers Flatpak installs for apps that aren't on Flathub, and I've packaged <App> there.
-
-It uses Flatpak **extra-data**, so it downloads your **official <artifact> release** unmodified at
-install time and tracks new releases automatically from your GitHub releases — I don't rehost or patch
-anything. <one line on what it is, e.g. "local-first desktop app, no server needed">.
-
-<Optional: one honest line on why it helps — e.g. the Flathub PR was closed / official Flathub isn't
-planned — framed as a stopgap, never as a knock on Flathub or on you.>
-
-Install:
-```
+```sh
 flatpak remote-add --if-not-exists flatpark https://dl.flatpark.org/flatpark.flatpakrepo
 flatpak install flatpark <app-id>
 ```
-App page: https://flatpark.org/apps/<app-id>
 
-<Optional packaging note that *helps* them — a reusable override/env tip — never a critique.>
+App page: https://flatpark.org/apps/<app-id>/
 
-I've only smoke-tested it myself, so my coverage is certainly incomplete — if you have time to put it
-through real use and see what breaks, I'd genuinely appreciate it, and any issue or PR on the packaging
-is very welcome.
+I've only tested the main features myself, so issues or PRs on the packaging
+are very welcome. If you're happy with it, a link to FlatPark as an install
+option in your README would help your Linux users find it. If you'd rather it
+weren't listed, say so and I'll remove it; if you're happy for it to stay, a
+reply here lets me mark it developer-approved.
+~~~
 
-If you'd be willing to make FlatPark an officially supported install method — recommending it in your
-install docs, on the site, or to your community — I'd be grateful. The idea is that it takes the Flatpak
-packaging and distribution research off your plate while giving your users a clean install and automatic
-updates.
+Draft it, show it, and post only on approval (rule 2). Don't post again after
+a no.
 
-And if you'd rather I **not** list it, just say so and I'll remove it right away. If you're happy for it
-to stay, I'll add a blue "developer-approved" shield to its FlatPark page and feature it on the homepage.
-Hope this helps your users!
-```
+## 7. On the developer's reply
 
-The ask, every time, has **four** parts, in this order: **(1) invite testing** and welcome issues/PRs
-(be upfront that your own verification is partial); **(2) ask to be listed as an official install
-method** — in their README, docs, download page or website, framed as taking distribution and
-packaging-research load off them, never as a knock on how they ship today; **(3) offer the exit** →
-de-list on request, no argument; **(4) request developer authorization** → on a yes, add the blue
-**"developer-approved" shield** to the app page + a **homepage feature**. `@`-mention the maintainer at
-the ask.
+- **Approves in public:** set `catalog.upstream_approved: true` and add the row
+  to [upstream approvals](../reference/upstream-approvals.md)
+  ([how](../developers/your-app.md#for-agents)).
+- **Asks for a change:** apply it as asked, in its own PR
+  ([permissions](permissions.md#when-the-developer-has-asked)).
+- **No:** remove the app right away; don't argue and don't ask again.
+- **A correction** (an inaccurate claim, say): acknowledge it plainly, fix the
+  repository (manifest comments, wrapper, PR body) and the message, then reply
+  with a link to the fix.
 
-Part (2) is the one that grows FlatPark into a channel maintainers adopt deliberately rather than merely
-tolerate, so it is **not** optional — a link from upstream is the thing that actually drives adoption.
+## 8. Keeping it up
 
-**Avoid "stopgap" framing** unless the maintainer has explicitly said they are working on their own
-package. Calling the listing temporary, or closing with "in the meantime", undercuts the very ask in
-part (2): you cannot invite someone to adopt FlatPark officially in one paragraph and describe it as a
-placeholder in another.
-
-**Review gate:** draft the comment, **present it, post only on approval.** Don't re-post if they've
-said no.
-
-## 7. On the maintainer's response
-
-- **Yes / approves** → add the blue "developer-approved" shield to the app page + feature on the
-  homepage.
-- **No** → de-list immediately; don't argue, don't re-pitch.
-- **Correction / criticism** (e.g. an inaccurate claim) → acknowledge it plainly, **fix the repo**
-  (manifest comments, wrapper, PR body — via a `fix/…` branch + PR) **and the offending message**,
-  then reply linking the fix. Graciousness > defensiveness; the person correcting you is often the
-  one who did the underlying work.
-
-## 8. Cadence & automation
-
-- **Re-run the searches in [finding apps](finding-apps.md) periodically** to catch new releases
-  and freshly-rejected Flathub PRs.
-- Each app's `resolve-update.sh` already lets FlatPark re-pin & rebuild on new upstream releases —
-  no manual version bumps.
-- **A broken upstream repackage opens an issue.** When `update-check`'s payload gate rejects a new
-  artifact it holds that app's pin (users stay on the last version known to install) and
-  `scripts/ci-alert.sh` opens a `ci-alert`-labelled issue naming the app — a red run in the Actions
-  tab notifies nobody, an issue does. Fix `registry/<id>/apply_extra.sh`, verify with
-  `./scripts/check-apply-extra.sh <id>`, and the next run closes the issue itself. A failed
-  `publish` opens the same kind of issue under the `publish` key.
-- **Runtime majors are NOT bumped by CI.** `update-check` only re-pins extra-data and the metainfo
-  release; `runtime-version` / `base-version` are hand-pinned per manifest. When a new major lands,
-  the maintainer kicks off an **AI-led batch update** that bumps and re-tests the whole catalog at
-  once — so the catalog never splits across two majors ([batch changes](../reviewers/batch-changes.md)).
-- The §1–§2 crawl + §2 gates are scriptable into a shortlist; §3 packaging is templated per recipe.
-  Keep the **review gate** on the two outward-facing actions (rule 2) even as the rest automates.
+- **Updates are automatic.** `update-check` runs every resolver twice a day,
+  and apps whose upstream uses publish-action update within minutes. No version
+  is bumped by hand.
+- **A new upstream file that doesn't unpack opens an issue.** The pin is held,
+  so users stay on the last version that installs, and `scripts/ci-alert.sh`
+  opens a `ci-alert` issue naming the app. Fix `registry/<id>/apply_extra.sh`,
+  check it with `./scripts/check-apply-extra.sh <id>`, and the next run closes
+  the issue. A failed `publish` opens the same kind of issue.
+- **Runtime majors are not bumped by CI.** `runtime-version` and `base-version`
+  are pinned by hand; moving the catalog to a new major is a
+  [batch change](../reviewers/batch-changes.md).
+- **Re-run the searches** in [finding apps](finding-apps.md) now and then for
+  new candidates.

@@ -15,17 +15,23 @@ Flatpak. The application you run is the official binary, not a FlatPark rebuild.
 When the vendor ships an **AppImage**, FlatPark unpacks the filesystem appended to
 it offline — the AppImage is read, never executed, and no FUSE is involved.
 
-Some packages ship a little more than the vendor's download: a wrapper script, or
-a library the Flatpak runtime doesn't provide (a tray-icon library, say). Shared
-support libraries come from FlatPark's audited
-[`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) repo, built from pinned
-source. That is packaging scaffolding around the app — it never replaces or
-patches the vendor's binary.
+Some packages ship a little more than the vendor's download: a wrapper script,
+or a library the Flatpak runtime doesn't provide (a tray-icon library, say).
+Shared support libraries come from FlatPark's public
+[`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) repo, built by
+GitHub Actions from pinned source. That is packaging scaffolding around the app
+— it never replaces or patches the vendor's binary.
 
-Open-source apps get nothing injected into their process. A closed-source app
-occasionally needs a small injected adaptation to work in the sandbox (an
-`LD_PRELOAD` shim, for example); when it does, the app's description says
-exactly what it is and why.
+A few apps that people want have no official Linux release. For those, a
+public `flatpark/<app>-release` repository builds the app exactly the way
+upstream does, without changes and within upstream's licence, and the package
+downloads that release at install time like any other.
+
+Open-source apps get nothing injected into their process; their bugs are
+reported upstream. A closed-source app occasionally needs an adaptation for a
+feature to work in the sandbox (an `LD_PRELOAD` shim, for example). It is
+reviewed, the app's page shows it, and the description says exactly what it is
+and why.
 
 ## Pinned and signed
 
@@ -44,10 +50,12 @@ install and update.
 
 ## Tight sandbox
 
-FlatPark prefers the minimum `finish-args` that still let an app work, and avoids
-broad grants like `--filesystem=home`. Every app page lists its exact
-permissions with a plain-language risk label, so you can see what an app can
-reach before installing it.
+FlatPark prefers the minimum `finish-args` that still let an app work. A broad
+grant like `--filesystem=home` or running host commands is the default only
+after review, when the app's main feature needs it or leaving it out would take
+more overrides than a user can be expected to manage. Every app page lists its
+exact permissions with a plain-language risk label, and marks the risky ones in
+colour, so you can see what an app can reach before installing it.
 
 Capabilities an app doesn't strictly need are **left off by default**. Where an
 app can do more with a broader permission, its page documents the `flatpak
@@ -79,9 +87,11 @@ build, separately from the permissions it is granted:
 
 Leaving out parts of a vendor package that cannot work inside Flatpak at all —
 a setuid sandbox helper, a `pkexec` updater, a file-manager extension — is not
-counted as a change. Neither is running the vendor's own installer, unmodified,
-at first launch, which is how Windows apps are installed into their Wine
-prefix.
+counted as a change. Neither is anything the app or its own installer does by
+itself, such as a Windows installer run unmodified into its Wine prefix at first
+launch. Running the installer with parts stood in for is a change: thinkorswim
+and IBKR Desktop run their vendor's installer with a stand-in `df` so it
+accepts the sandbox, and their pages say so.
 
 ## Community package, not endorsement
 

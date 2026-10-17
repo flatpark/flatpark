@@ -21,7 +21,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   dangerous_permissions:
     # Upstream's own Flatpak grants the home directory: SSH keys are picked
     # from ~/.ssh and files move between this machine and a server's file

@@ -46,8 +46,8 @@ first: a global override can make a permission look granted when the package
 doesn't grant it. When done, `flatpak kill <app-id>` and clean up as in
 [cleaning up after a run](../packagers/cleanup.md).
 
-Record the result in the PR as a table: each check, ✅ / ❌ / ➖ (doesn't
-apply), and what you did. Name what you couldn't test.
+In the PR, say honestly what you tested and what you couldn't; a line per
+check is enough. Problems a reviewer finds come up in review.
 
 ### It unpacks as a system install
 
@@ -162,7 +162,10 @@ would use:
   that uses them. An app that only checks a command exists reports it
   available even when it can't run.
 - **Can't test it:** say exactly what and why in the PR. Hold the listing until
-  a tester or the developer confirms; don't merge on the hope it works.
+  a tester or the developer confirms; don't merge on the hope it works. For
+  now a tester builds the PR's branch locally
+  ([submitting an app](../packagers/submitting.md#build)); there is no test
+  remote yet.
 
 ### What CI does and doesn't
 

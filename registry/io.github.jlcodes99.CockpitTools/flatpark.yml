@@ -22,7 +22,6 @@ policy:
   # Source-available but not free software: CC BY-NC-SA 4.0 forbids commercial
   # use without a separate written licence from the author.
   proprietary: true
-  extra_data_first: true
   dangerous_permissions: []
 
 # What this package does around the vendor's build; shown on the site as the

@@ -21,7 +21,6 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  extra_data_first: true
   # Local terminal tabs open the host login shell through flatpak-spawn --host
   # (nyaterm-host-shell); serial sessions need the tty devices.
   dangerous_permissions:

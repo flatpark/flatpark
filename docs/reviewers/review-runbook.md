@@ -5,8 +5,13 @@ order: 1
 
 # Review runbook
 
-The maintainer's review process for incoming PRs — primarily new-app and
-app-update submissions. An AI agent runs this top to bottom; a human merges.
+How a maintainer reviews a PR from someone else: a new app, or a change to a
+package, sent by a contributor or an app's developer. An AI agent runs this top
+to bottom; a human merges.
+
+It is not run on a maintainer's own PRs, where the PR's account of what was
+tested and the CI checks are the record, and not on upstream version bumps,
+which CI merges after the unpack check.
 
 **How to run it:** for "review PR #N", copy the [template](#review-template) into
 your working notes, then work the phases in order, filling one row at a time with
@@ -33,9 +38,11 @@ checks that record, not the app.
 
 License is **not** the trust axis — it is compliance input only. Non-FOSS is
 allowed (the registry ships proprietary broker apps). Every package is an
-official upstream build fetched as extra-data; FlatPark never builds an app
-from source. What matters is **where the bytes you run come from**, and, when
-the app is open source, whether its public code does anything malicious.
+official upstream build fetched as extra-data; FlatPark doesn't build apps from
+source (the rare `flatpark/<app>-release` build is a maintainer's call, outside
+this runbook). What matters is **where the bytes you run come from**, and
+whether what is shipped does anything obviously malicious. The review doesn't
+audit the app's source; a full audit would cost far more than it finds.
 
 Every acceptable submission meets the **base requirements**:
 
@@ -58,11 +65,10 @@ Every acceptable submission meets the **base requirements**:
 
 Then place it in a tier:
 
-- **Tier 1 — open-source app.** On top of the base requirements, review the
-  upstream source at the released tag for malicious behaviour (exfiltration,
-  persistence, miners, download-and-run of unpinned code). Where the release
-  ships interpreted code (an Electron `app.asar`, Python), spot-check that it
-  matches the public source.
+- **Tier 1 — open-source app.** The base requirements, plus: nothing injected
+  and no file changed (the fix belongs upstream), and the IOC scan of Phase 5
+  over what is shipped. Glance at the source for obvious red flags when
+  something in the artifact looks wrong; it is not audited.
 - **Tier 2 — closed-source app.** The base requirements only: provenance is
   the whole check, since the code can't be read.
 - **Tier 3 — opaque third-party / submitter-built binary.** Not an official
@@ -78,7 +84,7 @@ needed to decide → escalate to a human.
 
 ### Phase 1 — Scope & classification
 Classify: new app (`registry/<id>/`) / existing-app change / infrastructure.
-**High-scrutiny surface (STOP if a non-owner touches it):** `.github/`,
+**High-scrutiny surface (STOP if anyone but a maintainer touches it):** `.github/`,
 `scripts/`, `config/`, signing config, and — for an app that **already exists on
 the base commit** — its `resolve-update.sh` or `update.command`. These are
 CI-executed on a repo-write token (`update-check.yml` runs `contents: write` +
@@ -99,32 +105,36 @@ tier: established / unknown-but-plausible / throwaway-suspicious. Assign the
 artifact provenance tier (1/2/3).
 
 ### Phase 3 — Descriptor & manifest static review
-- **Source pinning, per type:** `git` → immutable `commit` (reject branch/tag
-  only); `archive` → `sha256` + genuine-upstream URL; `extra-data` → `sha256` +
-  non-zero `size`; `file` → local, reviewed as part of the PR; other → NEEDS-HUMAN.
+- **Source types:** `extra-data` → `sha256` + non-zero `size`; `archive` →
+  only a `flatpark/prebuilt` stack the catalog already consumes as an archive,
+  with `sha256`; `file` → local, reviewed as part of the PR; `git` or anything
+  else → reject.
 - **What may land bytes in `/app` (→ R2):** only a shared support stack released from
-  [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) (Ayatana tray,
-  `appimage-tools`, mpv/sql/opencv stacks, …), consumed as a pinned `type: archive`
-  module. The app payload and any single-app dependency must be `extra-data` (fetched at
-  install, never baked into the ref). A per-app `git`/`archive`/remote source built into
-  `/app` is an auto-reject; a `buildsystem: simple` module that only `cp`s in-repo
+  [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt) that the catalog
+  already consumes as a pinned `type: archive` module (`ayatana-stack`,
+  `mpv-stack`, `libxdo`, `wemeet-screenshare-hook`). Other stacks,
+  `appimage-tools` included, are extra-data. The app payload and any single-app
+  dependency must be `extra-data` (fetched at install, never baked into the
+  ref). A per-app `git`/`archive`/remote source built into `/app` is an
+  auto-reject; a `buildsystem: simple` module that only `cp`s in-repo
   wrapper/desktop/metainfo files is fine (no remote bytes).
-- **finish-args risk scan:** near-auto-reject on escape perms
+- **finish-args risk scan:** escape perms
   (`--talk-name=org.freedesktop.Flatpak`, `--filesystem=host`, `--filesystem=/`)
-  unless declared in `policy.dangerous_permissions` **with a justification** (then
-  it is not an auto-reject but a reviewed exemption → NEEDS-HUMAN, never a silent
-  pass); warn on `--device=all`, `--filesystem=home`, needless `--share=network`.
+  are rejected unless declared in `policy.dangerous_permissions` **with a
+  justification**; declared ones go to a maintainer (NEEDS-HUMAN), who grants
+  them when the app's feature needs them. Warn on `--device=all`,
+  `--filesystem=home`, needless `--share=network`.
 - **Optional capabilities are opt-in, not pre-granted:** a broad permission that
   the app's *core* feature doesn't need must be absent from `finish-args` and
   instead documented as a `flatpak override` command in the metainfo description
   (see `org.electerm.Electerm`). A broad grant kept in `finish-args` needs a
   written justification in the PR body → warn if missing.
-- **Local-test attestation:** the PR body states the submitter built, `flatpak
-  install`ed, and launched the app, with the core feature exercised and the gaps
-  named. Missing → warn (the reviewer never runs it; see Phase 0).
+- **What was tested:** the PR body says honestly what the submitter built,
+  installed, launched and used, and what they couldn't test
+  ([testing playbook](testing-playbook.md)). Missing → warn (the reviewer never
+  runs it; see Phase 0).
 - **`policy:` block vs reality:** `proprietary` accurate; `dangerous_permissions`
-  covers the high-risk finish-args actually used (hard enforcement deferred — see
-  guardrail G2(b)).
+  covers the high-risk finish-args actually used.
 - **build-commands:** read every line; flag network fetch, `curl|bash`, writes
   outside the build dir, and **any modification of the vendor payload/behavior**.
 - **source URLs** resolve to genuine upstream (no lookalike / fork).
@@ -157,8 +167,7 @@ code. Note network endpoints and broad filesystem×network combos.
   (`appimage-offset` + `unsquashfs -o <offset>`) against the appended SquashFS, with
   **no libfuse and no `./*.AppImage` invocation**. Reject an AppImage recipe that
   runs the stub, wants FUSE, or `--extract`s by executing it.
-- **[Tier 1]** upstream source at the released tag reviewed for malicious
-  behaviour; shipped interpreted code spot-checked against it.
+- **[Tier 1]** nothing injected, no vendor file changed.
 - shipped artifact == official download (re-fetch + hash-compare);
   build did not alter the payload.
 - Any bundled third-party runtime (node, electron, a JRE, …) hash-verified
@@ -184,11 +193,10 @@ Reviewer recommends only — a human merges.
 - Compliance / legality violation (piracy, malware, trademark, illegal-to-distribute).
 - Sandbox-escape permission (`--talk-name=org.freedesktop.Flatpak`, `--filesystem=host`/`/`)
   **not** declared in `policy.dangerous_permissions` with a justification (declared → NEEDS-HUMAN).
-- Unpinned / mutable source for its type (git without commit; archive/extra-data
-  without sha256; extra-data `size: 0`).
+- A `git` source; an unpinned source (archive/extra-data without sha256;
+  extra-data `size: 0`).
 - Tier 3 provenance (opaque third-party / submitter-built binary).
-- [Tier 1] malicious code in the upstream source, or shipped code that
-  doesn't match it.
+- [Tier 1] code injected or a vendor file changed in an open-source app.
 - Download source not official, OR packaging patches/recompiles the
   payload, OR shipped artifact ≠ official download. (External adaptation —
   wrapper env, extra library modules, `PATH` scripts — is not a modification;
@@ -227,31 +235,31 @@ open source · 2 = closed source · ★ = all.
 |---|---|---|---|---|---|
 | 0 | Safety | Static-only; nothing executed; artifacts handled in an isolated dir | ★ | | |
 | 1.1 | Scope | Classified: new app / app change / infra | ★ | | |
-| 1.2 | Scope | Touches high-scrutiny surface (`.github/`·`scripts/`·`config/`·signing, or an **existing** app's `resolve-update.sh`/`update.command`)? non-owner → STOP. A resolver in a brand-new app dir is routine | ★ | | |
+| 1.2 | Scope | Touches high-scrutiny surface (`.github/`·`scripts/`·`config/`·signing, or an **existing** app's `resolve-update.sh`/`update.command`)? not a maintainer → STOP. A resolver in a brand-new app dir is routine | ★ | | |
 | 2.1 | Provenance | Submitter account age / history / graph / other repos | ★ | | |
 | 2.2 | Provenance | Source repo age, corroboration | ★ | | |
 | 2.3 | Provenance | Commit identity sane (no malformed email) | ★ | | |
 | 2.4 | Provenance | Timeline plausible (not account→repo→release within hours) | ★ | | |
 | 2.5 | Provenance | Trust tier: established / unknown-plausible / throwaway-suspicious | ★ | | |
 | 2.6 | Provenance | Tier: 1 open source / 2 closed source / 3 opaque (→reject) | ★ | | |
-| 3.1 | Manifest | Sources pinned per type (git→commit; archive/extra-data→sha256; extra-data size≠0; file→local) | ★ | | |
+| 3.1 | Manifest | Source types: extra-data with sha256 + size≠0; archive only for an existing archive-consumed prebuilt stack; file→local; no git | ★ | | |
 | 3.1b | Manifest | Only a shared `flatpark/prebuilt` stack lands remote bytes in `/app`; app payload + single-app deps are `extra-data`, not built into the ref | ★ | | |
 | 3.2 | Manifest | finish-args has no escape perms (or: declared in `dangerous_permissions` + justified → needs-human); broad perms justified | ★ | | |
-| 3.3 | Manifest | `policy:` block honest: `proprietary` accurate, `dangerous_permissions` vs actual (warn until schema) | ★ | | |
+| 3.3 | Manifest | `policy:` block honest: `proprietary` accurate, `dangerous_permissions` vs actual | ★ | | |
 | 3.4 | Manifest | build-commands install-only; no patch/recompile of vendor payload (external wrapper/module/`PATH`-script adaptation OK, reviewed as code); injected code (`LD_PRELOAD` shim etc.) → reject if open-source, metainfo disclosure required if proprietary | ★ | | |
-| 3.4b | Manifest | `packaging:` declares what the scripts do (audit G6 enforces injected-code / host-command / sandbox-off); detail text is plain and accurate in en + zh-Hans | ★ | | |
+| 3.4b | Manifest | `packaging:` declares what the scripts do (`audit-descriptor.mjs` enforces injected-code / host-command / sandbox-off); detail text is plain and accurate in en + zh-Hans | ★ | | |
 | 3.5 | Manifest | source URLs = genuine upstream (no lookalike / fork) | ★ | | |
 | 3.6 | Manifest | `app-id` reverse-DNS matches real vendor (no impersonation) | ★ | | |
 | 3.7 | Manifest | `update.command` is a simple relative script path | ★ | | |
 | 3.8 | Manifest | download host = official vendor domain / upstream, not submitter account | ★ | | |
 | 3.9 | Manifest | Optional caps not pre-granted: documented as `flatpak override` in metainfo; any broad grant kept in `finish-args` justified in the PR | ★ | | |
-| 3.10 | Manifest | PR body attests to a local build + `flatpak install` + launch smoke-test, with gaps named | ★ | | |
+| 3.10 | Manifest | PR body says honestly what was built, installed, launched and used, and what wasn't tested | ★ | | |
 | 4.1 | Runtime | No runtime fetch-and-exec of arbitrary/unpinned code (vendor self-updater to data dir, behavior unpatched = OK) | ★ | | |
 | 4.2 | Runtime | `update.command` / resolve script reviewed as code (runs on CI, repo-write) | ★ | | |
 | 4.3 | Runtime | Network endpoints noted; no broad filesystem×network combo | ★ | | |
 | 5.1 | Artifact | extra-data sha256 == manifest pin | ★ | | |
 | 5.2 | Artifact | Inspected per type (tar/zip/tgz/deb/rpm listed clean; AppImage cracked offline via `appimage-tools` `unsquashfs`, stub never run; .sh static-or-opaque); no traversal/symlink/setuid | ★ | | |
-| 5.3 | Artifact | upstream source at the released tag reviewed for malicious behaviour; shipped interpreted code spot-checked against it | 1 | | |
+| 5.3 | Artifact | open-source app: nothing injected, no vendor file changed | 1 | | |
 | 5.4 | Artifact | shipped artifact == official download (re-fetch & hash); build did not alter payload | ★ | | |
 | 5.5 | Artifact | bundled third-party runtimes hash-verified vs upstream where possible (unmatched → NEEDS-HUMAN) | ★ | | |
 | 5.6 | Artifact | IOC scan clean (persistence/miner/reverse-shell/hardcoded-IP/embedded-ELF/RPATH) | ★ | | |

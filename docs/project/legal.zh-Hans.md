@@ -11,7 +11,12 @@ order: 9
 
 FlatPark 网站是静态站点。它**不设置 cookie**、**不运行分析工具**，也**不设账户**——无需登录，我们也不会跟踪你的任何信息。
 
-应用下载由内容分发网络（Cloudflare Pages / R2）提供。与任何 Web 服务器一样，CDN 可能会为防止滥用而保留标准的短期访问日志（IP 地址、时间戳、请求的文件）；FlatPark 不会使用这些日志来分析用户特征。
+安装或更新应用时，会涉及两处服务器：
+
+- **FlatPark 的软件仓库**由 Cloudflare（Pages 和 R2）提供，里面是很小的 Flatpak 软件包：签名的元数据和包在应用外面的文件。和任何 Web 服务器一样，Cloudflare 能看到你的 IP 地址，并可能为防止滥用而保留标准的短期访问日志。
+- **应用本身**直接从开发者自己的服务器下载，不经过 FlatPark。开发者那边同样能看到你的 IP 地址，适用他们的隐私政策。
+
+FlatPark 自己不收集 IP 地址或其他个人信息，也不出售任何信息。
 
 为了展示每个应用的安装量，FlatPark 会在安装和更新发生时计数。Flatpak 本身会告诉服务器它正在获取哪个应用（`Flatpak-Ref` 请求头）、哪个版本，以及这是否是一次更新；FlatPark 只记录这些信息，外加 Cloudflare 边缘节点报告的国家/地区，作为匿名计数。不会保存 IP 地址、User-Agent 或任何其他可识别你或你的设备的信息。每日汇总公开在 [dl.flatpark.org/stats/](https://dl.flatpark.org/stats/totals.json)。
 

@@ -17,8 +17,10 @@ description, so each user decides. Permissions show on every app's page.
   An app that writes a dotdir in your home loses it on every restart unless the
   package grants it.
 - **High-risk permissions** (running commands outside the sandbox, devices,
-  the whole home directory) are declared in `flatpark.yml` and argued for in the
-  PR.
+  the whole home directory) are declared in `flatpark.yml`, argued for in the
+  PR and reviewed by a maintainer. They are granted when the app's main feature
+  needs them, or when leaving them out would take more overrides than a user
+  can be expected to manage. The app page marks them with a warning.
 - **The developer decides for their own app.** When upstream says how they want
   the package to behave, we follow it, and declare what it needs.
 
@@ -77,9 +79,9 @@ instead.
 ### Declaring high-risk permissions
 
 List them under `policy.dangerous_permissions` in `flatpark.yml` and explain each
-in the PR. Escaping the sandbox (`--filesystem=host`, `--filesystem=/`,
-`--talk-name=org.freedesktop.Flatpak`) is rejected unless declared and argued,
-and gets a human review.
+in the PR. Reaching outside the sandbox (`--filesystem=host`, `--filesystem=/`,
+`--talk-name=org.freedesktop.Flatpak`) is granted only when it is declared,
+argued in the PR, needed by the app's feature, and reviewed by a maintainer.
 
 [Enpass](../../registry/io.enpass.Enpass/io.enpass.Enpass.yml) is the example.
 It checks which browser is behind its extension's local connection by running
