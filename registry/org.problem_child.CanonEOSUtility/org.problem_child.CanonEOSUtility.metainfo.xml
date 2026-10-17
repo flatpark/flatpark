@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.problem_child.CanonEOSUtility</id>
+
+  <name>Canon EOS Utility</name>
+  <summary>Use your Canon EOS camera over WiFi from Linux</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <developer id="io.github.night199uk">
+    <name>Canon EOS Utility for Linux</name>
+  </developer>
+
+  <description>
+    <p>
+      Browse and download the photos and movies on your Canon EOS camera, watch a
+      live view of what the camera sees, and control it remotely — all over WiFi,
+      the same way Canon's own EOS Utility does.
+    </p>
+    <p>With Canon EOS Utility for Linux you can:</p>
+    <ul>
+      <li>See what's on the camera's memory card as a gallery of thumbnails</li>
+      <li>Download a selection, or everything at once, resuming if the connection drops</li>
+      <li>Watch Live View and click to focus (touch-to-focus)</li>
+      <li>Fire the shutter remotely and adjust ISO, shutter speed, aperture and white balance</li>
+      <li>Organise downloads with flexible file-naming templates</li>
+      <li>Connect automatically when the camera appears on the network</li>
+    </ul>
+    <p>
+      Works with any Canon EOS body that offers the "Remote control (EOS Utility)"
+      WiFi mode, including the EOS R series and older WiFi DSLRs.
+    </p>
+    <p>
+      This is a community package that repackages the official upstream build
+      unmodified. It is not affiliated with or endorsed by Canon.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">org.problem_child.CanonEOSUtility.desktop</launchable>
+
+  <url type="homepage">https://github.com/night199uk/canon-eos-utility-linux</url>
+  <url type="bugtracker">https://github.com/night199uk/canon-eos-utility-linux/issues</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/night199uk/canon-eos-utility-linux/main/packaging/screenshots/camera.png</image>
+      <caption>Connected to an EOS R5: gallery, Live View and camera controls</caption>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-10-14"/>
+  </releases>
+</component>

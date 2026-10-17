@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Canon EOS Utility
+GenericName=Camera Remote Control
+Comment=Control Canon EOS cameras and download photos over WiFi (PTP/IP)
+Exec=canon-eos-utility
+Icon=org.problem_child.CanonEOSUtility
+Terminal=false
+Categories=Graphics;Photography;Qt;
+Keywords=canon;eos;camera;ptp;wifi;remote;live view;
+StartupNotify=true

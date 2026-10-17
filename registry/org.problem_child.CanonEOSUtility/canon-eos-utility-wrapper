@@ -1,0 +1,3 @@
+#!/bin/sh
+# Launch the self-contained bundle unpacked into /app/extra by apply_extra.
+exec /app/extra/canon-eos-utility/canon-eos-utility "$@"

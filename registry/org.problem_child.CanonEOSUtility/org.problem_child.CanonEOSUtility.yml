@@ -1,0 +1,50 @@
+id: org.problem_child.CanonEOSUtility
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: canon-eos-utility
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # PTP/IP to the camera on the LAN (TCP 15740) plus mDNS discovery.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # Default download folder and the standard media locations users pick from.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-download
+  - --filesystem=xdg-videos
+  # Keep settings (config.toml, saved pairings) across restarts, inside the
+  # sandbox rather than the real home directory.
+  - --persist=.config/canon-eos-utility-linux
+modules:
+  - name: canon-eos-utility
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 canon-eos-utility-wrapper /app/bin/canon-eos-utility
+      - install -Dm644 org.problem_child.CanonEOSUtility.desktop /app/share/applications/org.problem_child.CanonEOSUtility.desktop
+      - install -Dm644 org.problem_child.CanonEOSUtility.metainfo.xml /app/share/metainfo/org.problem_child.CanonEOSUtility.metainfo.xml
+      - install -Dm644 org.problem_child.CanonEOSUtility.png /app/share/icons/hicolor/512x512/apps/org.problem_child.CanonEOSUtility.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: canon-eos-utility.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/night199uk/canon-eos-utility-linux/releases/download/v0.1.0/canon-eos-utility-0.1.0-x86_64.tar.xz
+        sha256: c00e8cb160c1681e6922652c8a2e0555036861d8eddff1c9ade74bc9e2263f1f
+        size: 59240152
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: canon-eos-utility-wrapper
+      - type: file
+        path: org.problem_child.CanonEOSUtility.desktop
+      - type: file
+        path: org.problem_child.CanonEOSUtility.metainfo.xml
+      - type: file
+        path: org.problem_child.CanonEOSUtility.png
