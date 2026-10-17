@@ -1,0 +1,13 @@
+#!/bin/sh
+# Runs the vendor's own Ghostty build from the tarball apply_extra unpacked,
+# on the runtime's Wayland, GTK 4 and libadwaita. Ghostty finds its
+# shell-integration and themes through GHOSTTY_RESOURCES_DIR, which the
+# vendor's Flatpak sets to /app/share/ghostty; here the same tree lives
+# under /app/extra/blueshell, so it is pointed there instead.
+export GHOSTTY_RESOURCES_DIR=/app/extra/blueshell/share/ghostty
+# The tarball carries libraries the runtime lacks (gtk4-layer-shell,
+# libghostty-vt) under its own lib/. The vendor links them by rpath against
+# /app/lib; here they live a level deeper, so they are put on the loader
+# path instead of relinking or copying the payload around.
+export LD_LIBRARY_PATH="/app/extra/blueshell/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/blueshell/bin/ghostty --gtk-single-instance=false "$@"
