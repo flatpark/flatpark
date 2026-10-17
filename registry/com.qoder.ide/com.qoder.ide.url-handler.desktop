@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Qoder - URL Handler
+GenericName=AI IDE
+Comment=Agentic Coding Platform for Real Software
+Exec=qoder-ide --open-url %U
+Icon=com.qoder.ide
+Terminal=false
+NoDisplay=true
+StartupNotify=true
+Categories=Development;IDE;TextEditor;AI;
+MimeType=x-scheme-handler/qoder-ide;x-scheme-handler/qoder;
+Keywords=qoder;

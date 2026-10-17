@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.qoder.ide</id>
+  <name>Qoder</name>
+  <summary>Agentic Coding Platform for Real Software</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://qoder.com</project_license>
+  <developer id="com.qoder">
+    <name>Alibaba Cloud</name>
+  </developer>
+  <url type="homepage">https://qoder.com</url>
+  <url type="download">https://qoder.com/download</url>
+  <url type="help">https://docs.qoder.com</url>
+  <description>
+    <p>This is a community package of Qoder, maintained independently and unaffiliated with Alibaba Cloud. It repackages the official upstream Linux Debian build unmodified.</p>
+    <p>Qoder is an agentic coding platform: it keeps the VS Code editor, extensions and keybindings you already know, and adds coding agents with deep codebase awareness. Delegate a multi-file task to the Quest window, code side by side with agentic chat, or keep precise inline completions, with RepoWiki summarising the repository for you.</p>
+    <ul>
+      <li>Delegate multi-file tasks to an agent and review what it changes.</li>
+      <li>Keep the VS Code extensions, themes and keybindings you already use.</li>
+      <li>Open a workspace straight from a <code>*.code-workspace</code> file or a <code>qoder-ide:</code> link.</li>
+    </ul>
+    <p>An Alibaba Cloud account is required for the AI features, and paid plans apply beyond the free tier; the editor itself is free to install.</p>
+    <p>Permissions: this package grants network, display, GPU, audio, notifications, keyring access and your home directory. An IDE is pointed at source trees wherever they already live, and Qoder keeps its settings, extensions and CLI state in <code>~/.qoder</code>, so the home grant is what makes the editor, the integrated terminal and the agent agree on what a path means. To narrow it to one tree instead:</p>
+    <ul>
+      <li><code>flatpak override --user --nofilesystem=home --filesystem=~/Projects com.qoder.ide</code></li>
+    </ul>
+    <p>Updates come through Flatpak: this package tracks upstream's own release feed, so a new upstream build arrives with <code>flatpak update</code>. Qoder's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>IDE</category>
+    <category>TextEditor</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>agent</keyword>
+    <keyword>coding</keyword>
+    <keyword>editor</keyword>
+    <keyword>ide</keyword>
+    <keyword>qoder</keyword>
+  </keywords>
+  <branding>
+    <color type="primary">#8B5CF6</color>
+  </branding>
+  <recommends>
+    <display_length compare="ge">1024</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>qoder-ide</binary>
+    <mediatype>x-scheme-handler/qoder-ide</mediatype>
+    <mediatype>x-scheme-handler/qoder</mediatype>
+    <mediatype>application/x-qoder-ide-workspace</mediatype>
+  </provides>
+  <launchable type="desktop-id">com.qoder.ide.desktop</launchable>
+  <releases>
+    <release version="1.34.0" date="2026-10-16">
+      <description></description>
+    </release>
+  </releases>
+</component>

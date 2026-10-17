@@ -1,0 +1,23 @@
+id: com.qoder.ide
+name: Qoder
+summary: Agentic Coding Platform for Real Software
+website: https://qoder.com
+source_url: https://qoder.com/download
+build:
+  manifest: com.qoder.ide.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AI
+  tags:
+    - Development
+    - AI
+    - IDE
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions:
+    - --filesystem=home

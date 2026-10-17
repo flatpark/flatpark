@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Application
+Name=Qoder
+GenericName=AI IDE
+Comment=Agentic Coding Platform for Real Software
+Exec=qoder-ide %F
+Icon=com.qoder.ide
+Terminal=false
+StartupNotify=true
+StartupWMClass=qoder-ide
+Categories=Development;IDE;TextEditor;AI;
+MimeType=application/x-qoder-ide-workspace;
+Keywords=qoder;ai;agent;editor;ide;code;
+Actions=new-empty-window;
+
+[Desktop Action new-empty-window]
+Name=New Empty Window
+Exec=qoder-ide --new-window %F
+Icon=com.qoder.ide
