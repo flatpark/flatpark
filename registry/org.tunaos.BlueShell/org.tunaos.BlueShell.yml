@@ -1,0 +1,75 @@
+id: org.tunaos.BlueShell
+# The vendor's prebuilt /app tree, as BlueShell's own Flatpak CI exports it:
+# Ghostty's rendering engine with the Ptyxis terminal interface, plus the
+# bundled ptyxis-agent the container picker talks to. No X11 path is needed
+# beyond fallback: Ghostty is Wayland-native.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: blueshell
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Wayland-native GTK 4 / libadwaita app. fallback-x11 (with ipc) only for
+  # X11 sessions.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # A terminal's job is running shells, and shells live on the host: every
+  # new window, tab and pane spawns the user's login shell, and the
+  # containers picker enters Toolbox, Distrobox and Podman containers.
+  # Flatpak cannot do either inside the sandbox, so BlueShell escapes
+  # through `flatpak-spawn --host`. This is the sandbox escape FlatPark
+  # rejects by default; it is declared under policy.dangerous_permissions
+  # in flatpark.yml.
+  - --talk-name=org.freedesktop.Flatpak
+  # Read the host's ~/.config/ghostty (config, themes) and any config-file
+  # includes in $HOME, the same file the user edits for any Ghostty. Written
+  # never: the sandbox-local config overrides it.
+  - --filesystem=home:ro
+  # The containers picker lists and enters Podman containers over the
+  # user's Podman socket.
+  - --filesystem=xdg-run/podman
+  # Ghostty registers its GTK application on the session bus under its
+  # upstream app-id. Without owning this name the single-instance guard
+  # fails and the app silently exits.
+  - --own-name=com.mitchellh.ghostty
+  - --talk-name=com.mitchellh.ghostty
+modules:
+  - name: blueshell
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 blueshell-wrapper /app/bin/blueshell
+      - install -Dm644 org.tunaos.BlueShell.desktop /app/share/applications/org.tunaos.BlueShell.desktop
+      - install -Dm644 org.tunaos.BlueShell.metainfo.xml /app/share/metainfo/org.tunaos.BlueShell.metainfo.xml
+      - install -Dm644 org.tunaos.BlueShell.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.BlueShell.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: blueshell.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tuna-os/blueshell/releases/download/v1.3.1/blueshell-x86_64.tar.gz
+        sha256: bc2ce22b53486a619a95e07546ff51e6d2e1f59de3c8a95be269ef067867120d
+        size: 20930820
+      - type: extra-data
+        filename: blueshell.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/tuna-os/blueshell/releases/download/v1.3.1/blueshell-aarch64.tar.gz
+        sha256: 08687513d29f820639ac279c8c21f7b354c060071236994d18c219dbd0debf78
+        size: 20525111
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: blueshell-wrapper
+      - type: file
+        path: org.tunaos.BlueShell.desktop
+      - type: file
+        path: org.tunaos.BlueShell.metainfo.xml
+      - type: file
+        path: org.tunaos.BlueShell.svg

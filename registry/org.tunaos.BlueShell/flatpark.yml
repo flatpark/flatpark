@@ -1,0 +1,36 @@
+id: org.tunaos.BlueShell
+name: BlueShell
+summary: Container-native terminal powered by Ghostty
+website: https://github.com/tuna-os/blueshell
+source_url: https://github.com/tuna-os/blueshell
+build:
+  manifest: org.tunaos.BlueShell.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: System
+  upstream_approved: true
+  tags:
+    - Terminal
+    - Ghostty
+    - Containers
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # BlueShell's whole job is running shells: new windows, tabs and panes
+    # spawn the user's login shell, and the containers picker enters
+    # Toolbox, Distrobox and Podman containers. A Flatpak cannot do either
+    # inside the sandbox, so it escapes through `flatpak-spawn --host`,
+    # the same mechanism every terminal and IDE on the remote uses.
+    # Without this the window opens and can run nothing.
+    - --talk-name=org.freedesktop.Flatpak
+# What the package does beyond copying the vendor's files, declared at the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "Shells, tabs, panes and container sessions run on the host through flatpak-spawn, with the same access as your login shell in any terminal."
+      zh-Hans: "Shell、标签页、窗格和容器会话通过 flatpak-spawn 在宿主系统上运行，权限与在任何终端中使用登录 shell 相同。"
