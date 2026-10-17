@@ -65,24 +65,29 @@ if [ "${PRUNE_SUMMARIES:-}" = 1 ] && [ -f "$repo/summary.idx" ] \
     rclone sync "$repo/summaries" "$dest/summaries" --checksum --header-upload "$MUTABLE" "${FLAGS[@]}"
 fi
 
+# The reclaim lists hold repo-relative paths (refs/..., objects/...), which is
+# what --files-from wants against the bucket root. One rclone process deleting
+# in parallel, not one process per key: 7515 sequential deletefile calls took
+# 96 minutes on 2026-10-17. --no-traverse stats each listed key instead of
+# listing the bucket, and a key that is already gone is skipped, not an error.
+# Plain --files-from (not -raw) skips blank lines; no ref or object name holds
+# whitespace or a leading #.
+DELETE_FLAGS=(--no-traverse --checkers=64 --stats=1m --stats-log-level=NOTICE)
+
 if [ -n "${RECLAIM_REFS:-}" ] && [ -s "$RECLAIM_REFS" ]; then
     n="$(wc -l < "$RECLAIM_REFS" | tr -d ' ')"
     log "reclaim: deleting $n stale ref file(s) from $dest"
     # Before the objects below: a ref file R2 still serves must never outlive
     # the commit it points at, or the next publish pulls a dangling ref back.
-    while IFS= read -r ref; do
-        [ -n "$ref" ] || continue
-        rclone deletefile "$dest/$ref" 2>/dev/null || warn "could not delete $ref (already gone?)"
-    done < "$RECLAIM_REFS"
+    rclone delete "$dest" --files-from "$RECLAIM_REFS" "${DELETE_FLAGS[@]}" \
+        || warn "some stale refs could not be deleted"
 fi
 
 if [ -n "${RECLAIM_LIST:-}" ] && [ -s "$RECLAIM_LIST" ]; then
-    n="$(wc -l < "$RECLAIM_LIST")"
+    n="$(wc -l < "$RECLAIM_LIST" | tr -d ' ')"
     log "reclaim: deleting $n orphaned object(s) from $dest"
-    while IFS= read -r obj; do
-        [ -n "$obj" ] || continue
-        rclone deletefile "$dest/$obj" 2>/dev/null || warn "could not delete $obj (already gone?)"
-    done < "$RECLAIM_LIST"
+    rclone delete "$dest" --files-from "$RECLAIM_LIST" "${DELETE_FLAGS[@]}" \
+        || warn "some orphaned objects could not be deleted"
 fi
 
 log "R2 sync complete -> $dest"
