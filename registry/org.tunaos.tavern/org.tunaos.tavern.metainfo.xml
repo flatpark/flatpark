@@ -49,6 +49,9 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="0.1.65" date="2026-10-17">
+      <description></description>
+    </release>
     <release version="0.1.64" date="2026-09-15">
       <description>
         <p>Improves Homebrew maintenance, diagnostics, cache freshness, and release automation.</p>

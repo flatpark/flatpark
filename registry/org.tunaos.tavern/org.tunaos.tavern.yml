@@ -63,9 +63,9 @@ modules:
         filename: tavern.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/tuna-os/Tavern/releases/download/v0.1.64/Tavern-Linux.AppImage
-        sha256: f9c5b5def4ba742d46e655fc4cd6baf965121317a5c2667251e085fad8b64dfb
-        size: 32999928
+        url: https://github.com/tuna-os/Tavern/releases/download/v0.1.65/Tavern-Linux.AppImage
+        sha256: 99441c915f758643c50870ddf4433728d898ffb64308f98ce211a63cab71799c
+        size: 33024504
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
