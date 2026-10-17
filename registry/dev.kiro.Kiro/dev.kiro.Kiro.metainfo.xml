@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.kiro.Kiro</id>
+  <name>Kiro</name>
+  <summary>The spec-driven agentic IDE</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://kiro.dev</project_license>
+  <developer id="dev.kiro">
+    <name>Amazon Web Services</name>
+  </developer>
+  <url type="homepage">https://kiro.dev</url>
+  <url type="download">https://kiro.dev/download</url>
+  <url type="help">https://kiro.dev/docs</url>
+  <description>
+    <p>This is a community package of Kiro, maintained independently and unaffiliated with Amazon Web Services. It repackages the official upstream Linux Debian build unmodified.</p>
+    <p>Kiro is an AI IDE that helps you do your best work by turning your ideas into production code with spec-driven development. It keeps the VS Code editor, extensions and keybindings you already know, and adds spec-driven agents that plan before they code, agent hooks that automate the repetitive parts of a workflow, and steering files that keep the whole team's conventions in context.</p>
+    <ul>
+      <li>Turn an idea into requirements, design and tasks before any code is written.</li>
+      <li>Hand multi-file work to an agent and review the edits it proposes.</li>
+      <li>Automate routine steps with agent hooks, from tests to docs to commits.</li>
+      <li>Import your VS Code extensions, themes and settings in one step.</li>
+    </ul>
+    <p>An AWS account is required for the AI features, and paid plans apply beyond the free tier; the editor itself is free to install.</p>
+    <p>Permissions: this package grants network, display, GPU, audio, notifications, keyring access and your home directory. An IDE is pointed at source trees wherever they already live, and Kiro keeps its extensions, CLI state and agent rules in <code>~/.kiro</code>, so the home grant is what makes the editor, the integrated terminal and the agent agree on what a path means. To narrow it to one tree instead:</p>
+    <ul>
+      <li><code>flatpak override --user --nofilesystem=home --filesystem=~/Projects dev.kiro.Kiro</code></li>
+    </ul>
+    <p>Updates come through Flatpak: this package tracks upstream's own download page, so a new upstream build arrives with <code>flatpak update</code>. Kiro's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>IDE</category>
+    <category>TextEditor</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>agent</keyword>
+    <keyword>coding</keyword>
+    <keyword>editor</keyword>
+    <keyword>ide</keyword>
+    <keyword>spec</keyword>
+    <keyword>kiro</keyword>
+  </keywords>
+  <branding>
+    <color type="primary">#7B3FE4</color>
+  </branding>
+  <recommends>
+    <display_length compare="ge">1024</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>kiro</binary>
+    <mediatype>x-scheme-handler/kiro</mediatype>
+    <mediatype>application/x-kiro-workspace</mediatype>
+  </provides>
+  <launchable type="desktop-id">dev.kiro.Kiro.desktop</launchable>
+  <releases>
+    <release version="1.3.11" date="2026-10-15">
+      <description></description>
+    </release>
+  </releases>
+</component>

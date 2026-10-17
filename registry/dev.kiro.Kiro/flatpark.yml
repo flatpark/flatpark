@@ -1,0 +1,23 @@
+id: dev.kiro.Kiro
+name: Kiro
+summary: The spec-driven agentic IDE
+website: https://kiro.dev
+source_url: https://kiro.dev/download
+build:
+  manifest: dev.kiro.Kiro.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AI
+  tags:
+    - Development
+    - AI
+    - IDE
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions:
+    - --filesystem=home
