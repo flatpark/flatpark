@@ -19,12 +19,12 @@
       <li>Keep the VS Code extensions, themes and keybindings you already use.</li>
       <li>Open a workspace straight from a <code>*.code-workspace</code> file or a <code>qoder-ide:</code> link.</li>
     </ul>
-    <p>An Alibaba Cloud account is required for the AI features, and paid plans apply beyond the free tier; the editor itself is free to install.</p>
+    <p>A Qoder account is required for the AI features, and paid plans apply beyond the free tier; the editor itself is free to install.</p>
     <p>Permissions: this package grants network, display, GPU, audio, notifications, keyring access and your home directory. An IDE is pointed at source trees wherever they already live, and Qoder keeps its settings, extensions and CLI state in <code>~/.qoder</code>, so the home grant is what makes the editor, the integrated terminal and the agent agree on what a path means. To narrow it to one tree instead:</p>
     <ul>
       <li><code>flatpak override --user --nofilesystem=home --filesystem=~/Projects com.qoder.ide</code></li>
     </ul>
-    <p>Updates come through Flatpak: this package tracks upstream's own release feed, so a new upstream build arrives with <code>flatpak update</code>. Qoder's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+    <p>Updates come through Flatpak: this package tracks upstream's own release feed, so a new upstream build arrives with <code>flatpak update</code>. Qoder's built-in updater stays switched off here.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>

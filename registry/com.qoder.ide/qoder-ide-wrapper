@@ -4,7 +4,9 @@ set -eu
 # Qoder is an Electron app staged by apply_extra to /app/extra/qoder-ide. Run it
 # through zypak-wrapper from org.electronjs.Electron2.BaseApp so Chromium keeps
 # its internal sandbox inside Flatpak. --ozone-platform-hint=auto lets Chromium
-# use Wayland when available and fall back to X11.
+# use Wayland when available and fall back to X11. --disable-updates switches
+# off the built-in update check (upstream ships an updateUrl; the sandbox cannot
+# install updates anyway, they arrive through flatpak update instead).
 
 unset ELECTRON_RUN_AS_NODE
 
@@ -18,4 +20,4 @@ fi
 
 # Launch by absolute path and leave the working directory alone: it is
 # inherited by the processes the editor spawns.
-exec zypak-wrapper "$extra_root/qoder-ide/$launcher" --ozone-platform-hint=auto "$@"
+exec zypak-wrapper "$extra_root/qoder-ide/$launcher" --ozone-platform-hint=auto --disable-updates "$@"
