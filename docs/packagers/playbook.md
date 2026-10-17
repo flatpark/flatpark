@@ -1,6 +1,6 @@
 ---
 description: The full process an agent follows on every packaging run, from candidate to listed app.
-order: 8
+order: 9
 ---
 
 # Packaging playbook
@@ -66,8 +66,9 @@ PR and any upstream message use it.
 
 Write the files in [what a package is](basics.md) for the download chosen in
 [choosing a format](formats/README.md); libraries the runtime lacks come from
-[prebuilt](prebuilt.md); grants follow [permissions](permissions.md). What has
-no page of its own yet:
+[prebuilt](prebuilt.md); grants follow [permissions](permissions.md); known
+problems are in [common problems](solutions/README.md). What has no page of its
+own yet:
 
 - **Pick the runtime.** `org.freedesktop.Platform//26.08` by default; `org.gnome.Platform//51`
   for GTK / WebKitGTK / Tauri. **Always the major the rest of the catalog is on** — match what
@@ -105,36 +106,8 @@ no page of its own yet:
     in each consumer. Cut them in dependency order — a stack that builds against another
     (`ffmpeg-full` on x264/x265/lame/rubberband/libass, `tesseract` on `leptonica`) needs its
     dependency's new release pinned first.
-- **Tech recipes.**
-  - **Electron** → `base: org.electronjs.Electron2.BaseApp//<ver>`, run via `zypak-wrapper`
-    so Chromium keeps its **internal sandbox through Zypak's default entrypoint** (do **not**
-    reach for `--no-sandbox`), plus `--unset-env=ELECTRON_RUN_AS_NODE`. Template:
-    [`registry/is.folo.Folo`](../../registry/is.folo.Folo),
-    [`registry/org.electerm.Electerm`](../../registry/org.electerm.Electerm).
-  - **Tauri / WebKitGTK** → `WEBKIT_DISABLE_DMABUF_RENDERER=1` in the wrapper (else blank
-    window). **Check the app's `tauri.conf.json` for `transparent: true` first, because then
-    that rule inverts.** On `org.gnome.Platform//51` a transparent, undecorated window whose
-    web view runs unaccelerated never paints its background: the window is see-through onto
-    the desktop and content only flashes while scrolling or zooming. It is not a driver
-    problem and forcing XWayland does not help; the same payload renders on `//50` either
-    way. Such an app needs the accelerated path left **on** —
-    `WEBKIT_DISABLE_DMABUF_RENDERER=0` and `WEBKIT_DISABLE_COMPOSITING_MODE=0`, written as
-    `${VAR:-0}` so a `flatpak override --env=` can still take it back. Worked example:
-    [`registry/dev.aninsomniacy.rayburst`](../../registry/dev.aninsomniacy.rayburst). Opaque
-    Tauri windows are unaffected, which is why most of the catalog's Tauri apps moved to 51
-    without noticing. If the app has a **tray icon**, Tauri's `tray-icon` `dlopen`s
-    libayatana-appindicator and *panics* when it's absent — the GNOME runtime doesn't ship
-    it. **Do not duplicate the five-module Ayatana source build in each app.** Consume the
-    pinned `ayatana-stack` archive from [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt)
-    as a normal module before the app module; copy the current URL and SHA-256 from
-    [`registry/com.aeroftp.AeroFTP`](../../registry/com.aeroftp.AeroFTP). The archive is built
-    against a specific GNOME SDK major, so migrate it explicitly when the catalog runtime
-    major changes. Add `--filesystem=xdg-run/tray-icon:create` only when the app actually
-    exposes a tray icon. If another missing open-source support stack is shared by multiple
-    apps, prefer one reproducible release in `flatpark/prebuilt` over per-app copies.
-  - **Bundled JRE** (Java desktop apps) → [`registry/com.interactivebrokers.ibkrdesktop`](../../registry/com.interactivebrokers.ibkrdesktop),
-    which fetches a Zulu JRE tarball as a second extra-data source and stages it at
-    `/app/extra/jre` for the wrapper to exec.
+- **Stack recipes and known problems** → [common problems](solutions/README.md),
+  and the checklist for the app's stack in [by stack](solutions/by-stack.md).
 - **metainfo:** mark it a **community package** ("repackages the official upstream build
   unmodified"; a proprietary package that injects code says what it injects instead of
   "unmodified"), honest `project_license`, screenshot `<image>` URLs pointing **at upstream**

@@ -1,6 +1,6 @@
 ---
 description: Build the package, test it locally, and open the pull request.
-order: 6
+order: 7
 ---
 
 # Submitting an app

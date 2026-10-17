@@ -1,6 +1,6 @@
 ---
 description: Removing everything a packaging, review or test run left on the machine, and nothing else.
-order: 7
+order: 8
 ---
 
 # Cleaning up after a run

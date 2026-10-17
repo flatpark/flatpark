@@ -197,7 +197,7 @@ assert_contains "$docs/project/legal/index.html" "without warranty"
 assert_contains "$index" "/docs/project/legal/"
 # Relative .md links become site URLs; links out of docs/ go to GitHub.
 assert_contains "$docs/packagers/playbook/index.html" 'href="/docs/packagers/submitting/"'
-assert_contains "$docs/packagers/playbook/index.html" "github.com/flatpark/flatpark/tree/main/registry/"
+assert_contains "$docs/packagers/solutions/by-stack/index.html" "github.com/flatpark/flatpark/blob/main/registry/"
 # A section index lists its pages; internal/ and specs/ are never published.
 assert_contains "$docs/packagers/index.html" "docs-cards"
 for d in internal specs; do [ ! -e "$docs/$d" ] || { echo "FAIL: docs/$d was published"; exit 1; }; done
