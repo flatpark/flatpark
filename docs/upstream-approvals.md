@@ -75,3 +75,4 @@ that PR link in the table — the PR itself is the evidence.
 | Sele | `com.chipichapa.sele` | Approved by construction — submitted and maintained by its own developer ([flatpark#659](https://github.com/flatpark/flatpark/pull/659)) | 2026-10-14 |
 | Compass | `org.tunaos.compass` | Approved by construction — submitted and maintained by its own developer ([flatpark#678](https://github.com/flatpark/flatpark/pull/678)) | 2026-10-16 |
 | Tavern | `org.tunaos.tavern` | Approved by construction — submitted and maintained by its own developer ([flatpark#677](https://github.com/flatpark/flatpark/pull/677)) | 2026-10-16 |
+| Canon EOS Utility | `org.problem_child.CanonEOSUtility` | Approved by construction — submitted and maintained by its own developer ([flatpark#689](https://github.com/flatpark/flatpark/pull/689)) | 2026-10-17 |
