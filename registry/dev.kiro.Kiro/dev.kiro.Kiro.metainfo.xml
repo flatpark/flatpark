@@ -25,7 +25,7 @@
     <ul>
       <li><code>flatpak override --user --nofilesystem=home --filesystem=~/Projects dev.kiro.Kiro</code></li>
     </ul>
-    <p>Updates come through Flatpak: this package tracks upstream's own download page, so a new upstream build arrives with <code>flatpak update</code>. Kiro's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+    <p>Updates come through Flatpak: this package tracks upstream's own download page, so a new upstream build arrives with <code>flatpak update</code>. Kiro's built-in updater stays switched off here.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>
