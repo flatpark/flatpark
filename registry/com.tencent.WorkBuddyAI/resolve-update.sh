@@ -39,6 +39,9 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 BUCKET=https://codebuddy-1328495429.cos.accelerate.myqcloud.com/workbuddy/saas
+# The feed names the same objects through this CDN host (same ETag and COS
+# version id); the pin always goes to the bucket itself.
+CDN=https://download.codebuddy.ai/workbuddy/saas
 FEED=https://www.workbuddy.ai/v2/update
 
 # Content-Length of a bucket object, or nothing when it does not exist.
@@ -58,7 +61,7 @@ candidate() {
   feed_url="$(jq -r '.url // empty' <<<"$json")"
   [ -n "$feed_url" ] || { echo "$platform feed did not return a url" >&2; return 1; }
   case "$feed_url" in
-    "$BUCKET/$dir"/*) ;;
+    "$BUCKET/$dir"/* | "$CDN/$dir"/*) ;;
     *) echo "refusing a download URL outside WorkBuddy's bucket: $feed_url" >&2; return 1 ;;
   esac
   # WorkBuddy-<dir>-5.7.6.40488862-3e43260f.<ext> -> 5.7.6.40488862-3e43260f

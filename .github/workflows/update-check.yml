@@ -279,6 +279,8 @@ jobs:
           stale=""
           for key in $(./scripts/ci-alert.sh list "update-check/"); do
             id="${key#update-check/}"
+            # The batch resolver alert is not an app; it is synced above.
+            [ "$id" = resolvers ] && continue
             case " ${held:-} " in *" $id "*) continue ;; esac
             stale="$stale $id"
           done
