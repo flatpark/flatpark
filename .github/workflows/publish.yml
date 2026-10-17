@@ -277,6 +277,8 @@ jobs:
       # most recent previous publish. A metadata-only pull (just refs +
       # *.commit) is NOT an alternative: build-update-repo regenerates the
       # merged appstream branch and hard-fails without the full object store.
+      # delist-prune restores this same cache (restore-only): keep `path` and
+      # the key prefix in step with it.
       - name: Restore repo cache
         if: needs.plan.outputs.scope != 'site'
         uses: actions/cache@v6
@@ -288,17 +290,7 @@ jobs:
 
       - name: Reconcile repo with R2 (authoritative base)
         if: needs.plan.outputs.scope != 'site'
-        run: |
-          mkdir -p "$REPO_DIR"
-          # sync (not copy), so objects pruned from R2 by delist-prune are also
-          # dropped from the cached copy instead of being re-uploaded later.
-          # objects/ are content-addressed: same name => same bytes, size
-          # compare is enough. Everything else (refs, summary, config) is
-          # mutable and often same-size, so compare by checksum. No `|| true`:
-          # with a cache-restored base, a half-failed pull would mean building
-          # on a stale repo — better to fail the run and retry.
-          rclone sync "r2:$R2_BUCKET/objects" "$REPO_DIR/objects" --size-only --fast-list
-          rclone sync "r2:$R2_BUCKET" "$REPO_DIR" --exclude "objects/**" --checksum --fast-list
+        run: ./scripts/pull-r2.sh
 
       # The refs upload is additive (rclone copy), so a ref delist-prune removed
       # only locally survives in R2 and the sync above pulls it back — dangling,

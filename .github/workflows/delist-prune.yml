@@ -61,10 +61,22 @@ jobs:
           mkdir -p "$GNUPGHOME_DIR"; chmod 700 "$GNUPGHOME_DIR"
           printf '%s\n' "$FLATPAK_GPG_PRIVATE_KEY" \
             | GNUPGHOME="$GNUPGHOME_DIR" gpg --batch --import
+      # Start from publish's repo cache so the pull only reconciles a week of
+      # changes instead of re-downloading every object (a cold pull took 39
+      # minutes on 2026-10-17). Restore-only: publish saves the next one, and a
+      # second multi-GB copy per week would just crowd its cache out. `path`
+      # and the key prefix must match publish.yml's "Restore repo cache" step
+      # exactly — the path string is part of the cache version, so
+      # $REPO_DIR's absolute spelling would never hit.
+      - name: Restore repo cache
+        uses: actions/cache/restore@v6
+        with:
+          path: out/repo
+          key: flatpak-repo-${{ github.sha }}
+          restore-keys: |
+            flatpak-repo-
       - name: Pull current repo from R2
-        run: |
-          mkdir -p "$REPO_DIR"
-          rclone copy "r2:$R2_BUCKET" "$REPO_DIR" --fast-list
+        run: ./scripts/pull-r2.sh
       # First: refs whose commit is already gone (a de-list from an earlier run
       # whose ref file lingered in R2). They would break the prune below, and
       # the sweep truncates the reclaim-refs list the prune then appends to.
