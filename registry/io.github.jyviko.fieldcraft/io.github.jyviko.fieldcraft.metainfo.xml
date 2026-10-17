@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.jyviko.fieldcraft</id>
+  <name>FieldCraft</name>
+  <summary>Finite element modeler for structures, heat and fluids</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="io.github.tangency_labs">
+    <name>Tangency Labs</name>
+  </developer>
+  <url type="homepage">https://tangency-labs.github.io/fieldcraft/</url>
+  <url type="bugtracker">https://github.com/tangency-labs/fieldcraft/issues</url>
+  <url type="vcs-browser">https://github.com/tangency-labs/fieldcraft</url>
+  <description>
+    <p>This is a community package of FieldCraft, maintained independently and unaffiliated with the FieldCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>FieldCraft is an open-source CAE application written in Rust. Open a parametric SolidCraft part, mesh it, define the analysis, solve it and look at the results, with every capability checked against closed forms and published benchmarks.</p>
+    <ul>
+      <li>Tetrahedral meshing, and structured, multi-block and octree all-hex meshing</li>
+      <li>Linear and nonlinear static, frequency, heat transfer, thermal stress and explicit dynamics</li>
+      <li>Lattice Boltzmann flow with forces on the part's faces</li>
+      <li>Abaqus, Nastran and LS-DYNA deck writers</li>
+      <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=fieldcraft-cli io.github.jyviko.fieldcraft --help</code></p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, and the Documents folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted, so the in-app update check, the optional anonymous usage sharing and bug reports do not reach the network; updates arrive through Flatpak.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Allow network access (in-app update check, usage sharing if you turned it on, bug reports): <code>flatpak override --user --share=network io.github.jyviko.fieldcraft</code></li>
+      <li>Open files by path anywhere in your home folder: <code>flatpak override --user --filesystem=home io.github.jyviko.fieldcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A clamped cantilever with its supports, loads and a coupled reference point</caption>
+      <image>https://raw.githubusercontent.com/tangency-labs/fieldcraft/main/docs/media/setup-symbols.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Von Mises stress on an all-hex meshed bracket</caption>
+      <image>https://raw.githubusercontent.com/tangency-labs/fieldcraft/main/docs/media/bracket-stress.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.jyviko.fieldcraft.desktop</launchable>
+  <categories>
+    <category>Science</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>CAE</keyword>
+    <keyword>FEA</keyword>
+    <keyword>finite element</keyword>
+    <keyword>mesh</keyword>
+    <keyword>simulation</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>fieldcraft</binary>
+    <binary>fieldcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.6.0" date="2026-10-15"/>
+  </releases>
+</component>

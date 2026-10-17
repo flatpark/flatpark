@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=FieldCraft
+GenericName=Finite Element Modeler
+Comment=Turn geometry into finite element models: mesh, set up, solve and export decks
+Exec=fieldcraft %F
+TryExec=fieldcraft
+Icon=io.github.jyviko.fieldcraft
+Terminal=false
+StartupNotify=true
+StartupWMClass=io.github.jyviko.fieldcraft
+Categories=Science;Engineering;
+Keywords=cae;fea;fem;finite element;mesh;hex;tet;solver;abaqus;nastran;ls-dyna;

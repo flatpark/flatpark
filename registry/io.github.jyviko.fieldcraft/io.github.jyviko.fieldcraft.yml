@@ -1,0 +1,62 @@
+id: io.github.jyviko.fieldcraft
+# App id is upstream's own: the reverse-DNS id the binary uses as its Wayland
+# app id, desktop entry and icon name (packaging/env.sh). Finish-args match our
+# SolidCraft package, whose upstream packaging FieldCraft's is adapted from.
+# The binaries need glibc and dlopen libwayland, libX11, xkbcommon, libdbus and
+# Vulkan from the runtime.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: fieldcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native Rust/egui app on winit. Wayland first; X11 only when no compositor
+  # is running.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu viewport (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Documents is granted so a
+  # model passed by path keeps working.
+  - --filesystem=xdg-documents
+  # Deliberately not granted:
+  #   --share=network          -> only the update check, opt-in usage sharing
+  #                               and bug reports use it; the metainfo
+  #                               documents the override
+  #   --filesystem=home / host -> everything else goes through the portal
+modules:
+  - name: fieldcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fieldcraft-wrapper /app/bin/fieldcraft
+      - install -Dm755 fieldcraft-cli-wrapper /app/bin/fieldcraft-cli
+      - install -Dm644 io.github.jyviko.fieldcraft.desktop /app/share/applications/io.github.jyviko.fieldcraft.desktop
+      - install -Dm644 io.github.jyviko.fieldcraft.metainfo.xml /app/share/metainfo/io.github.jyviko.fieldcraft.metainfo.xml
+      - install -Dm644 io.github.jyviko.fieldcraft.png /app/share/icons/hicolor/512x512/apps/io.github.jyviko.fieldcraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fieldcraft.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tangency-labs/fieldcraft/releases/download/v0.6.0/fieldcraft-0.6.0-linux-x86_64.tar.gz
+        sha256: f63f6bbc07cb963a665505dfbca1b4b4a6fe9aceaa02ad34d6aad29c9c95f9ad
+        size: 46040752
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fieldcraft-wrapper
+      - type: file
+        path: fieldcraft-cli-wrapper
+      - type: file
+        path: io.github.jyviko.fieldcraft.desktop
+      - type: file
+        path: io.github.jyviko.fieldcraft.metainfo.xml
+      - type: file
+        path: io.github.jyviko.fieldcraft.png

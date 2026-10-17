@@ -1,0 +1,22 @@
+id: io.github.jyviko.fieldcraft
+name: FieldCraft
+summary: Finite element modeler for structures, heat and fluids
+website: https://tangency-labs.github.io/fieldcraft/
+source_url: https://github.com/tangency-labs/fieldcraft
+build:
+  manifest: io.github.jyviko.fieldcraft.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Science
+  tags:
+    - CAE
+    - FEA
+    - Meshing
+    - Simulation
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

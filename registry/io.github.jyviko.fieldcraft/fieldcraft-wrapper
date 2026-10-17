@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# FieldCraft is staged by apply_extra at /app/extra/fieldcraft.
+exec /app/extra/fieldcraft/bin/fieldcraft "$@"
