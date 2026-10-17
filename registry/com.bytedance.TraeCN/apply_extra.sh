@@ -2,7 +2,7 @@
 set -eu
 
 # The unpack below is a pipeline, and a plain `set -e` only sees the exit status
-# of its LAST command — a first-stage failure part-way through would hand the
+# of its LAST command; a first-stage failure part-way through would hand the
 # second stage a truncated stream, which can still exit 0 and leave a partial
 # tree. Flatpak verifies the extra-data digest before this script runs, so a
 # corrupt download cannot get here, but a full disk mid-unpack can. /bin/sh is

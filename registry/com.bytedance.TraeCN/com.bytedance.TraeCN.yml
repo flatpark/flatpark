@@ -40,9 +40,9 @@ finish-args:
   # and git would have to agree on. Declared in flatpark.yml
   # policy.dangerous_permissions.
   - --filesystem=home
-  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the editor — and
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the editor, and
   # zypak's spawned child/zygote processes, which the wrapper's own `unset`
-  # cannot reach — never start as plain Node.
+  # cannot reach, never start as plain Node.
   - --unset-env=ELECTRON_RUN_AS_NODE
 modules:
   - name: trae-cn

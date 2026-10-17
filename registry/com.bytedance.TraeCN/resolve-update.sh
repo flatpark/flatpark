@@ -4,7 +4,7 @@
 # Prints the current version + the Linux .deb builds as JSON on stdout:
 #   { "version": "3.4.3", "releaseDate": "YYYY-MM-DD",
 #     "sources": [ { "filename": "trae-cn.deb", "arch": "x86_64", "url": "..." } ] }
-# Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
+# Logs go to stderr. No hashing, no manifest rewriting; FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
 #
