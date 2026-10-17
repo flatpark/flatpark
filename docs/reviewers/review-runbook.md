@@ -26,7 +26,9 @@ This runbook is the single source of truth; the public
 summaries of it. It layers on top of `.github/workflows/pr-checks.yml` (which
 validates descriptors, tests, dead-link-checks, and does a no-secrets fork
 build) and the `scripts/audit-descriptor.mjs` guardrails — this runbook owns the
-judgment calls CI can't make.
+judgment calls CI can't make. Running the app is the packager's part, recorded
+in the PR against the [testing playbook](testing-playbook.md); the reviewer
+checks that record, not the app.
 
 ## Provenance-based trust model
 

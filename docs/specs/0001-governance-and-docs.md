@@ -21,8 +21,9 @@ weighed against it.
    listing and on every change we make to a package: runtime upgrades, permissions,
    build steps, prebuilt stacks, wrappers.
 3. **Every incident becomes a check.** Each past bug is a specific item in the
-   playbook, and every future fix adds one. Items that can be checked mechanically
-   move into CI over time. The incident list is public.
+   playbook, and every future fix adds one. Mechanical checks on files and builds
+   run in CI; checks that run the app (graphics, data, each app's features)
+   stay in the playbook and are done by the packager. The incident list is public.
 4. **Batch changes are sampled by stack.** The checks run on every affected app,
    plus a real feature test on one app of each stack (Electron, Tauri/WebKit, Qt,
    GTK, Java, .NET, Flutter, …). A problem in one means checking every app of that
@@ -65,44 +66,8 @@ Install stats (`dl.flatpark.org/stats/totals.json`) only cover 2026-10-04 to
 11 had a problem (22%): the more an app is used, the more likely a problem is
 found. So 18.7% is a lower bound.
 
-### Severe problems
-
-| App | Symptom | Cause | Introduced by | Found by | Time to fix |
-|---|---|---|---|---|---|
-| Trilium | Notes lost on every restart | `~/.local/share/trilium-data` not granted | Listing | User (#145) | ~3 weeks |
-| AB Download Manager | Settings and library lost; second instance | `~/.abdm` not granted | Listing | User | ~7 weeks |
-| ZCode | Logged out on every start | `~/.zcode` not granted | Listing | Us | Same day |
-| DBX | Drivers, JRE, DuckDB extensions lost | `~/.dbx`, `~/.duckdb` not granted | Listing | Us | 13 days |
-| Fastpotify (now Spotifast) | Crashed on playback | fake-getpid shim broke libpulse | Listing | Upstream (spotifast#73) | ~6 weeks |
-| ZapFast | Voice and media messages wouldn't play or record | Same shim | Listing | Us | ~3 weeks |
-| cc-switch | EBUSY when activating a config | Rename onto a single-file bind mount | Listing | User (#44) | ~19 days |
-| All tarball apps, `--system` | `apply_extra script failed` | chown fails as root | Our pipeline | Us | — |
-| 5 prebuilt apps | "Wrong size" on install and update | Re-pin changed sha256 but not size | Our change | Us | Same day (#359) |
-| Sigma, mDNS Browser, Cockpit Tools | Transparent window, content flashes on scroll | GNOME 51 + forced non-accelerated + transparent window | Our change (runtime batch, #362) | Us | 2 hours (#364) |
-| SubtitleEdit | Burning subtitles always failed | SDK ffmpeg has no libass | Our change (#233) | Contributor | ~18 hours (#238) |
-| Enpass 6.12 | Crash on start after auto-update | Upstream moved Qt from xcb to wayland | Upstream | Us | 4 hours (#351) |
-| tldraw | Install and update failed from 1.12 | Upstream renamed the launcher | Upstream | User (#130) | — |
-| Harbor Beta | Pin 404 | Upstream re-cut with `-2` and deleted the old file | Upstream | Us | — |
-| thinkorswim | Blank login dialog | JxBrowser 9 sandbox needs user namespaces | Upstream (probably) | Us | — |
-| Authme | Crash on start in no-auth mode | 7.x uses kernel `keyctl` only | Upstream (probably) | Us | — (#527) |
-
-### Minor problems
-
-| App | Symptom | Cause | Fix |
-|---|---|---|---|
-| Folia | No MPRIS, windows not grouped | MPRIS name not granted; wrong StartupWMClass | #609 (user report #607) |
-| Flow | Media controls dead | `launch` symlink gave WebKit a hashed name | #549 |
-| Harbor | Media keys dead | MPRIS name not granted | #517 |
-| OpenTubeX | MPRIS dead | Branded bus name not granted | #291 |
-| Stoat, Thorium + 4 Electron apps | No MPRIS; window/launcher not grouped | Missing grant; StartupWMClass not measured | #561 |
-| PhotoCraft | Windows not grouped | Wrong StartupWMClass | #569 |
-| materialgram | Bots, payments, Instant View broken | No WebKitGTK in the fd runtime | #515 |
-| Min | Saving passwords failed on Hyprland/Sway | Unknown desktop → basic_text store | #560 |
-| PI-Desktop | Couldn't quit | fake-getpid shim | #434 |
-| Magpie | 16 directories created in `$HOME` | `:create` on other tools' directories | #461 |
-| Yaak | Installed the CEF build instead of WebKitGTK | Loose resolver match | d1d0020 |
-| WorkBuddy | Install failed in one region | CDN served different bytes per region | #651 |
-| Cellar | Installer shortcuts written to the host desktop | Desktop path not redirected | #676 |
+The problems themselves, with cause, how each was found and the check that now
+catches it, are in the public [incident list](../reference/incidents.md).
 
 ### What the history says
 
@@ -134,22 +99,12 @@ apps that were removed without a fix commit aren't counted.
 
 ### Playbook
 
-A testing playbook in `docs/reviewers/` is the checklist an agent (or a person)
-runs. It starts with the checks the history asks for:
-
-| Check | Catches |
-|---|---|
-| Install from the built repo, user **and** system-wide | Wrong size, tar chown as root, renamed files, 404 pins |
-| Launch; screenshot the first window | Crash on start, transparent/blank windows, wrong Qt platform |
-| Use the app, quit, restart, compare `~/.var/app/<id>` and any granted dotdir | Settings and data lost to tmpfs |
-| Diff `$HOME` before and after | Directories created where they shouldn't be |
-| Measure the window class against `StartupWMClass` | Windows not grouped |
-| Play a tone; check the MPRIS name on the bus | Media controls; audio broken by a shim |
-| Core feature, as stated in the PR | Everything above misses |
-
-Each incident from now on adds a row, with a link to the fix. Checks that can be
-run headless (Xvfb or headless weston, a null audio sink, `dbus-run-session`) move
-into PR CI over time.
+The [testing playbook](../reviewers/testing-playbook.md) is the checklist an
+agent (or a person) runs; [batch changes](../reviewers/batch-changes.md) covers
+sampling by stack. Each incident from now on adds a row to the
+[incident list](../reference/incidents.md) and, where needed, a check. CI keeps
+to mechanical checks on files and builds; nothing graphical or app-specific is
+added to it.
 
 ### Test remote
 
@@ -283,11 +238,11 @@ docs/
 |---|---|---|
 | 1 | This spec | this PR |
 | 2 | `/docs/` on the site: collection from `docs/`, sidebar, link rewriting, redirects, `llms-full.txt`; existing pages and docs moved in | this PR |
-| 3 | Docs content: per-audience pages, testing playbook, incident list, common solutions; governance and security pages | this PR, then ongoing |
+| 3 | Docs content: per-audience pages, testing playbook, incident list, common solutions; governance and security pages | ongoing: packagers, users, common problems, testing done; developers, governance, security to do |
 | 4 | `flatpark-test` remote | own PR |
 | 5 | News with RSS/Atom | own PR |
 | 6 | Renames and removals via end-of-life (AeroFTP first) | own PR |
-| 7 | Playbook checks in PR CI, one at a time | ongoing |
+| 7 | Mechanical checks (files, builds) in PR CI as they come up; app-running checks stay in the playbook | ongoing |
 
 ## Open questions
 

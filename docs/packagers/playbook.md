@@ -70,42 +70,10 @@ Write the files in [what a package is](basics.md) for the download chosen in
 problems are in [common problems](solutions/README.md). What has no page of its
 own yet:
 
-- **Pick the runtime.** `org.freedesktop.Platform//26.08` by default; `org.gnome.Platform//51`
-  for GTK / WebKitGTK / Tauri. **Always the major the rest of the catalog is on** — match what
-  the existing manifests pin, never an older major to dodge a build break. A single straggler
-  forces every user to keep a second runtime major on disk. If an app genuinely can't run on the
-  current major, that's a **flag-and-ask**, not a quiet downgrade.
-  - **Where the catalog stands (2026-10-10).** Every freedesktop app is on `//26.08` and every
-    GTK / WebKitGTK / Tauri app on `org.gnome.Platform//51`, both freedesktop 26.08 bases.
-    One app is held back:
-    - *No runtime to move to.* `com.heidisql.HeidiSQL` — on `org.kde.Platform//6.11`; Flathub
-      publishes no 26.08-based KDE branch.
-
-    New apps enter on 26.08 / 51.
-  - **Bumping a runtime major is a measurement, not an assumption.** A new major is not a
-    superset of the old one: across 25.08 → 26.08 (and so 50 → 51) ICU went 77 → 78, ffmpeg
-    61 → 62, Python 3.13 → 3.14, nettle/hogweed, vpx, fmt, glslang and SvtAv1Enc all jumped a
-    major, and `libyaml`, `libxmlb`, `libappstream`, `libSDL2_mixer` and (in GNOME 51)
-    `libhandy-1` and the gcr3/gck1 trio went away outright. Two checks per app, and both
-    matter — the soname one alone passed an app that then could not start:
-    - **Sonames.** A payload regresses when a `DT_NEEDED` entry is *in* its closure, *not* in
-      the app's own tree (anything it carries resolves through its rpath and never reaches
-      the runtime), *absent* from the new runtime, and *present* in the old one. Miss that
-      last clause and every pre-existing gap reads as a fresh regression.
-    - **Interpreter ABI.** A payload that imports compiled extension modules with the
-      *runtime's* interpreter is pinned to that interpreter's minor version, and no soname
-      changes when it breaks. Look for `*.cpython-3XX-*.so` and `*.cpython-3XX.pyc` in the
-      unpacked payload and for wheel tags in `*.dist-info/WHEEL`. `com.hiresti.player` moved
-      from upstream's debian13 `.deb` to their ubuntu2604 one for exactly this reason.
-    Unpack every payload against the *new* runtime (`scripts/check-apply-extra.sh` does the
-    unpack the way a system-wide install does) and run both checks over the result plus the
-    built `/app` tree, so archive-module stacks are covered too.
-  - **Prebuilt stacks move with the runtime.** A [`flatpark/prebuilt`](https://github.com/flatpark/prebuilt)
-    stack is built against one SDK major and its release artifact is named for it, so a
-    runtime bump means re-cutting every stack the batch touches and re-pinning URL + sha256
-    in each consumer. Cut them in dependency order — a stack that builds against another
-    (`ffmpeg-full` on x264/x265/lame/rubberband/libass, `tesseract` on `leptonica`) needs its
-    dependency's new release pinned first.
+- **Pick the runtime** from [choosing a format](formats/README.md#choosing-the-runtime):
+  always the version the rest of the catalog is on, never an older one to dodge a
+  build break. Moving the catalog to a new version is a
+  [batch change](../reviewers/batch-changes.md).
 - **Stack recipes and known problems** → [common problems](solutions/README.md),
   and the checklist for the app's stack in [by stack](solutions/by-stack.md).
 - **metainfo:** mark it a **community package** ("repackages the official upstream build
@@ -118,19 +86,11 @@ own yet:
 
 ## 4. Test / verify — every run, no exceptions
 
-Build and test as in [submitting an app](submitting.md#build): descriptor checks,
-`check-apply-extra.sh`, `publish.sh --verify`, then the app installed and used.
-On top of that:
-
-- `appstreamcli compose` in the build log prints `Success`.
-- No library is missing: `LD_TRACE_LOADED_OBJECTS=1` on the main binary inside
-  the sandbox reports nothing "not found".
-- The app's data lands under `~/.var/app/<id>/` or a granted directory, and
-  survives a restart.
-- `flatpak kill <id>` after every run. When the work is merged or dropped,
-  clean up as in [cleaning up after a run](cleanup.md).
-- Note what you couldn't verify (a real session's rendering, login flows,
-  hardware). Coverage is always partial; say so.
+Run the [testing playbook](../reviewers/testing-playbook.md) on the build
+installed from a local repository ([submitting an app](submitting.md#build) has
+the build and install steps), and record its table in the PR. `flatpak kill
+<id>` after every run; when the work is merged or dropped, clean up as in
+[cleaning up after a run](cleanup.md).
 
 ## 5. Open the PR
 
@@ -246,6 +206,6 @@ said no.
 - **Runtime majors are NOT bumped by CI.** `update-check` only re-pins extra-data and the metainfo
   release; `runtime-version` / `base-version` are hand-pinned per manifest. When a new major lands,
   the maintainer kicks off an **AI-led batch update** that bumps and re-tests the whole catalog at
-  once — so the catalog never splits across two majors (see §3, "Pick the runtime").
+  once — so the catalog never splits across two majors ([batch changes](../reviewers/batch-changes.md)).
 - The §1–§2 crawl + §2 gates are scriptable into a shortlist; §3 packaging is templated per recipe.
   Keep the **review gate** on the two outward-facing actions (rule 2) even as the rest automates.
