@@ -9,8 +9,8 @@ TryExec=solidcraft
 Icon=io.github.bherbruck.SolidCraft
 Terminal=false
 StartupNotify=true
-# Compiled into the binary (still ai.storyteller.solvecraft as of 0.6.0); the window class does not follow this package id.
-StartupWMClass=ai.storyteller.solvecraft
+# Compiled into the binary (ai.storyteller.solidcraft since 0.8, measured on 0.14.0); the window class does not follow this package id.
+StartupWMClass=ai.storyteller.solidcraft
 Categories=Graphics;3DGraphics;Engineering;
 Keywords=cad;3d;parametric;sketch;step;stl;modelling;modeling;
 MimeType=application/x-solidcraft;model/step;model/iges;model/stl;model/3mf;

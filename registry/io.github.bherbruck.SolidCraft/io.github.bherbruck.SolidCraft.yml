@@ -1,6 +1,6 @@
 id: io.github.bherbruck.SolidCraft
 # App id is the author's GitHub namespace. Upstream's own Flatpak (bundle and repo)
-# still uses ai.storyteller.solvecraft, copied from the PhotoCraft template,
+# uses ai.storyteller.solidcraft (ai.storyteller.solvecraft before 0.8),
 # and that string is compiled into the binary as its Wayland app id
 # (StartupWMClass). Finish-args follow packaging/linux/flatpak/ in
 # tangency-labs/solidcraft. The runtime is 26.08. The binaries need glibc and
