@@ -1,0 +1,81 @@
+id: io.github.binaricat.Netcatty
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so Netcatty keeps Chromium's
+# internal sandbox instead of launching with --no-sandbox. The base is a
+# prebuilt ref merged in at build time; the official upstream application tree
+# is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: netcatty
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) client. The prebuilt tree bundles Chromium, its ffmpeg
+  # and swiftshader libraries and every xterm/SFTP dependency; the GTK3, NSS,
+  # ATK, CUPS, DRM/GBM, ALSA and X11 stacks it links come from
+  # org.freedesktop.Platform 26.08.
+  - --share=ipc
+  # SSH, SFTP, Telnet, Mosh and update-check traffic.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Chromium compositing for the terminal panes and SFTP browser.
+  - --device=dri
+  # The terminal bell and the accessibility signals of the terminal workspace.
+  - --socket=pulseaudio
+  # Desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Stored credentials are encrypted via the Secret Service (Electron
+  # safeStorage); without this the keychain cannot unlock across launches.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the app, and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach, never start as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately NOT granted by default (the app works without them; users opt
+  # in per the metainfo notes via `flatpak override`):
+  #   --filesystem=~/.ssh:ro   -> reuse host SSH keys/config
+  #   --device=all             -> serial-port connections
+  #   --filesystem=home        -> browse the whole home tree in the SFTP browser
+  # File open/save otherwise goes through the portal; the app's own vault and
+  # settings live under the per-app HOME (Flatpak redirects $HOME).
+modules:
+  - name: netcatty
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 netcatty-wrapper /app/bin/netcatty
+      - install -Dm644 io.github.binaricat.Netcatty.desktop /app/share/applications/io.github.binaricat.Netcatty.desktop
+      - install -Dm644 io.github.binaricat.Netcatty.metainfo.xml /app/share/metainfo/io.github.binaricat.Netcatty.metainfo.xml
+      - install -Dm644 io.github.binaricat.Netcatty.png /app/share/icons/hicolor/512x512/apps/io.github.binaricat.Netcatty.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: netcatty.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/binaricat/Netcatty/releases/download/v1.1.83/Netcatty-1.1.83-linux-amd64.deb
+        sha256: 5a1f0d37e3bd46f7d26b50f8deed361b9b82e66e65449b7128b258f51e661693
+        size: 162007680
+      - type: extra-data
+        filename: netcatty.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/binaricat/Netcatty/releases/download/v1.1.83/Netcatty-1.1.83-linux-arm64.deb
+        sha256: fffb32e4c60f8e807fa607135a141a6257517c7aca7fea9e7f5f35876d2a59dc
+        size: 158924718
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: netcatty-wrapper
+      - type: file
+        path: io.github.binaricat.Netcatty.desktop
+      - type: file
+        path: io.github.binaricat.Netcatty.metainfo.xml
+      - type: file
+        path: io.github.binaricat.Netcatty.png

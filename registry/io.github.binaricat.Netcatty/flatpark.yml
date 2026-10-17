@@ -1,0 +1,23 @@
+id: io.github.binaricat.Netcatty
+name: Netcatty
+summary: Modern SSH manager and terminal with host grouping, SFTP, keychain and port forwarding
+website: https://netcatty.app
+source_url: https://github.com/binaricat/Netcatty
+build:
+  manifest: io.github.binaricat.Netcatty.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags:
+    - SSH
+    - Terminal
+    - SFTP
+    - Remote
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true
+  dangerous_permissions: []

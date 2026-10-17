@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.binaricat.Netcatty</id>
+  <name>Netcatty</name>
+  <summary>SSH workspace, SFTP browser and terminal manager</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.binaricat">
+    <name>binaricat</name>
+  </developer>
+  <url type="homepage">https://netcatty.app</url>
+  <url type="bugtracker">https://github.com/binaricat/Netcatty/issues</url>
+  <url type="vcs-browser">https://github.com/binaricat/Netcatty</url>
+  <description>
+    <p>This is a community package of Netcatty, maintained independently and unaffiliated with its author. It repackages the official upstream Linux Debian build unmodified.</p>
+    <p>Netcatty is an SSH workspace built with Electron: a vault of hosts and groups, split-pane terminal tabs with session restore, and a dual-pane SFTP browser with a built-in editor. It connects over SSH, Telnet, Mosh, serial ports and local terminals, renders Kitty/SIXEL/iTerm inline images, and supports custom themes and keyword highlighting. A built-in AI agent, Catty Agent, assists with diagnostics and multi-host operations.</p>
+    <p>Permissions: by default this package keeps a tight sandbox - network, display, GPU, audio, notifications and keyring access - which is enough for SSH/Telnet sessions and for transferring files chosen through the file portal. Stored credentials are encrypted with the system keyring. A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Reuse your existing host SSH keys/config: <code>flatpak override --user --filesystem=~/.ssh:ro io.github.binaricat.Netcatty</code></li>
+      <li>Serial-port connections: <code>flatpak override --user --device=all io.github.binaricat.Netcatty</code></li>
+      <li>Browse your whole home directory in the SFTP browser: <code>flatpak override --user --filesystem=home io.github.binaricat.Netcatty</code></li>
+    </ul>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>Network</category>
+    <category>TerminalEmulator</category>
+  </categories>
+  <keywords>
+    <keyword>ssh</keyword>
+    <keyword>sftp</keyword>
+    <keyword>terminal</keyword>
+    <keyword>telnet</keyword>
+    <keyword>mosh</keyword>
+    <keyword>serial</keyword>
+    <keyword>remote</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>netcatty</binary>
+    <mediatype>x-scheme-handler/ssh</mediatype>
+    <mediatype>x-scheme-handler/telnet</mediatype>
+    <mediatype>x-scheme-handler/jms</mediatype>
+  </provides>
+  <launchable type="desktop-id">io.github.binaricat.Netcatty.desktop</launchable>
+  <releases>
+    <release version="1.1.83" date="2026-09-07">
+      <description></description>
+    </release>
+  </releases>
+</component>

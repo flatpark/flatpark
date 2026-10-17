@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Netcatty
+GenericName=SSH Client
+Comment=SSH workspace, SFTP browser and terminal manager
+Exec=netcatty %U
+Icon=io.github.binaricat.Netcatty
+Terminal=false
+StartupNotify=true
+StartupWMClass=Netcatty
+Categories=Development;
+Keywords=ssh;sftp;terminal;telnet;mosh;serial;remote;
+MimeType=x-scheme-handler/ssh;x-scheme-handler/telnet;x-scheme-handler/jms;
