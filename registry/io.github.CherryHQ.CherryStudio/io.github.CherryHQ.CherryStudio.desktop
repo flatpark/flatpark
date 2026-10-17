@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Cherry Studio
+GenericName=AI Assistant
+Comment=AI productivity studio with smart chat, autonomous agents, and 300+ assistants
+Exec=cherrystudio %U
+Icon=io.github.CherryHQ.CherryStudio
+Terminal=false
+StartupNotify=true
+StartupWMClass=CherryStudio
+Categories=Utility;AI;
+MimeType=x-scheme-handler/cherrystudio;
+Keywords=cherry;studio;ai;chat;llm;agent;assistant;

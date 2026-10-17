@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# Cherry Studio is an Electron app staged by apply_extra to /app/extra/cherrystudio.
+# Run it through zypak-wrapper from org.electronjs.Electron2.BaseApp so Chromium
+# keeps its internal sandbox inside Flatpak.
+
+unset ELECTRON_RUN_AS_NODE
+
+extra_root=/app/extra
+launcher_file="$extra_root/cherrystudio-launcher"
+launcher="CherryStudio"
+if [ -r "$launcher_file" ]; then
+  read -r recorded < "$launcher_file" || recorded=""
+  [ -n "$recorded" ] && launcher="$recorded"
+fi
+
+# Launch by absolute path and leave the working directory alone: it is
+# inherited by the processes the app spawns.
+exec zypak-wrapper "$extra_root/cherrystudio/$launcher" --ozone-platform-hint=auto "$@"

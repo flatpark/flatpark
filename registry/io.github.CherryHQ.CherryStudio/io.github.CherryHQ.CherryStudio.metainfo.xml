@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.CherryHQ.CherryStudio</id>
+  <name>Cherry Studio</name>
+  <summary>AI productivity studio with smart chat, autonomous agents, and 300+ assistants</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0</project_license>
+  <developer id="io.github.cherryhq">
+    <name>CherryHQ</name>
+  </developer>
+  <url type="homepage">https://cherryai.com</url>
+  <url type="download">https://github.com/CherryHQ/cherry-studio/releases</url>
+  <url type="help">https://github.com/CherryHQ/cherry-studio/issues</url>
+  <url type="vcs-browser">https://github.com/CherryHQ/cherry-studio</url>
+  <description>
+    <p>This is a community package of Cherry Studio, maintained independently and unaffiliated with CherryHQ. It repackages the official upstream Linux Debian build unmodified.</p>
+    <p>Cherry Studio is an AI productivity studio that unifies access to frontier LLMs. It brings smart chat, autonomous agents and a library of 300+ assistants into one desktop client, and connects just as happily to models running locally through Ollama or LM Studio.</p>
+    <ul>
+      <li>Talk to 300+ models from one window, with provider keys kept in your system keyring.</li>
+      <li>Point the same client at a local Ollama or LM Studio server for fully offline conversations.</li>
+      <li>Hand a task to an autonomous agent and watch it work through the steps.</li>
+      <li>Keep a local knowledge base of documents the chat can draw on.</li>
+    </ul>
+    <p>Provider accounts are separate from the app itself; the client is free and open source, and any model usage is billed by the provider you choose.</p>
+    <p>Permissions: this package grants network, display, GPU, audio, notifications and keyring access. Model requests and provider sign-in need the network; API keys go to the keyring so a restart does not sign you out. Home-directory access is deliberately not granted: files you attach go through the file-chooser portal, the same as any other Flatpak app.</p>
+    <p>Updates come through Flatpak: this package tracks upstream's GitHub releases, so a new upstream build arrives with <code>flatpak update</code>. Cherry Studio's built-in updater stays switched off here, the same way it is in the Debian build this package repackages.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>chat</keyword>
+    <keyword>llm</keyword>
+    <keyword>agent</keyword>
+    <keyword>assistant</keyword>
+    <keyword>cherry</keyword>
+  </keywords>
+  <branding>
+    <color type="primary">#DA3452</color>
+  </branding>
+  <recommends>
+    <display_length compare="ge">1024</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>cherrystudio</binary>
+    <mediatype>x-scheme-handler/cherrystudio</mediatype>
+  </provides>
+  <launchable type="desktop-id">io.github.CherryHQ.CherryStudio.desktop</launchable>
+  <releases>
+    <release version="2.1.6" date="2026-10-11">
+      <description></description>
+    </release>
+    <release version="2.1.5" date="2026-10-10">
+      <description></description>
+    </release>
+    <release version="2.1.4" date="2026-09-30">
+      <description></description>
+    </release>
+    <release version="2.1.3" date="2026-09-24">
+      <description></description>
+    </release>
+    <release version="2.1.2" date="2026-09-21">
+      <description></description>
+    </release>
+    <release version="2.1.0" date="2026-09-18">
+      <description></description>
+    </release>
+    <release version="2.0.14" date="2026-09-09">
+      <description></description>
+    </release>
+    <release version="2.0.13" date="2026-09-08">
+      <description></description>
+    </release>
+    <release version="2.0.12" date="2026-09-04">
+      <description></description>
+    </release>
+    <release version="2.0.11" date="2026-09-03">
+      <description></description>
+    </release>
+    <release version="2.0.10" date="2026-08-28">
+      <description></description>
+    </release>
+    <release version="2.0.9" date="2026-08-24">
+      <description></description>
+    </release>
+  </releases>
+</component>

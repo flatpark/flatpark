@@ -1,0 +1,23 @@
+id: io.github.CherryHQ.CherryStudio
+name: Cherry Studio
+summary: AI productivity studio with smart chat, autonomous agents, and 300+ assistants
+website: https://cherryai.com
+source_url: https://github.com/CherryHQ/cherry-studio/releases
+build:
+  manifest: io.github.CherryHQ.CherryStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AI
+  tags:
+    - AI
+    - Chat
+    - LLM
+    - Assistants
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  extra_data_first: true

@@ -1,0 +1,71 @@
+id: io.github.CherryHQ.CherryStudio
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so Cherry Studio keeps
+# Chromium's internal sandbox instead of launching with --no-sandbox. The base
+# is a prebuilt ref merged in at build time; the official upstream application
+# tree is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: cherrystudio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Chat, web search, model providers, updates and the extension-style
+  # assistant marketplace all talk to the network.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Chromium compositing for the chat and agent panels.
+  - --device=dri
+  # Assistant voice replies and notification sounds.
+  - --socket=pulseaudio
+  # Finished agent runs raise a desktop notification.
+  - --talk-name=org.freedesktop.Notifications
+  # Provider API keys are stored in the system keyring when one is available;
+  # without this every restart starts signed out.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the app — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # cannot reach — never start as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: cherrystudio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 cherrystudio-wrapper /app/bin/cherrystudio
+      - install -Dm644 io.github.CherryHQ.CherryStudio.desktop /app/share/applications/io.github.CherryHQ.CherryStudio.desktop
+      - install -Dm644 io.github.CherryHQ.CherryStudio.metainfo.xml /app/share/metainfo/io.github.CherryHQ.CherryStudio.metainfo.xml
+      - install -Dm644 io.github.CherryHQ.CherryStudio.png /app/share/icons/hicolor/512x512/apps/io.github.CherryHQ.CherryStudio.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cherrystudio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/CherryHQ/cherry-studio/releases/download/v2.1.6/Cherry-Studio-2.1.6-linux-x64.deb
+        sha256: e661b14829009eff0336051b00a52e49388327d0825f220ed0c33c2b04ebf504
+        size: 353966640
+      - type: extra-data
+        filename: cherrystudio.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/CherryHQ/cherry-studio/releases/download/v2.1.6/Cherry-Studio-2.1.6-linux-arm64.deb
+        sha256: 3c52f8ddbfd405d204d02a090a170f6f333bdd5cc5c9a07f14e402518051bf53
+        size: 339921876
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cherrystudio-wrapper
+      - type: file
+        path: io.github.CherryHQ.CherryStudio.desktop
+      - type: file
+        path: io.github.CherryHQ.CherryStudio.metainfo.xml
+      - type: file
+        path: io.github.CherryHQ.CherryStudio.png
