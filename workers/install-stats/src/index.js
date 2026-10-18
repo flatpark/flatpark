@@ -11,12 +11,14 @@
 // `flatpak update` pulls nothing and is never seen. Runtime refs are ignored.
 //
 // Appstream refreshes (`Flatpak-Ref: appstream2/<arch>`) take the same path
-// and are recorded under the id "appstream2". The appstream ref gets a new
-// commit whenever the catalogue changes, and every machine with the remote
-// pulls it once when it next refreshes, so pulls of one appstream commit ≈
-// machines in use — the way Flathub estimates its active users from runtime
-// updates. The rollup keeps only registry ids, so these rows never mix into
-// an app's counts.
+// and are recorded under the id "appstream2". Unlike an app, appstream asks
+// for the delta index on every refresh, even when the machine already has
+// the current commit (then Upgrade-From equals the commit pulled; seen with
+// flatpak 1.18.4), so raw rows count refreshes, not machines. The rows whose
+// Upgrade-From differs (or is absent) are each machine's first pull of that
+// commit, so those per appstream commit ≈ machines in use — the way Flathub
+// estimates its active users from runtime updates. The rollup keeps only
+// registry ids, so these rows never mix into an app's counts.
 //
 // What is recorded, per pull, all of it either repo data or coarse enough to
 // be shared by many machines: the ref, the commit pulled and the commit it
