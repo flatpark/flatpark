@@ -136,9 +136,9 @@ if [ -d "$ROOT/site/node_modules/yaml" ] && [ -d "$ROOT/site/node_modules/sharp"
         node tools/enrich.mjs >/dev/null 2>&1 )
     assert_ok node -e '
       const a = require("node:assert/strict");
-      a.deepEqual(require(process.argv[1]).stats, { downloads: 32, installs30: 7, active: 14, since: "2026-08-01" });
+      a.deepEqual(require(process.argv[1]).stats, { installs30: 7, since: "2026-08-01" });
       // listed after the last rollup: zero, not missing
-      a.deepEqual(require(process.argv[2]).stats, { downloads: 0, installs30: 0, active: null, since: "2026-08-01" });
+      a.deepEqual(require(process.argv[2]).stats, { installs30: 0, since: "2026-08-01" });
     ' "$data/apps/io.flatpark.TestOne.json" "$data/apps/io.flatpark.Fresh.json"
     # unreachable stats never fail the build
     ( cd "$ROOT/site" && FLATPARK_DATA_DIR="$data" FLATPARK_ALLOW_SHALLOW=1 FLATPARK_STATS_URL="$tmp/missing.json" \

@@ -20,16 +20,16 @@ const apps = loadApps();
 const collections = loadCollections(apps);
 // The tab shows the first few; the rest are a click away on /collections/.
 const HOME_COLLECTIONS = 4;
-// Default order: most downloaded first, the way Flathub's front page leads
-// with Popular. New (when *we* listed it) and Updated (upstream's release
+// Default order: most new installs in the last 30 days first, the way
+// Flathub's front page leads with Popular. New (when *we* listed it) and Updated (upstream's release
 // date) are the next two tabs, and Approved narrows the grid to the
 // blue-shield apps. Install counts are optional (the build reads them
 // best-effort), so without them the page opens on New instead.
 const hasStats = apps.some((a) => a.stats);
 const byAdded = (a, b) => (b.added || '').localeCompare(a.added || '');
-const byDownloads = (a, b) =>
-  (b.stats?.downloads ?? 0) - (a.stats?.downloads ?? 0) || a.name.localeCompare(b.name);
-const ordered = [...apps].sort(hasStats ? byDownloads : byAdded);
+const byInstalls30 = (a, b) =>
+  (b.stats?.installs30 ?? 0) - (a.stats?.installs30 ?? 0) || a.name.localeCompare(b.name);
+const ordered = [...apps].sort(hasStats ? byInstalls30 : byAdded);
 const tabs = [
   ...(hasStats ? [{ mode: 'popular', label: t('apps.tab.popular') }] : []),
   { mode: 'added', label: t('apps.tab.added') },

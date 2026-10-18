@@ -259,7 +259,7 @@ const searchMeta = {
           if (mode === 'updated') return (b.dataset.updated || '').localeCompare(a.dataset.updated || '');
           // added: newest listing first — when *we* shipped it, not when upstream released
           if (mode === 'added') return (b.dataset.added || '').localeCompare(a.dataset.added || '');
-          // popular: most downloads (installs + updates), then name
+          // popular: most new installs in the last 30 days, then name
           if (mode === 'popular') {
             const d = Number(b.dataset.popular || 0) - Number(a.dataset.popular || 0);
             return d || (a.dataset.name || '').localeCompare(b.dataset.name || '');

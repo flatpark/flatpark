@@ -668,9 +668,11 @@ async function enrichOne(file) {
   out.updated = out.releases?.[0]?.date || gitUpdated(srcDir) || '';
   // Listing date — when we added the app, never an upstream date.
   out.added = gitAdded(srcDir);
-  // Downloads are every pull (installs + updates); the 30-day figure is fresh
-  // installs only, since updates count the same people again every release.
-  // `active` (see rollup-install-stats.mjs) is carried but not shown yet.
+  // Only new installs in the last 30 days are shown, and Popular sorts by
+  // them: updates count the same people again every release (rewarding apps
+  // that ship daily), and all-time figures only reach back to when counting
+  // started (2026-10-04), which shortchanges apps listed before it. totals.json
+  // keeps downloads/active for maintainers.
   // An app with no row yet (listed after the last rollup) counts as zero —
   // but only once anything has been counted at all (`since` set). Before the
   // first counted day, totals.json exists but is empty, and a "0" on every
@@ -678,9 +680,7 @@ async function enrichOne(file) {
   if (installStats?.since && installStats.apps) {
     const s = installStats.apps[out.id];
     out.stats = {
-      downloads: s?.downloads ?? (s ? s.installs + s.updates : 0),
       installs30: s?.installs30 ?? 0,
-      active: s?.active ?? null,
       since: installStats.since,
     };
   }
