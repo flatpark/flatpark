@@ -24,6 +24,9 @@ finish-args:
   # Open/Save go through the file-chooser portal. Documents is granted so a
   # design passed by path keeps working.
   - --filesystem=xdg-documents
+  # 3D mouse: since 0.15 SolidCraft reads spacenavd's socket when the daemon
+  # runs (upstream #1146). The sandbox has no hidraw, so this is the only route.
+  - --filesystem=/run/spnav.sock
   # Deliberately not granted:
   #   --share=network          -> the optional --control server listens on
   #                               127.0.0.1 inside the sandbox; the metainfo

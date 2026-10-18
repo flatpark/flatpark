@@ -22,7 +22,7 @@
       <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
     </ul>
     <p>The headless command runner and MCP server is included: <code>flatpak run --command=solidcraft-cli io.github.bherbruck.SolidCraft --help</code></p>
-    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Documents folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Documents folder. It also grants the spacenavd socket (/run/spnav.sock), so a 3D mouse works when spacenavd is running. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
     <p>Optional overrides:</p>
     <ul>
       <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network io.github.bherbruck.SolidCraft</code></li>
