@@ -1,25 +1,15 @@
 # Yet another Flatpak hub
 
-FlatPark is a Flatpak hub for apps that ship as a definitive download, built to
-be driven by AI agents.
+FlatPark is a community Flatpak remote for Linux desktop apps that ship an
+official download: a `.deb`, a tarball or an AppImage at a stable release URL.
+Every app is the developer's own release, fetched from their servers at install
+time and run in a sandbox. FlatPark doesn't build apps from source.
 
-## Goals
-
-- **AI-driven by design.** Onboarding, review, publishing, upgrading, and
-  cleanup are all meant to be driven by AI agents. Leaning on agents to do this
-  work efficiently is a primary goal, not an afterthought.
-- **One runtime version, always the latest.** Every app targets the *current*
-  major of its runtime — never one app on GNOME 49 and another on 50. Old majors
-  are dead weight on your disk, so the whole catalog moves forward together.
-- **extra-data only, no build hosting.** FlatPark hosts only extra-data apps: it
-  downloads official releases and repackages them — it never builds *the app*
-  from source. (Supporting libraries the runtime lacks may be built from pinned
-  source; the app itself is always the vendor's own binary.) That keeps
-  installing and updating the apps you need in one place, while Flatpak keeps
-  them sandboxed and out of your home directory.
-- **Open to vibe-coded apps, with guardrails.** Apps built with AI ("vibe
-  coding") are welcome, under clear rules enforced by AI review that weighs
-  development history and app quality — and with an explicit de-listing process.
+The goal is a remote that runs efficiently and is easy to take part in. Speed
+matters most: apps often land minutes after an upstream release, and a fix
+reaches users just as fast. Packaging, review, publishing and upgrades are
+built to be driven by AI agents. See [About FlatPark](docs/project/about.md) and
+the [principles](docs/project/principles.md).
 
 ## Install
 
@@ -31,19 +21,67 @@ flatpak --user install flatpark <app-id>
 `--user` installs into your home (no admin); drop it from both commands for a
 system-wide install. Browse the catalog at <https://flatpark.org>.
 
-## Add an app
+## For developers
 
-Onboarding is meant to run through an AI agent. Open this repo in your agent
-(e.g. Claude Code) and prompt it:
+- **AI is welcome.** An app is judged by what it does and how it's packaged,
+  not by whether it was written with AI. You can also let your agent do the
+  packaging: open this repo in it and ask it to publish your app.
+- **The full Flatpak experience.** Your users install and update your app like
+  any other Flatpak, in a sandbox, with the permissions listed on its page. It
+  works with the tools they already use: GNOME Software, KDE Discover,
+  [Bazaar](https://github.com/kolunmi/bazaar),
+  [Warehouse](https://github.com/flattool/warehouse),
+  [Flatseal](https://github.com/tchx84/Flatseal) and plain `flatpak update`.
+- **Updates within minutes.** FlatPark checks every app's releases twice a day.
+  Add the [publish-action](docs/developers/publish-action.md) to your release
+  workflow and each release reaches your users a few minutes after you publish
+  it. No token, no secret.
+- **Your app, your call.** You decide whether it's listed, how it's packaged
+  and what is said about it. See [your app on FlatPark](docs/developers/your-app.md).
 
-> I want to publish **\<app or upstream URL\>** to FlatPark. Read
-> `CONTRIBUTING.md` and the existing PRs, then write and validate the manifest
-> under `registry/<app-id>/`.
+## For users
 
-It writes the `flatpark.yml` descriptor and Flatpak manifest, validates and
-test-builds them, and opens a PR. If it can't get there from the rules and the
-existing PRs, open an issue — letting an agent submit, test, and PR end-to-end
-is the goal.
+- **If you trust the app, you can trust FlatPark.** Our goal is to get you the
+  developer's official release, exactly as published. Each download is pinned
+  by checksum and size, and comes straight from the developer's servers; the
+  repository is GPG-signed. See [trust & safety](docs/project/trust.md).
+- **Reviewed.** Every app is built, run and reviewed before it's listed, and
+  checked for malicious behaviour. A malicious release is removed at once. See
+  [security](docs/project/security.md).
+- **Kept up to date.** Every app's releases are checked twice a day, and new
+  versions are published automatically once they unpack cleanly.
+- **The current runtime.** When a new freedesktop, GNOME or KDE runtime comes
+  out, every app on it moves to it promptly and is tested, so no FlatPark app
+  keeps an old runtime on your disk.
+- **Missing an app?** If an app you want has no Flatpak,
+  [open an issue](https://github.com/flatpark/flatpark/issues) and we'll look
+  into it. Or package it yourself and open a PR.
+
+## Contributing
+
+1. **Use the apps.** Install and use them. If something doesn't work, whether
+   or not it has anything to do with Flatpak,
+   [open an issue](https://github.com/flatpark/flatpark/issues) and we'll handle
+   it.
+2. **Request an app.** If an app you want has no Flatpak, open an issue asking
+   for it.
+3. **Lend your agent.** If you have spare tokens, point your agent at
+   [finding apps](docs/packagers/finding-apps.md#for-agents) and let it search
+   for good apps that Flatpak users can't get yet. It files what it finds as
+   `[app discover]` issues.
+4. **Package an app.** New apps are very welcome. Pick one from the
+   [issues](https://github.com/flatpark/flatpark/issues?q=is%3Aissue+is%3Aopen+%22%5Bapp+discover%5D%22)
+   or bring your own. Open this repo in your agent (e.g. Claude Code) and ask:
+
+   > I want to publish **\<app or upstream URL\>** to FlatPark. Start from
+   > `docs/README.md` and follow the packaging playbook.
+
+   The [packaging playbook](docs/packagers/playbook.md) takes it from manifest
+   to tested PR.
+5. **Everything else.** PRs for the website, the documentation and translations
+   are just as welcome, and so is any other improvement.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and the [documentation](docs/README.md).
 
 ## Badge
 
