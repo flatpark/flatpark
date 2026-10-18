@@ -13,7 +13,7 @@
   <url type="bugtracker">https://github.com/realgarit/PKHeX-Avalonia/issues</url>
   <url type="vcs-browser">https://github.com/realgarit/PKHeX-Avalonia</url>
   <description>
-    <p>This is a community package of PKHeX-Avalonia, maintained independently and unaffiliated with its developer. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
+    <p>This is a community package of PKHeX-Avalonia, maintained independently and published with the permission of its developer. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
     <p>PKHeX-Avalonia is a cross-platform Pokémon save file editor built with Avalonia and the upstream PKHeX core.</p>
     <ul>
       <li>Inspect and edit Pokémon, boxes and party slots.</li>
