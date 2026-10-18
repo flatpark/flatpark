@@ -1,7 +1,7 @@
 id: org.tunaos.blueshell
 name: Blueshell
 summary: Container-native terminal powered by Ghostty
-website: https://github.com/tuna-os/blueshell
+website: https://tunaos.org/blueshell
 source_url: https://github.com/tuna-os/blueshell
 build:
   manifest: org.tunaos.blueshell.yml
