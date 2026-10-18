@@ -66,9 +66,9 @@ modules:
         filename: note-gen.deb
         only-arches:
           - x86_64
-        url: https://github.com/codexu/note-gen/releases/download/note-gen-v0.38.2/NoteGen_0.38.2_amd64.deb
-        sha256: 812a718bd98305209b6516b21d235239b46283be84e1df3102db68c0408ee1dd
-        size: 20371800
+        url: https://github.com/codexu/note-gen/releases/download/note-gen-v0.38.3/NoteGen_0.38.3_amd64.deb
+        sha256: 3509577a3290e8fda39a04d6b398408d107b55ec4de199bc94c2507108121e37
+        size: 20402938
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

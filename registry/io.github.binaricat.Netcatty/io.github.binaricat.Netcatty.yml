@@ -60,16 +60,16 @@ modules:
         filename: netcatty.deb
         only-arches:
           - x86_64
-        url: https://github.com/binaricat/Netcatty/releases/download/v1.1.83/Netcatty-1.1.83-linux-amd64.deb
-        sha256: 5a1f0d37e3bd46f7d26b50f8deed361b9b82e66e65449b7128b258f51e661693
-        size: 162007680
+        url: https://github.com/binaricat/Netcatty/releases/download/v1.1.85/Netcatty-1.1.85-linux-amd64.deb
+        sha256: 256644066dd69111578549d28c8d1d6b1a10654badfb72fa28f17f1315ff63a1
+        size: 156556530
       - type: extra-data
         filename: netcatty.deb
         only-arches:
           - aarch64
-        url: https://github.com/binaricat/Netcatty/releases/download/v1.1.83/Netcatty-1.1.83-linux-arm64.deb
-        sha256: fffb32e4c60f8e807fa607135a141a6257517c7aca7fea9e7f5f35876d2a59dc
-        size: 158924718
+        url: https://github.com/binaricat/Netcatty/releases/download/v1.1.85/Netcatty-1.1.85-linux-arm64.deb
+        sha256: 9e1ae7d6516fe042226efac66219570d36de720655824b2c8b9a0865966a75a8
+        size: 156305806
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

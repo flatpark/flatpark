@@ -44,9 +44,9 @@ modules:
         filename: fieldcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tangency-labs/fieldcraft/releases/download/v0.6.0/fieldcraft-0.6.0-linux-x86_64.tar.gz
-        sha256: f63f6bbc07cb963a665505dfbca1b4b4a6fe9aceaa02ad34d6aad29c9c95f9ad
-        size: 46040752
+        url: https://github.com/tangency-labs/fieldcraft/releases/download/v0.7.0/fieldcraft-0.7.0-linux-x86_64.tar.gz
+        sha256: 0ae65f04265960cea1df5746abd0553bb4d4ad4656cb93c3574b0b612e3c0d08
+        size: 51517735
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

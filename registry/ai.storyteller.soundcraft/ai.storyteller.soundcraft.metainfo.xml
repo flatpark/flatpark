@@ -77,6 +77,9 @@
     <mediatype>application/x-soundcraft-session</mediatype>
   </provides>
   <releases>
+    <release version="0.8.0" date="2026-10-17">
+      <description></description>
+    </release>
     <release version="0.7.0" date="2026-10-14">
       <description></description>
     </release>
