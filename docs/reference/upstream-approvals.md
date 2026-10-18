@@ -81,4 +81,4 @@ that PR link in the table — the PR itself is the evidence.
 | Compass | `org.tunaos.compass` | Approved by construction — submitted and maintained by its own developer ([flatpark#678](https://github.com/flatpark/flatpark/pull/678)) | 2026-10-16 |
 | Tavern | `org.tunaos.tavern` | Approved by construction — submitted and maintained by its own developer ([flatpark#677](https://github.com/flatpark/flatpark/pull/677)) | 2026-10-16 |
 | Canon EOS Utility | `org.problem_child.CanonEOSUtility` | Approved by construction — submitted and maintained by its own developer ([flatpark#689](https://github.com/flatpark/flatpark/pull/689)) | 2026-10-17 |
-| BlueShell | `org.tunaos.BlueShell` | Approved by construction — submitted and maintained by its own developer ([flatpark#714](https://github.com/flatpark/flatpark/pull/714)) | 2026-10-17 |
+| Blueshell | `org.tunaos.blueshell` | Approved by construction — submitted and maintained by its own developer ([flatpark#714](https://github.com/flatpark/flatpark/pull/714)) | 2026-10-17 |

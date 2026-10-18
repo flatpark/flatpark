@@ -1,15 +1,15 @@
 [Desktop Entry]
 Version=1.0
-Name=BlueShell
+Name=Blueshell
 GenericName=Terminal
 Comment=Container-native terminal powered by Ghostty
 Type=Application
 Exec=blueshell
-Icon=org.tunaos.BlueShell
+Icon=org.tunaos.blueshell
 Categories=System;TerminalEmulator;
 Keywords=terminal;tty;pty;container;toolbox;distrobox;podman;
 StartupNotify=true
-StartupWMClass=org.tunaos.BlueShell
+StartupWMClass=org.tunaos.blueshell
 Terminal=false
 Actions=new-window;
 X-GNOME-UsesNotifications=true

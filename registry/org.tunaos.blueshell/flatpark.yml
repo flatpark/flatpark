@@ -1,10 +1,10 @@
-id: org.tunaos.BlueShell
-name: BlueShell
+id: org.tunaos.blueshell
+name: Blueshell
 summary: Container-native terminal powered by Ghostty
 website: https://github.com/tuna-os/blueshell
 source_url: https://github.com/tuna-os/blueshell
 build:
-  manifest: org.tunaos.BlueShell.yml
+  manifest: org.tunaos.blueshell.yml
   branch: stable
   mode: extra-data
   arches: [x86_64, aarch64]
@@ -20,7 +20,7 @@ update:
 policy:
   proprietary: false
   dangerous_permissions:
-    # BlueShell's whole job is running shells: new windows, tabs and panes
+    # Blueshell's whole job is running shells: new windows, tabs and panes
     # spawn the user's login shell, and the containers picker enters
     # Toolbox, Distrobox and Podman containers. A Flatpak cannot do either
     # inside the sandbox, so it escapes through `flatpak-spawn --host`,

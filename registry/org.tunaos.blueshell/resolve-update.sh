@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Update resolver for BlueShell: the latest stable GitHub release and its
+# Update resolver for Blueshell: the latest stable GitHub release and its
 # per-arch tarballs (the prebuilt /app tree; see tuna-os/blueshell#156).
 # Prints { "version", "releaseDate", "sources": [...] } on stdout; logs go to
 # stderr. FlatPark downloads the URLs and computes the sha256/size itself.

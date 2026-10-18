@@ -1,5 +1,5 @@
-id: org.tunaos.BlueShell
-# The vendor's prebuilt /app tree, as BlueShell's own Flatpak CI exports it:
+id: org.tunaos.blueshell
+# The vendor's prebuilt /app tree, as Blueshell's own Flatpak CI exports it:
 # Ghostty's rendering engine with the Ptyxis terminal interface, plus the
 # bundled ptyxis-agent the container picker talks to. No X11 path is needed
 # beyond fallback: Ghostty is Wayland-native.
@@ -20,7 +20,7 @@ finish-args:
   # A terminal's job is running shells, and shells live on the host: every
   # new window, tab and pane spawns the user's login shell, and the
   # containers picker enters Toolbox, Distrobox and Podman containers.
-  # Flatpak cannot do either inside the sandbox, so BlueShell escapes
+  # Flatpak cannot do either inside the sandbox, so Blueshell escapes
   # through `flatpak-spawn --host`. This is the sandbox escape FlatPark
   # rejects by default; it is declared under policy.dangerous_permissions
   # in flatpark.yml.
@@ -38,9 +38,9 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 blueshell-wrapper /app/bin/blueshell
-      - install -Dm644 org.tunaos.BlueShell.desktop /app/share/applications/org.tunaos.BlueShell.desktop
-      - install -Dm644 org.tunaos.BlueShell.metainfo.xml /app/share/metainfo/org.tunaos.BlueShell.metainfo.xml
-      - install -Dm644 org.tunaos.BlueShell.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.BlueShell.svg
+      - install -Dm644 org.tunaos.blueshell.desktop /app/share/applications/org.tunaos.blueshell.desktop
+      - install -Dm644 org.tunaos.blueshell.metainfo.xml /app/share/metainfo/org.tunaos.blueshell.metainfo.xml
+      - install -Dm644 org.tunaos.blueshell.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.blueshell.svg
       # Ghostty passes these paths to host shells; relative links work both
       # inside /app and under the installed app's host-side files directory.
       - ln -s ../extra/blueshell/share/ghostty /app/share/ghostty
@@ -67,8 +67,8 @@ modules:
       - type: file
         path: blueshell-wrapper
       - type: file
-        path: org.tunaos.BlueShell.desktop
+        path: org.tunaos.blueshell.desktop
       - type: file
-        path: org.tunaos.BlueShell.metainfo.xml
+        path: org.tunaos.blueshell.metainfo.xml
       - type: file
-        path: org.tunaos.BlueShell.svg
+        path: org.tunaos.blueshell.svg

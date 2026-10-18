@@ -9,4 +9,4 @@ export GHOSTTY_RESOURCES_DIR=/app/extra/blueshell/share/ghostty
 # /app/lib; here they live a level deeper, so they are put on the loader
 # path instead of relinking or copying the payload around.
 export LD_LIBRARY_PATH="/app/extra/blueshell/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-exec /app/extra/blueshell/bin/ghostty --gtk-single-instance=false --class=org.tunaos.BlueShell "$@"
+exec /app/extra/blueshell/bin/ghostty --gtk-single-instance=false --class=org.tunaos.blueshell "$@"

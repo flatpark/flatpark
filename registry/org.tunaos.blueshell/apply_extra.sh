@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time. BlueShell's Linux download is a tarball of
+# Runs offline at install time. Blueshell's Linux download is a tarball of
 # the prebuilt /app tree its own Flatpak CI exports — the same files the
 # vendor's .flatpak bundle and OCI image ship. It is unpacked, never
 # executed; the tree lands at /app/extra/blueshell and the wrapper runs the
