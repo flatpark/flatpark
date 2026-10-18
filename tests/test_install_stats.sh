@@ -45,6 +45,8 @@ assert.deepEqual(dataPoint(req({ 'Flatpak-Ref': ref })).indexes, ['io.flatpark.T
 // appstream refreshes ride along on every `flatpak update`: kept under their own id
 assert.deepEqual(dataPoint(req({ ...flatpak, 'Flatpak-Ref': 'appstream2/x86_64' })).blobs.slice(0, 4), ['appstream2', 'install', 'x86_64', '']);
 assert.equal(dataPoint(req({ 'Flatpak-Ref': 'appstream/x86_64' })), null);
+// a refresh of an already-current appstream still pulls the index: from == commit
+assert.equal(dataPoint(req({ 'Flatpak-Ref': 'appstream2/x86_64', 'Flatpak-Upgrade-From': COMMIT })).blobs[6], COMMIT);
 assert.equal(dataPoint(req({ 'Flatpak-Ref': 'runtime/org.example.Platform/x86_64/1' })), null);
 assert.equal(dataPoint(req({})), null);
 assert.equal(dataPoint(req({ 'Flatpak-Ref': 'app/../x86_64/stable' })), null);
