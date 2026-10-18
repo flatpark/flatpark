@@ -1,0 +1,37 @@
+id: com.blackmagic.ResolveStudio
+name: DaVinci Resolve Studio
+summary: Professional editing, colour, visual effects and audio post-production (Studio)
+website: https://www.blackmagicdesign.com/products/davinciresolve
+source_url: https://github.com/night199uk/resolve-flatpak
+build:
+  manifest: com.blackmagic.ResolveStudio.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Video
+    - Editor
+    - Colour
+    - VFX
+    - Audio
+    - Studio
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  extra_data_first: true
+  dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packaging-playbook.md (golden rule 1).
+# This package tracks the resolve-flatpak installer's releases (not Blackmagic's
+# Resolve releases): its extra-data payload is the installer/launcher bundle and
+# the installer fetches Resolve itself, which is why update.command resolves the
+# resolve-flatpak repo.
+packaging:
+  - kind: runtime-install
+    detail:
+      en: "This package's app downloads Blackmagic's official DaVinci Resolve Studio installer and unpacks it into the app's own private folder on first launch, then keeps it up to date. Resolve itself is unpacked unmodified and nothing is injected into it."
+      zh-Hans: "本软件包的应用会在首次启动时下载 Blackmagic 官方的 DaVinci Resolve Studio 安装器，并将其解包到应用自己的私有目录中，之后自动保持更新。Resolve 本身按原样解包，未注入任何内容。"

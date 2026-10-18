@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.blackmagic.Resolve</id>
+  <launchable type="desktop-id">com.blackmagic.Resolve.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>DaVinci Resolve</name>
+  <summary>Professional editing, colour, visual effects and audio post-production</summary>
+  <developer id="com.blackmagic">
+    <name>Blackmagic Design</name>
+  </developer>
+  <url type="homepage">https://www.blackmagicdesign.com/products/davinciresolve</url>
+  <url type="help">https://www.blackmagicdesign.com/support/family/davinci-resolve-and-fusion</url>
+  <description>
+    <p>This is a community package of DaVinci Resolve, maintained independently and not affiliated with Blackmagic Design.</p>
+    <p>The app in this package is the resolve-flatpak installer and launcher. On first launch it downloads Blackmagic's official Linux installer, unpacks it into the app's own private folder, and starts it; later launches check for a newer release and update in place. Blackmagic's build is unpacked unmodified — nothing about Resolve itself is patched or rebuilt. As Resolve is a large download, the first launch takes a while.</p>
+    <p>DaVinci Resolve combines editing, visual effects, colour correction and audio post-production in one application, with Fairlight audio and the Fusion node-based compositor built in. This is the free edition; DaVinci Resolve Studio is a separate package.</p>
+    <p>Permissions: this package grants read-write access to Documents, Downloads, Music, Pictures, Videos and the Desktop, because a project references media by path and reopening it needs those paths reachable. Network access downloads and installs Resolve and backs its online licence and update checks. GPU access, with the RUSTICL OpenCL fallback, is used for rendering. Settings and the installed Resolve live inside the app's own folder.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Media on an external drive: <code>flatpak override --user --filesystem=/run/media com.blackmagic.Resolve</code></li>
+      <li>Blackmagic USB control panels and licence keys: <code>flatpak override --user --device=usb com.blackmagic.Resolve</code></li>
+      <li>Network shares mounted through GVfs: <code>flatpak override --user --filesystem=xdg-run/gvfs com.blackmagic.Resolve</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The Cut page</caption>
+      <image>https://images.blackmagicdesign.com/images/products/davinciresolve/overview/onesolution/carousel/cut.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Edit page</caption>
+      <image>https://images.blackmagicdesign.com/images/products/davinciresolve/overview/onesolution/carousel/edit.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Color page</caption>
+      <image>https://images.blackmagicdesign.com/images/products/davinciresolve/overview/onesolution/carousel/color.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Fusion page</caption>
+      <image>https://images.blackmagicdesign.com/images/products/davinciresolve/overview/onesolution/carousel/fusion.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Fairlight page</caption>
+      <image>https://images.blackmagicdesign.com/images/products/davinciresolve/overview/onesolution/carousel/fairlight.jpg</image>
+    </screenshot>
+  </screenshots>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>AudioVideoEditing</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>video</keyword>
+    <keyword>editor</keyword>
+    <keyword>colour</keyword>
+    <keyword>color</keyword>
+    <keyword>vfx</keyword>
+    <keyword>fusion</keyword>
+    <keyword>fairlight</keyword>
+    <keyword>resolve</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>resolve</binary>
+  </provides>
+  <releases>
+    <release version="0.0.4" date="2026-10-18">
+      <description></description>
+    </release>
+    <release version="0.0.3" date="2026-09-22">
+      <description></description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,108 @@
+id: com.blackmagic.Resolve
+# DaVinci Resolve's own Linux build is what runs. This package wraps the
+# resolve-flatpak installer (github.com/night199uk/resolve-flatpak): the app is a
+# small installer/launcher that fetches Blackmagic's official installer and
+# unpacks it into the app's own data directory, then launches it. Nothing Qt,
+# Python or Blackmagic comes from the runtime; the installer ships its own Python
+# and PySide6 in the extra-data bundle below.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: resolve
+separate-locales: false
+build-options:
+  no-debuginfo: true
+tags:
+  - proprietary
+finish-args:
+  - --share=ipc
+  # Resolve is X11-only (its bundled Qt has no Wayland platform plugin). The
+  # installer GUI runs on the same socket; the wrapper pins QT_QPA_PLATFORM=xcb.
+  - --socket=x11
+  # Downloading and installing Resolve from Blackmagic, and its online licence
+  # and update checks.
+  - --share=network
+  - --socket=pulseaudio
+  # OpenGL / OpenCL rendering and the RUSTICL OpenCL fallback below.
+  - --device=dri
+  - --env=RUSTICL_ENABLE=radeonsi,iris,nouveau
+  - --env=QT_QPA_PLATFORM=xcb
+  # A project references media by path and re-opening it needs those paths to
+  # still be reachable. These are the standard media locations; footage on an
+  # external drive, or Blackmagic USB panels, are opt-in overrides documented in
+  # the metainfo (deliberately NOT granted here).
+  - --filesystem=xdg-desktop
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  - --filesystem=xdg-music
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  # Resolve keeps its config, cache and gallery under literal ~/ paths; persist
+  # them into the app's own directory so they survive a restart.
+  - --persist=.local/share/DaVinciResolve
+  - --persist=Videos/CacheClip
+  - --persist=Videos/.gallery
+  - --persist=Documents/BlackmagicDesign
+modules:
+  - name: resolve
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 resolve-wrapper /app/bin/resolve
+      # libcrypt.so.1: Resolve's binaries list it as DT_NEEDED, but the runtime
+      # ships libxcrypt as libcrypt.so.2 only. A link named libcrypt.so.1
+      # satisfies the loader; resolve-wrapper puts /app/lib on LD_LIBRARY_PATH.
+      - install -d /app/lib
+      - ln -s /usr/lib/x86_64-linux-gnu/libcrypt.so.2 /app/lib/libcrypt.so.1
+      - install -Dm644 com.blackmagic.Resolve.desktop /app/share/applications/com.blackmagic.Resolve.desktop
+      - install -Dm644 com.blackmagic.Resolve.metainfo.xml /app/share/metainfo/com.blackmagic.Resolve.metainfo.xml
+      - install -Dm644 com.blackmagic.Resolve.mime.xml /app/share/mime/packages/com.blackmagic.Resolve.xml
+      - install -Dm644 com.blackmagic.Resolve.png /app/share/icons/hicolor/512x512/apps/com.blackmagic.Resolve.png
+    sources:
+      # The two-tool offline AppImage extractor (appimage-offset + unsquashfs)
+      # from flatpark/prebuilt. The installer uses unsquashfs to unpack the
+      # SquashFS inside Blackmagic's .run; it never runs the .run itself. Fetched
+      # into /app/extra alongside the payload because a system-wide install runs
+      # apply_extra in a sandbox that binds only the runtime /usr and /app/extra.
+      # Kept OUTSIDE the managed block: update-pins.mjs rebuilds that block from
+      # the resolver output and would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # libGLU.so.1: Resolve's binaries link it and neither
+      # org.freedesktop.Platform//26.08 nor the GL extension ships it. Supplied
+      # as a pinned Debian .deb (the playbook's pattern for a single missing
+      # library), unpacked at install time; it needs only libGL/libstdc++, which
+      # the runtime provides. Deliberately outside the managed block.
+      - type: extra-data
+        filename: libglu1-mesa.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libg/libglu/libglu1-mesa_9.0.2-1.1_amd64.deb
+        sha256: 8f81a5fd51c1c35719757f05968b205b0c93ecc80c091781d8bfb5326eb95142
+        size: 178084
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: resolve-flatpak.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.4/resolve-flatpak-0.0.4-x86_64.tar.gz
+        sha256: 92662fba47489c5764a927111e45aaba61f72d6101bbd3c5057e3fa520cbf1cd
+        size: 123647451
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: resolve-wrapper
+      - type: file
+        path: com.blackmagic.Resolve.desktop
+      - type: file
+        path: com.blackmagic.Resolve.metainfo.xml
+      - type: file
+        path: com.blackmagic.Resolve.mime.xml
+      - type: file
+        path: com.blackmagic.Resolve.png

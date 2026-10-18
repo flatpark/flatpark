@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# apply_extra stages the bundled installer/launcher at /app/extra/resolve-app,
+# unsquashfs at /app/extra/appimage-tools/bin, and libGLU.so.1 under
+# /app/extra/libglu. The installer resolves Blackmagic's DaVinci Resolve download
+# and unpacks it into the app's data directory; the bundled binary then launches
+# the installed Resolve.
+
+# unsquashfs — the installer uses it to unpack the SquashFS inside Blackmagic's
+# .run payload.
+PATH="/app/extra/appimage-tools/bin:$PATH"
+export PATH
+
+# Resolve links libGLU.so.1 (the runtime does not ship it; see the manifest) and
+# libcrypt.so.1 (the runtime ships libxcrypt as libcrypt.so.2; /app/lib has the
+# .so.1 link). Keep both LAST: the launcher prepends Resolve's own libs to
+# LD_LIBRARY_PATH, so the vendor's copies always win.
+LD_LIBRARY_PATH="/app/lib:/app/extra/libglu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH
+
+# Keep the multi-GB download and its extraction scratch inside the app's own data
+# directory instead of the user's Downloads folder.
+RESOLVE_DOWNLOAD_DIR="${XDG_DATA_HOME:-$HOME/.var/app/com.blackmagic.Resolve/data}/downloads"
+export RESOLVE_DOWNLOAD_DIR
+
+# Free edition (the Studio package sets this to 1).
+export RESOLVE_STUDIO=0
+
+root=/app/extra/resolve-app
+[ -x "$root/resolve-flatpak" ] || { echo "resolve: bundle missing after install" >&2; exit 1; }
+
+cd "${HOME:-/}" 2>/dev/null || cd /
+exec "$root/resolve-flatpak" "$@"

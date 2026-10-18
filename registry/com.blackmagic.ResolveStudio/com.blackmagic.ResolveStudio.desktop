@@ -1,0 +1,29 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DaVinci Resolve Studio
+Name[en_US]=DaVinci Resolve Studio
+GenericName=Video Editor
+Comment=Editing, visual effects, color correction and professional audio post production (Studio edition)
+Exec=resolve-studio %U
+Icon=com.blackmagic.ResolveStudio
+Terminal=false
+MimeType=application/x-resolveproj;application/x-resolvebin;application/x-resolvetimeline;application/x-resolvetemplatebundle;application/x-resolvedbkey;application/x-braw-clip;application/x-braw-sidecar;
+Categories=AudioVideo;Video;AudioVideoEditing;Graphics;
+Keywords=video;editor;color;vfx;fusion;fairlight;resolve;studio;
+StartupNotify=true
+StartupWMClass=resolve
+PrefersNonDefaultGPU=true
+Actions=PanelSetup;RAWPlayer;RAWSpeedTest;
+
+[Desktop Action PanelSetup]
+Name=DaVinci Resolve Panels Setup
+Exec=resolve-studio --run-panel-setup
+
+[Desktop Action RAWPlayer]
+Name=Blackmagic RAW Player
+Exec=resolve-studio --run-brawplayer
+
+[Desktop Action RAWSpeedTest]
+Name=Blackmagic RAW Speed Test
+Exec=resolve-studio --run-brawspeedtest
