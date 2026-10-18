@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.lyricat.Inua</id>
+  <name>inua Light Apps</name>
+  <summary>Clock, Weather, Stocks, Calculator, Calendar, System Monitor and Viewer</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="im.lyric">
+    <name>Lyric Wai</name>
+  </developer>
+  <url type="homepage">https://inua.lyric.im/apps.html</url>
+  <url type="bugtracker">https://github.com/lyricat/inua/issues</url>
+  <url type="vcs-browser">https://github.com/lyricat/inua</url>
+  <description>
+    <p>This is a community package of inua's light apps, maintained independently and unaffiliated with the inua project. It repackages the official upstream Linux release unmodified, and installs only the light apps, not the inua desktop shell.</p>
+    <p>Seven small GTK 4 apps from the inua desktop, each with its own launcher and window:</p>
+    <ul>
+      <li>Clock: world clocks, a stopwatch and a timer.</li>
+      <li>Weather: now, the next 24 hours and the next seven days for your places, from Open-Meteo, with no account.</li>
+      <li>Stocks: a watchlist with a chart for each, from a day to five years.</li>
+      <li>Calculator: type or click, live answers, scientific keys.</li>
+      <li>Calendar: the month with week numbers; pick a day to see how far it is from today.</li>
+      <li>System Monitor: every core, memory, GPU, network and disks, with the last minute's history.</li>
+      <li>Viewer: pictures, PDFs, Markdown and text, stepping through a folder.</li>
+    </ul>
+    <p>Each app runs once: starting it again brings its window forward. From a terminal, run <code>flatpak run io.github.lyricat.Inua clock</code> (or weather, stocks, calculator, calendar, system-monitor), and <code>flatpak run --command=inua-viewer io.github.lyricat.Inua FILE</code> for Viewer.</p>
+    <p>In this package: Clock's alarms don't ring, because in inua the desktop shell rings them; the timer ends with a notification. System Monitor shows the whole machine's processors, memory, graphics and network, but its process list and disks are those of the app's sandbox. Viewer can step through the pictures in your Pictures folder; to step through folders elsewhere, run <code>flatpak override --user --filesystem=home:ro io.github.lyricat.Inua</code>. Color Picker, Pass and Tailscale are left out: they rely on the inua shell or on host commands that a sandboxed app cannot run.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>clock</keyword>
+    <keyword>weather</keyword>
+    <keyword>stocks</keyword>
+    <keyword>calculator</keyword>
+    <keyword>calendar</keyword>
+    <keyword>system monitor</keyword>
+    <keyword>image viewer</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>inua-apps</binary>
+    <binary>inua-viewer</binary>
+  </provides>
+  <launchable type="desktop-id">io.github.lyricat.Inua.Clock.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/clock-washi.webp</image>
+      <caption>Clock</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/weather-washi.webp</image>
+      <caption>Weather</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/stocks-washi.webp</image>
+      <caption>Stocks</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/calculator-yoru.webp</image>
+      <caption>Calculator</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/calendar-washi.webp</image>
+      <caption>Calendar</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/sysmon-yoru.webp</image>
+      <caption>System Monitor</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/lyricat/inua/v0.0.19/website/img/apps/viewer-washi.webp</image>
+      <caption>Viewer</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.0.19" date="2026-10-18"/>
+  </releases>
+</component>

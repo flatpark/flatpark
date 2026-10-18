@@ -1,0 +1,20 @@
+id: io.github.lyricat.Inua
+name: inua Light Apps
+summary: Clock, Weather, Stocks, Calculator, Calendar, System Monitor and Viewer from the inua desktop
+website: https://inua.lyric.im/apps.html
+source_url: https://github.com/lyricat/inua
+build:
+  manifest: io.github.lyricat.Inua.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - GTK
+    - Go
+    - Open source
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

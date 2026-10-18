@@ -1,0 +1,109 @@
+# inua's light apps - Clock, Weather, Stocks, Calculator, Calendar, System
+# Monitor and Viewer - from the official Linux release tarball, unmodified, as
+# extra-data.
+#
+# The tarball is the whole inua desktop shell. Only the two binaries the light
+# apps run from are kept: `inua-apps <name>` (every app but Viewer) and
+# `inua-viewer`. Each app is a GApplication with its own id under
+# io.github.lyricat.Inua (io.github.lyricat.Inua.Clock ...), so each gets its
+# own desktop entry, icon and window, and owns its D-Bus name as a sub-name of
+# the app id. Desktop entries and icons are upstream's, from config/apps/.
+#
+# Color Picker, Pass and Tailscale are not offered: picking a colour is done
+# by the inua shell (`inua call screenshot color`), Pass runs the `pass` CLI,
+# and Tailscale's actions run `pkexec tailscale`; none of these exist in the
+# sandbox. Clock's alarms are rung by the shell too, so here they don't ring;
+# its world clocks, stopwatch and timer work.
+#
+# Both binaries are pure Go that dlopen GTK 4 from org.gnome.Platform//51;
+# inua-viewer also needs libpoppler-glib (prebuilt poppler-glib stack) and
+# libturbojpeg (in the runtime).
+id: io.github.lyricat.Inua
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: inua-apps
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK 4 apps.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Weather (Open-Meteo) and Stocks (quotes).
+  - --share=network
+  # Viewer steps through the other pictures in the folder of the one opened,
+  # which a file handed over by the document portal cannot give it.
+  - --filesystem=xdg-pictures:ro
+modules:
+  - name: inua
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 inua-wrapper /app/bin/inua-apps
+      - install -Dm755 inua-wrapper /app/bin/inua-viewer
+      - install -Dm644 io.github.lyricat.Inua.metainfo.xml /app/share/metainfo/io.github.lyricat.Inua.metainfo.xml
+      - install -Dm644 io.github.lyricat.Inua.svg /app/share/icons/hicolor/scalable/apps/io.github.lyricat.Inua.svg
+      - for a in Clock Weather Stocks Calculator Calendar SystemMonitor Viewer; do install -Dm644 io.github.lyricat.Inua.$a.desktop /app/share/applications/io.github.lyricat.Inua.$a.desktop; install -Dm644 io.github.lyricat.Inua.$a.svg /app/share/icons/hicolor/scalable/apps/io.github.lyricat.Inua.$a.svg; done
+    sources:
+      # libpoppler-glib.so.8 for inua-viewer's PDF pages - the one library
+      # org.gnome.Platform//51 lacks - from FlatPark's prebuilt poppler-glib
+      # stack. apply_extra unpacks it to /app/extra/poppler-glib and the
+      # wrapper puts its lib/ on LD_LIBRARY_PATH for inua-viewer only.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: poppler-glib.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v1/poppler-glib-poppler-glib-v1-gnome-51-x86_64.tar.xz
+        sha256: c8eddb747c9d7ff794b8dc02a01ea8bcaa9b9ecbc7e3d6a6fec83d6211c7fea9
+        size: 1561500
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: inua.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/lyricat/inua/releases/download/v0.0.19/inua_linux_amd64.tar.gz
+        sha256: 885efc193ffaf4822b37ff9f7f94e1641f3e02505ff8353b3b1bbd3eb8ca8eac
+        size: 90557631
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: inua-wrapper
+      - type: file
+        path: io.github.lyricat.Inua.metainfo.xml
+      - type: file
+        path: io.github.lyricat.Inua.svg
+      - type: file
+        path: io.github.lyricat.Inua.Clock.desktop
+      - type: file
+        path: io.github.lyricat.Inua.Clock.svg
+      - type: file
+        path: io.github.lyricat.Inua.Weather.desktop
+      - type: file
+        path: io.github.lyricat.Inua.Weather.svg
+      - type: file
+        path: io.github.lyricat.Inua.Stocks.desktop
+      - type: file
+        path: io.github.lyricat.Inua.Stocks.svg
+      - type: file
+        path: io.github.lyricat.Inua.Calculator.desktop
+      - type: file
+        path: io.github.lyricat.Inua.Calculator.svg
+      - type: file
+        path: io.github.lyricat.Inua.Calendar.desktop
+      - type: file
+        path: io.github.lyricat.Inua.Calendar.svg
+      - type: file
+        path: io.github.lyricat.Inua.SystemMonitor.desktop
+      - type: file
+        path: io.github.lyricat.Inua.SystemMonitor.svg
+      - type: file
+        path: io.github.lyricat.Inua.Viewer.desktop
+      - type: file
+        path: io.github.lyricat.Inua.Viewer.svg

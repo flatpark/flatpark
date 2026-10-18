@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# Installed as /app/bin/inua-apps and /app/bin/inua-viewer; starts the binary
+# of the same name, staged by apply_extra in /app/extra/inua.
+# inua-viewer links libpoppler-glib, which apply_extra unpacked from the
+# prebuilt stack to /app/extra/poppler-glib; /app/extra is not on the loader's
+# default search path. inua-apps needs only the runtime.
+name="$(basename "$0")"
+if [ "$name" = inua-viewer ]; then
+    export LD_LIBRARY_PATH="/app/extra/poppler-glib/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+fi
+exec "/app/extra/inua/$name" "$@"
