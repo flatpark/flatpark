@@ -26,14 +26,25 @@ assert.equal(targetCommit(IDX), COMMIT);
 assert.equal(targetCommit('/delta-indexes/w+/H4frjv4Kdl95NcGSREShAwU5V416qTfAL1tOjAOYA.index'),
   'c3e1f87eb8efe0a765f7935c1924444a1030539578d7aa937c02f5b4e8c03980');
 assert.equal(targetCommit('/delta-indexes/ab/cd.index'), '');
-// blob order is the SQL schema; blob6 (commit) was appended, never inserted
-assert.deepEqual(dataPoint(req({ 'Flatpak-Ref': ref })).blobs, ['io.flatpark.TestOne', 'install', 'x86_64', 'stable', '', COMMIT]);
+// blob order is the SQL schema; blob6 (commit) and blob7–15 were appended, never inserted
+const FROM = 'c3e1f87eb8efe0a765f7935c1924444a1030539578d7aa937c02f5b4e8c03980';
+const flatpak = { 'User-Agent': 'libostree/2026.4 flatpak/1.18.4', 'Flatpak-Os-Info': 'debian;unknown;x86_64' };
+assert.deepEqual(dataPoint(req({ 'Flatpak-Ref': ref })).blobs,
+  ['io.flatpark.TestOne', 'install', 'x86_64', 'stable', '', COMMIT, '', '', '', '', '', '', '', '', '']);
+assert.deepEqual(dataPoint(req({ ...flatpak, 'Flatpak-Ref': ref, 'Flatpak-Upgrade-From': FROM }), 200).blobs,
+  ['io.flatpark.TestOne', 'update', 'x86_64', 'stable', '', COMMIT, FROM, '1.18.4', '2026.4', 'debian', 'unknown', 'x86_64', '', '', '200']);
 // a path that is not a delta index still counts, just without a version
 assert.equal(dataPoint(req({ 'Flatpak-Ref': ref }, 'GET', '/delta-indexes/ab/cd.index')).blobs[5], '');
+// any Upgrade-From makes it an update; only a real commit is kept
 assert.equal(dataPoint(req({ 'Flatpak-Ref': ref, 'Flatpak-Upgrade-From': 'c3e1' })).blobs[1], 'update');
+assert.equal(dataPoint(req({ 'Flatpak-Ref': ref, 'Flatpak-Upgrade-From': 'c3e1' })).blobs[6], '');
+// client-sent values are reduced to short tokens, never stored as sent
+const odd = dataPoint(req({ 'Flatpak-Ref': ref, 'User-Agent': 'curl/8.0', 'Flatpak-Os-Info': 'my distro;<b>;' + 'x'.repeat(40) })).blobs;
+assert.deepEqual(odd.slice(7, 12), ['', '', '', '', '']);
 assert.deepEqual(dataPoint(req({ 'Flatpak-Ref': ref })).indexes, ['io.flatpark.TestOne']);
-// appstream refreshes ride along on every `flatpak update`; never an app pull
-assert.equal(dataPoint(req({ 'Flatpak-Ref': 'appstream2/x86_64' })), null);
+// appstream refreshes ride along on every `flatpak update`: kept under their own id
+assert.deepEqual(dataPoint(req({ ...flatpak, 'Flatpak-Ref': 'appstream2/x86_64' })).blobs.slice(0, 4), ['appstream2', 'install', 'x86_64', '']);
+assert.equal(dataPoint(req({ 'Flatpak-Ref': 'appstream/x86_64' })), null);
 assert.equal(dataPoint(req({ 'Flatpak-Ref': 'runtime/org.example.Platform/x86_64/1' })), null);
 assert.equal(dataPoint(req({})), null);
 assert.equal(dataPoint(req({ 'Flatpak-Ref': 'app/../x86_64/stable' })), null);
@@ -47,6 +58,7 @@ const points = [];
 let res = await worker.fetch(req({ 'Flatpak-Ref': ref }), { INSTALLS: { writeDataPoint: (p) => points.push(p) } });
 assert.equal(res, origin);
 assert.equal(points.length, 1);
+assert.equal(points[0].blobs[14], '404');
 res = await worker.fetch(req({ 'Flatpak-Ref': ref }), { INSTALLS: { writeDataPoint() { throw new Error('down'); } } });
 assert.equal(res, origin);
 EOF
