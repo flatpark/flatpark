@@ -15,6 +15,9 @@
     </linearGradient>
   </defs>
 
+  <!-- Lifted +9% about the canvas: the fan sat low with dead air on top.
+       Art now spans roughly x 6..122, y 22..114. -->
+  <g transform="translate(64,51) scale(1.09) translate(-64,-64)">
   <!-- soft ground shadow -->
   <ellipse cx="64" cy="114" rx="40" ry="7" fill="#000000" opacity="0.15"/>
 
@@ -46,5 +49,6 @@
      stroke-linejoin="round" fill="none">
     <path d="M 47 68 L 61 80 L 47 92"/>
     <path d="M 70 92 L 85 92"/>
+  </g>
   </g>
 </svg>
