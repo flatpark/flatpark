@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>com.aeroftp.AeroFTP</id>
   <name>AeroFTP</name>
-  <summary>Multi-protocol file client for FTP, SFTP, WebDAV, S3 and cloud storage</summary>
+  <summary>Multi-protocol file client for FTP, FTPS, SFTP, WebDAV, S3 and cloud storage</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <developer id="com.aeroftp">
@@ -11,17 +11,21 @@
   <url type="homepage">https://www.aeroftp.app</url>
   <url type="bugtracker">https://github.com/axpdev-lab/aeroftp/issues</url>
   <url type="vcs-browser">https://github.com/axpdev-lab/aeroftp</url>
+  <url type="donation">https://github.com/sponsors/axpnet</url>
   <description>
-    <p>This is a community package of AeroFTP, maintained independently and unaffiliated with the AeroFTP project. It repackages the official upstream Linux build unmodified.</p>
-    <p>AeroFTP is a cross-platform desktop client for transferring files over FTP, FTPS, SFTP, WebDAV, S3-compatible storage, GitHub and cloud providers, with a two-pane browser, an encrypted local vault for credentials, and a built-in media preview.</p>
+    <p>This is a FlatPark community package of AeroFTP, co-maintained with AeroFTP's developer. It repackages the official upstream Linux build unmodified.</p>
+    <p>AeroFTP is a desktop file client for FTP, FTPS, SFTP, WebDAV, S3-compatible storage and cloud providers such as Google Drive, Dropbox, OneDrive, MEGA, Box, pCloud, Azure Blob Storage, Koofr and Yandex Disk, with local and remote side by side in one window.</p>
     <ul>
-      <li>Connect over FTP, FTPS, SFTP, WebDAV and S3-compatible storage.</li>
-      <li>Two-pane transfers with a queue, and previews for text, images and media.</li>
-      <li>Credentials stored in a local AES-256-GCM vault, or in the system keyring.</li>
-      <li>Export connection profiles to rclone, WinSCP and FileZilla formats.</li>
+      <li>Dual-pane browser with one tab per connection, a transfer queue, and previews for text, images, audio and video.</li>
+      <li>Sync between a local folder and a remote one, batch rename, and an archive browser for ZIP, 7z, TAR and RAR.</li>
+      <li>Saved credentials in an encrypted local vault with an optional master password, or in the system keyring.</li>
+      <li>AeroVault encrypted containers, and Cryptomator vaults (format 8).</li>
+      <li>A code editor, a terminal with SSH remote shells, and an optional AI assistant that works with many providers, local Ollama included.</li>
+      <li>Export connection profiles to rclone, WinSCP and FileZilla.</li>
     </ul>
-    <p>Permissions: this package keeps a tight sandbox by default — display, GPU, audio, network, a tray icon, and access to the system keyring for saved passwords. No filesystem access is pre-granted, which has one consequence you should know about before installing: AeroFTP's local pane browses the sandbox home under ~/.var/app/com.aeroftp.AeroFTP, not your real home directory. Transfers to and from anywhere else go through the desktop portal's file chooser.</p>
-    <p>To point the local pane at your real home directory — the way upstream's own build behaves — run <code>flatpak override --user --filesystem=home com.aeroftp.AeroFTP</code>. Narrower grants work too, for example <code>--filesystem=~/Documents</code>. For removable media, add <code>--filesystem=/run/media</code>. Note that the in-app updater cannot work here: it installs a .deb or .rpm through pkexec, which a read-only Flatpak install does not allow. Updates arrive through Flatpak instead.</p>
+    <p>Permissions: besides display, GPU, audio, network, a tray icon and the system keyring, this package grants your home directory and the removable-media mounts (/media, /run/media). AeroFTP's local pane browses folders directly, which the file-chooser portal cannot provide, so without these the pane would only see the sandbox's own directory. In practice this means AeroFTP can read and write everything in your home directory.</p>
+    <p>To keep it to fewer folders, remove the home grant and add the ones you use, for example: <code>flatpak override --user --nofilesystem=home --filesystem=~/Documents --filesystem=~/Downloads com.aeroftp.AeroFTP</code>. Undo it with <code>flatpak override --user --reset com.aeroftp.AeroFTP</code>.</p>
+    <p>Differences from the upstream .deb: the in-app updater is not included, because it installs a .deb or .rpm through pkexec, which a Flatpak install cannot do; updates arrive through Flatpak instead. The Nautilus extension is not included either, since it would have to live in the host's Nautilus. Commands run from the built-in terminal or the AI assistant run inside the sandbox, with the tools the runtime provides rather than those installed on your system; SSH sessions to remote servers are unaffected.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>
@@ -34,7 +38,9 @@
     <keyword>SFTP</keyword>
     <keyword>WebDAV</keyword>
     <keyword>S3</keyword>
+    <keyword>FTPS</keyword>
     <keyword>cloud</keyword>
+    <keyword>Cryptomator</keyword>
   </keywords>
   <recommends>
     <display_length compare="ge">800</display_length>
@@ -45,22 +51,28 @@
     <binary>aeroftp</binary>
   </provides>
   <launchable type="desktop-id">com.aeroftp.AeroFTP.desktop</launchable>
+  <!-- The set upstream's own metainfo (app.aeroftp.AeroFTP.metainfo.xml) uses, on
+       the branch URL so a screenshot upstream replaces reaches the app page. -->
   <screenshots>
     <screenshot type="default">
-      <image>https://www.aeroftp.app/upload/thumbs/1200x800_section_69be0f2cb6c6c7.04322949.webp</image>
-      <caption>The two-pane browser with the settings dialog open</caption>
+      <image>https://raw.githubusercontent.com/axpdev-lab/aeroftp/main/screenshots/multi-tab-file-manager.png</image>
+      <caption>Dual-pane file manager with one tab per connection, local and remote side by side</caption>
     </screenshot>
     <screenshot>
-      <image>https://www.aeroftp.app/upload/thumbs/1200x800_section_69be12ffbdfda5.10356649.webp</image>
-      <caption>Transferring files between a remote server and the local pane</caption>
+      <image>https://raw.githubusercontent.com/axpdev-lab/aeroftp/main/screenshots/connection-screen-protocols.png</image>
+      <caption>Connection screen: protocols and cloud services on the left, saved servers on the right</caption>
     </screenshot>
     <screenshot>
-      <image>https://www.aeroftp.app/upload/thumbs/1200x800_section_69be1485241407.60654927.webp</image>
-      <caption>Managing saved connections</caption>
+      <image>https://raw.githubusercontent.com/axpdev-lab/aeroftp/main/screenshots/sync-transfer-queue.png</image>
+      <caption>Transfer queue and activity log during an upload</caption>
     </screenshot>
     <screenshot>
-      <image>https://www.aeroftp.app/upload/thumbs/1200x800_section_6a089e0d649390.56611098.webp</image>
-      <caption>AeroFTP in use</caption>
+      <image>https://raw.githubusercontent.com/axpdev-lab/aeroftp/main/screenshots/devtools-aeroagent.png</image>
+      <caption>Code editor, terminal and the AI assistant over a remote project</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/axpdev-lab/aeroftp/main/screenshots/settings-themes.png</image>
+      <caption>Appearance settings with the Light, Dark, Tokyo Night and Cyber themes</caption>
     </screenshot>
   </screenshots>
   <releases>
