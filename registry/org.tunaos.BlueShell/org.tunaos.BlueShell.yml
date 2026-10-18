@@ -32,11 +32,6 @@ finish-args:
   # The containers picker lists and enters Podman containers over the
   # user's Podman socket.
   - --filesystem=xdg-run/podman
-  # Ghostty registers its GTK application on the session bus under its
-  # upstream app-id. Without owning this name the single-instance guard
-  # fails and the app silently exits.
-  - --own-name=com.mitchellh.ghostty
-  - --talk-name=com.mitchellh.ghostty
 modules:
   - name: blueshell
     buildsystem: simple
@@ -46,6 +41,10 @@ modules:
       - install -Dm644 org.tunaos.BlueShell.desktop /app/share/applications/org.tunaos.BlueShell.desktop
       - install -Dm644 org.tunaos.BlueShell.metainfo.xml /app/share/metainfo/org.tunaos.BlueShell.metainfo.xml
       - install -Dm644 org.tunaos.BlueShell.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.BlueShell.svg
+      # Ghostty passes these paths to host shells; relative links work both
+      # inside /app and under the installed app's host-side files directory.
+      - ln -s ../extra/blueshell/share/ghostty /app/share/ghostty
+      - ln -s ../extra/blueshell/share/terminfo /app/share/terminfo
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
