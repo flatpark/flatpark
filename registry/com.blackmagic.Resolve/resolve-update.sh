@@ -32,16 +32,15 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-url="$(jq -r '.assets[] | select(.name | test("^resolve-flatpak-.*-x86_64\\.tar\\.gz$")) | .browser_download_url' <<<"$rel" | head -n1)"
+asset="$(jq -c '[.assets[] | select(.name | test("^resolve-flatpak-.*-x86_64\\.tar\\.gz$"))][0]' <<<"$rel")"
+url="$(jq -r '.browser_download_url' <<<"$asset")"
+# The release JSON carries each asset's byte size. Asking the download URL with
+# the API token instead gets a 401 from github.com, so it is read from here.
+size="$(jq -r '.size' <<<"$asset")"
 
-[ -n "$version" ] && [ "$version" != "null" ] && [ -n "$url" ] && [ "$url" != "null" ] \
+[ -n "$version" ] && [ "$version" != "null" ] && [ -n "$url" ] && [ "$url" != "null" ] && [ -n "$size" ] && [ "$size" != "null" ] \
     || { echo "failed to resolve resolve-flatpak release" >&2; exit 1; }
 echo "resolved resolve-flatpak $version ($date): $url" >&2
-
-# Content-Length of the asset (follows GitHub's redirect to the object host).
-size="$(curl -fsSIL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} "$url" \
-        | awk 'BEGIN{IGNORECASE=1} /^content-length:/{v=$2} END{gsub(/[^0-9]/,"",v); print v}')"
-[ -n "$size" ] || { echo "failed to read Content-Length for $url" >&2; exit 1; }
 
 jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg s "$size" \
   '{version:$v, releaseDate:$d, sources:[{filename:"resolve-flatpak.tar.gz", url:$u, size:$s}]}'
