@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Fluent Reader
+Comment=Modern desktop RSS reader
+Exec=fluent-reader %U
+Icon=me.hyliu.fluentreader
+Terminal=false
+StartupWMClass=fluent-reader
+Categories=Network;Feed;News;
+Keywords=rss;atom;feed;news;reader;aggregator;

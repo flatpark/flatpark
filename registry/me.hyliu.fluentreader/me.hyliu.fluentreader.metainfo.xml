@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>me.hyliu.fluentreader</id>
+  <name>Fluent Reader</name>
+  <summary>Modern desktop RSS reader</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+  <developer id="me.hyliu">
+    <name>Haoyuan Liu</name>
+  </developer>
+  <url type="homepage">https://hyliu.me/fluent-reader/</url>
+  <url type="bugtracker">https://github.com/yang991178/fluent-reader/issues</url>
+  <url type="vcs-browser">https://github.com/yang991178/fluent-reader</url>
+  <url type="help">https://github.com/yang991178/fluent-reader/wiki/Support</url>
+  <url type="donation">https://github.com/sponsors/yang991178</url>
+  <description>
+    <p>This is a community package of Fluent Reader, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Fluent Reader is a local, cross-platform news aggregator with a fresh look. Bring all your favorite sources with you and read distraction-free.</p>
+    <ul>
+      <li>A modern interface inspired by the Fluent Design System, with full dark mode support</li>
+      <li>Read locally, or sync with a self-hosted or hosted RSS service</li>
+      <li>Import and export OPML files, and back up or restore all application data</li>
+      <li>Read the full content in the built-in article view, or load web pages by default</li>
+      <li>Search articles with regular expressions, or filter by read status</li>
+      <li>Organize subscriptions into groups</li>
+      <li>Single-key keyboard shortcuts</li>
+      <li>Hide, mark as read or star articles automatically as they arrive, with regular expression rules</li>
+      <li>Fetch articles in the background and get notified</li>
+    </ul>
+    <p>This package uses the same app id as the earlier Flathub build, so feeds and settings from that build are kept when you install it.</p>
+  </description>
+  <launchable type="desktop-id">me.hyliu.fluentreader.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>Feed</category>
+    <category>News</category>
+  </categories>
+  <keywords>
+    <keyword>rss</keyword>
+    <keyword>atom</keyword>
+    <keyword>feed</keyword>
+    <keyword>news</keyword>
+    <keyword>reader</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>fluent-reader</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://hyliu.me/fluent-reader/imgs/light.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://hyliu.me/fluent-reader/imgs/dark.png</image>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/yang991178/fluent-reader/master/docs/imgs/screenshot.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.3.1" date="2026-10-15" />
+  </releases>
+</component>

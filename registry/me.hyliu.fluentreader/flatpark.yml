@@ -1,0 +1,22 @@
+id: me.hyliu.fluentreader
+name: Fluent Reader
+summary: Modern desktop RSS reader
+website: https://hyliu.me/fluent-reader/
+source_url: https://github.com/yang991178/fluent-reader
+build:
+  manifest: me.hyliu.fluentreader.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - RSS
+    - Feeds
+    - News
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,81 @@
+id: me.hyliu.fluentreader
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper). The payload itself
+# is still the vendor's own release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: fluent-reader
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) RSS reader. Upstream ships its Linux build as an
+  # electron-builder AppImage; this repackages the AppDir inside it unmodified.
+  # The bundle carries Chromium, its own ffmpeg/SwiftShader and the
+  # better-sqlite3 native module; the GTK3, NSS, CUPS, ATK, X11 and ALSA stacks
+  # they link come from the runtime.
+  - --share=ipc
+  # Fetching feeds, syncing with an RSS service (Fever, Feedbin, Miniflux…), and
+  # loading the full article pages.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering.
+  - --device=dri
+  # Audio and video embedded in articles and loaded web pages.
+  - --socket=pulseaudio
+  # Desktop notifications for new articles fetched in the background.
+  - --talk-name=org.freedesktop.Notifications
+  # Cursor theme from the host, so the pointer matches the desktop under X11.
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  # No filesystem grant: OPML import/export, data backup/restore and saving
+  # images all go through a file dialog, which the file-chooser portal serves.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: fluent-reader
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fluent-reader-wrapper /app/bin/fluent-reader
+      - install -Dm644 me.hyliu.fluentreader.desktop /app/share/applications/me.hyliu.fluentreader.desktop
+      - install -Dm644 me.hyliu.fluentreader.metainfo.xml /app/share/metainfo/me.hyliu.fluentreader.metainfo.xml
+      - install -Dm644 me.hyliu.fluentreader.png /app/share/icons/hicolor/512x512/apps/me.hyliu.fluentreader.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source rather
+      # than a module, because apply_extra runs in a sandbox that binds only the
+      # runtime /usr and /app/extra. Kept OUTSIDE the managed block, which
+      # update-pins.mjs rebuilds from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fluent-reader.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/yang991178/fluent-reader/releases/download/v1.3.1/Fluent.Reader.1.3.1.AppImage
+        sha256: 110b7c37611a3eaca92ce7e174990376c5aa924f77c1ad0ea817ea674a922f0b
+        size: 137492260
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fluent-reader-wrapper
+      - type: file
+        path: me.hyliu.fluentreader.desktop
+      - type: file
+        path: me.hyliu.fluentreader.metainfo.xml
+      - type: file
+        path: me.hyliu.fluentreader.png
