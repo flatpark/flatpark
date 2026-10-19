@@ -1,0 +1,27 @@
+# FlatPark catalog descriptor for ElyMark, part of Ely Office.
+#
+# read-descriptor.mjs is a line scanner, not a YAML parser; keep the plain
+# two-space block style below.
+id: ely.zacharyzhang.office.mark
+name: ElyMark
+summary: Markdown editor with live preview, math and diagrams
+website: https://office.elygpui.com
+source_url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice
+build:
+  manifest: ely.zacharyzhang.office.mark.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Markdown
+    - Editor
+    - Math
+    - Mermaid
+    - Offline
+update:
+  command: ./resolve-update.sh
+policy:
+  # AGPL-3.0-or-later (upstream LICENSE and the .deb's own licence field).
+  proprietary: false
+  dangerous_permissions: []

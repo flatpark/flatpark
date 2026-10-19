@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ely.zacharyzhang.office.mark</id>
+  <name>ElyMark</name>
+  <summary>Markdown editor with live preview, math and diagrams</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer id="com.zacharyzhang">
+    <name>ZacharyZhang</name>
+  </developer>
+  <url type="homepage">https://office.elygpui.com</url>
+  <url type="bugtracker">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/issues</url>
+  <url type="vcs-browser">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice</url>
+  <description>
+    <p>This is a community package of ElyMark, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>ElyMark is the Markdown editor of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It edits Markdown in place the way Typora does, with a source mode and a preview, and renders math with RaTeX and diagrams with mermaid-rs-renderer.</p>
+    <ul>
+      <li>Visual, source and preview modes, with Typora-style menus and shortcuts</li>
+      <li>Math blocks, Mermaid diagrams, tables and front matter</li>
+      <li>Saves one second after you stop typing, for files that have a path</li>
+      <li>Export to HTML and PDF</li>
+    </ul>
+    <p>ElyMark works fully offline. The package shares the network only because opening a second file hands it to the window already open over a local connection. It can read and write your Documents and Downloads folders; other files are opened and saved through the file chooser, or from your file manager. Settings and recovery points live in ~/.var/app/ely.zacharyzhang.office.mark.</p>
+    <p>To open files anywhere in your home directory by path (for example pictures a Markdown file links to outside its own folder): <code>flatpak override --user --filesystem=home ely.zacharyzhang.office.mark</code>. Undo with <code>flatpak override --user --reset ely.zacharyzhang.office.mark</code>.</p>
+    <p>In-app updates are left to Flatpak: new upstream releases arrive as Flatpak updates.</p>
+  </description>
+  <launchable type="desktop-id">ely.zacharyzhang.office.mark.desktop</launchable>
+  <categories>
+    <category>Utility</category>
+    <category>TextEditor</category>
+  </categories>
+  <keywords>
+    <keyword>markdown</keyword>
+    <keyword>md</keyword>
+    <keyword>editor</keyword>
+    <keyword>notes</keyword>
+    <keyword>typora</keyword>
+    <keyword>math</keyword>
+    <keyword>mermaid</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>ely-mark</binary>
+    <mediatype>text/markdown</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing Markdown in ElyMark</caption>
+      <image>https://office.elygpui.com/clips/mark.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.8" date="2026-10-19">
+      <url type="details">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/tag/v0.1.8</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

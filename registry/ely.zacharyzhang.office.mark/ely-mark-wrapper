@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+# ElyMark is staged by apply_extra at /app/extra/ely-mark, the AppDir tree from
+# upstream's .deb kept whole: the binary finds its helpers
+# next to itself in bin/.
+
+# GPUI resolves fonts through cosmic-text/fontdb, which parses one fontconfig
+# file by itself and reads only its <dir> elements, so the host fonts the
+# runtime reaches through a conf.d remap are invisible to it and non-Latin text
+# (CJK above all) comes out as boxes. /app/etc/fonts/fonts.conf lists every
+# font directory explicitly and includes the runtime's own configuration for
+# everything else. It replaces a FONTCONFIG_FILE set for all apps on purpose;
+# to use your own instead:
+#   flatpak override --user --env=ELY_MARK_FONTCONFIG_FILE=/path/to/fonts.conf ely.zacharyzhang.office.mark
+export FONTCONFIG_FILE="${ELY_MARK_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+exec /app/extra/ely-mark/bin/ely-mark "$@"

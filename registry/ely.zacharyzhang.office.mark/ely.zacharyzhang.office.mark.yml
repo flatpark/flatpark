@@ -1,0 +1,75 @@
+id: ely.zacharyzhang.office.mark
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: ely-mark
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # ElyMark is a GPUI application. The .deb is a self-contained tree built with
+  # linuxdeploy: it bundles every library the runtime might lack (libxkbcommon,
+  # xcb-xkb) and links only glibc, libstdc++, Vulkan, Wayland and
+  # xcb from the system, all in org.freedesktop.Platform 26.08. GPUI renders
+  # through Vulkan on the runtime's Mesa, hence dri, and opens a Wayland or
+  # X11 window, whichever the session has.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Accessibility through AccessKit's AT-SPI adapter, which asks org.a11y.Bus
+  # where the accessibility bus lives.
+  - --talk-name=org.a11y.Bus
+  # Ely Office keeps nothing in the home directory: each app's settings,
+  # recovery points, logs and instance lock live in $XDG_DATA_HOME/ElyOffice/
+  # ely-mark, which Flatpak points at ~/.var/app/ely.zacharyzhang.office.mark/data.
+  # Files are opened and saved through the file-chooser portal, and the .desktop
+  # Exec ends in %F, so files opened from a file manager arrive through the
+  # document portal. Documents is where an office app saves by default and
+  # Downloads is where documents arrive; the rest of $HOME stays invisible.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # network is for 127.0.0.1. Ely Office keeps one copy of each app running: a
+  # second launch (another file opened from the file manager) hands its files
+  # to the running copy over a TCP connection on 127.0.0.1, whose port the
+  # first copy writes to instance.door in its data directory. Without
+  # --share=network every `flatpak run` gets a network namespace of its own,
+  # the connection is refused and the second launch fails with an error.
+  # The app itself goes online for nothing: upstream's help (docs/help.md,
+  # "Offline boundary") says none of the apps needs a network, account or
+  # online service, and the self-updater only runs from a macOS .app bundle.
+  - --share=network
+  # Deliberately not granted; the metainfo documents the override:
+  #   --filesystem=home   -> open documents anywhere under $HOME by path
+modules:
+  - name: ely-mark
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ely-mark-wrapper /app/bin/ely-mark
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 ely.zacharyzhang.office.mark.desktop /app/share/applications/ely.zacharyzhang.office.mark.desktop
+      - install -Dm644 ely.zacharyzhang.office.mark.metainfo.xml /app/share/metainfo/ely.zacharyzhang.office.mark.metainfo.xml
+      - install -Dm644 ely.zacharyzhang.office.mark.png /app/share/icons/hicolor/512x512/apps/ely.zacharyzhang.office.mark.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ely-mark.deb
+        only-arches:
+          - x86_64
+        url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/download/v0.1.8/ely-mark_0.1.8-1_amd64.deb
+        sha256: 83e095eea58a6fed255c9a09524d154647a9fdac864c13b0dec1541313146e4f
+        size: 128423070
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ely-mark-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: ely.zacharyzhang.office.mark.desktop
+      - type: file
+        path: ely.zacharyzhang.office.mark.metainfo.xml
+      - type: file
+        path: ely.zacharyzhang.office.mark.png

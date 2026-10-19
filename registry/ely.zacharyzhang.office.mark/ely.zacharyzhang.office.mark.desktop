@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyMark
+Comment=Write Markdown with live preview
+Exec=ely-mark %F
+Icon=ely.zacharyzhang.office.mark
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-mark
+Categories=Utility;TextEditor;
+MimeType=text/markdown;
+Keywords=markdown;md;editor;notes;typora;math;mermaid;
