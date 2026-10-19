@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyDoc
+Comment=Write and edit DOCX and ODT documents
+Exec=ely-doc %F
+Icon=ely.zacharyzhang.office.doc
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-doc
+Categories=Office;WordProcessor;
+MimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.oasis.opendocument.text;application/msword;application/rtf;
+Keywords=word;docx;odt;document;writer;office;

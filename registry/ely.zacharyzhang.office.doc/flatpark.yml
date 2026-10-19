@@ -1,0 +1,27 @@
+# FlatPark catalog descriptor for ElyDoc, part of Ely Office.
+#
+# read-descriptor.mjs is a line scanner, not a YAML parser; keep the plain
+# two-space block style below.
+id: ely.zacharyzhang.office.doc
+name: ElyDoc
+summary: Word processor for DOCX and ODT documents
+website: https://office.elygpui.com
+source_url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice
+build:
+  manifest: ely.zacharyzhang.office.doc.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Word Processor
+    - DOCX
+    - ODT
+    - LibreOffice
+    - Offline
+update:
+  command: ./resolve-update.sh
+policy:
+  # AGPL-3.0-or-later (upstream LICENSE and the .deb's own licence field).
+  proprietary: false
+  dangerous_permissions: []
