@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ely.zacharyzhang.office.pdf</id>
+  <name>ElyPDF</name>
+  <summary>PDF reader and editor with OCR and signatures</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer id="com.zacharyzhang">
+    <name>ZacharyZhang</name>
+  </developer>
+  <url type="homepage">https://office.elygpui.com</url>
+  <url type="bugtracker">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/issues</url>
+  <url type="vcs-browser">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice</url>
+  <description>
+    <p>This is a community package of ElyPDF, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>ElyPDF is the PDF app of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It reads and edits PDF files with MuPDF, recognises text in scanned pages with Tesseract, and signs documents.</p>
+    <ul>
+      <li>Reading, searching and editing PDF files with MuPDF</li>
+      <li>Text recognition (OCR) for English, Simplified and Traditional Chinese, bundled with the app</li>
+      <li>Signatures; signed and repaired PDFs are saved as a copy</li>
+      <li>Printing and export</li>
+    </ul>
+    <p>ElyPDF works fully offline. The package shares the network only because opening a second file hands it to the window already open over a local connection. It can read and write your Documents and Downloads folders; other files are opened and saved through the file chooser, or from your file manager. Settings and recovery points live in ~/.var/app/ely.zacharyzhang.office.pdf.</p>
+    <p>To open files anywhere in your home directory by path: <code>flatpak override --user --filesystem=home ely.zacharyzhang.office.pdf</code>. Undo with <code>flatpak override --user --reset ely.zacharyzhang.office.pdf</code>.</p>
+    <p>In-app updates are left to Flatpak: new upstream releases arrive as Flatpak updates.</p>
+  </description>
+  <launchable type="desktop-id">ely.zacharyzhang.office.pdf.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Viewer</category>
+  </categories>
+  <keywords>
+    <keyword>pdf</keyword>
+    <keyword>reader</keyword>
+    <keyword>viewer</keyword>
+    <keyword>ocr</keyword>
+    <keyword>signature</keyword>
+    <keyword>annotate</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>ely-pdf</binary>
+    <mediatype>application/pdf</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Reading a PDF in ElyPDF</caption>
+      <image>https://office.elygpui.com/clips/pdf.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.8" date="2026-10-19">
+      <url type="details">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/tag/v0.1.8</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

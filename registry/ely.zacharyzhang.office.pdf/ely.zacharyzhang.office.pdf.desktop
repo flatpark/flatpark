@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyPDF
+Comment=Read, edit, OCR and sign PDF files
+Exec=ely-pdf %F
+Icon=ely.zacharyzhang.office.pdf
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-pdf
+Categories=Office;Viewer;
+MimeType=application/pdf;
+Keywords=pdf;reader;viewer;ocr;signature;annotate;
