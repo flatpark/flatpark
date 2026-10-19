@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# Flux is a GTK 4 file manager staged by apply_extra to /app/extra/flux.
+# Everything it links comes from org.gnome.Platform except libpoppler-glib,
+# which apply_extra unpacked from the prebuilt stack to /app/extra/poppler-glib;
+# /app/extra is not on the loader's default search path.
+export LD_LIBRARY_PATH="/app/extra/poppler-glib/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# Flux runs host tools (git, 7z, unar, ffmpeg, its terminal's shell, menu
+# scripts) by name. Upstream's Flatpak wrapper finds them by adding the host's
+# bin directories, visible through --filesystem=host, to PATH; they are added
+# after the runtime's own so the runtime's sh and coreutils stay in use.
+export PATH="${PATH}:/run/host/usr/bin:/run/host/bin"
+
+exec /app/extra/flux/flux-fm "$@"

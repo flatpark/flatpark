@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Flux
+GenericName=File Manager
+Comment=Modern and simple file manager written in Rust with Libadwaita
+Exec=flux %u
+Icon=io.github.killown.flux
+Terminal=false
+Categories=System;FileTools;FileManager;Utility;
+MimeType=inode/directory;application/zip;application/x-7z-compressed;application/x-tar;application/gzip;application/x-bzip2;application/x-xz;application/zstd;application/x-lz4;application/x-rar;application/vnd.rar;application/x-iso9660-image;application/x-tarz;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-xz-compressed-tar;application/x-zstd-compressed-tar;
+Keywords=files;explorer;manager;rust;
+StartupNotify=true

@@ -1,0 +1,76 @@
+# Flux - a GTK 4 / libadwaita file manager, the official Linux release tarball
+# repackaged unmodified as extra-data.
+#
+# Upstream publishes one x86_64 tarball per release with the flux-fm binary
+# beside its GResource icons, LICENSE and README. The binary links GTK 4,
+# libadwaita and cairo/pango from org.gnome.Platform//51; libpoppler-glib, the
+# one library the runtime lacks, comes from FlatPark's prebuilt poppler-glib
+# stack.
+id: io.github.killown.flux
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: flux
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The sandbox of upstream's own Flatpak manifest
+  # (packaging/flatpak/io.github.killown.flux.yml), which the developer asked
+  # FlatPark to keep (killown/flux#34). Their notes: a full file manager needs
+  # the host filesystem for navigation, trash handling and xattr tagging.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=network
+  - --filesystem=host
+  # Removable drives, LUKS containers and MTP devices.
+  - --device=all
+  # GVfs mounts and volume monitors, UDisks2 for drives and encrypted volumes.
+  - --socket=session-bus
+  - --socket=system-bus
+  # flatpak-spawn --host, as in upstream's manifest.
+  - --talk-name=org.freedesktop.Flatpak
+modules:
+  - name: flux
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 flux-wrapper /app/bin/flux
+      - install -Dm644 io.github.killown.flux.desktop /app/share/applications/io.github.killown.flux.desktop
+      - install -Dm644 io.github.killown.flux.metainfo.xml /app/share/metainfo/io.github.killown.flux.metainfo.xml
+      - install -Dm644 io.github.killown.flux.svg /app/share/icons/hicolor/scalable/apps/io.github.killown.flux.svg
+    sources:
+      # libpoppler-glib.so.8 (PDF thumbnails) - the payload's only DT_NEEDED
+      # that org.gnome.Platform//51 lacks - from FlatPark's prebuilt
+      # poppler-glib stack. apply_extra unpacks it to /app/extra/poppler-glib
+      # and the wrapper puts its lib/ on LD_LIBRARY_PATH.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: poppler-glib.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v1/poppler-glib-poppler-glib-v1-gnome-51-x86_64.tar.xz
+        sha256: c8eddb747c9d7ff794b8dc02a01ea8bcaa9b9ecbc7e3d6a6fec83d6211c7fea9
+        size: 1561500
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: flux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/killown/flux/releases/download/v0.2.1/flux-v0.2.1-x86_64.tar.gz
+        sha256: e75f983f6ff32f126961fc2ffbcbd2752b7d851e8bfd948989183414411afa96
+        size: 8425238
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: flux-wrapper
+      - type: file
+        path: io.github.killown.flux.desktop
+      - type: file
+        path: io.github.killown.flux.metainfo.xml
+      - type: file
+        path: io.github.killown.flux.svg

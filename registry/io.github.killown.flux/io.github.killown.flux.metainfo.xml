@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.killown.flux</id>
+  <name>Flux</name>
+  <summary>Fast, minimalist, keyboard-driven file manager</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.killown">
+    <name>killown</name>
+  </developer>
+  <url type="homepage">https://github.com/killown/flux</url>
+  <url type="bugtracker">https://github.com/killown/flux/issues</url>
+  <url type="vcs-browser">https://github.com/killown/flux</url>
+  <description>
+    <p>This is a community package of Flux, maintained independently and unaffiliated with the Flux project. It repackages the official upstream Linux release unmodified.</p>
+    <p>Flux is a minimalist, high-performance file manager built with Rust, GTK4 and Libadwaita. Built for keyboard-centric users, it pairs a clean GNOME look with an asynchronous architecture that keeps the interface responsive.</p>
+    <ul>
+      <li>Instant live search with body queries and size filters (&gt;10MB, &lt;500KB, ranges).</li>
+      <li>Tag navigation backed by FreeDesktop extended attributes.</li>
+      <li>Integrated terminal pane that follows the current directory.</li>
+      <li>Browse zip, 7z, rar, tarballs and ISO images without extracting them.</li>
+      <li>LUKS containers and GVfs remote mounts (SMB, SFTP, NFS, WebDAV).</li>
+      <li>Undo/redo for file operations, conflict policies and deletion guards.</li>
+      <li>File inspector with SHA-256 hashes, media details and Git history.</li>
+    </ul>
+    <p>Permissions: this package keeps the sandbox of upstream's own Flatpak manifest, as the developer asked. It can read and write the whole host filesystem, use all devices, talk to every service on the session and system buses, and run commands on the host. Host tools Flux calls by name (git, 7z, unar, ffmpeg, the terminal's shell) are looked up in the host's /usr/bin after the runtime's own.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+    <category>FileTools</category>
+    <category>FileManager</category>
+  </categories>
+  <keywords>
+    <keyword>file manager</keyword>
+    <keyword>files</keyword>
+    <keyword>explorer</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">768</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>flux</binary>
+  </provides>
+  <launchable type="desktop-id">io.github.killown.flux.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/killown/flux/v0.2.1/screenshots/flathub.png</image>
+      <caption>Flux main interface</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.2.1" date="2026-10-19">
+      <description></description>
+    </release>
+  </releases>
+</component>

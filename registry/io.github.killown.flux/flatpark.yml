@@ -1,0 +1,34 @@
+id: io.github.killown.flux
+name: Flux
+summary: Fast, minimalist, keyboard-driven file manager
+website: https://github.com/killown/flux
+source_url: https://github.com/killown/flux
+build:
+  manifest: io.github.killown.flux.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - File manager
+    - GTK
+    - Rust
+    - Open source
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  # The grants of upstream's own Flatpak manifest
+  # (packaging/flatpak/io.github.killown.flux.yml), which the developer asked
+  # FlatPark to keep (killown/flux#34).
+  dangerous_permissions:
+    - --filesystem=host
+    - --device=all
+    - --socket=session-bus
+    - --socket=system-bus
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail:
+      en: "Flux keeps the sandbox of its upstream Flatpak manifest: the whole host filesystem, all devices, the session and system buses and flatpak-spawn, and it runs host tools such as git, 7z and ffmpeg from the host's /usr/bin. These permissions allow arbitrary host commands and access to host files."
+      zh-Hans: "Flux 沿用上游 Flatpak 清单的沙箱：整个宿主机文件系统、全部设备、会话与系统总线以及 flatpak-spawn，并从宿主机 /usr/bin 运行 git、7z、ffmpeg 等工具。这些权限允许执行任意宿主机命令并访问宿主机文件。"
