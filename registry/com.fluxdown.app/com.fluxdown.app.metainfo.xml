@@ -46,6 +46,9 @@
   </provides>
   <launchable type="desktop-id">com.fluxdown.app.desktop</launchable>
   <releases>
+    <release version="0.5.8" date="2026-10-19">
+      <description></description>
+    </release>
     <release version="0.5.7" date="2026-10-15">
       <description></description>
     </release>

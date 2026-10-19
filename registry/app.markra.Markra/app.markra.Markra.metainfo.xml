@@ -59,6 +59,9 @@
     <binary>markra</binary>
   </provides>
   <releases>
+    <release version="2.13.1" date="2026-10-19">
+      <description></description>
+    </release>
     <release version="2.13.0" date="2026-10-16">
       <description></description>
     </release>
