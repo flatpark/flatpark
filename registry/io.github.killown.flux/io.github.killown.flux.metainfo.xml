@@ -12,7 +12,7 @@
   <url type="bugtracker">https://github.com/killown/flux/issues</url>
   <url type="vcs-browser">https://github.com/killown/flux</url>
   <description>
-    <p>This is a community package of Flux, maintained independently and unaffiliated with the Flux project. It repackages the official upstream Linux release unmodified.</p>
+    <p>This is a community package of Flux, maintained independently and published with the permission of its developer. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
     <p>Flux is a minimalist, high-performance file manager built with Rust, GTK4 and Libadwaita. Built for keyboard-centric users, it pairs a clean GNOME look with an asynchronous architecture that keeps the interface responsive.</p>
     <ul>
       <li>Instant live search with body queries and size filters (&gt;10MB, &lt;500KB, ranges).</li>
