@@ -15,7 +15,7 @@
   <url type="help">https://www.shutterencoder.com/documentation/</url>
   <url type="donation">https://www.shutterencoder.com/</url>
   <description>
-    <p>This is a community package of Shutter Encoder, maintained independently and unaffiliated with the Shutter Encoder project. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
+    <p>This is a community package of Shutter Encoder, maintained independently and published with the permission of its developer. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
     <p>Shutter Encoder is a media converter for video editors and everyone else: pick a function, drop in your files, and it drives FFmpeg and a set of companion tools for you.</p>
     <ul>
       <li>Convert to editing and delivery codecs: H.264, H.265, AV1, VP9, ProRes, DNxHD/DNxHR, and audio formats.</li>
