@@ -6,15 +6,17 @@
   <project_license>LicenseRef-proprietary</project_license>
   <name>DaVinci Resolve Studio</name>
   <summary>Professional editing, colour, visual effects and audio post-production (Studio)</summary>
-  <developer id="com.blackmagic">
-    <name>Blackmagic Design</name>
+  <developer id="io.github.night199uk">
+    <name>night199uk</name>
   </developer>
   <url type="homepage">https://www.blackmagicdesign.com/products/davinciresolve</url>
   <url type="help">https://www.blackmagicdesign.com/support/family/davinci-resolve-and-fusion</url>
+  <url type="bugtracker">https://github.com/night199uk/resolve-flatpak/issues</url>
+  <url type="vcs-browser">https://github.com/night199uk/resolve-flatpak</url>
   <description>
-    <p>This is a community package of DaVinci Resolve Studio, maintained independently and not affiliated with Blackmagic Design.</p>
-    <p>The app in this package is the resolve-flatpak installer and launcher. On first launch it downloads Blackmagic's official Linux installer, unpacks it into the app's own private folder, and starts it; later launches check for a newer release and update in place. Blackmagic's build is unpacked unmodified — nothing about Resolve itself is patched or rebuilt. As Resolve is a large download, the first launch takes a while.</p>
-    <p>DaVinci Resolve Studio is the paid edition: it adds GPU-accelerated H.264/H.265 decode, more Neural Engine and Resolve FX features, stereoscopic 3D, and support for multiple GPUs. It runs unlicensed in a limited mode until a licence key (a USB dongle or activation) is supplied; activating it is left entirely to you and Blackmagic.</p>
+    <p>This is not an official Blackmagic Design package, and Blackmagic Design does not support it. The app in this package is resolve-flatpak, an open-source installer and launcher written by night199uk to make DaVinci Resolve Studio easy to install and use on Linux. Problems with installing or starting DaVinci Resolve Studio through it go to resolve-flatpak's issue tracker, not to Blackmagic.</p>
+    <p>On first launch the installer downloads Blackmagic's official Linux installer, unpacks it into the app's own private folder, and starts it; later launches check for a newer release and update in place. Blackmagic's build is unpacked unmodified — nothing about Resolve itself is patched or rebuilt. As Resolve is a large download, the first launch takes a while.</p>
+    <p>DaVinci Resolve Studio is the paid edition: it adds GPU-accelerated H.264/H.265 decode, more Neural Engine and Resolve FX features, stereoscopic 3D, and support for multiple GPUs. It needs your own licence (an activation key or a USB dongle); activating it is left entirely to you and Blackmagic.</p>
     <p>Permissions: this package grants read-write access to Documents, Downloads, Music, Pictures, Videos and the Desktop, because a project references media by path and reopening it needs those paths reachable. Network access downloads and installs Resolve and backs its online licence and update checks. GPU access, with the RUSTICL OpenCL fallback, is used for rendering. Settings and the installed Resolve live inside the app's own folder.</p>
     <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
     <ul>
@@ -70,7 +72,7 @@
     <release version="0.0.4" date="2026-10-18">
       <description></description>
     </release>
-    <release version="0.0.3" date="2026-09-22">
+    <release version="0.0.3" date="2026-10-08">
       <description></description>
     </release>
   </releases>
