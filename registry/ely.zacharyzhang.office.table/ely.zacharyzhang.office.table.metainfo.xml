@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ely.zacharyzhang.office.table</id>
+  <name>ElyTable</name>
+  <summary>Spreadsheet editor for XLSX, ODS and CSV files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer id="com.zacharyzhang">
+    <name>ZacharyZhang</name>
+  </developer>
+  <url type="homepage">https://office.elygpui.com</url>
+  <url type="bugtracker">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/issues</url>
+  <url type="vcs-browser">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice</url>
+  <description>
+    <p>This is a community package of ElyTable, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>ElyTable is the spreadsheet app of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It opens and saves XLSX, ODS, XLS, CSV and TSV files, with LibreOfficeKit as the calculation engine.</p>
+    <ul>
+      <li>Formulas, formatting and multiple sheets, calculated by LibreOfficeKit</li>
+      <li>Saves back to the original format; Save As writes a new file and leaves the original alone</li>
+      <li>Recovery points every 10 seconds while there are unsaved changes, kept only on this computer</li>
+      <li>Optional auto-save, zoom, printing and export</li>
+    </ul>
+    <p>ElyTable works fully offline. The package shares the network only because opening a second file hands it to the window already open over a local connection. It can read and write your Documents and Downloads folders; other files are opened and saved through the file chooser, or from your file manager. Settings and recovery points live in ~/.var/app/ely.zacharyzhang.office.table.</p>
+    <p>To open files anywhere in your home directory by path: <code>flatpak override --user --filesystem=home ely.zacharyzhang.office.table</code>. Undo with <code>flatpak override --user --reset ely.zacharyzhang.office.table</code>.</p>
+    <p>In-app updates are left to Flatpak: new upstream releases arrive as Flatpak updates.</p>
+  </description>
+  <launchable type="desktop-id">ely.zacharyzhang.office.table.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Spreadsheet</category>
+  </categories>
+  <keywords>
+    <keyword>spreadsheet</keyword>
+    <keyword>xlsx</keyword>
+    <keyword>ods</keyword>
+    <keyword>csv</keyword>
+    <keyword>excel</keyword>
+    <keyword>calc</keyword>
+    <keyword>office</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>ely-table</binary>
+    <mediatype>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mediatype>
+    <mediatype>application/vnd.oasis.opendocument.spreadsheet</mediatype>
+    <mediatype>application/vnd.ms-excel</mediatype>
+    <mediatype>text/csv</mediatype>
+    <mediatype>text/tab-separated-values</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A spreadsheet in ElyTable</caption>
+      <image>https://office.elygpui.com/clips/table.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.8" date="2026-10-19">
+      <url type="details">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/tag/v0.1.8</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

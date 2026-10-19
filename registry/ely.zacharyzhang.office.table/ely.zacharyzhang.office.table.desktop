@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyTable
+Comment=Edit XLSX, ODS and CSV spreadsheets
+Exec=ely-table %F
+Icon=ely.zacharyzhang.office.table
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-table
+Categories=Office;Spreadsheet;
+MimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.oasis.opendocument.spreadsheet;application/vnd.ms-excel;text/csv;text/tab-separated-values;
+Keywords=spreadsheet;xlsx;ods;csv;excel;calc;office;
