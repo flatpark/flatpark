@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=io.github.tim_van_oudheusden.Dailies
+Exec=/app/bin/dailies --gapplication-service

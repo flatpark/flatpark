@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+    <!-- Front profile (Light 4): same torn outline, 8 px lower -->
+  <path d="M12 28l6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6V108a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8z" fill="#c0bfbc"/>
+  <!-- Page face (Light 2) with a torn top edge -->
+  <path d="M12 20l6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6 6.5-6 6.5 6V100a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8z" fill="#f6f5f4"/>
+  <!-- Row 1: miss, present, miss -->
+  <rect x="28" y="28" width="20" height="20" rx="3" fill="#c0bfbc"/>
+  <rect x="54" y="28" width="20" height="20" rx="3" fill="#ff7800"/>
+  <rect x="80" y="28" width="20" height="20" rx="3" fill="#c0bfbc"/>
+  <!-- Row 2: present, correct, miss -->
+  <rect x="28" y="54" width="20" height="20" rx="3" fill="#ff7800"/>
+  <rect x="54" y="54" width="20" height="20" rx="3" fill="#1c71d8"/>
+  <rect x="80" y="54" width="20" height="20" rx="3" fill="#c0bfbc"/>
+  <!-- Row 3: solved -->
+  <rect x="28" y="80" width="20" height="20" rx="3" fill="#1c71d8"/>
+  <rect x="54" y="80" width="20" height="20" rx="3" fill="#1c71d8"/>
+  <rect x="80" y="80" width="20" height="20" rx="3" fill="#1c71d8"/>
+</svg>

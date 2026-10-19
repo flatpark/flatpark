@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name[nl]=Dailies
+Name=Dailies
+Comment[nl]=Speel uw dagelijkse raadspellen op één plek
+Comment=Play your daily guessing games in one place
+Exec=dailies
+Icon=io.github.tim_van_oudheusden.Dailies
+Terminal=false
+Type=Application
+Categories=Game;
+Keywords[nl]=dagelijks;puzzel;wordle;raden;raadspel;spel;dle;daily;puzzle;game;
+Keywords=daily;puzzle;wordle;guessing;game;dle;
+StartupNotify=true
+DBusActivatable=true

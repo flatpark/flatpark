@@ -1,0 +1,80 @@
+id: io.github.tim_van_oudheusden.Dailies
+# Dailies is a Python GTK 4 / libadwaita launcher for daily guessing games. The
+# extra-data is upstream's own release asset, Dailies-flatpark.tar.xz: the
+# release-profile Meson install tree, built by upstream's release workflow in
+# org.gnome.Sdk//51 (scripts/flatpark_payload.py). It holds Python, the
+# Blueprint UI in a gresource, translations and the bundled game list, and no
+# compiled code, so the same file serves x86_64 and aarch64.
+#
+# That tree is built for /app/extra/dailies, where apply_extra unpacks it: its
+# launcher and config.py name that path, so it only runs from there. Python,
+# PyGObject, GTK 4, libadwaita, libsoup and WebKitGTK 6 come from the runtime.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: dailies
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK 4 / libadwaita, native on Wayland; fallback-x11 (with ipc) only for X11
+  # sessions. GTK and the built-in browser (WebKitGTK) render through GL.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The game list, the weekly Popular and Trending shelves and the game icons
+  # come from GitHub Pages, and the games themselves are websites.
+  - --share=network
+  # Music games (Bandle, Heardle and others) play sound in the built-in
+  # browser. The same grant as the developer's own Flatpak, by his decision
+  # (Tim-van-Oudheusden/Dailies#16).
+  - --socket=pulseaudio
+  # No --filesystem: exporting and importing favourites go through the file
+  # chooser portal, and opening a game in the default browser goes through the
+  # OpenURI portal. Settings, the catalog cache and the built-in browser's
+  # website data live in the per-app XDG directories under ~/.var/app.
+  #
+  # No --talk-name=org.freedesktop.Flatpak: the optional "Custom command" open
+  # mode runs a host command, and stays hidden until the user grants that with
+  # the flatpak override in the metainfo.
+modules:
+  - name: dailies
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dailies-wrapper /app/bin/dailies
+      - install -Dm644 io.github.tim_van_oudheusden.Dailies.desktop /app/share/applications/io.github.tim_van_oudheusden.Dailies.desktop
+      # The desktop entry is DBusActivatable.
+      - install -Dm644 io.github.tim_van_oudheusden.Dailies.service /app/share/dbus-1/services/io.github.tim_van_oudheusden.Dailies.service
+      - install -Dm644 io.github.tim_van_oudheusden.Dailies.metainfo.xml /app/share/metainfo/io.github.tim_van_oudheusden.Dailies.metainfo.xml
+      - install -Dm644 io.github.tim_van_oudheusden.Dailies.svg /app/share/icons/hicolor/scalable/apps/io.github.tim_van_oudheusden.Dailies.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: dailies.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/Tim-van-Oudheusden/Dailies/releases/download/v0.3.3/Dailies-flatpark.tar.xz
+        sha256: f22b2d025e1a2d2edbb580f54eefae9a3050d335cee833132a3b246fa376c518
+        size: 81084
+      - type: extra-data
+        filename: dailies.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/Tim-van-Oudheusden/Dailies/releases/download/v0.3.3/Dailies-flatpark.tar.xz
+        sha256: f22b2d025e1a2d2edbb580f54eefae9a3050d335cee833132a3b246fa376c518
+        size: 81084
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dailies-wrapper
+      - type: file
+        path: io.github.tim_van_oudheusden.Dailies.desktop
+      - type: file
+        path: io.github.tim_van_oudheusden.Dailies.service
+      - type: file
+        path: io.github.tim_van_oudheusden.Dailies.metainfo.xml
+      - type: file
+        path: io.github.tim_van_oudheusden.Dailies.svg
