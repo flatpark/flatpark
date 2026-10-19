@@ -69,6 +69,9 @@
     <binary>resolve-studio</binary>
   </provides>
   <releases>
+    <release version="0.0.5" date="2026-10-19">
+      <description></description>
+    </release>
     <release version="0.0.4" date="2026-10-18">
       <description></description>
     </release>
