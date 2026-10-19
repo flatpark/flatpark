@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyTree
+Comment=Work with Git repositories
+Exec=ely-tree %F
+Icon=ely.zacharyzhang.office.tree
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-tree
+Categories=Development;RevisionControl;
+MimeType=inode/directory;
+Keywords=git;version control;commit;branch;repository;vcs;

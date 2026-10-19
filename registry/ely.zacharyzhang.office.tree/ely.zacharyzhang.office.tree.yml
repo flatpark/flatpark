@@ -1,0 +1,71 @@
+id: ely.zacharyzhang.office.tree
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: ely-tree
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # ElyTree is a GPUI application. The .deb is a self-contained tree built with
+  # linuxdeploy: it bundles every library the runtime might lack (libxkbcommon,
+  # xcb-xkb) and links only glibc, libstdc++, Vulkan, Wayland and
+  # xcb from the system, all in org.freedesktop.Platform 26.08. GPUI renders
+  # through Vulkan on the runtime's Mesa, hence dri, and opens a Wayland or
+  # X11 window, whichever the session has.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Accessibility through AccessKit's AT-SPI adapter, which asks org.a11y.Bus
+  # where the accessibility bus lives.
+  - --talk-name=org.a11y.Bus
+  # ElyTree works on repositories wherever the user keeps them and uses the
+  # user's own Git setup: ~/.gitconfig, ~/.ssh keys and known_hosts, and
+  # signing keys. A repository opened through the directory portal would lose
+  # all of those, and a clone has to land in a real folder the user picks, so
+  # the package grants the home directory (declared in flatpark.yml).
+  # Settings, logs and the instance lock still live in
+  # $XDG_DATA_HOME/ElyOffice/ely-tree (~/.var/app/ely.zacharyzhang.office.tree/data).
+  - --filesystem=home
+  # Fetch, pull, push and clone over HTTPS and SSH. Upstream's help says these
+  # are the only times ElyTree connects.
+  - --share=network
+  # Credentials come from the user's own agents, as upstream intends ("Ely
+  # never asks for a password in a terminal"): ssh-agent for SSH remotes and
+  # signing, gpg-agent for OpenPGP-signed commits. ssh and gpg come from the
+  # runtime; Git and Git LFS are the ones bundled in the .deb.
+  - --socket=ssh-auth
+  - --socket=gpg-agent
+modules:
+  - name: ely-tree
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ely-tree-wrapper /app/bin/ely-tree
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 ely.zacharyzhang.office.tree.desktop /app/share/applications/ely.zacharyzhang.office.tree.desktop
+      - install -Dm644 ely.zacharyzhang.office.tree.metainfo.xml /app/share/metainfo/ely.zacharyzhang.office.tree.metainfo.xml
+      - install -Dm644 ely.zacharyzhang.office.tree.png /app/share/icons/hicolor/512x512/apps/ely.zacharyzhang.office.tree.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ely-tree.deb
+        only-arches:
+          - x86_64
+        url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/download/v0.1.8/ely-tree_0.1.8-1_amd64.deb
+        sha256: d15d6779de554777972d9cffa0c219f2be272a6732b876ba350f44307da9ea85
+        size: 88921754
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ely-tree-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: ely.zacharyzhang.office.tree.desktop
+      - type: file
+        path: ely.zacharyzhang.office.tree.metainfo.xml
+      - type: file
+        path: ely.zacharyzhang.office.tree.png
