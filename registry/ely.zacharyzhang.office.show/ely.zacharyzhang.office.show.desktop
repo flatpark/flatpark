@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyShow
+Comment=Edit and present PPTX and ODP slides
+Exec=ely-show %F
+Icon=ely.zacharyzhang.office.show
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-show
+Categories=Office;Presentation;
+MimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.oasis.opendocument.presentation;application/vnd.ms-powerpoint;
+Keywords=presentation;slides;pptx;odp;powerpoint;impress;office;

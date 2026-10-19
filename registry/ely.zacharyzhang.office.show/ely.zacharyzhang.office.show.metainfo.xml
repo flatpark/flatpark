@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ely.zacharyzhang.office.show</id>
+  <name>ElyShow</name>
+  <summary>Presentation editor for PPTX and ODP files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer id="com.zacharyzhang">
+    <name>ZacharyZhang</name>
+  </developer>
+  <url type="homepage">https://office.elygpui.com</url>
+  <url type="bugtracker">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/issues</url>
+  <url type="vcs-browser">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice</url>
+  <description>
+    <p>This is a community package of ElyShow, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>ElyShow is the presentation app of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It opens and saves PPTX, ODP and PPT files, with LibreOfficeKit as the document engine.</p>
+    <ul>
+      <li>Slide editing and a full-screen slide show</li>
+      <li>Saves back to the original format; Save As writes a new file and leaves the original alone</li>
+      <li>Recovery points every 10 seconds while there are unsaved changes, kept only on this computer</li>
+      <li>Optional auto-save, zoom, printing and export</li>
+    </ul>
+    <p>ElyShow works fully offline. The package shares the network only because opening a second file hands it to the window already open over a local connection. It can read and write your Documents and Downloads folders; other files are opened and saved through the file chooser, or from your file manager. Settings and recovery points live in ~/.var/app/ely.zacharyzhang.office.show.</p>
+    <p>To open files anywhere in your home directory by path: <code>flatpak override --user --filesystem=home ely.zacharyzhang.office.show</code>. Undo with <code>flatpak override --user --reset ely.zacharyzhang.office.show</code>.</p>
+    <p>In-app updates are left to Flatpak: new upstream releases arrive as Flatpak updates.</p>
+  </description>
+  <launchable type="desktop-id">ely.zacharyzhang.office.show.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Presentation</category>
+  </categories>
+  <keywords>
+    <keyword>presentation</keyword>
+    <keyword>slides</keyword>
+    <keyword>pptx</keyword>
+    <keyword>odp</keyword>
+    <keyword>powerpoint</keyword>
+    <keyword>impress</keyword>
+    <keyword>office</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>ely-show</binary>
+    <mediatype>application/vnd.openxmlformats-officedocument.presentationml.presentation</mediatype>
+    <mediatype>application/vnd.oasis.opendocument.presentation</mediatype>
+    <mediatype>application/vnd.ms-powerpoint</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A slide show in ElyShow</caption>
+      <image>https://office.elygpui.com/clips/show.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.8" date="2026-10-19">
+      <url type="details">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/tag/v0.1.8</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

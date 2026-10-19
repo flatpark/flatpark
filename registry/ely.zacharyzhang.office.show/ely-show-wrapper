@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+# ElyShow is staged by apply_extra at /app/extra/ely-show, the AppDir tree from
+# upstream's .deb kept whole: the binary finds its helpers and the LibreOffice kernel
+# next to itself in bin/.
+
+# The bundled LibreOffice's libcurl needs libgssapi_krb5.so.2, which the
+# runtime lacks; apply_extra staged it at /app/extra/krb5-gss/lib. Appended
+# last, so nothing the app or the runtime ships is shadowed by it.
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}/app/extra/krb5-gss/lib"
+
+# GPUI resolves fonts through cosmic-text/fontdb, which parses one fontconfig
+# file by itself and reads only its <dir> elements, so the host fonts the
+# runtime reaches through a conf.d remap are invisible to it and non-Latin text
+# (CJK above all) comes out as boxes. /app/etc/fonts/fonts.conf lists every
+# font directory explicitly and includes the runtime's own configuration for
+# everything else. It replaces a FONTCONFIG_FILE set for all apps on purpose;
+# to use your own instead:
+#   flatpak override --user --env=ELY_SHOW_FONTCONFIG_FILE=/path/to/fonts.conf ely.zacharyzhang.office.show
+export FONTCONFIG_FILE="${ELY_SHOW_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+exec /app/extra/ely-show/bin/ely-show "$@"
