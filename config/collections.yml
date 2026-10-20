@@ -83,3 +83,37 @@ collections:
           - org.tunaos.tavern
           - org.tunaos.compass
           - org.tunaos.blueshell
+  - slug: ely-office
+    name: Ely Office
+    upstream: https://office.elygpui.com
+    summary:
+      en: >-
+        Offline-first desktop apps written in Rust with GPUI: a word processor,
+        spreadsheet and presentation editor built on LibreOfficeKit, a PDF
+        editor with OCR, a Git client and a Markdown editor. Files stay in your
+        folders; no account and no cloud service. FlatPark carries every
+        released app, each installed from the developer's own .deb.
+      zh-Hans: >-
+        一套用 Rust 和 GPUI 编写、离线优先的桌面应用：基于 LibreOfficeKit 的文字处理、
+        电子表格和演示文稿，带 OCR 的 PDF 编辑器，Git 客户端和 Markdown 编辑器。文件留在你自己的文件夹里，
+        不需要账号，也没有云服务。FlatPark 收录了其中所有已发布的应用，每个都从开发者自己的 .deb 安装。
+    groups:
+      - title:
+          en: Office
+          zh-Hans: 办公
+        apps:
+          - ely.zacharyzhang.office.doc
+          - ely.zacharyzhang.office.table
+          - ely.zacharyzhang.office.show
+          - ely.zacharyzhang.office.pdf
+      - title:
+          en: Writing and code
+          zh-Hans: 写作与代码
+        apps:
+          - ely.zacharyzhang.office.mark
+          - ely.zacharyzhang.office.tree
+    upcoming:
+      - name: ElyMail
+        url: https://office.elygpui.com
+      - name: ElyAgent
+        url: https://office.elygpui.com
