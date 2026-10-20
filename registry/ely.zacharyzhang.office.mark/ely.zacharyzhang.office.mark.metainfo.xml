@@ -4,13 +4,13 @@
   <name>ElyMark</name>
   <summary>Markdown editor with live preview, math and diagrams</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>AGPL-3.0-or-later</project_license>
+  <project_license>MIT</project_license>
   <developer id="com.zacharyzhang">
     <name>ZacharyZhang</name>
   </developer>
   <url type="homepage">https://office.elygpui.com</url>
-  <url type="bugtracker">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/issues</url>
-  <url type="vcs-browser">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice</url>
+  <url type="bugtracker">https://github.com/ELY-Open-Source/ElyOffice/issues</url>
+  <url type="vcs-browser">https://github.com/ELY-Open-Source/ElyOffice</url>
   <description>
     <p>This is a community package of ElyMark, maintained independently. It repackages the official upstream Linux build unmodified.</p>
     <p>ElyMark is the Markdown editor of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It edits Markdown in place the way Typora does, with a source mode and a preview, and renders math with RaTeX and diagrams with mermaid-rs-renderer.</p>
@@ -55,7 +55,7 @@
   </screenshots>
   <releases>
     <release version="0.1.8" date="2026-10-19">
-      <url type="details">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/tag/v0.1.8</url>
+      <url type="details">https://github.com/ELY-Open-Source/ElyOffice/releases/tag/v0.1.8</url>
       <description></description>
     </release>
   </releases>

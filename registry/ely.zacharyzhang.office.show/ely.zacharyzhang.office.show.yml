@@ -74,7 +74,7 @@ modules:
         filename: ely-show.deb
         only-arches:
           - x86_64
-        url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/download/v0.1.8/ely-show_0.1.8-1_amd64.deb
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.8/ely-show_0.1.8-1_amd64.deb
         sha256: 72e34d43d26aa26b383722850c7b45ad4eebf6ce2b56bfd3106ffebb81efbe35
         size: 252273936
       # END MANAGED EXTRA-DATA

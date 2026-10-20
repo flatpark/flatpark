@@ -6,7 +6,7 @@ id: ely.zacharyzhang.office.doc
 name: ElyDoc
 summary: Word processor for DOCX and ODT documents
 website: https://office.elygpui.com
-source_url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice
+source_url: https://github.com/ELY-Open-Source/ElyOffice
 build:
   manifest: ely.zacharyzhang.office.doc.yml
   branch: stable
@@ -22,6 +22,8 @@ catalog:
 update:
   command: ./resolve-update.sh
 policy:
-  # AGPL-3.0-or-later (upstream LICENSE and the .deb's own licence field).
+  # MIT AND MPL-2.0. Ely's own code is MIT since 2026-10-19 (upstream
+  # LICENSE); the bundled LibreOffice keeps its licence, as upstream's
+  # packaging/linux/package.sh declares.
   proprietary: false
   dangerous_permissions: []

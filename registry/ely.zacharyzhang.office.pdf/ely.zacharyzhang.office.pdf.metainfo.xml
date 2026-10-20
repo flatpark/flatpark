@@ -4,13 +4,13 @@
   <name>ElyPDF</name>
   <summary>PDF reader and editor with OCR and signatures</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>AGPL-3.0-or-later</project_license>
+  <project_license>MIT AND AGPL-3.0-or-later</project_license>
   <developer id="com.zacharyzhang">
     <name>ZacharyZhang</name>
   </developer>
   <url type="homepage">https://office.elygpui.com</url>
-  <url type="bugtracker">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/issues</url>
-  <url type="vcs-browser">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice</url>
+  <url type="bugtracker">https://github.com/ELY-Open-Source/ElyOffice/issues</url>
+  <url type="vcs-browser">https://github.com/ELY-Open-Source/ElyOffice</url>
   <description>
     <p>This is a community package of ElyPDF, maintained independently. It repackages the official upstream Linux build unmodified.</p>
     <p>ElyPDF is the PDF app of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It reads and edits PDF files with MuPDF, recognises text in scanned pages with Tesseract, and signs documents.</p>
@@ -54,7 +54,7 @@
   </screenshots>
   <releases>
     <release version="0.1.8" date="2026-10-19">
-      <url type="details">https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/tag/v0.1.8</url>
+      <url type="details">https://github.com/ELY-Open-Source/ElyOffice/releases/tag/v0.1.8</url>
       <description></description>
     </release>
   </releases>

@@ -57,7 +57,7 @@ modules:
         filename: ely-mark.deb
         only-arches:
           - x86_64
-        url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice/releases/download/v0.1.8/ely-mark_0.1.8-1_amd64.deb
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.8/ely-mark_0.1.8-1_amd64.deb
         sha256: 83e095eea58a6fed255c9a09524d154647a9fdac864c13b0dec1541313146e4f
         size: 128423070
       # END MANAGED EXTRA-DATA

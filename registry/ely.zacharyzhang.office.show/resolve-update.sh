@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
 # Update resolver for ElyShow.
 #
-# Ely Office is published on the developer's own Forgejo/Gitea instance,
-# git.zacharyzhang.com, not on GitHub, so this reads its Gitea API. One release
-# carries every app of the suite; each app's Linux x86_64 build is the single
+# Ely Office releases on GitHub (ELY-Open-Source/ElyOffice; it moved there from
+# the developer's own Forgejo in 2026-10). One release carries every app of the
+# suite; each app's Linux x86_64 build is the single
 # `ely-show_<version>-<revision>_amd64.deb` asset.
 #
-# Not every release carries Linux builds (v0.1.7 shipped Windows installers
-# only), so this walks the newest releases and takes the first one that has
-# this app's .deb, rather than trusting the latest release.
+# Not every release carries Linux builds (v0.1.1 and v0.1.2 carry no assets;
+# v0.1.7 never reached GitHub), so this walks the newest releases and takes
+# the first one that has this app's .deb, rather than trusting the latest
+# release.
 #
 # Prints JSON on stdout, logs on stderr; no hashing, no file writes.
 set -euo pipefail
 
-api="https://git.zacharyzhang.com/api/v1/repos/ZacharyZhang-NY/ElyOffice/releases?limit=20"
+api="https://api.github.com/repos/ELY-Open-Source/ElyOffice/releases?per_page=20"
 slug="ely-show"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-rels="$(curl -fsSL --retry 3 --max-time 60 "$api")"
+rels="$(curl -fsSL --retry 3 --max-time 60 ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} "$api")"
 
 out="$(jq -c --arg slug "$slug" '
   [ .[] | select((.draft | not) and (.prerelease | not))

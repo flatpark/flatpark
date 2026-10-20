@@ -6,7 +6,7 @@ id: ely.zacharyzhang.office.pdf
 name: ElyPDF
 summary: PDF reader and editor with OCR and signatures
 website: https://office.elygpui.com
-source_url: https://git.zacharyzhang.com/ZacharyZhang-NY/ElyOffice
+source_url: https://github.com/ELY-Open-Source/ElyOffice
 build:
   manifest: ely.zacharyzhang.office.pdf.yml
   branch: stable
@@ -23,6 +23,8 @@ catalog:
 update:
   command: ./resolve-update.sh
 policy:
-  # AGPL-3.0-or-later (upstream LICENSE and the .deb's own licence field).
+  # MIT AND AGPL-3.0-or-later. Ely's own code is MIT since 2026-10-19 (upstream
+  # LICENSE); the bundled MuPDF keeps its licence, as upstream's
+  # packaging/linux/package.sh declares.
   proprietary: false
   dangerous_permissions: []
