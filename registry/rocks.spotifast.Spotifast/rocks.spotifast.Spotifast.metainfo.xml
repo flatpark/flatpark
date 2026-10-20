@@ -63,6 +63,9 @@
     <id>rocks.fastpotify.Fastpotify</id>
   </replaces>
   <releases>
+    <release version="0.14.0" date="2026-10-20">
+      <description></description>
+    </release>
     <release version="0.13.3" date="2026-10-15">
       <description></description>
     </release>

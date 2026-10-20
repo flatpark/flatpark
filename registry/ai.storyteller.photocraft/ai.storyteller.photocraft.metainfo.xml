@@ -69,6 +69,9 @@
     <mediatype>image/x-psb</mediatype>
   </provides>
   <releases>
+    <release version="0.11.1" date="2026-10-20">
+      <description></description>
+    </release>
     <release version="0.10.0" date="2026-10-18">
       <description></description>
     </release>

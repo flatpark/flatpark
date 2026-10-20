@@ -51,9 +51,9 @@ modules:
         filename: ingecad.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ingelibre/ingecad/releases/download/v0.6.7/IngeCAD-0.6.7-linux-x86_64.tar.gz
-        sha256: 796d464d1cd00e3a7e8b54142439eca4733f7dc6868be1a928b3ce2779c4821a
-        size: 141335605
+        url: https://github.com/ingelibre/ingecad/releases/download/v0.6.8.1/IngeCAD-0.6.8.1-linux-x86_64.tar.gz
+        sha256: f98556c9d152a09dd39aec8c80fd53007747e6e58629b21e051d5f798dd830a5
+        size: 141933303
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

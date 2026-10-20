@@ -90,9 +90,9 @@ modules:
         filename: resolve-flatpak.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.5/resolve-flatpak-0.0.5-x86_64.tar.gz
-        sha256: cea9caf91482e25bd764f79d7acffd3f9efe26571c0f72b372966c77f314088e
-        size: 123653680
+        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.6/resolve-flatpak-0.0.6-x86_64.tar.gz
+        sha256: a06502d3d87680cd60a5b7ebc0a0b743f742f4095758cc54ae633f7f35f55263
+        size: 123543996
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

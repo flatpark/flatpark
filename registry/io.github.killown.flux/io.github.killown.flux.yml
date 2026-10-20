@@ -60,9 +60,9 @@ modules:
         filename: flux.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/killown/flux/releases/download/v0.3.0/flux-v0.3.0-x86_64.tar.gz
-        sha256: 82183ce960fad100ecb54db919bf8e45dc2fa94a84644e913ef53173d65b9440
-        size: 9255293
+        url: https://github.com/killown/flux/releases/download/v0.5.0/flux-v0.5.0-x86_64.tar.gz
+        sha256: 18de552c6e47c9bb55c29aba69b987e807feafaf3d5dbf4ee9f0f8fd8ec6afc1
+        size: 9307170
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

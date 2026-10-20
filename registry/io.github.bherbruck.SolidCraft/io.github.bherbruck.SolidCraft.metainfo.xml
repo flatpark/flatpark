@@ -62,6 +62,9 @@
     <mediatype>application/x-solidcraft</mediatype>
   </provides>
   <releases>
+    <release version="0.17.0" date="2026-10-20">
+      <description></description>
+    </release>
     <release version="0.16.2" date="2026-10-19">
       <description></description>
     </release>
