@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=P3X OneNote
+Comment=Desktop client for OneNote on the web
+Exec=p3x-onenote %U
+Icon=com.patrikx3.onenote
+Terminal=false
+StartupWMClass=p3x-onenote
+Categories=Office;
+Keywords=onenote;notes;notebook;microsoft;

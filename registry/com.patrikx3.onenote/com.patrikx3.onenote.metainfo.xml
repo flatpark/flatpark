@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.patrikx3.onenote</id>
+  <name>P3X OneNote</name>
+  <summary>Desktop client for OneNote on the web</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.patrikx3">
+    <name>Patrik Laszlo</name>
+  </developer>
+  <url type="homepage">https://github.com/patrikx3/onenote</url>
+  <url type="bugtracker">https://github.com/patrikx3/onenote/issues</url>
+  <url type="vcs-browser">https://github.com/patrikx3/onenote</url>
+  <description>
+    <p>This is a community package of P3X OneNote, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>P3X OneNote wraps OneNote on the web in its own desktop window. It is an independent project, not affiliated with or endorsed by Microsoft, and it needs your own Microsoft account.</p>
+    <ul>
+      <li>Personal and work or school accounts</li>
+      <li>An optional tray icon, with the close button minimizing to it</li>
+      <li>A dark mode, optional desktop notifications and a proxy setting</li>
+      <li>The interface in about 30 languages</li>
+    </ul>
+    <p>The package grants no filesystem access: files you upload or save go through the file chooser portal. To let the app reach your whole home folder without the portal, as upstream's own Flatpak build does: <code>flatpak override --user --filesystem=home com.patrikx3.onenote</code>. Undo it with <code>flatpak override --user --reset com.patrikx3.onenote</code>.</p>
+    <p>Updates come through Flatpak; the application's own update check does nothing in this package. Start on login is not offered inside Flatpak.</p>
+  </description>
+  <launchable type="desktop-id">com.patrikx3.onenote.desktop</launchable>
+  <categories>
+    <category>Office</category>
+  </categories>
+  <keywords>
+    <keyword>onenote</keyword>
+    <keyword>notes</keyword>
+    <keyword>notebook</keyword>
+    <keyword>microsoft</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>p3x-onenote</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A notebook open in the main window</caption>
+      <image>https://cdn.corifeus.com/git/onenote/artifacts/screenshot/screenshot-2024.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2026.4.132" date="2026-04-06" />
+  </releases>
+</component>

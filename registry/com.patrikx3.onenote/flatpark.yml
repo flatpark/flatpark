@@ -1,0 +1,20 @@
+id: com.patrikx3.onenote
+name: P3X OneNote
+summary: Desktop client for OneNote on the web
+website: https://github.com/patrikx3/onenote
+source_url: https://github.com/patrikx3/onenote
+build:
+  manifest: com.patrikx3.onenote.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Notes
+    - OneNote
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

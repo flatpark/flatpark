@@ -1,0 +1,83 @@
+id: com.patrikx3.onenote
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper). The id, runtime and
+# base follow upstream's own .flatpak build; the payload is the vendor's
+# release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: p3x-onenote
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) client for OneNote on the web. The AppDir carries
+  # Chromium and its own ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, CUPS, ATK,
+  # X11, ALSA and dbus stacks it links come from the runtime (verified against
+  # the binary's NEEDED set, 0 missing).
+  - --share=ipc
+  # The app is a client for a web service; without network it does nothing.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audio and video embedded in notes.
+  - --socket=pulseaudio
+  # The app's optional desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon, shown once the user turns on "close button minimizes to tray".
+  # This Electron registers its item under its unique connection name (verified
+  # against the watcher's RegisteredStatusNotifierItems), so only the watcher
+  # is needed.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # No filesystem grant: uploads and saves go through the file chooser portal.
+  # Upstream's own build grants home; that stays an opt-in override documented
+  # in the metainfo.
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: p3x-onenote
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 p3x-onenote-wrapper /app/bin/p3x-onenote
+      - install -Dm644 com.patrikx3.onenote.desktop /app/share/applications/com.patrikx3.onenote.desktop
+      - install -Dm644 com.patrikx3.onenote.metainfo.xml /app/share/metainfo/com.patrikx3.onenote.metainfo.xml
+      - install -Dm644 com.patrikx3.onenote.png /app/share/icons/hicolor/512x512/apps/com.patrikx3.onenote.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source because
+      # apply_extra runs in a sandbox that binds only the runtime /usr and
+      # /app/extra. Kept OUTSIDE the managed block, which the updater rebuilds
+      # from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/patrikx3/onenote/releases/download/v2026.4.132/P3X-OneNote-2026.4.132.AppImage
+        sha256: 4546ae1fc17b0f52b63aaf399ec2da1ae3e9675f93e652dc987b85354a55046c
+        size: 127347167
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: p3x-onenote-wrapper
+      - type: file
+        path: com.patrikx3.onenote.desktop
+      - type: file
+        path: com.patrikx3.onenote.metainfo.xml
+      - type: file
+        path: com.patrikx3.onenote.png
