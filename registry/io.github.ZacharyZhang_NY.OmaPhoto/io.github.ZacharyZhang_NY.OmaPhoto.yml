@@ -1,0 +1,86 @@
+id: io.github.ZacharyZhang_NY.OmaPhoto
+# Upstream's AppImage is a linuxdeploy AppDir built on Ubuntu 24.04: it carries
+# its own Qt 6.4 (with the xcb and Wayland platform plugins), libheif with its
+# HEVC decoder, LibRaw, ONNX Runtime and the U²-Net model, and finds its
+# libraries through the binary's RUNPATH ($ORIGIN/../lib) and its plugins
+# through qt.conf. What it does not carry - glibc, libstdc++, fontconfig,
+# GL/EGL, X11 and Wayland - org.freedesktop.Platform 26.08 provides. The
+# .deb, .rpm and Arch packages of the same release link the distribution's Qt.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: omaphoto
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # The bundled Qt has the Wayland platform plugin, so the window is a native
+  # Wayland one on a Wayland session and an X11 one elsewhere. The canvas
+  # draws through OpenGL.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The bundle has no xdg-desktop-portal platform theme, so the Open, Save and
+  # Import panels are Qt's own and see only what the sandbox grants. A .comp
+  # project is a directory of PNG layers and a manifest, which the document
+  # portal cannot hand over either, and the app watches an open project for
+  # changes other programs make on disk. So the folders images and projects
+  # usually live in are granted read-write; the rest of $HOME stays invisible.
+  # Settings and Open Recent live in ~/.var/app/io.github.ZacharyZhang_NY.OmaPhoto.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # The chrome follows the Omarchy theme: OmaPhoto reads
+  # ~/.local/state/omarchy/current/theme/colors.toml and watches that
+  # directory, where `omarchy theme set` stages each new theme. Read-only, and
+  # absent on any other desktop, where the app keeps its built-in dark look.
+  - --filesystem=~/.local/state/omarchy/current:ro
+  # Deliberately not granted; the metainfo documents the override:
+  #   --filesystem=home   -> open and save projects anywhere under $HOME
+  # No network: every feature, Remove Background and Select › Subject
+  # included, runs offline.
+modules:
+  - name: omaphoto
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 omaphoto-wrapper /app/bin/omaphoto
+      - install -Dm644 io.github.ZacharyZhang_NY.OmaPhoto.desktop /app/share/applications/io.github.ZacharyZhang_NY.OmaPhoto.desktop
+      - install -Dm644 io.github.ZacharyZhang_NY.OmaPhoto.metainfo.xml /app/share/metainfo/io.github.ZacharyZhang_NY.OmaPhoto.metainfo.xml
+      - install -Dm644 io.github.ZacharyZhang_NY.OmaPhoto.png /app/share/icons/hicolor/512x512/apps/io.github.ZacharyZhang_NY.OmaPhoto.png
+      # Upstream's MIME definitions (the .comp project and Photoshop's .psb),
+      # exported so the file manager knows the types the desktop file names.
+      - install -Dm644 io.github.ZacharyZhang_NY.OmaPhoto.xml /app/share/mime/packages/io.github.ZacharyZhang_NY.OmaPhoto.xml
+    sources:
+      # The two-tool stack that opens the AppImage offline with no libfuse.
+      # Kept OUTSIDE the managed block: update-pins.mjs rebuilds that block
+      # from the resolver output and would drop anything else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: omaphoto.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/ELY-Open-Source/OmaPhoto/releases/download/v1.4.9/omaphoto-x86_64.AppImage
+        sha256: 9aedd20daf925b7e5cf68e32da5f8b83d20e6b526a3aee4cff392f3a823f0a44
+        size: 205122040
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: omaphoto-wrapper
+      - type: file
+        path: io.github.ZacharyZhang_NY.OmaPhoto.desktop
+      - type: file
+        path: io.github.ZacharyZhang_NY.OmaPhoto.metainfo.xml
+      - type: file
+        path: io.github.ZacharyZhang_NY.OmaPhoto.png
+      - type: file
+        path: io.github.ZacharyZhang_NY.OmaPhoto.xml

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# OmaPhoto is upstream's AppImage, unpacked by apply_extra at
+# /app/extra/omaphoto. The binary finds its bundled Qt and libraries itself, so
+# nothing goes on LD_LIBRARY_PATH. This sets what the AppImage's own
+# apprun-hooks/omaphoto.sh sets: its share directory first, for the U²-Net model
+# Remove Background and Select › Subject load (share/omaphoto/u2net.onnx) and
+# its MIME data, and the libheif plugin directory with the HEVC decoder HEIC
+# import needs. The linuxdeploy Qt hook beside it only picks a gtk2 platform
+# theme the bundle does not ship, so it is left out.
+appdir=/app/extra/omaphoto
+export XDG_DATA_DIRS="$appdir/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export LIBHEIF_PLUGIN_PATH="$appdir/usr/lib/libheif"
+
+exec "$appdir/usr/bin/omaphoto" "$@"
