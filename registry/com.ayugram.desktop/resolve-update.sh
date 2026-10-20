@@ -23,9 +23,10 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 url="$(jq -r '.assets[] | select(.name | test("^ayugram-.*-x86_64\\.tar\\.zst$")) | .browser_download_url' <<<"$rel" | head -n1)"
+url_arm="$(jq -r '.assets[] | select(.name | test("^ayugram-.*-aarch64\\.tar\\.zst$")) | .browser_download_url' <<<"$rel" | head -n1)"
 
-[ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve AyuGram release" >&2; exit 1; }
-echo "resolved AyuGram $version ($date): $url" >&2
+[ -n "$version" ] && [ -n "$url" ] && [ -n "$url_arm" ] || { echo "failed to resolve AyuGram release" >&2; exit 1; }
+echo "resolved AyuGram $version ($date): $url $url_arm" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"ayugram.tar.zst", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"ayugram.tar.zst", arch:"x86_64", url:$u}, {filename:"ayugram.tar.zst", arch:"aarch64", url:$ua}]}'
