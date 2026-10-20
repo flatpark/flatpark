@@ -38,16 +38,16 @@ modules:
         filename: freemkv.deb
         only-arches:
           - x86_64
-        url: https://github.com/freemkv/freemkv/releases/download/v1.8.4/freemkv-amd64.deb
-        sha256: a1a6507c6258ffcfbabbf60a73245835f846a14435d0acac5bf862badfc41610
-        size: 5121858
+        url: https://github.com/freemkv/freemkv/releases/download/v1.8.5/freemkv-amd64.deb
+        sha256: 14ce55af1d7c93045d6dd4d9e4d85901a6a67978275c6a9acc92c88923151f02
+        size: 5181976
       - type: extra-data
         filename: freemkv.deb
         only-arches:
           - aarch64
-        url: https://github.com/freemkv/freemkv/releases/download/v1.8.4/freemkv-arm64.deb
-        sha256: b13b52561b5bdf34ec7d8e96980e74ea54d9b8468e2a689bb5ba74b15a44b317
-        size: 4968454
+        url: https://github.com/freemkv/freemkv/releases/download/v1.8.5/freemkv-arm64.deb
+        sha256: 44453ff94a9d678e382549ec9ed95c0e243edfe6088f3bf90cdf696cfc37f30e
+        size: 5029248
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
