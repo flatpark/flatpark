@@ -8,37 +8,45 @@
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
 #
-# Upstream publishes no release index or JSON API; the download page HTML is the
-# only place that names the current build, and it carries every platform
-# artifact for it. The page is parsed for the Linux .deb URLs, whose path
+# The download page renders its links client-side from per-artifact metadata
+# JSON on Kiro's download host (the same feed the in-app updater reads); the
+# static HTML carries no URLs and lists only the x64 .deb, so the resolver reads
+# the arm64 and x64 .deb feeds directly. Each feed names the current release and
+# its files (the .deb plus certificate.pem and signature.bin); the .deb's path
 # carries the version (/releases/stable/linux-<arch>/signed/<version>/deb/...).
 set -euo pipefail
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-page="https://kiro.dev/download"
-html="$(curl -fsSL "$page")"
+feed_base="https://prod.download.desktop.kiro.dev/stable"
 
-# Both Linux debs are named kiro-ide-<version>-stable-linux-<arch>.deb; take the
-# one per architecture and keep the two versions consistent.
-url="$(printf '%s\n' "$html" | grep -oE 'https://prod\.download\.desktop\.kiro\.dev/releases/stable/linux-x64/signed/[^/]+/deb/kiro-ide-[^"'"'"' ]+\.deb' | head -n 1 || true)"
-url_arm="$(printf '%s\n' "$html" | grep -oE 'https://prod\.download\.desktop\.kiro\.dev/releases/stable/linux-arm64/signed/[^/]+/deb/kiro-ide-[^"'"'"' ]+\.deb' | head -n 1 || true)"
+# Prints the .deb URL of the current release in one architecture's feed.
+deb_url() {
+  local feed="$feed_base/metadata-linux-$1-deb-stable.json"
+  curl -fsSL "$feed" | jq -r '
+    .currentRelease as $v
+    | [.releases[] | select(.version == $v) | .updateTo.url | select(endswith(".deb"))]
+    | first // empty' || true
+}
+
+url="$(deb_url x64)"
+url_arm="$(deb_url arm64)"
 
 [ -n "$url" ] && [ -n "$url_arm" ] || {
-  echo "failed to resolve Kiro Linux .deb URLs from $page" >&2
+  echo "failed to resolve Kiro Linux .deb URLs from $feed_base/metadata-linux-*-deb-stable.json" >&2
   exit 1
 }
 
 version="$(printf '%s\n' "$url" | sed -n 's#.*/signed/\([^/]*\)/deb/.*#\1#p')"
 version_arm="$(printf '%s\n' "$url_arm" | sed -n 's#.*/signed/\([^/]*\)/deb/.*#\1#p')"
 [ -n "$version" ] && [ "$version" = "$version_arm" ] || {
-  echo "Kiro download page disagrees on the version: x64=$version arm64=$version_arm" >&2
+  echo "Kiro feeds disagree on the version: x64=$version arm64=$version_arm" >&2
   exit 1
 }
 
-# Whatever this page answers is pinned into the manifest unattended by the
-# daily update job, so constrain it to Kiro's own download host here: a page
+# Whatever these feeds answer is pinned into the manifest unattended by the
+# daily update job, so constrain it to Kiro's own download host here: a feed
 # that ever starts pointing somewhere else must fail loudly instead of
 # re-pinning the app at another host.
 case "$url" in
