@@ -76,9 +76,9 @@ modules:
         filename: aeroftp.deb
         only-arches:
           - x86_64
-        url: https://github.com/axpdev-lab/aeroftp/releases/download/v4.2.3/AeroFTP_4.2.3_amd64.deb
-        sha256: ff811d18e8b7e8db2764b62fb56c2ff0dcd249969ad031beec7ed3e21302d6bc
-        size: 82687552
+        url: https://github.com/axpdev-lab/aeroftp/releases/download/v4.2.4/AeroFTP_4.2.4_amd64.deb
+        sha256: c3a20a611710873eacb0d2573b0483db661fdbb038ecfef8a33b814e15ad6dce
+        size: 88487092
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
