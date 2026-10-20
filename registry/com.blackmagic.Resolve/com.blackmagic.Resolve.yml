@@ -49,11 +49,12 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 resolve-wrapper /app/bin/resolve
-      # libcrypt.so.1: Resolve's binaries list it as DT_NEEDED, but the runtime
-      # ships libxcrypt as libcrypt.so.2 only. A link named libcrypt.so.1
-      # satisfies the loader; resolve-wrapper puts /app/lib on LD_LIBRARY_PATH.
-      - install -d /app/lib
-      - ln -s /usr/lib/x86_64-linux-gnu/libcrypt.so.2 /app/lib/libcrypt.so.1
+      # libcrypt.so.1: Resolve bundles libaprutil-1.so.0, which binds crypt
+      # symbols versioned GLIBC_2.2.5. The runtime ships libxcrypt as
+      # libcrypt.so.2, which defines XCRYPT_* but not GLIBC_2.2.5, so a symlink
+      # is not enough. The resolve-flatpak bundle builds libxcrypt with the
+      # obsolete glibc API and ships libcrypt/libcrypt.so.1; resolve-wrapper puts
+      # that directory on Resolve's LD_LIBRARY_PATH.
       - install -Dm644 com.blackmagic.Resolve.desktop /app/share/applications/com.blackmagic.Resolve.desktop
       - install -Dm644 com.blackmagic.Resolve.metainfo.xml /app/share/metainfo/com.blackmagic.Resolve.metainfo.xml
       - install -Dm644 com.blackmagic.Resolve.mime.xml /app/share/mime/packages/com.blackmagic.Resolve.xml
@@ -90,9 +91,9 @@ modules:
         filename: resolve-flatpak.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.5/resolve-flatpak-0.0.5-x86_64.tar.gz
-        sha256: cea9caf91482e25bd764f79d7acffd3f9efe26571c0f72b372966c77f314088e
-        size: 123653680
+        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.6/resolve-flatpak-0.0.6-x86_64.tar.gz
+        sha256: a06502d3d87680cd60a5b7ebc0a0b743f742f4095758cc54ae633f7f35f55263
+        size: 123543996
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

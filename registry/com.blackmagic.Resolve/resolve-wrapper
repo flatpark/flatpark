@@ -12,11 +12,12 @@ set -eu
 PATH="/app/extra/appimage-tools/bin:$PATH"
 export PATH
 
-# Resolve links libGLU.so.1 (the runtime does not ship it; see the manifest) and
-# libcrypt.so.1 (the runtime ships libxcrypt as libcrypt.so.2; /app/lib has the
-# .so.1 link). Keep both LAST: the launcher prepends Resolve's own libs to
-# LD_LIBRARY_PATH, so the vendor's copies always win.
-LD_LIBRARY_PATH="/app/lib:/app/extra/libglu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Resolve links libGLU.so.1 (the runtime does not ship it) and libcrypt.so.1
+# (the runtime's libcrypt.so.2 lacks the GLIBC_2.2.5 version libaprutil binds;
+# the bundle ships the glibc-ABI libcrypt.so.1 in libcrypt/). Keep these LAST:
+# the launcher prepends Resolve's own libs to LD_LIBRARY_PATH, so the vendor's
+# copies always win.
+LD_LIBRARY_PATH="/app/extra/resolve-app/libcrypt:/app/extra/libglu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export LD_LIBRARY_PATH
 
 # Keep the multi-GB download and its extraction scratch inside the app's own data
