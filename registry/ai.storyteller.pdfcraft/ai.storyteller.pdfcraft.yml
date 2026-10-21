@@ -49,16 +49,16 @@ modules:
         filename: pdfcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/pdfcraft/releases/download/v0.10.1/pdfcraft-0.10.1-linux-x86_64.tar.gz
-        sha256: 7464168d2a55dacd9959b38c4619e3486f443b459cefb881a28a260e7af9d9a9
-        size: 85962823
+        url: https://github.com/storytold/pdfcraft/releases/download/v0.11.0/pdfcraft-0.11.0-linux-x86_64.tar.gz
+        sha256: 0dad5d4b21fc8fd1192e8b854d38dcc257fae6681ae17f10f1b3f41e84488f4f
+        size: 85977349
       - type: extra-data
         filename: pdfcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/pdfcraft/releases/download/v0.10.1/pdfcraft-0.10.1-linux-aarch64.tar.gz
-        sha256: 123c64904f17c5535fcca8c9af7748b5790bf215ab5f2ec4fc48b59c5be8d721
-        size: 82278524
+        url: https://github.com/storytold/pdfcraft/releases/download/v0.11.0/pdfcraft-0.11.0-linux-aarch64.tar.gz
+        sha256: 4ce373f5a17f90a9f91ed01983b7683bdff544d188222a0f3addbdd1729a4fbb
+        size: 82293706
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
