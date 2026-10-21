@@ -14,16 +14,31 @@ repo="avrapps/falcon-pdf-app"
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-        "https://api.github.com/repos/$repo/releases/latest")"
+rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+        "https://api.github.com/repos/$repo/releases?per_page=20")"
+
+# Upstream publishes per-platform releases under one tag: 2026.10 first went
+# out with only the Android .apk files. Take the newest published release that
+# actually carries the Linux .deb, so a platform-partial release is skipped
+# rather than failing the sweep; it is picked up once the .deb is attached.
+# Exact bundle name pattern: a full release also carries the .rpm, .pacman,
+# AppImage, a .flatpak bundle and the Android/macOS/Windows builds.
+sel="$(jq -c '
+  [ .[]
+    | select(.draft == false and .prerelease == false)
+    | { tag: .tag_name,
+        date: .published_at,
+        urls: [ .assets[] | select(.name | test("^falconpdf-[0-9][0-9.]*-linux-amd64\\.deb$")) | .browser_download_url ] }
+    | select(.urls | length > 0)
+  ] | first // empty' <<<"$rels")"
+
+[ -n "$sel" ] || { echo "no falconpdf release with a linux-amd64 .deb asset" >&2; exit 1; }
 
 # The version is the tag (2026.09), which is what upstream calls the release;
 # the file names carry a semver spelling of it (2026.9.0).
-version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
-date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-# Exact bundle name pattern: the release also carries the .rpm, .pacman,
-# AppImage, a .flatpak bundle and the Android/macOS/Windows builds.
-url="$(jq -r '.assets[] | select(.name | test("^falconpdf-[0-9][0-9.]*-linux-amd64\\.deb$")) | .browser_download_url' <<<"$rel")"
+version="$(jq -r '.tag | ltrimstr("v")' <<<"$sel")"
+date="$(jq -r '.date' <<<"$sel" | cut -c1-10)"
+url="$(jq -r '.urls[]' <<<"$sel")"
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve falconpdf release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "expected exactly one amd64 .deb asset, got:" >&2; echo "$url" >&2; exit 1; }

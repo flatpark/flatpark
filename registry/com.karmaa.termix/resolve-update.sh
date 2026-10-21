@@ -5,7 +5,10 @@
 # JSON on stdout; logs go to stderr. Hashing and manifest rewriting are handled
 # by FlatPark's update automation.
 #
-# Releases are tagged release-<version>-tag. The .deb carries no version in its
+# App releases are tagged v<version> (older ones release-<version>-tag); the
+# same repo also publishes asset-less sdk-v* releases, which can sit at
+# releases/latest, so the newest release carrying the .deb is picked from the
+# list instead. The .deb carries no version in its
 # name (termix_linux_x64_deb.deb), so it is matched on that exact name; the same
 # release also ships an AppImage, a portable tarball, a .flatpak bundle and the
 # arm64/macOS/Windows builds. An ambiguous match is an error rather than a
@@ -18,8 +21,12 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl
 need jq
 
-rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-        "https://api.github.com/repos/$repo/releases/latest")"
+rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+        "https://api.github.com/repos/$repo/releases?per_page=20")"
+rel="$(jq -c '[ .[] | select(.draft == false and .prerelease == false)
+                    | select(any(.assets[]; .name == "termix_linux_x64_deb.deb")) ]
+              | first // empty' <<<"$rels")"
+[ -n "$rel" ] || { echo "no Termix release with termix_linux_x64_deb.deb" >&2; exit 1; }
 
 version="$(jq -r '.tag_name | ltrimstr("release-") | rtrimstr("-tag") | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
