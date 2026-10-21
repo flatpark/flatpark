@@ -52,16 +52,16 @@ modules:
         filename: effectcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/effectcraft/releases/download/v0.11.1/effectcraft-0.11.1-linux-x86_64.tar.gz
-        sha256: b9cb2ce68dd66458cc164437e431376e94e38e33e3b6529fa8fd45f8cf968934
-        size: 64039300
+        url: https://github.com/storytold/effectcraft/releases/download/v0.13.0/effectcraft-0.13.0-linux-x86_64.tar.gz
+        sha256: cb9c007f80802549f11efcf1e030c56c2a44ab11870a588850355dadfa5ab18c
+        size: 64229418
       - type: extra-data
         filename: effectcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/effectcraft/releases/download/v0.11.1/effectcraft-0.11.1-linux-aarch64.tar.gz
-        sha256: ee5047d0f6c3ab5fc613c1984ade8621d56291ac24a342b3358a6c54cec433fb
-        size: 59778618
+        url: https://github.com/storytold/effectcraft/releases/download/v0.13.0/effectcraft-0.13.0-linux-aarch64.tar.gz
+        sha256: ddddaad18f1613814a023022ae73575e1bc382c25091da66e1264b65222d2f07
+        size: 59950874
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

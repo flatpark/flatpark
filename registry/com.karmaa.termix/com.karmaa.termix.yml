@@ -62,16 +62,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/Termix-SSH/Termix/releases/download/v26.10.2/termix_linux_x64_deb.deb
-        sha256: 498fe8aa89c3dacbf6830cffa87d7dd74e2e4129e6012544b9d2f554e75a7ea1
-        size: 153675172
+        url: https://github.com/Termix-SSH/Termix/releases/download/v26.10.3/termix_linux_x64_deb.deb
+        sha256: 65ed1408c6a8f6f85c7082294e3701dc22f8b8e88257dbf7e5e79b2321530c6f
+        size: 155546600
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/Termix-SSH/Termix/releases/download/v26.10.2/termix_linux_arm64_deb.deb
-        sha256: 1e751e4fc0470ac6e676e80b769f8eb005f7a71b5c48b8ae57795440b0c9ef04
-        size: 148598152
+        url: https://github.com/Termix-SSH/Termix/releases/download/v26.10.3/termix_linux_arm64_deb.deb
+        sha256: d3f81de72ddf7f6020d28455aa2f11e7760b4995a25249be039ed63df179d369
+        size: 150481932
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
