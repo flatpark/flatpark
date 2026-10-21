@@ -42,9 +42,9 @@ modules:
         filename: carosello
         only-arches:
           - x86_64
-        url: https://github.com/grigio/carosello/releases/download/v1.4.1/carosello
-        sha256: 17874edc14db538dfc8c95344b3ea149607f33423507a8ae6278e8ad7c8ec4d6
-        size: 2297240
+        url: https://github.com/grigio/carosello/releases/download/v1.4.2/carosello
+        sha256: dc77ca861267f3a6960bf8e5f3307b03442da4f3807fb7f207a85b0163fb0d37
+        size: 2296640
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
