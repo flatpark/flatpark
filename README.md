@@ -29,7 +29,7 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
 - **The full Flatpak experience.** Your users install and update your app like
   any other Flatpak, in a sandbox, with the permissions listed on its page. It
   works with the tools they already use: GNOME Software, KDE Discover,
-  [Bazaar](https://github.com/kolunmi/bazaar),
+  [Bazaar](https://gitlab.gnome.org/World/bazaar),
   [Warehouse](https://github.com/flattool/warehouse),
   [Flatseal](https://github.com/tchx84/Flatseal) and plain `flatpak update`.
 - **Updates within minutes.** FlatPark checks every app's releases twice a day.
