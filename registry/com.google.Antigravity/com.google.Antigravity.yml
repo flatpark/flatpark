@@ -17,6 +17,10 @@ finish-args:
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.freedesktop.secrets
   - --unset-env=ELECTRON_RUN_AS_NODE
+  # coreutils 9.12 in the 26.08 runtime quotes `env` output even into a pipe;
+  # the bundled shell-env parses it as key=value and hands the quotes on to the
+  # language server (broken D-Bus address, sign-in can't open a browser).
+  - --env=QUOTING_STYLE=literal
   - --filesystem=home
 modules:
   - name: antigravity
