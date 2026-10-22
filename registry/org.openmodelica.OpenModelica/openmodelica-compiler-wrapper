@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# Debian configures OpenModelica's default simulation compiler as clang. KDE's
+# SDK runtime supplies GCC instead; OpenModelica supports either toolchain, so
+# retain the expected command names and dispatch to their GCC counterparts.
+case "${0##*/}" in
+    clang++) exec g++ "$@" ;;
+    *) exec gcc "$@" ;;
+esac

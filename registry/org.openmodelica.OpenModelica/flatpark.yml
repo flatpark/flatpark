@@ -1,0 +1,22 @@
+id: org.openmodelica.OpenModelica
+name: OpenModelica
+summary: Model and simulate physical systems with Modelica
+website: https://openmodelica.org
+source_url: https://github.com/OpenModelica/OpenModelica
+build:
+  manifest: org.openmodelica.OpenModelica.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  upstream_approved: false
+  tags:
+    - Modelica
+    - Modeling
+    - Simulation
+    - Engineering
+    - Science
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
