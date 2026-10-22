@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=ElyMail
+Comment=Read and write email from Gmail, Microsoft, iCloud and IMAP or POP3 accounts
+Exec=ely-mail %F
+Icon=ely.zacharyzhang.office.mail
+Terminal=false
+StartupNotify=true
+StartupWMClass=ely-mail
+Categories=Network;Email;
+MimeType=message/rfc822;
+Keywords=mail;email;imap;pop3;smtp;gmail;outlook;eml;mbox;

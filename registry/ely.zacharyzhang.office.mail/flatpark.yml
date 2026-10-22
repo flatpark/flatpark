@@ -1,0 +1,28 @@
+# FlatPark catalog descriptor for ElyMail, part of Ely Office.
+#
+# read-descriptor.mjs is a line scanner, not a YAML parser; keep the plain
+# two-space block style below.
+id: ely.zacharyzhang.office.mail
+name: ElyMail
+summary: Email client for Gmail, Microsoft, iCloud and IMAP or POP3
+website: https://office.elygpui.com
+source_url: https://github.com/ELY-Open-Source/ElyOffice
+build:
+  manifest: ely.zacharyzhang.office.mail.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: true
+  tags:
+    - Email
+    - IMAP
+    - Gmail
+    - Outlook
+    - Offline
+update:
+  command: ./resolve-update.sh
+policy:
+  # MIT (upstream LICENSE and packaging/apps.tsv).
+  proprietary: false
+  dangerous_permissions: []

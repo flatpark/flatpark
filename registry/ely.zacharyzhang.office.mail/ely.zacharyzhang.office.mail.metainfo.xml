@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ely.zacharyzhang.office.mail</id>
+  <name>ElyMail</name>
+  <summary>Email client for Gmail, Microsoft, iCloud and IMAP or POP3</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.zacharyzhang">
+    <name>ZacharyZhang</name>
+  </developer>
+  <url type="homepage">https://office.elygpui.com</url>
+  <url type="bugtracker">https://github.com/ELY-Open-Source/ElyOffice/issues</url>
+  <url type="vcs-browser">https://github.com/ELY-Open-Source/ElyOffice</url>
+  <description>
+    <p>This is a community package of ElyMail, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>ElyMail is the mail client of Ely Office, a set of offline-first desktop apps written in Rust with GPUI. It signs in to Gmail and Microsoft in your browser, takes an app-specific password for iCloud, and works with any other IMAP or POP3 and SMTP account.</p>
+    <ul>
+      <li>Conversations, drafts, an outbox and full-text search across accounts</li>
+      <li>Rules, contacts, and folders you can keep offline in full</li>
+      <li>Write in plain text or Markdown; drafts are saved as you stop typing</li>
+      <li>Remote images and tracking pixels are not loaded unless you allow them</li>
+      <li>Import and export MBOX, save and open EML files</li>
+    </ul>
+    <p>ElyMail connects only to your mail servers, and to the Gmail or Microsoft sign-in page when you add such an account. Passwords and sign-in tokens are kept in your desktop's keyring (GNOME Keyring, KWallet or another Secret Service provider); without one they last until ElyMail quits. Closing the window keeps ElyMail in the tray, where it goes on syncing and sending; on a desktop without a tray, or when another sandboxed app's tray icon takes the same name, closing the window quits it.</p>
+    <p>ElyMail can read and write your Downloads folder; other files are opened and saved through the file chooser, or from your file manager. Mail, the search index and settings live in ~/.var/app/ely.zacharyzhang.office.mail.</p>
+    <p>In-app updates are left to Flatpak: new upstream releases arrive as Flatpak updates.</p>
+  </description>
+  <launchable type="desktop-id">ely.zacharyzhang.office.mail.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>Email</category>
+  </categories>
+  <keywords>
+    <keyword>mail</keyword>
+    <keyword>email</keyword>
+    <keyword>imap</keyword>
+    <keyword>pop3</keyword>
+    <keyword>smtp</keyword>
+    <keyword>gmail</keyword>
+    <keyword>outlook</keyword>
+    <keyword>eml</keyword>
+    <keyword>mbox</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>ely-mail</binary>
+    <mediatype>message/rfc822</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Reading mail in ElyMail</caption>
+      <image>https://office.elygpui.com/clips/mail.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.10" date="2026-10-21">
+      <url type="details">https://github.com/ELY-Open-Source/ElyOffice/releases/tag/v0.1.10</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

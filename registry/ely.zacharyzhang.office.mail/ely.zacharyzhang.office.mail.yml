@@ -1,0 +1,87 @@
+id: ely.zacharyzhang.office.mail
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: ely-mail
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # ElyMail is a GPUI application. The .deb is a self-contained tree built with
+  # linuxdeploy: it bundles every library the runtime might lack (libdbus,
+  # libxkbcommon, xcb-xkb) and links only glibc, libgcc, Vulkan, Wayland and
+  # xcb from the system, all in org.freedesktop.Platform 26.08. GPUI renders
+  # through Vulkan on the runtime's Mesa, hence dri, and opens a Wayland or
+  # X11 window, whichever the session has.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Accessibility through AccessKit's AT-SPI adapter, which asks org.a11y.Bus
+  # where the accessibility bus lives.
+  - --talk-name=org.a11y.Bus
+  # A mail client: IMAP, POP3 and SMTP to the user's servers, and the Gmail
+  # and Microsoft sign-in pages. OAuth sign-in opens the browser through the
+  # OpenURI portal and takes the answer on a listener on 127.0.0.1, which the
+  # browser outside the sandbox reaches only through the shared network. The
+  # same loopback carries the single-instance hand-off: a second launch (an
+  # .eml opened from the file manager) passes its files to the running copy
+  # over 127.0.0.1, whose port the first copy writes to instance.door in its
+  # data directory.
+  - --share=network
+  # Passwords and refresh tokens go to the system credential store through the
+  # Rust keyring crate's Secret Service backend (GNOME Keyring, KWallet,
+  # KeePassXC). Without it ElyMail keeps them in memory only and asks again
+  # after every restart.
+  - --talk-name=org.freedesktop.secrets
+  # New-mail notifications go to org.freedesktop.Notifications directly, not
+  # through the notification portal.
+  - --talk-name=org.freedesktop.Notifications
+  # Closing the window keeps ElyMail in the tray (StatusNotifierItem with a
+  # dbusmenu), where it goes on syncing and sending. The item owns
+  # org.kde.StatusNotifierItem-<pid>-<n> and registers it with the watcher.
+  # Every sandboxed app is PID 2, so if another Flatpak tray app already holds
+  # the same name, ElyMail starts without a tray and closing the window quits
+  # it, as upstream does on a desktop without a tray host.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+  # Mail, the search index and settings live in $XDG_DATA_HOME/ElyOffice/
+  # ely-mail, which Flatpak points at ~/.var/app/ely.zacharyzhang.office.mail/
+  # data. MBOX and EML import and export, attachments and saved messages go
+  # through the file-chooser portal, and the .desktop Exec ends in %F, so an
+  # .eml opened from a file manager arrives through the document portal.
+  # Downloads is where attachments and exported messages usually go; the rest
+  # of $HOME stays invisible.
+  - --filesystem=xdg-download
+modules:
+  - name: ely-mail
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ely-mail-wrapper /app/bin/ely-mail
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 ely.zacharyzhang.office.mail.desktop /app/share/applications/ely.zacharyzhang.office.mail.desktop
+      - install -Dm644 ely.zacharyzhang.office.mail.metainfo.xml /app/share/metainfo/ely.zacharyzhang.office.mail.metainfo.xml
+      - install -Dm644 ely.zacharyzhang.office.mail.png /app/share/icons/hicolor/512x512/apps/ely.zacharyzhang.office.mail.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ely-mail.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.10/ely-mail_0.1.10-1_amd64.deb
+        sha256: 8889c207c173dffb95d99bb0e7105cef81b5d0372a6e5bb2b5bfc8604778ae71
+        size: 25891656
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ely-mail-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: ely.zacharyzhang.office.mail.desktop
+      - type: file
+        path: ely.zacharyzhang.office.mail.metainfo.xml
+      - type: file
+        path: ely.zacharyzhang.office.mail.png
