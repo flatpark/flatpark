@@ -147,7 +147,11 @@ gigabytes.
   `flatpark-screenshots-*`, the npm cache); the workflows restore by prefix and
   only use the newest.
 - Superseded `flatpark/prebuilt` releases that no package or stack pins:
-  delete the release and its tag.
+  delete the release and its tag. "No pin" means `git grep 'releases/download/<tag>/'`
+  finds nothing on `origin/main` of both `flatpark/flatpark` and
+  `flatpark/prebuilt` (stacks pin each other); stale local checkouts don't
+  count, and GitHub code search lags. Installed users are unaffected: extra-data
+  is only fetched on an install or an update that changes the pin.
 
 ### The report
 

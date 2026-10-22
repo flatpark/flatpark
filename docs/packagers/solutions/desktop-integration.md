@@ -24,8 +24,11 @@ under a generic icon and the launcher looking idle.
   or with the compositor's client list (`hyprctl clients -j`). Electron main
   windows set only `_NET_WM_NAME`, so a scan that filters on `XFetchName` misses
   them.
-- **Electron:** the main window's class is the app's product name
-  (`edrlab-thoriumreader`, `min`), not the binary name and not the app id. The
+- **Electron:** the main window's class is the app's name as Electron sees it
+  (`edrlab-thoriumreader`, `min`, `codeburn-desktop`), not the binary name and
+  not the app id. It can differ from the name in the UI and from upstream's own
+  `.desktop` file (CodeBurn's says `CodeBurn`); the userData directory under
+  `~/.var/app/<id>/config/` has the same name, which makes a second check. The
   name of the file the wrapper runs only names an invisible leader window.
 - **Branded Chromium browsers** ignore `CHROME_DESKTOP`; the class is hardcoded
   (Brave Origin's is `brave-origin`).

@@ -12,7 +12,10 @@ description, so each user decides. Permissions show on every app's page.
 
 - **Files:** grant the directory the app works in by default (`xdg-pictures`
   for a screenshot tool, `xdg-music` for a player), not `home`. Files opened
-  through the file chooser need no grant at all.
+  through the file chooser need no grant at all. Check where the app saves
+  *without* a dialog, too: a quick-save or export default (one screenshot tool
+  writes to `~/Desktop`) needs that directory, or the file lands in the sandbox and is
+  lost.
 - **The app's own `~/.something`:** Flatpak only redirects the XDG directories.
   An app that writes a dotdir in your home loses it on every restart unless the
   package grants it.
@@ -65,6 +68,11 @@ after a restart.
 - **A lock file in that directory:** apps that keep their single-instance lock
   there start a second copy when it is lost, which then fails on a port the
   first one holds.
+- **Look for the app's own setting first.** An environment variable that moves
+  a directory (`CODEBURN_CACHE_DIR`, `PI_DESKTOP_DATA_DIR`) set in the wrapper
+  needs no grant. A tool that finds its store through `XDG_DATA_HOME` (OpenCode,
+  Goose) is never read through a grant alone, since Flatpak points that variable
+  into the sandbox; set the tool's own variable to the real path instead.
 
 This is the most common severe bug in our history: four apps lost settings or
 data on every restart for this reason before it was understood.

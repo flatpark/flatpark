@@ -42,16 +42,24 @@ does, which a `--user` install never shows. Both must pass.
 
 ## Test
 
+Before the first run, look at `~/.var/app/com.example.App`. Packages often
+keep the app id that Flathub or upstream use, so that folder can hold the
+user's real profile from an earlier install. If it exists, ask before touching
+it, or move it to a backup name and move it back after the test; for a browser,
+point the test at its own profile directory instead. Never delete it to get a
+clean first start: one test run did that and destroyed a user's browser profile.
+
 Keep the build installed and use it:
 
 ```sh
+ls ~/.var/app/com.example.App      # exists already? see above
 FLATPARK_VERIFY_KEEP=1 ./scripts/publish.sh --verify com.example.App
 flatpak --user run com.example.App
 # … use the app's main feature, quit, start it again: are settings still there?
 flatpak kill com.example.App
 flatpak --user uninstall -y com.example.App
 flatpak --user remote-delete --force flatpark-local
-rm -rf ~/.var/app/com.example.App
+rm -rf ~/.var/app/com.example.App  # only if it didn't exist before the test
 ```
 
 Check at least:
@@ -84,6 +92,24 @@ If you are the app's developer, say so in the PR; it is how the developer-approv
 shield gets added ([upstream approvals](../reference/upstream-approvals.md)).
 
 ## For agents
+
+### Working beside other sessions
+
+Another session may be working in the same checkout: one `git checkout` there
+moves the branch from under you, and `git add -u` sweeps their half-done files
+into your commit.
+
+- Do anything that spans more than one command in your own
+  `git worktree add`, under `$HOME` (the sandboxed builder can't see `/tmp`).
+- Before every commit, read `git status --short` and unstage anything that
+  isn't yours; never `git add -u` blindly. Take a message from an explicit sha,
+  not `HEAD`.
+- To squash WIP commits, `git reset --soft $(git merge-base HEAD origin/main)`
+  and then rebase. `reset --soft origin/main` after `main` has moved stages a
+  revert of everything merged meanwhile. A `D` or `M` outside your app's
+  directory means stop.
+- If something goes wrong, look at `git reflog` before any reset or checkout;
+  the work is almost always still in a detached commit.
 
 ### Building without the Flathub builder
 
@@ -125,7 +151,7 @@ flatpak --user install -y test-tmp com.example.App
 flatpak kill com.example.App
 flatpak --user uninstall -y com.example.App
 flatpak --user remote-delete test-tmp
-rm -rf ~/.var/app/com.example.App
+rm -rf ~/.var/app/com.example.App  # only if it didn't exist before the test
 ```
 
 **Don't use `FLATPAK_USER_DIR` for isolation.** That installation isn't

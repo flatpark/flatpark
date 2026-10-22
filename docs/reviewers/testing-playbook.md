@@ -39,7 +39,12 @@ every affected app and the whole list on one app of each stack; see
 
 Run every check on a build installed from a local repository
 ([submitting an app](../packagers/submitting.md#test)), never on the host, and
-never with `FLATPAK_USER_DIR`. Before launching from an IDE terminal, strip
+never with `FLATPAK_USER_DIR`. Running a downloaded binary on the host "just to
+check" can register handlers and rewrite the user's `mimeapps.list`; use `ldd`
+on it, or the sandbox. Don't launch an app the user really uses with their own
+data: `--env=XDG_DATA_HOME=…` doesn't redirect every app (tdesktop-based
+clients read and wrote a logged-in profile that way), so test with a separate
+install or a data directory you have checked is the one in use. Before launching from an IDE terminal, strip
 `ELECTRON_RUN_AS_NODE` and `ELECTRON_NO_ATTACH_CONSOLE`
 (`env -u … flatpak run`). Check `~/.local/share/flatpak/overrides/global`
 first: a global override can make a permission look granted when the package
@@ -165,7 +170,10 @@ would use:
   a tester or the developer confirms; don't merge on the hope it works. For
   now a tester builds the PR's branch locally
   ([submitting an app](../packagers/submitting.md#build)); there is no test
-  remote yet.
+  remote yet. Don't hand a tester a `.flatpak` bundle: installing an extra-data
+  app from a bundle always fails with "Extra data missing in detached
+  metadata", because only a repository pull fetches extra-data. That is why
+  the `pr-test-bundles` workflow is disabled.
 
 ### What CI does and doesn't
 

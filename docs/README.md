@@ -31,5 +31,9 @@ the details below it. The same files are rendered at
   [governance](project/governance.md).
 - Link between pages with relative `.md` paths. The site rewrites them, and the
   build fails on a link to a page that doesn't exist.
+- An example package cited in a page is one with `catalog.upstream_approved: true`,
+  preferably one whose upstream uses publish-action, so the example isn't
+  de-listed from under the page. A pattern no approved app has may cite the
+  app that has it.
 - `specs/` holds the plans being worked through, one step at a time; it isn't
   published on the site.

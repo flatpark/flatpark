@@ -187,6 +187,14 @@ impersonation, content illegal to distribute.
 Decide per the rubric. Produce the filled template and a drafted PR comment.
 Reviewer recommends only — a human merges.
 
+The posted comment is the record the submitter and maintainer act on, so it
+carries everything checked: the per-check table with its evidence, what was
+read file by file, the artifact analysis, the reproduction commands, and what
+the review doesn't cover. Anything checked but left out reads as unchecked.
+Write one document, not working notes plus a shorter comment; a re-review of a
+superseding PR gets the full table again. Confirm each finding against the
+artifact before filing it, not from a reading of the diff.
+
 ## Decision rubric
 
 **AUTO-REJECT (any one):**
