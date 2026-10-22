@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.epicgames.eglv2</id>
+  <name>Epic Games Launcher</name>
+  <summary>Buy, download and play games from the Epic Games Store</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://store.epicgames.com/en-US/eula</project_license>
+  <developer id="com.epicgames">
+    <name>Epic Games</name>
+  </developer>
+  <url type="homepage">https://launcher.epicgames.com/</url>
+  <description>
+    <p>This is a community package of the Epic Games Launcher, maintained independently. It repackages Epic's official Linux AppImage unmodified.</p>
+    <p>The Epic Games Launcher is where you buy, download and play games from the Epic Games Store: your library, downloads and updates, cloud saves, friends and parties. This is Epic's new launcher, which Epic still calls a Preview, so some features may not work as expected.</p>
+    <p>Many games on the store are Windows builds. The launcher runs those through GE-Proton, which it downloads by itself the first time you launch one. Proton also needs 32-bit libraries, which come from Flathub; install them once with <code>flatpak install flathub org.freedesktop.Platform.Compat.i386//26.08 org.freedesktop.Platform.GL32.default//26.08</code>. Games with kernel-level anti-cheat may not run on Linux at all.</p>
+    <p>Games are installed in the Games folder in your home folder, the launcher's default, which this package can reach. To install them somewhere else, such as a second drive, grant that folder first, for example <code>flatpak override --user --filesystem=/mnt/games com.epicgames.eglv2</code>. Remove such grants with <code>flatpak override --user --reset com.epicgames.eglv2</code>.</p>
+    <p>Updates come through Flatpak, not through the launcher's own updater.</p>
+  </description>
+  <launchable type="desktop-id">com.epicgames.eglv2.desktop</launchable>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>Epic</keyword>
+    <keyword>games</keyword>
+    <keyword>store</keyword>
+    <keyword>Proton</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="money-purchasing">intense</content_attribute>
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <provides>
+    <binary>epic-games-launcher</binary>
+  </provides>
+  <releases>
+    <release version="0.100.0" date="2026-10-21"/>
+  </releases>
+</component>

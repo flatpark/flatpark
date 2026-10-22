@@ -1,0 +1,21 @@
+id: com.epicgames.eglv2
+name: Epic Games Launcher
+summary: Buy, download and play games from the Epic Games Store
+website: https://launcher.epicgames.com/
+build:
+  manifest: com.epicgames.eglv2.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  upstream_approved: false
+  tags:
+    - Games
+    - Store
+    - Proton
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --device=all

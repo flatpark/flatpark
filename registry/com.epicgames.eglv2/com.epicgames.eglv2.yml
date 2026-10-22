@@ -1,0 +1,100 @@
+id: com.epicgames.eglv2
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: epic-games-launcher
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id is the launcher's own Tauri identifier, com.epicgames.eglv2.
+# Epic ships Linux as a linuxdeploy AppImage that carries its own GTK 3,
+# WebKitGTK 4.1, GStreamer and the EOS SDK, so the freedesktop runtime is
+# enough for the launcher itself. Windows games run through GE-Proton, which
+# the launcher downloads into its data dir the first time one is launched
+# (pinned by SHA-512 in Epic's linux-manifest.txt); Proton's 32-bit half needs
+# the i386 compat extensions below.
+finish-args:
+  - --share=ipc
+  # Store, downloads, sign-in, Epic Online Services.
+  - --share=network
+  # The bundle's GTK hook selects X11 (GDK_BACKEND=x11), and Proton games draw
+  # through Wine's X11 driver.
+  - --socket=x11
+  - --socket=pulseaudio
+  # Where games are installed: the launcher's default install directory is
+  # ~/Games. Without the grant it would write them into the sandbox's
+  # throwaway home and lose them on exit. Other locations are an override
+  # documented in the metainfo.
+  - --filesystem=~/Games:create
+  # GPU, game controllers and other input devices the games read directly.
+  - --device=all
+  # Proton runs 32-bit Windows code and 32-bit Linux libraries.
+  - --allow=multiarch
+  # Tray icon (the bundled libayatana-appindicator).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.Notifications
+  # The sign-in token is kept in the desktop keyring.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd6
+  - --talk-name=org.kde.kwalletd5
+add-extensions:
+  # 32-bit runtime libraries and GL drivers for Proton.
+  org.freedesktop.Platform.Compat.i386:
+    directory: lib/i386-linux-gnu
+    version: "26.08"
+  org.freedesktop.Platform.GL32:
+    directory: lib/i386-linux-gnu/GL
+    version: "1.4"
+    versions: 26.08;1.4
+    subdirectories: true
+    no-autodownload: true
+    autodelete: false
+    add-ld-path: lib
+    merge-dirs: vulkan/icd.d;glvnd/egl_vendor.d;OpenCL/vendors;lib/dri;lib/d3d;vulkan/explicit_layer.d;vulkan/implicit_layer.d
+    download-if: active-gl-driver
+    enable-if: active-gl-driver
+    autoprune-unless: active-gl-driver
+modules:
+  - name: epic-games-launcher
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 epic-games-launcher-wrapper /app/bin/epic-games-launcher
+      - install -Dm644 com.epicgames.eglv2.desktop /app/share/applications/com.epicgames.eglv2.desktop
+      - install -Dm644 com.epicgames.eglv2.metainfo.xml /app/share/metainfo/com.epicgames.eglv2.metainfo.xml
+      - install -Dm644 com.epicgames.eglv2.png /app/share/icons/hicolor/256x256/apps/com.epicgames.eglv2.png
+      # Mount points for the i386 extensions, and the loader path to them.
+      - mkdir -p /app/lib/i386-linux-gnu/GL
+      - install -Dm644 ld.so.conf /app/etc/ld.so.conf
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # flatpark/prebuilt. Kept outside the managed block, which the updater
+      # rewrites from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: epic.AppImage
+        only-arches:
+          - x86_64
+        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.100.0%2Bg9dfc3c3/Linux/EpicGamesLauncher-x86_64.AppImage
+        sha256: a9b7e40e3e5220bce97068b3974a796530e5bdbc77db1e1beba0d7bdbed0b44e
+        size: 181950968
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: ld.so.conf
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: epic-games-launcher-wrapper
+      - type: file
+        path: com.epicgames.eglv2.desktop
+      - type: file
+        path: com.epicgames.eglv2.metainfo.xml
+      - type: file
+        path: com.epicgames.eglv2.png

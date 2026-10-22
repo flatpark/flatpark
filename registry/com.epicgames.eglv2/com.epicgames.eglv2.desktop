@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Epic Games Launcher
+Comment=Epic Games Launcher
+Exec=epic-games-launcher %u
+Icon=com.epicgames.eglv2
+Terminal=false
+Categories=Game;
+StartupWMClass=EpicGamesLauncher
+MimeType=x-scheme-handler/com.epicgames.launcher;

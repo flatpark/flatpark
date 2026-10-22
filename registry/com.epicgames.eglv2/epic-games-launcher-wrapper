@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Epic Games Launcher, staged by apply_extra at /app/extra/epic from the AppDir
+# inside the upstream AppImage. It runs on the GTK 3 and WebKitGTK it bundles,
+# so it is started the way the AppImage starts it: through the AppDir's AppRun,
+# whose linuxdeploy hooks point GTK, GdkPixbuf, GIO and GStreamer at the
+# bundle and select X11 (GDK_BACKEND=x11).
+exec /app/extra/epic/AppRun "$@"
