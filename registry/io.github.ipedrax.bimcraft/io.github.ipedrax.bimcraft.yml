@@ -44,9 +44,9 @@ modules:
         filename: bimcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/IPedrax/BIMCraft/releases/download/v0.6.0/bimcraft-0.6.0-linux-x86_64.tar.gz
-        sha256: 5058e32121274342e808b62c97cfd9f246fed2dcc3ae3a67350a84044b0d91a7
-        size: 15871009
+        url: https://github.com/IPedrax/BIMCraft/releases/download/v0.6.1/bimcraft-0.6.1-linux-x86_64.tar.gz
+        sha256: 6416fb8b6c56b30e9249b679b9f06e7871b214160fd410676466d3e2b26e2108
+        size: 15870984
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

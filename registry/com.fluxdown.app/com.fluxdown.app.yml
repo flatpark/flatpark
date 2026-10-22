@@ -99,9 +99,9 @@ modules:
         filename: fluxdown.deb
         only-arches:
           - x86_64
-        url: https://github.com/zerx-lab/FluxDown/releases/download/v0.5.9/FluxDown-0.5.9-linux-x64.deb
-        sha256: 728f973d27bb8f3ef134332b4ee6c07d6943049c44db6f1073d6a07feade4547
-        size: 46715476
+        url: https://github.com/zerx-lab/FluxDown/releases/download/v0.6.0/FluxDown-0.6.0-linux-x64.deb
+        sha256: e5ff270bfeaec0db9b38111e3992e09d773cc07554008610825fc55d13fcb275
+        size: 47338170
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
