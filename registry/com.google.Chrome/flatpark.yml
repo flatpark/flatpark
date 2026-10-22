@@ -1,0 +1,27 @@
+# FlatPark catalog descriptor for Google Chrome.
+#
+# This repackages Google's official Linux .deb from its apt repository. The
+# browser payload is fetched as extra-data at install time; the manifest and
+# launcher keep the desktop integration and sandbox policy reviewable here.
+# Flathub's third-party com.google.Chrome is on the 25.08 runtime and builds
+# dconf and zypak from source; this one is on 26.08 with nothing built.
+id: com.google.Chrome
+name: Google Chrome
+summary: The web browser from Google
+website: https://www.google.com/chrome/
+build:
+  manifest: com.google.Chrome.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Network
+  tags:
+    - Web Browser
+    - Chromium
+    - Google
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

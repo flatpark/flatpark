@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.google.Chrome</id>
+  <launchable type="desktop-id">com.google.Chrome.desktop</launchable>
+  <name>Google Chrome</name>
+  <developer_name>Google</developer_name>
+  <summary>The web browser from Google</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.google.com/chrome/terms/</project_license>
+  <url type="homepage">https://www.google.com/chrome/</url>
+  <url type="bugtracker">https://support.google.com/chrome/?p=feedback</url>
+  <url type="help">https://support.google.com/chrome</url>
+  <description>
+    <p>Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier.</p>
+    <p>This is a community package. It installs Google's official Linux .deb unmodified, downloaded from Google at install time, and follows new stable releases automatically. It is maintained independently of Google.</p>
+    <p>The browser stores its profile in its private Flatpak data directory. Files outside the Downloads directory are opened and saved through the desktop file chooser portal.</p>
+    <p>Compared with the Chrome package on Flathub, this one runs on the 26.08 runtime and ships nothing built from source: the Chromium sandbox comes from the prebuilt zypak in the Electron base app. Proxy settings from the host desktop and Chrome policies in the host's /etc/opt/chrome are not read; set a proxy with --proxy-server in ~/.var/app/com.google.Chrome/config/chrome-flags.conf, one flag per line.</p>
+  </description>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>chrome</keyword>
+    <keyword>chromium</keyword>
+    <keyword>web</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#8ab4f8</color>
+    <color type="primary" scheme_preference="dark">#1a73e8</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://www.gstatic.com/chrome/appstream/chrome-2.png</image>
+      <caption>Google Chrome</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="156.0.8078.47" date="2026-10-21">
+      <description></description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>

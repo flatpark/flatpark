@@ -1,0 +1,90 @@
+id: com.google.Chrome
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Chrome needs zypak: Flatpak refuses the namespace syscalls Chromium's own
+# sandbox is built on, and zypak redirects that sandbox onto the Flatpak
+# sandbox instead of falling back to --no-sandbox — which for a browser would
+# leave every renderer, running arbitrary web content, unconfined next to the
+# profile. The Electron base app ships zypak prebuilt and is the base the rest
+# of this catalog's Chromium-family browsers use, so nothing is compiled here.
+# What it costs: no krb5, hence no Kerberos/Negotiate single sign-on on
+# intranet sites.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: chrome
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # zypak spawns the sandboxed children through flatpak-spawn --expose-pids.
+  - --require-version=1.8.2
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --socket=pulseaudio
+  - --socket=cups
+  # FIDO2 security keys.
+  - --socket=pcsc
+  - --allow=bluetooth
+  - --system-talk-name=org.bluez
+  - --system-talk-name=org.freedesktop.UPower
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  - --talk-name=org.freedesktop.ScreenSaver
+  - --talk-name=org.gnome.ScreenSaver
+  - --talk-name=org.gnome.Mutter.IdleMonitor.*
+  - --talk-name=org.cinnamon.ScreenSaver
+  - --talk-name=org.mate.ScreenSaver
+  - --talk-name=org.xfce.ScreenSaver
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  - --filesystem=xdg-download
+  - --filesystem=xdg-run/pipewire-0
+  - --persist=.pki
+  # No GSettings backend is shipped, so proxy settings configured on the host
+  # desktop are not read. A proxy is configured with --proxy-server in
+  # ~/.var/app/com.google.Chrome/config/chrome-flags.conf, which the launcher
+  # reads.
+  # The browser can use file chooser portals for paths outside Downloads. PWA
+  # desktop integration and host policy loading are deliberately opt-in rather
+  # than granting host-etc and host application/icon directories by default.
+modules:
+  - name: chrome
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 chrome-wrapper /app/bin/chrome
+      - install -Dm644 com.google.Chrome.desktop /app/share/applications/com.google.Chrome.desktop
+      - install -Dm644 com.google.Chrome.metainfo.xml /app/share/metainfo/com.google.Chrome.metainfo.xml
+      - install -Dm644 com.google.Chrome.png /app/share/icons/hicolor/256x256/apps/com.google.Chrome.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: chrome.deb
+        only-arches:
+          - x86_64
+        url: https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_156.0.8078.47-1_amd64.deb
+        sha256: 6c92cd22e90c6e3e255d782991543fa2091db8614e8536a971a7433a5c4d7ac8
+        size: 144849192
+      - type: extra-data
+        filename: chrome.deb
+        only-arches:
+          - aarch64
+        url: https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_156.0.8078.47-1_arm64.deb
+        sha256: 5457999eddf9e65fc052a6d344dcaf24772de0061a9bd22baaf99e4043e4598f
+        size: 136588320
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: chrome-wrapper
+      - type: file
+        path: com.google.Chrome.desktop
+      - type: file
+        path: com.google.Chrome.metainfo.xml
+      - type: file
+        path: com.google.Chrome.png
