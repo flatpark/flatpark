@@ -19,31 +19,26 @@ an app.
 
 ## The stacks
 
-As of 2026-10-17. Sizes are the compressed archive. "Mode" is how packages pull
+As of 2026-10-22. Sizes are the compressed archive. "Mode" is how packages pull
 it in (see [archive or extra-data](#archive-module-or-extra-data)).
 
 | Stack | Release | Built on | Size | What it is | Mode | Used by |
 |---|---|---|---|---|---|---|
 | `ayatana-stack` | `ayatana-v2` | GNOME 51 | 0.1 MB | libdbusmenu, ayatana-ido, libayatana-indicator, libayatana-appindicator: the tray library Tauri's `tray-icon` loads | archive | 19 Tauri apps with a tray icon, e.g. AeroFTP, Rayburst, DBX, NyaTerm |
-| `appimage-tools` | `appimage-tools-v2` | fd 26.08 | 0.1 MB | `appimage-offset` and `unsquashfs`: open an AppImage without running it | extra-data | All 17 AppImage packages, e.g. Mark Shot, Compass |
+| `appimage-tools` | `appimage-tools-v2` | fd 26.08 | 0.1 MB | `appimage-offset` and `unsquashfs`: open an AppImage without running it | extra-data | All 25 AppImage packages, e.g. Mark Shot, Compass |
 | `mpv-stack` | `mpv-v2` | GNOME 51 | 1.3 MB | libmpv and the `mpv` player, with libass and libplacebo | archive | SubtitleEdit, PiliPlus |
 | `libxdo` | `libxdo-v2` | GNOME 51 | <0.1 MB | `libxdo.so.3` (xdotool 3.x) for X11 input automation (the enigo crate) | archive | Vibe |
-| `ffmpeg-full` | `ffmpeg-full-v2` | GNOME 51 | 11.2 MB | FFmpeg 9.0 `ffmpeg`/`ffprobe` with x264, x265, libass, VAAPI, NVENC; links the codec stacks below, ships none of them | extra-data | SubtitleEdit |
-| `x264` | `x264-v2` | GNOME 51 | 0.5 MB | `libx264.so.165` | extra-data | SubtitleEdit (with `ffmpeg-full`) |
-| `x265` | `x265-v2` | GNOME 51 | 1.0 MB | `libx265.so.216`, 8-bit | extra-data | SubtitleEdit (with `ffmpeg-full`) |
-| `lame` | `lame-v2` | GNOME 51 | 0.1 MB | `libmp3lame.so.0` | extra-data | SubtitleEdit (with `ffmpeg-full`) |
-| `rubberband` | `rubberband-v2` | GNOME 51 | 0.2 MB | `librubberband.so.3`, time-stretch and pitch-shift | extra-data | SubtitleEdit (with `ffmpeg-full`) |
-| `libass` | `libass-v2` | GNOME 51 | 0.1 MB | `libass.so.9`, ASS/SSA subtitle rendering | extra-data | SubtitleEdit (with `ffmpeg-full`) |
+| `ffmpeg-full` | `ffmpeg-full-v3` | GNOME 51 | 13.0 MB | FFmpeg 9.0 `ffmpeg`/`ffprobe` with x264, x265, LAME, Rubber Band, libass, VAAPI, NVENC; ships those codec libraries too, so one pin is enough | extra-data | SubtitleEdit |
 | `tesseract` | `tesseract-v2` | GNOME 51 | 1.6 MB | Tesseract 5.5 OCR library and CLI; no language data | extra-data | SubtitleEdit, Stirling PDF |
 | `leptonica` | `leptonica-v2` | GNOME 51 | 1.2 MB | `libleptonica.so.6`, needed by `tesseract` | extra-data | SubtitleEdit, Stirling PDF |
 | `uchardet` | `uchardet-v2` | GNOME 51 | 0.1 MB | `libuchardet.so.0`, guesses a text file's encoding | extra-data | SubtitleEdit |
 | `sevenzip` | `sevenzip-v2` | GNOME 51 | 0.5 MB | 7-Zip `7zr`, `.7z` only | extra-data | SubtitleEdit |
-| `poppler-glib` | `poppler-glib-v1` | GNOME 51 | 1.5 MB | `libpoppler-glib.so.8` and `libpoppler`, PDF rendering for GLib apps | extra-data | Strata |
+| `poppler-glib` | `poppler-glib-v1` | GNOME 51 | 1.5 MB | `libpoppler-glib.so.8` and `libpoppler`, PDF rendering for GLib apps | extra-data | Strata, flux, Inua |
 | `sql-clients` | `sql-clients-v1` | fd 25.08 | 0.5 MB | `libmariadb.so.3` with its auth plugins, `libpq.so.5`, `libsybdb.so.5`, `sshpass` | extra-data | [HeidiSQL](../../registry/com.heidisql.HeidiSQL/com.heidisql.HeidiSQL.yml) (on KDE 6.11, a 25.08 base) |
 | `opencv-imgproc` | `opencv-imgproc-v3` | fd 26.08 | 4.4 MB | OpenCV 4.13 core and imgproc | extra-data | WeMeet (loaded by the screen-share hook) |
 | `wemeet-screenshare-hook` | `wemeet-screenshare-hook-v2` | fd 26.08 | 0.1 MB | libportal and the XWayland screen-share hook | archive | WeMeet |
 | `openssl-1.1-compat` | `openssl-1.1-compat-v2` | fd 26.08 | 1.3 MB | `libssl.so.1.1` and `libcrypto.so.1.1` for payloads that predate OpenSSL 3. **1.1.1 is end-of-life**: a last resort | extra-data | Tonghuashun (THS) |
-| `krb5-gss` | `krb5-gss-v2` | fd 26.08 | 0.5 MB | `libgssapi_krb5.so.2` and its load-time closure, for a bundled Qt built with GSSAPI | extra-data | IBKR Desktop |
+| `krb5-gss` | `krb5-gss-v2` | fd 26.08 | 0.5 MB | `libgssapi_krb5.so.2` and its load-time closure, for a bundled Qt built with GSSAPI | extra-data | IBKR Desktop, the three Ely Office apps |
 
 Each stack's manifest in `flatpark/prebuilt` says in its header why it exists,
 what is left out and what to watch for. Read it before pinning the stack.
@@ -152,8 +147,8 @@ When the catalog moves to a new runtime major, every stack is re-cut for it:
    whole `libav*` generation and needed a newer mpv; `ffmpeg-full` lost
    `libvpx.so.11`.)
 2. Cut releases in dependency order. A stack that builds against another
-   (`ffmpeg-full` on x264, x265, lame, rubberband and libass; `tesseract` on
-   `leptonica`; `wemeet-screenshare-hook` on `opencv-imgproc`) needs its
+   (`tesseract` on `leptonica`; `wemeet-screenshare-hook` on
+   `opencv-imgproc`) needs its
    dependency's new release pinned in its manifest first.
 3. Re-pin every consumer, and test one app per stack with its real feature.
 

@@ -12,8 +12,7 @@ cd "$extra_root"
 
 # Each archive has a single top-level directory named after the stack, so a
 # plain extract puts <name>/lib/... exactly where the wrapper expects it.
-for stack in x264 x265 lame rubberband libass ffmpeg-full \
-             leptonica tesseract uchardet sevenzip; do
+for stack in ffmpeg-full leptonica tesseract uchardet sevenzip; do
     [ -f "$stack.tar.xz" ] || { echo "missing extra-data: $stack.tar.xz" >&2; exit 1; }
     rm -rf "$stack"
     tar --no-same-owner -xJf "$stack.tar.xz" -C .

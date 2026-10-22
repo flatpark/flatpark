@@ -14,14 +14,12 @@ mkdir -p "$DOTNET_BUNDLE_EXTRACT_BASE_DIR"
 X=/app/extra
 
 # The stacks come BEFORE /app/lib, and the order is load-bearing. mpv-stack
-# still ships its own libass.so.9 into /app/lib and ffmpeg links that same
-# soname: with /app/lib first, ffmpeg binds mpv-stack's libass 0.17.3 instead of
-# the 0.17.4 pinned in the manifest — ffmpeg reports whichever it loaded, and it
-# reports whichever comes first. Stacks first gives every process in the sandbox
-# one libass, the pinned one. /app/lib still comes last, for libmpv.so.2 and
-# libplacebo, which Subtitle Edit dlopens for the video preview.
+# still ships its own libass.so.9 (0.17.3) into /app/lib, and ffmpeg-full ships
+# the 0.17.4 it was built against in its own lib/: with /app/lib first, ffmpeg
+# would bind mpv-stack's older copy. Stacks first gives every process in the
+# sandbox one libass, ffmpeg-full's. /app/lib still comes last, for libmpv.so.2
+# and libplacebo, which Subtitle Edit dlopens for the video preview.
 export LD_LIBRARY_PATH="\
-$X/x264/lib:$X/x265/lib:$X/lame/lib:$X/rubberband/lib:$X/libass/lib:\
 $X/ffmpeg-full/lib:\
 $X/leptonica/lib:$X/tesseract/lib:\
 $X/uchardet/lib:\

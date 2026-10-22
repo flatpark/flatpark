@@ -44,11 +44,6 @@ modules:
         url: https://github.com/flatpark/prebuilt/releases/download/mpv-v2/mpv-stack-mpv-v2-gnome-51-x86_64.tar.xz
         sha256: 3d4a1c48d8a466bd86badbf683f21dfd05ea15c2f8f512414316e7842c863c93
 
-  # Built from source, after mpv-stack, so this 0.17.4 build - matching
-  # upstream's own pin exactly - is what actually ships: installing it here
-  # replaces the prebuilt stack's older 0.17.3 at the shared libass.so.9
-  # soname (ABI-compatible, so libmpv's already-linked binary keeps working
-  # against it). post-install drops the now-orphaned 0.17.3 file.
   - name: subtitleedit
     buildsystem: simple
     build-commands:
@@ -67,57 +62,20 @@ modules:
       # PATH: directories the loader does not search by default, so none of this
       # shadows what the runtime provides.
       #
-      # ffmpeg is why most of them are here. The runtime's own ffmpeg is built
-      # without libass, so the `ass` and `subtitles` filters do not exist and
-      # burn-in fails at filter-graph parse time. ffmpeg-full links
-      # x264/x265/lame/rubberband/libass and ships none of them, which is why
-      # each is pinned separately: an app wanting only the encoder can take it,
-      # and a bump to one does not re-cut the others.
+      # ffmpeg-full is here because the runtime's own ffmpeg is built without
+      # libass, so the `ass` and `subtitles` filters do not exist and burn-in
+      # fails at filter-graph parse time. It carries the codec libraries it
+      # links (x264, x265, lame, rubberband, libass) inside its own archive.
       #
       # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
       # that block from the resolver's sources and would drop anything else in it.
       - type: extra-data
-        filename: x264.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/x264-v2/x264-x264-v2-gnome-51-x86_64.tar.xz
-        sha256: 31f63c4cc872a8cfb07354cf9b648d0949474f498e447c13d8d43ad4695a9b16
-        size: 566272
-      - type: extra-data
-        filename: x265.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/x265-v2/x265-x265-v2-gnome-51-x86_64.tar.xz
-        sha256: 2d81543116406f447e9d551f8bb88f80ddcde07471b5da99dd30047e15d32a60
-        size: 1058264
-      - type: extra-data
-        filename: lame.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/lame-v2/lame-lame-v2-gnome-51-x86_64.tar.xz
-        sha256: b915c4bba401299d7424c5c66ef0bff8da779a4455b10aedd0af45424271ec67
-        size: 144768
-      - type: extra-data
-        filename: rubberband.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/rubberband-v2/rubberband-rubberband-v2-gnome-51-x86_64.tar.xz
-        sha256: ec3673aa6d901047aaeaf4911253ec359bb6c5202cb7adfdd3a183c7e8814237
-        size: 230016
-      - type: extra-data
-        filename: libass.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/libass-v2/libass-libass-v2-gnome-51-x86_64.tar.xz
-        sha256: 2319d0b986c80e07ea263e37b3a843360d31e064b99325428dafbee9795bf9a6
-        size: 117516
-      - type: extra-data
         filename: ffmpeg-full.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v2/ffmpeg-full-ffmpeg-full-v2-gnome-51-x86_64.tar.xz
-        sha256: a865927ef54932ba1c1c49dc9cc256b6b425c46e71e04c3e4160d1d73b02d55b
-        size: 11738064
+        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v3/ffmpeg-full-ffmpeg-full-v3-gnome-51-x86_64.tar.xz
+        sha256: 3ae0b24a8d7e134ca034e9f0eb0a6efbfc7e467fd90bf967a750fd3872055e28
+        size: 13655872
       - type: extra-data
         filename: leptonica.tar.xz
         only-arches:

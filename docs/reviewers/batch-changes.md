@@ -82,9 +82,9 @@ GNOME 50 didn't). That is what the per-stack sample is for.
 ### Prebuilt stacks move with the runtime
 
 Each stack is built against one SDK, and its file name says which. A runtime
-upgrade re-cuts every stack its apps use, in dependency order (`ffmpeg-full`
-after x264, x265, lame, rubberband and libass; `tesseract` after `leptonica`;
-`wemeet-screenshare-hook` after `opencv-imgproc`), and re-pins every consumer.
+upgrade re-cuts every stack its apps use, in dependency order (`tesseract`
+after `leptonica`; `wemeet-screenshare-hook` after `opencv-imgproc`), and
+re-pins every consumer.
 Re-pin `url`, `sha256` **and** `size` together: a stale size builds green and
 fails every install and update with "Wrong size for extra data". See
 [prebuilt stacks](../packagers/prebuilt.md#a-stack-per-runtime-base).
