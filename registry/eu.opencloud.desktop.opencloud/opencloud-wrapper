@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# The OpenCloud client, staged by apply_extra at /app/extra/opencloud from the
+# AppDir inside the upstream AppImage. These are the variables the AppDir's own
+# AppRun hooks set (apprun-hooks/craft-runenv-hook.sh): the bundle's share/ for
+# its data files and its bin/ on PATH. FONTCONFIG_PATH is left alone; the
+# runtime's /etc/fonts is what that hook picks when it exists. The other hook
+# only selects a gtk2 platform theme the bundle doesn't ship.
+appdir=/app/extra/opencloud
+export XDG_DATA_DIRS="$appdir/usr/share/${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+export PATH="$appdir/usr/bin:$PATH"
+
+exec "$appdir/usr/bin/opencloud" "$@"

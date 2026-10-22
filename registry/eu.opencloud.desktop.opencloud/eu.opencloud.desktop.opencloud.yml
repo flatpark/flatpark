@@ -1,0 +1,85 @@
+id: eu.opencloud.desktop.opencloud
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: opencloud
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id is the one in upstream's own AppStream metainfo
+# (usr/share/metainfo/eu.opencloud.desktop.opencloud.metainfo.xml in the
+# AppImage). Upstream ships Linux only as a linuxdeploy AppImage carrying its
+# own Qt 6 (Wayland and xcb platform plugins, the xdg-desktop-portal theme,
+# qtkeychain with libsecret); the freedesktop runtime supplies glibc, the GL
+# stack and fonts. Every ELF in the AppDir resolves against the runtime plus
+# the bundle (RUNPATH $ORIGIN/../lib, plugins found through usr/bin/qt.conf).
+finish-args:
+  # The whole app: it syncs with an OpenCloud server.
+  - --share=network
+  - --share=ipc
+  # The bundled Qt runs as a native Wayland client; X11 only as a fallback.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Qt Quick (the account and settings views) renders with OpenGL.
+  - --device=dri
+  # Sync folders. The setup wizard proposes ~/OpenCloud, but only a path that
+  # does not exist yet: a narrower grant such as ~/OpenCloud:create makes the
+  # folder exist before the client starts, so it proposes "~/OpenCloud (2)"
+  # instead, outside the grant, and synced files land in the sandbox's
+  # throwaway home. A sync folder also has to be a real directory the client
+  # can watch, not a document-portal path. Declared in flatpark.yml.
+  - --filesystem=home
+  # Tray icon: the client lives in the tray and closing the window hides it
+  # there. Qt 6 registers under its unique bus name; the watcher grant is
+  # enough.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Sync notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # qtkeychain keeps the login tokens in the desktop keyring: Secret Service
+  # (GNOME Keyring, KeePassXC) or KWallet on Plasma. Without it every start
+  # asks to log in again.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd6
+  - --talk-name=org.kde.kwalletd5
+modules:
+  - name: opencloud
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 opencloud-wrapper /app/bin/opencloud
+      - install -Dm755 opencloudcmd-wrapper /app/bin/opencloudcmd
+      - install -Dm644 eu.opencloud.desktop.opencloud.desktop /app/share/applications/eu.opencloud.desktop.opencloud.desktop
+      - install -Dm644 eu.opencloud.desktop.opencloud.metainfo.xml /app/share/metainfo/eu.opencloud.desktop.opencloud.metainfo.xml
+      - install -Dm644 eu.opencloud.desktop.opencloud.png /app/share/icons/hicolor/512x512/apps/eu.opencloud.desktop.opencloud.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # flatpark/prebuilt. Kept outside the managed block, which the updater
+      # rewrites from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: opencloud.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/opencloud-eu/desktop/releases/download/v4.0.0/OpenCloud_Desktop-v4.0.0-linux-gcc-x86_64.AppImage
+        sha256: 22c5fac4453ce2bfb033f4a4f288aea33bbdc1178518026973f76b1c5c4e1d2c
+        size: 74889720
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: opencloud-wrapper
+      - type: file
+        path: opencloudcmd-wrapper
+      - type: file
+        path: eu.opencloud.desktop.opencloud.desktop
+      - type: file
+        path: eu.opencloud.desktop.opencloud.metainfo.xml
+      - type: file
+        path: eu.opencloud.desktop.opencloud.png

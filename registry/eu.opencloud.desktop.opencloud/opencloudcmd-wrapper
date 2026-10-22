@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# The command-line sync client from the same AppDir, reachable as
+#   flatpak run --command=opencloudcmd eu.opencloud.desktop.opencloud ...
+exec /app/extra/opencloud/usr/bin/opencloudcmd "$@"

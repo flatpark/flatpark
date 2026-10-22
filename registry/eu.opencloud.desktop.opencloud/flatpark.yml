@@ -1,0 +1,23 @@
+id: eu.opencloud.desktop.opencloud
+name: OpenCloud Desktop
+summary: Sync files between your computer and an OpenCloud server
+website: https://opencloud.eu
+source_url: https://github.com/opencloud-eu/desktop
+build:
+  manifest: eu.opencloud.desktop.opencloud.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - OpenCloud
+    - Sync
+    - Cloud
+    - Qt
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --filesystem=home

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>eu.opencloud.desktop.opencloud</id>
+  <name>OpenCloud Desktop</name>
+  <summary>Desktop client for OpenCloud file synchronization</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <developer id="eu.opencloud">
+    <name>OpenCloud GmbH</name>
+  </developer>
+  <url type="homepage">https://opencloud.eu</url>
+  <url type="bugtracker">https://github.com/opencloud-eu/desktop/issues</url>
+  <url type="faq">https://docs.opencloud.eu/docs/user/desktop-client/common-functionality/multiple-accounts</url>
+  <url type="translate">https://explore.transifex.com/opencloud-eu/opencloud-eu</url>
+  <url type="vcs-browser">https://github.com/opencloud-eu/desktop</url>
+  <description>
+    <p>This is a community package of OpenCloud Desktop, maintained independently. It repackages the official upstream AppImage unmodified.</p>
+    <p>The OpenCloud Desktop Client synchronizes files between your computer and OpenCloud. It provides offline access, automatic synchronization, and a consistent way to work with files locally.</p>
+    <p>This package can read and write your home folder, where the client creates its sync folders (OpenCloud, with one folder per space, unless you pick another place). Login tokens are kept in your desktop keyring.</p>
+    <p>The client's own "Start on login" setting has no effect in this package. To start it with your desktop, add OpenCloud Desktop in your desktop's autostart settings.</p>
+  </description>
+  <launchable type="desktop-id">eu.opencloud.desktop.opencloud.desktop</launchable>
+  <branding>
+    <color type="primary" scheme_preference="light">#E2BAFF</color>
+    <color type="primary" scheme_preference="dark">#20434F</color>
+  </branding>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>OpenCloud</keyword>
+    <keyword>sync</keyword>
+    <keyword>cloud</keyword>
+    <keyword>files</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main screen of the application</caption>
+      <image>https://docs.opencloud.eu/assets/images/settings-overview-561af2cba465818c58a388c454830451.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Login screen on first startup</caption>
+      <image>https://docs.opencloud.eu/assets/images/set-up-enter-url-57bd85c39ceb0145112bf9d34d72d508.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <provides>
+    <binary>opencloud</binary>
+    <binary>opencloudcmd</binary>
+  </provides>
+  <releases>
+    <release version="4.0.0" date="2026-09-03"/>
+  </releases>
+</component>
