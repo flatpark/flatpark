@@ -95,3 +95,23 @@ through `libQt6Pas`, not a C++ Qt program; it is the exception, not a model.
   [Cellar](../../../registry/org.flatpark.Cellar/org.flatpark.Cellar.yml),
   FlatPark's Wine runner.
 - **Only source:** not packageable here; see the [limits](../basics.md#limits).
+
+### A whole `/app` tree as extra-data
+
+When a `flatpark/<app>-release` repository builds the app's entire Flatpak
+tree, the package can carry it as extra-data and stay a small shell. Five
+constraints shape the layout:
+
+- In `apply_extra` only `/app/extra` is writable, so the tree lives there and
+  `/app` points into it.
+- Nothing can be bind-mounted back onto `/app`: a nested `bwrap` is blocked.
+- `/app/lib` and `/app/share` must be real directories (flatpak-builder makes
+  extension mount points in them); symlink their subdirectories one by one.
+- A 32-bit compat extension needs `/app/lib/i386-linux-gnu` exactly there; the
+  runtime's `/lib/i386-linux-gnu` link is fixed.
+- Add the tree's `share` to `XDG_DATA_DIRS` (`--env=XDG_DATA_DIRS=/app/extra/<name>/share:/app/share:/usr/share:…`),
+  or icons, GSettings schemas and MIME data inside it aren't found.
+
+Absolute `RUNPATH`s pointing at `/app/lib/…` are rewritten to `$ORIGIN`-relative
+ones in the release build. The release CI should publish the layout it
+produced so a pin refresh can check it hasn't drifted.

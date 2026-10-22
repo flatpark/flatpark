@@ -21,3 +21,12 @@ policy:
   proprietary: false
   dangerous_permissions:
     - --filesystem=home
+# Testing sync without an account: run the `opencloud` server binary locally
+# and mark the `OpenCloudDesktop` client `trusted: true` in
+# $OC_CONFIG_DIR/idp.yaml, which skips the consent screen. Copy the auth URL
+# with the client's "Copy URL" button and log in with curl:
+# POST /signin/v1/identifier/_/logon with header `Kopano-Konnect-XSRF: 1`,
+# authorize without `prompt`, then request the 127.0.0.1 redirect. Run the app
+# with --no-talk-name=org.freedesktop.portal.Desktop so no browser opens on the
+# real desktop. Before narrowing the home grant, see the manifest: the wizard
+# picks the first free folder name, so a `:create` grant loses synced files.

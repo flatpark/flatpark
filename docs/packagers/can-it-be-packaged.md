@@ -76,7 +76,11 @@ description says what doesn't work.
   the host's R. A read-only grant of the host tree doesn't help.
 - **Capabilities:** packet capture and VPNs need `CAP_NET_RAW` or
   `CAP_NET_ADMIN`, which Flatpak never grants. A proxy client's TUN mode can't
-  work; its local proxy port can.
+  work; its local proxy port can. Its system-proxy switch doesn't work either:
+  `gsettings` inside the sandbox writes a private keyfile, not the host's
+  dconf. Such a client is listed only with the first paragraph of its
+  description saying it works as a manual local-port proxy, and nothing
+  claiming TUN or system proxy works.
 - **Its own sandbox, built on namespaces:** Flatpak blocks the mount and
   namespace syscalls an app's own `bwrap` or minijail needs, whatever the
   permissions. Chromium-based apps use zypak instead; others have to turn their

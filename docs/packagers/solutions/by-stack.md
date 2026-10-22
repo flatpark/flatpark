@@ -32,6 +32,15 @@ before the PR. Each item links to the page that explains it.
 - Data in a `~/.dotdir` (`os.homedir()`): grant it with `:create` or `--persist`
   ([permissions](../permissions.md#home-directory-dotdirs)).
 - A setuid `chrome-sandbox` in a `.deb`: clear the bit (`chmod -R a-s`).
+- Seeding an electron-store config (to switch the updater off, say): it merges
+  with the defaults at the top level only, so `{"options":{"autoUpdates":false}}`
+  replaces the whole `options` object and the app may not open. Seed the full
+  block for the version shipped.
+- electron-builder `.deb` vs AppImage: the `.deb` ships `resources/package-type`,
+  which makes electron-updater try to install `.deb` updates. The AppImage tree
+  has no such file, and with no `APPIMAGE` variable set the updater stays off,
+  so prefer the AppImage when upstream offers both
+  ([P3X OneNote](../../../registry/com.patrikx3.onenote/flatpark.yml)).
 
 ### Chromium-based browsers
 
@@ -140,3 +149,17 @@ before the PR. Each item links to the page that explains it.
 - Grant the folders the app works in (`xdg-music` for a player), not home.
 - Redirect the prefix's desktop folder into the sandbox, or installers drop
   shortcuts on the host's desktop.
+- Text in boxes in a WPF, CEF or Electron window while GDI text is fine: those
+  go through DirectWrite, which only sees fonts registered under
+  `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Fonts`. Cellar registers
+  the fonts it installs; a font copied into `C:\windows\Fonts` by hand isn't.
+- WPF falls back to a physical Arial and crashes in `TypefaceMap` without one,
+  so a WPF app's prefix needs the Microsoft core fonts, not Liberation
+  (`[fonts] core = "microsoft"`). If it flickers under wined3d, set
+  `HKCU\Software\Microsoft\Avalon.Graphics` `DisableHWAcceleration=1`.
+- Hebrew, Thai and Sinhala drawn as boxes under a CJK UI font is a Wine
+  limit, not the package: GDI shapes complex scripts against the base font only
+  and falls back to font linking just when the font lacks the script.
+- Every Wine command against a prefix runs with that prefix's `LC_ALL`. Wine
+  started under another locale rewrites the font-link defaults when its code
+  page changes; the Flatpak's `LC_CTYPE=C.UTF-8` alone means code page 1252.

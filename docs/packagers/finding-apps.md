@@ -182,7 +182,11 @@ Found by the app discovery scan (<YYYY-MM-DD>).
 ```
 
 Write it in English and link every claim. If there is no explicit demand, say
-so and give the case that remains. An app you looked at and decided against
+so and give the case that remains. Don't rank candidates into tiers or hold
+one back as "too young" or "demand not proven": real demand is enough, and only
+a concrete reason (the developer's own Flathub PR or stated plan, upstream
+declining, a hard sandbox blocker) means waiting. Packaging concerns go under
+Notes, not as reasons to wait. An app you looked at and decided against
 (say upstream prefers distribution packages) can get an issue too, with a
 "Why we're holding off" section instead, so the next scan doesn't propose it
 again.

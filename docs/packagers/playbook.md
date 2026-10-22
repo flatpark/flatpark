@@ -74,6 +74,9 @@ couldn't. `flatpak kill
 ## 5. Open the PR
 
 Branch, commit and PR body as in [submitting an app](submitting.md#open-the-pr).
+One app per PR. When packaging several apps in one run, open each app's PR as
+soon as that app is tested, then start the next; a run can end before the batch
+does, and unpushed work is lost.
 Add the trailer and footer your tool uses for AI-assisted work. Draft the body,
 show it, and open the PR only on approval (rule 2).
 
@@ -84,6 +87,10 @@ made a Flatpak install for their app; if they're happy with it, a link from
 their README or download page sends users to it and saves them and their users
 work. If they'd rather not have it, it is removed.
 
+- **Check [#379](https://github.com/flatpark/flatpark/issues/379) first.** It
+  tracks upstream contact for every app without a shield; an upstream already
+  asked keeps its thread. A `commenter:<you>` search on the upstream repository
+  finds earlier asks the issue doesn't list.
 - **Always a new issue** on the app's own tracker, even when a Flatpak request
   already exists there; link to that one. With no tracker or issues turned off,
   use the maintainer's public channel and say why you're writing there.
@@ -159,6 +166,13 @@ a no.
   opens a `ci-alert` issue naming the app. Fix `registry/<id>/apply_extra.sh`,
   check it with `./scripts/check-apply-extra.sh <id>`, and the next run closes
   the issue. A failed `publish` opens the same kind of issue.
+- **A resolver that fails is reported, not skipped.** Its app stays on the
+  current pin, the run turns red, and one summary issue (`update-check/resolvers`)
+  is rewritten with that day's list on every run and closed when all pass. Fix
+  the listed resolvers together in one PR. To reproduce one, run only its
+  `update.command` in `registry/<id>/` with `GITHUB_TOKEN=$(gh auth token)`;
+  without a token, resolvers that call the GitHub API share an anonymous
+  60-per-hour budget and fail. The full `check-updates.sh` downloads payloads.
 - **Runtime majors are not bumped by CI.** `runtime-version` and `base-version`
   are pinned by hand; moving the catalog to a new major is a
   [batch change](../reviewers/batch-changes.md).

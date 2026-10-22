@@ -12,6 +12,10 @@ build-options:
   no-debuginfo: true
 tags:
   - proprietary
+# The .deb ships unmodified with all its Electron locales. Once signed in, the
+# UI language follows the TradingView account, set on the website (e.g.
+# de.tradingview.com) and picked up after a restart; LANG only applies while
+# signed out. Language complaints are account-side, not packaging.
 finish-args:
   - --share=ipc
   - --share=network

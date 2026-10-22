@@ -282,10 +282,18 @@ else. It does no hashing and touches no file:
   is never pinned.
 - Optional: `size` per source (re-pin when upstream silently replaces the file
   behind the same URL), `releaseUrl` and `releaseNotes` for the metainfo.
+- A vendor that serves one unversioned URL (`app_amd64.deb`) often has an
+  electron-updater feed beside it (`latest-linux.yml`) with `version` and
+  `releaseDate`: read the version there and return the fixed URL
+  ([UpNote](../../registry/com.getupnote.UpNote/resolve-update.sh)). Until the
+  next re-pin after an upstream re-cut, the recorded sha256 no longer matches,
+  so the pin refresh is what keeps such an app installable.
 - Match the asset name tightly (anchor it, include the arch and extension). A
   loose pattern picks whichever variant sorts first when upstream adds one.
 - Use `${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"}` on GitHub API
   calls; unauthenticated runs are rate-limited and fail.
+- GitHub release assets carry `digest` (`sha256:…`) and `size` in the API, so a
+  first pin by hand doesn't need the download.
 
 Templates:
 
