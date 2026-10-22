@@ -162,21 +162,28 @@ When the catalog moves to a new runtime major, every stack is re-cut for it:
    patches in `patches/<stack>/`.
 3. **Build only what consumers need:** shared libraries and the tools apps run.
    Leave out headers unless another stack builds against it, and leave out
-   docs, static libraries and unused front ends.
+   docs, static libraries and unused front ends. A library only this stack
+   links is a module of it and ships inside its archive; it becomes a stack of
+   its own when a second package needs it alone. (`ffmpeg-full` once linked
+   five codec stacks that nothing else pinned: five pins in its consumer and a
+   release order on every runtime bump, for reuse that never came.)
 4. **Set both `no-debuginfo: true` and `strip: true`.** The first alone keeps
    full DWARF in every library.
-5. **After merge, run the `release` workflow** (Actions → release → Run
-   workflow) with a tag and the manifest. The tag is `<name>-v<N>`; the
-   workflow reads the runtime from the manifest and names the asset
-   `<stack>-<tag>-<base>-x86_64.tar.xz`, with a `.sha256` next to it.
+5. **Run the `release` workflow** (Actions → release → Run workflow) with a
+   tag and the manifest. The tag is `<name>-v<N>`; the workflow reads the
+   runtime from the manifest and names the asset
+   `<stack>-<tag>-<base>-x86_64.tar.xz`, with a `.sha256` next to it, and tags
+   the commit it built. Run it on the PR's branch to test the real archive
+   before merging; if it is wrong and nothing pins it yet, delete the release
+   and its tag and run it again.
 6. **Never replace an asset on an existing tag.** A change is a new tag
    (`-v3`); consumers move to it in their own PRs.
 7. **Pin it in the consuming package** and test that app's feature that needs
    the stack, inside the sandbox. A library that loads is not the same as a
    feature that works.
 
-A release that no package pins any more is deleted (the tag stays), so the
-release list only shows what is in use.
+A release that no package or stack pins any more is deleted together with its
+tag, so the release and tag lists only show what is in use.
 
 ### What doesn't belong in prebuilt
 

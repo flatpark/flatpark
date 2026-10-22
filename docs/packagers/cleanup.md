@@ -146,8 +146,8 @@ gigabytes.
 - Old Actions caches: keep the newest of each family (`flatpak-repo-*`,
   `flatpark-screenshots-*`, the npm cache); the workflows restore by prefix and
   only use the newest.
-- Superseded `flatpark/prebuilt` releases that no package pins: delete the
-  release, keep the tag.
+- Superseded `flatpark/prebuilt` releases that no package or stack pins:
+  delete the release and its tag.
 
 ### The report
 
