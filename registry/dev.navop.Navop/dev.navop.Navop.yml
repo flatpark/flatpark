@@ -80,9 +80,9 @@ modules:
         filename: navop.deb
         only-arches:
           - x86_64
-        url: https://github.com/feigeCode/navop/releases/download/v0.21.0/navop_0.21.0_amd64.deb
-        sha256: d5a0c75f5b5c296fc601586f6246918b0e86a429f3fa1eae48663ce59ebba283
-        size: 46045282
+        url: https://github.com/feigeCode/navop/releases/download/v0.21.1/navop_0.21.1_amd64.deb
+        sha256: 13d993e22ef63fa965c4fe4bd8484ae06a1a682054bb8b7173b11c1ac64434c5
+        size: 46070850
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

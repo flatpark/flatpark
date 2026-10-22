@@ -80,6 +80,9 @@
     <mediatype>application/x-figcraft</mediatype>
   </provides>
   <releases>
+    <release version="0.10.0" date="2026-10-22">
+      <description></description>
+    </release>
     <release version="0.9.0" date="2026-10-21">
       <description></description>
     </release>
