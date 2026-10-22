@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.jianguoyun.Nutstore</id>
+  <name>Nutstore</name>
+  <name xml:lang="zh-Hans">坚果云</name>
+  <summary>File sync, sharing and backup client for the Nutstore cloud drive</summary>
+  <summary xml:lang="zh-Hans">坚果云文件同步、共享与备份客户端</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://help.jianguoyun.com/?page_id=490</project_license>
+  <developer id="com.jianguoyun">
+    <name>Shanghai YiJing Network Tech Co., Ltd</name>
+  </developer>
+  <url type="homepage">https://www.jianguoyun.com</url>
+  <url type="help">https://help.jianguoyun.com</url>
+  <description>
+    <p>This is a community package of Nutstore, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Nutstore (坚果云) keeps folders in sync between your computers and the Nutstore cloud, shares them with others, and keeps file history as a backup.</p>
+    <p>This package can read and write your home folder: Nutstore syncs any folder you choose there, and keeps its account data in ~/.nutstore, which a native Nutstore install on the same computer also uses.</p>
+    <p>The tray menu works, but the tray icon may show as a generic icon: the client points it at an image inside the sandbox, which the desktop's tray cannot read.</p>
+    <p>Updates come through Flatpak. When the client downloads a newer version itself, that version only runs until the client exits.</p>
+    <p>To sync folders on external drives, grant them with "flatpak override":</p>
+    <ul>
+      <li>Removable drives: <code>flatpak override --user --filesystem=/run/media --filesystem=/media com.jianguoyun.Nutstore</code></li>
+      <li>Undo: <code>flatpak override --user --reset com.jianguoyun.Nutstore</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.jianguoyun.Nutstore.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>sync</keyword>
+    <keyword>cloud</keyword>
+    <keyword>backup</keyword>
+    <keyword>坚果云</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <releases>
+    <release version="6.4.3" date="2025-09-22"/>
+  </releases>
+</component>

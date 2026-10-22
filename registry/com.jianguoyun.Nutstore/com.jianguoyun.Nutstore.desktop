@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Nutstore
+Name[zh_CN]=坚果云
+Comment=Data sync, sharing and backup
+Comment[zh_CN]=数据同步、共享和备份
+Icon=com.jianguoyun.Nutstore
+Exec=nutstore
+Terminal=false
+StartupWMClass=Nutstore
+Categories=Network;FileTransfer;
+Keywords=sync;cloud;backup;webdav;坚果云;

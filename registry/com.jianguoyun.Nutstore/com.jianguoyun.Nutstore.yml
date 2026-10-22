@@ -1,0 +1,69 @@
+id: com.jianguoyun.Nutstore
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: nutstore
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A Java (SWT) client with WebKitGTK panels, started by a Python/GTK 3
+  # launcher. On Wayland the launcher starts the Java client with
+  # GDK_BACKEND=x11, so the window needs the X11 socket, not fallback-x11.
+  - --share=ipc
+  - --socket=x11
+  # dri for WebKit rendering.
+  - --device=dri
+  # Syncing with the Nutstore servers is the core function.
+  - --share=network
+  # Nutstore syncs any folder the user picks, and keeps its account data,
+  # database and logs in ~/.nutstore. Both need the real home.
+  - --filesystem=home
+  # The client's updater unpacks new versions into ~/.nutstore/dist, and the
+  # launcher runs that copy instead of the installed one whenever it exists.
+  # Masking it keeps this package on its own pinned build (and off a native
+  # install's copy); an update the client applies lasts until it exits. The
+  # mask needs the directory to exist; the wrapper creates it.
+  - --nofilesystem=~/.nutstore/dist
+  # Tray icon (AyatanaAppIndicator3).
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  # The launcher's tray uses AyatanaAppIndicator3 through PyGObject, and the
+  # GNOME runtime has neither the library nor its typelib. Prebuilt ayatana
+  # stack from https://github.com/flatpark/prebuilt (libdbusmenu, ayatana-ido,
+  # libayatana-indicator, libayatana-appindicator, with the typelib), built
+  # against org.gnome.Sdk//51. Without it the client still runs, with no tray.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: nutstore
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 nutstore-wrapper /app/bin/nutstore
+      - install -Dm644 com.jianguoyun.Nutstore.desktop /app/share/applications/com.jianguoyun.Nutstore.desktop
+      - install -Dm644 com.jianguoyun.Nutstore.metainfo.xml /app/share/metainfo/com.jianguoyun.Nutstore.metainfo.xml
+      - install -Dm644 com.jianguoyun.Nutstore.png /app/share/icons/hicolor/512x512/apps/com.jianguoyun.Nutstore.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: nutstore.tar.gz
+        url: https://dc-pkg-cdn.jianguoyun.com/static/exe/st/6.4.3/nutstore_client-6.4.3-linux-x86_64-public.tar.gz
+        sha256: b06dcdad64cfd63a0aced90d75dcf3f31d713d583da9920a94a23bb48c3fdb12
+        size: 61180944
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: nutstore-wrapper
+      - type: file
+        path: com.jianguoyun.Nutstore.desktop
+      - type: file
+        path: com.jianguoyun.Nutstore.metainfo.xml
+      - type: file
+        path: com.jianguoyun.Nutstore.png

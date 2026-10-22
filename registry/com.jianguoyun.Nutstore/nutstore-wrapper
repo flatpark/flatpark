@@ -1,0 +1,10 @@
+#!/bin/sh
+# Flatpak only masks ~/.nutstore/dist (--nofilesystem in the manifest) when the
+# directory exists on the host. Create it empty, so an update the client
+# unpacks there is never picked up on a later launch.
+mkdir -p "$HOME/.nutstore/dist"
+
+# Upstream's launcher: a Python daemon that starts the Java client, restarts it
+# if it dies, shows notifications and draws the tray icon (AyatanaAppIndicator3
+# from the ayatana-stack module). It runs on the runtime's python3 and PyGObject.
+exec /app/extra/nutstore/bin/nutstore-pydaemon.py "$@"

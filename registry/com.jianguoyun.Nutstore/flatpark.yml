@@ -1,0 +1,22 @@
+id: com.jianguoyun.Nutstore
+name: Nutstore
+summary: File sync, sharing and backup client for the Nutstore (坚果云) cloud drive
+website: https://www.jianguoyun.com
+build:
+  manifest: com.jianguoyun.Nutstore.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Nutstore
+    - 坚果云
+    - Sync
+    - Cloud
+    - Backup
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --filesystem=home
