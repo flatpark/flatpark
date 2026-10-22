@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+# paint.js is an Electron app staged by apply_extra to /app/extra/paintdotjs
+# from the AppDir inside the upstream AppImage. zypak-wrapper (from the Electron
+# base app) keeps Chromium's sandbox working inside Flatpak.
+unset ELECTRON_RUN_AS_NODE
+
+# The same variables upstream's own Flatpak launcher (flatpak/run.sh) sets.
+# PAINTDOTJS_MANAGED_INSTALL=1 makes the app only tell the user about a new
+# release instead of trying to replace itself; Flatpak updates it.
+export PAINTDOTJS_MANAGED_INSTALL=1
+export PAINTDOTJS_DISTRIBUTION=Flatpak
+
+# What the AppDir's own AppRun sets, for the libraries it carries for older
+# hosts (libnotify, libXtst, libXss, the appindicator trio).
+export LD_LIBRARY_PATH="/app/extra/paintdotjs/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# No --class: the main window's class and Wayland app_id are the product name,
+# paintdotjs, which the desktop file's StartupWMClass matches.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=paintdotjs
+exec zypak-wrapper "/app/extra/paintdotjs/$launcher" --ozone-platform-hint=auto "$@"

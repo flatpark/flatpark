@@ -1,0 +1,76 @@
+id: net.paintjs.Paintjs
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak, so Chromium
+# keeps its internal sandbox inside Flatpak (the wrapper runs it via
+# zypak-wrapper). The payload is still the vendor's own AppImage, fetched as
+# extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: paintdotjs
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id and finish-args follow upstream's own Flatpak manifest
+# (flatpak/net.paintjs.Paintjs.yml), so this package and the single-file bundle
+# upstream attaches to each release are the same application.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated canvas.
+  - --device=dri
+  # Granted by upstream's manifest. The app uses it only to look up the latest
+  # GitHub release and say when a newer version exists; without it that check
+  # fails quietly.
+  - --share=network
+  # The host's cursor theme, as upstream's manifest sets it.
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  # Images are opened and saved through the file-chooser portal, so no
+  # filesystem grant. The metainfo documents an override for direct access.
+  # Strip a leaked ELECTRON_RUN_AS_NODE so the binary and zypak's zygote
+  # children always start as the GUI app.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: paintdotjs
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 paintdotjs-wrapper /app/bin/paintdotjs
+      - install -Dm644 net.paintjs.Paintjs.desktop /app/share/applications/net.paintjs.Paintjs.desktop
+      - install -Dm644 net.paintjs.Paintjs.metainfo.xml /app/share/metainfo/net.paintjs.Paintjs.metainfo.xml
+      - install -Dm644 net.paintjs.Paintjs.mime.xml /app/share/mime/packages/net.paintjs.Paintjs.xml
+      - install -Dm644 net.paintjs.Paintjs.png /app/share/icons/hicolor/512x512/apps/net.paintjs.Paintjs.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # flatpark/prebuilt. Kept outside the managed block, which the updater
+      # rewrites from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: paintdotjs.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/LabyStudio/paintdotjs/releases/download/v2.4.5/paintdotjs-2.4.5-linux-x86_64.AppImage
+        sha256: e33115ea99d12719f810c99af1dad17f238376d8069ae91a6d127f8b8c3ea9b0
+        size: 151547895
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: paintdotjs-wrapper
+      - type: file
+        path: net.paintjs.Paintjs.desktop
+      - type: file
+        path: net.paintjs.Paintjs.metainfo.xml
+      - type: file
+        path: net.paintjs.Paintjs.mime.xml
+      - type: file
+        path: net.paintjs.Paintjs.png

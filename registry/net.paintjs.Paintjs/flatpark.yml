@@ -1,0 +1,22 @@
+id: net.paintjs.Paintjs
+name: paint.js
+summary: Edit raster images with layers, in the style of Paint.NET
+website: https://paintjs.net/
+source_url: https://github.com/LabyStudio/paintdotjs
+build:
+  manifest: net.paintjs.Paintjs.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Paint
+    - ImageEditor
+    - Layers
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

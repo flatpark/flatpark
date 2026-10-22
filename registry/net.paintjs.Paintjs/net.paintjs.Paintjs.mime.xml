@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- From upstream's flatpak/net.paintjs.Paintjs-mime.xml: shared-mime-info has no type for
+     Paint.NET's layered .pdn documents. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-paintdotnet">
+    <comment>Paint.NET image</comment>
+    <generic-icon name="image-x-generic"/>
+    <glob pattern="*.pdn"/>
+  </mime-type>
+</mime-info>
