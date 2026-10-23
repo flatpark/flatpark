@@ -46,16 +46,16 @@ modules:
         filename: photocraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/photocraft/releases/download/v0.12.0/photocraft-0.12.0-linux-x86_64.tar.gz
-        sha256: fb2b830230e3202a1ee18ec20e3f6d250d276b165d78811e83eb6a75725f9ce2
-        size: 84317736
+        url: https://github.com/storytold/photocraft/releases/download/v0.14.0/photocraft-0.14.0-linux-x86_64.tar.gz
+        sha256: 3d1f60a76c25aafbf53f23cfedd3687bd99eb6f5309920e140d588bd3212c936
+        size: 85507497
       - type: extra-data
         filename: photocraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/photocraft/releases/download/v0.12.0/photocraft-0.12.0-linux-aarch64.tar.gz
-        sha256: daba522ddac492b96e0c137ce032227cb1ba943f9cc38f323dc373e36f4a470a
-        size: 79805461
+        url: https://github.com/storytold/photocraft/releases/download/v0.14.0/photocraft-0.14.0-linux-aarch64.tar.gz
+        sha256: 43e7b4bdd69bc5ad747d1f6161aef6fba4839e7807a86eb0cd1d008897395615
+        size: 80918534
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

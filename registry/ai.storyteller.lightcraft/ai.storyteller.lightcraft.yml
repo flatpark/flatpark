@@ -43,16 +43,16 @@ modules:
         filename: lightcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/lightcraft/releases/download/v0.11.0/lightcraft-0.11.0-linux-x86_64.tar.gz
-        sha256: a2d1be1c52abb81f5a0736624a20ce9287183e0b0955005829f4a9dda41496ba
-        size: 109535627
+        url: https://github.com/storytold/lightcraft/releases/download/v0.13.0/lightcraft-0.13.0-linux-x86_64.tar.gz
+        sha256: 873c795e641ea8c345e02e4895f6c2659015e531420f68352ca3421aa9b8edcd
+        size: 110150449
       - type: extra-data
         filename: lightcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/lightcraft/releases/download/v0.11.0/lightcraft-0.11.0-linux-aarch64.tar.gz
-        sha256: c8f3f31193055d3c804536e626b29c70d32a0f8a5ae6551a0b08c5193bf8ddda
-        size: 104843679
+        url: https://github.com/storytold/lightcraft/releases/download/v0.13.0/lightcraft-0.13.0-linux-aarch64.tar.gz
+        sha256: 5f47cb0e71d17d21c130aa06bf9c3e0895185c5501b94f14633a9de6a587ca48
+        size: 105426065
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

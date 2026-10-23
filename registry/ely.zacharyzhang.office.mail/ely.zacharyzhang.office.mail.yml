@@ -69,9 +69,9 @@ modules:
         filename: ely-mail.deb
         only-arches:
           - x86_64
-        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.10/ely-mail_0.1.10-1_amd64.deb
-        sha256: 8889c207c173dffb95d99bb0e7105cef81b5d0372a6e5bb2b5bfc8604778ae71
-        size: 25891656
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.11/ely-mail_0.1.11-1_amd64.deb
+        sha256: 7e928294a39591fd6aa8d50352ce983643d619b5a9fa8be73977e2f3b98b5756
+        size: 27804050
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

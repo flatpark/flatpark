@@ -50,9 +50,9 @@ modules:
         filename: euro-office.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/Euro-Office/DesktopEditors/releases/download/v9.3.5-2/euro-office-euro-office-9.3.5-2-x86_64.tar.xz
-        sha256: c846d3eca0ec94c9fd1ffe23b3f8d04f70eb158c7332cbfa426056eca932bc56
-        size: 497902864
+        url: https://github.com/Euro-Office/DesktopEditors/releases/download/v9.3.6/euro-office-euro-office-9.3.6-0-x86_64.tar.xz
+        sha256: d8d7083f0d49201e3606341a9caca5ff6ddbe9ff7c92fa17cd30fb6797146afd
+        size: 497085996
       # END MANAGED EXTRA-DATA
       # libQt6Network links libgssapi_krb5.so.2 and the runtime has no Kerberos.
       # scripts/update-debian-pins.mjs re-resolves these from the suite index;

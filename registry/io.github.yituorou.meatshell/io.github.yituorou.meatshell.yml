@@ -72,16 +72,16 @@ modules:
         filename: meatshell.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/yituorou/meatshell/releases/download/v0.7.9/meatshell-v0.7.9-linux-x86_64.tar.gz
-        sha256: a9e348251849c07b18554fcf06c5673b55be08dce7db9f566fa07068bd789ac7
-        size: 24864134
+        url: https://github.com/yituorou/meatshell/releases/download/v0.8.0/meatshell-v0.8.0-linux-x86_64.tar.gz
+        sha256: 0b6d74bc34764ec66e86cb8aa3db22928688fd5389ca7c49b9f9d49abadac4dc
+        size: 24952730
       - type: extra-data
         filename: meatshell.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/yituorou/meatshell/releases/download/v0.7.9/meatshell-v0.7.9-linux-aarch64.tar.gz
-        sha256: 70fcc01220bd39e10da80366a158aedd1756a8f393de88c26d16bb89670433bd
-        size: 23885735
+        url: https://github.com/yituorou/meatshell/releases/download/v0.8.0/meatshell-v0.8.0-linux-aarch64.tar.gz
+        sha256: 00f825dc63d727c13846bc20b3899dc2787686f700fd7501e2e9991f1cfe2f2e
+        size: 23971853
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
