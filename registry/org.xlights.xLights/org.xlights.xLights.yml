@@ -97,9 +97,9 @@ modules:
         filename: xlights.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/xLightsSequencer/xLights/releases/download/2026.18/xLights-2026.18-x86_64.AppImage
-        sha256: 62affb88b9a9b03cf5164974ac69bcefe35c559719d157b3364e4d4a5ab4214b
-        size: 130521592
+        url: https://github.com/xLightsSequencer/xLights/releases/download/2026.19/xLights-2026.19-x86_64.AppImage
+        sha256: 929d6bd713de386e2f3a0b7f68c4062d514fcd6f199c4ff07af4232b8281016d
+        size: 130927096
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

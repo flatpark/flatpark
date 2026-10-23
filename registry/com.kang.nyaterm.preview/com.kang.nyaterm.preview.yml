@@ -96,9 +96,9 @@ modules:
         filename: nyaterm.deb
         only-arches:
           - x86_64
-        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.0-preview.8/NyaTerm_2.0.0-preview.8_linux_x64.deb
-        sha256: 9796ad6034547d017638cd1fb453fe97e83e16efc54ea3c9eca433461019a5d3
-        size: 47973724
+        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.0-preview.9/NyaTerm_2.0.0-preview.9_linux_x64.deb
+        sha256: ff4e3c8e07d85c85be4b6d918c396621fa233cb8e5933f23dc141fa129b1fb19
+        size: 48115214
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
