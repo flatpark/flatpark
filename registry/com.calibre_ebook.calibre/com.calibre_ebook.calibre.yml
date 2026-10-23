@@ -87,16 +87,16 @@ modules:
         filename: calibre.txz
         only-arches:
           - x86_64
-        url: https://github.com/kovidgoyal/calibre/releases/download/v9.16.0/calibre-9.16.0-x86_64.txz
-        sha256: 03cd4fda43de23d65405a3c90b924bc4a5c84753e388589d4ca343d9ba561a1d
-        size: 199098600
+        url: https://github.com/kovidgoyal/calibre/releases/download/v9.17.0/calibre-9.17.0-x86_64.txz
+        sha256: 953e4512a6482848cd803c88b6d942e6afca65dc3b67c7d1353ae048d616de53
+        size: 201590724
       - type: extra-data
         filename: calibre-arm64.txz
         only-arches:
           - aarch64
-        url: https://github.com/kovidgoyal/calibre/releases/download/v9.16.0/calibre-9.16.0-arm64.txz
-        sha256: 82bf5de819a655fc0c8b789d388fef53c4583f9c2f9b83a14df42724519a197d
-        size: 186152052
+        url: https://github.com/kovidgoyal/calibre/releases/download/v9.17.0/calibre-9.17.0-arm64.txz
+        sha256: 3c72bb26196f8339cfb0914224d824ccbaccbb635f0df9c3a55540ae316199bd
+        size: 188047576
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
