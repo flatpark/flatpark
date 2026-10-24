@@ -58,6 +58,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.5.0" date="2026-10-24">
+      <description></description>
+    </release>
     <release version="0.4.1" date="2026-10-24">
       <description>
         <p>This package no longer brings Wine of its own. Install Wine from Flathub to keep using the system runner: flatpak install flathub org.winehq.Wine//stable-26.08. Or download a community runner in Cellar.</p>

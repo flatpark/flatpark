@@ -99,9 +99,9 @@ modules:
         filename: cellar-x86_64
         only-arches:
           - x86_64
-        url: https://github.com/jing2uo/cellar/releases/download/v0.4.1/cellar-x86_64
-        sha256: ea3815b90033b50f0b558521369346aeaf7a4be4e3abc718236676a460b8fd1a
-        size: 14028472
+        url: https://github.com/jing2uo/cellar/releases/download/v0.5.0/cellar-x86_64
+        sha256: ab1ba948b509eb32e1c53cf7cad505d644f782111f1dc9dd18aef39e3e76c854
+        size: 14036664
       # END MANAGED EXTRA-DATA
       # BEGIN MANAGED DEBIAN trixie main
       - type: extra-data
