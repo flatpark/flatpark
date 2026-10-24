@@ -1,0 +1,81 @@
+id: me.him188.ani
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Animeko embeds JCEF (Chromium Embedded Framework) for its web pages. CEF's
+# own sandbox cannot set up a nested user namespace inside Flatpak, so the
+# Electron base app supplies zypak: the wrapper starts the launcher through
+# zypak-wrapper, which redirects CEF's Chromium sandbox onto Flatpak's. The
+# base is merged into the app at build time; the payload is still upstream's
+# AppImage, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: animeko
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Java/Compose + JCEF application. The AppImage bundles the JRE, JCEF, mpv and
+  # FFmpeg; the GTK3, NSS, CUPS, ATK, X11, ALSA and PulseAudio stacks come from
+  # the runtime (org.freedesktop.Platform 26.08 ships them — checked against
+  # libcef.so and libmpv.so's NEEDED sets, 0 missing).
+  - --share=ipc
+  # Bangumi, anime sources, danmaku services, torrents/DHT and self-hosted
+  # Jellyfin/Emby servers.
+  - --share=network
+  # JCEF's Linux configuration forces CEF onto X11 (--ozone-platform=x11), and
+  # Java's AWT is X11-only, so the app runs on XWayland even in a Wayland
+  # session. Granting x11 (not fallback-x11) is what makes that work.
+  - --socket=x11
+  # GPU-accelerated Compose rendering and mpv's hardware decoding.
+  - --device=dri
+  # Playback.
+  - --socket=pulseaudio
+  # The optional tray icon (SystemTray / compose-native-tray) and desktop
+  # notifications.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.Notifications
+  # Not granted by default — the app works without them; opt in per the
+  # metainfo:
+  #   --filesystem=xdg-videos            -> save the offline cache in Videos
+  #   --filesystem=/path/to/media        -> save it on an external drive
+modules:
+  - name: animeko
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 animeko-wrapper /app/bin/animeko
+      - install -Dm644 me.him188.ani.desktop /app/share/applications/me.him188.ani.desktop
+      - install -Dm644 me.him188.ani.metainfo.xml /app/share/metainfo/me.him188.ani.metainfo.xml
+      - install -Dm644 me.him188.ani.png /app/share/icons/hicolor/512x512/apps/me.him188.ani.png
+    sources:
+      # The AppImage tooling is extra-data outside the managed block: install
+      # time runs apply_extra with only the runtime's /usr and /app/extra
+      # visible, so the tools have to be downloaded there too, and the updater
+      # must not rewrite their pin.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: animeko.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/open-ani/animeko/releases/download/v6.4.0/ani-6.4.0-linux-x86_64.appimage
+        sha256: 5679ea8d86a23883e022156cf3eec5e05aef459f2577cf710e5a766f64104f27
+        size: 342665720
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: animeko-wrapper
+      - type: file
+        path: me.him188.ani.desktop
+      - type: file
+        path: me.him188.ani.metainfo.xml
+      - type: file
+        path: me.him188.ani.png

@@ -1,0 +1,25 @@
+id: me.him188.ani
+name: Animeko
+summary: Anime streaming client with Bangumi sync, torrents and danmaku
+website: https://animeko.org
+source_url: https://github.com/open-ani/animeko
+build:
+  manifest: me.him188.ani.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Anime
+    - Streaming
+    - Video
+    - Danmaku
+    - Torrent
+    - Bangumi
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

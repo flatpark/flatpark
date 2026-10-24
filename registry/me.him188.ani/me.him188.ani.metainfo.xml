@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>me.him188.ani</id>
+  <name>Animeko</name>
+  <summary>Anime streaming client with Bangumi sync, torrents and danmaku</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="me.him188">
+    <name>Him188</name>
+  </developer>
+  <url type="homepage">https://animeko.org</url>
+  <url type="bugtracker">https://github.com/open-ani/animeko/issues</url>
+  <url type="vcs-browser">https://github.com/open-ani/animeko</url>
+  <description>
+    <p>This is a community package of Animeko, maintained independently and unaffiliated with the Animeko project. It repackages the official upstream Linux AppImage unmodified — the app tree unpacked at install time, not rebuilt — and follows upstream releases automatically.</p>
+    <p>Animeko is an anime streaming client. It syncs your watch progress and collection with Bangumi, aggregates video sources including BitTorrent, Jellyfin and Emby, and overlays danmaku from several providers.</p>
+    <ul>
+      <li>Browse Bangumi's anime database, schedules, ratings and community comments.</li>
+      <li>Search and play from aggregated sources, including BitTorrent, Jellyfin/Emby and custom sources.</li>
+      <li>Danmaku overlay, offline caching, watch-together and a player built on mpv and FFmpeg.</li>
+      <li>Cloud sync of watch progress through Bangumi, with automatic progress updates.</li>
+    </ul>
+    <p>The interface runs on X11/XWayland, because the embedded JCEF browser and Java's AWT require it. The app reaches the network for Bangumi, anime sources, danmaku services, torrents and self-hosted Jellyfin/Emby servers; those are third-party services and using them is subject to their own terms. Offline downloads are stored in the app's data directory by default. Enable what you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Save the offline cache in your Videos folder: <code>flatpak override --user --filesystem=xdg-videos me.him188.ani</code></li>
+      <li>Save it on an external drive: <code>flatpak override --user --filesystem=/path/to/media me.him188.ani</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset me.him188.ani</code></li>
+    </ul>
+    <p>Updates are delivered by Flatpak; use <code>flatpak update</code> rather than the in-app updater.</p>
+  </description>
+  <launchable type="desktop-id">me.him188.ani.desktop</launchable>
+  <provides>
+    <binary>animeko</binary>
+  </provides>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>anime</keyword>
+    <keyword>streaming</keyword>
+    <keyword>bangumi</keyword>
+    <keyword>danmaku</keyword>
+    <keyword>torrent</keyword>
+    <keyword>video</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The home page</caption>
+      <image>https://raw.githubusercontent.com/open-ani/animeko/main/.readme/images/features/pc-home.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Search results</caption>
+      <image>https://raw.githubusercontent.com/open-ani/animeko/main/.readme/images/features/pc-search-detail.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The player</caption>
+      <image>https://raw.githubusercontent.com/open-ani/animeko/main/.readme/images/features/player-fullscreen.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="6.4.0" date="2026-10-24"/>
+  </releases>
+</component>

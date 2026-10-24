@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Animeko
+Comment=Anime streaming client with Bangumi sync, torrents and danmaku
+Exec=animeko
+Icon=me.him188.ani
+Terminal=false
+Categories=AudioVideo;Player;Video;
+Keywords=anime;streaming;bangumi;danmaku;torrent;video;
+StartupNotify=true
+StartupWMClass=me-him188-ani-app-desktop-AniDesktop
