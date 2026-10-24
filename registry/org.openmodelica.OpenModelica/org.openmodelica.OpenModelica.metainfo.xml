@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openmodelica.OpenModelica</id>
+  <launchable type="desktop-id">org.openmodelica.OpenModelica.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>OpenModelica</name>
+  <summary>Model and simulate physical systems with Modelica</summary>
+  <developer id="org.openmodelica">
+    <name>Open Source Modelica Consortium</name>
+  </developer>
+  <url type="homepage">https://openmodelica.org</url>
+  <url type="bugtracker">https://github.com/OpenModelica/OpenModelica/issues</url>
+  <url type="vcs-browser">https://github.com/OpenModelica/OpenModelica</url>
+  <url type="help">https://openmodelica.org/useresresources/userdocumentation/</url>
+  <url type="donation">https://openmodelica.org/home/openmodelica-donation/</url>
+  <description>
+    <p>This is a community package of OpenModelica, maintained independently and unaffiliated with the Open Source Modelica Consortium. It downloads a bundle of official stable OpenModelica binaries, Qt WebEngine and their runtime libraries from rhgKc2yp/OMEdit-release. The upstream binaries are not modified; the bundle's source manifest records their origins and hashes.</p>
+    <p>OpenModelica is an open-source Modelica-based modeling and simulation environment for industrial and academic use. OMEdit provides a graphical interface for creating models, connecting components, running simulations and plotting results.</p>
+    <ul>
+      <li>Create equation-based physical models graphically or as Modelica source.</li>
+      <li>Compile and simulate models with the toolchain contained in the sandbox.</li>
+      <li>Plot simulation variables and inspect generated results.</li>
+      <li>Use the bundled offline cache of the Modelica Standard Library.</li>
+    </ul>
+    <p>Permissions: network access is used for Modelica library downloads, documentation and release information. GPU access is used for accelerated Qt rendering. Downloaded libraries are persisted in OpenModelica&apos;s private .openmodelica directory; this package does not grant access to your home directory. Open and save files elsewhere with the desktop file chooser.</p>
+    <p>OpenModelica simulations generate and compile native code. This package therefore uses the KDE SDK runtime, whose GCC toolchain remains inside the Flatpak sandbox.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://openmodelica.org/images/M_images/om.jpg</image>
+      <caption>Modeling and simulation with OpenModelica</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>Education</category>
+    <category>Science</category>
+  </categories>
+  <keywords>
+    <keyword>Modelica</keyword>
+    <keyword>modeling</keyword>
+    <keyword>simulation</keyword>
+    <keyword>engineering</keyword>
+    <keyword>science</keyword>
+  </keywords>
+  <releases>
+    <release version="1.27.1-rd726246728a1dab8" date="2026-10-24">
+      <url type="details">https://github.com/rhgKc2yp/OMEdit-release/releases/tag/v1.27.1-rd726246728a1dab8</url>
+    </release>
+  </releases>
+</component>

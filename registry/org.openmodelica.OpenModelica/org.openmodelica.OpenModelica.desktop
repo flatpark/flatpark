@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=OpenModelica
+GenericName=Physical Modeling and Simulation
+Comment=Model and simulate physical systems with Modelica
+Exec=openmodelica %f
+Icon=org.openmodelica.OpenModelica
+Terminal=false
+Categories=Development;Education;Science;Math;
+Keywords=Modelica;modeling;simulation;engineering;science;
+MimeType=text/x-onb;application/x-omnotebook;
+StartupNotify=true
+StartupWMClass=OMEdit

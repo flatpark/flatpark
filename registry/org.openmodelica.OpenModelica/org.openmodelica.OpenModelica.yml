@@ -1,0 +1,54 @@
+id: org.openmodelica.OpenModelica
+# Simulations generate and compile native code using GCC, binutils and headers
+# inside the sandbox. The Platform runtime intentionally lacks that toolchain.
+runtime: org.kde.Sdk
+runtime-version: "6.11"
+sdk: org.kde.Sdk
+command: openmodelica
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Modelica library downloads, documentation and release information.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Accelerated Qt/Qt WebEngine rendering.
+  - --device=dri
+  # Retain downloaded libraries in private app data.
+  - --persist=.openmodelica
+modules:
+  - name: openmodelica
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openmodelica-wrapper /app/bin/openmodelica
+      - install -Dm644 org.openmodelica.OpenModelica.desktop /app/share/applications/org.openmodelica.OpenModelica.desktop
+      - install -Dm644 org.openmodelica.OpenModelica.metainfo.xml /app/share/metainfo/org.openmodelica.OpenModelica.metainfo.xml
+      - install -Dm644 org.openmodelica.OpenModelica.png /app/share/icons/hicolor/256x256/apps/org.openmodelica.OpenModelica.png
+    sources:
+      # The independently assembled release bundle contains unmodified official
+      # OpenModelica binaries, Debian dependency libraries and Qt WebEngine from
+      # an exact BaseApp commit. Its SOURCES.lock.json records all inputs. The
+      # release gate resolves every ELF dependency and runs a headless simulation
+      # inside KDE SDK 6.11 before publishing. No BaseApp is copied into our ref.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: omedit.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/rhgKc2yp/OMEdit-release/releases/download/v1.27.1-rd726246728a1dab8/omedit-1.27.1-rd726246728a1dab8-x86_64.tar.gz
+        sha256: 53082da6ee3454fdac63459f2b2e50a45b1d77c21abae891a66c37ef01eb67c2
+        size: 228675946
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openmodelica-wrapper
+      - type: file
+        path: org.openmodelica.OpenModelica.desktop
+      - type: file
+        path: org.openmodelica.OpenModelica.metainfo.xml
+      - type: file
+        path: org.openmodelica.OpenModelica.png

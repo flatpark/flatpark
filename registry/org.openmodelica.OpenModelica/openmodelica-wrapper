@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Resource/library paths and compiler launchers are part of the release bundle,
+# tested both before packaging and after extraction at a different path.
+exec /app/extra/omedit/bin/omedit "$@"
