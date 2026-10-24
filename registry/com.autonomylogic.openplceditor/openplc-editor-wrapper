@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# IDE terminals can export this, which would start Electron as Node.
+unset ELECTRON_RUN_AS_NODE
+# Zypak runs Chromium's child processes inside the Flatpak sandbox.
+launcher="$(cat /app/extra/launcher)"
+exec zypak-wrapper "/app/extra/app/$launcher" --ozone-platform-hint=auto "$@"

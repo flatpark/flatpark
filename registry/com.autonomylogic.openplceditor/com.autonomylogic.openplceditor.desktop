@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OpenPLC Editor
+Comment=Create and compile IEC 61131-3 programs for OpenPLC
+Exec=openplc-editor %U
+Icon=com.autonomylogic.openplceditor
+Terminal=false
+Categories=Development;IDE;Electronics;
+StartupWMClass=open-plc-editor

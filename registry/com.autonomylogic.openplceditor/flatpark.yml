@@ -1,0 +1,18 @@
+id: com.autonomylogic.openplceditor
+name: OpenPLC Editor
+summary: Create and compile IEC 61131-3 programs for OpenPLC
+website: https://autonomylogic.com/
+source_url: https://github.com/Autonomy-Logic/openplc-editor
+build:
+  manifest: com.autonomylogic.openplceditor.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Development
+  tags: [PLC, IEC61131-3, Automation, IDE]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
