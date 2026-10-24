@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# Gmsh's documented configuration directory keeps .gmshrc and .gmsh-options
+# in the app's persistent XDG config directory rather than the transient home.
+export GMSH_HOME="$XDG_CONFIG_HOME"
+# Only the additional GLU library is supplied here; GL and fonts use the runtime.
+export LD_LIBRARY_PATH="/app/extra/glu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/gmsh/bin/gmsh "$@"

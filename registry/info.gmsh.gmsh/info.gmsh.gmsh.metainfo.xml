@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>info.gmsh.gmsh</id>
+  <name>Gmsh</name>
+  <summary>Generate and visualize finite element meshes</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <developer id="info.gmsh"><name>Christophe Geuzaine and Jean-François Remacle</name></developer>
+  <description>
+    <p>Gmsh creates finite element meshes from parametric geometry and CAD models.
+    Its graphical interface includes geometry editing, mesh generation and
+    post-processing tools, with a command line for batch meshing.</p>
+    <p>This community package runs the official upstream Linux build unmodified.
+    A separate Mesa GLU library supplies OpenGL utility functions.</p>
+    <p>The native file chooser can open and save files in Documents. To work
+    in another directory, grant that directory with
+    <code>flatpak override --user --filesystem=/path/to/models info.gmsh.gmsh</code>.
+    Remove custom overrides with
+    <code>flatpak override --user --reset info.gmsh.gmsh</code>.</p>
+    <p>External ONELAB solvers and text editors must be available inside the
+    sandbox. Host-installed programs are not available. Network access for
+    remote ONELAB clients is optional:
+    <code>flatpak override --user --share=network info.gmsh.gmsh</code>.</p>
+  </description>
+  <launchable type="desktop-id">info.gmsh.gmsh.desktop</launchable>
+  <url type="homepage">https://gmsh.info/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://gmsh.info/doc/texinfo/gmsh.html</url>
+  <categories><category>Science</category><category>NumericalAnalysis</category></categories>
+  <screenshots>
+    <screenshot type="default"><image>https://gmsh.info/gallery/screenshot.png</image></screenshot>
+    <screenshot><image>https://gmsh.info/gallery/screenshot2.png</image></screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="4.15.2" date="2026-03-24"/></releases>
+</component>

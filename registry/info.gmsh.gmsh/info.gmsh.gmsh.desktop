@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Gmsh
+Comment=Generate and visualize finite element meshes
+Exec=gmsh %F
+Icon=info.gmsh.gmsh
+Terminal=false
+StartupWMClass=FLTK
+Categories=Science;NumericalAnalysis;Engineering;
+Keywords=mesh;CAD;finite elements;simulation;

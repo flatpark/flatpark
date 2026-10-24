@@ -1,0 +1,18 @@
+id: info.gmsh.gmsh
+name: Gmsh
+summary: Generate and visualize finite element meshes
+website: https://gmsh.info/
+source_url: https://gitlab.onelab.info/gmsh/gmsh
+build:
+  manifest: info.gmsh.gmsh.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  tags: [CAD, Finite Elements, Mesh, Simulation]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
