@@ -4,7 +4,7 @@
   <name>Stirling PDF</name>
   <summary>Edit, merge, split, sign and convert PDFs on your own machine</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT AND LicenseRef-proprietary=https://github.com/Stirling-Tools/Stirling-PDF/blob/main/frontend/editor/src/desktop/LICENSE</project_license>
+  <project_license>MIT AND LicenseRef-proprietary=https://github.com/Stirling-Tools/Stirling-PDF/blob/main/frontend/src/editor/desktop/LICENSE</project_license>
   <developer id="com.stirlingpdf">
     <name>Stirling PDF Inc.</name>
   </developer>
