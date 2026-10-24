@@ -83,8 +83,8 @@ modules:
         filename: cellar-x86_64
         only-arches:
           - x86_64
-        url: https://github.com/jing2uo/cellar/releases/download/v0.4.0/cellar-x86_64
-        sha256: d208bb40cb98ea4268e8d3b7ee6d7d5301430f880d7ea03118c17fb0cba687f3
+        url: https://github.com/jing2uo/cellar/releases/download/v0.4.1/cellar-x86_64
+        sha256: ea3815b90033b50f0b558521369346aeaf7a4be4e3abc718236676a460b8fd1a
         size: 14028472
       # END MANAGED EXTRA-DATA
       - type: file
