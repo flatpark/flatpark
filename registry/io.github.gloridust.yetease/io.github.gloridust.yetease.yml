@@ -1,0 +1,58 @@
+id: io.github.gloridust.yetease
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: yetease-music
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter/GTK3 window with GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The Rust audio core plays through ALSA, which the runtime routes to
+  # PulseAudio/PipeWire.
+  - --socket=pulseaudio
+  # QR-code login, the NetEase Cloud Music API and streaming.
+  - --share=network
+  # The local-music page scans the XDG music directory by default, and
+  # downloads go to ~/Music/YetEase. Other library folders are opt-in overrides
+  # documented in the metainfo.
+  - --filesystem=xdg-music
+  # MPRIS: media keys and the shell's now-playing widget. The core registers
+  # the fixed name org.mpris.MediaPlayer2.yetease, outside the app-id prefix
+  # Flatpak allows by default.
+  - --own-name=org.mpris.MediaPlayer2.yetease
+  # Deliberately withheld: no home or host filesystem access, no notifications,
+  # no device access beyond the GPU.
+modules:
+  - name: yetease
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 yetease-music-wrapper /app/bin/yetease-music
+      - install -Dm644 io.github.gloridust.yetease.desktop /app/share/applications/io.github.gloridust.yetease.desktop
+      - install -Dm644 io.github.gloridust.yetease.metainfo.xml /app/share/metainfo/io.github.gloridust.yetease.metainfo.xml
+      - install -Dm644 io.github.gloridust.yetease.png /app/share/icons/hicolor/512x512/apps/io.github.gloridust.yetease.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: yetease-music-linux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/Gloridust/YetEaseMusic/releases/download/v0.2.3/yetease-music-0.2.3-linux-x86_64.tar.gz
+        sha256: c2990c12550270bcd7bc65c16811c1e2130b96822f22737864cd42dae45798ac
+        size: 16917720
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: yetease-music-wrapper
+      - type: file
+        path: io.github.gloridust.yetease.desktop
+      - type: file
+        path: io.github.gloridust.yetease.metainfo.xml
+      - type: file
+        path: io.github.gloridust.yetease.png

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.gloridust.yetease</id>
+  <name>YetEase Music</name>
+  <summary>Third-party NetEase Cloud Music client with a Rust core</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.gloridust">
+    <name>Gloridust</name>
+  </developer>
+  <url type="homepage">https://github.com/Gloridust/YetEaseMusic</url>
+  <url type="bugtracker">https://github.com/Gloridust/YetEaseMusic/issues</url>
+  <url type="vcs-browser">https://github.com/Gloridust/YetEaseMusic</url>
+  <description>
+    <p>This is a community package of YetEase Music, maintained independently and unaffiliated with the YetEase Music project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>YetEase Music is an unofficial client for NetEase Cloud Music, with a Flutter interface over a native Rust core that handles decoding, caching, networking and lyrics. It talks to NetEase's own API directly, with no third-party server in between, and has no ads or telemetry. It is not affiliated with NetEase.</p>
+    <ul>
+      <li>QR-code login and sync of your playlists.</li>
+      <li>Recommended playlists and daily recommendations.</li>
+      <li>Playlist details with in-playlist search and shuffle; song search.</li>
+      <li>Play queue, play next, and four playback modes.</li>
+      <li>Stream while downloading: played tracks are kept as an offline cache, in quality levels up to Hi-Res.</li>
+      <li>Line-synced lyrics with translations; click a line to seek.</li>
+      <li>Light and dark themes and adjustable interface scaling.</li>
+      <li>An overseas network mode for playback outside mainland China or behind a global proxy.</li>
+    </ul>
+    <p>Only NetEase's own audio sources are used. Without a login, or without a VIP account, VIP tracks play only as previews.</p>
+    <p>Permissions: this package grants display, GPU, audio, network access, MPRIS media controls and your XDG music directory, which the local-music page scans and where downloads are saved (<code>~/Music/YetEase</code>). The login session, settings, logs and the audio cache stay inside the sandbox under <code>~/.var/app/io.github.gloridust.yetease</code>. No home or host filesystem access is granted.</p>
+    <ul>
+      <li>Scan a local music folder elsewhere: <code>flatpak override --user --filesystem=/path/to/music:ro io.github.gloridust.yetease</code></li>
+      <li>Save downloads outside the music directory (set the same path in the app's settings): <code>flatpak override --user --filesystem=/path/to/downloads io.github.gloridust.yetease</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Now playing, with a cover-tinted background and synced, translated lyrics</caption>
+      <image>https://raw.githubusercontent.com/Gloridust/YetEaseMusic/main/doc/screenshots/now-playing.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Recommended playlists</caption>
+      <image>https://raw.githubusercontent.com/Gloridust/YetEaseMusic/main/doc/screenshots/home.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Playlist details in dark mode</caption>
+      <image>https://raw.githubusercontent.com/Gloridust/YetEaseMusic/main/doc/screenshots/playlist-dark.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Search results</caption>
+      <image>https://raw.githubusercontent.com/Gloridust/YetEaseMusic/main/doc/screenshots/search.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Settings: audio quality, overseas network mode, theme and scaling</caption>
+      <image>https://raw.githubusercontent.com/Gloridust/YetEaseMusic/main/doc/screenshots/settings.webp</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.gloridust.yetease.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+    <category>Music</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>netease</keyword>
+    <keyword>cloudmusic</keyword>
+    <keyword>网易云</keyword>
+    <keyword>lyrics</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>yetease-music</binary>
+  </provides>
+  <releases>
+    <release version="0.2.3" date="2026-10-24">
+      <description></description>
+    </release>
+  </releases>
+</component>
