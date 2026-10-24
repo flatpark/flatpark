@@ -51,6 +51,9 @@
   </keywords>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.2.0" date="2026-10-24">
+      <description></description>
+    </release>
     <release version="1.1.0" date="2026-09-02"/>
   </releases>
 </component>

@@ -75,16 +75,16 @@ modules:
         filename: splayer-next.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/SPlayer-Dev/SPlayer-Next/releases/download/v1.1.0/splayer-next-1.1.0-x64.tar.gz
-        sha256: ad097039eb16a99bf934745ca533548907a156f9f95fd32ad09fd9035dd8f199
-        size: 123803805
+        url: https://github.com/SPlayer-Dev/SPlayer-Next/releases/download/v1.2.0/splayer-next-1.2.0-x64.tar.gz
+        sha256: ab17e9d4e6d30d901820699ab034192c967f21ce0d73623d21ebec506331929d
+        size: 131897374
       - type: extra-data
         filename: splayer-next.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/SPlayer-Dev/SPlayer-Next/releases/download/v1.1.0/splayer-next-1.1.0-arm64.tar.gz
-        sha256: 656aacce403767dc4c0194b4f34651b526325d298cfdb77b515504d7eb4ff378
-        size: 122735102
+        url: https://github.com/SPlayer-Dev/SPlayer-Next/releases/download/v1.2.0/splayer-next-1.2.0-arm64.tar.gz
+        sha256: d997c1ed295de798b1a055bdcbff4976e8bef01e2681f2e9905d555f54f51b1d
+        size: 132199834
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -48,6 +48,9 @@
     <keyword>annotate</keyword>
   </keywords>
   <releases>
+    <release version="2026.10" date="2026-10-20">
+      <description></description>
+    </release>
     <release version="2026.09" date="2026-09-21"/>
   </releases>
 </component>

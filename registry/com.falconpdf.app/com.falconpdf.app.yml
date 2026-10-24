@@ -50,9 +50,9 @@ modules:
         filename: falconpdf.deb
         only-arches:
           - x86_64
-        url: https://github.com/avrapps/falcon-pdf-app/releases/download/2026.09/falconpdf-2026.9.0-linux-amd64.deb
-        sha256: f9d49c516ee3307a8f7da54a5a4baa0abb5d4182a47bfa0c39387c36f537a7e8
-        size: 196234680
+        url: https://github.com/avrapps/falcon-pdf-app/releases/download/2026.10/falconpdf-2026.10.0-linux-amd64.deb
+        sha256: 01c31b0223548200395942cbcd21f18322c45de0bee94d8d38daecba243702e0
+        size: 194374200
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
