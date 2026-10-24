@@ -75,6 +75,10 @@ packaging:
     detail:
       en: Turns off the in-app updater on first launch.
       zh-Hans: 首次启动时关闭应用内更新器。
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
 EOF
 
 # The listing date ("Recently added" sort) is read out of git, so the fixture
@@ -133,6 +137,10 @@ if grep -q "测试开发者\|一个用于\|特性 alpha\|主界面\|首个版本
     echo "FAIL: xml:lang translation leaked into source-language content"
     exit 1
 fi
+# requires: installed alongside by the install command
+assert_contains "$out" "\"installCmd\": \"flatpak install flatpark io.flatpark.TestOne && flatpak install flathub org.winehq.Wine//stable-26.08\""
+assert_contains "$out" "\"name\": \"Wine\""
+
 # flatpark.yml-derived maintainer
 assert_contains "$out" "\"github\": \"testuser\""
 # enrichment must strip the private source-path fields

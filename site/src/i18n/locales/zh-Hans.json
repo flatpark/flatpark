@@ -80,6 +80,8 @@
   "detail.install.ref.body": "用你的软件中心打开",
   "detail.install.hint": "已复制！粘贴到终端并按回车即可安装。",
   "detail.setup_link": "第一次使用？配置 {repo}",
+  "detail.requires": "需要 {names}，安装命令会一并装上。",
+  "detail.install.ref.requires": "还要另外安装 {names}",
   "detail.about": "关于",
   "detail.whats_new": "新版变化",
   "detail.release_notes.full": "完整发布说明",

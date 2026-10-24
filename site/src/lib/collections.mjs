@@ -6,6 +6,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import YAML from 'yaml';
 import { defaultLang } from '../i18n/config.mjs';
+import { installWith } from './requires.mjs';
 
 const collectionsFile =
   process.env.FLATPARK_COLLECTIONS_FILE || join('..', 'config', 'collections.yml');
@@ -71,7 +72,7 @@ export function collectionsOf(apps, id) {
   return loadCollections(apps).filter((c) => c.apps.some((a) => a.id === id));
 }
 
-/** One `flatpak install` line for the whole collection. */
+/** One `flatpak install` line for the whole collection, and what its apps require. */
 export function installAllCmd(collection, remoteName) {
-  return `flatpak install ${remoteName} ${collection.apps.map((a) => a.id).join(' ')}`;
+  return installWith(`flatpak install ${remoteName} ${collection.apps.map((a) => a.id).join(' ')}`, collection.apps);
 }

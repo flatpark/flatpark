@@ -80,6 +80,8 @@
   "detail.install.ref.body": "Open with your software installer",
   "detail.install.hint": "Copied! Paste it into a terminal and press Enter to install.",
   "detail.setup_link": "First time? Set up {repo}",
+  "detail.requires": "Runs with {names}; the install command installs it too.",
+  "detail.install.ref.requires": "{names} has to be installed too",
   "detail.about": "About",
   "detail.whats_new": "What's New",
   "detail.release_notes.full": "Full release notes",
