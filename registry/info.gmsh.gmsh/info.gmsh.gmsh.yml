@@ -1,0 +1,55 @@
+id: info.gmsh.gmsh
+# The official binary carries FLTK and its CAD/meshing engines. X11, OpenGL,
+# fonts and the remaining system libraries come from the freedesktop runtime.
+# GLU is an extra-data Debian library; the runtime no longer ships it.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: gmsh
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Upstream's FLTK build uses X11, including on Wayland through Xwayland.
+  - --socket=x11
+  - --share=ipc
+  # OpenGL model and mesh visualization.
+  - --device=dri
+  # FLTK's native file chooser opens and saves models in Documents.
+  - --filesystem=xdg-documents
+modules:
+  - name: gmsh
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gmsh-wrapper /app/bin/gmsh
+      - install -Dm644 info.gmsh.gmsh.desktop /app/share/applications/info.gmsh.gmsh.desktop
+      - install -Dm644 info.gmsh.gmsh.metainfo.xml /app/share/metainfo/info.gmsh.gmsh.metainfo.xml
+      - install -Dm644 info.gmsh.gmsh.svg /app/share/icons/hicolor/scalable/apps/info.gmsh.gmsh.svg
+    sources:
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libglu1-mesa.deb
+        only-arches: [x86_64]
+        url: https://deb.debian.org/debian/pool/main/libg/libglu/libglu1-mesa_9.0.2-1.1+b3_amd64.deb
+        sha256: a834280c698c17ddaf5ad69ed699dd47e337f034a97a6a08285025d85743306b
+        size: 184500
+      # END MANAGED DEBIAN
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gmsh.tgz
+        only-arches: [x86_64]
+        url: https://gmsh.info/bin/Linux/gmsh-4.15.2-Linux64.tgz
+        sha256: 6c62116e072db29fd1f701fdb9d3d34b46ed5373545063e177b965a008274745
+        size: 38329303
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gmsh-wrapper
+      - type: file
+        path: info.gmsh.gmsh.desktop
+      - type: file
+        path: info.gmsh.gmsh.metainfo.xml
+      - type: file
+        path: info.gmsh.gmsh.svg
