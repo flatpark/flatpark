@@ -81,6 +81,10 @@ catalog:
   category: Productivity
   tags: [Example, Demo]
   upstream_approved: true     # only with a row in upstream-approvals.md
+requires:                     # other Flatpak apps it runs with, if any
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
 update:
   command: ./resolve-update.sh
 policy:
@@ -99,6 +103,10 @@ packaging:                    # anything beyond a plain launch
   `apply_extra.sh` unpacks one name on either arch.
 - `catalog.upstream_approved` is the blue shield. CI fails it without a matching
   row in [upstream approvals](../reference/upstream-approvals.md).
+- `requires` lists other Flatpak apps the app runs with. Flatpak has no
+  dependency between apps, so the site's install command installs them too,
+  and the app page says they are needed; a `.flatpakref` can't bring them.
+  The app itself must tell a user who started it without one what to install.
 - `packaging` declares what the package changes around the vendor's build;
   the kinds and levels are in [permissions](permissions.md#declaring-changes-to-how-the-app-runs).
 

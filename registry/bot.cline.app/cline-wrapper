@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+# cline-app is the Tauri binary staged by apply_extra. It finds cline-cli
+# beside itself and the desktop backend under ../lib/Cline, so this wrapper
+# only execs that binary. WebKitGTK's DMABUF renderer paints a blank window
+# under many drivers inside the sandbox; the compositing path is the default
+# here. Override with WEBKIT_DISABLE_DMABUF_RENDERER=0 if a machine prefers it.
+
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/cline/usr/bin/cline-app "$@"

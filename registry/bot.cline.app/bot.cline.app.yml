@@ -1,0 +1,70 @@
+id: bot.cline.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: cline-app
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri v2 / WebKitGTK. The binary links gtk-3, webkit2gtk-4.1, libsoup-3
+  # and glib, which org.gnome.Platform 51 provides. The tray dlopens
+  # libayatana-appindicator3.so.1, which the runtime lacks; the ayatana-stack
+  # module supplies it.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Sign-in, model APIs and the marketplace. Without network the agent cannot
+  # talk to a provider.
+  - --share=network
+  # Tray icon (StatusNotifierItem).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Cline stores its own sign-in, settings and session data in ~/.cline, not
+  # in an XDG dir Flatpak would redirect. :create makes that directory on a
+  # first run and keeps it across launches. Projects elsewhere are not granted;
+  # the metainfo documents the override.
+  - --filesystem=~/.cline:create
+modules:
+  # Tauri's tray dlopens libayatana-appindicator3.so.1. Prebuilt stack from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: cline
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 cline-wrapper /app/bin/cline-app
+      - install -Dm755 cline-cli-wrapper /app/bin/cline-cli
+      - install -Dm644 bot.cline.app.desktop /app/share/applications/bot.cline.app.desktop
+      - install -Dm644 bot.cline.app.metainfo.xml /app/share/metainfo/bot.cline.app.metainfo.xml
+      - install -Dm644 bot.cline.app.png /app/share/icons/hicolor/256x256/apps/bot.cline.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cline.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/cline/cline/releases/download/desktop-v0.0.48/Cline_0.0.48_amd64.deb
+        sha256: 72cb599004b4cbba2643b0a0344ddde3fe8d8569b1f59de6f3d559561b42a520
+        size: 170534396
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cline-wrapper
+      - type: file
+        path: cline-cli-wrapper
+      - type: file
+        path: bot.cline.app.desktop
+      - type: file
+        path: bot.cline.app.metainfo.xml
+      - type: file
+        path: bot.cline.app.png

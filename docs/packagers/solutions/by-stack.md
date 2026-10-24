@@ -146,6 +146,13 @@ before the PR. Each item links to the page that explains it.
   the vendor's Windows installer is the managed extra-data download, and
   `cellar-cli` a second, fixed one outside the managed block. Cellar runs the
   installer, unmodified, into the user's prefix on first launch.
+- Wine is not bundled: it is `org.winehq.Wine` from Flathub, one install every
+  Wine app shares. Grant its install paths read-only
+  (`~/.local/share/flatpak/app/org.winehq.Wine:ro` and
+  `/var/lib/flatpak/app/org.winehq.Wine:ro`), keep the runtime on the
+  version its branch is built on (`stable-26.08` on 26.08), and list it under
+  `requires:` in `flatpark.yml`. Cellar shows the install command in a dialog
+  when it is missing.
 - Grant the folders the app works in (`xdg-music` for a player), not home.
 - Redirect the prefix's desktop folder into the sandbox, or installers drop
   shortcuts on the host's desktop.

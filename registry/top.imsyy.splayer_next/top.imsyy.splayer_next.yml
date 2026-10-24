@@ -1,0 +1,98 @@
+id: top.imsyy.splayer_next
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper) instead of
+# --no-sandbox. The base is merged into the app at build time; the payload
+# itself is still the vendor's own release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: splayer-next
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) app. The upstream Linux tarball bundles Chromium, its
+  # own ffmpeg/ANGLE/SwiftShader and the Rust audio modules; the GTK3, NSS,
+  # CUPS, ATK, X11, ALSA, PipeWire and PulseAudio stacks it links come from the
+  # runtime (org.freedesktop.Platform 26.08 ships them — checked against the
+  # binary's NEEDED set, 0 missing).
+  - --share=ipc
+  # Online lyrics, cover art, self-hosted streaming servers (Subsonic/
+  # Navidrome/Jellyfin/Emby), the built-in NetEase Cloud Music / QQ Music /
+  # Kugou sources, the plugin market, Last.fm scrobbling and the app's
+  # HTTP/WebSocket control API.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated UI and the real-time spectrum visualisation.
+  - --device=dri
+  # Audio playback (and recording for the song-identification feature) through
+  # the sound server.
+  - --socket=pulseaudio
+  # The audio engine's device watcher talks to the host PipeWire daemon
+  # directly (the runtime ships libpipewire); without the socket it logs a
+  # watcher failure and falls back to the output stream's error recovery.
+  - --filesystem=xdg-run/pipewire-0
+  # The local music library and the default download folder
+  # (app.getPath("music")/SPlayer-Next). Read-write because the app edits tags
+  # and cover art in place. Other folders are an opt-in override in the
+  # metainfo.
+  - --filesystem=xdg-music
+  # Desktop notifications for track changes.
+  - --talk-name=org.freedesktop.Notifications
+  # Electron safeStorage keeps logins and cookies in the Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # Optional tray icon; Electron's tray backend registers with the
+  # StatusNotifier watcher (libappindicator3 comes from the Electron base app).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # MPRIS: media keys and the desktop's "now playing" applet. The media-ctrl
+  # module owns org.mpris.MediaPlayer2.splayer_next.instance<pid>.
+  - --own-name=org.mpris.MediaPlayer2.splayer_next.*
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Not granted by default — the app works without them; opt in per the
+  # metainfo:
+  #   --filesystem=xdg-download            -> store downloads in Downloads instead
+  #   --filesystem=/path/to/music          -> index music stored outside Music
+  #   --filesystem=xdg-run/discord-ipc-0   -> Discord rich presence
+modules:
+  - name: splayer-next
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 splayer-next-wrapper /app/bin/splayer-next
+      - install -Dm644 top.imsyy.splayer_next.desktop /app/share/applications/top.imsyy.splayer_next.desktop
+      - install -Dm644 top.imsyy.splayer_next.metainfo.xml /app/share/metainfo/top.imsyy.splayer_next.metainfo.xml
+      - install -Dm644 top.imsyy.splayer_next.png /app/share/icons/hicolor/512x512/apps/top.imsyy.splayer_next.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: splayer-next.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/SPlayer-Dev/SPlayer-Next/releases/download/v1.2.0/splayer-next-1.2.0-x64.tar.gz
+        sha256: ab17e9d4e6d30d901820699ab034192c967f21ce0d73623d21ebec506331929d
+        size: 131897374
+      - type: extra-data
+        filename: splayer-next.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/SPlayer-Dev/SPlayer-Next/releases/download/v1.2.0/splayer-next-1.2.0-arm64.tar.gz
+        sha256: d997c1ed295de798b1a055bdcbff4976e8bef01e2681f2e9905d555f54f51b1d
+        size: 132199834
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: splayer-next-wrapper
+      - type: file
+        path: top.imsyy.splayer_next.desktop
+      - type: file
+        path: top.imsyy.splayer_next.metainfo.xml
+      - type: file
+        path: top.imsyy.splayer_next.png

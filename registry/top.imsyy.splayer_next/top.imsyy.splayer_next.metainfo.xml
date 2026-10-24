@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>top.imsyy.splayer_next</id>
+  <name>SPlayer-Next</name>
+  <summary>A desktop music player with rich lyrics and broad format support</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="top.imsyy">
+    <name>imsyy</name>
+  </developer>
+  <url type="homepage">https://splayer-next.imsyy.top</url>
+  <url type="bugtracker">https://github.com/SPlayer-Dev/SPlayer-Next/issues</url>
+  <url type="vcs-browser">https://github.com/SPlayer-Dev/SPlayer-Next</url>
+  <description>
+    <p>This is a community package of SPlayer-Next, maintained independently and unaffiliated with the SPlayer-Next project. It repackages the official upstream Linux tarball unmodified — the app tree unpacked at install time, not rebuilt — and follows upstream releases automatically.</p>
+    <p>SPlayer-Next is a desktop music player for local files and self-hosted streaming servers. It combines an Electron interface with an FFmpeg and Rust audio engine.</p>
+    <ul>
+      <li>Plays MP3, FLAC, WAV, OGG, Opus, AAC, M4A, APE, DSF and DFF, with fades, volume normalisation and an equaliser.</li>
+      <li>Shows LRC, QRC, YRC and TTML lyrics with word-by-word highlighting, translations and a separate desktop lyric window.</li>
+      <li>Connects to Subsonic, Navidrome, Jellyfin and Emby servers, with several servers and auto-connect.</li>
+      <li>System media controls over MPRIS, a tray icon, desktop notifications, Last.fm scrobbling and optional Discord rich presence.</li>
+      <li>Edits tags and cover art, and downloads tracks with a built-in download manager.</li>
+    </ul>
+    <p>The app also has built-in sources for NetEase Cloud Music, QQ Music and Kugou, including account login, search, streaming and lyrics. These are third-party services, and using them is subject to their own terms.</p>
+    <p>An optional plugin market installs third-party scripts, either from upstream's <code>SPlayer-Dev/plugins</code> repository or from a URL you provide. Those plugins are third-party code, are not part of this package, and are installed at your own choice.</p>
+    <p>Permissions: the package can read and write your Music folder, which is where it looks for your library and where downloads go by default. It can play and record audio, show notifications, register a tray icon and media controls, and reach the network for lyrics, covers, self-hosted streaming servers, the built-in NetEase Cloud Music, QQ Music and Kugou sources, and the plugin market. It cannot see the rest of your home directory by default. Enable what you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Save downloads to Downloads instead of Music: <code>flatpak override --user --filesystem=xdg-download top.imsyy.splayer_next</code></li>
+      <li>Index music stored elsewhere, for example an external drive: <code>flatpak override --user --filesystem=/path/to/music top.imsyy.splayer_next</code></li>
+      <li>Discord rich presence: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 top.imsyy.splayer_next</code> for a native Discord client, or <code>flatpak override --user --filesystem=xdg-run/app/com.discordapp.Discord top.imsyy.splayer_next</code> for Discord installed as a Flatpak.</li>
+      <li>Undo all of these: <code>flatpak override --user --reset top.imsyy.splayer_next</code></li>
+    </ul>
+    <p>Updates are delivered by Flatpak. When the application reports a new release, update it with <code>flatpak update</code> rather than downloading it again.</p>
+  </description>
+  <launchable type="desktop-id">top.imsyy.splayer_next.desktop</launchable>
+  <provides>
+    <binary>splayer-next</binary>
+  </provides>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>audio</keyword>
+    <keyword>lyrics</keyword>
+    <keyword>playlist</keyword>
+    <keyword>streaming</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.2.0" date="2026-10-24">
+      <description></description>
+    </release>
+    <release version="1.1.0" date="2026-09-02"/>
+  </releases>
+</component>

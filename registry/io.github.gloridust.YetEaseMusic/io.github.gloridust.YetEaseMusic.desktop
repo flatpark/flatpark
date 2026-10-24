@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+Name=YetEase Music
+Name[zh_CN]=网易云音乐Yet
+Name[zh_SG]=网易云音乐Yet
+Name[zh_TW]=網易雲音樂Yet
+Name[zh_HK]=網易雲音樂Yet
+GenericName=Music Player
+GenericName[zh_CN]=音乐播放器
+Comment=A fast, clean third-party client for NetEase Cloud Music
+Comment[zh_CN]=快速、干净、好看的网易云音乐第三方客户端
+Exec=yetease-music
+Icon=io.github.gloridust.YetEaseMusic
+Terminal=false
+StartupNotify=true
+StartupWMClass=io.github.gloridust.YetEaseMusic
+Categories=AudioVideo;Audio;Player;Music;
+Keywords=music;netease;cloudmusic;网易云;音乐;

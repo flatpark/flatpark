@@ -55,6 +55,10 @@ const detailRows = [
   app.packagingUrl && { label: t('detail.row.packaging'), value: 'flatpark/registry', href: app.packagingUrl },
 ].filter(Boolean);
 
+// Other Flatpak apps it runs with (flatpark.yml `requires:`): installCmd
+// already installs them; the .flatpakref cannot, so its entry says so.
+const requiredNames = (app.requires ?? []).map((r) => r.name).join(', ');
+
 const hasShots = (app.screenshots?.length ?? 0) > 0;
 
 // Release notes are upstream's own words, carried through only when upstream
@@ -177,6 +181,7 @@ const ld = {
                 <span>
                   <span class="block text-sm font-semibold text-ink">{t('detail.install.ref.title')}</span>
                   <span class="block text-xs text-muted">{t('detail.install.ref.body')}</span>
+                  {requiredNames && <span class="block text-xs text-muted">{t('detail.install.ref.requires', { names: requiredNames })}</span>}
                 </span>
               </a>
             </div>
@@ -186,6 +191,7 @@ const ld = {
               class="absolute top-[calc(100%+0.5rem)] right-0 z-30 w-64 rounded-xl border border-line bg-surface px-3 py-2 text-left text-xs text-muted shadow-lg"
             >{t('detail.install.hint')}</p>
           </div>
+          {requiredNames && <p class="max-w-64 text-xs text-muted sm:text-right">{t('detail.requires', { names: requiredNames })}</p>}
           <a href={localizePath('/docs/users/setup/', lang)} class="text-xs text-muted hover:text-brand">{t('detail.setup_link', { repo: repo.title })} &rarr;</a>
         </div>
       </div>

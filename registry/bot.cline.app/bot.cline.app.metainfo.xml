@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>bot.cline.app</id>
+  <name>Cline</name>
+  <summary>AI coding agent</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="bot.cline">
+    <name>Cline Bot Inc.</name>
+  </developer>
+  <url type="homepage">https://cline.bot</url>
+  <url type="help">https://docs.cline.bot/usage/cline-desktop</url>
+  <url type="bugtracker">https://github.com/cline/cline/issues</url>
+  <url type="vcs-browser">https://github.com/cline/cline</url>
+  <description>
+    <p>This is a community package of Cline, maintained independently and unaffiliated with Cline Bot Inc. It repackages the official upstream Linux build unmodified.</p>
+    <p>Cline is an AI coding agent. It reads your code, edits files, runs commands, and works through tasks with you in a project on your machine.</p>
+    <p>Permissions: network is granted because signing in, calling a model provider and opening the marketplace are the app itself. Display, GPU and the tray icon are granted too. Cline keeps its own sign-in and settings in ~/.cline, so that directory is created and kept. Nothing else on the system is granted. Projects outside ~/.cline stay out of reach until you opt in, and commands the agent starts run inside the sandbox, where your host git and compilers are not visible:</p>
+    <ul>
+      <li>Open projects in your home directory: <code>flatpak override --user --filesystem=home bot.cline.app</code></li>
+    </ul>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>agent</keyword>
+    <keyword>coding</keyword>
+    <keyword>developer</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>cline-app</binary>
+    <binary>cline-cli</binary>
+  </provides>
+  <launchable type="desktop-id">bot.cline.app.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Run a task and review the agent's work</caption>
+      <image>https://raw.githubusercontent.com/cline/cline/desktop-v0.0.48/docs/assets/desktop/desktop-ssh-remote-task.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Browse skills, MCP servers, and plugins in the marketplace</caption>
+      <image>https://raw.githubusercontent.com/cline/cline/desktop-v0.0.48/docs/assets/desktop/desktop-marketplace.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Schedule recurring agent runs</caption>
+      <image>https://raw.githubusercontent.com/cline/cline/desktop-v0.0.48/docs/assets/desktop/desktop-new-schedule.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.0.48" date="2026-10-17">
+      <description>
+        <p>Desktop 0.0.48.</p>
+      </description>
+    </release>
+  </releases>
+</component>

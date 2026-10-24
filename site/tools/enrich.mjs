@@ -9,6 +9,7 @@ import { join } from 'node:path';
 import YAML from 'yaml';
 import { XMLParser } from 'fast-xml-parser';
 import sharp from 'sharp';
+import { requiresOf, installWith } from '../src/lib/requires.mjs';
 
 // Curated top-level sections. Raw AppStream/descriptor categories map into this
 // fixed set so the catalog filter stays small no matter how many raw categories
@@ -643,12 +644,15 @@ async function enrichOne(file) {
       if (fy.build?.mode) out.buildMode = fy.build.mode;
       out.upstreamApproved = !!fy.catalog?.upstream_approved; // upstream developer consented to this listing
       packagingDeclared = fy.packaging;
+      out.requires = requiresOf(fy);
     }
   } catch (e) {
     console.warn(`[enrich] ${base.id}: flatpark.yml parse failed: ${e.message}`);
   }
 
   out.packaging = packagingOf(packagingDeclared, supportDerived);
+  out.requires = out.requires || [];
+  out.installCmd = installWith(base.installCmd, [out]);
 
   out.screenshots = await cacheScreenshots(out.id, out.screenshots);
 

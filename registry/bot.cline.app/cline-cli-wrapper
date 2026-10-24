@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# The CLI shipped inside the desktop .deb, next to cline-app. The desktop
+# process finds that copy by its own path; this wrapper only exposes it as
+# `cline-cli` for `flatpak run --command=cline-cli`.
+
+exec /app/extra/cline/usr/bin/cline-cli "$@"

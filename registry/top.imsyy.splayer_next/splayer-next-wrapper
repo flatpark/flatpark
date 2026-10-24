@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# SPlayer-Next is an Electron app staged by apply_extra to /app/extra/app from
+# the upstream portable tarball. Run it through zypak-wrapper (from
+# org.electronjs.Electron2.BaseApp): zypak redirects Chromium's SUID sandbox
+# onto the Flatpak sandbox, so the app keeps an internal sandbox rather than
+# running with --no-sandbox. The bundled chrome-sandbox helper is unused under
+# zypak.
+#
+# --ozone-platform-hint=auto lets Chromium pick Wayland when available and fall
+# back to X11. Settings, the library database and the download cache live under
+# $XDG_CONFIG_HOME/$XDG_DATA_HOME, which Flatpak points into
+# ~/.var/app/top.imsyy.splayer_next.
+#
+# Defensively clear ELECTRON_RUN_AS_NODE: if it leaks in from the launching
+# environment (a terminal inside VS Code or another Electron app), the binary
+# would start as plain Node instead of the GUI app.
+unset ELECTRON_RUN_AS_NODE
+exec zypak-wrapper /app/extra/app/SPlayer-Next --ozone-platform-hint=auto "$@"

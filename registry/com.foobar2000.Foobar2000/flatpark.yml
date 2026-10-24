@@ -23,6 +23,13 @@ catalog:
     - Player
     - Audio
     - Wine
+# Other Flatpak apps it runs with, installed alongside by the site's install
+# command (Flatpak has no dependency between apps). Wine is read from where
+# flatpak installed it (the manifest's read-only grants).
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
 update:
   command: ./resolve-update.sh
 policy:

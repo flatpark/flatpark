@@ -51,16 +51,16 @@ modules:
         filename: solidcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tangency-labs/solidcraft/releases/download/v0.20.0/solidcraft-0.20.0-linux-x86_64.tar.gz
-        sha256: 0c0965f8807945722780f83750c4bd3ce6544f9d827e01cad0664b28cf2a6910
-        size: 68118682
+        url: https://github.com/tangency-labs/solidcraft/releases/download/v0.21.0/solidcraft-0.21.0-linux-x86_64.tar.gz
+        sha256: 24f87864f9b06aa3788f114725ea81e24968ab08f8ec8eaa4d56bf4a0b0f1fb8
+        size: 69206198
       - type: extra-data
         filename: solidcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/tangency-labs/solidcraft/releases/download/v0.20.0/solidcraft-0.20.0-linux-aarch64.tar.gz
-        sha256: af22e44604f07ef3afb6868b58df294e3f0eaf46fd88cdc43b1152090edbcc63
-        size: 61732582
+        url: https://github.com/tangency-labs/solidcraft/releases/download/v0.21.0/solidcraft-0.21.0-linux-aarch64.tar.gz
+        sha256: aa6b3148fd1decfff575f243e642f378f9f755848d4f8d20e4b44453b329149b
+        size: 62628389
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

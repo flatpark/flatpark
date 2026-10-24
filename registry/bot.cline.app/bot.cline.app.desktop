@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Cline
+Comment=Cline AI coding agent
+Exec=cline-app
+Icon=bot.cline.app
+Terminal=false
+Categories=Development;
+StartupWMClass=Cline-app
+Keywords=ai;agent;coding;developer;

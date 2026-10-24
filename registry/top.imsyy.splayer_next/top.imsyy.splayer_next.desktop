@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=SPlayer-Next
+Comment=Cross-platform desktop music player with rich lyric support
+Exec=splayer-next %U
+Icon=top.imsyy.splayer_next
+Terminal=false
+Categories=AudioVideo;Audio;Player;
+Keywords=music;player;audio;lyrics;playlist;streaming;
+StartupNotify=true
+StartupWMClass=SPlayer-Next
+MimeType=x-scheme-handler/orpheus;

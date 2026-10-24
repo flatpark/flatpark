@@ -10,6 +10,7 @@ build:
   arches: [x86_64, aarch64]
 catalog:
   category: Graphics
+  upstream_approved: true
   tags:
     - CAD
     - 3D
