@@ -14,7 +14,7 @@
   <url type="vcs-browser">https://github.com/gyroflow/gyroflow</url>
   <url type="help">https://docs.gyroflow.xyz/app</url>
   <description>
-    <p>This is a community package of Gyroflow, maintained independently and unaffiliated with the Gyroflow project. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
+    <p>This is a community package of Gyroflow, maintained independently and published with the permission of its developer. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
     <p>Gyroflow stabilizes video using the motion data recorded by the camera&apos;s gyroscope, or logged by a flight controller, a phone or a separate gyro recorder mounted on the camera.</p>
     <ul>
       <li>Reads the gyro data embedded by GoPro, Sony, Insta360, DJI, Canon, Blackmagic RAW, RED RAW and more, and Betaflight and ArduPilot logs.</li>
