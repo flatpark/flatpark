@@ -1,0 +1,58 @@
+id: com.autonomylogic.openplceditor
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron BaseApp supplies zypak; the app remains upstream extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: openplc-editor
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Chromium display and GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Connect to PLC runtimes and download board packages using bundled Arduino CLI.
+  - --share=network
+  # Projects contain sibling files and build output; keep them in Documents.
+  - --filesystem=xdg-documents
+  # Also remove this from zypak's child-process environment.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: openplc-editor
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openplc-editor-wrapper /app/bin/openplc-editor
+      - install -Dm644 com.autonomylogic.openplceditor.desktop /app/share/applications/com.autonomylogic.openplceditor.desktop
+      - install -Dm644 com.autonomylogic.openplceditor.metainfo.xml /app/share/metainfo/com.autonomylogic.openplceditor.metainfo.xml
+      - install -Dm644 com.autonomylogic.openplceditor.png /app/share/icons/hicolor/512x512/apps/com.autonomylogic.openplceditor.png
+    sources:
+      # The offline extractor must be extra-data: apply_extra cannot see /app/bin.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openplc.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/Autonomy-Logic/openplc-editor/releases/download/v4.3.2/OpenPLC.Editor-4.3.2.AppImage
+        sha256: 2f964c3329eefdd50476d96c40c649193377d94e0bc0e8ebc0117f6c451a5b99
+        size: 160674589
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openplc-editor-wrapper
+      - type: file
+        path: com.autonomylogic.openplceditor.desktop
+      - type: file
+        path: com.autonomylogic.openplceditor.metainfo.xml
+      - type: file
+        path: com.autonomylogic.openplceditor.png

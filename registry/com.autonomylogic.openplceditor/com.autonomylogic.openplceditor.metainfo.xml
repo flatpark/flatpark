@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.autonomylogic.openplceditor</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>OpenPLC Editor</name>
+  <summary>Create and compile IEC 61131-3 programs for OpenPLC</summary>
+  <description>
+    <p>OpenPLC Editor is an integrated development environment for creating PLC programs using IEC 61131-3 languages, including Ladder Diagram, Function Block Diagram and Structured Text. Create projects, compile programs and connect to OpenPLC runtimes over the network.</p>
+    <p>This community package uses the official upstream AppImage unmodified. Updates are delivered by Flatpak.</p>
+    <p>Optional access can be enabled for hardware and existing Arduino libraries:</p>
+    <ul>
+      <li>Serial and USB devices: <code>flatpak override --user --device=all com.autonomylogic.openplceditor</code></li>
+      <li>Read existing Arduino sketchbook libraries: <code>flatpak override --user --filesystem=~/Arduino:ro com.autonomylogic.openplceditor</code></li>
+      <li>Undo these overrides: <code>flatpak override --user --reset com.autonomylogic.openplceditor</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.autonomylogic.openplceditor.desktop</launchable>
+  <url type="homepage">https://autonomylogic.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/Autonomy-Logic/openplc-editor</url>
+  <developer id="com.autonomylogic"><name>Autonomy Logic</name></developer>
+  <provides><binary>openplc-editor</binary></provides>
+  <screenshots>
+    <screenshot type="default"><image>https://raw.githubusercontent.com/Autonomy-Logic/openplc-editor/v4.3.2/assets/images/github-background.png</image></screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="4.3.2" date="2026-09-29"/></releases>
+</component>
