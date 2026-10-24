@@ -66,16 +66,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/0xErwin1/dbflux/releases/download/v0.8.12/dbflux-linux-amd64.deb
-        sha256: a4e60c65b48d51dd00e21f323586d76688c5130ba23c71fb1e18162c303326cf
-        size: 56727806
+        url: https://github.com/0xErwin1/dbflux/releases/download/v0.8.13/dbflux-linux-amd64.deb
+        sha256: fb4af1726bc98d6c2a098c647d68786465498b81652ddeda86c1ca0576618f2a
+        size: 56740994
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/0xErwin1/dbflux/releases/download/v0.8.12/dbflux-linux-arm64.deb
-        sha256: b5a08ccb4853f00f92c4fe1b3293b827b6b631979a219bf50ade5423a201e3f6
-        size: 54346318
+        url: https://github.com/0xErwin1/dbflux/releases/download/v0.8.13/dbflux-linux-arm64.deb
+        sha256: 0a00395b469dcbe0aa44c65f32708f1535ef57bdaed3433d9b80f320a18481e4
+        size: 54373094
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
