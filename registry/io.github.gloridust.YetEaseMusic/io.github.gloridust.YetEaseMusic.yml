@@ -1,0 +1,64 @@
+id: io.github.gloridust.YetEaseMusic
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: yetease-music
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter/GTK3 window with GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The Rust audio core plays through ALSA, which the runtime routes to
+  # PulseAudio/PipeWire.
+  - --socket=pulseaudio
+  # QR-code login, the NetEase Cloud Music API and streaming.
+  - --share=network
+  # The local-music page scans the XDG music directory by default, and
+  # downloads go to ~/Music/YetEase. Other library folders are opt-in overrides
+  # documented in the metainfo.
+  - --filesystem=xdg-music
+  # MPRIS: media keys and the shell's now-playing widget. The core registers
+  # the fixed name org.mpris.MediaPlayer2.yetease, outside the app-id prefix
+  # Flatpak allows by default.
+  - --own-name=org.mpris.MediaPlayer2.yetease
+  # Tray icon (0.2.5+), so closing the window keeps playback going. The Rust
+  # core uses ksni 0.3 without disable_dbus_name, so besides talking to the
+  # watcher it owns org.kde.StatusNotifierItem-<pid>-<n>; without that name
+  # the tray fails to spawn and closing the window quits the app.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+  # Deliberately withheld: no home or host filesystem access, no notifications,
+  # no device access beyond the GPU.
+modules:
+  - name: yetease
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 yetease-music-wrapper /app/bin/yetease-music
+      - install -Dm644 io.github.gloridust.YetEaseMusic.desktop /app/share/applications/io.github.gloridust.YetEaseMusic.desktop
+      - install -Dm644 io.github.gloridust.YetEaseMusic.metainfo.xml /app/share/metainfo/io.github.gloridust.YetEaseMusic.metainfo.xml
+      - install -Dm644 io.github.gloridust.YetEaseMusic.png /app/share/icons/hicolor/512x512/apps/io.github.gloridust.YetEaseMusic.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: yetease-music-linux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/Gloridust/YetEaseMusic/releases/download/v0.2.5/yetease-music-0.2.5-linux-x86_64.tar.gz
+        sha256: ddea8bb9e994f9bd8cf40343df1f9cbe480029d24d8e0b9d23af9357e5723a99
+        size: 18104016
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: yetease-music-wrapper
+      - type: file
+        path: io.github.gloridust.YetEaseMusic.desktop
+      - type: file
+        path: io.github.gloridust.YetEaseMusic.metainfo.xml
+      - type: file
+        path: io.github.gloridust.YetEaseMusic.png
