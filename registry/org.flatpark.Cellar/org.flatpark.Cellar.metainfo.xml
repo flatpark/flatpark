@@ -15,7 +15,7 @@
     <p>Cellar is a Wine prefix manager in the spirit of Bottles, where each prefix is described by one declarative file, cellar.toml. The GUI, the command line and anything scripted all edit that same file, and Cellar reconciles the prefix to match it. This package ships the official release build unmodified.</p>
     <ul>
       <li>Declarative prefixes: runner, locale, fonts, Windows version, virtual desktop, DPI, drives, winetricks verbs and apps, all in cellar.toml. plan shows what would change, apply makes it so.</li>
-      <li>Runners: the Wine that comes with this package, or community builds (Kron4ek vanilla and Proton) downloaded on demand. WoW64 builds run 32-bit programs with no 32-bit host libraries.</li>
+      <li>Runners: Wine from Flathub (flatpak install flathub org.winehq.Wine//stable-26.08), or community builds (Kron4ek vanilla and Proton) downloaded on demand. This package brings no Wine of its own. WoW64 builds run 32-bit programs with no 32-bit host libraries.</li>
       <li>Core and CJK font sets wired up with font links and substitutes, so CJK text renders without manual registry work.</li>
       <li>Every winetricks verb, searchable, with the common ones described.</li>
       <li>Finds installed programs, extracts their icons and adds desktop launchers.</li>
@@ -59,7 +59,10 @@
   </screenshots>
   <releases>
     <release version="0.4.1" date="2026-10-24">
-      <description></description>
+      <description>
+        <p>This package no longer brings Wine of its own. Install Wine from Flathub to keep using the system runner: flatpak install flathub org.winehq.Wine//stable-26.08. Or download a community runner in Cellar.</p>
+        <p>With [init] gecko or mono turned on, a prefix uses the org.winehq.Wine.gecko and .mono extensions when they are installed, instead of downloading them.</p>
+      </description>
     </release>
     <release version="0.4.0" date="2026-10-24">
       <description></description>

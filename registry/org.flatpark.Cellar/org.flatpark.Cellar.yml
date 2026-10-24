@@ -2,12 +2,11 @@ id: org.flatpark.Cellar
 runtime: org.gnome.Platform
 runtime-version: '51'
 sdk: org.gnome.Sdk
-# Wine is a hard dependency: the org.winehq.Wine base puts /app/bin/wine (the
-# "system" runner) in the app. stable-26.08 targets org.freedesktop.Platform
-# 26.08, which GNOME 51 is built on. Community runners cellar downloads live in
-# the app's data dir.
-base: org.winehq.Wine
-base-version: stable-26.08
+# No Wine of its own. The "system" runner is org.winehq.Wine as the user
+# installed it from Flathub (stable-26.08 is built on org.freedesktop.Platform
+# 26.08, which GNOME 51 is built on), read in place through the grants below;
+# cellar adds its lib/ to the library path. Community runners cellar downloads
+# live in the app's data dir.
 command: cellar
 separate-locales: false
 build-options:
@@ -34,20 +33,33 @@ finish-args:
   # Host menu launchers for prefix apps (`cellar desktop`, the GUI's launcher
   # button) go to ~/.local/share/applications.
   - --filesystem=xdg-data/applications:create
+  # org.winehq.Wine where flatpak installs it, per user and system-wide: the
+  # "system" runner. An app, so it can't be mounted as an extension.
+  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
+  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
   # New-WoW64 Wine runs 32-bit Windows code with no 32-bit Linux libraries,
   # but Flatpak's default seccomp filter still kills it: without this every
   # 32-bit program fails in NtCreateUserProcess.
   - --allow=multiarch
 
-inherit-extensions:
-  - org.winehq.Wine.gecko
-  - org.winehq.Wine.mono
-
 # Only legacy (non-WoW64) community runners such as Bottles' vaniglia need these.
-# Not auto-downloaded: the base Wine and the recommended runners are WoW64 and
-# load no i386 Linux libraries. Turning on 32-bit runners in the settings shows
+# Not auto-downloaded: org.winehq.Wine and the recommended runners are WoW64
+# and load no i386 Linux libraries. Turning on 32-bit runners in the settings shows
 # the install command when they are missing.
 add-extensions:
+  # org.winehq.Wine's Gecko and Mono, where Wine looks for them, when the
+  # user has them (they come with org.winehq.Wine): cellar links them into
+  # prefixes that turn on [init] gecko / mono.
+  org.winehq.Wine.gecko:
+    directory: share/wine/gecko
+    version: stable-26.08
+    no-autodownload: true
+    autodelete: false
+  org.winehq.Wine.mono:
+    directory: share/wine/mono
+    version: stable-26.08
+    no-autodownload: true
+    autodelete: false
   org.freedesktop.Platform.Compat.i386:
     directory: lib/i386-linux-gnu
     version: '26.08'
@@ -72,11 +84,15 @@ modules:
       # WebKitGTK 6) binary carrying both the GUI and the CLI. apply_extra
       # stages it at /app/extra/cellar.
       - ln -s /app/extra/cellar /app/bin/cellar
+      # 7-Zip unpacks installers and Microsoft's core fonts, winetricks verbs
+      # need cabextract; apply_extra stages both from the Debian packages.
+      - ln -s /app/extra/tools/bin/7z /app/bin/7z
+      - ln -s /app/extra/tools/bin/cabextract /app/bin/cabextract
       - install -Dm644 org.flatpark.Cellar.desktop /app/share/applications/org.flatpark.Cellar.desktop
       - install -Dm644 org.flatpark.Cellar.metainfo.xml /app/share/metainfo/org.flatpark.Cellar.metainfo.xml
       - install -Dm644 org.flatpark.Cellar.svg /app/share/icons/hicolor/scalable/apps/org.flatpark.Cellar.svg
-      # Mount point the 26.08 Wine base no longer creates (it is WoW64-only).
-      - mkdir -p /app/lib/i386-linux-gnu/GL
+      # Mount points of the extensions above.
+      - mkdir -p /app/lib/i386-linux-gnu/GL /app/share/wine/gecko /app/share/wine/mono
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
@@ -87,6 +103,29 @@ modules:
         sha256: ea3815b90033b50f0b558521369346aeaf7a4be4e3abc718236676a460b8fd1a
         size: 14028472
       # END MANAGED EXTRA-DATA
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: 7zip.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/7/7zip/7zip_25.01+dfsg-1~deb13u2_amd64.deb
+        sha256: b2cb210bee3be6a10230b38b8645d71846d19364b157f44fd08e1a54cae1652f
+        size: 1573700
+      - type: extra-data
+        filename: cabextract.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/c/cabextract/cabextract_1.11-2_amd64.deb
+        sha256: f66dfa011a39a82c1c601b308ef031ef65b29c856cd13a3d3eb194b947c5326d
+        size: 36064
+      - type: extra-data
+        filename: libmspack0t64.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libm/libmspack/libmspack0t64_0.11-1.1+b1_amd64.deb
+        sha256: b6039006e2758fa91a0e02ea1cbeded53ae0a5955298e1b0dddbe5a91784b510
+        size: 53004
+      # END MANAGED DEBIAN
       - type: file
         path: apply_extra.sh
       - type: file
