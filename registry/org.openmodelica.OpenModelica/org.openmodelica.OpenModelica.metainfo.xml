@@ -15,7 +15,7 @@
   <url type="help">https://openmodelica.org/useresresources/userdocumentation/</url>
   <url type="donation">https://openmodelica.org/home/openmodelica-donation/</url>
   <description>
-    <p>This is a community package of OpenModelica, maintained independently and unaffiliated with the Open Source Modelica Consortium. It repackages the official stable Debian binaries unmodified.</p>
+    <p>This is a community package of OpenModelica, maintained independently and unaffiliated with the Open Source Modelica Consortium. It downloads a bundle of official stable OpenModelica binaries, Qt WebEngine and their runtime libraries from rhgKc2yp/OMEdit-release. The upstream binaries are not modified; the bundle's source manifest records their origins and hashes.</p>
     <p>OpenModelica is an open-source Modelica-based modeling and simulation environment for industrial and academic use. OMEdit provides a graphical interface for creating models, connecting components, running simulations and plotting results.</p>
     <ul>
       <li>Create equation-based physical models graphically or as Modelica source.</li>
@@ -46,8 +46,8 @@
     <keyword>science</keyword>
   </keywords>
   <releases>
-    <release version="1.27.1" date="2026-09-08">
-      <url>https://github.com/OpenModelica/OpenModelica/releases/tag/v1.27.1</url>
+    <release version="1.27.1-rd726246728a1dab8" date="2026-10-24">
+      <url type="details">https://github.com/rhgKc2yp/OMEdit-release/releases/tag/v1.27.1-rd726246728a1dab8</url>
     </release>
   </releases>
 </component>

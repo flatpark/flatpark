@@ -1,12 +1,6 @@
 #!/bin/sh
 set -eu
 
-export OPENMODELICAHOME=/app/extra/openmodelica
-export PATH="$OPENMODELICAHOME/bin:$PATH"
-export LD_LIBRARY_PATH="$OPENMODELICAHOME/lib/x86_64-linux-gnu/omc:$OPENMODELICAHOME/lib/x86_64-linux-gnu:$OPENMODELICAHOME/lib/x86_64-linux-gnu/lapack:$OPENMODELICAHOME/lib/x86_64-linux-gnu/blas:/app/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-
-# OMEdit's Debian build searches distro locations for this helper. The Qt
-# WebEngine base app installs it at this fixed path.
-export QTWEBENGINEPROCESS_PATH=/app/bin/QtWebEngineProcess
-
-exec "$OPENMODELICAHOME/bin/OMEdit" "$@"
+# Resource/library paths and compiler launchers are part of the release bundle,
+# tested both before packaging and after extraction at a different path.
+exec /app/extra/omedit/bin/omedit "$@"

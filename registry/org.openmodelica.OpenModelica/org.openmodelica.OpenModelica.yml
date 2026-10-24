@@ -1,31 +1,22 @@
 id: org.openmodelica.OpenModelica
-# OpenModelica's core feature compiles generated simulation code. The Platform
-# runtime deliberately has no compiler, while the matching SDK carries GCC,
-# binutils, make and the C/C++ headers. Running on the SDK keeps that required
-# toolchain inside the sandbox and avoids host-command access.
+# Simulations generate and compile native code using GCC, binutils and headers
+# inside the sandbox. The Platform runtime intentionally lacks that toolchain.
 runtime: org.kde.Sdk
 runtime-version: "6.11"
 sdk: org.kde.Sdk
-# OMEdit uses Qt WebEngine for its welcome and documentation views. This base
-# provides the version matched to KDE 6.11, including its sandbox integration.
-base: io.qt.qtwebengine.BaseApp
-base-version: "6.11"
 command: openmodelica
 separate-locales: false
 build-options:
   no-debuginfo: true
-  strip: true
 finish-args:
   - --share=ipc
-  # The package manager downloads Modelica libraries, and OMEdit links to
-  # online documentation and release information.
+  # Modelica library downloads, documentation and release information.
   - --share=network
   - --socket=wayland
   - --socket=fallback-x11
-  # Hardware-accelerated Qt and Qt WebEngine rendering.
+  # Accelerated Qt/Qt WebEngine rendering.
   - --device=dri
-  # OpenModelica stores downloaded libraries in ~/.openmodelica instead of an
-  # XDG directory. Persist only that private directory, not the user's home.
+  # Retain downloaded libraries in private app data.
   - --persist=.openmodelica
 modules:
   - name: openmodelica
@@ -33,140 +24,28 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 openmodelica-wrapper /app/bin/openmodelica
-      - install -Dm755 openmodelica-compiler-wrapper /app/bin/clang
-      - ln -s clang /app/bin/clang++
       - install -Dm644 org.openmodelica.OpenModelica.desktop /app/share/applications/org.openmodelica.OpenModelica.desktop
       - install -Dm644 org.openmodelica.OpenModelica.metainfo.xml /app/share/metainfo/org.openmodelica.OpenModelica.metainfo.xml
       - install -Dm644 org.openmodelica.OpenModelica.png /app/share/icons/hicolor/256x256/apps/org.openmodelica.OpenModelica.png
     sources:
-      # The official stable archive retains versioned Debian packages. These
-      # are the compiler, OMEdit, simulation libraries and offline Modelica
-      # library cache from the upstream Trixie repository.
+      # The independently assembled release bundle contains unmodified official
+      # OpenModelica binaries, Debian dependency libraries and Qt WebEngine from
+      # an exact BaseApp commit. Its SOURCES.lock.json records all inputs. The
+      # release gate resolves every ELF dependency and runs a headless simulation
+      # inside KDE SDK 6.11 before publishing. No BaseApp is copied into our ref.
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: omc.deb
+        filename: omedit.tar.gz
         only-arches:
           - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/omc_1.27.1-1_amd64.deb
-        sha256: 736d80db1d2bb1f1c98763d5272a78ae0a03838d36b4c192e49599cc0a96ee97
-        size: 116572
-      - type: extra-data
-        filename: omc-common.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/omc-common_1.27.1-1_all.deb
-        sha256: 598de7fa6090f7886971b2c560c5c288ab2e50611845e0e71811444081f37cd4
-        size: 660904
-      - type: extra-data
-        filename: libomc.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/libomc_1.27.1-1_amd64.deb
-        sha256: 3678e960f4aa97ab3ad59ee4531ecbe2d4cfdacbbd02b9e9535c6e8e039152a6
-        size: 6863984
-      - type: extra-data
-        filename: libomcsimulation.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/libomcsimulation_1.27.1-1_amd64.deb
-        sha256: cc45bd494d53845b8365aa401e719bb043b38e40b4c995dfbb956d4f6a2e70b0
-        size: 10206060
-      - type: extra-data
-        filename: omedit.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/omedit_1.27.1-1_amd64.deb
-        sha256: a1deb223d101123456134a3a684cc81891b222d707b4463ffa68581718952629
-        size: 3173228
-      - type: extra-data
-        filename: libomplot.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/libomplot_1.27.1-1_amd64.deb
-        sha256: a7f5ef7f78fb359992412e803fc45a2823a8de55a56aada160d9919be5e2f254
-        size: 591804
-      - type: extra-data
-        filename: libomsimulator.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/libomsimulator_1.27.1-1_amd64.deb
-        sha256: 9efe9dd10d9765fd27d8c10f6906eb759f89a126fe3c495f3d6e7efd87b00afe
-        size: 1885512
-      - type: extra-data
-        filename: libomsensplugin.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/libomsensplugin_1.27.1-1_amd64.deb
-        sha256: 6bc15d03feb55fd08469cfa40a91325f542c126878a28aaf2c7a8e7e7c5c81cf
-        size: 275540
-      - type: extra-data
-        filename: omlibrary.deb
-        only-arches:
-          - x86_64
-        url: https://build.openmodelica.org/omc/builds/linux/releases/1.27.1/pool/contrib-trixie/omlibrary_1.27.1-1_all.deb
-        sha256: 4809b17b5bbad15fda15aa984d2f0563a4acf39dfa7ab90486ed08f6619b48d2
-        size: 53269480
+        url: https://github.com/rhgKc2yp/OMEdit-release/releases/download/v1.27.1-rd726246728a1dab8/omedit-1.27.1-rd726246728a1dab8-x86_64.tar.gz
+        sha256: 53082da6ee3454fdac63459f2b2e50a45b1d77c21abae891a66c37ef01eb67c2
+        size: 228675946
       # END MANAGED EXTRA-DATA
-      # The Trixie builds link these distribution libraries, which are absent
-      # from KDE 6.11. They are pinned from Debian stable and unpacked without
-      # executing maintainer scripts.
-      # BEGIN MANAGED DEBIAN trixie main
-      - type: extra-data
-        filename: libicu76.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/i/icu/libicu76_76.1-4_amd64.deb
-        sha256: c1bf762996de9ecba9b9d871e4928a8090f023a3e9e7fa3240b3d90f892a01dc
-        size: 9722072
-      - type: extra-data
-        filename: libblas3.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/l/lapack/libblas3_3.12.1-6_amd64.deb
-        sha256: 4af245ecafc30bfa1de9d20af02fec96654ead2f06b1dac40cb03fc9eb0bfbe6
-        size: 159604
-      - type: extra-data
-        filename: liblapack3.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/l/lapack/liblapack3_3.12.1-6_amd64.deb
-        sha256: abfc59c8410beee738617bb6daf86b295e45ec0bd08cc0e97bfecc3cfa40fe75
-        size: 2446688
-      - type: extra-data
-        filename: libomniorb4-3t64.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/o/omniorb-dfsg/libomniorb4-3t64_4.3.3+ds1-1_amd64.deb
-        sha256: a01572a4257fe75572aaa0c33b0308b1f8f9df1aeed1502e26837519890e7a47
-        size: 1191212
-      - type: extra-data
-        filename: libomnithread4.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/o/omniorb-dfsg/libomnithread4_4.3.3+ds1-1_amd64.deb
-        sha256: af80d335a3a186c8688621cdf3661e45e30f0ba41b31246ab6c9e17c38fc9361
-        size: 12624
-      - type: extra-data
-        filename: libopenscenegraph161.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/o/openscenegraph/libopenscenegraph161_3.6.5+dfsg1-9_amd64.deb
-        sha256: 8509f94237a80f76d0536c9d82346d58cbe077c79fe86e13635c51185700b471
-        size: 7807888
-      - type: extra-data
-        filename: libopenthreads21.deb
-        only-arches:
-          - x86_64
-        url: https://deb.debian.org/debian/pool/main/o/openscenegraph/libopenthreads21_3.6.5+dfsg1-9_amd64.deb
-        sha256: bcc23132f2ff41ddd80a8498ff1c685f870eb63a4ecbae38ecd71c1ec38b57b7
-        size: 905480
-      # END MANAGED DEBIAN
       - type: file
         path: apply_extra.sh
       - type: file
         path: openmodelica-wrapper
-      - type: file
-        path: openmodelica-compiler-wrapper
       - type: file
         path: org.openmodelica.OpenModelica.desktop
       - type: file
