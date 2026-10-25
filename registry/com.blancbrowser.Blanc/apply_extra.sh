@@ -63,6 +63,12 @@ rm -rf blanc
 # executable itself is untouched.
 [ -f blanc/AppRun ] || { echo "AppRun missing from the AppDir" >&2; exit 1; }
 name="$(sed -n 's|^BIN="\$APPDIR/\([^"]*\)".*|\1|p' blanc/AppRun | head -n1)"
+# ECS 1.43+ uses a native launcher rather than electron-builder's BIN line.
+# Recognize that exact entrypoint without executing the upstream AppRun.
+if [ -z "$name" ] && [ -x blanc/blanc-ecs-launcher ] && [ -x blanc/blanc ] \
+    && grep -Fq 'exec "$ECS_APPDIR/blanc-ecs-launcher" "$@"' blanc/AppRun; then
+    name=blanc-ecs-launcher
+fi
 [ -n "$name" ] || { echo "could not read the launcher name from the AppDir's AppRun" >&2; exit 1; }
 
 if [ -x "blanc/$name.bin" ]; then

@@ -54,6 +54,10 @@ finish-args:
   # zypak's spawned zygote children, which the wrapper's own `unset` cannot
   # reach — always start as the GUI app rather than as plain Node.
   - --unset-env=ELECTRON_RUN_AS_NODE
+  # Apply to portal-spawned zygotes too: the desktop-name lookup can start a
+  # GIO thread before Chromium enters its sandbox. A shell-only unset is not
+  # sufficient because the portal can restore the original app environment.
+  - --unset-env=CHROME_DESKTOP
 modules:
   - name: blanc
     buildsystem: simple
@@ -83,9 +87,9 @@ modules:
         filename: blanc.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/bnfy/blanc/releases/download/v1.42.1/Blanc-1.42.1.AppImage
-        sha256: c77053131f122ec754ecb7288b71f43049827ee4336f436454a576903c7bb3d1
-        size: 157057136
+        url: https://github.com/bnfy/blanc/releases/download/v1.43.1/Blanc-1.43.1.AppImage
+        sha256: e7468270547727d7296d75175d9d395f3fa422feb74b25107dfdd36918d6a235
+        size: 158888732
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

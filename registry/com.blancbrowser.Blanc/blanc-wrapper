@@ -15,19 +15,52 @@ set -eu
 # Defensively clear ELECTRON_RUN_AS_NODE so a value leaked from the launching
 # environment (a terminal inside VS Code / another Electron app) cannot make the
 # binary start as plain Node instead of the GUI.
-unset ELECTRON_RUN_AS_NODE
+unset ELECTRON_RUN_AS_NODE ELECTRON_NO_ATTACH_CONSOLE
 
 export LD_LIBRARY_PATH="/app/extra/blanc/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 # Updates arrive through Flatpak, so Blanc's built-in updater is switched off.
-# It reads BLANC_UPDATE_CHANNEL at start-up and turns itself off for any value
-# other than its own "staging" channel (resolveUpdaterPolicy in
-# src/main/updater-policy.js), so it never tries to download a new AppImage.
+# Blanc recognizes this channel inside Flatpak and leaves updates to Flatpak.
 export BLANC_UPDATE_CHANNEL=flatpak
 
 # apply_extra resolves the launcher's upstream name from the AppDir's own AppRun
 # and records it next to the app tree, so an upstream rename cannot break an
 # automated pin refresh.
-launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+app_dir=/app/extra/blanc
+launcher="$(cat "$(dirname "$app_dir")/launcher" 2>/dev/null || true)"
 [ -n "$launcher" ] || launcher=blanc
-exec zypak-wrapper "/app/extra/blanc/$launcher" --ozone-platform-hint=auto "$@"
+
+if [ "$launcher" = blanc-ecs-launcher ]; then
+    # The native ECS launcher's full launch replaces LD_PRELOAD and would lose
+    # zypak's sandbox hooks. Use its query to validate the default profile, then
+    # run the unchanged Electron ELF directly under zypak.
+    case "${XDG_CONFIG_HOME:-}" in
+        /*) ;;
+        *) echo 'Blanc requires an absolute XDG_CONFIG_HOME inside Flatpak' >&2; exit 1 ;;
+    esac
+    for arg do
+        case "$arg" in
+            --user-data-dir|--user-data-dir=*)
+                echo 'This Flatpak wrapper supports the default profile only; --user-data-dir is not supported' >&2
+                exit 1 ;;
+        esac
+    done
+    profile="$XDG_CONFIG_HOME/Blanc"
+    if [ ! -d "$profile" ]; then
+        (umask 077; mkdir -p "$profile")
+    fi
+    unset LD_PRELOAD ZYPAK_LD_PRELOAD
+    unset BLANC_ECS_CDM_PRELOAD_PATH BLANC_ECS_CDM_EXECUTABLE
+    cdm="$("$app_dir/blanc-ecs-launcher" --ecs-query-cdm)"
+    if [ -n "$cdm" ]; then
+        echo 'Blanc Flatpak: cached CDM retained; protected playback remains unavailable' >&2
+    fi
+    export BLANC_ECS_LAUNCHER_ROOT="$app_dir"
+    export BLANC_ECS_FULL_PROFILE="$profile"
+    # Do not advertise a CDM preload that zypak's child environment cannot
+    # support. Ordinary browsing stays sandboxed; protected playback is not
+    # available in this package.
+    exec zypak-wrapper "$app_dir/blanc" --user-data-dir="$profile" --ozone-platform-hint=auto "$@"
+fi
+
+exec zypak-wrapper "$app_dir/$launcher" --ozone-platform-hint=auto "$@"

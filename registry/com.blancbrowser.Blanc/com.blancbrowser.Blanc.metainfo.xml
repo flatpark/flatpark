@@ -22,6 +22,7 @@
       <li>A start page with your shortcuts</li>
     </ul>
     <p>Updates are delivered through Flatpak; Blanc's own updater is switched off in this package.</p>
+    <p>Ordinary browsing keeps the renderer sandbox enabled through zypak. Protected playback (DRM) is unavailable in this Flatpak package. The wrapper supports the default Flatpak profile only; custom --user-data-dir arguments are not supported.</p>
     <p>Downloads go to your Downloads folder by default; saving anywhere else goes through the file-chooser portal. Importing bookmarks and history from another browser needs read access to that browser's profile, which is not granted by default. To allow it for Chrome, for example:</p>
     <ul>
       <li>flatpak override --user --filesystem=~/.config/google-chrome:ro com.blancbrowser.Blanc</li>
@@ -54,6 +55,11 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.43.1" date="2026-10-24">
+      <description>
+        <p>Update to the unmodified upstream 1.43.1 AppImage with sandboxed ECS startup. Protected playback remains unavailable.</p>
+      </description>
+    </release>
     <release version="1.42.1" date="2026-10-22">
       <description></description>
     </release>

@@ -21,6 +21,7 @@ Won't install, won't start, loses data, or its main feature doesn't work.
 
 | App | Symptom | Cause | Introduced by | Found by | Time to fix | Check |
 |---|---|---|---|---|---|---|
+| Blanc | 1.43+ would not install or start | New ECS launcher layout; desktop lookup starts a thread before the zygote sandbox; launcher replaces zypak's preload | Upstream/runtime integration | [Upstream report](https://github.com/bnfy/blanc/issues/580#issuecomment-6391974323) | Wrapper and manifest fix proposed; protected playback remains unavailable | [Unpacks](../reviewers/testing-playbook.md#it-unpacks-as-a-system-install), [starts and draws](../reviewers/testing-playbook.md#it-starts-and-draws), [data survives](../reviewers/testing-playbook.md#data-survives-a-restart) |
 | Trilium | Notes lost on every restart | `~/.local/share/trilium-data` not granted | Listing | User (#145) | ~3 weeks | [Data survives](../reviewers/testing-playbook.md#data-survives-a-restart) |
 | AB Download Manager | Settings and library lost; second instance | `~/.abdm` not granted | Listing | User | ~7 weeks | [Data survives](../reviewers/testing-playbook.md#data-survives-a-restart), [second launch](../reviewers/testing-playbook.md#bus-names-tray-media-second-launch) |
 | ZCode | Logged out on every start | `~/.zcode` not granted | Listing | Us | Same day | [Data survives](../reviewers/testing-playbook.md#data-survives-a-restart) |
