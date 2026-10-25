@@ -71,7 +71,7 @@ id: com.example.App           # required: the directory name
 name: Example App             # required
 summary: One-line description # required
 website: https://example.com/
-source_url: https://github.com/example/app   # upstream source, if open
+source_url: https://github.com/example/app   # upstream source, if open; or the build repository
 build:
   manifest: com.example.App.yml  # required, relative to this directory
   branch: stable              # default: stable
@@ -260,7 +260,8 @@ The rest of the metainfo:
 
 - **Say it is a community package**: it repackages the official upstream build
   unmodified. A closed-source package that injects code says what it injects
-  instead of "unmodified".
+  instead of "unmodified". A package from a [build repository](#build-repositories)
+  names that repository and points its support links there.
 - **`project_license`** is the app's real licence; for closed source,
   `LicenseRef-proprietary=<URL of the vendor's terms>`.
 - **Screenshots** are `<image>` URLs pointing at upstream, never files in the
@@ -367,15 +368,9 @@ on the download while the app itself hasn't changed.
 What follows from extra-data, and what to do instead:
 
 - **No source builds.** An official release makes them unnecessary, and they
-  would cost CI time and storage on every update. When an app people want has
-  no official Linux release at all, it can get a public
-  `<app>-release` repository that builds it on GitHub Actions exactly
-  the way upstream does, unmodified and within upstream's licence, and
-  publishes a release; the package pins that release as extra-data like any
-  vendor download
-  ([`com.ayugram.desktop`](../../registry/com.ayugram.desktop/com.ayugram.desktop.yml)
-  pins `jing2uo/ayugram-release`, kept under a maintainer's own account rather
-  than the `flatpark` organization). That needs a maintainer's agreement first.
+  would cost CI time and storage on every update. When there is no usable
+  official release, the app can come from a [build repository](#build-repositories)
+  instead.
 - **A library or tool the runtime lacks:** a second extra-data download (an
   upstream binary, a Debian package) or a [prebuilt stack](prebuilt.md#when-to-use-one).
   Don't compile it into `/app`.
@@ -390,3 +385,42 @@ What follows from extra-data, and what to do instead:
   metainfo says what and why. See the [packaging levels](../project/trust.md#packaging-changes).
 - **One runtime major for the whole catalog.** An app that only works on an
   older runtime is not listed until it works on the current one.
+
+### Build repositories
+
+Some apps people want can't be pinned straight from upstream:
+
+- upstream publishes no Linux release package;
+- the Linux build is hard enough to assemble that it needs its own pipeline;
+- the only Linux install path is an installer someone maintains on their own.
+
+Such an app can come from a separate public repository that produces the
+release. It is usually named `<app>-release`, but any name will do, and it does
+not have to belong to the `flatpark` organization. It builds or bundles the
+app the way upstream does, with upstream's binaries or source unmodified and
+within upstream's licence, and publishes versioned releases. The package pins
+those releases as extra-data, like any vendor download. Adding one needs a
+maintainer's agreement first.
+
+Upstream doesn't know these builds exist, so their problems must never land on
+upstream's tracker:
+
+- `website` and the metainfo `homepage` stay upstream's official site.
+- `source_url`, and the metainfo `vcs-browser`, `help` and `bugtracker`, point
+  at the build repository, the last two at its issues. If it takes no issues,
+  they point at [FlatPark's tracker](https://github.com/flatpark/flatpark/issues).
+  They never point at upstream.
+- Drop other links that send users to upstream for help, such as a forum or a
+  chat FAQ. Links for taking part in the upstream project, such as translation
+  or donation, can stay.
+- The description says it is not upstream's build and names the repository
+  that makes it.
+
+Bugs that turn out to be upstream's are reported upstream by the build
+repository's maintainer, not by sending users there.
+
+| App | Build repository | Why |
+|-----|------------------|-----|
+| [AyuGram](../../registry/com.ayugram.desktop/com.ayugram.desktop.metainfo.xml) | [jing2uo/ayugram-release](https://github.com/jing2uo/ayugram-release) | no official Linux build |
+| [OpenModelica](../../registry/org.openmodelica.OpenModelica/org.openmodelica.OpenModelica.metainfo.xml) | [rhgKc2yp/OMEdit-release](https://github.com/rhgKc2yp/OMEdit-release) | official binaries need Qt WebEngine and runtime libraries bundled around them |
+| [DaVinci Resolve](../../registry/com.blackmagic.Resolve/com.blackmagic.Resolve.metainfo.xml), [Studio](../../registry/com.blackmagic.ResolveStudio/com.blackmagic.ResolveStudio.metainfo.xml) | [night199uk/resolve-flatpak](https://github.com/night199uk/resolve-flatpak) | the Linux installer is a personally maintained one |

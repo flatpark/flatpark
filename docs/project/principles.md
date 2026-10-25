@@ -13,9 +13,10 @@ is easy to take part in, where speed matters most.
    official release, which your Flatpak downloads from the developer's own
    servers at install time (extra-data). FlatPark doesn't build apps from source
    and doesn't host their files. An app that people want but that has no
-   official Linux release may get one from a public `flatpark/<app>-release`
-   repository, built exactly the way upstream builds it and within its licence;
-   that release is then used like any other download.
+   usable official Linux release may come from a public
+   [build repository](../packagers/basics.md#build-repositories) instead, built the way upstream builds it and
+   within its licence; that release is then used like any other download, and
+   its bugs go to that repository, never to upstream.
 2. **Open-source apps run unmodified.** Nothing is injected into their
    process and none of their files is changed. If one can't work in the sandbox
    without that, the fix belongs upstream and the app isn't listed until then.

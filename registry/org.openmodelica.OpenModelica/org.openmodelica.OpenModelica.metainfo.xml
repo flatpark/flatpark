@@ -10,9 +10,9 @@
     <name>Open Source Modelica Consortium</name>
   </developer>
   <url type="homepage">https://openmodelica.org</url>
-  <url type="bugtracker">https://github.com/OpenModelica/OpenModelica/issues</url>
-  <url type="vcs-browser">https://github.com/OpenModelica/OpenModelica</url>
-  <url type="help">https://openmodelica.org/useresresources/userdocumentation/</url>
+  <url type="bugtracker">https://github.com/rhgKc2yp/OMEdit-release/issues</url>
+  <url type="vcs-browser">https://github.com/rhgKc2yp/OMEdit-release</url>
+  <url type="help">https://github.com/rhgKc2yp/OMEdit-release/issues</url>
   <url type="donation">https://openmodelica.org/home/openmodelica-donation/</url>
   <description>
     <p>This is a community package of OpenModelica, maintained independently and unaffiliated with the Open Source Modelica Consortium. It downloads a bundle of official stable OpenModelica binaries, Qt WebEngine and their runtime libraries from rhgKc2yp/OMEdit-release. The upstream binaries are not modified; the bundle's source manifest records their origins and hashes.</p>

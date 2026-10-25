@@ -22,13 +22,15 @@ Shared support libraries come from FlatPark's public
 GitHub Actions from pinned source. That is packaging scaffolding around the app
 — it never replaces or patches the vendor's binary.
 
-A few apps that people want have no official Linux release. For those, a
-public `flatpark/<app>-release` repository builds the app exactly the way
-upstream does, without changes and within upstream's licence, and the package
-downloads that release at install time like any other.
+A few apps that people want have no usable official Linux release. For those,
+a public [build repository](../packagers/basics.md#build-repositories) builds or bundles the app
+the way upstream does, without changes and within upstream's licence, and the
+package downloads that release at install time like any other. The app's page
+links to that repository for source and support, because upstream does not
+know about it.
 
 Open-source apps get nothing injected into their process; their bugs are
-reported upstream. A closed-source app occasionally needs an adaptation for a
+reported upstream, or to the build repository for an app that comes from one. A closed-source app occasionally needs an adaptation for a
 feature to work in the sandbox (an `LD_PRELOAD` shim, for example). It is
 reviewed, the app's page shows it, and the description says exactly what it is
 and why.
@@ -97,8 +99,9 @@ accepts the sandbox, and their pages say so.
 
 FlatPark is independent and **not affiliated with the apps it packages**. An
 app's presence here is not an endorsement by its vendor unless the app's own
-page says so. Each package links to the upstream source and website so you can
-check provenance yourself.
+page says so. Each package links to the upstream website and to where its
+binary comes from (upstream's source, or the build repository that makes it),
+so you can check provenance yourself.
 
 ## Verifying what you install
 

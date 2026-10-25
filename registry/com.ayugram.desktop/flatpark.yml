@@ -2,7 +2,7 @@ id: com.ayugram.desktop
 name: AyuGram
 summary: Telegram Desktop fork with ghost mode, message history and anti-recall
 website: https://ayugram.one
-source_url: https://github.com/AyuGram/AyuGramDesktop
+source_url: https://github.com/jing2uo/ayugram-release
 build:
   manifest: com.ayugram.desktop.yml
   branch: stable

@@ -9,10 +9,10 @@
     <name>Radolyn Labs</name>
   </developer>
   <url type="homepage">https://ayugram.one/</url>
-  <url type="help">https://docs.ayugram.one/desktop/</url>
-  <url type="faq">https://t.me/AyuGramFAQ</url>
+  <url type="bugtracker">https://github.com/jing2uo/ayugram-release/issues</url>
+  <url type="help">https://github.com/jing2uo/ayugram-release/issues</url>
   <url type="translate">https://crowdin.com/project/ayugram</url>
-  <url type="vcs-browser">https://github.com/AyuGram/AyuGramDesktop</url>
+  <url type="vcs-browser">https://github.com/jing2uo/ayugram-release</url>
   <description>
     <p>This is a community package of AyuGram and is not affiliated with or endorsed by its developers. Upstream publishes no Linux binary, so a FlatPark maintainer builds one from the unmodified upstream source with upstream's own Linux build environment; the recipe and per-release build logs are public at github.com/jing2uo/ayugram-release.</p>
     <p>AyuGram is a Telegram Desktop based client with extra privacy and customization features:</p>

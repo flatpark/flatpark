@@ -98,7 +98,7 @@ through `libQt6Pas`, not a C++ Qt program; it is the exception, not a model.
 
 ### A whole `/app` tree as extra-data
 
-When a `flatpark/<app>-release` repository builds the app's entire Flatpak
+When a [build repository](../basics.md#build-repositories) builds the app's entire Flatpak
 tree, the package can carry it as extra-data and stay a small shell. Five
 constraints shape the layout:
 

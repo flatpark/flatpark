@@ -22,17 +22,21 @@ read directly, never executed).
 FlatPark doesn't build apps from source: an official release makes it
 unnecessary, and source builds would cost CI time and storage for every update.
 We assume that people install an app because they trust its developer. When an
-app people want has no official Linux release, a public
-`flatpark/<app>-release` repository may publish one, built exactly the way
-upstream builds it, unmodified and within upstream's licence; the package uses
-that release as extra-data like any other download.
+app people want has no official Linux release, needs a complex build, or only
+installs through an individually maintained installer, a public
+[build repository](../packagers/basics.md#build-repositories) may publish the release instead,
+built the way upstream builds it, unmodified and within upstream's licence; the
+package uses that release as extra-data like any other download. Upstream
+doesn't know about these builds, so the package's support links point at the
+build repository, or at least at FlatPark, never at upstream.
 
 **Open-source apps run exactly as upstream ships them.** Nothing is injected into
 the app's process — no `LD_PRELOAD` shim, no patched or replaced files. A wrapper
 may set environment variables or launch flags, and missing libraries may be
 added, but if an open-source app can't work in the sandbox without injected
 code, the fix belongs upstream and the app isn't listed until then. Bugs go to
-upstream. **Closed-source apps** may carry an adaptation when there is no other
+upstream, except for apps from a build repository, whose bugs go to that
+repository. **Closed-source apps** may carry an adaptation when there is no other
 way to make a feature work; it is reviewed, the app's page shows it, and the
 description says plainly what it is and why.
 

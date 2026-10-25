@@ -39,8 +39,9 @@ checks that record, not the app.
 License is **not** the trust axis — it is compliance input only. Non-FOSS is
 allowed (the registry ships proprietary broker apps). Every package is an
 official upstream build fetched as extra-data; FlatPark doesn't build apps from
-source (the rare `flatpark/<app>-release` build is a maintainer's call, outside
-this runbook). What matters is **where the bytes you run come from**, and
+source (the rare [build repository](../packagers/basics.md#build-repositories)
+is a maintainer's call, outside this runbook; check that its support links point
+at that repository, not upstream). What matters is **where the bytes you run come from**, and
 whether what is shipped does anything obviously malicious. The review doesn't
 audit the app's source; a full audit would cost far more than it finds.
 

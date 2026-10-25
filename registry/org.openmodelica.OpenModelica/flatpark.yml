@@ -2,7 +2,7 @@ id: org.openmodelica.OpenModelica
 name: OpenModelica
 summary: Model and simulate physical systems with Modelica
 website: https://openmodelica.org
-source_url: https://github.com/OpenModelica/OpenModelica
+source_url: https://github.com/rhgKc2yp/OMEdit-release
 build:
   manifest: org.openmodelica.OpenModelica.yml
   branch: stable
