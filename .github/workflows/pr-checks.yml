@@ -55,7 +55,7 @@ jobs:
       # PR itself added can fail it; one that was already dead on main is a
       # warning here and belongs to the daily link-check workflow's alert.
       - name: Dead-link check (links this PR adds)
-        run: ./scripts/check-links-pr.sh "${{ github.event.pull_request.base.sha }}" HEAD
+        run: ./scripts/check-links-pr.sh "$(git rev-parse HEAD^1)" HEAD
 
   # Tripwire: a PR that touches CI-executed automation is gated. Two surfaces
   # qualify, and the difference matters:
@@ -92,7 +92,11 @@ jobs:
           fetch-depth: 0
       - name: Gate repo automation and existing-app resolver changes
         run: |
-          base="${{ github.event.pull_request.base.sha }}"
+          # HEAD is the refs/pull/N/merge checkout; its first parent is the main tip
+          # this run merged onto. pull_request.base.sha is frozen at the last push to
+          # the PR, so once main moves (a pin refresh, another app) diffing against it
+          # drags in every app main touched since.
+          base="$(git rev-parse HEAD^1)"
           assoc="${{ github.event.pull_request.author_association }}"
 
           # True when nothing existed under registry/<id>/ at the base commit.
@@ -172,7 +176,11 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}
         run: |
-          base="${{ github.event.pull_request.base.sha }}"
+          # HEAD is the refs/pull/N/merge checkout; its first parent is the main tip
+          # this run merged onto. pull_request.base.sha is frozen at the last push to
+          # the PR, so once main moves (a pin refresh, another app) diffing against it
+          # drags in every app main touched since.
+          base="$(git rev-parse HEAD^1)"
           ids="$(./scripts/changed-apps.sh "$base" HEAD | tr '\n' ' ')"
           if [ -n "$ids" ]; then
             ids="$(./scripts/scan-registry.sh --ids --arch "$ARCH" $ids | tr '\n' ' ')"
