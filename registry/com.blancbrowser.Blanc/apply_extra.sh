@@ -61,9 +61,20 @@ rm -rf blanc
 # both shapes are accepted. The wrapper execs the ELF directly under
 # zypak-wrapper instead of AppRun, so Chromium keeps its internal sandbox; the
 # executable itself is untouched.
+#
+# Since 1.43 upstream replaces that AppRun with its own (issue #838): it has no
+# BIN= line and execs blanc-ecs-launcher, a static Widevine-CDM shim that
+# rewrites LD_PRELOAD and then execs the Electron ELF. The wrapper still execs
+# the ELF itself — the shim's LD_PRELOAD handling would fight zypak's — so when
+# AppRun names nothing, fall back to the AppDir's root desktop file, which
+# electron-builder names after the same executableName (blanc.desktop).
 [ -f blanc/AppRun ] || { echo "AppRun missing from the AppDir" >&2; exit 1; }
 name="$(sed -n 's|^BIN="\$APPDIR/\([^"]*\)".*|\1|p' blanc/AppRun | head -n1)"
-[ -n "$name" ] || { echo "could not read the launcher name from the AppDir's AppRun" >&2; exit 1; }
+if [ -z "$name" ]; then
+    set -- blanc/*.desktop
+    [ "$#" -eq 1 ] && [ -f "$1" ] && name="$(basename "$1" .desktop)"
+fi
+[ -n "$name" ] || { echo "could not read the launcher name from the AppDir's AppRun or desktop file" >&2; exit 1; }
 
 if [ -x "blanc/$name.bin" ]; then
     launcher="$name.bin"

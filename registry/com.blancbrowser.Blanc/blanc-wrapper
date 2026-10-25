@@ -30,4 +30,32 @@ export BLANC_UPDATE_CHANNEL=flatpak
 # automated pin refresh.
 launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
 [ -n "$launcher" ] || launcher=blanc
-exec zypak-wrapper "/app/extra/blanc/$launcher" --ozone-platform-hint=auto "$@"
+
+# Since 1.43 the build is castLabs' Widevine Electron (ECS), and upstream's
+# AppRun starts it through blanc-ecs-launcher (scripts/ecs-linux-launcher.cc
+# upstream) rather than directly. That launcher replaces LD_PRELOAD with its
+# CDM preload shim, which would drop zypak's own preload, so it is not used
+# here. But main.js refuses to start on Linux unless the launcher's
+# environment is present (createDrmSupport: BLANC_ECS_LAUNCHER_ROOT set and
+# BLANC_ECS_FULL_PROFILE equal to userData), so set the same values it would,
+# with the same explicit profile it passes. This is the arrangement upstream
+# tested under Flatpak (bnfy/blanc#580). Without the shim the Widevine CDM
+# cannot load behind the sandbox, so protected (DRM) playback is unavailable;
+# ordinary browsing is unaffected.
+profile="${XDG_CONFIG_HOME:-$HOME/.config}/Blanc"
+export BLANC_ECS_LAUNCHER_ROOT=/app/extra/blanc
+export BLANC_ECS_FULL_PROFILE="$profile"
+unset BLANC_ECS_CDM_PRELOAD_PATH BLANC_ECS_CDM_EXECUTABLE
+
+# The profile guard needs userData to be exactly that profile, so a second
+# --user-data-dir would only make Blanc refuse to start; say why instead.
+for arg in "$@"; do
+    case "$arg" in
+        --user-data-dir|--user-data-dir=*)
+            echo "blanc: --user-data-dir is not supported in this package; the profile is $profile" >&2
+            exit 2 ;;
+    esac
+done
+
+exec zypak-wrapper "/app/extra/blanc/$launcher" --ozone-platform-hint=auto \
+    --user-data-dir="$profile" "$@"

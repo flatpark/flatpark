@@ -54,6 +54,13 @@ finish-args:
   # zypak's spawned zygote children, which the wrapper's own `unset` cannot
   # reach — always start as the GUI app rather than as plain Node.
   - --unset-env=ELECTRON_RUN_AS_NODE
+  # Same for CHROME_DESKTOP, which a terminal in VS Code or any other
+  # Chromium/Electron launcher leaks (e.g. code.desktop). Electron then looks
+  # that desktop file up through GIO inside the zygote, GIO starts a thread
+  # there, and the zygote aborts because it must be single-threaded to enter
+  # the sandbox (issue #838, bnfy/blanc#580). It has to go here, not in the
+  # wrapper: zypak's portal-spawned children get Flatpak's environment.
+  - --unset-env=CHROME_DESKTOP
 modules:
   - name: blanc
     buildsystem: simple
@@ -83,9 +90,9 @@ modules:
         filename: blanc.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/bnfy/blanc/releases/download/v1.42.1/Blanc-1.42.1.AppImage
-        sha256: c77053131f122ec754ecb7288b71f43049827ee4336f436454a576903c7bb3d1
-        size: 157057136
+        url: https://github.com/bnfy/blanc/releases/download/v1.43.1/Blanc-1.43.1.AppImage
+        sha256: e7468270547727d7296d75175d9d395f3fa422feb74b25107dfdd36918d6a235
+        size: 158888732
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
