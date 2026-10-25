@@ -1,0 +1,18 @@
+id: net.energyplus.EnergyPlus
+name: EnergyPlus
+summary: Simulate building energy consumption and water use
+website: https://energyplus.net/
+source_url: https://github.com/NatLabRockies/EnergyPlus
+build:
+  manifest: net.energyplus.EnergyPlus.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  tags: [Buildings, Energy, Simulation, Engineering]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

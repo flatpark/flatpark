@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.energyplus.EnergyPlus</id>
+  <name>EnergyPlus</name>
+  <summary>Simulate building energy consumption and water use</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-EnergyPlus=https://github.com/NatLabRockies/EnergyPlus/blob/v26.2.0/LICENSE.txt</project_license>
+  <developer id="net.energyplus"><name>EnergyPlus Development Team</name></developer>
+  <description>
+    <p>EnergyPlus models energy consumption and water use in buildings,
+    including heating, cooling, ventilation, lighting and plug loads.
+    EPLaunch provides a graphical interface for selecting models, weather
+    files and simulation workflows.</p>
+    <p>This community package runs the official EnergyPlus Linux build
+    unmodified. Separate Tcl/Tk libraries provide the EPLaunch interface.</p>
+    <p>After the first launch, close EPLaunch and open it again to select
+    the bundled EnergyPlus simulation workflows.</p>
+    <p>Keep models, weather files and simulation results in Documents.
+    EPLaunch uses its own file chooser. To work in another directory, use
+    <code>flatpak override --user --filesystem=/path/to/models net.energyplus.EnergyPlus</code>.
+    Undo overrides with
+    <code>flatpak override --user --reset net.energyplus.EnergyPlus</code>.</p>
+    <p>For batch simulation, run
+    <code>flatpak run net.energyplus.EnergyPlus --help</code>.
+    Bundled examples and weather data are in /app/extra/energyplus inside
+    the sandbox; copy models to Documents before running them.</p>
+    <p>Models, reports and folders open in your default desktop applications
+    through the desktop portal. Custom viewer executable paths and external
+    simulation tools must be available inside the sandbox; host-installed
+    executable paths are unavailable.</p>
+  </description>
+  <launchable type="desktop-id">net.energyplus.EnergyPlus.desktop</launchable>
+  <url type="homepage">https://energyplus.net/</url>
+  <url type="vcs-browser">https://github.com/NatLabRockies/EnergyPlus</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://energyplus.readthedocs.io/en/stable/</url>
+  <categories><category>Science</category><category>Engineering</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="26.2.0" date="2026-09-30"/></releases>
+</component>

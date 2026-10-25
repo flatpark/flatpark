@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=EnergyPlus
+Comment=Simulate building energy consumption and water use
+Exec=energyplus auxiliary eplaunch
+Icon=net.energyplus.EnergyPlus
+Terminal=false
+Categories=Science;Engineering;
+StartupWMClass=Energyplus_launch
+Actions=VersionUpdater;
+
+[Desktop Action VersionUpdater]
+Name=IDF Version Updater
+Exec=energyplus auxiliary updater

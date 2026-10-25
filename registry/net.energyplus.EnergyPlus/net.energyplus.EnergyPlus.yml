@@ -1,0 +1,58 @@
+id: net.energyplus.EnergyPlus
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: energyplus
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # EPLaunch uses Tk's X11 backend, including on Wayland through Xwayland.
+  - --socket=x11
+  - --share=ipc
+  # Models and reports need directory access through the non-portal Tk chooser.
+  - --filesystem=xdg-documents
+  # EPLaunch stores .EP-Launch.json at the top of its private home directory.
+  - --persist=.
+modules:
+  - name: energyplus
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 energyplus-wrapper /app/bin/energyplus
+      - install -Dm644 net.energyplus.EnergyPlus.desktop /app/share/applications/net.energyplus.EnergyPlus.desktop
+      - install -Dm644 net.energyplus.EnergyPlus.metainfo.xml /app/share/metainfo/net.energyplus.EnergyPlus.metainfo.xml
+      - install -Dm644 net.energyplus.EnergyPlus.png /app/share/icons/hicolor/256x256/apps/net.energyplus.EnergyPlus.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: energyplus.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/NatLabRockies/EnergyPlus/releases/download/v26.2.0/EnergyPlus-26.2.0-4bd7a1f26f-Linux-Ubuntu24.04-x86_64.tar.gz
+        sha256: b848da8236482a2171a67d7eab00c82162105b653ffab3ae3b6c2217c433a8a1
+        size: 242428036
+      # END MANAGED EXTRA-DATA
+      # Match the Tcl/Tk 8.6.14 scripts shipped in the official Ubuntu build.
+      # These versioned Ubuntu packages provide the missing shared libraries.
+      - type: extra-data
+        filename: libtcl8.6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/t/tcl8.6/libtcl8.6_8.6.14+dfsg-1build1_amd64.deb
+        sha256: 7534eb825f6317514d747ce53b4d6c23bf24df1dc1785f9599610ece5515e685
+        size: 987614
+      - type: extra-data
+        filename: libtk8.6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/t/tk8.6/libtk8.6_8.6.14-1build1_amd64.deb
+        sha256: c5edb6c79c91a9f4c25cf0ad68c3341467a6604cb97789b2ac36c6d3de352725
+        size: 778878
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: energyplus-wrapper
+      - type: file
+        path: net.energyplus.EnergyPlus.desktop
+      - type: file
+        path: net.energyplus.EnergyPlus.metainfo.xml
+      - type: file
+        path: net.energyplus.EnergyPlus.png
