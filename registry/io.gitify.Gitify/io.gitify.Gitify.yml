@@ -12,19 +12,19 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # Electron tray app for GitHub notifications. The prebuilt build bundles
+  # Electron tray app for Git notifications. The prebuilt build bundles
   # Chromium plus its own ffmpeg/ANGLE/SwiftShader; the GTK3, NSS, dbus, gbm and
   # X11 stacks it links come from the runtime.
   - --share=ipc
-  # Polls the GitHub (or GitHub Enterprise Server) API for notifications; that
-  # is the whole app.
+  # Polls the configured forge's API for notifications (GitHub, GitLab, Gitea
+  # or Bitbucket); that is the whole app.
   - --share=network
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
   # The optional notification sound.
   - --socket=pulseaudio
-  # Desktop notifications for new GitHub notifications.
+  # Desktop notifications for new notifications.
   - --talk-name=org.freedesktop.Notifications
   # Gitify lives in the tray: the tray icon is its main window's only entry
   # point. The tray backend registers with the StatusNotifier watcher.

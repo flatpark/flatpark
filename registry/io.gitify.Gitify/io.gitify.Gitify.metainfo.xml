@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>io.gitify.Gitify</id>
   <name>Gitify</name>
-  <summary>GitHub notifications on your menu bar</summary>
+  <summary>Git notifications on your menu bar. Supports GitHub, GitLab, Gitea and Bitbucket.</summary>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   <developer id="io.gitify">
@@ -13,14 +13,14 @@
   <url type="vcs-browser">https://github.com/gitify-app/gitify</url>
   <description>
     <p>This is a community package of Gitify, maintained independently. It repackages the official upstream build unmodified.</p>
-    <p>Gitify keeps your GitHub notifications one click away in the system tray. It shows unread notifications grouped by repository, opens them in your browser, and lets you mark them read or done without leaving your desktop.</p>
+    <p>Gitify keeps your Git notifications one click away in the system tray. It shows unread notifications grouped by repository across GitHub, GitLab, Gitea (including Forgejo and Codeberg) and Bitbucket Cloud, opens them in your browser, and lets you mark them read or done without leaving your desktop.</p>
     <ul>
-      <li>Supports GitHub.com and GitHub Enterprise Server, with several accounts at once.</li>
-      <li>Sign in with GitHub, an OAuth app or a personal access token.</li>
-      <li>Filters by reason, type, state and user, plus desktop notifications and an optional sound.</li>
-      <li>Keyboard shortcuts and a global shortcut to open the window.</li>
+      <li>Supports GitHub.com, GitHub Enterprise Cloud and Enterprise Server, GitLab Cloud and Self-Managed, Gitea (including Forgejo and Codeberg) and Bitbucket Cloud, with several accounts at once.</li>
+      <li>Sign in with GitHub using OAuth, a device code, a personal access token or an existing GitHub CLI login; connect GitLab, Gitea and Bitbucket with a personal access token.</li>
+      <li>Filters by reason, type, state and user, searches notification titles, and shows desktop notifications with an optional sound.</li>
+      <li>Choose a light, dark or system theme, adjust the design and zoom, and use keyboard shortcuts or a global shortcut to open the window.</li>
     </ul>
-    <p>Gitify runs in the tray, so your desktop needs a StatusNotifier tray (on GNOME, the AppIndicator extension). The package has network access to reach GitHub and stores its token encrypted with your keyring. It reads and writes no files outside its own data directory.</p>
+    <p>Gitify runs in the tray, so your desktop needs a StatusNotifier tray (on GNOME, the AppIndicator extension). The package has network access to reach your Git forge and stores account tokens encrypted with your keyring. It reads and writes no files outside its own data directory.</p>
     <p>Updates come through Flatpak. If the application says a new release is available, update with Flatpak instead of installing it from the app.</p>
   </description>
   <launchable type="desktop-id">io.gitify.Gitify.desktop</launchable>
@@ -28,9 +28,14 @@
     <category>Development</category>
   </categories>
   <keywords>
+    <keyword>Git</keyword>
     <keyword>GitHub</keyword>
+    <keyword>GitLab</keyword>
+    <keyword>Gitea</keyword>
+    <keyword>Forgejo</keyword>
+    <keyword>Codeberg</keyword>
+    <keyword>Bitbucket</keyword>
     <keyword>notifications</keyword>
-    <keyword>git</keyword>
     <keyword>tray</keyword>
   </keywords>
   <content_rating type="oars-1.1" />

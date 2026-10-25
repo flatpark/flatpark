@@ -1,11 +1,11 @@
 [Desktop Entry]
 Type=Application
 Name=Gitify
-Comment=GitHub notifications on your menu bar
+Comment=Git notifications on your menu bar. Supports GitHub, GitLab, Gitea and Bitbucket.
 Exec=gitify %U
 Icon=io.gitify.Gitify
 Terminal=false
 StartupWMClass=gitify
 MimeType=x-scheme-handler/gitify;
 Categories=Development;
-Keywords=github;notifications;git;pull request;issues;
+Keywords=git;github;gitlab;gitea;forgejo;codeberg;bitbucket;notifications;pull request;issues;
