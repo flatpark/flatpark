@@ -2,6 +2,9 @@
 set -eu
 # IDE terminals can export this, which would start Electron as Node.
 unset ELECTRON_RUN_AS_NODE
+# Keep Arduino CLI core detection consistent with OpenPLC Editor.
+# Use the Flatpak-persistent Electron userData configuration.
+export ARDUINO_CONFIG_FILE="${XDG_CONFIG_HOME}/open-plc-editor/User/arduino-cli.yaml"
 # Zypak runs Chromium's child processes inside the Flatpak sandbox.
 launcher="$(cat /app/extra/launcher)"
 exec zypak-wrapper "/app/extra/app/$launcher" --ozone-platform-hint=auto "$@"
