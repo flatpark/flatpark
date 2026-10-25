@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=LTspice
+GenericName=Circuit Simulator
+Comment=Design and simulate analog circuits
+Exec=cellar %F
+Icon=com.analog.LTspice
+Terminal=false
+StartupNotify=true
+StartupWMClass=ltspice.exe
+Categories=Education;Science;Electronics;Engineering;
+Keywords=SPICE;circuits;simulation;schematic;electronics;

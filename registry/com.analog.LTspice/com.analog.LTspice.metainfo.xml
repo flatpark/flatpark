@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.analog.LTspice</id>
+  <name>LTspice</name>
+  <summary>SPICE circuit simulator and schematic editor</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://ltspice.analog.com/software/License.pdf</project_license>
+  <developer id="com.analog"><name>Analog Devices, Inc.</name></developer>
+  <url type="homepage">https://www.analog.com/ltspice</url>
+  <url type="help">https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html</url>
+  <url type="bugtracker">https://ez.analog.com/design-tools-and-calculators/ltspice/</url>
+  <description>
+    <p>LTspice provides schematic capture, SPICE simulation and waveform viewing for analog circuit design, with a library of component models and example circuits from Analog Devices.</p>
+    <p>This community package downloads the official Windows x64 MSI from Analog Devices at install time and runs it unmodified under Wine. Cellar installs it into your private, persistent Wine prefix on first launch and when the packaged installer changes. The first launch takes longer while installation completes.</p>
+    <p>Wine is a separate dependency shared with other Wine apps. Install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
+    <p>Your Documents folder is available for schematics, custom models and simulation output. Windows file dialogs show the accessible home folders on drive H:. Network access allows model downloads and the vendor updater. The package reads only Wine's installation folders outside Documents.</p>
+    <p>To work in another folder, use <code>flatpak override --user --filesystem=/path/to/circuits com.analog.LTspice</code>. Undo added permissions with <code>flatpak override --user --reset com.analog.LTspice</code>.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Education</category><category>Science</category><category>Electronics</category><category>Engineering</category></categories>
+  <keywords><keyword>SPICE</keyword><keyword>circuits</keyword><keyword>simulation</keyword><keyword>Wine</keyword></keywords>
+  <launchable type="desktop-id">com.analog.LTspice.desktop</launchable>
+  <releases>
+    <release version="26.1.1-20261022172601" date="2026-10-22"/>
+  </releases>
+</component>

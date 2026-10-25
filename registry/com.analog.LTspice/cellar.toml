@@ -1,0 +1,17 @@
+# The official MSI runs unmodified in a private, persistent Wine prefix.
+locale = "en_US"
+font_sets = ["core"]
+
+[install]
+source = "LTspice64.msi"
+method = "run"
+args = ["/qn", "/norestart"]
+
+[drives]
+# H: exposes only the home folders granted by the Flatpak manifest.
+h = "~"
+
+[[apps]]
+id = "ltspice"
+name = "LTspice"
+exe = 'C:\Program Files\ADI\LTspice\LTspice.exe'

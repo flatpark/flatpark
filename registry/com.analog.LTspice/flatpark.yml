@@ -1,0 +1,28 @@
+id: com.analog.LTspice
+name: LTspice
+summary: SPICE circuit simulator and schematic editor
+website: https://www.analog.com/ltspice
+build:
+  manifest: com.analog.LTspice.yml
+  branch: stable
+  mode: extra-data
+  # Upstream has a Windows ARM64 MSI; this Wine/Cellar path is Linux x86_64 only.
+  arches: [x86_64]
+catalog:
+  category: Education
+  tags:
+    - Electronics
+    - Simulation
+    - Engineering
+    - Wine
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    # New-WoW64 Wine needs its 32-bit system calls allowed by seccomp.
+    - --allow=multiarch
