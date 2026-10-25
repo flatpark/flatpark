@@ -41,9 +41,9 @@ modules:
         filename: audionaut.deb
         only-arches:
           - x86_64
-        url: https://github.com/kvoltmer/Audionaut/releases/download/v1.6.7/audionaut_1.6.7_amd64.deb
-        sha256: 4fb06aa81dc13555af0555bc57ade33ebca917e7d7c29f5c6855e5afe580a612
-        size: 11240098
+        url: https://github.com/kvoltmer/Audionaut/releases/download/v1.7.0/audionaut_1.7.0_amd64.deb
+        sha256: 06fc26f052c636981951d0edbae618ccc71157929d6477c992cf5f25a2410104
+        size: 6324332
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
