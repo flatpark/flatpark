@@ -369,12 +369,13 @@ What follows from extra-data, and what to do instead:
 - **No source builds.** An official release makes them unnecessary, and they
   would cost CI time and storage on every update. When an app people want has
   no official Linux release at all, it can get a public
-  `flatpark/<app>-release` repository that builds it on GitHub Actions exactly
+  `<app>-release` repository that builds it on GitHub Actions exactly
   the way upstream does, unmodified and within upstream's licence, and
   publishes a release; the package pins that release as extra-data like any
   vendor download
   ([`com.ayugram.desktop`](../../registry/com.ayugram.desktop/com.ayugram.desktop.yml)
-  pins `flatpark/ayugram-release`). That needs a maintainer's agreement first.
+  pins `jing2uo/ayugram-release`, kept under a maintainer's own account rather
+  than the `flatpark` organization). That needs a maintainer's agreement first.
 - **A library or tool the runtime lacks:** a second extra-data download (an
   upstream binary, a Debian package) or a [prebuilt stack](prebuilt.md#when-to-use-one).
   Don't compile it into `/app`.

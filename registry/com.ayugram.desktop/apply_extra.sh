@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time. Unpacks the flatpark/ayugram-release tarball
+# Runs offline at install time. Unpacks the jing2uo/ayugram-release tarball
 # (upstream's `cmake --install` tree under usr/) and keeps only the binary at a
 # stable path the wrapper expects: /app/extra/AyuGram. The desktop file, D-Bus
 # service, icon and AppStream metainfo are shipped by the manifest at *build*

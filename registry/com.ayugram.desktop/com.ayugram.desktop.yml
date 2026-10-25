@@ -49,14 +49,14 @@ modules:
         filename: ayugram.tar.zst
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/ayugram-release/releases/download/v7.2.9/ayugram-7.2.9-x86_64.tar.zst
+        url: https://github.com/jing2uo/ayugram-release/releases/download/v7.2.9/ayugram-7.2.9-x86_64.tar.zst
         sha256: be17150f3d0914cec718f6beb69104c87807440e3467525115a5fc721f2d035c
         size: 87400684
       - type: extra-data
         filename: ayugram.tar.zst
         only-arches:
           - aarch64
-        url: https://github.com/flatpark/ayugram-release/releases/download/v7.2.9/ayugram-7.2.9-aarch64.tar.zst
+        url: https://github.com/jing2uo/ayugram-release/releases/download/v7.2.9/ayugram-7.2.9-aarch64.tar.zst
         sha256: 2b3971abc54b36dc1ff62b7a2c8432727bab5d6cee8e1310f5d81db5fb806516
         size: 85288086
       # END MANAGED EXTRA-DATA

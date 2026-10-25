@@ -14,7 +14,7 @@
   <url type="translate">https://crowdin.com/project/ayugram</url>
   <url type="vcs-browser">https://github.com/AyuGram/AyuGramDesktop</url>
   <description>
-    <p>This is a community package of AyuGram and is not affiliated with or endorsed by its developers. Upstream publishes no Linux binary, so FlatPark builds one from the unmodified upstream source with upstream's own Linux build environment; the recipe and per-release build logs are public at github.com/flatpark/ayugram-release.</p>
+    <p>This is a community package of AyuGram and is not affiliated with or endorsed by its developers. Upstream publishes no Linux binary, so a FlatPark maintainer builds one from the unmodified upstream source with upstream's own Linux build environment; the recipe and per-release build logs are public at github.com/jing2uo/ayugram-release.</p>
     <p>AyuGram is a Telegram Desktop based client with extra privacy and customization features:</p>
     <ul>
       <li>Flexible ghost mode: read messages and go online without others seeing it</li>
