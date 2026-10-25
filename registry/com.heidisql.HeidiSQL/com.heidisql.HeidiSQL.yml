@@ -90,9 +90,9 @@ modules:
         filename: heidisql.tgz
         only-arches:
           - x86_64
-        url: https://github.com/HeidiSQL/HeidiSQL/releases/download/v12.21/build-qt6-v12.21.tgz
-        sha256: 483ccf0810515ac6326a24dd40275cdce934dc4d9fa631834d19c5e6a2ead52c
-        size: 7294092
+        url: https://github.com/HeidiSQL/HeidiSQL/releases/download/v12.22/build-qt6-v12.22.tgz
+        sha256: 4ac33af44f36b581e395674dda5cff38eb0f7a388d3d046dbe7c84bd734c7cd5
+        size: 7344765
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

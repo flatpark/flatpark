@@ -61,9 +61,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/szTheory/exifcleaner/releases/download/v4.6.0/exifcleaner_4.6.0_amd64.deb
-        sha256: 1f076780d8efab46fbe626f336461407260bcc25fc3c48e2ea1c53f1815b5828
-        size: 115876512
+        url: https://github.com/szTheory/exifcleaner/releases/download/v4.7.0/exifcleaner_4.7.0_amd64.deb
+        sha256: 9ae532445892be55847018e8608942e94ae8a6c51752ed9f43dc2d31b5d1237f
+        size: 115378912
       # END MANAGED EXTRA-DATA
       # The interpreter for the ExifTool script the .deb bundles: ExifTool is a
       # Perl program, ExifCleaner does not ship Perl, and the runtime has none.

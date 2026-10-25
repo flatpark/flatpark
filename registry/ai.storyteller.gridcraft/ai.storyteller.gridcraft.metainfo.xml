@@ -68,6 +68,9 @@
     <mediatype>text/tab-separated-values</mediatype>
   </provides>
   <releases>
+    <release version="0.12.1" date="2026-10-25">
+      <description></description>
+    </release>
     <release version="0.11.1" date="2026-10-22">
       <description></description>
     </release>
