@@ -9,6 +9,5 @@ Icon=org.openmodelica.OpenModelica
 Terminal=false
 Categories=Development;Education;Science;Math;
 Keywords=Modelica;modeling;simulation;engineering;science;
-MimeType=text/x-onb;application/x-omnotebook;
 StartupNotify=true
 StartupWMClass=OMEdit
