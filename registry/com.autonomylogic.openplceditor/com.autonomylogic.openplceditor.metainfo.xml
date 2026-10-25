@@ -21,9 +21,6 @@
   <url type="vcs-browser">https://github.com/Autonomy-Logic/openplc-editor</url>
   <developer id="com.autonomylogic"><name>Autonomy Logic</name></developer>
   <provides><binary>openplc-editor</binary></provides>
-  <screenshots>
-    <screenshot type="default"><image>https://raw.githubusercontent.com/Autonomy-Logic/openplc-editor/v4.3.2/assets/images/github-background.png</image></screenshot>
-  </screenshots>
   <content_rating type="oars-1.1"/>
   <releases><release version="4.3.2" date="2026-09-29"/></releases>
 </component>
