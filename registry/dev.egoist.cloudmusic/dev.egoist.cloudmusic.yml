@@ -1,0 +1,67 @@
+id: dev.egoist.cloudmusic
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: mygo-cloudmusic
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # MyGo draws its own UI into a GTK 3 window with OpenGL; GTK 3, libsecret,
+  # libpulse and ALSA are loaded at run time from the GNOME runtime.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Playback through libpulse, which the runtime routes to PulseAudio/PipeWire.
+  - --socket=pulseaudio
+  # QR-code login, the NetEase Cloud Music API and streaming.
+  - --share=network
+  # The login session is kept in the Secret Service (GNOME Keyring, KWallet).
+  - --talk-name=org.freedesktop.secrets
+  # MPRIS: media keys and the shell's now-playing widget. MyGo registers
+  # org.mpris.MediaPlayer2.<app name>.instance<pid>, with every non-ASCII
+  # character of the app name "MyGo 云音乐" turned into "_", which lies
+  # outside the app-id prefix Flatpak allows by default.
+  - --own-name=org.mpris.MediaPlayer2.MyGo____.*
+  # Pauses before the system sleeps (login1 PrepareForSleep).
+  - --system-talk-name=org.freedesktop.login1
+  # Deliberately withheld: no home or host filesystem access. Settings, the
+  # play queue and the song cache stay under ~/.var/app/dev.egoist.cloudmusic.
+  # The in-app updater turns itself off because /app/extra is not writable.
+modules:
+  - name: mygo-cloudmusic
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mygo-cloudmusic-wrapper /app/bin/mygo-cloudmusic
+      - install -Dm644 dev.egoist.cloudmusic.desktop /app/share/applications/dev.egoist.cloudmusic.desktop
+      - install -Dm644 dev.egoist.cloudmusic.metainfo.xml /app/share/metainfo/dev.egoist.cloudmusic.metainfo.xml
+      - install -Dm644 dev.egoist.cloudmusic.png /app/share/icons/hicolor/512x512/apps/dev.egoist.cloudmusic.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mygo-cloudmusic.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/egoist/mygo-cloudmusic/releases/download/v0.1.13/mygo-cloudmusic-0.1.13-linux-amd64.tar.gz
+        sha256: 26191e52e507ed780eb501647f1966beaf59289a321470fafc99d61749665783
+        size: 8464151
+      - type: extra-data
+        filename: mygo-cloudmusic.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/egoist/mygo-cloudmusic/releases/download/v0.1.13/mygo-cloudmusic-0.1.13-linux-arm64.tar.gz
+        sha256: 14973bfbd1c33e46634172c9ab0626f40b99481a6134b6832da2c963278c68c9
+        size: 7766605
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mygo-cloudmusic-wrapper
+      - type: file
+        path: dev.egoist.cloudmusic.desktop
+      - type: file
+        path: dev.egoist.cloudmusic.metainfo.xml
+      - type: file
+        path: dev.egoist.cloudmusic.png

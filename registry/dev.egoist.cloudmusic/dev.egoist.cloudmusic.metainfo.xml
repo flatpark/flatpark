@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.egoist.cloudmusic</id>
+  <name>MyGo Cloud Music</name>
+  <name xml:lang="zh-CN">MyGo 云音乐</name>
+  <summary>Third-party NetEase Cloud Music client with a native Go interface</summary>
+  <summary xml:lang="zh-CN">第三方网易云音乐原生桌面客户端</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="dev.egoist">
+    <name>EGOIST</name>
+  </developer>
+  <url type="homepage">https://music.egoist.dev/</url>
+  <url type="bugtracker">https://github.com/egoist/mygo-cloudmusic/issues</url>
+  <url type="vcs-browser">https://github.com/egoist/mygo-cloudmusic</url>
+  <description>
+    <p>This is a community package of MyGo Cloud Music, maintained independently and unaffiliated with the MyGo Cloud Music project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>MyGo Cloud Music is an unofficial desktop client for NetEase Cloud Music, written in Go with the MyGo framework: a native interface with no WebView. It is not affiliated with NetEase.</p>
+    <ul>
+      <li>QR-code login through the NetEase Cloud Music mobile app; the session is kept in the system keyring.</li>
+      <li>Daily recommendations, recommended playlists, charts, your playlists and search.</li>
+      <li>Personal FM (recommended, familiar, explore) and heartbeat mode.</li>
+      <li>Stream while downloading, in quality levels from standard to lossless FLAC and Hi-Res; played songs are cached locally.</li>
+      <li>Volume normalisation and fades on pause and resume.</li>
+      <li>Picks up the play queue and position where you left off.</li>
+      <li>Word-by-word lyrics with translations, and song comments.</li>
+      <li>Liked songs, play queue, shuffle and repeat; light, dark or system theme.</li>
+    </ul>
+    <p>Permissions: this package grants display, GPU, audio, network access, the Secret Service for the login session, MPRIS media controls, and the system's sleep notice so playback pauses before suspend. No home or host filesystem access is granted; settings, the play queue and the song cache stay inside the sandbox under <code>~/.var/app/dev.egoist.cloudmusic</code>. Updates come through <code>flatpak update</code>; the app's own updater stays off in this package.</p>
+  </description>
+  <launchable type="desktop-id">dev.egoist.cloudmusic.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+    <category>Music</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>netease</keyword>
+    <keyword>cloudmusic</keyword>
+    <keyword>网易云</keyword>
+    <keyword>lyrics</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>mygo-cloudmusic</binary>
+  </provides>
+  <releases>
+    <release version="0.1.13" date="2026-10-26">
+      <url type="details">https://github.com/egoist/mygo-cloudmusic/releases/tag/v0.1.13</url>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,32 @@
+# FlatPark catalog descriptor for MyGo Cloud Music.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; dev.egoist.cloudmusic.yml is the Flatpak manifest
+# it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: dev.egoist.cloudmusic
+name: MyGo Cloud Music
+summary: Third-party NetEase Cloud Music client with a native Go interface
+website: https://music.egoist.dev/
+source_url: https://github.com/egoist/mygo-cloudmusic
+build:
+  manifest: dev.egoist.cloudmusic.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AudioVideo
+  tags:
+    - Music
+    - Player
+    - NetEase
+    - Lyrics
+    - Go
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

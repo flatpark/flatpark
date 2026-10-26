@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+Name=MyGo Cloud Music
+Name[zh_CN]=MyGo 云音乐
+Name[zh_SG]=MyGo 云音乐
+Name[zh_TW]=MyGo 雲音樂
+Name[zh_HK]=MyGo 雲音樂
+GenericName=Music Player
+GenericName[zh_CN]=音乐播放器
+Comment=Third-party NetEase Cloud Music desktop client
+Comment[zh_CN]=第三方网易云音乐桌面客户端
+Exec=mygo-cloudmusic
+Icon=dev.egoist.cloudmusic
+Terminal=false
+StartupNotify=true
+StartupWMClass=mygo-cloudmusic
+Categories=AudioVideo;Audio;Player;Music;
+Keywords=music;netease;cloudmusic;网易云;音乐;

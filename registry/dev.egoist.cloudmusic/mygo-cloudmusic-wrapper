@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# The executable is a self-contained Go binary that loads GTK 3, libsecret,
+# libpulse and ALSA from the GNOME runtime at start, so nothing needs setting
+# up. Flatpak redirects HOME and the XDG directories into the sandbox, so
+# settings, the play queue and the song cache land in
+# ~/.var/app/dev.egoist.cloudmusic.
+exec /app/extra/app/mygo-cloudmusic "$@"
