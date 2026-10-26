@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=MuJoCo
+Comment=Simulate and explore articulated bodies with contact dynamics
+Exec=mujoco %f
+Icon=io.github.google_deepmind.MuJoCo
+Terminal=false
+Categories=Science;Robotics;
+Keywords=physics;robotics;simulation;dynamics;
+StartupWMClass=MuJoCo
+StartupNotify=false

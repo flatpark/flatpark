@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.google_deepmind.MuJoCo</id>
+  <name>MuJoCo</name>
+  <summary>Simulate and explore articulated bodies with contact dynamics</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="com.deepmind"><name>Google DeepMind</name></developer>
+  <description>
+    <p>MuJoCo is a physics engine for robotics, biomechanics and other research
+    involving articulated bodies and contact. Its interactive simulate application
+    loads MJCF and binary models, runs simulations, and displays contacts,
+    forces, sensor data and performance statistics.</p>
+    <p>This community package runs the official upstream Linux build unmodified.
+    It opens the bundled welcome model when started without a model path.
+    It provides the native simulate application; Python environments and host
+    development toolchains are outside this desktop package.</p>
+    <p>The viewer uses X11, including Xwayland on Wayland desktops. Bundled
+    engine plugins are available; additional user-provided plugin libraries are
+    not configured by this desktop package.</p>
+    <p>Models in Documents can be opened by passing a path to the launcher or
+    dragging a model onto the window. Quick-save XML, binary models, diagnostic
+    text and screenshots are kept in
+    <code>~/.var/app/io.github.google_deepmind.MuJoCo/data</code>.</p>
+    <p>XML exports retain external asset filenames. Keep mesh and texture files
+    at their referenced paths when reopening an XML export. MJB exports retain
+    mesh and texture data in the binary model.</p>
+    <p>To use models and their assets elsewhere, grant their directory with
+    <code>flatpak override --user --filesystem=/path/to/models io.github.google_deepmind.MuJoCo</code>.
+    Remove custom overrides with
+    <code>flatpak override --user --reset io.github.google_deepmind.MuJoCo</code>.</p>
+  </description>
+  <launchable type="desktop-id">io.github.google_deepmind.MuJoCo.desktop</launchable>
+  <url type="homepage">https://mujoco.org/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://mujoco.readthedocs.io/en/stable/programming/samples.html#simulate</url>
+  <categories><category>Science</category><category>Robotics</category></categories>
+  <screenshots><screenshot type="default"><image>https://raw.githubusercontent.com/google-deepmind/mujoco/3.17.0/doc/images/overview/example.png</image></screenshot></screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="3.17.0" date="2026-10-22"/></releases>
+</component>

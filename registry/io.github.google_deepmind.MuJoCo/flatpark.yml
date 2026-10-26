@@ -1,0 +1,18 @@
+id: io.github.google_deepmind.MuJoCo
+name: MuJoCo
+summary: Simulate and explore articulated bodies with contact dynamics
+website: https://mujoco.org/
+source_url: https://github.com/google-deepmind/mujoco
+build:
+  manifest: io.github.google_deepmind.MuJoCo.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Science
+  tags: [Physics, Robotics, Simulation]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

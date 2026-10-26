@@ -1,0 +1,53 @@
+id: io.github.google_deepmind.MuJoCo
+# simulate carries GLFW and uses its own library and plugin paths.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: mujoco
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The official simulate build uses GLFW on X11, also through Xwayland.
+  - --socket=x11
+  - --share=ipc
+  # OpenGL rendering of models and simulations.
+  - --device=dri
+  # Model files and their adjacent meshes/textures, including drag and drop.
+  - --filesystem=xdg-documents
+modules:
+  - name: mujoco
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mujoco-wrapper /app/bin/mujoco
+      - install -Dm644 io.github.google_deepmind.MuJoCo.desktop /app/share/applications/io.github.google_deepmind.MuJoCo.desktop
+      - install -Dm644 io.github.google_deepmind.MuJoCo.metainfo.xml /app/share/metainfo/io.github.google_deepmind.MuJoCo.metainfo.xml
+      - install -Dm644 io.github.google_deepmind.MuJoCo.png /app/share/icons/hicolor/192x192/apps/io.github.google_deepmind.MuJoCo.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mujoco.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/google-deepmind/mujoco/releases/download/3.17.0/mujoco-3.17.0-linux-x86_64.tar.gz
+        sha256: b3246fc698ca27e05ce36047fe2b6866fe23c9e95a26b3a84dd48f011b85e3e4
+        size: 35118870
+      - type: extra-data
+        filename: mujoco.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/google-deepmind/mujoco/releases/download/3.17.0/mujoco-3.17.0-linux-aarch64.tar.gz
+        sha256: 55467a37b74e7d943899768aee820e6754a66811ae5ffa17d2768f0c40fc983a
+        size: 34576520
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mujoco-wrapper
+      - type: file
+        path: io.github.google_deepmind.MuJoCo.desktop
+      - type: file
+        path: io.github.google_deepmind.MuJoCo.metainfo.xml
+      - type: file
+        path: io.github.google_deepmind.MuJoCo.png

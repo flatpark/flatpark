@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+# Keep a supplied relative model path valid when selecting the save directory.
+if [ "$#" -gt 0 ]; then
+    case "$1" in
+        /*) ;;
+        *) model="$PWD/$1"; shift; set -- "$model" "$@" ;;
+    esac
+fi
+# Linux simulate saves XML, binary models, data and screenshots in its cwd.
+# Flatpak creates XDG_DATA_HOME and keeps it across launches and updates.
+cd "$XDG_DATA_HOME"
+# Provide a working example on a desktop launch; explicit model paths win.
+if [ "$#" -eq 0 ]; then
+    set -- /app/extra/mujoco/model/welcome/welcome.xml
+fi
+# The official binary locates its own libraries and plugins relative to itself.
+exec /app/extra/mujoco/bin/simulate "$@"
