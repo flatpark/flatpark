@@ -125,6 +125,7 @@
   "collection.setup_hint": "Needs the {repo} remote.",
   "collection.setup_link": "Set it up",
   "collection.disclaimer": "These are community packages of the official upstream builds, maintained by {repo} independently and unaffiliated with {name}.",
+  "collection.disclaimer.mixed": "These are community packages of the official upstream builds, maintained by {repo} independently and unaffiliated with their developers.",
   "collection.upstream": "About {name}",
   "collection.upcoming": "Coming when upstream releases",
   "collection.upcoming.body": "Announced upstream, with no release to package yet.",

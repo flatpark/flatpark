@@ -45,6 +45,7 @@ export function loadCollections(apps) {
       const groups = (c.groups ?? [])
         .map((g) => ({
           title: g.title,
+          summary: g.summary,
           apps: (g.apps ?? []).map(String).flatMap((id) => {
             const app = byId.get(id);
             if (!app) console.warn(`[collections] ${c.slug} names unknown app ${id}`);
@@ -55,9 +56,12 @@ export function loadCollections(apps) {
       return {
         slug: String(c.slug),
         name: String(c.name),
+        // For "All {count} {suite} apps": a name already ending in "apps" isn't doubled.
+        suite: String(c.name).replace(/\s+apps$/i, ''),
         summary: c.summary,
         carousel: c.carousel === true,
         upstream: c.upstream || null,
+        howto: c.howto?.url ? c.howto : null,
         upcoming: (c.upcoming ?? []).filter((u) => u?.name),
         groups,
         apps: groups.flatMap((g) => g.apps),

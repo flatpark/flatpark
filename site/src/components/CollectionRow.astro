@@ -22,7 +22,7 @@ const t = useTranslations(lang);
   </div>
   <div class="min-w-0 flex-1">
     <p class="text-lg font-extrabold">{collection.name}</p>
-    <p class="mt-0.5 text-sm text-muted">{t('collection.banner', { name: collection.name, count: collection.apps.length })}</p>
+    <p class="mt-0.5 text-sm text-muted">{t('collection.banner', { name: collection.suite, count: collection.apps.length })}</p>
   </div>
   <span class="shrink-0 text-sm font-semibold text-brand group-hover:underline">{t('collection.view')} &rarr;</span>
 </a>

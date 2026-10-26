@@ -11,7 +11,11 @@
 # approved this". Members are listed in display order; ids not in the catalog
 # are skipped with a build warning, and a collection left with no listed app
 # renders nothing. An optional `upcoming` list of {name, url} shows apps
-# announced upstream but not released yet, as plain links.
+# announced upstream but not released yet, as plain links. A group may carry
+# its own `summary` under its title, and `howto: {label, url}` adds a link to
+# the docs (a site path, localized per locale) under the collection summary.
+# A collection without `upstream` gathers apps from several vendors, so its
+# disclaimer names no single one.
 #
 # Text fields are either a plain string or a per-locale map; a locale without
 # its own text falls back to `en`.
@@ -145,3 +149,36 @@ collections:
     upcoming:
       - name: PCBCraft
         url: https://github.com/tangency-labs/pcbcraft
+  - slug: wine-apps
+    name: Wine Apps
+    summary:
+      en: >-
+        Windows apps packaged for Linux, each running its vendor's unmodified
+        installer under Wine. They share one Wine install, org.winehq.Wine from
+        Flathub, and each keeps its own prefix.
+      zh-Hans: >-
+        打包成 Linux 应用的 Windows 程序，每个都在 Wine 里运行厂商原版、未经修改的安装程序。
+        它们共用 Flathub 上的同一份 Wine（org.winehq.Wine），各自使用独立的前缀。
+    howto:
+      label:
+        en: How to package a Windows app with Wine
+        zh-Hans: 如何打包 Wine 应用
+      url: /docs/packagers/solutions/by-stack/#windows-apps-wine
+    groups:
+      - title:
+          en: Manager
+          zh-Hans: 管理工具
+        summary:
+          en: >-
+            Cellar manages Wine prefixes and the Windows programs in them, with
+            a GUI and a CLI. Every app below is launched by it.
+          zh-Hans: >-
+            Cellar 用来管理 Wine 前缀和其中的 Windows 程序，有图形界面也有命令行。下面每个应用都由它启动。
+        apps:
+          - org.flatpark.Cellar
+      - title:
+          en: Apps
+          zh-Hans: 应用
+        apps:
+          - com.foobar2000.Foobar2000
+          - com.analog.LTspice

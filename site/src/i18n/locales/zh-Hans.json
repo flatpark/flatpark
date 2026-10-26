@@ -125,6 +125,7 @@
   "collection.setup_hint": "需要先添加 {repo} 源。",
   "collection.setup_link": "去设置",
   "collection.disclaimer": "这些是官方上游构建的社区打包，由 {repo} 独立维护，与 {name} 无关。",
+  "collection.disclaimer.mixed": "这些是官方上游构建的社区打包，由 {repo} 独立维护，与各应用的开发者无关。",
   "collection.upstream": "了解 {name}",
   "collection.upcoming": "上游发版后上架",
   "collection.upcoming.body": "上游已公布，暂无可打包的正式版本。",

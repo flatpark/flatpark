@@ -79,13 +79,17 @@ FLATPARK_DATA_DIR="$data" FLATPARK_STATS_URL="$tmp/totals.json" node "$ROOT/site
 cat > "$tmp/collections.yml" <<'EOF'
 collections:
   - slug: testsuite
-    name: Test Suite
+    name: Test Apps
     carousel: true
     summary:
       en: Both test apps together.
       zh-Hans: 两个测试应用。
+    howto:
+      label: How to test
+      url: /docs/packagers/playbook/
     groups:
       - title: Tools
+        summary: The first test app on its own.
         apps: [io.flatpark.TestOne, io.flatpark.Missing]
       - title: More
         apps: [io.flatpark.TestTwo]
@@ -230,6 +234,10 @@ assert_contains "$collection" "Both test apps together."
 assert_contains "$site_out/zh-Hans/collections/testsuite/index.html" "两个测试应用。"
 assert_contains "$collection" "flatpak install flatpark io.flatpark.TestOne io.flatpark.TestTwo"
 assert_contains "$collection" "Test Three"
+assert_contains "$collection" "The first test app on its own."
+assert_contains "$collection" 'href="/docs/packagers/playbook/"'
+assert_contains "$site_out/zh-Hans/collections/testsuite/index.html" 'href="/zh-Hans/docs/packagers/playbook/"'
+assert_contains "$collection" "unaffiliated with their developers"
 ! grep -qF "io.flatpark.Missing" "$collection" || { echo "FAIL: unknown collection member rendered"; exit 1; }
 assert_contains "$index" "data-collection-slide"
 assert_contains "$index" "/collections/testsuite/"
@@ -238,6 +246,8 @@ assert_contains "$index" "data-collections-panel"
 assert_contains "$index" "data-collection-row"
 assert_file "$site_out/collections/index.html"
 assert_contains "$site_out/collections/index.html" "/collections/testsuite/"
-assert_contains "$detail" "Part of the Test Suite collection (2 apps)"
+assert_contains "$detail" "Part of the Test Apps collection (2 apps)"
+assert_contains "$index" "All 2 Test apps, one remote"
+assert_contains "$collection" "All 2 Test apps on"
 assert_contains "$detail_two" "/collections/testsuite/"
 echo "test_gen_site: PASS"

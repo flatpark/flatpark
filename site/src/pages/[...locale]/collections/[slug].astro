@@ -28,7 +28,7 @@ const showGroupTitles = collection.groups.length > 1;
 
 <Base
   title={t('collection.title', { name: collection.name, repo: repo.title })}
-  description={t('collection.meta', { name: collection.name, count, repo: repo.title })}
+  description={t('collection.meta', { name: collection.suite, count, repo: repo.title })}
 >
   <Topbar repo={repo} />
   <main>
@@ -43,6 +43,11 @@ const showGroupTitles = collection.groups.length > 1;
         <h1 class="mt-2 text-3xl font-extrabold tracking-tight md:text-4xl">{collection.name}</h1>
         <p class="mt-1 text-sm font-semibold text-muted">{t('collection.count', { count })}</p>
         {summary && <p class="mt-3 max-w-3xl text-muted">{summary}</p>}
+        {collection.howto && (
+          <p class="mt-2 text-sm">
+            <a href={localizePath(collection.howto.url, lang)} class="font-semibold text-brand hover:underline">{localized(collection.howto.label, lang)} &rarr;</a>
+          </p>
+        )}
         <div class="mt-5">
           <CollectionIcons apps={collection.apps} size={48} wrap />
         </div>
@@ -74,7 +79,9 @@ const showGroupTitles = collection.groups.length > 1;
         </div>
 
         <p class="mt-6 border-t border-line pt-4 text-xs text-muted">
-          {t('collection.disclaimer', { name: collection.name, repo: repo.title })}
+          {collection.upstream
+            ? t('collection.disclaimer', { name: collection.name, repo: repo.title })
+            : t('collection.disclaimer.mixed', { repo: repo.title })}
           {collection.upstream && (
             <>
               {' '}
@@ -92,6 +99,7 @@ const showGroupTitles = collection.groups.length > 1;
           {showGroupTitles && (
             <h2 class="mb-3 text-lg font-extrabold tracking-tight">{localized(group.title, lang)}</h2>
           )}
+          {group.summary && <p class="-mt-1 mb-3 max-w-3xl text-sm text-muted">{localized(group.summary, lang)}</p>}
           <div class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4">
             {group.apps.map((app) => <AppCard app={app} />)}
           </div>
