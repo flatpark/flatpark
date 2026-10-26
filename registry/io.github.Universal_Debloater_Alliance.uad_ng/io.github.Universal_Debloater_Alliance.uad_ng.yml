@@ -1,0 +1,58 @@
+id: io.github.Universal_Debloater_Alliance.uad_ng
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: uad-ng
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Iced renders on Wayland or X11; IPC is for X11 shared memory.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # Fetch package descriptions and communicate with ADB and wireless devices.
+  - --share=network
+  # ADB needs direct USB access; this includes the GPU for Iced rendering.
+  - --device=all
+  # Retain sandbox-local ADB authorization keys across restarts.
+  - --persist=.android
+modules:
+  - name: uad-ng
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 uad-ng-wrapper /app/bin/uad-ng
+      - install -Dm755 adb-wrapper /app/bin/adb
+      - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.desktop /app/share/applications/io.github.Universal_Debloater_Alliance.uad_ng.desktop
+      - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.metainfo.xml /app/share/metainfo/io.github.Universal_Debloater_Alliance.uad_ng.metainfo.xml
+      - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.png /app/share/icons/hicolor/500x500/apps/io.github.Universal_Debloater_Alliance.uad_ng.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: uad-ng.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation/releases/download/v1.2.0/uad-ng-noselfupdate-linux.tar.gz
+        sha256: 980273195eb39ae43c776159252d67be0a5eea31faf88b600c2f9218cb099314
+        size: 10568201
+      # END MANAGED EXTRA-DATA
+      # ADB is a separate official download; its fixed version is independent
+      # of the UAD-ng resolver. Keep the archive's license notices with it.
+      - type: extra-data
+        filename: platform-tools.zip
+        only-arches: [x86_64]
+        url: https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip
+        sha256: d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1
+        size: 9054187
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: uad-ng-wrapper
+      - type: file
+        path: adb-wrapper
+      - type: file
+        path: io.github.Universal_Debloater_Alliance.uad_ng.desktop
+      - type: file
+        path: io.github.Universal_Debloater_Alliance.uad_ng.metainfo.xml
+      - type: file
+        path: io.github.Universal_Debloater_Alliance.uad_ng.png

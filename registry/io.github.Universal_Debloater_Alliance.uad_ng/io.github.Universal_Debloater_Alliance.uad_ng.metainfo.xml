@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Universal_Debloater_Alliance.uad_ng</id>
+  <name>Universal Android Debloater Next Generation</name>
+  <summary>Manage unwanted apps on non-rooted Android devices</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <description>
+    <p>Universal Android Debloater Next Generation uses ADB to list, disable, uninstall and restore apps on non-rooted Android devices. It provides package descriptions, search, multiple-device and multiple-user support, and snapshots of package states.</p>
+    <p>This community package runs the official Linux build without self-updates, unmodified. Google's Android Platform Tools are downloaded separately at install time to provide ADB. FlatPark tracks new UAD-ng releases.</p>
+    <p>Enable USB debugging on your device and authorize this computer. USB access also depends on your host's device permissions. Removing essential packages can prevent Android from booting; back up your device and read the upstream documentation first.</p>
+    <p>ADB authorization keys are kept in this package's private data directory. Wireless pairing and connection are available with <code>flatpak run --command=adb io.github.Universal_Debloater_Alliance.uad_ng pair ADDRESS:PORT</code> and <code>flatpak run --command=adb io.github.Universal_Debloater_Alliance.uad_ng connect ADDRESS:PORT</code>.</p>
+    <p>Selection files are imported and exported in <code>~/.var/app/io.github.Universal_Debloater_Alliance.uad_ng/data/selection_export.txt</code>. To choose a backup folder in Documents, enable <code>flatpak override --user --filesystem=xdg-documents io.github.Universal_Debloater_Alliance.uad_ng</code>. Undo this with <code>flatpak override --user --nofilesystem=xdg-documents io.github.Universal_Debloater_Alliance.uad_ng</code>.</p>
+  </description>
+  <launchable type="desktop-id">io.github.Universal_Debloater_Alliance.uad_ng.desktop</launchable>
+  <url type="homepage">https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation/wiki</url>
+  <screenshots>
+    <screenshot type="default"><image>https://raw.githubusercontent.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation/v1.2.0/resources/screenshots/v1.0.2.png</image></screenshot>
+  </screenshots>
+  <provides><binary>uad-ng</binary><binary>adb</binary></provides>
+  <releases><release version="1.2.0" date="2026-01-12"/></releases>
+  <content_rating type="oars-1.1"/>
+</component>

@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# UAD-ng invokes adb by name; use Google's pinned platform-tools download.
+export PATH="/app/extra/platform-tools:$PATH"
+# Relative selection imports and exports must live in persistent app data.
+cd "$XDG_DATA_HOME"
+exec /app/extra/uad-ng "$@"

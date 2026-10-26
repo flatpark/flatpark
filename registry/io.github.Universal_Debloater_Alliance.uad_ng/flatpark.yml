@@ -1,0 +1,20 @@
+id: io.github.Universal_Debloater_Alliance.uad_ng
+name: Universal Android Debloater Next Generation
+summary: Manage unwanted apps on non-rooted Android devices
+website: https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation
+source_url: https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation
+build:
+  manifest: io.github.Universal_Debloater_Alliance.uad_ng.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Utility
+  tags: [Android, ADB, Privacy, USB]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Direct USB access lets ADB manage packages on connected Android devices.
+    - --device=all

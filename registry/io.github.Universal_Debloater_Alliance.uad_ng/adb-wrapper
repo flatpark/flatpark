@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Expose the same ADB for optional wireless pairing and connection commands.
+exec /app/extra/platform-tools/adb "$@"
