@@ -8,7 +8,7 @@
 //
 // Exit 0 = no hard failures (warnings allowed); exit 1 = hard failure(s).
 // Hard failures print `FAIL: ...`; advisory findings print `WARN: ...`.
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 const file = process.argv[2];
@@ -102,6 +102,12 @@ if (appId) {
 // update.command must be a simple relative script path (it runs in CI).
 if (updateCommand && !/^\.\/[A-Za-z0-9._-]+$/.test(updateCommand)) {
   fail(`update.command must be a simple relative script path (e.g. ./resolve-update.sh), got: ${updateCommand}`);
+}
+// check-updates.sh runs it directly, so a missing exec bit only shows up as
+// "Permission denied" in the nightly sweep.
+if (updateCommand && /^\.\/[A-Za-z0-9._-]+$/.test(updateCommand)) {
+  const script = join(dirname(file), updateCommand);
+  if (existsSync(script) && !(statSync(script).mode & 0o111)) fail(`update.command is not executable: ${updateCommand} (git update-index --chmod=+x)`);
 }
 
 // --- manifest: finish-args, sources, build-commands
