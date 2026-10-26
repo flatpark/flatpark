@@ -5,5 +5,6 @@ Comment=Display and control your Android device
 Exec=scrcpy
 Icon=com.genymobile.scrcpy
 Terminal=true
+StartupWMClass=com.genymobile.scrcpy
 Categories=Utility;RemoteAccess;
 Keywords=Android;screen;mirror;USB;ADB;
