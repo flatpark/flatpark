@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# Always pair the portable client with the ADB and server from its release.
+export ADB=/app/extra/scrcpy/adb
+export SCRCPY_SERVER_PATH=/app/extra/scrcpy/scrcpy-server
+# SDL uses the Flatpak identity for desktop window grouping.
+export SDL_APP_ID=com.genymobile.scrcpy
+exec /app/extra/scrcpy/scrcpy "$@"

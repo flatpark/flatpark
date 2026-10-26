@@ -1,0 +1,21 @@
+id: com.genymobile.scrcpy
+name: scrcpy
+summary: Display and control your Android device
+website: https://github.com/Genymobile/scrcpy
+source_url: https://github.com/Genymobile/scrcpy
+build:
+  manifest: com.genymobile.scrcpy.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Utility
+  tags: [Android, Mirroring, USB, Recording]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # ADB and libusb need direct access to Android USB devices for mirroring
+    # and OTG input. Flatpak's broad device grant also exposes other devices.
+    - --device=all

@@ -1,0 +1,54 @@
+id: com.genymobile.scrcpy
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: scrcpy
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # SDL displays the mirrored screen on Wayland or X11; IPC is for X11 SHM.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # Forward audio from the Android device to the desktop sound server.
+  - --socket=pulseaudio
+  # ADB uses localhost:5037 and TCP/IP connections to Android devices.
+  - --share=network
+  # USB mirroring and libusb OTG input require direct device access. This
+  # includes GPU devices for rendering and is declared in flatpark.yml.
+  - --device=all
+  # Keep this package's ADB authorization keys across restarts without
+  # accessing the host's existing Android keys.
+  - --persist=.android
+modules:
+  - name: scrcpy
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 scrcpy-wrapper /app/bin/scrcpy
+      - install -Dm755 adb-wrapper /app/bin/adb
+      - install -Dm644 com.genymobile.scrcpy.desktop /app/share/applications/com.genymobile.scrcpy.desktop
+      - install -Dm644 com.genymobile.scrcpy.metainfo.xml /app/share/metainfo/com.genymobile.scrcpy.metainfo.xml
+      - install -Dm644 com.genymobile.scrcpy.png /app/share/icons/hicolor/256x256/apps/com.genymobile.scrcpy.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: scrcpy.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/Genymobile/scrcpy/releases/download/v5.0.1/scrcpy-linux-x86_64-v5.0.1.tar.gz
+        sha256: 9f969d30cc574816077edecda65719c1c70b0aee1df1ba5fa00779ac07b8fd6e
+        size: 17883742
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: scrcpy-wrapper
+      - type: file
+        path: adb-wrapper
+      - type: file
+        path: com.genymobile.scrcpy.desktop
+      - type: file
+        path: com.genymobile.scrcpy.metainfo.xml
+      - type: file
+        path: com.genymobile.scrcpy.png

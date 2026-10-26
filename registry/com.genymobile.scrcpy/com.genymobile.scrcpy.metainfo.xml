@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.genymobile.scrcpy</id>
+  <name>scrcpy</name>
+  <summary>Display and control your Android device</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <description>
+    <p>Mirror an Android device over USB or TCP/IP and control it with your keyboard and mouse. scrcpy supports audio forwarding, recording, camera mirroring and virtual displays, without installing a permanent app on the device.</p>
+    <p>This is a community package of the unmodified official Linux release, including its matching ADB and Android server. Enable USB debugging on your Android device and accept its authorization prompt. USB access also requires your Linux system to permit access to the device; this package does not install host udev rules.</p>
+    <p>The package has direct device access for USB mirroring and OTG input. ADB keys are stored privately for this app. Network access permits wireless connections and communication with a host ADB server; an existing server on port 5037 may be reused.</p>
+    <p>Run command-line options with <code>flatpak run com.genymobile.scrcpy --help</code>. For wireless pairing, use <code>flatpak run --command=adb com.genymobile.scrcpy pair ADDRESS:PORT</code>, then <code>flatpak run --command=adb com.genymobile.scrcpy connect ADDRESS:PORT</code>.</p>
+    <p>Optional access to host files is disabled by default:</p>
+    <ul>
+      <li>Record into your Videos directory: <code>flatpak override --user --filesystem=xdg-videos com.genymobile.scrcpy</code>, then pass an absolute path there with the recording option.</li>
+      <li>Read files for drag-and-drop transfer from Downloads: <code>flatpak override --user --filesystem=xdg-download:ro com.genymobile.scrcpy</code>.</li>
+      <li>Undo optional overrides: <code>flatpak override --user --reset com.genymobile.scrcpy</code>.</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.genymobile.scrcpy.desktop</launchable>
+  <url type="homepage">https://github.com/Genymobile/scrcpy</url>
+  <url type="vcs-browser">https://github.com/Genymobile/scrcpy</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <provides><binary>scrcpy</binary><binary>adb</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="5.0.1" date="2026-10-08"/></releases>
+</component>

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# Expose the matching upstream ADB for wireless pairing and device selection:
+# flatpak run --command=adb com.genymobile.scrcpy pair ADDRESS:PORT
+exec /app/extra/scrcpy/adb "$@"
