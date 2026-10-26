@@ -1,6 +1,6 @@
 ---
 description: What to check when an app won't install, won't start, or forgets its settings, and how to report it.
-order: 6
+order: 7
 ---
 
 # Troubleshooting

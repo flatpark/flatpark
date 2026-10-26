@@ -1,6 +1,6 @@
 ---
 description: "Change what an app may access with flatpak override: what it is, how to check it, and the cases that come up: other disks, SSH keys, devices, the network, scaling, host commands."
-order: 3
+order: 4
 ---
 
 # flatpak override

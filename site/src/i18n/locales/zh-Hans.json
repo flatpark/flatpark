@@ -48,6 +48,7 @@
   "home.hero.point.official": "安装时直接下载厂商自己的发布产物，按 checksum 钉死——不是 FlatPark 重新构建的版本",
   "home.hero.point.signed": "repo 使用 GPG 签名，sandbox 权限收到最小，一行命令即可安装",
   "home.hero.setup": "配置指南",
+  "home.hero.rpak": "用 rpak 加速",
 
   "apps.all": "全部应用",
   "apps.browse": "按分类浏览 →",

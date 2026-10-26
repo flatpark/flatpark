@@ -48,6 +48,7 @@
   "home.hero.point.official": "Installs the vendor's own release, pinned by checksum — never a FlatPark rebuild",
   "home.hero.point.signed": "GPG-signed repo, tight sandbox, one command to install",
   "home.hero.setup": "Setup guide",
+  "home.hero.rpak": "Faster with rpak",
 
   "apps.all": "All apps",
   "apps.browse": "Browse by category →",

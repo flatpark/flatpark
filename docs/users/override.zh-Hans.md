@@ -1,6 +1,6 @@
 ---
 description: 用 flatpak override 修改应用能访问什么：它是什么、怎么检查，以及常见情况：其他磁盘、SSH 密钥、设备、网络、缩放、在系统上执行命令。
-order: 3
+order: 4
 ---
 
 # flatpak override

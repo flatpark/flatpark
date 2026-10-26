@@ -1,6 +1,6 @@
 ---
 description: Uninstall apps and their data, remove unused runtimes, and reclaim the space Flatpak keeps for downloaded installers.
-order: 5
+order: 6
 ---
 
 # Cleaning up

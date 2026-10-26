@@ -1,6 +1,6 @@
 ---
 description: 桌面把你在权限对话框里的回答（打开方式、截图、摄像头、打开过的文件）存在哪里，以及怎么检查和修改。附 calibre 选择 PDF 阅读器的例子。
-order: 4
+order: 5
 ---
 
 # 权限存储（permission store）

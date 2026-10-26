@@ -1,6 +1,6 @@
 ---
 description: Where the desktop keeps your answers to permission dialogs (open with, screenshots, the camera, files you opened), and how to check and change them. With the calibre PDF example.
-order: 4
+order: 5
 ---
 
 # Permission store

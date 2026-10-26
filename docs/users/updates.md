@@ -1,6 +1,6 @@
 ---
 description: How new versions reach you, and why every app moves to a new runtime at the same time.
-order: 2
+order: 3
 ---
 
 # Updates
