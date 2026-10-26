@@ -34,14 +34,30 @@ jobs:
             echo "validate $d"
             node scripts/read-descriptor.mjs "$d" >/dev/null
           done
+      # Every descriptor is audited, but only the apps this PR touches can fail
+      # it: an app already broken on main (e.g. merged from a branch that
+      # predates a new guardrail) is a warning here, not a block on every
+      # unrelated PR. A PR that changes the auditor itself is strict catalog-wide.
       - name: Audit every registry descriptor (review-bar guardrails)
         run: |
           set -e
           shopt -s nullglob
+          base="$(git rev-parse HEAD^1)"
+          strict_all=0
+          git diff --quiet "$base" HEAD -- scripts/audit-descriptor.mjs scripts/read-descriptor.mjs || strict_all=1
+          changed=" $(./scripts/changed-apps.sh --any-change "$base" HEAD | tr '\n' ' ') "
+          rc=0
           for d in registry/*/flatpark.yml; do
+            id="${d#registry/}"; id="${id%/flatpark.yml}"
             echo "audit $d"
-            node scripts/audit-descriptor.mjs "$d"   # exit 1 on hard fail; warnings print but pass
+            node scripts/audit-descriptor.mjs "$d" && continue   # exit 1 on hard fail; warnings print but pass
+            if [ "$strict_all" = 1 ] || [[ "$changed" == *" $id "* ]]; then
+              rc=1
+            else
+              echo "::warning title=Audit failure on an app this PR does not touch::$id fails the audit on the base branch; fix it in its own PR"
+            fi
           done
+          exit $rc
       - name: Check shield flags against the approvals doc
         run: ./scripts/check-approvals.sh
       - name: Install site deps
