@@ -38,6 +38,9 @@ jobs:
       # it: an app already broken on main (e.g. merged from a branch that
       # predates a new guardrail) is a warning here, not a block on every
       # unrelated PR. A PR that changes the auditor itself is strict catalog-wide.
+      # Each FAIL line of a blocking failure is also an error annotation on the
+      # app's flatpark.yml, so the reason shows on the PR instead of only deep
+      # in a log of every app.
       - name: Audit every registry descriptor (review-bar guardrails)
         run: |
           set -e
@@ -47,12 +50,21 @@ jobs:
           git diff --quiet "$base" HEAD -- scripts/audit-descriptor.mjs scripts/read-descriptor.mjs || strict_all=1
           changed=" $(./scripts/changed-apps.sh --any-change "$base" HEAD | tr '\n' ' ') "
           rc=0
+          log="$(mktemp)"
           for d in registry/*/flatpark.yml; do
             id="${d#registry/}"; id="${id%/flatpark.yml}"
             echo "audit $d"
-            node scripts/audit-descriptor.mjs "$d" && continue   # exit 1 on hard fail; warnings print but pass
+            # exit 1 on hard fail; warnings print but pass
+            if node scripts/audit-descriptor.mjs "$d" 2>"$log"; then
+              cat "$log" >&2; continue
+            fi
+            cat "$log" >&2
             if [ "$strict_all" = 1 ] || [[ "$changed" == *" $id "* ]]; then
               rc=1
+              sed -n 's/^FAIL: //p' "$log" | while IFS= read -r m; do
+                m="${m//'%'/%25}"
+                echo "::error file=$d,title=Descriptor audit failed: $id::$m"
+              done
             else
               echo "::warning title=Audit failure on an app this PR does not touch::$id fails the audit on the base branch; fix it in its own PR"
             fi
