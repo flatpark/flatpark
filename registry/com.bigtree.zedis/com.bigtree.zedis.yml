@@ -63,16 +63,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/vicanso/zedis/releases/download/v0.15.0/zedis-linux-x86_64.deb
-        sha256: 121c6063e67d822c4586297d1b3872d34c58b7179dbab90b3a0bb708e7fb5781
-        size: 17136176
+        url: https://github.com/vicanso/zedis/releases/download/v0.15.1/zedis-linux-x86_64.deb
+        sha256: ff38ed86b30e26178108dbe9ab7c256c4f0b27aba857e88547a25b67f8a37730
+        size: 17157132
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/vicanso/zedis/releases/download/v0.15.0/zedis-linux-aarch64.deb
-        sha256: 95a073ba225f1e093c0c3afae0094dad100eab6b0e0fa1605758bd8e4b4f3307
-        size: 15410608
+        url: https://github.com/vicanso/zedis/releases/download/v0.15.1/zedis-linux-aarch64.deb
+        sha256: 7f8989b9be26b8324fb24480bcd5a4a7531b137247275d9be71ccf06ee634b24
+        size: 15432092
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
