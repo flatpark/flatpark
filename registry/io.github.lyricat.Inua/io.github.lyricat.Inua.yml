@@ -67,9 +67,9 @@ modules:
         filename: inua.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/lyricat/inua/releases/download/v0.1.11/inua_linux_amd64.tar.gz
-        sha256: aaaed02fb34c81512f39f0fab5ab93866fed3c6e22520822756fc3a7db0c35ff
-        size: 158258679
+        url: https://github.com/lyricat/inua/releases/download/v0.1.12/inua_linux_amd64.tar.gz
+        sha256: 5b26b9f5027b3cfcef332bedd809a42feedd299dc84bdca24e4c9c3207582b34
+        size: 158262027
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
