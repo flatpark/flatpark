@@ -18,6 +18,12 @@ set -eu
 # as plain Node instead of the GUI app.
 unset ELECTRON_RUN_AS_NODE
 
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 # The app keeps its sessions, skills, MCP servers and provider settings in the
 # Claude Code config directory, which defaults to ~/.claude — under $HOME rather
 # than under the XDG base directories Flatpak redirects, and $HOME here is a

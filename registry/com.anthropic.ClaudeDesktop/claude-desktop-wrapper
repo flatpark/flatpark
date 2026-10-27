@@ -12,9 +12,10 @@ set -eu
 # so the upstream application tree remains unmodified.
 unset ELECTRON_RUN_AS_NODE
 
-# Chromium writes the tray icon to $TMPDIR and hands the tray host that path;
-# the sandbox's /tmp is private, so the host shows a placeholder. Point TMPDIR
-# at the per-app runtime dir, which is the same path inside and outside.
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
 export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
 
 cd /app/extra/claude-desktop

@@ -17,6 +17,12 @@ set -eu
 # binary start as plain Node instead of the GUI.
 unset ELECTRON_RUN_AS_NODE
 
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 export LD_LIBRARY_PATH="/app/extra/blanc/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
 # Updates arrive through Flatpak, so Blanc's built-in updater is switched off.

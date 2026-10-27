@@ -22,6 +22,13 @@ export CHROME_VERSION_EXTRA=flatpark
 # script").
 export CHROME_WRAPPER=/app/bin/helium
 export ZYPAK_SPAWN_LATEST_ON_REEXEC=1
+
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 # Widevine cannot be redistributed with the browser; when the component
 # updater downloads it into the profile, zypak has to be told that path or the
 # CDM never loads. The profile lives in $XDG_CONFIG_HOME/net.imput.helium.

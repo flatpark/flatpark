@@ -17,6 +17,12 @@ set -eu
 # binary start as plain Node instead of the GUI.
 unset ELECTRON_RUN_AS_NODE
 
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 # apply_extra resolves the launcher's upstream name (electron-builder names it
 # after productName, "Folo") from the .deb's own /usr/bin symlink and records it
 # next to the app tree, so an upstream rename cannot break an automated pin

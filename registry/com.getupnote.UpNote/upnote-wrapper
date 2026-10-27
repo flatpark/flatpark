@@ -20,6 +20,12 @@ set -eu
 
 unset ELECTRON_RUN_AS_NODE
 
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 # Chromium's tray backend claims the bus name
 # "org.freedesktop.StatusNotifierItem-<getpid()>-1" and gives up if that name is
 # refused. Inside the sandbox the app is always PID 2 in its own PID namespace,

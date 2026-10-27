@@ -18,6 +18,12 @@ set -eu
 # as plain Node instead of the GUI app.
 unset ELECTRON_RUN_AS_NODE
 
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 # The built-in password manager encrypts its store with Electron safeStorage.
 # Chromium picks the keyring backend from XDG_CURRENT_DESKTOP; on a desktop it
 # does not recognise (Hyprland, Sway, ...) it falls back to plain-text storage

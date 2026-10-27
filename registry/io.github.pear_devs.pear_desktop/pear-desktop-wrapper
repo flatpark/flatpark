@@ -16,6 +16,12 @@ set -eu
 # as plain Node instead of the GUI app.
 unset ELECTRON_RUN_AS_NODE
 
+# Chromium writes the tray icon and media cover art to files in $TMPDIR and
+# hands the desktop their paths; the sandbox's /tmp is private, so the host
+# can't read them. Point TMPDIR at the per-app runtime dir, which is the same
+# path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
 # Updates come through Flatpak, so on first run seed the app's settings with its
 # own built-in update check switched off; otherwise it offers to download a
 # release the sandboxed install cannot apply. The settings store merges only
