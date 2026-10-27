@@ -41,9 +41,13 @@ const RETRIES = Number(process.env.LINK_CHECK_RETRIES || 2);
 // Hosts whose links are verified by hand and must not fail the build on a
 // NET_ERRORS code — a vendor site that answers in a browser but is not
 // consistently routable from GitHub's runners. Only transport errors are
-// waived: an HTTP 404 or 500 from these hosts is still a broken link. The list
-// is empty today; LINK_CHECK_SOFT_OK_HOSTS appends to it (used by the tests).
+// waived: an HTTP 404 or 500 from these hosts is still a broken link.
+// LINK_CHECK_SOFT_OK_HOSTS appends to it (used by the tests).
 const SOFT_OK_HOSTS = new Set([
+  // Analog Devices (com.analog.LTspice): times out from GitHub's runners but
+  // answers 200 in a browser (#830).
+  'www.analog.com',
+  'ez.analog.com',
   ...(process.env.LINK_CHECK_SOFT_OK_HOSTS || '').split(',').filter(Boolean),
 ]);
 
