@@ -80,6 +80,24 @@ Check with `--log-session-bus` and `busctl --user list | grep StatusNotifier`.
 A Tauri app that uses `tray-icon` only as a symbol from Tauri's own ACL table
 has no tray; look for `TrayIconBuilder` in its source before adding the stack.
 
+### Tray icon shows a placeholder
+
+The item is there and clickable, but the host draws its generic icon ("•••" in
+GNOME's AppIndicator extension). Chromium and Electron write the icon to a
+file in `$TMPDIR` and pass the tray host that directory, and the sandbox's
+`/tmp` is private, so the host can't open it. The extension logs the miss in
+the host journal:
+
+```
+appindicatorsupport@rgcjonas.gmail.com: chrome_status_icon_1, Impossible to lookup icon for 'status_icon_0' in /tmp/org.chromium.Chromium.z7t6HM
+```
+
+Set `export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"` in the wrapper: that
+directory is the same path inside and outside the sandbox
+([ChatGPT](../../../registry/com.openai.ChatGPT/chatgpt-wrapper)). Never grant
+`/tmp`. Test on GNOME with the AppIndicator extension, where the placeholder
+was reported (flatpark#867).
+
 ### A second launch starts a second copy
 
 Single-instance apps own a well-known name on the session bus; a second launch

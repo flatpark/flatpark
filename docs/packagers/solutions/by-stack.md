@@ -24,8 +24,12 @@ before the PR. Each item links to the page that explains it.
   from an IDE terminal, or the test fails for a reason users never hit.
 - `StartupWMClass`: measured; it is the product name
   ([desktop integration](desktop-integration.md#windows-not-grouped-under-the-apps-icon)).
-- Media: `--own-name=org.mpris.MediaPlayer2.chromium.*` and `TMPDIR` for cover
-  art, if the app plays media
+- `export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"` in the wrapper if the app
+  has a tray icon or plays media. Chromium writes the tray icon and the cover
+  art to files in `$TMPDIR` and hands the desktop their paths, which the host
+  can't read in the sandbox's private `/tmp`
+  ([tray placeholder](desktop-integration.md#tray-icon-shows-a-placeholder)).
+- Media: `--own-name=org.mpris.MediaPlayer2.chromium.*`, if the app plays media
   ([media controls](desktop-integration.md#media-controls-mpris-missing)).
 - Saved passwords on Hyprland and Sway: `--password-store=gnome-libsecret`
   ([keyrings](system-services.md#saved-passwords-and-keyrings)).

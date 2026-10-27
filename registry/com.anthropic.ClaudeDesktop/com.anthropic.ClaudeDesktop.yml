@@ -28,6 +28,9 @@ finish-args:
   - --socket=pulseaudio
   # Desktop notifications.
   - --talk-name=org.freedesktop.Notifications
+  # Tray icon. The bundled Electron registers it under the connection's unique
+  # name, so it owns no StatusNotifierItem name and needs only the watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
   # Encrypt stored login credentials with the session keyring when present.
   - --talk-name=org.freedesktop.secrets
   # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
