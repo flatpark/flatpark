@@ -85,8 +85,15 @@ jobs:
           kept=""
           for id in $changed; do
             echo "::group::apply_extra $id"
-            if INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$id"; then
+            rc=0
+            INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$id" || rc=$?
+            if [ "$rc" = 0 ]; then
               kept="$kept $id"
+            elif [ "$rc" = 2 ]; then
+              # The download failed, so the payload was never checked. Skip this
+              # pin for today without an alert; the next sweep retries it.
+              echo "::warning title=download failed for $id::skipping this pin until the next run"
+              git checkout -- "registry/$id/"
             else
               echo "::warning title=apply_extra failed for $id::holding back this pin; the new upstream artifact does not unpack"
               # Drop this app's recomputed pin, keeping it on the last version

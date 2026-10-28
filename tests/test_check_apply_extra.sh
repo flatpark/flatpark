@@ -115,7 +115,18 @@ fi
 assert_contains "$tmp/log" "size mismatch"
 sed -i "s/^        size: .*/        size: $real_size/" "$app/$id.yml"
 
-# 4. An app with no apply_extra.sh is skipped, not failed.
+# 4. A download that fails exits 2, distinct from a broken payload, so
+#    update-check.yml can retry it next run instead of filing "no longer unpacks".
+sed -i "s#payload.zip\$#payload-gone.zip#" "$app/$id.yml"
+rc=0; run_check || rc=$?
+if [ "$rc" != 2 ]; then
+    echo "FAIL: a failed download exited $rc, want 2"
+    cat "$tmp/log"; exit 1
+fi
+assert_contains "$tmp/log" "download failed"
+sed -i "s#payload-gone.zip\$#payload.zip#" "$app/$id.yml"
+
+# 5. An app with no apply_extra.sh is skipped, not failed.
 rm "$app/apply_extra.sh"
 sed -i 's#install -Dm755 apply_extra.sh /app/bin/apply_extra#true#' "$app/$id.yml"
 assert_ok run_check

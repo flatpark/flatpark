@@ -35,6 +35,8 @@
 # instead of being blamed on the unpack script.
 #
 # Usage: check-apply-extra.sh <app-id>...
+# Exits 0 when every app passes, 2 when the only failures were downloads (the
+# payload was never checked), 1 otherwise.
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
 load_config "$ROOT"
@@ -136,8 +138,15 @@ check_one() {
     for src in "${sources[@]}"; do
         IFS=$'\t' read -r filename url want want_size <<<"$src"
         log "$APP_ID: fetching $filename"
-        curl -fsSL --retry 3 --max-time 900 -o "$work/$filename" "$url" \
-            || die "$APP_ID: download failed: $url"
+        # --retry alone skips connection resets (curl 56), which is how a CDN
+        # throttling CI runners usually fails. A download that still fails exits
+        # 2, not 1: it says nothing about apply_extra, and update-check.yml must
+        # not file it as "no longer unpacks" (issue #884).
+        if ! curl -fsSL --retry 3 --retry-all-errors --max-time 900 \
+                -o "$work/$filename" "$url"; then
+            printf '[flatpark] ERROR: %s\n' "$APP_ID: download failed: $url" >&2
+            exit 2
+        fi
         got="$(sha256sum "$work/$filename" | cut -d' ' -f1)"
         [ "$got" = "$want" ] || die "$APP_ID: sha256 mismatch for $filename (pinned $want, got $got)"
         got_size="$(stat -c%s "$work/$filename")"
@@ -188,6 +197,12 @@ check_one() {
 # leak between them — and so one failure still reports the rest.
 fail=0
 for id in "$@"; do
-    ( check_one "$id" ) || fail=1
+    rc=0
+    ( check_one "$id" ) || rc=$?
+    case "$rc" in
+        0) ;;
+        2) [ "$fail" = 1 ] || fail=2 ;;
+        *) fail=1 ;;
+    esac
 done
 exit "$fail"

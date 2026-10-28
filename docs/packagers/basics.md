@@ -351,7 +351,8 @@ The steps:
    **These two files are the only ones an update touches.**
 3. `check-apply-extra.sh` unpacks the new download with the app's
    `apply_extra.sh`. If that fails, the app keeps its old pin and an alert issue
-   is opened.
+   is opened. If only the download failed, the pin is skipped quietly and the
+   next run tries again.
 4. A PR is opened and merged by CI without review, as long as the diff touches
    only those two files (a resolver that writes anywhere else stops the merge).
    `publish.yml` then rebuilds only the changed apps, signs the repo and
