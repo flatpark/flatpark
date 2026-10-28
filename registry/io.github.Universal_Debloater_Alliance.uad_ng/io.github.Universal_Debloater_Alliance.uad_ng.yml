@@ -26,7 +26,7 @@ modules:
       - install -Dm755 adb-wrapper /app/bin/adb
       - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.desktop /app/share/applications/io.github.Universal_Debloater_Alliance.uad_ng.desktop
       - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.metainfo.xml /app/share/metainfo/io.github.Universal_Debloater_Alliance.uad_ng.metainfo.xml
-      - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.png /app/share/icons/hicolor/500x500/apps/io.github.Universal_Debloater_Alliance.uad_ng.png
+      - install -Dm644 io.github.Universal_Debloater_Alliance.uad_ng.png /app/share/icons/hicolor/512x512/apps/io.github.Universal_Debloater_Alliance.uad_ng.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
