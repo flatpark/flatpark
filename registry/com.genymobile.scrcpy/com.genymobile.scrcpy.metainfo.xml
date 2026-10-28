@@ -7,8 +7,7 @@
   <project_license>Apache-2.0</project_license>
   <description>
     <p>Mirror an Android device over USB or TCP/IP and control it with your keyboard and mouse. scrcpy supports audio forwarding, recording, camera mirroring and virtual displays, without installing a permanent app on the device.</p>
-    <p>This is a community package of the unmodified official Linux release, including its matching ADB and Android server. Enable USB debugging on your Android device and accept its authorization prompt. USB access also requires your Linux system to permit access to the device; this package does not install host udev rules.</p>
-    <p>The package has direct device access for USB mirroring and OTG input. ADB keys are stored privately for this app. Network access permits wireless connections and communication with a host ADB server; an existing server on port 5037 may be reused.</p>
+<p>scrcpy includes its own ADB version. If a host ADB server is already running on port 5037 with a different version, the bundled ADB client may restart that server. This can temporarily interrupt other ADB connections.</p>    <p>The package has direct device access for USB mirroring and OTG input. ADB keys are stored privately for this app. Network access permits wireless connections and communication with a host ADB server; an existing server on port 5037 may be reused.</p>
     <p>Run command-line options with <code>flatpak run com.genymobile.scrcpy --help</code>. For wireless pairing, use <code>flatpak run --command=adb com.genymobile.scrcpy pair ADDRESS:PORT</code>, then <code>flatpak run --command=adb com.genymobile.scrcpy connect ADDRESS:PORT</code>.</p>
     <p>Optional access to host files is disabled by default:</p>
     <ul>
