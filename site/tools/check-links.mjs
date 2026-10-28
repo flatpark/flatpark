@@ -38,16 +38,28 @@ const NET_ERRORS = new Set([
 ]);
 const RETRIES = Number(process.env.LINK_CHECK_RETRIES || 2);
 
+// Certificate errors: the server is up and answering, but the TLS handshake is
+// refused. Never waived on their own — only for SOFT_OK_HOSTS below.
+const TLS_ERRORS = new Set([
+  'CERT_HAS_EXPIRED',
+  'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
+  'UNABLE_TO_GET_ISSUER_CERT_LOCALLY',
+]);
+
 // Hosts whose links are verified by hand and must not fail the build on a
-// NET_ERRORS code — a vendor site that answers in a browser but is not
-// consistently routable from GitHub's runners. Only transport errors are
-// waived: an HTTP 404 or 500 from these hosts is still a broken link.
+// NET_ERRORS or TLS_ERRORS code — a vendor site that answers in a browser but
+// is not consistently routable from GitHub's runners, or that lets its
+// certificate lapse. Only transport errors are waived: an HTTP 404 or 500 from
+// these hosts is still a broken link.
 // LINK_CHECK_SOFT_OK_HOSTS appends to it (used by the tests).
 const SOFT_OK_HOSTS = new Set([
   // Analog Devices (com.analog.LTspice): times out from GitHub's runners but
   // answers 200 in a browser (#830).
   'www.analog.com',
   'ez.analog.com',
+  // TRF3 (br.jus.cnj.PJeOfficePro): the court's site serves an expired
+  // certificate; the pages are still the app's only homepage and docs (#878).
+  'pjeoffice.trf3.jus.br',
   ...(process.env.LINK_CHECK_SOFT_OK_HOSTS || '').split(',').filter(Boolean),
 ]);
 
@@ -162,7 +174,8 @@ async function check(entry) {
     await sleep(500 * 2 ** (i - 1));
     res = await probe(entry);
   }
-  if (!res.ok && NET_ERRORS.has(res.error) && SOFT_OK_HOSTS.has(hostOf(entry.url))) {
+  const waivable = NET_ERRORS.has(res.error) || TLS_ERRORS.has(res.error);
+  if (!res.ok && waivable && SOFT_OK_HOSTS.has(hostOf(entry.url))) {
     return { ...entry, status: res.error, ok: true, warn: true };
   }
   return res;
