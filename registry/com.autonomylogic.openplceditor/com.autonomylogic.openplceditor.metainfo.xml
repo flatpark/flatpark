@@ -22,5 +22,8 @@
   <developer id="com.autonomylogic"><name>Autonomy Logic</name></developer>
   <provides><binary>openplc-editor</binary></provides>
   <content_rating type="oars-1.1"/>
-  <releases><release version="4.3.2" date="2026-09-29"/></releases>
+  <releases>
+    <release version="4.3.3" date="2026-10-28">
+      <description></description>
+    </release><release version="4.3.2" date="2026-09-29"/></releases>
 </component>

@@ -43,6 +43,9 @@
     <binary>flow</binary>
   </provides>
   <releases>
+    <release version="0.1.0-beta3" date="2026-10-28">
+      <description></description>
+    </release>
     <release version="0.1.0-beta2" date="2026-08-26" />
     <release version="0.1.0-beta" date="2026-07-18" />
   </releases>
