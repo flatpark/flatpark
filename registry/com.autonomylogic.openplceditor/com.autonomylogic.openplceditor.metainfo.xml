@@ -7,6 +7,7 @@
   <summary>Create and compile IEC 61131-3 programs for OpenPLC</summary>
   <description>
     <p>OpenPLC Editor is an integrated development environment for creating PLC programs using IEC 61131-3 languages, including Ladder Diagram, Function Block Diagram and Structured Text. Create projects, compile programs and connect to OpenPLC runtimes over the network.</p>
+    <p>OpenPLC Runtime runs separately and can be deployed in a Docker or Podman container. See the official OpenPLC Runtime documentation for setup and connection instructions.</p>
     <p>This community package uses the official upstream AppImage unmodified. Updates are delivered by Flatpak.</p>
     <p>Optional access can be enabled for hardware and existing Arduino libraries:</p>
     <ul>
@@ -17,6 +18,7 @@
   </description>
   <launchable type="desktop-id">com.autonomylogic.openplceditor.desktop</launchable>
   <url type="homepage">https://autonomylogic.com/</url>
+  <url type="help">https://github.com/Autonomy-Logic/openplc-runtime</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/Autonomy-Logic/openplc-editor</url>
   <developer id="com.autonomylogic"><name>Autonomy Logic</name></developer>
