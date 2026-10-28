@@ -13,13 +13,16 @@ api="https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/instal
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-url="$(curl -fsS -o /dev/null -w '%{redirect_url}' "$api")"
+url="$(curl -fsS --retry 3 --retry-all-errors -o /dev/null -w '%{redirect_url}' "$api")"
 case "$url" in
     https://*.epicgames.com/Builds/EGLv2/*/Linux/EpicGamesLauncher-x86_64.AppImage*) ;;
     *) echo "unexpected redirect from the installer API: '$url'" >&2; exit 1 ;;
 esac
 # Drop the query string (?launcherfilename=...); the path alone is the build.
 url="${url%%\?*}"
+# Some answers encode the "+" twice (%252B instead of %2B; seen from GitHub's
+# runners, #883). Normalise so the version parses and the pin stays the same URL.
+url="${url//%252B/%2B}"
 build="$(sed -E 's#.*/Builds/EGLv2/([^/]+)/Linux/.*#\1#' <<<"$url")"
 build="${build//%2B/+}"
 version="${build%%+*}"

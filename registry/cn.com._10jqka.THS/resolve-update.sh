@@ -19,8 +19,9 @@ set -euo pipefail
 readonly DOWNLOAD_ID=596
 readonly REDIRECT_URL="https://download.10jqka.com.cn/index/download/id/${DOWNLOAD_ID}/"
 
-# The download center answers 403 to curl's default User-Agent.
-url="$(curl -fsSL -A 'Mozilla/5.0' -o /dev/null -w '%{url_effective}' "$REDIRECT_URL")"
+# The download center answers 403 to curl's default User-Agent. It also resets
+# connections from GitHub's runners now and then (#883), hence the retries.
+url="$(curl -fsSL --retry 3 --retry-all-errors -A 'Mozilla/5.0' -o /dev/null -w '%{url_effective}' "$REDIRECT_URL")"
 
 filename="${url##*/}"
 if [[ ! "$filename" =~ ^cn\.com\.10jqka_kylin_([0-9]+(\.[0-9]+)+)_amd64\.deb$ ]]; then
@@ -33,7 +34,7 @@ version="${BASH_REMATCH[1]}"
 # The landing page carries no release date; fall back to the file's own
 # Last-Modified, which upstream sets when it publishes a build.
 release_date=""
-last_modified="$(curl -fsSLI "$url" | tr -d '\r' | sed -n 's/^[Ll]ast-[Mm]odified: //p' | tail -1)"
+last_modified="$(curl -fsSLI --retry 3 --retry-all-errors "$url" | tr -d '\r' | sed -n 's/^[Ll]ast-[Mm]odified: //p' | tail -1)"
 if [ -n "$last_modified" ]; then
     release_date="$(date -u -d "$last_modified" +%Y-%m-%d 2>/dev/null || true)"
 fi
