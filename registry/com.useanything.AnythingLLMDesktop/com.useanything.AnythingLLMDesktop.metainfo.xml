@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.useanything.AnythingLLMDesktop</id>
+  <name>AnythingLLM</name>
+  <summary>Chat with documents using local or cloud AI models</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.mintplexlabs"><name>Mintplex Labs</name></developer>
+  <url type="homepage">https://anythingllm.com</url>
+  <url type="vcs-browser">https://github.com/Mintplex-Labs/anything-llm</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>This is a community package of AnythingLLM, maintained independently. It repackages the official upstream Linux desktop build unmodified.</p>
+    <p>The application downloads its local inference engines and models into its private data directory. You can also connect a separately running inference server or cloud provider.</p>
+    <p>Create workspaces, import documents and chat with local or cloud AI models. Connect to inference servers through their network endpoints.</p>
+    <p>Meeting Assistant transcription and meeting-audio imports are unavailable in this package.</p>
+    <p>On systems without working GPU rendering, start with: flatpak run com.useanything.AnythingLLMDesktop --disable-gpu</p>
+    <p>Update the application with Flatpak. Host command execution, host software installation and control of other desktop applications are unavailable inside the sandbox.</p>
+    <p>Files selected through the file chooser need no general home-directory access. For agent access to your Documents folder, enable: flatpak override --user --filesystem=xdg-documents com.useanything.AnythingLLMDesktop</p>
+    <p>Undo optional permissions with: flatpak override --user --reset com.useanything.AnythingLLMDesktop</p>
+  </description>
+  <launchable type="desktop-id">com.useanything.AnythingLLMDesktop.desktop</launchable>
+  <categories><category>Office</category><category>Utility</category></categories>
+  <keywords><keyword>AI</keyword><keyword>LLM</keyword><keyword>documents</keyword><keyword>chat</keyword></keywords>
+  <content_rating type="oars-1.1"/>
+  <recommends><control>keyboard</control><control>pointing</control></recommends>
+  <provides><binary>anythingllm</binary></provides>
+  <releases><release version="1.19.0" date="2026-10-26"/></releases>
+</component>

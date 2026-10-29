@@ -1,0 +1,18 @@
+id: com.useanything.AnythingLLMDesktop
+name: AnythingLLM
+summary: Chat with documents using local or cloud AI models
+website: https://anythingllm.com
+source_url: https://github.com/Mintplex-Labs/anything-llm
+build:
+  manifest: com.useanything.AnythingLLMDesktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  tags: [AI, LLM, Documents, Chat, Electron]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

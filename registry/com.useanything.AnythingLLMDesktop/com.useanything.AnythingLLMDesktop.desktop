@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=AnythingLLM
+Comment=Chat with documents using local or cloud AI models
+Exec=anythingllm %U
+Terminal=false
+Type=Application
+Icon=com.useanything.AnythingLLMDesktop
+StartupWMClass=anythingllm-desktop
+MimeType=x-scheme-handler/anythingllm;
+Categories=Office;Utility;

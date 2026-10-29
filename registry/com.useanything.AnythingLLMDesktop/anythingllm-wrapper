@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Avoid inheriting Electron's Node mode from an IDE terminal.
+unset ELECTRON_RUN_AS_NODE
+# Match upstream AppRun's bundled library lookup.
+export LD_LIBRARY_PATH="/app/extra/anythingllm/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Make media artwork paths visible to the host desktop.
+export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+launcher="$(cat /app/extra/launcher)"
+# The Electron base's zypak preserves Chromium's sandbox inside Flatpak.
+exec zypak-wrapper "/app/extra/anythingllm/$launcher" --ozone-platform-hint=auto "$@"

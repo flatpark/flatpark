@@ -1,0 +1,68 @@
+id: com.useanything.AnythingLLMDesktop
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# The Electron base supplies zypak for Chromium's sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: anythingllm
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Chromium shared memory and display integration.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Local inference endpoints, model downloads and remote providers.
+  - --share=network
+  # Accelerated rendering and local inference through render devices.
+  - --device=dri
+  # Voice input and audio playback.
+  - --socket=pulseaudio
+  # Register the desktop tray item.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Desktop notifications for background jobs and tray state.
+  - --talk-name=org.freedesktop.Notifications
+  # Electron credential storage.
+  - --talk-name=org.freedesktop.secrets
+  # Chromium media sessions, when audio is playing.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # Clear IDE terminal variables in zypak's spawned children as well.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: anythingllm
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 anythingllm-wrapper /app/bin/anythingllm
+      - install -Dm644 com.useanything.AnythingLLMDesktop.desktop /app/share/applications/com.useanything.AnythingLLMDesktop.desktop
+      - install -Dm644 com.useanything.AnythingLLMDesktop.metainfo.xml /app/share/metainfo/com.useanything.AnythingLLMDesktop.metainfo.xml
+      - install -Dm644 com.useanything.AnythingLLMDesktop.png /app/share/icons/hicolor/512x512/apps/com.useanything.AnythingLLMDesktop.png
+    sources:
+      # Offline extraction tools must be extra-data: /app/bin is unavailable
+      # during system-wide apply_extra. Keep outside the updater's block.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: anythingllm.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/Mintplex-Labs/anything-llm/releases/download/v1.19.0/AnythingLLMDesktop.AppImage
+        sha256: 8b407abafa281e5f2b58af04399011784894a5a0414fb58eb32062dad6cc8ef2
+        size: 905441828
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: anythingllm-wrapper
+      - type: file
+        path: com.useanything.AnythingLLMDesktop.desktop
+      - type: file
+        path: com.useanything.AnythingLLMDesktop.metainfo.xml
+      - type: file
+        path: com.useanything.AnythingLLMDesktop.png
