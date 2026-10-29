@@ -23,7 +23,7 @@ modules:
       - install -Dm755 mujoco-wrapper /app/bin/mujoco
       - install -Dm644 io.github.google_deepmind.MuJoCo.desktop /app/share/applications/io.github.google_deepmind.MuJoCo.desktop
       - install -Dm644 io.github.google_deepmind.MuJoCo.metainfo.xml /app/share/metainfo/io.github.google_deepmind.MuJoCo.metainfo.xml
-      - install -Dm644 io.github.google_deepmind.MuJoCo.png /app/share/icons/hicolor/192x192/apps/io.github.google_deepmind.MuJoCo.png
+      - install -Dm644 io.github.google_deepmind.MuJoCo.png /app/share/icons/hicolor/128x128/apps/io.github.google_deepmind.MuJoCo.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
