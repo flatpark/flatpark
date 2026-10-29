@@ -38,9 +38,9 @@ modules:
         filename: omedit.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/rhgKc2yp/OMEdit-release/releases/download/v1.27.1-r0191e26d6ea97c48/omedit-1.27.1-r0191e26d6ea97c48-x86_64.tar.gz
-        sha256: 424695a2b3bb963385decca45dbfd19483899bc8458d443906952c32d8f3a7f2
-        size: 252269895
+        url: https://github.com/rhgKc2yp/OMEdit-release/releases/download/v1.27.1-r794d7f266ab03c34/omedit-1.27.1-r794d7f266ab03c34-x86_64.tar.gz
+        sha256: bb7b634028061bfa2668b7539b14a7542eb1cfdffdfa9b00f329a5ea7a4dcfdb
+        size: 252269251
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

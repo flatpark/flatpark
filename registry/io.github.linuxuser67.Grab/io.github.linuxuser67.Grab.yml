@@ -51,16 +51,16 @@ modules:
         filename: grab.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/Linuxuser67/Grab/releases/download/v6.4.5/Grab-6.4.5-linux-x86_64.tar.gz
-        sha256: b632971c5b768fca964b758afee949a9c0cf35f529f3c21cd732bb1cfac909f1
-        size: 7518602
+        url: https://github.com/Linuxuser67/Grab/releases/download/6.4.6/Grab-6.4.6-linux-x86_64.tar.gz
+        sha256: 4a19330bb9e37438a3a71ef222dacca4224ed73cc13f6f637b48444774bb48f9
+        size: 7374030
       - type: extra-data
         filename: grab.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/Linuxuser67/Grab/releases/download/v6.4.5/Grab-6.4.5-linux-aarch64.tar.gz
-        sha256: 60b47b37627b5641f1bbc429082610d0999bc43a1b5075cb7af2b281fdbe9a54
-        size: 7033428
+        url: https://github.com/Linuxuser67/Grab/releases/download/6.4.6/Grab-6.4.6-linux-aarch64.tar.gz
+        sha256: 1aca304ed476bb292f6dd4400aad39e8c3714f39b67e0f68f9a019124c5432ea
+        size: 6898277
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
