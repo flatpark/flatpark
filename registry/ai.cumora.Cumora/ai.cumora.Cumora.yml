@@ -65,9 +65,9 @@ modules:
         filename: cumora-amd64.deb
         only-arches:
           - x86_64
-        url: https://github.com/yetone/cumora-releases/releases/download/v0.18.8/cumora_0.18.8_amd64.deb
-        sha256: 1462875a747bfaf1b0fcd97f69bbd7c420ed4a5f40de29de816ca154210f4861
-        size: 108859824
+        url: https://github.com/yetone/cumora-releases/releases/download/v0.18.9/cumora_0.18.9_amd64.deb
+        sha256: 2912c4cf7cef60ae379f0dbcfbe637603f3db1c82ab82731d6bc0677d21f3546
+        size: 109461726
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
