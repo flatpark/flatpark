@@ -38,6 +38,9 @@
     <binary>epic-games-launcher</binary>
   </provides>
   <releases>
+    <release version="0.106.0">
+      <description></description>
+    </release>
     <release version="0.105.0">
       <description></description>
     </release>

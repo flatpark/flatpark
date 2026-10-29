@@ -65,9 +65,9 @@ modules:
         filename: fluent-reader.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/yang991178/fluent-reader/releases/download/v1.3.1/Fluent.Reader.1.3.1.AppImage
-        sha256: 110b7c37611a3eaca92ce7e174990376c5aa924f77c1ad0ea817ea674a922f0b
-        size: 137492260
+        url: https://github.com/yang991178/fluent-reader/releases/download/v1.3.2/Fluent.Reader.1.3.2.AppImage
+        sha256: 555bd609f4131f5f99e89207eaf65ee93683916acade50320835783f7db4eb4a
+        size: 138216800
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

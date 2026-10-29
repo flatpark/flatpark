@@ -54,9 +54,9 @@ modules:
         filename: whalebird.deb
         only-arches:
           - x86_64
-        url: https://github.com/h3poteto/whalebird-desktop/releases/download/v6.3.0/Whalebird-6.3.0-linux-amd64.deb
-        sha256: 608d2b031924dd3d4a8e780567d73f17de1b108ca591843c997d288e84385348
-        size: 113985924
+        url: https://github.com/h3poteto/whalebird-desktop/releases/download/v6.3.1/Whalebird-6.3.1-linux-amd64.deb
+        sha256: dbf97ae0ee1ed54ccc012fbcfeec5806576791e869361f8ba19a6ca0fb743335
+        size: 122877588
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -48,6 +48,9 @@
     <binary>whalebird</binary>
   </provides>
   <releases>
+    <release version="6.3.1" date="2026-10-29">
+      <description></description>
+    </release>
     <release version="6.3.0" date="2026-05-02">
       <description></description>
     </release>

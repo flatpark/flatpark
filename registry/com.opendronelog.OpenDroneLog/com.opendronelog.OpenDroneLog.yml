@@ -55,9 +55,9 @@ modules:
         filename: open-dronelog.deb
         only-arches:
           - x86_64
-        url: https://github.com/arpanghosh8453/open-dronelog/releases/download/3.3.1/open-dronelog_3.3.1_linux_amd64.deb
-        sha256: 09c2072a271f8d3dc7948cd2fa96cd0fae1df4ff24f90799cd3312eda7f6a99e
-        size: 17826632
+        url: https://github.com/arpanghosh8453/open-dronelog/releases/download/3.3.2/open-dronelog_3.3.2_linux_amd64.deb
+        sha256: c1d573e514e75df5053a4417edf9ff91c6b6c1a882f83498237dc344821a6913
+        size: 17843554
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
