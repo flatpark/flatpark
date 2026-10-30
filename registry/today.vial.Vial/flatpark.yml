@@ -1,0 +1,38 @@
+# FlatPark catalog descriptor for Vial.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; today.vial.Vial.yml is the Flatpak manifest it
+# points at.
+#
+# The app id follows upstream's own identifier: the macOS bundle is
+# "today.vial" (src/build/settings/mac.json) and the Qt organization domain is
+# vial.today. Vial has no Flatpak of its own and is not on Flathub.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: today.vial.Vial
+name: Vial
+summary: Configure QMK and Vial keyboards in real time
+website: https://get.vial.today/
+source_url: https://github.com/vial-kb/vial-gui
+build:
+  manifest: today.vial.Vial.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - Keyboard
+    - QMK
+    - VIA
+    - Keymap
+    - Qt
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Vial talks to the keyboard through /dev/hidraw*, which no narrower
+    # --device exposes; detecting and configuring a keyboard is the whole app.
+    - --device=all

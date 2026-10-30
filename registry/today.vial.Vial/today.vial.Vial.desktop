@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Vial
+GenericName=Keyboard Configurator
+Comment=Configure QMK and Vial keyboards in real time
+Exec=vial
+Icon=today.vial.Vial
+Terminal=false
+Categories=Utility;Settings;HardwareSettings;
+Keywords=keyboard;keymap;QMK;VIA;macro;layout;
+StartupNotify=true
+StartupWMClass=Vial

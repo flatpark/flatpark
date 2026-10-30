@@ -1,0 +1,76 @@
+id: today.vial.Vial
+# Upstream's AppImage is a PyInstaller one-dir bundle (opt/Vial): its own
+# Python 3.6, PyQt5 and Qt 5 with the xcb platform plugin, hidapi, and the
+# libraries those link. It needs nothing Qt from the runtime, so this is the
+# freedesktop base; the only module below installs our own launcher, desktop
+# entry, icon and AppStream data.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: vial
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # The bundled Qt has only the xcb platform plugin, and upstream's AppRun sets
+  # QT_QPA_PLATFORM=xcb, so the window is an X11 one (XWayland on a Wayland
+  # session). Plain x11 rather than fallback-x11, which would withhold the X
+  # socket exactly when a compositor is present.
+  - --socket=x11
+  - --device=dri
+  # Keyboards are found and configured over hidraw (hidapi's hidraw backend,
+  # /dev/hidraw*), which only --device=all exposes. The host still needs
+  # upstream's udev rule giving the user access to the device; the metainfo
+  # says so. Declared in policy.dangerous_permissions.
+  - --device=all
+  # File -> "Download VIA definitions" fetches the VIA keyboard stack from
+  # GitHub. Configuring a Vial keyboard itself is offline.
+  - --share=network
+  # .vil layouts and VIA JSON definitions are loaded and saved through Qt's own
+  # file dialog, which only sees what the sandbox grants. Documents for saved
+  # layouts, Downloads for definitions fetched in a browser. Settings
+  # (QSettings), the cache and vial.log stay under ~/.var/app/today.vial.Vial.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+modules:
+  - name: vial
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 vial-wrapper /app/bin/vial
+      - install -Dm644 today.vial.Vial.desktop /app/share/applications/today.vial.Vial.desktop
+      - install -Dm644 today.vial.Vial.metainfo.xml /app/share/metainfo/today.vial.Vial.metainfo.xml
+      - install -Dm644 today.vial.Vial.png /app/share/icons/hicolor/512x512/apps/today.vial.Vial.png
+    sources:
+      # appimage-offset + unsquashfs, so apply_extra can open the AppImage
+      # offline with no FUSE. Extra-data rather than /app/bin because a
+      # system-wide install runs apply_extra with only the runtime /usr and
+      # /app/extra visible. Kept OUTSIDE the managed block, which the updater
+      # rebuilds from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: vial.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/vial-kb/vial-gui/releases/download/v0.7.5/Vial-v0.7.5-x86_64.AppImage
+        sha256: b0df22fcc38f85a2d9e2224d2b3fcc76944819365557f1b9a83ee8f880fc7403
+        size: 40045048
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: vial-wrapper
+      - type: file
+        path: today.vial.Vial.desktop
+      - type: file
+        path: today.vial.Vial.metainfo.xml
+      - type: file
+        path: today.vial.Vial.png

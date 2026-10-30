@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# Vial is upstream's AppImage tree staged by apply_extra at /app/extra/vial.
+# AppRun is upstream's own launcher: it sets QT_QPA_PLATFORM=xcb (the bundled
+# Qt has no Wayland plugin) and execs the PyInstaller bundle, which puts its
+# own libraries on the path itself.
+exec /app/extra/vial/AppRun "$@"

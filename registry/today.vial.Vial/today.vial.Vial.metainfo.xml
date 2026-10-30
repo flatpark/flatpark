@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>today.vial.Vial</id>
+  <launchable type="desktop-id">today.vial.Vial.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-only</project_license>
+  <name>Vial</name>
+  <summary>Configure QMK and Vial keyboards in real time</summary>
+  <developer id="today.vial">
+    <name>Vial</name>
+  </developer>
+  <url type="homepage">https://get.vial.today/</url>
+  <url type="help">https://get.vial.today/manual/</url>
+  <url type="bugtracker">https://github.com/vial-kb/vial-gui/issues</url>
+  <url type="vcs-browser">https://github.com/vial-kb/vial-gui</url>
+  <description>
+    <p>This is a community package of Vial, maintained independently and unaffiliated with the Vial project. It repackages the official upstream AppImage unmodified and follows upstream releases automatically.</p>
+    <p>Vial is an open-source GUI and a QMK fork for configuring your keyboard in real time. Changes are written to the keyboard as you make them, with no firmware to compile or flash.</p>
+    <ul>
+      <li>Remap keys on every layer, with the full QMK keycode set.</li>
+      <li>Macros, tap dance, combos, key overrides and alt-repeat keys.</li>
+      <li>Rotary encoders, backlight and RGB lighting, and QMK settings.</li>
+      <li>Save and load layouts as .vil files.</li>
+      <li>Supports VIA keyboards after downloading the VIA definitions from the File menu.</li>
+    </ul>
+    <p>Keyboards are reached through the Linux hidraw devices, so the host needs a udev rule that gives your user access to them; without it Vial reports "No devices detected". Upstream's guide has a ready-made rule: https://get.vial.today/manual/linux-udev.html</p>
+    <p>Permissions: this package grants raw device access (for the keyboard's hidraw device), the display, network access (downloading the VIA definitions) and your Documents and Downloads folders, where layouts and definitions are opened and saved. To reach layouts kept elsewhere, grant that folder, for example: <code>flatpak override --user --filesystem=~/keyboards today.vial.Vial</code></p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://get.vial.today/img/vial-win-1.png</image>
+      <caption>Editing a keymap</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+    <category>Settings</category>
+    <category>HardwareSettings</category>
+  </categories>
+  <keywords>
+    <keyword>keyboard</keyword>
+    <keyword>keymap</keyword>
+    <keyword>QMK</keyword>
+    <keyword>VIA</keyword>
+    <keyword>macro</keyword>
+  </keywords>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <releases>
+    <release version="0.7.5" date="2025-08-02"/>
+  </releases>
+</component>
