@@ -10,7 +10,11 @@
 # `<id>\t<reason>` (the reason is the last stderr line), which is what the
 # update workflow turns into its resolver-failure alert.
 #
-# Usage: check-updates.sh [app-id ...]   (default: every app with an update cmd)
+# An app with `update.auto: false` is skipped too: its upstream opens the
+# update PR itself and a pin-only refresh would race it. FORCE=1 runs its
+# resolver anyway, for when that upstream PR doesn't come.
+#
+# Usage: [FORCE=1] check-updates.sh [app-id ...]   (default: every app with an update cmd)
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
 load_config "$ROOT"
@@ -31,6 +35,8 @@ changed=()
 for id in "${apps[@]}"; do
     load_app "$id"
     [ -n "${APP_UPDATE_COMMAND:-}" ] || { log "$id: no update command, skipping"; continue; }
+    [ "$APP_UPDATE_AUTO" != false ] || [ "${FORCE:-}" = 1 ] ||
+        { log "$id: update.auto is false (upstream sends the PR), skipping"; continue; }
     [ -f "$MANIFEST" ] || { warn "$id: manifest not found ($MANIFEST)"; continue; }
 
     log "$id: resolving via $APP_UPDATE_COMMAND"

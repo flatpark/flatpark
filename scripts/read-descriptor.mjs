@@ -7,7 +7,7 @@
 // controlled, so we extract exactly the known paths (id, name, summary,
 // website, source_url, build.{manifest,branch,mode,arches},
 // catalog.{category,tags},
-// update.command). Keeping it dependency-free means the core bash pipeline only
+// update.{command,auto}). Keeping it dependency-free means the core bash pipeline only
 // needs `node`, not an npm install.
 import { readFileSync } from 'node:fs';
 
@@ -107,6 +107,7 @@ for (const raw of text.split('\n')) {
     }
   } else if (section === 'update') {
     if (key === 'command') d.update_command = unquote(val);
+    else if (key === 'auto') d.update_auto = unquote(val);
   }
   // maintainer / policy blocks are not needed by the build pipeline.
 }
@@ -155,5 +156,6 @@ const out = [
   `_FP_WEBSITE=${sq(d.website || '')}`,
   `_FP_SOURCE_URL=${sq(d.source_url || '')}`,
   `_FP_UPDATE_COMMAND=${sq(d.update_command || '')}`,
+  `_FP_UPDATE_AUTO=${sq(d.update_auto === 'false' ? 'false' : 'true')}`,
 ].join('\n');
 process.stdout.write(out + '\n');

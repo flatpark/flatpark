@@ -195,7 +195,7 @@ load_app() {
     desc="$(node "$ROOT/scripts/read-descriptor.mjs" "$record")" \
         || die "failed to read descriptor: $record"
     local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
-          _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND
+          _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
     # shellcheck disable=SC1090
     eval "$desc"
 
@@ -218,17 +218,18 @@ load_app() {
     : "${APP_REF_URL:=${REPO_URL%/}/$APP_ID.flatpakref}"
     : "${APP_ICON:=}"
     APP_UPDATE_COMMAND="$_FP_UPDATE_COMMAND"
+    APP_UPDATE_AUTO="$_FP_UPDATE_AUTO"   # false: upstream sends the update PR itself
 
     local var
     for var in APP_ID APP_NAME APP_SUMMARY APP_BRANCH APP_ARCHES APP_SRC MANIFEST APP_REF_URL UPDATE_MODE; do
         [ -n "${!var-}" ] || die "app registry entry $record did not set $var"
         declare -g "$var=${!var}"
     done
-    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND; do
+    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO; do
         declare -g "$var=${!var}"
     done
     unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
-          _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND
+          _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
 }
 
 # True when the loaded app (load_app) is published for the given arch.

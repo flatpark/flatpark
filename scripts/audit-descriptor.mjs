@@ -32,7 +32,7 @@ function unquote(v) {
   return v;
 }
 
-// --- descriptor: build.manifest, update.command, policy.{proprietary,dangerous_permissions}
+// --- descriptor: build.manifest, update.{command,auto}, policy.{proprietary,dangerous_permissions}
 let descText;
 try {
   descText = readText(file);
@@ -44,6 +44,7 @@ try {
 let appId = '';
 let manifestName = '';
 let updateCommand = '';
+let updateAuto = null;
 let proprietary = null;
 const dangerousPerms = [];
 const packagingKinds = [];
@@ -75,6 +76,7 @@ const packagingKinds = [];
     const [, k, v] = m;
     if (section === 'build' && k === 'manifest') manifestName = unquote(v);
     else if (section === 'update' && k === 'command') updateCommand = unquote(v);
+    else if (section === 'update' && k === 'auto') updateAuto = unquote(v);
     else if (section === 'policy') {
       if (k === 'proprietary') proprietary = unquote(v) === 'true';
       else if (k === 'dangerous_permissions') {
@@ -102,6 +104,11 @@ if (appId) {
 // update.command must be a simple relative script path (it runs in CI).
 if (updateCommand && !/^\.\/[A-Za-z0-9._-]+$/.test(updateCommand)) {
   fail(`update.command must be a simple relative script path (e.g. ./resolve-update.sh), got: ${updateCommand}`);
+}
+// read-descriptor.mjs treats anything but `false` as on, so a typo would
+// silently re-enable the sweep.
+if (updateAuto !== null && updateAuto !== 'true' && updateAuto !== 'false') {
+  fail(`update.auto must be true or false, got: ${updateAuto}`);
 }
 // check-updates.sh runs it directly, so a missing exec bit only shows up as
 // "Permission denied" in the nightly sweep.

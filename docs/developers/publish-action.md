@@ -109,6 +109,10 @@ workflow never holds a FlatPark credential.
   `AUTO_MERGE_PINS=false` stops both from merging.
 - **Several releases on one day** give several small PRs, each published on its
   own. The twice-daily sweep supersedes any per-app PR still open.
+- **`update.auto: false`** in the app's `flatpark.yml` makes both workflows skip
+  it: that upstream sends its own update PR instead (see
+  [basics](../packagers/basics.md#what-an-update-changes)). A ping for such an
+  app is accepted and does nothing.
 - **Which apps use it:** PRs from `auto/release-*` branches.
 - **Packaging for an adopter:** set `source_url` to the GitHub repository the
   releases come from, or the webhook refuses the pings.

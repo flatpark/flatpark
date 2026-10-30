@@ -360,6 +360,14 @@ The steps:
 5. Users get the update on their next `flatpak update`, which downloads the new
    file and runs `apply_extra.sh` again.
 
+**When upstream sends the update PR itself.** Some upstreams open a FlatPark PR
+from their release workflow that carries more than the pins: release notes,
+screenshots, a changed `finish-args`. The pin refresh would race that PR and
+ship the release without them. Set `auto: false` under `update:` with a comment
+saying why; both triggers then skip the app and the upstream PR is reviewed and
+merged by hand. Keep the resolver: when the upstream PR doesn't come,
+`FORCE=1 ./scripts/check-updates.sh <id>` runs it anyway.
+
 `debian-pins.yml` re-pins the managed Debian blocks on its own schedule, because
 Debian deletes a superseded package from its pool and new installs would fail
 on the download while the app itself hasn't changed.
