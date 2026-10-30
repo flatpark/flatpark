@@ -13,6 +13,7 @@ finish-args:
   - --share=ipc
   # Forward audio from the Android device to the desktop sound server.
   - --socket=pulseaudio
+  - --filesystem=xdg-run/pipewire-0:ro
   # ADB uses localhost:5037 and TCP/IP connections to Android devices.
   - --share=network
   # USB mirroring and libusb OTG input require direct device access. This
