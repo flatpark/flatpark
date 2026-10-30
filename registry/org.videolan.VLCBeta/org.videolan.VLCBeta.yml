@@ -1,0 +1,669 @@
+# PPA Ubuntu 26.10 daily builds, unmodified, with their Qt 6.11 support libraries.
+# The KDE 6.11 runtime's glibc 2.42 cannot load this libvlccore (GLIBC_2.43).
+# freedesktop 26.08 supplies glibc 2.44 and the FFmpeg 8 ABI used by the PPA.
+id: org.videolan.VLCBeta
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: vlc-beta
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Network streams and media discovery.
+  - --share=network
+  # Qt display backends and accelerated video output.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Native PipeWire audio playback, with PulseAudio available as a fallback.
+  - --socket=pulseaudio
+  - --filesystem=xdg-run/pipewire-0:ro
+  # Default local media folders, read-only. Other folders are opt-in.
+  - --filesystem=xdg-music:ro
+  - --filesystem=xdg-videos:ro
+  # Desktop media controls and file-launch single-instance requests.
+  - --own-name=org.mpris.MediaPlayer2.vlc
+  - --own-name=org.mpris.MediaPlayer2.vlc.*
+modules:
+  - name: vlc-beta
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 vlc-beta-wrapper /app/bin/vlc-beta
+      - install -Dm644 org.videolan.VLCBeta.desktop /app/share/applications/org.videolan.VLCBeta.desktop
+      - install -Dm644 org.videolan.VLCBeta.metainfo.xml /app/share/metainfo/org.videolan.VLCBeta.metainfo.xml
+      - install -Dm644 org.videolan.VLCBeta.png /app/share/icons/hicolor/256x256/apps/org.videolan.VLCBeta.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: vlc.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/vlc_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: c2d34b51a84011afd7981a96ddedfca43d29f8e10d6a18ed84e0eca3fb93a9dd
+        size: 118964
+      - type: extra-data
+        filename: vlc-bin.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/vlc-bin_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: e41c96b096a0116280f351157a8a683e95a911091dc4a9c21b3c5f32751ea244
+        size: 106100
+      - type: extra-data
+        filename: vlc-data.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/vlc-data_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_all.deb
+        sha256: 131036ffdddc2c14b25a9ce91b3ecd83149db8881a6318daf49970d677bbc92c
+        size: 655256
+      - type: extra-data
+        filename: libvlc-bin.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/libvlc-bin_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: 4cc1b5bb0f61c7988ee1ada654c21df8e7eb1cb2bec36830660706ea6184c521
+        size: 111518
+      - type: extra-data
+        filename: libvlc5.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/libvlc5_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: 30f8d814c16a534cb277ed0955c4a042b715560cc11f91562b0fb2259b1c51a5
+        size: 147982
+      - type: extra-data
+        filename: libvlccore9.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/libvlccore9_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: 859e3faf8782c01c0c50ca30e384baa663180f6942d8bd390ac1066b0db49252
+        size: 637010
+      - type: extra-data
+        filename: vlc-plugin-base.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/vlc-plugin-base_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: ead641335b66a58384c7708493eb7e57ba59088c2baa7435c5bf572509cd3461
+        size: 3806950
+      - type: extra-data
+        filename: vlc-plugin-qt.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/vlc-plugin-qt_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: 25cfb5968f57977870774df0259e3a3e73f0cc4c01c0cbb7a0d657639009f179
+        size: 3599392
+      - type: extra-data
+        filename: vlc-plugin-video-output.deb
+        only-arches: [x86_64]
+        url: https://ppa.launchpadcontent.net/videolan/master-daily/ubuntu/pool/main/v/vlc/vlc-plugin-video-output_4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1_amd64.deb
+        sha256: 0830050831e85903ba6b9dbfba331d097a43865ea0bafd636213ea87e146f0fc
+        size: 288610
+      # END MANAGED EXTRA-DATA
+      # Ubuntu Stonking support packages; outside the PPA update block.
+      - type: extra-data
+        filename: libaribb24-0t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/a/aribb24/libaribb24-0t64_1.0.3-3_amd64.deb
+        sha256: c31070c7823764fe903081ac5658686af5c4539579ae582e625b1d2198e3bd9b
+        size: 30410
+      - type: extra-data
+        filename: libass9.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/liba/libass/libass9_0.17.5-1_amd64.deb
+        sha256: 84abcb6c47b2c961f24f29d00cc4239b15477bfd7dfe57a9175694cbdbe7d6ee
+        size: 114506
+      - type: extra-data
+        filename: libavc1394-0.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/liba/libavc1394/libavc1394-0_0.5.4-6_amd64.deb
+        sha256: 1e2c4837acc4612b347862570520b91039f5c1b54049da81a2ac47d5a6afffc0
+        size: 15886
+      - type: extra-data
+        filename: libb2-1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libb/libb2/libb2-1_0.98.1-1.1build2_amd64.deb
+        sha256: 6e00e57d60d69274599febe2dbe0959b0e92f0277d741986cae7481f7bb2403c
+        size: 44914
+      - type: extra-data
+        filename: libbluray4.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libb/libbluray/libbluray4_1.5.0-3_amd64.deb
+        sha256: 338b2943abb04910fb1a91e8487d828594731d8b4901b1916c407f3eb143398d
+        size: 133104
+      - type: extra-data
+        filename: libchromaprint1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/c/chromaprint/libchromaprint1_1.6.1-1_amd64.deb
+        sha256: a4b184704fe7e47c6d5e1d9d45279e52777ec75c3c08eb4784110b3c2fac5ae0
+        size: 33728
+      - type: extra-data
+        filename: libcjson1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/c/cjson/libcjson1_1.7.19-2_amd64.deb
+        sha256: 1c47d315a46d610708aecdcafbc5b2c59c28f174dfb8a562290a17620bda3549
+        size: 22806
+      - type: extra-data
+        filename: libdc1394-25.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libd/libdc1394/libdc1394-25_2.2.6-6_amd64.deb
+        sha256: 87036d258d8b14cd840ce15f635c15c679f87dbd6bdba4f971d22b6942bc6da2
+        size: 92340
+      - type: extra-data
+        filename: libdouble-conversion3.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/d/double-conversion/libdouble-conversion3_3.4.0-1_amd64.deb
+        sha256: b178176ba18a499a35dc1cc3b5258e16da0791872fc96c16934cd747425ae892
+        size: 41386
+      - type: extra-data
+        filename: libdvbpsi10.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libd/libdvbpsi/libdvbpsi10_1.3.3-2_amd64.deb
+        sha256: 03316ad2d0258d44c581c34617df79aa6c9a05cf606e726881061bb4bcba7c02
+        size: 51664
+      - type: extra-data
+        filename: libdvdnav4.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libd/libdvdnav/libdvdnav4_7.0.0-2_amd64.deb
+        sha256: dcf724e6405bfa7f951d438dab1a6705fbd13da4156b3d1d931ebebf993fefbe
+        size: 40296
+      - type: extra-data
+        filename: libdvdread8t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libd/libdvdread/libdvdread8t64_7.1.1-1_amd64.deb
+        sha256: bab690bdf1d33c64398573f9ed8d3d4ae0b9cb443c0faff88867164940a252b9
+        size: 70236
+      - type: extra-data
+        filename: libebml5.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libe/libebml/libebml5_1.4.7-2_amd64.deb
+        sha256: 53b09005a8e32b335eb95cd96ef0c6a79c8797de5b2eaaecc56aab753f322510
+        size: 49364
+      - type: extra-data
+        filename: libevdev2.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libe/libevdev/libevdev2_1.13.6+dfsg-3_amd64.deb
+        sha256: 3118e6e45ae953986db9c222cff19583a3ed566e906c87ea6e756ac5b860b796
+        size: 36860
+      - type: extra-data
+        filename: libfaad2.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/f/faad2/libfaad2_2.11.2-1build1_amd64.deb
+        sha256: df3f6edd4bda1fac3666d92c47cb454e2713887f523d94cbd21b474d618fea8c
+        size: 216232
+      - type: extra-data
+        filename: libgssapi-krb5-2.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/k/krb5/libgssapi-krb5-2_1.22.1-3ubuntu2_amd64.deb
+        sha256: bf873c6a8e757700bcf99924f40fd30d9e3c34ed173a05bf0f23ad381f9c6ef2
+        size: 146288
+      - type: extra-data
+        filename: libhogweed6t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/n/nettle/libhogweed6t64_3.10.2-1_amd64.deb
+        sha256: 1c8c808ab24ff3018ac886e3f311edee0f2d4d97d12d3908be52343e89807046
+        size: 200902
+      - type: extra-data
+        filename: libidn12.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libi/libidn/libidn12_1.44-1_amd64.deb
+        sha256: a039440848c0be877c9c93f23dcf903e3b746c49fe0689eed8140aae538c5670
+        size: 58212
+      - type: extra-data
+        filename: libinput10.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libi/libinput/libinput10_1.31.3-1ubuntu1_amd64.deb
+        sha256: e60dd885001ea69bbcb919fe825be1c3d3d3e6c370bce8e7a15a4cc7c850b192
+        size: 161182
+      - type: extra-data
+        filename: libixml11t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/p/pupnp/libixml11t64_1.14.31-1ubuntu2_amd64.deb
+        sha256: 859b00e734a1ab01f18547b85289b913e7fc0788479569e37159d5a316eb5703
+        size: 26218
+      - type: extra-data
+        filename: libjpeg8.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libj/libjpeg-turbo/libjpeg8_3.1.3-4ubuntu2_amd64.deb
+        sha256: 633a49d593c6aa1fa78c8db806512a90122803de040420960add6cfa535363cf
+        size: 192906
+      - type: extra-data
+        filename: libk5crypto3.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/k/krb5/libk5crypto3_1.22.1-3ubuntu2_amd64.deb
+        sha256: 3d9a1c4c653cb0f4085bcc0be8f35518bde39e4d15f4849673b50e6eeb7cb839
+        size: 81462
+      - type: extra-data
+        filename: libkate1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libk/libkate/libkate1_0.4.3-2_amd64.deb
+        sha256: 7638a83228d9124f02241051bf7bd89266f9712fd7366756268cc0bf1e498d26
+        size: 47328
+      - type: extra-data
+        filename: libkeyutils1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/k/keyutils/libkeyutils1_1.6.3-6ubuntu3_amd64.deb
+        sha256: ea7d3cc642ffe2459c35a85c894f80e92499b9eba13bdcb225e0aa751c0970be
+        size: 10634
+      - type: extra-data
+        filename: libkrb5-3.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/k/krb5/libkrb5-3_1.22.1-3ubuntu2_amd64.deb
+        sha256: ccf31be690d02b1accd7943cc4a61a1fec4e9bf57602e61936f8913c62b15f7e
+        size: 360800
+      - type: extra-data
+        filename: libkrb5support0.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/k/krb5/libkrb5support0_1.22.1-3ubuntu2_amd64.deb
+        sha256: 5d6ae85df881ac7930b7789d176ccc81a7220040d36cc0cd142b2b8b254f4a17
+        size: 33878
+      - type: extra-data
+        filename: liblirc-client0t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/l/lirc/liblirc-client0t64_0.10.2-0.11_amd64.deb
+        sha256: bdfb021b6d8bdae9bb4ce26be08ea23fd40f0f3fa0e0c86065eb84c7160a6d95
+        size: 24562
+      - type: extra-data
+        filename: liblua5.4-0.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/l/lua5.4/liblua5.4-0_5.4.9-1_amd64.deb
+        sha256: a188ace4169d6daf8871325605289e4573b15c30730d269f2fd988e421160c66
+        size: 163140
+      - type: extra-data
+        filename: libmatroska7.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libm/libmatroska/libmatroska7_1.7.2-1_amd64.deb
+        sha256: c4cdc7dcc9a9f158428ae2e9f95428d5c33d743c362a879ecb3578156749854e
+        size: 120820
+      - type: extra-data
+        filename: libmbedcrypto16.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/m/mbedtls/libmbedcrypto16_3.6.7-3ubuntu1_amd64.deb
+        sha256: b8261a95eefbbbc744124ab8df55eed484f9c2c034a1ecfe76cf7ea5174012ab
+        size: 258560
+      - type: extra-data
+        filename: libmd4c0.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/m/md4c/libmd4c0_0.5.3-1_amd64.deb
+        sha256: 46acead1e88d03ce5d8da8160d46afc18cff31eb417f0d7297947e344f679284
+        size: 43950
+      - type: extra-data
+        filename: libmtdev1t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/m/mtdev/libmtdev1t64_1.1.7-1build1_amd64.deb
+        sha256: d5e3b70bec533015ac924b69b13e21c7ad0eef8e84183d1eaff9529e603f4c39
+        size: 15162
+      - type: extra-data
+        filename: libmtp9t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libm/libmtp/libmtp9t64_1.1.23-1_amd64.deb
+        sha256: a8e59a2493e1c73929d53385ffbae29f4685eca5d927b646be0319949bf00f2f
+        size: 162474
+      - type: extra-data
+        filename: libnettle8t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/n/nettle/libnettle8t64_3.10.2-1_amd64.deb
+        sha256: 83a2a924c11759a2ed6e6f98f456d28e1b026974ce9e6e7ef12c9ac43b2d543e
+        size: 185378
+      - type: extra-data
+        filename: libnfs14.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libn/libnfs/libnfs14_5.0.2-1ubuntu3_amd64.deb
+        sha256: 4221d3cdcd9eccb4c1ffe791ab738fe3c0a6ab420a8e8ddd9600a549173aa282
+        size: 110294
+      - type: extra-data
+        filename: libnuma1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/n/numactl/libnuma1_2.0.19-1build1_amd64.deb
+        sha256: af7bc28b60948609a36719c249a89aef834812833909774538c19f9d984bef31
+        size: 23654
+      - type: extra-data
+        filename: libopenmpt-modplug1.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libo/libopenmpt-modplug/libopenmpt-modplug1_0.8.9.0-openmpt1-3_amd64.deb
+        sha256: 21f9f71eaa23e6adeb3b38dd4908517a71b89f4d7331086701172f9c8dd6838f
+        size: 22218
+      - type: extra-data
+        filename: libopenmpt0t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libo/libopenmpt/libopenmpt0t64_0.8.7-1_amd64.deb
+        sha256: cf4fb4dff97cfc8c3864807546d00e0201835903078df8666e556ce7bf764148
+        size: 741756
+      - type: extra-data
+        filename: libprotobuf-lite32t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/p/protobuf/libprotobuf-lite32t64_3.21.12-17_amd64.deb
+        sha256: def9cd60db8d7bd18ced9cf86993251a6404f8e015aca92f11256893e60e535a
+        size: 248634
+      - type: extra-data
+        filename: libqt6core5compat6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-5compat/libqt6core5compat6_6.11.2-1_amd64.deb
+        sha256: 26dd5ffbfcf57dbc37ee935dba34358ef41df089b9143bc0583dedb7d8563aed
+        size: 152552
+      - type: extra-data
+        filename: libqt6core6t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6core6t64_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: 1f67a6442757a336047accf4fe776f418d37aa4a7cc7efd7b58623c76e1c8bac
+        size: 2144542
+      - type: extra-data
+        filename: libqt6dbus6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6dbus6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: ffb2fb3ec485c651edecbddfcd2878b6116a417eb4304e3dd95b0aeee5613ce0
+        size: 286788
+      - type: extra-data
+        filename: libqt6gui6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6gui6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: 7159caa5320d41a39533d870434b936619bd01bda54a8065adccb9fb3261d9c3
+        size: 3569046
+      - type: extra-data
+        filename: libqt6network6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6network6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: 4f2403f4a5a823e0e814b02c3448662c8da6692072c00550f9ea6799a84cc9a2
+        size: 877580
+      - type: extra-data
+        filename: libqt6opengl6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6opengl6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: 05e43b6cc61061d6d625a3dcdec57cce03dffc14912b8733bb33ba235e3fb532
+        size: 468128
+      - type: extra-data
+        filename: libqt6qml6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6qml6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 0298b3ddcb2eb23ceda7fb7f925f399234a31da04c510f5ece7269d4c249ac07
+        size: 1918372
+      - type: extra-data
+        filename: libqt6qmlmeta6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6qmlmeta6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 45727416732e75198f834ef4fb6787100224ad73842c63874dc878b794c82fc2
+        size: 70122
+      - type: extra-data
+        filename: libqt6qmlmodels6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6qmlmodels6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 61414be83fbaea70a74e2b6a8ab622bde767a48bb07c7b259595d6908815e703
+        size: 389500
+      - type: extra-data
+        filename: libqt6qmlworkerscript6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6qmlworkerscript6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: d74bde509337cf9e732fce8f3becb665eb2e6422badc15aa7115f0a7b1b73028
+        size: 39156
+      - type: extra-data
+        filename: libqt6quick6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6quick6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: aaa64c2a4d743919fc427556171ee2af352a7538f2368d4768040a7893ece4a5
+        size: 2535172
+      - type: extra-data
+        filename: libqt6quickcontrols2-6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6quickcontrols2-6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 3dd78230c8adef36267e180318ea91c1046aba64cef87f007ff82f8656e81aa9
+        size: 858024
+      - type: extra-data
+        filename: libqt6quickshapes6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6quickshapes6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 4118ef6b545003badf5efc1fc98a37b1edb0ca40617f547efe40b51cf4ff04f5
+        size: 144238
+      - type: extra-data
+        filename: libqt6quicktemplates2-6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/libqt6quicktemplates2-6_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 0a01625932196a88c5a1ce5a1841b5f0fe137a7a6bff3bd3fdd400805f6ba473
+        size: 707746
+      - type: extra-data
+        filename: libqt6shadertools6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-shadertools/libqt6shadertools6_6.11.2-1_amd64.deb
+        sha256: 1166fee7804cb92912acc0dfd5011db2b49b616688b3efa38bf6a0eb6c357cfe
+        size: 1747866
+      - type: extra-data
+        filename: libqt6svg6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-svg/libqt6svg6_6.11.2-1_amd64.deb
+        sha256: 2caec45859d6b88733b3df9ba35ccf3ea52e0be6fd11d067a90de3155007c4b1
+        size: 240976
+      - type: extra-data
+        filename: libqt6waylandclient6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6waylandclient6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: ed68295d05383ef8cd1c952d269447d376cded23fec1c8e79939711a5fffcfdd
+        size: 385822
+      - type: extra-data
+        filename: libqt6waylandcompositor6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-wayland/libqt6waylandcompositor6_6.11.2-1_amd64.deb
+        sha256: 08cd5bb41671988c634c9d43848ac7a4628d3cdd4ca702c5e40c83f8f7138016
+        size: 475022
+      - type: extra-data
+        filename: libqt6widgets6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6widgets6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: c4f3f1c3a564bc4b73d0afd30f06ef034873f9bc055e12b73aa1c8d759aea75a
+        size: 2813764
+      - type: extra-data
+        filename: libqt6wlshellintegration6.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/libqt6wlshellintegration6_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: f978ef6ff5693d51b0f80df367cf8695d834ac0dec52883854041f4964ee919c
+        size: 96334
+      - type: extra-data
+        filename: libraw1394-11.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libr/libraw1394/libraw1394-11_2.1.2-2.1_amd64.deb
+        sha256: a96d0aa3a070e5be936faa5b13092b961340c603e73d88d96ab26ccc90f22325
+        size: 25640
+      - type: extra-data
+        filename: libresid-builder0c2a.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/s/sidplay-libs/libresid-builder0c2a_2.1.1-16build1_amd64.deb
+        sha256: 9a0fe35de1d100a951cdbfc7550167ca8bf20aab0444708eb27e1ebb54b1c2de
+        size: 31246
+      - type: extra-data
+        filename: librist4.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libr/librist/librist4_0.2.20+dfsg-1_amd64.deb
+        sha256: 430664c28953c2ff2c30d61c0be71474e8d2a873eb75a7d21f681f991dd595d8
+        size: 107896
+      - type: extra-data
+        filename: libshine3.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/s/shine/libshine3_3.1.1-4_amd64.deb
+        sha256: 780dc4d35df190048e98ea9c1a2b07c9216d1281c0a3e5f7b88ae22e71e3f966
+        size: 23450
+      - type: extra-data
+        filename: libshout3.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libs/libshout/libshout3_2.4.6-1build4_amd64.deb
+        sha256: 11062ccaa9437d6189c5f2f8fa987953b2e59815d3e216d696c0e72475f84435
+        size: 49990
+      - type: extra-data
+        filename: libsidplay2.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/s/sidplay-libs/libsidplay2_2.1.1-16build1_amd64.deb
+        sha256: f8b2f74895e8a2fda445c7bb6f48caac547a8896b9bb10ce209b1c74799307d1
+        size: 95484
+      - type: extra-data
+        filename: libsoxr0.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libs/libsoxr/libsoxr0_0.1.3-4.1_amd64.deb
+        sha256: fea29b07ff35638b714c1607cf0969e238dceda43e1b44cee9bcefacfb5c988a
+        size: 82730
+      - type: extra-data
+        filename: libspatialaudio2.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libs/libspatialaudio/libspatialaudio2_0.4.1-1_amd64.deb
+        sha256: 0a36b6bcbce7572054c36a34e3204f08482d6faccb2b8bc682ccf36ce6a72f98
+        size: 1167948
+      - type: extra-data
+        filename: libssh2-1t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libs/libssh2/libssh2-1t64_1.11.1-6_amd64.deb
+        sha256: a60790142771847185ee98f1d042b6f3a8be7fff6b26451d457ccbd1f0560192
+        size: 137154
+      - type: extra-data
+        filename: libssl4.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl4_4.0.3-1ubuntu1_amd64.deb
+        sha256: 51f0fc6a56aab90a680696977e5fc2b08bc9d128b767dc6d29849ee5f8fd6144
+        size: 2361938
+      - type: extra-data
+        filename: libts0t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/t/tslib/libts0t64_1.22-1.1build2_amd64.deb
+        sha256: 0909b94db17f1993e38614a0e6435b295f4d313ded29616c398ce3f6221afef1
+        size: 64032
+      - type: extra-data
+        filename: libtwolame0.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/t/twolame/libtwolame0_0.4.0-3_amd64.deb
+        sha256: 11604f9eb160758837cd4d1dfab798235394386bc4081f8d64652e42917c8007
+        size: 52628
+      - type: extra-data
+        filename: libudfread3.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libu/libudfread/libudfread3_1.2.0-3_amd64.deb
+        sha256: 65fde12de03d6c69d2ba29b359909d989a3ac0b4c887170f51f19616cb6c95f1
+        size: 17292
+      - type: extra-data
+        filename: libunibreak7.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/libu/libunibreak/libunibreak7_7.0-2_amd64.deb
+        sha256: 90c25c99dfa6e37c6a5b99378a02a63ba6377ea9766d28882babff1c69fc6918
+        size: 25650
+      - type: extra-data
+        filename: libupnp17t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/p/pupnp/libupnp17t64_1.14.31-1ubuntu2_amd64.deb
+        sha256: f04997de3ed0a000066b874fbc23d57250c11abbd17f8b23a91896f9bd199188
+        size: 97852
+      - type: extra-data
+        filename: liburing2.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libu/liburing/liburing2_2.15-1_amd64.deb
+        sha256: 126fd4c07e4e67685a04b182bfc70e67ce12855b8293312468339447076f2fe8
+        size: 26458
+      - type: extra-data
+        filename: libwacom-common.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libw/libwacom/libwacom-common_2.18.0-1_all.deb
+        sha256: 40498c518af6224bd21a931c8d393a93c318d52c2ee475432d6fa529c70c30ad
+        size: 117250
+      - type: extra-data
+        filename: libwacom9.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/libw/libwacom/libwacom9_2.18.0-1_amd64.deb
+        sha256: a2555343e9c9a533e2ca5185895a043d8068912c5d95095d7e3a9f8a078dd919
+        size: 28352
+      - type: extra-data
+        filename: libx264-165.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/x/x264/libx264-165_0.165.3223+git20250910.0480cb0-1_amd64.deb
+        sha256: 19650c69561ea3426f35f69c5399c503963904a31a78f19bd9a9b0351cce50be
+        size: 608104
+      - type: extra-data
+        filename: libx265-216.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/x/x265/libx265-216_4.2-3_amd64.deb
+        sha256: d3afe29796650bf76e48735a9c5477b01e54d3c28d18471d3ffe8ea405c875b9
+        size: 1367780
+      - type: extra-data
+        filename: libzvbi0t64.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/z/zvbi/libzvbi0t64_0.2.45-1_amd64.deb
+        sha256: 2a64776863a482f64f37a1c565eecd8b0cf0dabfaa82334a1413618cb2a7df44
+        size: 263712
+      - type: extra-data
+        filename: qml6-module-qt-labs-qmlmodels.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qt-labs-qmlmodels_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: b46da1851f447eaf83884e9e89d4cb821f5b3990542b8c85d0b7cd88d37e201b
+        size: 82442
+      - type: extra-data
+        filename: qml6-module-qt5compat-graphicaleffects.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-5compat/qml6-module-qt5compat-graphicaleffects_6.11.2-1_amd64.deb
+        sha256: 2937ccb0a343ca7660b6c43db7d14118d43050f10f54580b3636aaeafc2daf67
+        size: 367534
+      - type: extra-data
+        filename: qml6-module-qtqml.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtqml_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 41aa0e662bfd8e1d47a6c96713be859c20a76f15fb4f674fb9c352262d78166f
+        size: 14206
+      - type: extra-data
+        filename: qml6-module-qtqml-models.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtqml-models_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 56c30eebdf7d85c92df2f8f0998cc703d6727be4a4e0fea9f456fa8bd30c1b1c
+        size: 19050
+      - type: extra-data
+        filename: qml6-module-qtqml-workerscript.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtqml-workerscript_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: c38386e6f78a61b227e330bac934dd634e9ea814bb636e7f551d4c288fd72082
+        size: 13454
+      - type: extra-data
+        filename: qml6-module-qtquick.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtquick_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: fbf50725abf1727f004765de5d94bbd457c6ec7c9a0703f274fb1ab13aef26a8
+        size: 63484
+      - type: extra-data
+        filename: qml6-module-qtquick-controls.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtquick-controls_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: dfa8cd813a6e285a32a164abcb92a53065b15a1bbf762af5e60ac8f3537c3b25
+        size: 108590
+      - type: extra-data
+        filename: qml6-module-qtquick-layouts.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtquick-layouts_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: b5fcc22399c5a3826f5545f9d9785db5c79b312971745af9f671a898257e35eb
+        size: 122860
+      - type: extra-data
+        filename: qml6-module-qtquick-shapes.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtquick-shapes_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: eacb9686ca2e79e64d4ab2d940958305f13ba38793bbfc8d8619fe73d7eca1f7
+        size: 15566
+      - type: extra-data
+        filename: qml6-module-qtquick-templates.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtquick-templates_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 9d3a6eae986c7385077ef7cc02b486eb1816b3ef9473cae6ae6bc0a30e8dd8e4
+        size: 32634
+      - type: extra-data
+        filename: qml6-module-qtquick-window.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-declarative/qml6-module-qtquick-window_6.11.2+dfsg-2ubuntu1_amd64.deb
+        sha256: 10e3a3866d54764cf41802dcbd05009ddb7b6c41fc23407d8a478a920a077a21
+        size: 13584
+      - type: extra-data
+        filename: qt6-qpa-plugins.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-base/qt6-qpa-plugins_6.11.2+dfsg-4ubuntu2_amd64.deb
+        sha256: fa357bfe8a109ac56f6cae4aecea4a278f891d7e8e8142aa1e60f0a26ae30660
+        size: 89050
+      - type: extra-data
+        filename: qt6-svg-plugins.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-svg/qt6-svg-plugins_6.11.2-1_amd64.deb
+        sha256: b96b635d7e806e6342b8bed8dbb16d726cddf9fa0399fcfa8b57d67b88ae91bb
+        size: 31272
+      - type: extra-data
+        filename: qt6-wayland.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/universe/q/qt6-wayland/qt6-wayland_6.11.2-1_amd64.deb
+        sha256: 9136d93f4fde63c83cd61e263a9b60f36d218fc1a27d5b2e802b14676144f885
+        size: 106388
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: vlc-beta-wrapper
+      - type: file
+        path: org.videolan.VLCBeta.desktop
+      - type: file
+        path: org.videolan.VLCBeta.metainfo.xml
+      - type: file
+        path: org.videolan.VLCBeta.png
