@@ -57,6 +57,9 @@
     <mediatype>application/x-constructcad</mediatype>
   </provides>
   <releases>
+    <release version="0.8.0" date="2026-10-30">
+      <description></description>
+    </release>
     <release version="0.7.0" date="2026-10-28">
       <description>
         <p>Official Linux build 0.7.0.</p>

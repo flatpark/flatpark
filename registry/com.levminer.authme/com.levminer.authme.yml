@@ -44,9 +44,9 @@ modules:
         filename: authme.deb
         only-arches:
           - x86_64
-        url: https://github.com/Levminer/authme/releases/download/7.1.1/authme-7.1.1-linux-x64.deb
-        sha256: 8ae36b8ced36fbf470ecef9acd0e458fdee0c1ea13c3ab00708092743eb31018
-        size: 4659086
+        url: https://github.com/Levminer/authme/releases/download/7.1.2/authme-7.1.2-linux-x64.deb
+        sha256: 1bffb704dc94a0e1896642521e5e57877615b8f19b6ca6a12a3893e83e6643d5
+        size: 4734282
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
