@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.videolan.VLCBeta</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <name>VLC 4 Beta</name>
+  <summary>Development builds of the VLC multimedia player</summary>
+  <description>
+    <p>Play local audio and video files and network streams with the VLC 4 development interface.</p>
+    <p>This community package consumes VLC 4 development builds from rhgKc2yp/vlc-nightly-release. It is not an official VideoLAN binary release. Builds use pinned VLC sources, VLC contrib and KDE Platform 6.11; source corrections and provenance are recorded in each release. Flathub provides stable VLC separately.</p>
+    <p>Development builds can contain regressions. Through November 15, 2026 UTC, an explicitly recorded ARM64 verification exception may accept an X11 compositor assertion during rapid OpenUri followed immediately by Quit. This exception does not indicate that the crash is fixed.</p>
+    <p>Music and Videos folders are available by default. Allow another media folder with <code>flatpak override --user --filesystem=/path/to/media:ro org.videolan.VLCBeta</code>. Undo custom permissions with <code>flatpak override --user --reset org.videolan.VLCBeta</code>.</p>
+    <p>For a desktop with a StatusNotifier tray, opt in with <code>flatpak override --user --talk-name=org.kde.StatusNotifierWatcher --own-name=org.kde.StatusNotifierItem-* org.videolan.VLCBeta</code>.</p>
+    <p>Opt into optical discs or capture devices with <code>flatpak override --user --device=all org.videolan.VLCBeta</code>.</p>
+  </description>
+  <launchable type="desktop-id">org.videolan.VLCBeta.desktop</launchable>
+  <url type="homepage">https://www.videolan.org/vlc/</url>
+  <url type="vcs-browser">https://github.com/rhgKc2yp/vlc-nightly-release</url>
+  <url type="help">https://github.com/rhgKc2yp/vlc-nightly-release/issues</url>
+  <url type="bugtracker">https://github.com/rhgKc2yp/vlc-nightly-release/issues</url>
+  <developer id="org.videolan"><name>VideoLAN</name></developer>
+  <categories><category>AudioVideo</category><category>Player</category></categories>
+  <content_rating type="oars-1.1" />
+  <releases>
+  </releases>
+</component>
