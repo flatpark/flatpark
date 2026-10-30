@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.automattic.Beeper</id>
+  <name>Beeper</name>
+  <summary>All your chats in one app</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.beeper.com/terms</project_license>
+  <developer id="com.automattic">
+    <name>Automattic</name>
+  </developer>
+  <url type="homepage">https://www.beeper.com/</url>
+  <url type="help">https://help.beeper.com/</url>
+  <description>
+    <p>This is a community package of Beeper, maintained independently and not endorsed by Automattic. It repackages the official upstream Linux build unmodified.</p>
+    <p>Beeper brings your chats from WhatsApp, Telegram, Signal, Instagram, Messenger, X, LinkedIn, Discord, Slack, Google Messages and more into one inbox.</p>
+    <ul>
+      <li>One searchable inbox across every network</li>
+      <li>Unread, low-priority and archive views, reminders and snooze</li>
+      <li>Voice messages, reactions, replies and attachments</li>
+      <li>End-to-end encrypted chats stay encrypted</li>
+      <li>Also available for macOS, Windows, Android and iOS</li>
+    </ul>
+    <p>A Beeper account is required. Attachments saved without a dialog go to your Downloads folder; any other location is chosen through the file-chooser portal. Your login and encryption keys are kept in the desktop keyring.</p>
+    <p>One permission is deliberately withheld and can be granted if you want it:</p>
+    <ul>
+      <li>Webcam, for taking a photo in the app: flatpak override --user --device=all com.automattic.Beeper</li>
+      <li>Undo it: flatpak override --user --reset com.automattic.Beeper</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.automattic.Beeper.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <keywords>
+    <keyword>chat</keyword>
+    <keyword>messaging</keyword>
+    <keyword>whatsapp</keyword>
+    <keyword>signal</keyword>
+    <keyword>telegram</keyword>
+    <keyword>matrix</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>beeper</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The unified inbox on desktop and mobile</caption>
+      <image>https://www.beeper.com/wp-content/uploads/2026/10/beeper-app-screenshot-scaled.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="4.3.264" date="2026-10-30" />
+  </releases>
+</component>

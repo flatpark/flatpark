@@ -1,0 +1,21 @@
+id: com.automattic.Beeper
+name: Beeper
+summary: All your chats in one app
+website: https://www.beeper.com/
+build:
+  manifest: com.automattic.Beeper.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Chat
+    - Messaging
+    - InstantMessaging
+    - Matrix
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

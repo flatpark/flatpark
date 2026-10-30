@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Beeper
+Comment=All your chats in one app
+Exec=beeper %U
+Icon=com.automattic.Beeper
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+StartupWMClass=Beeper
+MimeType=x-scheme-handler/beeper;
+Keywords=chat;messaging;whatsapp;telegram;signal;instagram;messenger;discord;slack;matrix;
