@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# The release launcher already configures its relocatable VLC libraries, plugins,
+# data and GnuTLS policy. Qt/QML come from KDE Platform, not the host.
+exec /app/extra/bin/vlc-nightly "$@"
