@@ -44,6 +44,9 @@
     <binary>impasto</binary>
   </provides>
   <releases>
+    <release version="0.6.1" date="2026-10-30">
+      <description></description>
+    </release>
     <release version="0.6.0" date="2026-10-14">
       <description></description>
     </release>

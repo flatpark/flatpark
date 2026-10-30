@@ -61,9 +61,9 @@ modules:
         filename: qoder-ide.deb
         only-arches:
           - x86_64
-        url: https://download.qoder.com/release/1.37.0/qoder-ide_amd64.deb
-        sha256: 35b7beb033619575c628fe6043845be8cd49cd5b77031f66bc5c343e1c1280bf
-        size: 180933212
+        url: https://download.qoder.com/release/1.38.0/qoder-ide_amd64.deb
+        sha256: 8217789e0314110e2ec7e4886826e8e637697f5516b14391dbea2e1a471d30d1
+        size: 181082964
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

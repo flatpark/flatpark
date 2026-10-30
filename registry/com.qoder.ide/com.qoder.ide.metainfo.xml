@@ -56,6 +56,9 @@
   </provides>
   <launchable type="desktop-id">com.qoder.ide.desktop</launchable>
   <releases>
+    <release version="1.38.0" date="2026-10-30">
+      <description></description>
+    </release>
     <release version="1.37.0" date="2026-10-27">
       <description></description>
     </release>
