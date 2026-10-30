@@ -1,0 +1,165 @@
+id: io.github.pedrohqb.Tessera
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: tessera
+separate-locales: false
+build-options:
+  no-debuginfo: true
+tags:
+  - proprietary
+# The same permissions as Tessera's own manifest
+# (https://github.com/pedrohqb/tessera/blob/main/flatpak/io.github.pedrohqb.Tessera.yml).
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # x11, not fallback-x11: the vendors' tools (SerproID's JavaFX app,
+  # SafeSign's Token Administration) draw only through X11, which needs the
+  # X socket (XWayland) even when Tessera itself is on Wayland.
+  - --socket=x11
+  - --device=dri
+  # The token drivers talk to the host's pcscd, which owns the USB readers.
+  - --socket=pcsc
+  # Cloud certificates (SerproID) and revocation checks by vendor tools.
+  - --share=network
+  # The drivers' servers: $XDG_RUNTIME_DIR/tessera/<driver>.
+  - --filesystem=xdg-run/tessera:create
+  # The host's p11-kit module directory, where Tessera writes one
+  # "remote:" file per driver so the host's p11-kit server (and native
+  # apps) serve them. Only files named tessera-*.module are touched.
+  - --filesystem=xdg-config/pkcs11:create
+  # The small NSS database Tessera sets up for Papers, which poppler finds
+  # first (see paths.rs). Nothing else of Papers is visible.
+  - --filesystem=~/.var/app/org.gnome.Papers/config/mozilla:create
+  # The same for Okular, which signs through poppler too.
+  - --filesystem=~/.var/app/org.kde.okular/config/mozilla:create
+  # The Firefox Flatpak's profiles (Firefox 147+ keeps them under config/,
+  # older releases under .mozilla/), so "Set up" can register the module in
+  # each profile's NSS database. Only pkcs11.txt changes.
+  - --filesystem=~/.var/app/org.mozilla.firefox/config/mozilla/firefox
+  - --filesystem=~/.var/app/org.mozilla.firefox/.mozilla/firefox
+  # The NSS databases of the Chromium-based browsers, where "Set up"
+  # registers the module. Since Chromium 146 the database is
+  # $XDG_DATA_HOME/pki/nssdb (in Flatpak, the data folder below), unless the
+  # older ~/.pki/nssdb exists: for Chromium, which may use the home folder,
+  # the real ~/.pki/nssdb; for the others, the one --persist=.pki keeps. No
+  # :create: the browser makes its database itself, and Tessera does not make
+  # folders for browsers that are not installed.
+  - --filesystem=~/.pki/nssdb
+  - --filesystem=~/.var/app/org.chromium.Chromium/data/pki/nssdb
+  - --filesystem=~/.var/app/com.brave.Browser/.pki/nssdb
+  - --filesystem=~/.var/app/com.brave.Browser/data/pki/nssdb
+  - --filesystem=~/.var/app/com.google.Chrome/.pki/nssdb
+  - --filesystem=~/.var/app/com.google.Chrome/data/pki/nssdb
+  - --filesystem=~/.var/app/com.microsoft.Edge/.pki/nssdb
+  - --filesystem=~/.var/app/com.microsoft.Edge/data/pki/nssdb
+  # Read-only: the icons Flatpak exports for the installed apps, to show each
+  # app with its own icon. The exported icons are links into each app's
+  # folder under app/, so those are needed too.
+  - --filesystem=xdg-data/flatpak/exports/share/icons:ro
+  - --filesystem=xdg-data/flatpak/app:ro
+  - --filesystem=/var/lib/flatpak/exports/share/icons:ro
+  - --filesystem=/var/lib/flatpak/app:ro
+  # Read-only: whether `flatpak override --user` already gave an app the
+  # p11-kit socket, to show it in the window.
+  - --filesystem=xdg-data/flatpak/overrides:ro
+  # The host's p11-kit server socket: Tessera lists the tokens through it to
+  # show whether the apps see its own.
+  - --filesystem=xdg-run/p11-kit/pkcs11
+  # The tray icon (StatusNotifierItem).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # SerproID keeps its certificate list in ~/.config/serproid; keep it inside
+  # Tessera's own data instead of the host home.
+  - --persist=.config/serproid
+add-extensions:
+  # Drivers published as extensions, e.g. io.github.pedrohqb.Tessera.Driver.Foo,
+  # each mounted at /app/lib/tessera/extensions/Foo with a driver.toml.
+  io.github.pedrohqb.Tessera.Driver:
+    directory: lib/tessera/extensions
+    subdirectories: true
+    no-autodownload: true
+    autodelete: true
+
+modules:
+  - name: tessera
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 tessera-wrapper /app/bin/tessera
+      - install -Dm644 io.github.pedrohqb.Tessera.desktop /app/share/applications/io.github.pedrohqb.Tessera.desktop
+      - install -Dm644 io.github.pedrohqb.Tessera.metainfo.xml /app/share/metainfo/io.github.pedrohqb.Tessera.metainfo.xml
+      # Tessera's tray icon reads the scalable icon from this path.
+      - install -Dm644 io.github.pedrohqb.Tessera.svg /app/share/icons/hicolor/scalable/apps/io.github.pedrohqb.Tessera.svg
+      - install -Dm644 io.github.pedrohqb.Tessera-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.pedrohqb.Tessera-symbolic.svg
+      - mkdir -p /app/lib/tessera/extensions
+    sources:
+      # Tessera's release build: the /app tree of its own Flatpak build on
+      # the same runtime (the tessera binary, the driver descriptions and the
+      # PC/SC client library it bundles).
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tessera.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/pedrohqb/tessera/releases/download/v0.1.0/tessera-x86_64.tar.gz
+        sha256: 273d2109507f6e728c42a6297388be02d342c9188e536e6e6970b5120d8f7a2c
+        size: 1839384
+      # END MANAGED EXTRA-DATA
+      # The token drivers, from their vendors, with the same pins as
+      # Tessera's own manifest and distrobox-adv-br. They stay fixed across
+      # Tessera releases; a new vendor version is a manual pin change.
+      # SafeSign IC (GD Burti tokens): the PKCS#11 libraries.
+      - type: extra-data
+        filename: safesign.deb
+        only-arches: [x86_64]
+        url: https://assets.ctfassets.net/zuadwp3l2xby/6vGICRnQgQ8TkcHTgcouIr/5acf96dcbc0364aa9228606d3969ef97/SafeSignICStandardLinux4.5.0.0-AET.000ub2404x86_64.deb
+        sha256: 7742e21e3141e51e307d7613b4046886bc7c4aa203835dcf5c43cd348f2a1b91
+        size: 2034336
+      # SafeSign's Token Administration, from the vendor's RHEL 10 package,
+      # which needs no wxWidgets.
+      - type: extra-data
+        filename: safesign.rpm
+        only-arches: [x86_64]
+        url: https://assets.ctfassets.net/zuadwp3l2xby/3b4YS8ts1cuD4BnUoQGZXl/93f644f03cc226b2adab290be11c6cd5/SafeSignICStandardLinux4.5.0.0-AET.000redhat10x86_64.rpm
+        sha256: 2f5ea4622fda213c9bfc8bf4da51dac09983a349326f9275309565dbdb123378
+        size: 4623566
+      # GDBM, which SafeSign's libaetpkss.so needs and the runtime lacks,
+      # from Ubuntu 24.04 (the release SafeSign's package is built for).
+      - type: extra-data
+        filename: gdbm.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/g/gdbm/libgdbm6t64_1.23-5.1build1_amd64.deb
+        sha256: 18d6d74a5c038b458d95ba0c0909e0f086cd50bb9a0fee32697902724fc5645e
+        size: 34440
+      - type: extra-data
+        filename: gdbm-compat.deb
+        only-arches: [x86_64]
+        url: https://archive.ubuntu.com/ubuntu/pool/main/g/gdbm/libgdbm-compat4t64_1.23-5.1build1_amd64.deb
+        sha256: fb8564afd7b7d74d55207070ba50339478e22d29a39ec740dc482f069ac7ee65
+        size: 6710
+      # SafeNet Authentication Client (SafeNet eToken 5100/5110, IDPrime).
+      - type: extra-data
+        filename: safenet.zip
+        only-arches: [x86_64]
+        url: https://www.digicert.com/StaticFiles/Linux_SAC_10.9_GA.zip
+        sha256: 46759cfe91d736af18a49d10e4749f264022db44e04ed4caf94e1ca77d6a013e
+        size: 91474258
+      # SerproID (Serpro's cloud certificate) and its desktop app.
+      - type: extra-data
+        filename: serproid.deb
+        only-arches: [x86_64]
+        url: https://storagegw.estaleiro.serpro.gov.br/instalador-desktop/SerproID-2.1.6-amd64.deb
+        sha256: 0ffa9ffe5bc343cc758a12f28bd7f08aec4b6e843d1c043baf0b81572461e588
+        size: 86209026
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tessera-wrapper
+      - type: file
+        path: io.github.pedrohqb.Tessera.desktop
+      - type: file
+        path: io.github.pedrohqb.Tessera.metainfo.xml
+      - type: file
+        path: io.github.pedrohqb.Tessera.svg
+      - type: file
+        path: io.github.pedrohqb.Tessera-symbolic.svg

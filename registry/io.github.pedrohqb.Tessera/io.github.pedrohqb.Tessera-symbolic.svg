@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Tessera symbolic: the two halves of a tessera hospitalis, a chip on the
+       left one and a T on the right one (both cut out). -->
+  <path fill="#2e3436" fill-rule="evenodd" d="M2.5 1H7.6L6.6 5L8.1 7.6L6.4 10.2L7.8 12.9L6.9 15H2.5A1.5 1.5 0 0 1 1 13.5V2.5A1.5 1.5 0 0 1 2.5 1ZM2.4 5.2V10.8H5.6V5.2Z"/>
+  <path fill="#2e3436" fill-rule="evenodd" d="M9.3 1H13.5A1.5 1.5 0 0 1 15 2.5V13.5A1.5 1.5 0 0 1 13.5 15H8.6L9.5 12.9L8.1 10.2L9.8 7.6L8.3 5ZM10.4 4.3V5.4H11.6V10.6H12.7V5.4H13.9V4.3Z"/>
+</svg>

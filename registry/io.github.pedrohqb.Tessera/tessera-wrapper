@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+# Tessera's release build, unpacked by apply_extra to /app/extra/tessera: the
+# whole /app tree of Tessera's own Flatpak build (the tessera binary, the
+# driver descriptions and the PC/SC client library it bundles), laid out
+# under a prefix of its own.
+#
+# The library path finds that bundled libpcsclite. TESSERA_DRIVERS_PATH is
+# Tessera's own setting for where its driver descriptions are (by default
+# /app/lib/tessera/drivers); the descriptions name the vendors' drivers under
+# /app/extra/drivers, where apply_extra puts them. Driver extensions keep
+# their default place.
+prefix=/app/extra/tessera
+export LD_LIBRARY_PATH="$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export TESSERA_DRIVERS_PATH="${TESSERA_DRIVERS_PATH:-$prefix/lib/tessera/drivers:/app/lib/tessera/extensions}"
+exec "$prefix/bin/tessera" "$@"

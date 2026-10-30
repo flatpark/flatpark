@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Tessera
+GenericName=Token Hub
+GenericName[pt_BR]=Central de tokens
+Comment=Share smart card and token drivers with your other apps
+Comment[pt_BR]=Compartilhe os drivers de cartões e tokens com seus outros aplicativos
+Exec=tessera
+Icon=io.github.pedrohqb.Tessera
+Terminal=false
+Categories=Utility;Security;
+Keywords=token;smartcard;smart card;certificate;PKCS11;p11-kit;A3;ICP-Brasil;SafeSign;SafeNet;SerproID;
+Keywords[pt_BR]=token;cartão;certificado;certificado digital;A3;ICP-Brasil;SafeSign;SafeNet;SerproID;
+StartupNotify=true
+SingleMainWindow=true

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.pedrohqb.Tessera</id>
+  <launchable type="desktop-id">io.github.pedrohqb.Tessera.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Tessera</name>
+  <summary>Share smart card and token drivers with your other apps</summary>
+  <summary xml:lang="pt-BR">Compartilhe os drivers de cartões e tokens com seus outros aplicativos</summary>
+  <developer id="io.github.pedrohqb">
+    <name>Pedro Henrique Quitete Barreto</name>
+  </developer>
+  <url type="homepage">https://github.com/pedrohqb/tessera</url>
+  <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
+  <url type="vcs-browser">https://github.com/pedrohqb/tessera</url>
+  <description>
+    <p>This package is maintained by Tessera's developer. It installs Tessera's official release build from its GitHub releases, unmodified, and downloads each token driver from its vendor at install time, checked against a pinned checksum. One driver file is adapted: SerproID's launcher and configuration name its install folder, /usr/share/serproid-desktop, and are pointed at its copy inside the app. The drivers' install scripts never run.</p>
+    <p>Tessera lets sandboxed apps use hardware tokens, smart cards and cloud certificates without installing any driver on the system. It runs the token drivers inside its own sandbox and shares every token with other apps through p11-kit, the standard way for Linux apps to reach PKCS#11 devices.</p>
+    <p>This is meant for immutable systems such as Fedora Silverblue, Kinoite, Bluefin, Aurora and Bazzite, where installing a vendor's driver package on the host is hard or impossible.</p>
+    <ul>
+      <li>Shows the card readers, the inserted tokens and their certificates</li>
+      <li>Drivers included: SafeSign IC, SafeNet Authentication Client and SerproID; more can be added as extensions</li>
+      <li>Vendor drivers are downloaded from the vendors at install time and checked against pinned checksums</li>
+      <li>Opens the vendors' tools, such as SafeSign's Token Administration and the SerproID app</li>
+      <li>Sets up Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Papers and Okular to use the tokens, and shows the command that lets them reach Tessera</li>
+      <li>Publishes a driver only while it answers, so a driver that hangs cannot hang the apps</li>
+      <li>Keeps running in the background with an icon in the tray, and can start at login</li>
+    </ul>
+    <p>Each driver runs in its own p11-kit server inside Tessera. Tessera adds them to the host's p11-kit configuration, and the host's p11-kit server (p11-kit-server.socket, enabled once) serves them to other apps. Sandboxed apps need --filesystem=xdg-run/p11-kit/pkcs11; PJeOffice Pro from FlatPark has it already.</p>
+    <p>The host needs pcscd with the CCID driver and the user's p11-kit server, which most distributions ship. Turn the server on once with <code>systemctl --user enable --now p11-kit-server.socket</code>; Tessera's window shows the command too.</p>
+    <p>Each sandboxed app that should use the tokens needs access to that server, given once per app; Tessera's window shows the command for each, for example <code>flatpak override --user --filesystem=xdg-run/p11-kit/pkcs11 org.mozilla.firefox</code>. Firefox, Papers and Okular also need the "Set up" button in Tessera. To undo it for an app: <code>flatpak override --user --reset org.mozilla.firefox</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/pedrohqb/tessera/main/data/screenshots/main.png</image>
+      <caption>Readers, tokens, drivers and apps</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+    <category>Security</category>
+  </categories>
+  <keywords>
+    <keyword>token</keyword>
+    <keyword>smart card</keyword>
+    <keyword>certificate</keyword>
+    <keyword>PKCS#11</keyword>
+    <keyword>p11-kit</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <releases>
+    <release version="0.1.0" date="2026-10-29">
+      <description>
+        <p>First release: one p11-kit server per driver (SafeSign IC, SafeNet Authentication Client, SerproID), published through the host p11-kit server; readers, tokens and certificates; set-up for Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Papers and Okular; tray icon and start at login.</p>
+      </description>
+    </release>
+  </releases>
+</component>

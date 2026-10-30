@@ -1,0 +1,33 @@
+id: io.github.pedrohqb.Tessera
+name: Tessera
+summary: Share smart card and token drivers with your other apps
+website: https://github.com/pedrohqb/tessera
+source_url: https://github.com/pedrohqb/tessera
+build:
+  manifest: io.github.pedrohqb.Tessera.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Security
+  upstream_approved: false
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - SmartCard
+    - Legal
+update:
+  command: ./resolve-update.sh
+policy:
+  # Tessera itself is GPL-3.0-or-later; the token drivers it downloads from
+  # their vendors (SafeSign IC, SafeNet Authentication Client, SerproID) are
+  # closed source.
+  proprietary: true
+
+# What this package does around the vendors' builds; shown on the site as the
+# packaging level.
+packaging:
+  - kind: file-change
+    detail:
+      en: "The SerproID driver's launcher and configuration name its install folder (/usr/share/serproid-desktop); they are pointed at its copy under /app/extra. The drivers' /etc folders and install scripts are left out."
+      zh-Hans: "SerproID 驱动的启动脚本和配置写死了安装目录（/usr/share/serproid-desktop），改为指向 /app/extra 下的副本。各驱动的 /etc 目录和安装脚本不使用。"
