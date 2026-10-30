@@ -6,6 +6,7 @@ build:
   manifest: com.automattic.Beeper.yml
   branch: stable
   mode: extra-data
+  arches: [x86_64, aarch64]
 catalog:
   category: Network
   tags:

@@ -12,22 +12,30 @@ set -euo pipefail
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-# Beeper's own download endpoint for the stable Linux x64 channel answers with a
-# redirect to the versioned AppImage on its download host.
-channel="https://api.beeper.com/desktop/download/linux/x64/stable/com.automattic.beeper.desktop"
-url="$(curl -fsS -o /dev/null -w '%{redirect_url}' "$channel")"
+# Beeper's own download endpoints for the stable Linux channel answer with a
+# redirect to the versioned AppImage on its download host, one per arch.
+resolve() { # arch-in-endpoint arch-in-filename
+  curl -fsS -o /dev/null -w '%{redirect_url}' \
+    "https://api.beeper.com/desktop/download/linux/$1/stable/com.automattic.beeper.desktop"
+}
+url_x64="$(resolve x64)"
+url_arm="$(resolve arm64)"
 
-# Matched on the full versioned name, so a different arch or format behind the
-# same endpoint fails here instead of being pinned.
-re='^https://beeper-desktop\.download\.beeper\.com/builds/Beeper-([0-9]+(\.[0-9]+)+)-x86_64\.AppImage$'
-[[ "$url" =~ $re ]] || { echo "unexpected Beeper download URL: '$url'" >&2; exit 1; }
+# Matched on the full versioned name, so a different arch or format behind an
+# endpoint fails here instead of being pinned.
+re_x64='^https://beeper-desktop\.download\.beeper\.com/builds/Beeper-([0-9]+(\.[0-9]+)+)-x86_64\.AppImage$'
+re_arm='^https://beeper-desktop\.download\.beeper\.com/builds/Beeper-([0-9]+(\.[0-9]+)+)-arm64\.AppImage$'
+[[ "$url_x64" =~ $re_x64 ]] || { echo "unexpected x86_64 URL: '$url_x64'" >&2; exit 1; }
 version="${BASH_REMATCH[1]}"
+[[ "$url_arm" =~ $re_arm ]] || { echo "unexpected arm64 URL: '$url_arm'" >&2; exit 1; }
+# One version for both arches: if arm64 lags, hold the pin rather than mix.
+[ "${BASH_REMATCH[1]}" = "$version" ] || { echo "x86_64 is $version but arm64 is ${BASH_REMATCH[1]}" >&2; exit 1; }
 
 # No release feed: the file's Last-Modified is when the build was published.
-modified="$(curl -fsSI "$url" | tr -d '\r' | sed -n 's/^[Ll]ast-[Mm]odified: //p' | head -n1)"
+modified="$(curl -fsSI "$url_x64" | tr -d '\r' | sed -n 's/^[Ll]ast-[Mm]odified: //p' | head -n1)"
 date="$(date -u -d "$modified" +%F 2>/dev/null || date -u +%F)"
 
-echo "resolved beeper $version ($date): $url" >&2
+echo "resolved beeper $version ($date): $url_x64 $url_arm" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"beeper.AppImage", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url_x64" --arg ua "$url_arm" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"beeper.AppImage", arch:"x86_64", url:$u}, {filename:"beeper.AppImage", arch:"aarch64", url:$ua}]}'

@@ -66,8 +66,9 @@ modules:
       # than an archive module, because apply_extra runs in a sandbox that binds
       # only the runtime /usr and /app/extra. Kept OUTSIDE the managed block:
       # update-pins.mjs rebuilds that block from the resolver output and would
-      # drop anything else in it. x86_64 only: the stack has no aarch64 build
-      # for the 26.08 runtime yet, although upstream publishes an arm64 AppImage.
+      # drop anything else in it. The aarch64 stack is the 25.08 build (the
+      # newest published); it is only the two static-purpose programs, run
+      # against the 26.08 runtime's libc.
       - type: extra-data
         filename: appimage-tools.tar.xz
         only-arches:
@@ -75,6 +76,13 @@ modules:
         url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
         sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
         size: 57220
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-25.08-aarch64.tar.xz
+        sha256: 5e8f143476c8aec6c776a860cf1dbd0cae21580b60758e00045e1d54fe3cea78
+        size: 51364
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: beeper.AppImage
@@ -83,6 +91,13 @@ modules:
         url: https://beeper-desktop.download.beeper.com/builds/Beeper-4.3.264-x86_64.AppImage
         sha256: 399ee4cd2b5e20b0d7d95039448190a98b6998a75648540149c4e5dbcce30551
         size: 296039196
+      - type: extra-data
+        filename: beeper.AppImage
+        only-arches:
+          - aarch64
+        url: https://beeper-desktop.download.beeper.com/builds/Beeper-4.3.264-arm64.AppImage
+        sha256: ff5e22754b9c6af01b446f5e4e656ffeaf5fefeb37e46939a423065f897d3548
+        size: 297639337
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
