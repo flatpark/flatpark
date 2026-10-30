@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=bottom
+GenericName=System Monitor
+Comment=Monitor system resources and manage processes in the terminal
+Exec=btm
+Terminal=true
+Type=Application
+Categories=System;ConsoleOnly;Monitor;
+StartupNotify=false
+Icon=io.github.ClementTsang.bottom

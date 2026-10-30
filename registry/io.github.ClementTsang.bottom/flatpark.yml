@@ -1,0 +1,28 @@
+id: io.github.ClementTsang.bottom
+name: bottom
+summary: Monitor system resources and manage processes in the terminal
+website: https://bottom.pages.dev/
+source_url: https://github.com/ClementTsang/bottom
+build:
+  manifest: io.github.ClementTsang.bottom.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: System
+  tags: [Monitor, Processes, Terminal, CPU, Memory]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "The default view inherits your terminal's foreground, background and ANSI accent colors, following light/dark changes while running. A generated configuration copy preserves your non-style settings; explicit themes and custom styling take precedence."
+      zh-Hans: "默认视图继承终端的前景色、背景色和 ANSI 强调色，在运行时跟随明暗主题变化。生成的配置副本保留你的非样式设置；显式指定的主题和自定义样式优先。"
+  - kind: host-command
+    detail:
+      en: "The official bottom binary runs on your system through flatpak-spawn to monitor and signal host processes. It runs with your user's host access, outside the Flatpak sandbox. Settings stay in the app's Flatpak configuration directory."
+      zh-Hans: "官方 bottom 程序通过 flatpak-spawn 在宿主系统上运行，以监控宿主进程并向其发送信号。它在 Flatpak 沙箱之外运行，具有当前用户的宿主访问权限。设置保存在应用的 Flatpak 配置目录中。"

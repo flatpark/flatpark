@@ -1,0 +1,94 @@
+#!/bin/sh
+set -eu
+# Like Resources' host helper, locate this deployment's files on the host.
+# Using /.flatpak-info also supports user, system and named installations.
+app_path="$(awk -F= '$1 == "app-path" { sub(/^[^=]*=/, ""); print; exit }' /.flatpak-info)"
+[ -n "$app_path" ] || { echo 'bottom: deployment app-path missing' >&2; exit 1; }
+# Inherit the terminal's default foreground/background and use its ANSI palette
+# for accents, so the view follows live theme changes. Explicit styling wins.
+default_style=1
+for arg do
+    case "$arg" in
+        --theme|--theme=*|--config_location|--config_location=*|-C|-C?*|--|-h|--help|-V|--version)
+            default_style=0 ;;
+    esac
+done
+config="$XDG_CONFIG_HOME/bottom/bottom.toml"
+if [ -r "$config" ] && awk '
+    /^[[:space:]]*\[[[:space:]]*["\047]?styles/ { custom = 1 }
+    /^[[:space:]]*["\047]?styles/ { custom = 1 }
+    END { exit !custom }
+' "$config"; then
+    default_style=0
+fi
+if [ "$default_style" = 1 ]; then
+    # Keep user settings at the usual path. A new install gets an editable
+    # starter file; never overwrite an existing configuration.
+    mkdir -p "$(dirname "$config")"
+    if [ ! -e "$config" ]; then
+        (set -C; printf '%s\n' \
+            '# Add bottom settings here: https://bottom.pages.dev/stable/configuration/' \
+            '# A styles section overrides the package default appearance.' > "$config") 2>/dev/null || true
+    fi
+    # Generate a separate copy so non-style settings still apply and saved
+    # user preferences remain unchanged. Atomic replacement supports launches
+    # from more than one terminal without exposing a partial TOML file.
+    mkdir -p "$XDG_CACHE_HOME/bottom"
+    rendered="$(mktemp "$XDG_CACHE_HOME/bottom/flatpark-appearance.XXXXXX")"
+    cat "$config" > "$rendered"
+    cat >> "$rendered" <<'EOF'
+
+[styles]
+theme = "default"
+[styles.widgets]
+bg_colour = "reset"
+border_colour = "reset"
+selected_border_colour = "light blue"
+widget_title = { colour = "reset", bold = true }
+text = "reset"
+selected_text = { colour = "white", bg_colour = "blue", bold = true }
+disabled_text = { colour = "reset", italics = true }
+thread_text = { colour = "reset", italics = true }
+[styles.tables]
+headers = { colour = "reset", bold = true }
+[styles.graphs]
+graph_colour = "reset"
+legend_text = "reset"
+[styles.cpu]
+all_entry_colour = "light blue"
+avg_entry_colour = "magenta"
+cpu_core_colours = ["light blue", "magenta", "cyan", "green", "red"]
+[styles.memory]
+ram_colour = "light blue"
+swap_colour = "magenta"
+cache_colour = "cyan"
+arc_colour = "green"
+gpu_colours = ["light blue", "magenta", "cyan", "green", "red"]
+[styles.network]
+rx_colour = "light blue"
+tx_colour = "magenta"
+rx_total_colour = "light blue"
+tx_total_colour = "magenta"
+[styles.temp_graph]
+temp_graph_colour_styles = ["light blue", "magenta", "cyan", "green", "red"]
+[styles.disk_io_graph]
+read_colours = ["light blue", "magenta", "cyan", "green", "red"]
+write_colours = ["magenta", "light blue", "green", "cyan", "red"]
+[styles.battery]
+high_battery_colour = "green"
+medium_battery_colour = "light blue"
+low_battery_colour = "red"
+EOF
+    mv "$rendered" "$XDG_CACHE_HOME/bottom/flatpark-appearance.toml"
+    set -- --config_location "$XDG_CACHE_HOME/bottom/flatpark-appearance.toml" "$@"
+fi
+# The upstream glibc build supports loading host driver libraries. Run it
+# unchanged with host /proc and signal access, using the host's glibc.
+# Keep its XDG settings separate from a native installation.
+# --watch-bus stops the host process when its Flatpak launcher is terminated.
+exec flatpak-spawn --host --watch-bus \
+    --env="TERM=${TERM:-xterm-256color}" \
+    --env="XDG_CONFIG_HOME=$XDG_CONFIG_HOME" \
+    --env="XDG_DATA_HOME=$XDG_DATA_HOME" \
+    --env="XDG_CACHE_HOME=$XDG_CACHE_HOME" \
+    "$app_path/extra/bottom/btm" "$@"

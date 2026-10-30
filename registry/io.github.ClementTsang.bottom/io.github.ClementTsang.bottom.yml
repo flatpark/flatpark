@@ -1,0 +1,40 @@
+id: io.github.ClementTsang.bottom
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: btm
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Run the official binary on the host so its /proc and signals address host
+  # processes. This grants arbitrary host-command access and is declared.
+  - --talk-name=org.freedesktop.Flatpak
+modules:
+  - name: bottom
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 bottom-wrapper /app/bin/btm
+      - install -Dm644 io.github.ClementTsang.bottom.desktop /app/share/applications/io.github.ClementTsang.bottom.desktop
+      - install -Dm644 io.github.ClementTsang.bottom.metainfo.xml /app/share/metainfo/io.github.ClementTsang.bottom.metainfo.xml
+      - install -Dm644 io.github.ClementTsang.bottom.png /app/share/icons/hicolor/512x512/apps/io.github.ClementTsang.bottom.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: bottom.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/ClementTsang/bottom/releases/download/0.14.9/bottom_x86_64-unknown-linux-gnu.tar.gz
+        sha256: e0c325829e8bdcea25a8a7651da05dbb6f1fc109ac5d2f0187867d3d5d9c0df8
+        size: 2054330
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: bottom-wrapper
+      - type: file
+        path: io.github.ClementTsang.bottom.desktop
+      - type: file
+        path: io.github.ClementTsang.bottom.metainfo.xml
+      - type: file
+        path: io.github.ClementTsang.bottom.png

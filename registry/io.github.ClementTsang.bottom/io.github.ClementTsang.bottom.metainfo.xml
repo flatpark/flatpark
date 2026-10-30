@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ClementTsang.bottom</id>
+  <name>bottom</name>
+  <summary>Monitor system resources and manage processes in the terminal</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.ClementTsang"><name>Clement Tsang</name></developer>
+  <url type="homepage">https://bottom.pages.dev/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/ClementTsang/bottom</url>
+  <description>
+    <p>This community package downloads the official bottom release unmodified at install time.</p>
+    <p>The bottom binary runs on your host through flatpak-spawn, outside the Flatpak sandbox, with your user's normal access to files and processes. This allows host process monitoring and signaling. The permission also allows arbitrary host commands. Settings are stored separately in this app's Flatpak configuration directory.</p>
+    <p>bottom is a customizable terminal system monitor with CPU, memory, network and disk graphs, temperature and battery information, and a searchable process table with sorting, tree mode and process signals.</p>
+    <p>Start it from your application menu or run <code>flatpak run io.github.ClementTsang.bottom</code> in a terminal. Press ? for help and q to quit. Update the package with Flatpak.</p>
+    <p>The default view inherits the terminal's foreground, background and ANSI accent colors, following its light and dark appearance while running. Non-style settings from the normal bottom configuration are included in a generated copy. An explicit --theme option, a separate --config_location file, or a styles section in the normal configuration takes precedence and disables this package default. Existing configuration files are preserved.</p>
+  </description>
+  <launchable type="desktop-id">io.github.ClementTsang.bottom.desktop</launchable>
+  <categories><category>System</category><category>Monitor</category></categories>
+  <keywords><keyword>btm</keyword><keyword>processes</keyword><keyword>CPU</keyword><keyword>memory</keyword></keywords>
+  <content_rating type="oars-1.1"/>
+  <requires><control>keyboard</control></requires>
+  <provides><binary>btm</binary></provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>System graphs and process monitoring in a terminal</caption>
+      <image>https://raw.githubusercontent.com/ClementTsang/bottom/0.14.9/demos/demo.gif</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="0.14.9" date="2026-08-27"/></releases>
+</component>
