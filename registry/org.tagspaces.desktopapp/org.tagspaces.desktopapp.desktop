@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=TagSpaces
+Comment=Organize local files and notes with tags
+Exec=tagspaces %F
+Icon=org.tagspaces.desktopapp
+Terminal=false
+Categories=Office;FileManager;
+StartupWMClass=tagspaces

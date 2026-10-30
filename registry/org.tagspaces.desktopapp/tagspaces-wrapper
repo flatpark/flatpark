@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# zypak supplies Electron's sandbox integration inside Flatpak.
+unset ELECTRON_RUN_AS_NODE
+# Media artwork must be readable by the host desktop.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+launcher="$(cat /app/extra/launcher)"
+exec zypak-wrapper "/app/extra/tagspaces/$launcher" --ozone-platform-hint=auto "$@"

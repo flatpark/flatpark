@@ -1,0 +1,64 @@
+id: org.tagspaces.desktopapp
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# The Electron base supplies zypak and desktop support libraries.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: tagspaces
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron windows and GPU-accelerated document/media previews.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The default workspace for browsing, tagging and editing local documents.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # System tray registration and Electron credential encryption.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.secrets
+  # Audio/video previews and their desktop media controls.
+  - --socket=pulseaudio
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # Keep Electron child processes in GUI mode when launched from an IDE.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: tagspaces
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 tagspaces-wrapper /app/bin/tagspaces
+      - install -Dm644 org.tagspaces.desktopapp.desktop /app/share/applications/org.tagspaces.desktopapp.desktop
+      - install -Dm644 org.tagspaces.desktopapp.metainfo.xml /app/share/metainfo/org.tagspaces.desktopapp.metainfo.xml
+      - install -Dm644 org.tagspaces.desktopapp.png /app/share/icons/hicolor/512x512/apps/org.tagspaces.desktopapp.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tagspaces.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tagspaces/tagspaces/releases/download/v6.14.3/tagspaces-linux-x64-6.14.3.tar.gz
+        sha256: 13bea1b8d0cbefe9578a350096ca3e859cc493d51b14031b6dfe68024d98f2ea
+        size: 160144869
+      - type: extra-data
+        filename: tagspaces.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/tagspaces/tagspaces/releases/download/v6.14.3/tagspaces-linux-arm64-6.14.3.tar.gz
+        sha256: 9272fb101f0f64d88ba11c4ef60ed3bba8ba590f469419b42e1e078398faac02
+        size: 161103570
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tagspaces-wrapper
+      - type: file
+        path: org.tagspaces.desktopapp.desktop
+      - type: file
+        path: org.tagspaces.desktopapp.metainfo.xml
+      - type: file
+        path: org.tagspaces.desktopapp.png

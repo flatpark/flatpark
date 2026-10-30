@@ -1,0 +1,18 @@
+id: org.tagspaces.desktopapp
+name: TagSpaces
+summary: Organize local files and notes with tags
+website: https://www.tagspaces.org/
+source_url: https://github.com/tagspaces/tagspaces
+build:
+  manifest: org.tagspaces.desktopapp.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Office
+  tags: [Files, Tags, Notes, Markdown, Offline]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
