@@ -9,7 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Security
-  upstream_approved: false
+  upstream_approved: true
   tags:
     - Brazil
     - ICP-Brasil
