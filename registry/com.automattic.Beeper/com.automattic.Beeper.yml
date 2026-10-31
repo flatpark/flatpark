@@ -66,23 +66,21 @@ modules:
       # than an archive module, because apply_extra runs in a sandbox that binds
       # only the runtime /usr and /app/extra. Kept OUTSIDE the managed block:
       # update-pins.mjs rebuilds that block from the resolver output and would
-      # drop anything else in it. The aarch64 stack is the 25.08 build (the
-      # newest published); it is only the two static-purpose programs, run
-      # against the 26.08 runtime's libc.
+      # drop anything else in it.
       - type: extra-data
         filename: appimage-tools.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
-        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
-        size: 57220
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
       - type: extra-data
         filename: appimage-tools.tar.xz
         only-arches:
           - aarch64
-        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-25.08-aarch64.tar.xz
-        sha256: 5e8f143476c8aec6c776a860cf1dbd0cae21580b60758e00045e1d54fe3cea78
-        size: 51364
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-aarch64.tar.xz
+        sha256: 96fbb5d8b79c53954bad1e2760efd34ab9267b9e6783b7c60930214e44cf7e18
+        size: 51796
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: beeper.AppImage

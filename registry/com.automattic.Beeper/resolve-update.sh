@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Update resolver for Beeper.
 #
-# Prints the current version + the Linux x86_64 AppImage as JSON on stdout:
+# Prints the current version + the Linux x86_64 and arm64 AppImages as JSON on
+# stdout:
 #   { "version": "4.3.264", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "beeper.AppImage", "url": "..." } ] }
+#     "sources": [ { "filename": "beeper.AppImage", "arch": "x86_64", "url": "..." },
+#                  { "filename": "beeper.AppImage", "arch": "aarch64", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -14,7 +16,7 @@ need curl; need jq
 
 # Beeper's own download endpoints for the stable Linux channel answer with a
 # redirect to the versioned AppImage on its download host, one per arch.
-resolve() { # arch-in-endpoint arch-in-filename
+resolve() { # arch as the endpoint names it: x64 | arm64
   curl -fsS -o /dev/null -w '%{redirect_url}' \
     "https://api.beeper.com/desktop/download/linux/$1/stable/com.automattic.beeper.desktop"
 }
