@@ -1,0 +1,81 @@
+id: org.freedesktop.Sdk.Extension.podman
+branch: '26.08'
+runtime: org.freedesktop.Sdk
+sdk: org.freedesktop.Sdk
+runtime-version: '26.08'
+build-extension: true
+separate-locales: false
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.golang
+build-options:
+  no-debuginfo: true
+  strip: true
+  prefix: /usr/lib/sdk/podman
+  append-path: /usr/lib/sdk/podman/bin:/usr/lib/sdk/golang/bin
+cleanup:
+  - /include
+  - /lib/cmake
+  - /lib/pkgconfig
+  - /man
+  - '*.a'
+  - '*.la'
+  - '*.pyc'
+modules:
+  - name: podman
+    buildsystem: simple
+    build-commands:
+      - make PREFIX=${FLATPAK_DEST} podman podman-remote
+    post-install:
+      - install -Dm755 bin/podman ${FLATPAK_DEST}/bin/podman-cli
+      - install -Dm755 bin/podman-remote ${FLATPAK_DEST}/bin/podman-remote
+      - install -Dm755 podman-shim.sh ${FLATPAK_DEST}/bin/podman
+      - install -Dm644 -t $FLATPAK_DEST/share/metainfo $FLATPAK_ID.metainfo.xml
+    sources:
+      - type: git
+        url: https://github.com/containers/podman.git
+        tag: v6.1.4
+        commit: 464c15fec06f0074c916f9eff87c4806869c2833
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/containers/podman/releases/latest
+          tag-query: .tag_name
+          timestamp-query: .published_at
+          version-query: $tag | sub("^v"; "")
+      - type: file
+        path: org.freedesktop.Sdk.Extension.podman.metainfo.xml
+      - type: file
+        path: podman-shim.sh
+
+  - name: podman_compose
+    buildsystem: simple
+    build-commands:
+      - pip3 install --prefix=${FLATPAK_DEST} --no-index --no-build-isolation --find-links=.
+        .
+    post-install:
+      - patch ${FLATPAK_DEST}/bin/podman-compose 10-podman-compose-syspath.patch
+    sources:
+      - type: git
+        url: https://github.com/containers/podman-compose.git
+        tag: v1.6.0
+        commit: 0f6537e9cfa38f6035ac57c1716b6d55dbaf3ca4
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/containers/podman-compose/releases/latest
+          tag-query: .tag_name
+          timestamp-query: .published_at
+          version-query: $tag | sub("^v"; "")
+      - type: file
+        path: patches/10-podman-compose-syspath.patch
+        sha256: 2c1c961bbd035be3ac2f8631770b95dc2bec3eb46eed7e2bb974b83cc7a3679e
+      - type: file
+        url: https://files.pythonhosted.org/packages/74/26/2fbeedb218a787a5eea551c7532cac4e009f83d689dd2faa0d0353473f86/python_dotenv-1.2.4.tar.gz
+        sha256: f0d53e69935a851c0dcc78f3ab7aaccd8cabef0b92382b576b824212902873c0
+        x-checker-data:
+          type: pypi
+          name: python-dotenv
+      - type: file
+        url: https://files.pythonhosted.org/packages/05/8e/961c0007c59b8dd7729d542c61a4d537767a59645b82a0b521206e1e25c2/pyyaml-6.0.3.tar.gz
+        sha256: d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f
+        x-checker-data:
+          type: pypi
+          name: pyyaml
