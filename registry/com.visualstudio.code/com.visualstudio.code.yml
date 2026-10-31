@@ -1,13 +1,7 @@
 app-id: com.visualstudio.code
-# The SDK as runtime, not the Platform: it gives the integrated terminal and
-# extensions a usable toolchain (gcc, python, git) and lets the Flathub SDK
-# extensions (FLATPAK_ENABLE_SDK_EXT) be mounted under /usr/lib/sdk.
 runtime: org.freedesktop.Sdk
 runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
-# Electron base app for zypak, which keeps Chromium's own sandbox working
-# inside Flatpak. Nothing is compiled here.
-# What it costs: no krb5, hence no Kerberos/Negotiate single sign-on.
 base: org.electronjs.Electron2.BaseApp
 base-version: '26.08'
 command: code

@@ -1,6 +1,3 @@
-# Flathub's com.visualstudio.code is third-party (not verified) and lags
-# upstream; this one tracks Microsoft's update service and is re-pinned within
-# hours of a release.
 id: com.visualstudio.code
 name: Visual Studio Code
 summary: Code editing. Redefined.
