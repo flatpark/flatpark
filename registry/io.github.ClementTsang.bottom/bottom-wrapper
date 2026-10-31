@@ -9,14 +9,17 @@ app_path="$(awk -F= '$1 == "app-path" { sub(/^[^=]*=/, ""); print; exit }' /.fla
 default_style=1
 for arg do
     case "$arg" in
-        --theme|--theme=*|--config_location|--config_location=*|-C|-C?*|--|-h|--help|-V|--version)
+        --theme|--theme=*|--config_location|--config_location=*|\
+        -C*|--|-h|--help|-V|--version)
+            default_style=0 ;;
+        -[!-]*C*)
             default_style=0 ;;
     esac
 done
 config="$XDG_CONFIG_HOME/bottom/bottom.toml"
 if [ -r "$config" ] && awk '
-    /^[[:space:]]*\[[[:space:]]*["\047]?styles/ { custom = 1 }
-    /^[[:space:]]*["\047]?styles/ { custom = 1 }
+    /^[[:space:]]*\[[[:space:]]*(styles|["\047]styles["\047])[[:space:]]*(\]|[.])/ { custom = 1 }
+    /^[[:space:]]*(styles|["\047]styles["\047])[[:space:]]*(=|[.])/ { custom = 1 }
     END { exit !custom }
 ' "$config"; then
     default_style=0
