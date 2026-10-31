@@ -27,11 +27,15 @@ date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # open-dronelog_3.3.0_linux_amd64.deb, and picking by sort order took the 3.3.0
 # one — a package that installed as "3.3.1" and then reported 3.3.0 in its own
 # About box, with an update banner pointing at the version it claimed to be.
-url="$(jq -r --arg v "$version" \
-  '.assets[] | select(.name == ("open-dronelog_" + $v + "_linux_amd64.deb")) | .browser_download_url' <<<"$rel")"
+asset="$(jq -c --arg v "$version" \
+  '[.assets[] | select(.name == ("open-dronelog_" + $v + "_linux_amd64.deb"))][0] // empty' <<<"$rel")"
+url="$(jq -r '.browser_download_url // empty' <<<"$asset")"
+# `size` lets update-pins re-pin when upstream replaces the .deb under the same
+# tag (3.3.2 was re-uploaded on 2026-10-30, #895).
+size="$(jq -r '.size // empty' <<<"$asset")"
 
-[ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve open-dronelog_${version}_linux_amd64.deb" >&2; exit 1; }
+[ -n "$version" ] && [ -n "$url" ] && [ -n "$size" ] || { echo "failed to resolve open-dronelog_${version}_linux_amd64.deb" >&2; exit 1; }
 echo "resolved open-dronelog $version ($date): $url" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"open-dronelog.deb", url:$u}]}'
+jq -n --arg v "$version" --arg d "$date" --arg u "$url" --argjson s "$size" \
+  '{version:$v, releaseDate:$d, sources:[{filename:"open-dronelog.deb", url:$u, size:$s}]}'
