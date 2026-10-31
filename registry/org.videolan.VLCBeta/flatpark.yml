@@ -1,0 +1,22 @@
+id: org.videolan.VLCBeta
+name: VLC 4 Beta
+summary: Development builds of the VLC multimedia player
+website: https://www.videolan.org/vlc/
+source_url: https://code.videolan.org/videolan/vlc
+build:
+  manifest: org.videolan.VLCBeta.yml
+  branch: ubuntu26.10
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags:
+    - Video
+    - Audio
+    - VLC
+    - Beta
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

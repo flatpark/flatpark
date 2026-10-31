@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+# Keep the Ubuntu Qt 6.11 libraries and VLC plugins together on freedesktop.
+root=/app/extra/vlc/usr
+export LD_LIBRARY_PATH="$root/lib/x86_64-linux-gnu:$root/lib/x86_64-linux-gnu/vlc${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export VLC_PLUGIN_PATH="$root/lib/x86_64-linux-gnu/vlc/plugins"
+export VLC_DATA_PATH="$root/share/vlc"
+export QT_PLUGIN_PATH="$root/lib/x86_64-linux-gnu/qt6/plugins"
+export QML_IMPORT_PATH="$root/lib/x86_64-linux-gnu/qt6/qml"
+export QML2_IMPORT_PATH="$QML_IMPORT_PATH"
+export XDG_DATA_DIRS="$root/share:${XDG_DATA_DIRS:-/app/share:/usr/share}"
+exec "$root/bin/vlc" "$@"
