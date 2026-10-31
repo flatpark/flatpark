@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.visualstudio.code</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>LicenseRef-proprietary=https://code.visualstudio.com/license</project_license>
+  <name>Visual Studio Code</name>
+  <developer id="com.microsoft">
+    <name>Microsoft Corporation</name>
+  </developer>
+  <url type="homepage">https://code.visualstudio.com</url>
+  <url type="help">https://github.com/flathub/com.visualstudio.code?tab=readme-ov-file#usage</url>
+  <summary>Code editing. Redefined.</summary>
+  <description>
+    <p>**NOTE: This is the proprietary Microsoft build of Visual Studio Code, packaged into a Flatpak. This repackaging is not supported by Microsoft.**</p>
+    <p>Visual Studio Code is a new choice of tool that combines the simplicity of a code editor with what developers need for the core edit-build-debug cycle.</p>
+    <p>IMPORTANT: To use certain features in this flatpacked version (like the integrated terminal), please read the linked documentation.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://code.visualstudio.com/assets/docs/getstarted/userinterface/tabs-hero.png</image>
+      <caption>Editing TypeScript</caption>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.visualstudio.code.desktop</launchable>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">moderate</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="1.143.1" date="2026-10-22">
+      <description></description>
+    </release>
+    <release version="1.142.0" date="2026-10-14">
+      <description/>
+    </release>
+    <release version="1.141.1" date="2026-10-13">
+      <description/>
+    </release>
+    <release version="1.141.0" date="2026-10-07">
+      <description/>
+    </release>
+    <release version="1.140.0" date="2026-09-30">
+      <description/>
+    </release>
+    <release version="1.139.1" date="2026-09-25">
+      <description/>
+    </release>
+    <release version="1.139.0" date="2026-09-23">
+      <description/>
+    </release>
+    <release version="1.138.0" date="2026-09-16">
+      <description/>
+    </release>
+    <release version="1.137.0" date="2026-09-09">
+      <description/>
+    </release>
+    <release version="1.130.0" date="2026-07-22">
+      <description/>
+    </release>
+    <release version="1.129.1" date="2026-07-17">
+      <description/>
+    </release>
+    <release version="1.129.0" date="2026-07-15">
+      <description/>
+    </release>
+    <release version="1.128.0" date="2026-07-08">
+      <description/>
+    </release>
+    <release version="1.127.0" date="2026-07-01">
+      <description/>
+    </release>
+    <release version="1.126.0" date="2026-06-24">
+      <url>https://code.visualstudio.com/updates/</url>
+    </release>
+    <release version="1.125.0" date="2026-06-17"/>
+    <release version="1.124.2" date="2026-06-12"/>
+    <release version="1.124.0" date="2026-06-10"/>
+    <release version="1.123.0" date="2026-06-05"/>
+    <release version="1.122.1" date="2026-05-29"/>
+    <release version="1.122.0" date="2026-05-28"/>
+    <release version="1.121.0" date="2026-05-20"/>
+    <release version="1.120.0" date="2026-05-13"/>
+    <release version="1.119.0" date="2026-05-06"/>
+    <release version="1.118.1" date="2026-04-30"/>
+    <release version="1.116.0" date="2026-04-15"/>
+    <release version="1.115.0" date="2026-04-08"/>
+    <release version="1.113.0" date="2026-03-25"/>
+    <release version="1.112.0" date="2026-03-18"/>
+    <release version="1.110.1" date="2026-03-07"/>
+    <release version="1.109.5" date="2026-02-20"/>
+    <release version="1.109.2" date="2026-02-11"/>
+    <release version="1.109.0" date="2026-02-04"/>
+    <release version="1.108.2" date="2026-01-23"/>
+    <release version="1.108.1" date="2026-01-16"/>
+    <release version="1.107.1" date="2025-12-17"/>
+    <release version="1.107.0" date="2025-12-10"/>
+    <release version="1.106.3" date="2025-11-26"/>
+    <release version="1.106.0" date="2025-11-12"/>
+    <release version="1.105.1" date="2025-10-15"/>
+  </releases>
+</component>
