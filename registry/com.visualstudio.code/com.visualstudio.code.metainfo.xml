@@ -20,6 +20,7 @@
       <li>Commit signing works through the host's gpg-agent, and the window follows the Plasma colour scheme.</li>
       <li>TMPDIR points at the per-app runtime directory, which the host can see too.</li>
       <li>On NixOS, the integrated terminal finds the host's shells.</li>
+      <li>It runs on the Freedesktop Platform, not the SDK, so there are no compilers inside the sandbox; use the host's toolchain through host-spawn, or SDK extensions.</li>
       <li>No Kerberos/Negotiate single sign-on.</li>
     </ul>
     <p>The app runs in a sandbox and can't see the SDKs on your host. Run host commands with host-spawn, for example by pointing the integrated terminal at it; the note that opens on first start explains how.</p>

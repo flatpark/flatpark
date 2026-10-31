@@ -25,17 +25,17 @@ you can add this to your profile settings:
   }
 }
 
-This Flatpak provides a standard development environment (gcc, python, etc).
-To see what's available:
+This is FlatPark's community package. It runs on the Freedesktop Platform
+runtime, which has no compilers or language toolchains; use the ones on your
+host through host-spawn.
 
-  $ flatpak run --command=sh com.visualstudio.code
-  $ ls /usr/bin (shared runtime)
-  $ ls /app/bin (bundled with this flatpak)
+To get languages or tools inside the sandbox instead, install SDK extensions.
+They are not part of FlatPark; they come from the Flathub remote, which you can
+add with:
 
-This is FlatPark's community package. To get support for additional languages
-or tools within the Flatpak, install SDK extensions. They are not part of
-FlatPark; they come from the Flathub remote (add it with
-"flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo"), e.g.
+  $ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+Then, for example:
 
   $ flatpak install flathub org.freedesktop.Sdk.Extension.dotnet
   $ flatpak install flathub org.freedesktop.Sdk.Extension.golang

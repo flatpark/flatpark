@@ -1,7 +1,9 @@
 app-id: com.visualstudio.code
-runtime: org.freedesktop.Sdk
+runtime: org.freedesktop.Platform
 runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
+# The Electron base app ships prebuilt, so nothing is compiled here. What it
+# costs: no krb5, hence no Kerberos/Negotiate single sign-on.
 base: org.electronjs.Electron2.BaseApp
 base-version: '26.08'
 command: code
