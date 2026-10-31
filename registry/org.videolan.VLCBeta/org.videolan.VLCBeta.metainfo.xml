@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.videolan.VLCBeta</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <name>VLC 4 Beta</name>
+  <summary>Development builds of the VLC multimedia player</summary>
+  <description>
+    <p>Play local audio and video files and network streams with the VLC 4 development interface.</p>
+    <p>This community package downloads unmodified daily builds from the VideoLAN master-daily PPA for Ubuntu 26.10, with Ubuntu Qt and multimedia support libraries. This is an automated testing build; it may contain regressions and is not a stable release. The PPA is not maintained or supported by VideoLAN developers. Flathub offers the stable VLC release.</p>
+    <p>This package provides playback without a media library. In X11 sessions, video playback opens a separate window.</p>
+    <p>Music and Videos folders are available by default. Allow another media folder with <code>flatpak override --user --filesystem=/path/to/media:ro org.videolan.VLCBeta</code>. Undo custom permissions with <code>flatpak override --user --reset org.videolan.VLCBeta</code>.</p>
+    <p>For a desktop with a StatusNotifier tray, opt in with <code>flatpak override --user --talk-name=org.kde.StatusNotifierWatcher --own-name=org.kde.* org.videolan.VLCBeta</code>.</p>
+    <p>Opt into optical discs or capture devices with <code>flatpak override --user --device=all org.videolan.VLCBeta</code>.</p>
+  </description>
+  <launchable type="desktop-id">org.videolan.VLCBeta.desktop</launchable>
+  <url type="homepage">https://www.videolan.org/vlc/</url>
+  <url type="vcs-browser">https://code.videolan.org/videolan/vlc</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <developer id="org.videolan"><name>VideoLAN</name></developer>
+  <categories><category>AudioVideo</category><category>Player</category></categories>
+  <content_rating type="oars-1.1" />
+  <releases><release version="4.0.0~rc1~~git20261028+r112479+448~ubuntu26.10.1" date="2026-10-28" /></releases>
+</component>
