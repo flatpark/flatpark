@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=io.github.janekbt.Meditate
+Exec=/app/bin/meditate --gapplication-service

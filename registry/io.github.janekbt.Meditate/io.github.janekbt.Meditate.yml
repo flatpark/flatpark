@@ -1,0 +1,68 @@
+id: io.github.janekbt.Meditate
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: meditate
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native GTK4/libadwaita app: Wayland with XWayland fallback, GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Bells and guided recordings.
+  - --socket=pulseaudio
+  # Sync with the user's own WebDAV server (Nextcloud).
+  - --share=network
+  # The WebDAV app password is kept in the Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Vibration on phones (Librem 5, feedbackd).
+  - --talk-name=org.sigxcpu.Feedback
+  # The end-of-session notification goes through the notification portal,
+  # which GLib picks inside a sandbox: no bus grant needed.
+  # The database and settings live in the per-app data dir: no filesystem grant.
+modules:
+  - name: meditate
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 meditate-wrapper /app/bin/meditate
+      - install -Dm644 io.github.janekbt.Meditate.desktop /app/share/applications/io.github.janekbt.Meditate.desktop
+      - install -Dm644 io.github.janekbt.Meditate.metainfo.xml /app/share/metainfo/io.github.janekbt.Meditate.metainfo.xml
+      - install -Dm644 io.github.janekbt.Meditate.svg /app/share/icons/hicolor/scalable/apps/io.github.janekbt.Meditate.svg
+      - install -Dm644 io.github.janekbt.Meditate-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.janekbt.Meditate-symbolic.svg
+      # D-Bus activation: Exec=/app/bin/meditate is the wrapper below.
+      - install -Dm644 io.github.janekbt.Meditate.service /app/share/dbus-1/services/io.github.janekbt.Meditate.service
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: meditate.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/janekbt/MeditationApp/releases/download/v26.11.0/meditate-26.11.0-linux-x86_64.tar.gz
+        sha256: f8b05bdc9dcac126a1bb9bb14e208cd16290725fc1359f7d99a668d1bfb4c556
+        size: 6274282
+      - type: extra-data
+        filename: meditate.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/janekbt/MeditationApp/releases/download/v26.11.0/meditate-26.11.0-linux-aarch64.tar.gz
+        sha256: 534902e27a3ec9cf5f3e2e70ac1f5beb07ee5a4ee41610e802e5d599a40ddc9f
+        size: 6003205
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: meditate-wrapper
+      - type: file
+        path: io.github.janekbt.Meditate.desktop
+      - type: file
+        path: io.github.janekbt.Meditate.metainfo.xml
+      - type: file
+        path: io.github.janekbt.Meditate.svg
+      - type: file
+        path: io.github.janekbt.Meditate-symbolic.svg
+      - type: file
+        path: io.github.janekbt.Meditate.service

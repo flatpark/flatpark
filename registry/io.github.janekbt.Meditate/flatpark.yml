@@ -1,0 +1,22 @@
+id: io.github.janekbt.Meditate
+name: Meditate
+summary: Meditation timer and session log
+website: https://github.com/janekbt/MeditationApp
+source_url: https://github.com/janekbt/MeditationApp
+build:
+  manifest: io.github.janekbt.Meditate.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Utility
+  upstream_approved: true
+  tags:
+    - Meditation
+    - Timer
+    - Mindfulness
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

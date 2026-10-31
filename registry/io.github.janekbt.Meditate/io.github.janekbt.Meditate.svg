@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5ba4e8"/>
+      <stop offset="1" stop-color="#1a60bb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle background — inset 8 px from the 128 canvas edge per HIG
+       ("draw inside a 128×128 canvas; don't fill it; stay on the 2 px
+       grid"). -->
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="url(#bg)"/>
+
+  <!--
+    Lotus flower — 5 petals converging at base point (64, 92).
+    Center petal: upright, tip at (64, 30).
+    Inner petals: same shape, rotated ±30°.
+    Outer petals: shorter shape, rotated ±55°.
+    Drawn back-to-front so center is always on top.
+  -->
+
+  <!-- Outer petals (behind everything) -->
+  <path d="M 64 92 C 50 84, 50 62, 64 44 C 78 62, 78 84, 64 92 Z"
+        fill="white" stroke="#64a0e6" stroke-opacity="0.45" stroke-width="2"
+        transform="rotate(-55 64 92)"/>
+  <path d="M 64 92 C 50 84, 50 62, 64 44 C 78 62, 78 84, 64 92 Z"
+        fill="white" stroke="#64a0e6" stroke-opacity="0.45" stroke-width="2"
+        transform="rotate(55 64 92)"/>
+
+  <!-- Inner side petals -->
+  <path d="M 64 92 C 46 80, 46 50, 64 30 C 82 50, 82 80, 64 92 Z"
+        fill="white" stroke="#64a0e6" stroke-opacity="0.45" stroke-width="2"
+        transform="rotate(-30 64 92)"/>
+  <path d="M 64 92 C 46 80, 46 50, 64 30 C 82 50, 82 80, 64 92 Z"
+        fill="white" stroke="#64a0e6" stroke-opacity="0.45" stroke-width="2"
+        transform="rotate(30 64 92)"/>
+
+  <!-- Center petal (frontmost) -->
+  <path d="M 64 92 C 46 80, 46 50, 64 30 C 82 50, 82 80, 64 92 Z"
+        fill="white" stroke="#64a0e6" stroke-opacity="0.45" stroke-width="2"/>
+
+  <!-- Base arc (water surface / lotus leaf suggestion) -->
+  <path d="M 16 94 Q 64 108 112 94"
+        fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+        opacity="0.80"/>
+</svg>

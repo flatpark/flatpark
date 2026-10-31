@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# Vendor binary, unmodified, from the install-time extra-data tree. Its
+# translations and settings schema sit in that tree, not under /app/share.
+export LOCALEDIR=/app/extra/meditate/share/locale
+export GSETTINGS_SCHEMA_DIR=/app/extra/meditate/share/glib-2.0/schemas
+exec /app/extra/meditate/bin/meditate "$@"

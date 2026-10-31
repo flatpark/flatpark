@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.janekbt.Meditate</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Meditate</name>
+  <name xml:lang="zh-Hans-CN">Meditate</name>
+  <name xml:lang="ru">Meditate</name>
+  <name xml:lang="pt-BR">Meditate</name>
+  <name xml:lang="pl">Meditate</name>
+  <name xml:lang="nl">Meditate</name>
+  <name xml:lang="it">Meditate</name>
+  <name xml:lang="fr">Meditate</name>
+  <name xml:lang="es">Meditate</name>
+  <name xml:lang="de">Meditate</name>
+  <summary>Meditation timer and session log</summary>
+  <summary xml:lang="zh-Hans-CN">冥想计时器与会话记录</summary>
+  <summary xml:lang="ru">Таймер медитации и журнал сессий</summary>
+  <summary xml:lang="pt-BR">Temporizador de meditação e histórico de sessões</summary>
+  <summary xml:lang="pl">Minutnik do medytacji i dziennik sesji</summary>
+  <summary xml:lang="nl">Meditatietimer en sessielogboek</summary>
+  <summary xml:lang="it">Timer di meditazione e registro delle sessioni</summary>
+  <summary xml:lang="fr">Minuteur de méditation et journal de séances</summary>
+  <summary xml:lang="es">Temporizador de meditación y registro de sesiones</summary>
+  <summary xml:lang="de">Meditationstimer und Sitzungsprotokoll</summary>
+  <description>
+    <p>
+      Meditate is a simple meditation companion for GNOME. It provides a
+      countdown and stopwatch timer, a session log, and statistics to help
+      you build a consistent practice.
+    </p>
+    <p xml:lang="zh-Hans-CN">Meditate 是一款适用于 GNOME 的简洁冥想助手。它提供倒计时和秒表计时器、会话记录以及统计功能，帮助你养成持续的练习习惯。</p>
+    <p xml:lang="ru">Meditate: простой помощник для медитации в GNOME. Он предлагает таймер обратного отсчёта и секундомер, журнал сессий и статистику, которые помогут выработать регулярную практику.</p>
+    <p xml:lang="pt-BR">O Meditate é um companheiro de meditação simples para o GNOME. Ele oferece um temporizador com contagem regressiva e cronômetro, um histórico de sessões e estatísticas para ajudar você a manter uma prática constante.</p>
+    <p xml:lang="pl">Meditate to prosty towarzysz medytacji dla GNOME. Oferuje minutnik z odliczaniem i stoperem, dziennik sesji oraz statystyki, które pomagają wypracować regularną praktykę.</p>
+    <p xml:lang="nl">Meditate is een eenvoudige meditatiehulp voor GNOME. De app biedt een aftel- en stopwatchtimer, een sessielogboek en statistieken om je te helpen een regelmatige beoefening op te bouwen.</p>
+    <p xml:lang="it">Meditate è un semplice compagno di meditazione per GNOME. Offre un timer con conto alla rovescia e cronometro, un registro delle sessioni e statistiche per aiutarti a costruire una pratica costante.</p>
+    <p xml:lang="fr">Meditate est un compagnon de méditation simple pour GNOME. Il propose un compte à rebours et un chronomètre, un journal des séances et des statistiques pour vous aider à installer une pratique régulière.</p>
+    <p xml:lang="es">Meditate es un sencillo compañero de meditación para GNOME. Ofrece un temporizador de cuenta atrás y cronómetro, un registro de sesiones y estadísticas que te ayudan a mantener una práctica constante.</p>
+    <p xml:lang="de">Meditate ist ein schlichter Meditationsbegleiter für GNOME. Mit Countdown- und Stoppuhr-Timer, Sitzungsprotokoll und Statistik hilft er dir, eine beständige Praxis aufzubauen.</p>
+    <ul>
+      <li>Countdown and stopwatch timer modes</li>
+      <li xml:lang="zh-Hans-CN">倒计时与秒表模式</li>
+      <li xml:lang="ru">Режимы обратного отсчёта и секундомера</li>
+      <li xml:lang="pt-BR">Modos contagem regressiva e cronômetro</li>
+      <li xml:lang="pl">Tryby odliczania i stopera</li>
+      <li xml:lang="nl">Aftel- en stopwatchmodus</li>
+      <li xml:lang="it">Modalità conto alla rovescia e cronometro</li>
+      <li xml:lang="fr">Modes compte à rebours et chronomètre</li>
+      <li xml:lang="es">Modos de cuenta atrás y cronómetro</li>
+      <li xml:lang="de">Countdown- und Stoppuhr-Modus</li>
+      <li>Label your sessions (sitting, walking, chanting, …)</li>
+      <li xml:lang="zh-Hans-CN">为会话添加标签（坐姿、行走、持诵 …）</li>
+      <li xml:lang="ru">Помечайте сессии (сидя, ходьба, мантра, …)</li>
+      <li xml:lang="pt-BR">Rotule suas sessões (sentado, caminhando, cântico, …)</li>
+      <li xml:lang="pl">Oznaczaj sesje (siedząca, spacer, mantra …)</li>
+      <li xml:lang="nl">Label je sessies (zittend, lopend, mantra, …)</li>
+      <li xml:lang="it">Etichetta le tue sessioni (seduto, camminando, mantra, …)</li>
+      <li xml:lang="fr">Étiquetez vos séances (assis, en marche, chant, …)</li>
+      <li xml:lang="es">Etiqueta tus sesiones (sentado, caminando, mantra …)</li>
+      <li xml:lang="de">Sitzungen beschriften (sitzend, gehend, Mantra …)</li>
+      <li>Add notes to each session</li>
+      <li xml:lang="zh-Hans-CN">为每次会话添加笔记</li>
+      <li xml:lang="ru">Добавляйте заметки к каждой сессии</li>
+      <li xml:lang="pt-BR">Adicione notas a cada sessão</li>
+      <li xml:lang="pl">Dodawaj notatki do każdej sesji</li>
+      <li xml:lang="nl">Voeg notities toe aan elke sessie</li>
+      <li xml:lang="it">Aggiungi note a ogni sessione</li>
+      <li xml:lang="fr">Ajoutez des notes à chaque séance</li>
+      <li xml:lang="es">Añade notas a cada sesión</li>
+      <li xml:lang="de">Notizen zu jeder Sitzung hinzufügen</li>
+      <li>View your history and statistics</li>
+      <li xml:lang="zh-Hans-CN">查看历史与统计</li>
+      <li xml:lang="ru">Просматривайте историю и статистику</li>
+      <li xml:lang="pt-BR">Veja seu histórico e estatísticas</li>
+      <li xml:lang="pl">Przeglądaj historię i statystyki</li>
+      <li xml:lang="nl">Bekijk je geschiedenis en statistieken</li>
+      <li xml:lang="it">Consulta la cronologia e le statistiche</li>
+      <li xml:lang="fr">Consultez votre historique et vos statistiques</li>
+      <li xml:lang="es">Consulta tu historial y estadísticas</li>
+      <li xml:lang="de">Verlauf und Statistik einsehen</li>
+      <li>Track your streak and stay consistent</li>
+      <li xml:lang="zh-Hans-CN">跟踪连续天数，保持稳定练习</li>
+      <li xml:lang="ru">Следите за серией и сохраняйте регулярность</li>
+      <li xml:lang="pt-BR">Acompanhe sua sequência e mantenha a constância</li>
+      <li xml:lang="pl">Śledź swoją passę i utrzymuj rytm</li>
+      <li xml:lang="nl">Houd je reeks bij en blijf consistent</li>
+      <li xml:lang="it">Monitora la tua serie e mantieni la costanza</li>
+      <li xml:lang="fr">Suivez votre série et gardez le cap</li>
+      <li xml:lang="es">Sigue tu racha y mantén la constancia</li>
+      <li xml:lang="de">Verfolge deine Serie und bleib dran</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/janekbt/MeditationApp/v26.11.0/meditate-gtk/data/screenshots/composite-timer.png</image>
+      <caption>Timer mode with presets and daily streak</caption>
+      <caption xml:lang="zh-Hans-CN">计时器模式，含预设与每日连续天数</caption>
+      <caption xml:lang="ru">Режим таймера с пресетами и ежедневной серией</caption>
+      <caption xml:lang="pt-BR">Modo temporizador com predefinições e sequência diária</caption>
+      <caption xml:lang="pl">Tryb minutnika z szablonami i codzienną passą</caption>
+      <caption xml:lang="nl">Timermodus met voorinstellingen en dagelijkse reeks</caption>
+      <caption xml:lang="it">Modalità timer con preset e serie giornaliera</caption>
+      <caption xml:lang="fr">Mode minuteur avec préréglages et série quotidienne</caption>
+      <caption xml:lang="es">Modo temporizador con preajustes y racha diaria</caption>
+      <caption xml:lang="de">Timer-Modus mit Voreinstellungen und täglicher Serie</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/janekbt/MeditationApp/v26.11.0/meditate-gtk/data/screenshots/composite-stats.png</image>
+      <caption>Daily goal, 13-week heatmap and insights</caption>
+      <caption xml:lang="zh-Hans-CN">每日目标、13 周热力图与分析</caption>
+      <caption xml:lang="ru">Дневная цель, тепловая карта за 13 недель и аналитика</caption>
+      <caption xml:lang="pt-BR">Meta diária, mapa de calor de 13 semanas e análises</caption>
+      <caption xml:lang="pl">Cel dzienny, mapa ciepła 13 tygodni i analizy</caption>
+      <caption xml:lang="nl">Dagdoel, heatmap van 13 weken en inzichten</caption>
+      <caption xml:lang="it">Obiettivo giornaliero, heatmap di 13 settimane e analisi</caption>
+      <caption xml:lang="fr">Objectif quotidien, heatmap sur 13 semaines et analyses</caption>
+      <caption xml:lang="es">Meta diaria, mapa de calor de 13 semanas y análisis</caption>
+      <caption xml:lang="de">Tagesziel, 13-Wochen-Heatmap und Einblicke</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/janekbt/MeditationApp/v26.11.0/meditate-gtk/data/screenshots/composite-log.png</image>
+      <caption>Session log grouped by date, with labels and notes</caption>
+      <caption xml:lang="zh-Hans-CN">按日期分组的会话记录，带标签与笔记</caption>
+      <caption xml:lang="ru">Журнал сессий, сгруппированный по дате, с метками и заметками</caption>
+      <caption xml:lang="pt-BR">Histórico de sessões agrupado por data, com rótulos e notas</caption>
+      <caption xml:lang="pl">Dziennik sesji pogrupowany według daty, z etykietami i notatkami</caption>
+      <caption xml:lang="nl">Sessielogboek gegroepeerd op datum, met labels en notities</caption>
+      <caption xml:lang="it">Registro delle sessioni raggruppato per data, con etichette e note</caption>
+      <caption xml:lang="fr">Journal des séances groupé par date, avec étiquettes et notes</caption>
+      <caption xml:lang="es">Registro de sesiones agrupado por fecha, con etiquetas y notas</caption>
+      <caption xml:lang="de">Nach Datum gruppiertes Sitzungsprotokoll mit Labels und Notizen</caption>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.janekbt.Meditate.desktop</launchable>
+  <icon type="stock">io.github.janekbt.Meditate</icon>
+  <categories>
+    <category>Utility</category>
+    <category>Clock</category>
+  </categories>
+  <url type="homepage">https://github.com/janekbt/MeditationApp</url>
+  <url type="bugtracker">https://github.com/janekbt/MeditationApp/issues</url>
+  <developer id="io.github.janekbt">
+    <name>janekbt</name>
+    <name xml:lang="zh-Hans-CN">janekbt</name>
+    <name xml:lang="ru">janekbt</name>
+    <name xml:lang="pt-BR">janekbt</name>
+    <name xml:lang="pl">janekbt</name>
+    <name xml:lang="nl">janekbt</name>
+    <name xml:lang="it">janekbt</name>
+    <name xml:lang="fr">janekbt</name>
+    <name xml:lang="es">janekbt</name>
+    <name xml:lang="de">janekbt</name>
+  </developer>
+  <branding>
+    <color type="primary" scheme_preference="light">#99c1f1</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-cartoon">none</content_attribute>
+    <content_attribute id="violence-fantasy">none</content_attribute>
+    <content_attribute id="violence-realistic">none</content_attribute>
+    <content_attribute id="violence-bloodshed">none</content_attribute>
+    <content_attribute id="violence-sexual">none</content_attribute>
+    <content_attribute id="violence-desecration">none</content_attribute>
+    <content_attribute id="violence-slavery">none</content_attribute>
+    <content_attribute id="violence-worship">none</content_attribute>
+    <content_attribute id="drugs-alcohol">none</content_attribute>
+    <content_attribute id="drugs-narcotics">none</content_attribute>
+    <content_attribute id="drugs-tobacco">none</content_attribute>
+    <content_attribute id="sex-nudity">none</content_attribute>
+    <content_attribute id="sex-themes">none</content_attribute>
+    <content_attribute id="sex-homosexuality">none</content_attribute>
+    <content_attribute id="sex-prostitution">none</content_attribute>
+    <content_attribute id="sex-adultery">none</content_attribute>
+    <content_attribute id="sex-appearance">none</content_attribute>
+    <content_attribute id="language-profanity">none</content_attribute>
+    <content_attribute id="language-humor">none</content_attribute>
+    <content_attribute id="language-discrimination">none</content_attribute>
+    <content_attribute id="social-chat">none</content_attribute>
+    <content_attribute id="social-info">none</content_attribute>
+    <content_attribute id="social-audio">none</content_attribute>
+    <content_attribute id="social-location">none</content_attribute>
+    <content_attribute id="social-contacts">none</content_attribute>
+    <content_attribute id="money-purchasing">none</content_attribute>
+    <content_attribute id="money-gambling">none</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="26.11.0" date="2026-10-30">
+      <description translate="yes">
+        <p>A ring that shows the session and its bells, Save next to Pause, presets in your own order, and bells that stay in your headphones. Thank you to @marius-shark and @voidplayer, whose reports and ideas led to most of this release. On Android, bells now play as media instead of as an alarm, so they may sound louder or quieter than before: please check your bell volumes.</p>
+        <p xml:lang="zh-Hans-CN">显示会话及其铃声的圆环、“暂停”旁边的“保存”、按你自己顺序排列的预设，以及只在耳机中响起的铃声。感谢 @marius-shark 和 @voidplayer，本版本的大部分内容来自他们的报告和想法。在 Android 上，铃声现在作为媒体而不是闹钟播放，因此听起来可能比以前更响或更轻：请检查你的铃声音量。</p>
+        <p xml:lang="ru">Кольцо, показывающее сессию и её колокола, «Сохранить» рядом с «Паузой», пресеты в своём порядке и колокола, которые остаются в наушниках. Спасибо @marius-shark и @voidplayer, чьи сообщения и идеи легли в основу большей части этой версии. На Android колокола теперь звучат как медиа, а не как будильник, поэтому могут быть громче или тише, чем раньше: проверьте громкость своих колоколов.</p>
+        <p xml:lang="pt-BR">Um anel que mostra a sessão e seus sinos, Salvar ao lado de Pausar, predefinições na sua ordem e sinos que ficam nos seus fones. Obrigado a @marius-shark e @voidplayer, cujos relatos e ideias levaram à maior parte desta versão. No Android, os sinos agora tocam como mídia em vez de alarme, então podem soar mais altos ou mais baixos do que antes: confira os volumes dos seus sinos.</p>
+        <p xml:lang="pl">Pierścień pokazujący sesję i jej dzwonki, Zapisz obok Wstrzymaj, szablony we własnej kolejności i dzwonki, które zostają w słuchawkach. Dziękujemy @marius-shark i @voidplayer, których zgłoszenia i pomysły złożyły się na większość tej wersji. Na Androidzie dzwonki grają teraz jak multimedia, a nie jak alarm, więc mogą brzmieć głośniej lub ciszej niż wcześniej: sprawdź głośność swoich dzwonków.</p>
+        <p xml:lang="nl">Een ring die de sessie en haar bellen toont, Opslaan naast Pauzeren, voorinstellingen in je eigen volgorde en bellen die in je koptelefoon blijven. Dank aan @marius-shark en @voidplayer, wier meldingen en ideeën tot het meeste in deze versie hebben geleid. Op Android spelen bellen nu als media in plaats van als alarm, dus ze kunnen harder of zachter klinken dan voorheen: controleer je belvolumes.</p>
+        <p xml:lang="it">Un anello che mostra la sessione e le sue campane, Salva accanto a Pausa, preset nel tuo ordine e campane che restano nelle cuffie. Grazie a @marius-shark e @voidplayer, le cui segnalazioni e idee hanno portato alla maggior parte di questa versione. Su Android le campane ora suonano come media invece che come sveglia, quindi possono suonare più forte o più piano di prima: controlla il volume delle tue campane.</p>
+        <p xml:lang="fr">Un anneau qui montre la séance et ses cloches, Enregistrer à côté de Pause, des préréglages dans votre ordre et des cloches qui restent dans votre casque. Merci à @marius-shark et @voidplayer, dont les rapports et les idées ont mené à l'essentiel de cette version. Sur Android, les cloches passent désormais en média et non plus en alarme, elles peuvent donc sonner plus fort ou plus doucement qu'avant : vérifiez le volume de vos cloches.</p>
+        <p xml:lang="es">Un anillo que muestra la sesión y sus campanas, Guardar junto a Pausar, preajustes en tu propio orden y campanas que se quedan en tus auriculares. Gracias a @marius-shark y @voidplayer, cuyos informes e ideas dieron lugar a la mayor parte de esta versión. En Android, las campanas suenan ahora como multimedia en lugar de como alarma, así que pueden sonar más fuerte o más bajo que antes: revisa los volúmenes de tus campanas.</p>
+        <p xml:lang="de">Ein Ring, der die Sitzung und ihre Glocken zeigt, Speichern neben Pause, Voreinstellungen in eigener Reihenfolge und Glocken, die im Kopfhörer bleiben. Danke an @marius-shark und @voidplayer, deren Meldungen und Ideen zu dem meisten in dieser Version geführt haben. Unter Android laufen Glocken jetzt als Medien statt als Alarm und klingen daher eventuell lauter oder leiser als vorher: Bitte prüfe deine Glockenlautstärken.</p>
+        <ul>
+          <li>Timer: a ring round the time fills with the session and shows each bell as a bead, and the bells are counted under the time, "2 of 5"</li>
+          <li xml:lang="zh-Hans-CN">计时器：时间周围的圆环随会话填满，每个铃声显示为一颗珠子，时间下方为铃声计数，如“2/5”</li>
+          <li xml:lang="ru">Таймер: кольцо вокруг времени заполняется по ходу сессии и показывает каждый колокол бусиной, а колокола считаются под временем, «2 из 5»</li>
+          <li xml:lang="pt-BR">Temporizador: um anel em volta do tempo se preenche com a sessão e mostra cada sino como uma conta, e os sinos são contados sob o tempo, “2 de 5”</li>
+          <li xml:lang="pl">Minutnik: pierścień wokół czasu wypełnia się wraz z sesją i pokazuje każdy dzwonek jako koralik, a dzwonki są liczone pod czasem, „2 z 5”</li>
+          <li xml:lang="nl">Timer: een ring rond de tijd vult zich met de sessie en toont elke bel als een kraal, en de bellen worden onder de tijd geteld, „2 van 5”</li>
+          <li xml:lang="it">Timer: un anello attorno al tempo si riempie con la sessione e mostra ogni campana come una perla, e le campane sono contate sotto il tempo, «2 di 5»</li>
+          <li xml:lang="fr">Minuteur : un anneau autour du temps se remplit avec la séance et montre chaque cloche comme une perle, et les cloches sont comptées sous le temps, « 2 sur 5 »</li>
+          <li xml:lang="es">Temporizador: un anillo alrededor del tiempo se llena con la sesión y muestra cada campana como una cuenta, y las campanas se cuentan bajo el tiempo, «2 de 5»</li>
+          <li xml:lang="de">Timer: Ein Ring um die Zeit füllt sich mit der Sitzung und zeigt jede Glocke als Perle, und die Glocken werden unter der Zeit gezählt, „2 von 5“</li>
+          <li>Save sits next to Pause, so you can end early in one tap; the session buttons stay in place</li>
+          <li xml:lang="zh-Hans-CN">“保存”位于“暂停”旁边，一次点按即可提前结束；会话按钮保持原位</li>
+          <li xml:lang="ru">«Сохранить» стоит рядом с «Паузой», так что закончить раньше можно одним касанием; кнопки сессии остаются на месте</li>
+          <li xml:lang="pt-BR">Salvar fica ao lado de Pausar, então você pode terminar antes com um toque; os botões da sessão ficam no lugar</li>
+          <li xml:lang="pl">Zapisz jest obok Wstrzymaj, więc wcześniejsze zakończenie to jedno dotknięcie; przyciski sesji zostają na swoim miejscu</li>
+          <li xml:lang="nl">Opslaan staat naast Pauzeren, zodat je met één tik eerder kunt stoppen; de sessieknoppen blijven op hun plek</li>
+          <li xml:lang="it">Salva è accanto a Pausa, così puoi finire prima con un tocco; i pulsanti della sessione restano al loro posto</li>
+          <li xml:lang="fr">Enregistrer se trouve à côté de Pause, pour finir plus tôt d'un seul geste ; les boutons de la séance restent à leur place</li>
+          <li xml:lang="es">Guardar está junto a Pausar, así puedes terminar antes con un toque; los botones de la sesión se quedan en su sitio</li>
+          <li xml:lang="de">Speichern steht neben Pause, so kannst du mit einem Tippen früher aufhören; die Sitzungsknöpfe bleiben an ihrem Platz</li>
+          <li>Presets: drag them into your own order on the Manage page; editing a preset's bell makes a new bell, so other presets keep theirs</li>
+          <li xml:lang="zh-Hans-CN">预设：在管理页面拖动它们，按自己的顺序排列；编辑某个预设的铃声会创建新铃声，其他预设保留原来的铃声</li>
+          <li xml:lang="ru">Пресеты: перетаскивайте их в свой порядок на странице «Управлять»; изменение колокола пресета создаёт новый колокол, а остальные пресеты сохраняют свой</li>
+          <li xml:lang="pt-BR">Predefinições: arraste-as na sua ordem na página Gerenciar; editar o sino de uma predefinição cria um sino novo, assim as outras mantêm o seu</li>
+          <li xml:lang="pl">Szablony: przeciągnij je we własną kolejność na stronie Zarządzaj; edycja dzwonka szablonu tworzy nowy dzwonek, więc pozostałe zachowują swój</li>
+          <li xml:lang="nl">Voorinstellingen: sleep ze in je eigen volgorde op de pagina Beheren; wie de bel van een voorinstelling bewerkt, krijgt een nieuwe bel, zodat de andere de hunne houden</li>
+          <li xml:lang="it">Preset: trascinali nel tuo ordine nella pagina Gestisci; modificare la campana di un preset crea una nuova campana, così gli altri tengono la loro</li>
+          <li xml:lang="fr">Préréglages : faites-les glisser dans votre ordre sur la page Gérer ; modifier la cloche d'un préréglage crée une nouvelle cloche, les autres gardent la leur</li>
+          <li xml:lang="es">Preajustes: arrástralos a tu propio orden en la página Gestionar; editar la campana de un preajuste crea una campana nueva, así los demás conservan la suya</li>
+          <li xml:lang="de">Voreinstellungen: auf der Seite Verwalten in die eigene Reihenfolge ziehen; wer die Glocke einer Voreinstellung bearbeitet, erhält eine neue Glocke, die anderen behalten ihre</li>
+          <li>Random interval bells ring around their own planned time instead of drifting from the last ring</li>
+          <li xml:lang="zh-Hans-CN">随机间隔铃围绕各自计划的时间响起，而不再从上一次响铃处漂移</li>
+          <li xml:lang="ru">Случайные интервальные колокола звучат около своего запланированного времени, а не смещаются от последнего удара</li>
+          <li xml:lang="pt-BR">Sinos de intervalo aleatórios tocam em torno do próprio horário planejado em vez de se deslocar a partir do último toque</li>
+          <li xml:lang="pl">Losowe dzwonki interwałowe dzwonią wokół własnego zaplanowanego czasu, zamiast przesuwać się od ostatniego dzwonienia</li>
+          <li xml:lang="nl">Willekeurige intervalbellen klinken rond hun eigen geplande tijd in plaats van te verschuiven vanaf de vorige</li>
+          <li xml:lang="it">Le campane a intervalli casuali suonano attorno al proprio orario previsto invece di spostarsi dall'ultimo suono</li>
+          <li xml:lang="fr">Les cloches d'intervalle aléatoires sonnent autour de leur propre heure prévue au lieu de dériver depuis la dernière</li>
+          <li xml:lang="es">Las campanas de intervalo aleatorias suenan alrededor de su propia hora prevista en lugar de desplazarse desde el último toque</li>
+          <li xml:lang="de">Zufällige Intervallglocken klingen um ihre eigene geplante Zeit, statt vom letzten Klingeln aus zu wandern</li>
+          <li>Bluetooth: an optional wake-up lead-in, a soft noise before each bell, keeps sleeping headphones and speakers from swallowing it (Preferences)</li>
+          <li xml:lang="zh-Hans-CN">蓝牙：可选的唤醒音，即每次铃声前的一段轻柔噪音，可防止休眠的耳机和音箱吞掉铃声（首选项）</li>
+          <li xml:lang="ru">Bluetooth: необязательный звук пробуждения, тихий шум перед каждым колоколом, не даёт уснувшим наушникам и колонкам его проглотить (Параметры)</li>
+          <li xml:lang="pt-BR">Bluetooth: um som de despertar opcional, um ruído suave antes de cada sino, evita que fones e caixas de som adormecidos o engulam (Preferências)</li>
+          <li xml:lang="pl">Bluetooth: opcjonalny dźwięk budzenia, cichy szum przed każdym dzwonkiem, sprawia, że uśpione słuchawki i głośniki go nie połykają (Preferencje)</li>
+          <li xml:lang="nl">Bluetooth: een optionele wektoon, een zacht geruis voor elke bel, voorkomt dat slapende koptelefoons en speakers hem inslikken (Voorkeuren)</li>
+          <li xml:lang="it">Bluetooth: un suono di risveglio facoltativo, un leggero fruscio prima di ogni campana, evita che cuffie e altoparlanti in standby la perdano (Preferenze)</li>
+          <li xml:lang="fr">Bluetooth : un son de réveil facultatif, un léger bruit avant chaque cloche, empêche les casques et enceintes en veille de l'avaler (Préférences)</li>
+          <li xml:lang="es">Bluetooth: un sonido de activación opcional, un ruido suave antes de cada campana, evita que los auriculares y altavoces dormidos se la traguen (Preferencias)</li>
+          <li xml:lang="de">Bluetooth: Ein optionaler Weckton, ein leises Rauschen vor jeder Glocke, verhindert, dass schlafende Kopfhörer und Lautsprecher sie verschlucken (Einstellungen)</li>
+          <li>Android: bells play as media, only in connected headphones; a switch in Preferences plays them as an alarm again, also only in the headphones</li>
+          <li xml:lang="zh-Hans-CN">Android：铃声作为媒体播放，只在已连接的耳机中响起；首选项中的开关可再次以闹钟方式播放，同样只在耳机中</li>
+          <li xml:lang="ru">Android: колокола звучат как медиа, только в подключённых наушниках; переключатель в Параметрах снова включает их как будильник, тоже только в наушниках</li>
+          <li xml:lang="pt-BR">Android: os sinos tocam como mídia, só nos fones conectados; um botão em Preferências volta a tocá-los como alarme, também só nos fones</li>
+          <li xml:lang="pl">Android: dzwonki grają jak multimedia, tylko w podłączonych słuchawkach; przełącznik w Preferencjach znów odtwarza je jako alarm, również tylko w słuchawkach</li>
+          <li xml:lang="nl">Android: bellen spelen als media, alleen in de verbonden koptelefoon; een schakelaar in Voorkeuren speelt ze weer als alarm, ook dan alleen in de koptelefoon</li>
+          <li xml:lang="it">Android: le campane suonano come media, solo nelle cuffie collegate; un interruttore nelle Preferenze le riproduce di nuovo come sveglia, anche allora solo nelle cuffie</li>
+          <li xml:lang="fr">Android : les cloches passent en média, seulement dans le casque connecté ; un interrupteur dans les Préférences les rejoue en alarme, aussi seulement dans le casque</li>
+          <li xml:lang="es">Android: las campanas suenan como multimedia, solo en los auriculares conectados; un interruptor en Preferencias las vuelve a reproducir como alarma, también solo en los auriculares</li>
+          <li xml:lang="de">Android: Glocken laufen als Medien, nur im verbundenen Kopfhörer; ein Schalter in den Einstellungen spielt sie wieder als Alarm, ebenfalls nur im Kopfhörer</li>
+          <li>Android: control the session from its notification and the headphones' button</li>
+          <li xml:lang="zh-Hans-CN">Android：通过通知和耳机按键控制会话</li>
+          <li xml:lang="ru">Android: управление сессией из её уведомления и кнопкой наушников</li>
+          <li xml:lang="pt-BR">Android: controle a sessão pela notificação e pelo botão dos fones</li>
+          <li xml:lang="pl">Android: steruj sesją z jej powiadomienia i przyciskiem słuchawek</li>
+          <li xml:lang="nl">Android: bedien de sessie vanuit haar melding en met de knop van de koptelefoon</li>
+          <li xml:lang="it">Android: controlla la sessione dalla sua notifica e dal tasto delle cuffie</li>
+          <li xml:lang="fr">Android : contrôlez la séance depuis sa notification et le bouton du casque</li>
+          <li xml:lang="es">Android: controla la sesión desde su notificación y el botón de los auriculares</li>
+          <li xml:lang="de">Android: die Sitzung über ihre Benachrichtigung und die Taste am Kopfhörer steuern</li>
+          <li>Android: follow the system colours on Android 14 and later, with a new lotus icon that takes them too</li>
+          <li xml:lang="zh-Hans-CN">Android：Android 14 及以上跟随系统颜色，新的莲花图标也随之变色</li>
+          <li xml:lang="ru">Android: системные цвета на Android 14 и новее, с новым значком лотоса, который тоже их принимает</li>
+          <li xml:lang="pt-BR">Android: segue as cores do sistema no Android 14 e posteriores, com um novo ícone de lótus que também as adota</li>
+          <li xml:lang="pl">Android: kolory systemu od Androida 14, z nową ikoną lotosu, która też je przejmuje</li>
+          <li xml:lang="nl">Android: volgt de systeemkleuren vanaf Android 14, met een nieuw lotuspictogram dat ze ook overneemt</li>
+          <li xml:lang="it">Android: segue i colori di sistema da Android 14 in poi, con una nuova icona del loto che li adotta anch'essa</li>
+          <li xml:lang="fr">Android : suit les couleurs du système à partir d'Android 14, avec une nouvelle icône lotus qui les reprend aussi</li>
+          <li xml:lang="es">Android: sigue los colores del sistema en Android 14 y posteriores, con un nuevo icono de loto que también los adopta</li>
+          <li xml:lang="de">Android: Systemfarben ab Android 14, mit einem neuen Lotus-Symbol, das sie ebenfalls übernimmt</li>
+          <li>Android: dialogs stay above the keyboard and Enter confirms; the system bar symbols stay readable on light pages</li>
+          <li xml:lang="zh-Hans-CN">Android：对话框保持在键盘上方，按 Enter 确认；系统栏图标在浅色页面上清晰可读</li>
+          <li xml:lang="ru">Android: диалоги остаются над клавиатурой, а Enter подтверждает; значки системных панелей читаются на светлых страницах</li>
+          <li xml:lang="pt-BR">Android: as caixas de diálogo ficam acima do teclado e Enter confirma; os símbolos das barras do sistema ficam legíveis em páginas claras</li>
+          <li xml:lang="pl">Android: okna dialogowe zostają nad klawiaturą, a Enter zatwierdza; symbole pasków systemowych są czytelne na jasnych stronach</li>
+          <li xml:lang="nl">Android: dialogen blijven boven het toetsenbord en Enter bevestigt; de symbolen in de systeembalken blijven leesbaar op lichte pagina's</li>
+          <li xml:lang="it">Android: le finestre di dialogo restano sopra la tastiera e Invio conferma; i simboli delle barre di sistema restano leggibili sulle pagine chiare</li>
+          <li xml:lang="fr">Android : les boîtes de dialogue restent au-dessus du clavier et Entrée valide ; les symboles des barres système restent lisibles sur les pages claires</li>
+          <li xml:lang="es">Android: los diálogos quedan por encima del teclado e Intro confirma; los símbolos de las barras del sistema se leen bien en páginas claras</li>
+          <li xml:lang="de">Android: Dialoge bleiben über der Tastatur und Enter bestätigt; die Symbole der Systemleisten bleiben auf hellen Seiten lesbar</li>
+          <li>Dates follow each language's own order; the Stats numbers agree with the Log and the Timer</li>
+          <li xml:lang="zh-Hans-CN">日期按各语言自己的顺序显示；统计中的数字与记录和计时器一致</li>
+          <li xml:lang="ru">Даты следуют порядку каждого языка; числа в Статистике совпадают с Журналом и Таймером</li>
+          <li xml:lang="pt-BR">As datas seguem a ordem própria de cada idioma; os números das Estatísticas batem com o Histórico e o Temporizador</li>
+          <li xml:lang="pl">Daty mają kolejność właściwą dla każdego języka; liczby w Statystykach zgadzają się z Dziennikiem i Minutnikiem</li>
+          <li xml:lang="nl">Datums volgen de eigen volgorde van elke taal; de getallen in Statistieken komen overeen met het Logboek en de Timer</li>
+          <li xml:lang="it">Le date seguono l'ordine proprio di ogni lingua; i numeri delle Statistiche concordano con il Registro e il Timer</li>
+          <li xml:lang="fr">Les dates suivent l'ordre propre à chaque langue ; les chiffres des Statistiques concordent avec le Journal et le Minuteur</li>
+          <li xml:lang="es">Las fechas siguen el orden propio de cada idioma; los números de Estadísticas coinciden con el Registro y el Temporizador</li>
+          <li xml:lang="de">Datumsangaben folgen der Reihenfolge jeder Sprache; die Zahlen der Statistik stimmen mit Verlauf und Timer überein</li>
+          <li>Linux: GNOME 51 runtime</li>
+          <li xml:lang="zh-Hans-CN">Linux：GNOME 51 运行时</li>
+          <li xml:lang="ru">Linux: среда выполнения GNOME 51</li>
+          <li xml:lang="pt-BR">Linux: runtime GNOME 51</li>
+          <li xml:lang="pl">Linux: środowisko uruchomieniowe GNOME 51</li>
+          <li xml:lang="nl">Linux: GNOME 51-runtime</li>
+          <li xml:lang="it">Linux: runtime GNOME 51</li>
+          <li xml:lang="fr">Linux : environnement d'exécution GNOME 51</li>
+          <li xml:lang="es">Linux: entorno de ejecución GNOME 51</li>
+          <li xml:lang="de">Linux: GNOME-51-Laufzeit</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+</component>
