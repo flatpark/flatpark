@@ -1,5 +1,8 @@
 app-id: com.visualstudio.code
-runtime: org.freedesktop.Platform
+# The Sdk, not the Platform: only the Sdk declares the org.freedesktop.Sdk.Extension
+# mount point, so SDK extensions (golang, dotnet, ...) and FLATPAK_ENABLE_SDK_EXT
+# work only on it. It also gives the editor gcc, make and python in the sandbox.
+runtime: org.freedesktop.Sdk
 runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
 # The Electron base app ships prebuilt, so nothing is compiled here. What it
