@@ -74,9 +74,9 @@ modules:
         filename: ely-doc.deb
         only-arches:
           - x86_64
-        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.12/ely-doc_0.1.12-1_amd64.deb
-        sha256: 4d7f0f92bc7bee915a2c2ae197cd4afb48117b31524e5c6648faeeab9f4186a3
-        size: 254364428
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.13/ely-doc_0.1.13-1_amd64.deb
+        sha256: 482dc6ed88e1a425012a5ecd1328717ef82a8a22f20e8047a8fd889d12f86f8c
+        size: 254482222
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

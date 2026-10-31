@@ -68,6 +68,9 @@
     <binary>pdfcraft-cli</binary>
   </provides>
   <releases>
+    <release version="0.16.1" date="2026-10-31">
+      <description></description>
+    </release>
     <release version="0.15.0" date="2026-10-28">
       <description></description>
     </release>
