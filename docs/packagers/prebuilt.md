@@ -169,16 +169,21 @@ When the catalog moves to a new runtime major, every stack is re-cut for it:
    release order on every runtime bump, for reuse that never came.)
 4. **Set both `no-debuginfo: true` and `strip: true`.** The first alone keeps
    full DWARF in every library.
-5. **Run the `release` workflow** (Actions → release → Run workflow) with a
+5. **Declare the arches** on a `# release-arches:` line, normally
+   `x86_64 aarch64`. List only x86_64 when the stack pins another stack's
+   archive that exists for x86_64 alone, and say why in a comment.
+6. **Run the `release` workflow** (Actions → release → Run workflow) with a
    tag and the manifest. The tag is `<name>-v<N>`; the workflow reads the
-   runtime from the manifest and names the asset
-   `<stack>-<tag>-<base>-x86_64.tar.xz`, with a `.sha256` next to it, and tags
-   the commit it built. Run it on the PR's branch to test the real archive
-   before merging; if it is wrong and nothing pins it yet, delete the release
-   and its tag and run it again.
-6. **Never replace an asset on an existing tag.** A change is a new tag
-   (`-v3`); consumers move to it in their own PRs.
-7. **Pin it in the consuming package** and test that app's feature that needs
+   runtime from the manifest, builds every declared arch natively from the
+   same commit, and only when all of them succeed creates the release with
+   `<stack>-<tag>-<base>-<arch>.tar.xz` per arch, each with a `.sha256` next
+   to it, tagging the commit it built. Run it on the PR's branch to test the
+   real archives before merging; if they are wrong and nothing pins them yet,
+   delete the release and its tag and run it again.
+7. **Never replace or add an asset on an existing tag**, another arch
+   included: the workflow refuses a tag that exists. A change, or a new arch,
+   is a new tag (`-v3`); consumers move to it in their own PRs.
+8. **Pin it in the consuming package** and test that app's feature that needs
    the stack, inside the sandbox. A library that loads is not the same as a
    feature that works.
 
