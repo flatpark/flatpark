@@ -1,5 +1,5 @@
 
-https://www.flathub.org
+https://flatpark.org
 
 ------------------------------------------------------------------------------------
 | Warning: You are running an unofficial Flatpak version of Visual Studio Code !!! |
@@ -32,16 +32,19 @@ To see what's available:
   $ ls /usr/bin (shared runtime)
   $ ls /app/bin (bundled with this flatpak)
 
-To get support for additional languages or tools within the Flatpak, you have to install SDK extensions, e.g.
+This is FlatPark's community package. To get support for additional languages
+or tools within the Flatpak, install SDK extensions. They are not part of
+FlatPark; they come from the Flathub remote (add it with
+"flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo"), e.g.
 
   $ flatpak install flathub org.freedesktop.Sdk.Extension.dotnet
   $ flatpak install flathub org.freedesktop.Sdk.Extension.golang
   $ FLATPAK_ENABLE_SDK_EXT=dotnet,golang flatpak run com.visualstudio.code
 
-Similarly for shells and other tools:
+Similarly for shells and other tools, also from Flathub:
 
-  $ flatpak install com.visualstudio.code.tool.fish
-  $ flatpak install com.visualstudio.code.tool.podman
+  $ flatpak install flathub com.visualstudio.code.tool.fish
+  $ flatpak install flathub com.visualstudio.code.tool.podman
 
 You can use
 

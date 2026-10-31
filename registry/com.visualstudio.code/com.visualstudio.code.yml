@@ -1,0 +1,138 @@
+app-id: com.visualstudio.code
+# The SDK as runtime, not the Platform: it gives the integrated terminal and
+# extensions a usable toolchain (gcc, python, git) and lets the Flathub SDK
+# extensions (FLATPAK_ENABLE_SDK_EXT) be mounted under /usr/lib/sdk.
+runtime: org.freedesktop.Sdk
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+# Electron base app for zypak, which keeps Chromium's own sandbox working
+# inside Flatpak. Nothing is compiled here.
+# What it costs: no krb5, hence no Kerberos/Negotiate single sign-on.
+base: org.electronjs.Electron2.BaseApp
+base-version: '26.08'
+command: code
+tags: [proprietary]
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --require-version=0.10.3
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  # git over SSH and remote development with the host's agent.
+  - --socket=ssh-auth
+  # Serial ports, USB debuggers and other devices extensions talk to.
+  # Declared in flatpark.yml policy.dangerous_permissions.
+  - --device=all
+  # Debuggers and profilers need ptrace and perf.
+  - --allow=devel
+  # An editor opens projects anywhere on the host, at their real paths, so
+  # paths in terminals, build output and tool configs line up.
+  # Declared in flatpark.yml policy.dangerous_permissions.
+  - --filesystem=host
+  # Commit signing through the host's gpg-agent.
+  - --filesystem=xdg-run/gnupg:ro
+  # Follow the Plasma colour scheme.
+  - --filesystem=xdg-config/kdeglobals:ro
+  - --env=NPM_CONFIG_GLOBALCONFIG=/app/etc/npmrc
+  - --env=LD_LIBRARY_PATH=/app/lib
+  # required to fix cursor scaling on wayland
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
+  - --system-talk-name=org.freedesktop.login1
+  - --talk-name=org.freedesktop.Notifications
+  # Electron safeStorage for extension secrets and sign-in tokens.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # host-spawn: runs the integrated terminal and host toolchains outside the
+  # sandbox. Declared in flatpark.yml policy.dangerous_permissions.
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.AppMenu.Registrar.*
+add-extensions:
+  com.visualstudio.code.tool:
+    directory: tools
+    subdirectories: true
+    versions: stable;26.08
+    add-ld-path: lib
+    no-autodownload: true
+modules:
+  - name: vscode
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 code.sh /app/bin/code
+      - install -Dm644 vscode_64.png /app/share/icons/hicolor/64x64/apps/com.visualstudio.code.png
+      - install -Dm644 vscode_128.png /app/share/icons/hicolor/128x128/apps/com.visualstudio.code.png
+      - install -Dm644 vscode_256.png /app/share/icons/hicolor/256x256/apps/com.visualstudio.code.png
+      - install -Dm644 com.visualstudio.code.png /app/share/icons/hicolor/512x512/apps/com.visualstudio.code.png
+      - install -Dm644 com.visualstudio.code.metainfo.xml -t /app/share/metainfo
+      - install -Dm644 com.visualstudio.code.desktop -t /app/share/applications
+      - install -Dm644 com.visualstudio.code-url-handler.desktop -t /app/share/applications
+      - install -Dm644 com.visualstudio.code-workspace.xml -t /app/share/mime/packages
+      - install -Dm644 npmrc -t /app/etc
+      - install -Dm644 flatpak-warning.txt -t /app/share/vscode
+      # Some extensions' native binaries link the old ncurses soname.
+      - ARCH_TRIPLE=$(gcc --print-multiarch) && ln -s /usr/lib/${ARCH_TRIPLE}/libtinfo.so
+        /app/lib/libtinfo.so.5
+      - mkdir /app/tools
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: code.deb
+        only-arches:
+          - x86_64
+        url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/2c33b50b16c472efe58357d1d2a8a5414bc23fbf/code_1.144.0-1793133881_amd64.deb
+        sha256: b8fbff92d8d95908990eed0acf004c980f29003725469e794ddbd017ea511a20
+        size: 258781214
+      - type: extra-data
+        filename: code.deb
+        only-arches:
+          - aarch64
+        url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/2c33b50b16c472efe58357d1d2a8a5414bc23fbf/code_1.144.0-1793133877_arm64.deb
+        sha256: 044e1cfd2ba1a93ff05b1d58f4b720896142c939f862c9a9204c2efe6c87b3af
+        size: 228863502
+      # END MANAGED EXTRA-DATA
+      # host-spawn, upstream's static release binary. Pinned by hand: bump
+      # the tag, sha256 and size together.
+      - type: extra-data
+        filename: host-spawn
+        only-arches:
+          - x86_64
+        url: https://github.com/1player/host-spawn/releases/download/v1.6.2/host-spawn-x86_64
+        sha256: 077bc09a087292447ba17cfe2156a93f71bf56c4c6be8e38d3abe65c1240f34c
+        size: 4719809
+      - type: extra-data
+        filename: host-spawn
+        only-arches:
+          - aarch64
+        url: https://github.com/1player/host-spawn/releases/download/v1.6.2/host-spawn-aarch64
+        sha256: 8b30215b0b6b66c8c34a3e22d372dd39020295cd0904608bc2c5f5ecff829e5f
+        size: 4631691
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: code.sh
+      - type: file
+        path: flatpak-warning.txt
+      - type: file
+        path: npmrc
+      - type: file
+        path: com.visualstudio.code.metainfo.xml
+      - type: file
+        path: com.visualstudio.code.desktop
+      - type: file
+        path: com.visualstudio.code-url-handler.desktop
+      - type: file
+        path: com.visualstudio.code-workspace.xml
+      - type: file
+        path: icons/vscode_64.png
+      - type: file
+        path: icons/vscode_128.png
+      - type: file
+        path: icons/vscode_256.png
+      - type: file
+        path: com.visualstudio.code.png

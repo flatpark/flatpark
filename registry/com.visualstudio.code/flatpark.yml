@@ -1,0 +1,43 @@
+# Flathub's com.visualstudio.code is third-party (not verified) and lags
+# upstream; this one tracks Microsoft's update service and is re-pinned within
+# hours of a release.
+id: com.visualstudio.code
+name: Visual Studio Code
+summary: Code editing. Redefined.
+website: https://code.visualstudio.com
+source_url: https://github.com/microsoft/vscode
+build:
+  manifest: com.visualstudio.code.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags:
+    - Editor
+    - IDE
+    - Microsoft
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    # Projects open at their real host paths, so terminals, build output and
+    # tool configs agree with the host.
+    - --filesystem=host
+    # Serial ports, USB debuggers and other devices extensions talk to.
+    - --device=all
+    # host-spawn: the integrated terminal and host toolchains run outside the
+    # sandbox.
+    - --talk-name=org.freedesktop.Flatpak
+
+packaging:
+  - kind: host-command
+    detail:
+      en: "The bundled host-spawn runs commands on your system through flatpak-spawn, outside the sandbox with your user's access. The integrated terminal can be pointed at it to use your host shell and toolchains."
+      zh-Hans: "随附的 host-spawn 通过 flatpak-spawn 在你的系统上运行命令，在沙箱之外、拥有你这个用户的权限。可以将集成终端设置为使用它，以便使用宿主机的 shell 和工具链。"
+  - kind: seeded-config
+    detail:
+      en: "The launcher opens a note about the sandbox on first start, reads extra Electron flags from code-flags.conf, keeps extensions in the app's data directory, points TMPDIR at the per-app runtime directory, and links the host's /etc/shells into the sandbox so the terminal finds host shells."
+      zh-Hans: "启动器在首次运行时打开一份沙箱说明，从 code-flags.conf 读取额外的 Electron 参数，把扩展放在应用的数据目录中，将 TMPDIR 指向应用专属的运行时目录，并把宿主机的 /etc/shells 链接进沙箱，使终端能找到宿主机的 shell。"

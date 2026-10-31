@@ -14,6 +14,9 @@ if [ ! -f ${FIRST_RUN} ]; then
   touch ${FIRST_RUN}
 fi
 
+# host-spawn, unpacked from extra-data by apply_extra.
+export PATH=$PATH:/app/extra/bin
+
 PYTHON_SITEDIR=$(python3 <<EOFPYTHON
 import os
 import site
