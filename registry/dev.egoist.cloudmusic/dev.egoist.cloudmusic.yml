@@ -44,16 +44,16 @@ modules:
         filename: mygo-cloudmusic.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/egoist/mygo-cloudmusic/releases/download/v0.1.22/mygo-cloudmusic-0.1.22-linux-amd64.tar.gz
-        sha256: 35319c660ef70727aca9e358d3f269d24136cf4136e0e0ca94aea1ddfc8cf64c
-        size: 8690068
+        url: https://github.com/egoist/mygo-cloudmusic/releases/download/v0.1.24/mygo-cloudmusic-0.1.24-linux-amd64.tar.gz
+        sha256: f0ef109fad8b625a79a7def35e11bfe2252e023e78f5298c61eaf9c6cdb9943e
+        size: 8692441
       - type: extra-data
         filename: mygo-cloudmusic.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/egoist/mygo-cloudmusic/releases/download/v0.1.22/mygo-cloudmusic-0.1.22-linux-arm64.tar.gz
-        sha256: c0e21b3d687ab11169bd6b7369bf0d0aaa24c0f08b168101f42f59fd7ceb6e38
-        size: 7963286
+        url: https://github.com/egoist/mygo-cloudmusic/releases/download/v0.1.24/mygo-cloudmusic-0.1.24-linux-arm64.tar.gz
+        sha256: a6057552cd0d40c8dc82941aee46e1482b684c8cff136fd578e6b1433abae4f1
+        size: 7966875
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

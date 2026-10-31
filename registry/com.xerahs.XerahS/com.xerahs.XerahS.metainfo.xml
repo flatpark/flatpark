@@ -43,6 +43,9 @@
     <keyword>upload</keyword>
   </keywords>
   <releases>
+    <release version="0.33.6" date="2026-10-31">
+      <description></description>
+    </release>
     <release version="0.25.5" date="2026-08-18"/>
   </releases>
 </component>

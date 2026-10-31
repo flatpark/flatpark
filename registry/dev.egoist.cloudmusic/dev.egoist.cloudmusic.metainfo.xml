@@ -51,6 +51,10 @@
     <binary>mygo-cloudmusic</binary>
   </provides>
   <releases>
+    <release version="0.1.24" date="2026-10-31">
+      <url type="details">https://github.com/egoist/mygo-cloudmusic/releases/tag/v0.1.24</url>
+      <description></description>
+    </release>
     <release version="0.1.22" date="2026-10-30">
       <url type="details">https://github.com/egoist/mygo-cloudmusic/releases/tag/v0.1.22</url>
       <description></description>
