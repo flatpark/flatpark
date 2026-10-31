@@ -18,8 +18,20 @@ for arg do
 done
 config="$XDG_CONFIG_HOME/bottom/bottom.toml"
 if [ -r "$config" ] && awk '
-    /^[[:space:]]*\[[[:space:]]*(styles|["\047]styles["\047])[[:space:]]*(\]|[.])/ { custom = 1 }
-    /^[[:space:]]*(styles|["\047]styles["\047])[[:space:]]*(=|[.])/ { custom = 1 }
+    /^[[:space:]]*#/ { next }
+
+    /^[[:space:]]*\[/ {
+        in_table = 1
+        if ($0 ~ /^[[:space:]]*\[[[:space:]]*(styles|"styles"|\047styles\047)[[:space:]]*(\]|[.])/) {
+            custom = 1
+        }
+        next
+    }
+
+    !in_table && /^[[:space:]]*(styles|"styles"|\047styles\047)[[:space:]]*(=|[.])/ {
+        custom = 1
+    }
+
     END { exit !custom }
 ' "$config"; then
     default_style=0
