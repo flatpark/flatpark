@@ -40,6 +40,7 @@ cat > "$app/io.flatpark.TestOne.metainfo.xml" <<'EOF'
     <p>Features:</p>
     <ul>
       <li>Feature alpha</li>
+      <li xml:lang="zh-Hans">特性 alpha 列表项</li>
       <li>Optional cap: <code>flatpak override --user --filesystem=home io.flatpark.TestOne</code></li>
     </ul>
   </description>
@@ -50,7 +51,7 @@ cat > "$app/io.flatpark.TestOne.metainfo.xml" <<'EOF'
   <screenshots><screenshot type="default"><caption>Main</caption><caption xml:lang="zh-Hans">主界面</caption><image>https://example.org/shot.png</image></screenshot></screenshots>
   <releases>
     <release version="1.0" date="2026-01-01">
-      <description><p>First release.</p></description>
+      <description><p>First release.</p><ul><li>Fixed beta</li><li xml:lang="zh-Hans">修复 beta</li></ul></description>
       <description xml:lang="zh-Hans"><p>首个版本。</p></description>
     </release>
   </releases>
@@ -133,7 +134,8 @@ assert_ok node -e "
 # <name> or <caption> makes the field an array, which renders as empty.
 assert_contains "$out" "\"caption\": \"Main\""
 assert_contains "$out" "First release."
-if grep -q "测试开发者\|一个用于\|特性 alpha\|主界面\|首个版本" "$out"; then
+assert_contains "$out" "Fixed beta"
+if grep -q "测试开发者\|一个用于\|特性 alpha\|主界面\|首个版本\|列表项\|修复 beta" "$out"; then
     echo "FAIL: xml:lang translation leaked into source-language content"
     exit 1
 fi

@@ -283,7 +283,7 @@ function blocksFrom(descChildren) {
       if (runs.length) blocks.push({ type: 'p', runs });
     } else if ('ul' in node || 'ol' in node) {
       const items = toArray(node.ul || node.ol)
-        .filter((c) => c && 'li' in c)
+        .filter((c) => c && 'li' in c && isSourceLang(c)) // gettext puts translated <li>s inside the source <ul>
         .map((c) => orderedRuns(c.li))
         .filter((runs) => runs.length);
       if (items.length) blocks.push({ type: 'list', items });
