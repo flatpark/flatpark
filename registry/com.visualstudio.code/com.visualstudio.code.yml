@@ -1,7 +1,5 @@
 app-id: com.visualstudio.code
-# The Sdk, not the Platform: only the Sdk declares the org.freedesktop.Sdk.Extension
-# mount point, so SDK extensions (golang, dotnet, ...) and FLATPAK_ENABLE_SDK_EXT
-# work only on it. It also gives the editor gcc, make and python in the sandbox.
+# Sdk, not Platform: git and compilers in the sandbox, and SDK extensions mount only here.
 runtime: org.freedesktop.Sdk
 runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
