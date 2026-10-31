@@ -6,4 +6,4 @@ mkdir -p bottom
 # System installs unpack without ownership-restoration capabilities.
 bsdtar --no-same-owner -xf bottom.tar.gz -C bottom
 [ -x bottom/btm ] || { echo 'bottom executable missing from upstream archive' >&2; exit 1; }
-# Keep the archive and extracted files available for subsequent local testing.
+rm -f bottom.tar.gz
