@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=SculptForge
+GenericName=Digital Sculpting
+Comment=Sculpt 3D models and send them to game engines
+Exec=sculptforge %f
+TryExec=sculptforge
+Icon=org.sculptforge.SculptForge
+Terminal=false
+StartupNotify=true
+Categories=Graphics;3DGraphics;
+Keywords=sculpt;3d;model;zbrush;mesh;gltf;fbx;usd;unreal;
+MimeType=model/obj;model/gltf-binary;model/gltf+json;model/vnd.usdz+zip;model/vnd.usda;application/x-sculptforge-brush;
+StartupWMClass=sculptforge

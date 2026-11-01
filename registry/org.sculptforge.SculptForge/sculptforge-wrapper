@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# The official tarball is staged by apply_extra at /app/extra/sculptforge.
+# Data in share/sculptforge is found relative to the binary.
+exec /app/extra/sculptforge/bin/sculptforge "$@"

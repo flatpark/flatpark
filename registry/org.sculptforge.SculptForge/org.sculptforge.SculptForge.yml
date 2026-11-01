@@ -1,0 +1,58 @@
+id: org.sculptforge.SculptForge
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: sculptforge
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# SDL3 and Dear ImGui are linked into the binary. The runtime supplies
+# libcurl, libstdc++ and glibc. The app id is the one upstream's own Flatpak
+# uses.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Cloud and local AI (Ollama, ComfyUI), the phone link, and Unreal Live Link.
+  # The daily update banner is a separate switch, turned off below.
+  - --share=network
+  # FlatPark delivers updates. The banner would point at a download page.
+  - --env=SF_NO_UPDATE_CHECK=1
+  # A model names textures and other files beside it (.obj/.mtl, .gltf/.bin,
+  # OpenUSD layers). A file-chooser grant does not cover those.
+  - --filesystem=home
+  # Shared with the Blender add-on, which runs outside this sandbox.
+  - --filesystem=xdg-data/SculptForge/SculptForge/blender:create
+modules:
+  - name: sculptforge
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 sculptforge-wrapper /app/bin/sculptforge
+      - install -Dm755 sculptforge-cli-wrapper /app/bin/sculptforge-cli
+      - install -Dm644 org.sculptforge.SculptForge.desktop /app/share/applications/org.sculptforge.SculptForge.desktop
+      - install -Dm644 org.sculptforge.SculptForge.metainfo.xml /app/share/metainfo/org.sculptforge.SculptForge.metainfo.xml
+      - install -Dm644 org.sculptforge.SculptForge.png /app/share/icons/hicolor/512x512/apps/org.sculptforge.SculptForge.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: sculptforge.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/islandmed/SculptForge/releases/download/v0.10.1/SculptForge-0.10.1-linux-x86_64.tar.gz
+        sha256: ba4ce72d2ad73575d1658943a66e3dea1cdaac4844cc7796090d1d0290ea9a9c
+        size: 19334043
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: sculptforge-wrapper
+      - type: file
+        path: sculptforge-cli-wrapper
+      - type: file
+        path: org.sculptforge.SculptForge.desktop
+      - type: file
+        path: org.sculptforge.SculptForge.metainfo.xml
+      - type: file
+        path: org.sculptforge.SculptForge.png

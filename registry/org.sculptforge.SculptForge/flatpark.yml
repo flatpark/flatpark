@@ -1,0 +1,25 @@
+id: org.sculptforge.SculptForge
+name: SculptForge
+summary: Digital sculpting for artists and game pipelines
+website: https://sculptforge.app/
+source_url: https://github.com/islandmed/SculptForge
+build:
+  manifest: org.sculptforge.SculptForge.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - 3DGraphics
+    - Sculpting
+    - Modeling
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Models name textures and other files beside them. The portal grant covers
+    # only the file the user picks.
+    - --filesystem=home

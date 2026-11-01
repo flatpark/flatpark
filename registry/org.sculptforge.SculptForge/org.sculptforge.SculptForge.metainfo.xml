@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.sculptforge.SculptForge</id>
+  <name>SculptForge</name>
+  <summary>Digital sculpting for artists and game pipelines</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="org.sculptforge">
+    <name>The SculptForge contributors</name>
+  </developer>
+  <url type="homepage">https://sculptforge.app/</url>
+  <url type="bugtracker">https://github.com/islandmed/SculptForge/issues</url>
+  <url type="vcs-browser">https://github.com/islandmed/SculptForge</url>
+  <description>
+    <p>This is a community package of SculptForge, maintained independently and unaffiliated with its developers. It repackages the official upstream Linux build unmodified.</p>
+    <p>SculptForge is a digital sculpting application with brushes, symmetry, sculpt layers, voxel remeshing and LOD chains. It exports FBX, glTF and OpenUSD, and can send a model to the Unreal Editor.</p>
+    <p>AI tools can describe a brush, or turn an image or a description into a model, using the built-in service or a local Ollama or ComfyUI. A phone link can show the sculpt and capture a face. No account is required to sculpt locally.</p>
+    <p>Sandbox: display, GPU, network for those AI tools, the phone link and Unreal Live Link, and the home folder so a model can read the files named beside it. The daily update notice is turned off. Updates come through FlatPark.</p>
+    <p>Pen tablets work through the display connection. To use a SpaceMouse, run <code>flatpak override --user --device=input org.sculptforge.SculptForge</code>.</p>
+    <p>The headless runner is <code>flatpak run --command=sculptforge-cli org.sculptforge.SculptForge --help</code>.</p>
+  </description>
+  <launchable type="desktop-id">org.sculptforge.SculptForge.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>sculpt</keyword>
+    <keyword>3d</keyword>
+    <keyword>model</keyword>
+    <keyword>mesh</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Sculpting a creature with symmetry</caption>
+      <image>https://sculptforge.app/media/screenshot-sculpt.jpg</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>sculptforge</binary>
+    <binary>sculptforge-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.10.1" date="2026-11-01">
+      <description>
+        <p>Official Linux build 0.10.1.</p>
+      </description>
+    </release>
+  </releases>
+</component>
