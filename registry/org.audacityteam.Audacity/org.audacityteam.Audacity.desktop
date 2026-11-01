@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=Audacity 4
+Name=Audacity
 GenericName=Audio Editor
 Comment=Record, edit and mix audio
 Exec=audacity %U

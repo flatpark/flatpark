@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <!-- Same type and glob as the AppImage's share/mime/packages/audacity4portable.xml. -->
+  <mime-type type="application/x-audacity">
+    <comment>Audacity project</comment>
+    <glob pattern="*.aup4"/>
+    <generic-icon name="audio-x-generic"/>
+  </mime-type>
+</mime-info>

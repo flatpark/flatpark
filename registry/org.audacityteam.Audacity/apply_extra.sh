@@ -6,6 +6,8 @@ for f in audacity.AppImage appimage-tools.tar.xz; do
 done
 bsdtar --no-same-owner -xf appimage-tools.tar.xz
 tools=appimage-tools/bin
+[ -x "$tools/appimage-offset" ] && [ -x "$tools/unsquashfs" ] \
+    || { echo "appimage-tools stack incomplete" >&2; exit 1; }
 offset="$("$tools/appimage-offset" audacity.AppImage)"
 case "$offset" in
     ''|*[!0-9]*) echo "invalid AppImage offset: $offset" >&2; exit 1 ;;
