@@ -23,10 +23,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: bottom.tar.gz
-        only-arches: [x86_64]
-        url: https://github.com/ClementTsang/bottom/releases/download/0.14.9/bottom_x86_64-unknown-linux-gnu.tar.gz
-        sha256: e0c325829e8bdcea25a8a7651da05dbb6f1fc109ac5d2f0187867d3d5d9c0df8
-        size: 2054330
+        only-arches:
+          - x86_64
+        url: https://github.com/ClementTsang/bottom/releases/download/0.15.0/bottom_x86_64-unknown-linux-gnu.tar.gz
+        sha256: 051888e0e064aa037728efed3fcf77820714f8f4dc7bea2b0179d40c54400c26
+        size: 2064072
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

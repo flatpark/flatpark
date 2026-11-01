@@ -52,9 +52,9 @@ modules:
         filename: gifkino-app.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/zbcoding/gifkino/releases/download/v0.1.5/Gifkino-flatpark-x86_64.tar.xz
-        sha256: af9dc2505933cd2826e252be61d65394175ae5ed3b0709d47fc121290a747d7c
-        size: 22892152
+        url: https://github.com/zbcoding/gifkino/releases/download/v0.1.6/Gifkino-flatpark-x86_64.tar.xz
+        sha256: c9a6635a64a1a494cf22fb54525c6d10135b2a413e1d11dd68a5cf1e66b3f17d
+        size: 22893152
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
