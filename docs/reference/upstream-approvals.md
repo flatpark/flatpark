@@ -100,3 +100,4 @@ that PR link in the table — the PR itself is the evidence.
 | YetEase Music | `io.github.gloridust.YetEaseMusic` | [Gloridust/YetEaseMusic#4](https://github.com/Gloridust/YetEaseMusic/issues/4) — Gloridust, the author: "感谢，同意~" ("Thanks, agreed"); the README now lists FlatPark as an install option | 2026-10-24 |
 | Tessera | `io.github.pedrohqb.Tessera` | Approved by construction — submitted and maintained by its own developer ([flatpark#903](https://github.com/flatpark/flatpark/pull/903)) | 2026-10-29 |
 | Meditate | `io.github.janekbt.Meditate` | Approved by construction — submitted and maintained by its own developer ([flatpark#920](https://github.com/flatpark/flatpark/pull/920)) | 2026-10-31 |
+| SculptForge | `org.sculptforge.SculptForge` | [flatpark#936](https://github.com/flatpark/flatpark/issues/936) — islandmed, SculptForge's developer and repo owner: "I am the SculptForge developer, and I approve" | 2026-11-02 |

@@ -3,7 +3,7 @@ set -eu
 
 # Runs offline at install time inside org.freedesktop.Platform. The upstream
 # artifact is the official Linux tarball (CPack): one top-level folder,
-# SculptForge-<version>-linux-x86_64/, holding bin/sculptforge, bin/sculptforge-cli
+# SculptForge-<version>-linux-<arch>/, holding bin/sculptforge, bin/sculptforge-cli
 # and share/. The app finds share/sculptforge next to bin/.
 
 extra_root="${EXTRA_ROOT:-/app/extra}"

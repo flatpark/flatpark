@@ -7,10 +7,10 @@ build:
   manifest: org.sculptforge.SculptForge.yml
   branch: stable
   mode: extra-data
-  arches: [x86_64]
+  arches: [x86_64, aarch64]
 catalog:
   category: Graphics
-  upstream_approved: false
+  upstream_approved: true
   tags:
     - 3DGraphics
     - Sculpting

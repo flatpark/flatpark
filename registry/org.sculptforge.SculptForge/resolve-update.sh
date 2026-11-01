@@ -3,10 +3,11 @@
 #
 # The same GitHub release also ships installers, an AppImage, a single-file
 # Flatpak, VFX-platform tarballs, and macOS and Windows archives. Take only
-# SculptForge-<version>-linux-x86_64.tar.gz.
+# SculptForge-<version>-linux-x86_64.tar.gz and -linux-arm64.tar.gz.
 # Prints JSON on stdout:
 #   { "version": "0.10.1", "releaseDate": "YYYY-MM-DD", "releaseUrl": "...",
-#     "sources": [ { "filename": "sculptforge.tar.gz", "arch": "x86_64", "url": "..." } ] }
+#     "sources": [ { "filename": "sculptforge.tar.gz", "arch": "x86_64", "url": "..." },
+#                  { "filename": "sculptforge.tar.gz", "arch": "aarch64", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting.
 set -euo pipefail
 
@@ -28,15 +29,23 @@ version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 release_url="$(jq -r '.html_url' <<<"$rel")"
 
-# SculptForge-<ver>-linux-x86_64.tar.gz exactly: excludes the -vfx* tarballs and
-# the unversioned aliases.
-url="$(jq -r --arg n "SculptForge-$version-linux-x86_64.tar.gz" \
-  '.assets[] | select(.name == $n) | .browser_download_url' <<<"$rel" | head -n1)"
+# SculptForge-<ver>-linux-<arch>.tar.gz exactly: excludes the -vfx* tarballs and
+# the unversioned aliases. Upstream names the ARM build "arm64".
+asset_url() {
+  jq -r --arg n "SculptForge-$version-linux-$1.tar.gz" \
+    '.assets[] | select(.name == $n) | .browser_download_url' <<<"$rel" | head -n1
+}
+url_x86_64="$(asset_url x86_64)"
+url_aarch64="$(asset_url arm64)"
 
-[ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve SculptForge release" >&2; exit 1; }
-echo "resolved SculptForge $version ($date): $url" >&2
+[ -n "$version" ] && [ -n "$url_x86_64" ] && [ -n "$url_aarch64" ] || {
+  echo "failed to resolve SculptForge release" >&2
+  exit 1
+}
+echo "resolved SculptForge $version ($date): $url_x86_64" >&2
 
-jq -n --arg v "$version" --arg d "$date" --arg r "$release_url" --arg u "$url" \
+jq -n --arg v "$version" --arg d "$date" --arg r "$release_url" --arg ux "$url_x86_64" --arg ua "$url_aarch64" \
   '{version:$v, releaseDate:$d, releaseUrl:$r, sources:[
-     {filename:"sculptforge.tar.gz", arch:"x86_64", url:$u}
+     {filename:"sculptforge.tar.gz", arch:"x86_64",  url:$ux},
+     {filename:"sculptforge.tar.gz", arch:"aarch64", url:$ua}
    ]}'
