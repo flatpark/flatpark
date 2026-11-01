@@ -49,16 +49,16 @@ modules:
         filename: deckcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/deckcraft/releases/download/v0.13.1/deckcraft-0.13.1-linux-x86_64.tar.gz
-        sha256: 711ec095b590fbcbaaabc8c5925a8350dea98ee931ab7b44d48af68b2e61f514
-        size: 103625078
+        url: https://github.com/storytold/deckcraft/releases/download/v0.14.1/deckcraft-0.14.1-linux-x86_64.tar.gz
+        sha256: e86c7fa0ecb55f1a553ee425b93dcfdc806b7b3798f272b41f1d1ff74ac5c12a
+        size: 103728457
       - type: extra-data
         filename: deckcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/deckcraft/releases/download/v0.13.1/deckcraft-0.13.1-linux-aarch64.tar.gz
-        sha256: ff25d0c8468bcdd35b6527603f3e57b479741cc70dffd1261acac83fb41d9f03
-        size: 101034547
+        url: https://github.com/storytold/deckcraft/releases/download/v0.14.1/deckcraft-0.14.1-linux-aarch64.tar.gz
+        sha256: ea5659174fe800736fd6a9e697b106c4de962fe00946707bbf884c23e26ec81c
+        size: 101251347
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

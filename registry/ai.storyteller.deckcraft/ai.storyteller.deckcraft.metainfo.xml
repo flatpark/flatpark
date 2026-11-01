@@ -66,6 +66,9 @@
     <mediatype>application/vnd.openxmlformats-officedocument.presentationml.presentation</mediatype>
   </provides>
   <releases>
+    <release version="0.14.1" date="2026-11-01">
+      <description></description>
+    </release>
     <release version="0.13.1" date="2026-10-31">
       <description></description>
     </release>

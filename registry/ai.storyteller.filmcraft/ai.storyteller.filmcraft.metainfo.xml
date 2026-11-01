@@ -67,6 +67,9 @@
     <binary>filmcraft-cli</binary>
   </provides>
   <releases>
+    <release version="0.16.0" date="2026-11-01">
+      <description></description>
+    </release>
     <release version="0.15.0" date="2026-10-31">
       <description></description>
     </release>

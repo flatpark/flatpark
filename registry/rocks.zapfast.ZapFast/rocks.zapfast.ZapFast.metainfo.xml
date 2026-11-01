@@ -75,6 +75,10 @@
     <binary>zapfast</binary>
   </provides>
   <releases>
+    <release version="0.21.0" date="2026-11-01">
+      <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.21.0</url>
+      <description></description>
+    </release>
     <release version="0.20.1" date="2026-10-24">
       <url type="details">https://github.com/crmne/zapfast/releases/tag/v0.20.1</url>
       <description></description>

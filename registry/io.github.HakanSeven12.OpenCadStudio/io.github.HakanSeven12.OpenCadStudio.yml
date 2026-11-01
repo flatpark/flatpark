@@ -51,9 +51,9 @@ modules:
         filename: opencadstudio.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/HakanSeven12/OpenCADStudio/releases/download/v2026.43/OpenCADStudio-v2026.43-linux-x86_64.AppImage
-        sha256: 824d957b32fb92bfc97a043907f0a51a134f5a892636fb1fb6319a98d88edb8d
-        size: 44669432
+        url: https://github.com/HakanSeven12/OpenCADStudio/releases/download/v2026.44/OpenCADStudio-v2026.44-linux-x86_64.AppImage
+        sha256: 8721af79366d4ac05a30476803883e08f3c9def7372cf87e2a8f3fb6d6cf3940
+        size: 48507384
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
