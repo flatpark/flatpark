@@ -1,0 +1,52 @@
+id: io.github.pietini69.photoncam
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: photoncam
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Native Rust/egui app. The binary needs only glibc from the runtime.
+# Wayland, X11, xkbcommon and EGL are loaded at run time.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # USB serial for a GRBL or Ruida controller (/dev/ttyUSB*, /dev/ttyACM*).
+  - --device=all
+  # The web remote and the iPad bridge listen on the LAN. There is no
+  # in-app update download.
+  - --share=network
+  # Open and Save go through the file-chooser portal. Documents is granted
+  # so a project passed by path keeps working.
+  - --filesystem=xdg-documents
+modules:
+  - name: photoncam
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 photoncam-wrapper /app/bin/photoncam
+      - install -Dm644 io.github.pietini69.photoncam.desktop /app/share/applications/io.github.pietini69.photoncam.desktop
+      - install -Dm644 io.github.pietini69.photoncam.metainfo.xml /app/share/metainfo/io.github.pietini69.photoncam.metainfo.xml
+      - install -Dm644 io.github.pietini69.photoncam.png /app/share/icons/hicolor/512x512/apps/io.github.pietini69.photoncam.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: photoncam.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/pietini69/photoncam/releases/download/v1.2.8/PhotonCAM-1.2.8-linux-x86_64.tar.gz
+        sha256: f4b76afc62d36e28e3a9a1eca9513f18986689d809dc884eaff358c09e3c386f
+        size: 8104053
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: photoncam-wrapper
+      - type: file
+        path: io.github.pietini69.photoncam.desktop
+      - type: file
+        path: io.github.pietini69.photoncam.metainfo.xml
+      - type: file
+        path: io.github.pietini69.photoncam.png

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# The official tarball is staged by apply_extra at /app/extra/photoncam.
+exec /app/extra/photoncam/photoncam "$@"

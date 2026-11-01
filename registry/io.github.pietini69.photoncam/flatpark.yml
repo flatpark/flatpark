@@ -1,0 +1,26 @@
+id: io.github.pietini69.photoncam
+name: PhotonCAM
+summary: Laser cutting and engraving CAM
+website: https://github.com/pietini69/photoncam
+source_url: https://github.com/pietini69/photoncam
+build:
+  manifest: io.github.pietini69.photoncam.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Laser
+    - CAM
+    - GRBL
+    - Engraving
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # GRBL and Ruida controllers are USB serial ports. Flatpak has no
+    # narrower device permission for /dev/ttyUSB* and /dev/ttyACM*.
+    - --device=all

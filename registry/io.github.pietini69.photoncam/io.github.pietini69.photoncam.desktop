@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=PhotonCAM
+Comment=Modern laser cutting and engraving CAM
+Exec=photoncam %f
+TryExec=photoncam
+Icon=io.github.pietini69.photoncam
+Terminal=false
+StartupNotify=true
+Categories=Graphics;Engineering;
+Keywords=laser;cam;grbl;ruida;lightburn;engrave;
+StartupWMClass=photoncam
