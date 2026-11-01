@@ -1,0 +1,110 @@
+id: io.github.pratyay360.drawx
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+  - org.freedesktop.Sdk.Extension.node24
+
+command: drawx
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --filesystem=home
+  - --device=dri
+
+modules:
+  - name: drawx
+    buildsystem: simple
+
+    build-options:
+      # Offline build: Node deps are vendored via flatpak/generated-sources.json
+      # (regenerate on every bun.lock bump with `mise run flatpak:sources`,
+      # which runs scripts/flatpak-sources.ts).
+      # Cargo deps are vendored via flatpak/cargo-sources.json.
+      # Do NOT add network access here; Flathub builds are offline.
+
+      append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node24/bin:/run/build/drawx/bin
+      env:
+        CARGO_HOME: /run/build/drawx/cargo
+        # The vendored npm tarballs are extracted (flatpak-builder, type:
+        # archive) into this Bun cache, which `bun install --offline` reads
+        # in place. Keep in sync with the `dest` in generated-sources.json.
+        BUN_INSTALL_CACHE_DIR: /run/build/drawx/bun_cache
+
+    build-commands:
+      # Bun is NOT shipped by the node24 SDK extension (it only provides node,
+      # npm, yarn v1 and corepack), so install the vendored standalone binary
+      # (see sources below) into the module build dir, already on PATH via
+      # append-path. Do NOT `npm install -g bun` or curl bun.sh here: the SDK
+      # is read-only and the build sandbox has no network.
+      - install -Dm755 flatpak-node/bun-bin/bun "$FLATPAK_BUILDER_BUILDDIR/bin/bun"
+      - bun --version
+      # A few npm tarballs (see scripts/flatpak-sources.ts) ship directory
+      # entries without the execute bit, which GNU tar cannot unpack as a
+      # normal user. The generator leaves those tarballs unextracted, so
+      # unpack them here to fill Bun's offline cache. The first pass creates
+      # the directories (without the execute bit), the second one fills them
+      # and keeps the existing directory permissions.
+      - |
+        for tgz in bun_cache/*/package.tgz bun_cache/*/*/package.tgz; do
+          [ -f "$tgz" ] || continue
+          dir="$(dirname "$tgz")"
+          tar xf "$tgz" --no-same-owner --strip-components=1 -C "$dir" 2>/dev/null || true
+          chmod -R u+rwX "$dir"
+          tar xf "$tgz" --no-same-owner --no-overwrite-dir --strip-components=1 -C "$dir"
+          rm -f "$tgz"
+        done
+      - bun install --frozen-lockfile --offline
+      - bun run tauri build --no-bundle
+      - install -Dm755 src-tauri/target/release/drawx /app/bin/drawx
+
+      - install -Dm644 flatpak/io.github.pratyay360.drawx.desktop
+        /app/share/applications/io.github.pratyay360.drawx.desktop
+
+      - install -Dm644 flatpak/io.github.pratyay360.drawx.metainfo.xml
+        /app/share/metainfo/io.github.pratyay360.drawx.metainfo.xml
+
+      - install -Dm644 src-tauri/icons/32x32.png
+        /app/share/icons/hicolor/32x32/apps/io.github.pratyay360.drawx.png
+      - install -Dm644 src-tauri/icons/64x64.png
+        /app/share/icons/hicolor/64x64/apps/io.github.pratyay360.drawx.png
+      - install -Dm644 src-tauri/icons/128x128.png
+        /app/share/icons/hicolor/128x128/apps/io.github.pratyay360.drawx.png
+      - install -Dm644 src-tauri/icons/128x128@2x.png
+        /app/share/icons/hicolor/256x256/apps/io.github.pratyay360.drawx.png
+
+    sources:
+
+      - type: git
+        url: https://github.com/pratyay360/drawx.git
+        branch: main
+      #
+      - cargo-sources.json
+      - generated-sources.json
+      #
+      # Standalone Bun: not shipped by the node24 SDK extension (see
+      # build-commands above). Version must match root package.json
+      # "packageManager" (bun@1.4.1). The zips contain `<arch>/bun`, so the
+      # default strip-components: 1 leaves a bare `bun` for the install step.
+      - type: archive
+        url: https://github.com/oven-sh/bun/releases/download/bun-v1.4.1/bun-linux-x64.zip
+        sha256: 74c1c3bee7cd998500c8f969cd8972355ac6a07207e94a39eece1999b56ffabf
+        dest: flatpak-node/bun-bin
+        strip-components: 1
+        only-arches: [x86_64]
+      - type: archive
+        url: https://github.com/oven-sh/bun/releases/download/bun-v1.4.1/bun-linux-aarch64.zip
+        sha256: 580ce77533108dc6b10bec1721397e4f5aa44e909726da2451d483dfc5e581d6
+        dest: flatpak-node/bun-bin
+        strip-components: 1
+        only-arches: [aarch64]
+      #
+      # Bare filenames are interpreted by flatpak-builder as lists of sources.
+      # Regenerate both on every lockfile bump:
+      #   Cargo: src-tauri/Cargo.lock -> flatpak/cargo-sources.json
+      #   Node:  bun.lock -> flatpak/generated-sources.json
