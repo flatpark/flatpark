@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Preserve the upstream launcher's toolkit and library environment.
+exec /app/extra/audacity/AppRun "$@"
