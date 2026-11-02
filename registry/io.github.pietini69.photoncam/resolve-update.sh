@@ -20,11 +20,11 @@ best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
   "https://api.github.com/repos/$repo/releases?per_page=30" | jq '
   [ .[] | select((.draft or .prerelease) | not) | . as $r
     | .assets[]
-    | select(.name | test("^PhotonCAM-[0-9][0-9.]*-linux-x86_64\\.tar\\.gz$"))
+    | select(.name | test("^PhotonCAM-[0-9]+(\\.[0-9]+)*-linux-x86_64\\.tar\\.gz$"))
     | { published: $r.published_at,
         html: $r.html_url,
         url: .browser_download_url,
-        ver: (.name | capture("^PhotonCAM-(?<v>[0-9][0-9.]*)-linux-x86_64\\.tar\\.gz$").v) } ]
+        ver: (.name | capture("^PhotonCAM-(?<v>[0-9]+(\\.[0-9]+)*)-linux-x86_64\\.tar\\.gz$").v) } ]
   | max_by(.ver | split(".") | map(tonumber))')"
 
 version="$(jq -r '.ver // empty' <<<"$best")"

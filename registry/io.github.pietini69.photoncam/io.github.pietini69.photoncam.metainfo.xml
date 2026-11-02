@@ -4,7 +4,7 @@
   <name>PhotonCAM</name>
   <summary>Laser cutting and engraving CAM</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
+  <project_license>GPL-3.0-only</project_license>
   <developer id="io.github.pietini69">
     <name>Niko Pietinen</name>
   </developer>
@@ -13,9 +13,14 @@
   <url type="vcs-browser">https://github.com/pietini69/photoncam</url>
   <description>
     <p>This is a community package of PhotonCAM, maintained independently and unaffiliated with Niko Pietinen. It repackages the official upstream Linux build unmodified.</p>
-    <p>PhotonCAM is a laser cutting and engraving CAM. It opens LightBurn projects and SVG files, writes GRBL G-code and Ruida programs, and can talk to a controller over USB serial. A web remote can show the job on another device on the same network.</p>
-    <p>Sandbox: display, GPU, network for the web remote, USB serial for the laser controller, and the Documents folder so a project path keeps working. Open and Save otherwise go through the file chooser. The package does not send a job to a machine by itself.</p>
-    <p>To open a project by path outside Documents, run <code>flatpak override --user --filesystem=home io.github.pietini69.photoncam</code>.</p>
+    <p>PhotonCAM is a laser cutting and engraving CAM. It opens LightBurn projects and SVG files, writes GRBL G-code and Ruida programs, and can talk to a controller over USB serial. An optional web remote can show the job on another device on the same network.</p>
+    <p>Sandbox: display, all devices (USB serial for the laser controller, the GPU, and cameras for alignment), the Documents folder, where the app keeps its material library and traffic log and where a project path keeps working, and ~/.config/laser_burn for its settings. Open and Save otherwise go through the file chooser. There is no network access by default. The package does not send a job to a machine by itself.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>The web remote and the iPad bridge: <code>flatpak override --user --share=network io.github.pietini69.photoncam</code>. They listen on every network interface without authentication, and their update endpoint downloads and runs a script from upstream's default branch, so anyone on the same network can trigger it.</li>
+      <li>Open a project by path outside Documents: <code>flatpak override --user --filesystem=home io.github.pietini69.photoncam</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset io.github.pietini69.photoncam</code></li>
+    </ul>
   </description>
   <launchable type="desktop-id">io.github.pietini69.photoncam.desktop</launchable>
   <categories>

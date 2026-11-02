@@ -12,15 +12,24 @@ finish-args:
   - --share=ipc
   - --socket=wayland
   - --socket=fallback-x11
-  - --device=dri
   # USB serial for a GRBL or Ruida controller (/dev/ttyUSB*, /dev/ttyACM*).
+  # Also covers the GPU (dri) and the alignment camera (/dev/video*).
   - --device=all
-  # The web remote and the iPad bridge listen on the LAN. There is no
-  # in-app update download.
-  - --share=network
+  # No --share=network: the controller is on serial, and the network is only
+  # for the opt-in web remote and iPad bridge, which bind 0.0.0.0 without
+  # authentication and serve POST /api/system/update, a curl | bash of
+  # upstream's install_pi_bridge.sh from master. Left to an override in the
+  # metainfo.
   # Open and Save go through the file-chooser portal. Documents is granted
   # so a project passed by path keeps working.
   - --filesystem=xdg-documents
+  # Upstream hardcodes $HOME/Documents (not the XDG dir) for the material
+  # library and the traffic log, and falls back to the tmpfs $HOME without it,
+  # which loses them on a localized desktop.
+  - --filesystem=~/Documents:create
+  # Settings, the material palette and the camera calibration go to a
+  # hardcoded $HOME/.config/laser_burn, not XDG_CONFIG_HOME.
+  - --filesystem=~/.config/laser_burn:create
 modules:
   - name: photoncam
     buildsystem: simple
