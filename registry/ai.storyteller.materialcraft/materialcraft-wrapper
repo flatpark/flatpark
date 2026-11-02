@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# MaterialCraft is staged by apply_extra at /app/extra/materialcraft.
+exec /app/extra/materialcraft/bin/materialcraft "$@"

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=MaterialCraft
+GenericName=Procedural Material Designer
+Comment=Design procedural PBR materials with node graphs
+Exec=materialcraft %F
+TryExec=materialcraft
+Icon=ai.storyteller.materialcraft
+Terminal=false
+StartupNotify=true
+StartupWMClass=materialcraft
+Categories=Graphics;3DGraphics;
+Keywords=material;procedural;node;graph;pbr;texture;noise;3d;
+MimeType=application/x-materialcraft;

@@ -1,0 +1,23 @@
+id: ai.storyteller.materialcraft
+name: MaterialCraft
+summary: Design procedural PBR materials with node graphs
+website: https://getartcraft.com/apps/materialcraft
+source_url: https://github.com/storytold/materialcraft
+build:
+  manifest: ai.storyteller.materialcraft.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags:
+    - Materials
+    - Procedural
+    - PBR
+    - Node graph
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

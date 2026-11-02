@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.materialcraft</id>
+  <name>MaterialCraft</name>
+  <summary>Design procedural PBR materials with node graphs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/materialcraft</url>
+  <url type="bugtracker">https://github.com/storytold/materialcraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/materialcraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of MaterialCraft, maintained independently and unaffiliated with the MaterialCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>MaterialCraft is an open-source, native node-based material designer: build tileable PBR materials from noises, patterns and filters in a node graph, preview them live in 2D and 3D, and export the texture maps for any engine.</p>
+    <ul>
+      <li>Hundreds of procedural nodes: noises, patterns, adjustments, blurs, warps, normal and height tools</li>
+      <li>Live 2D and 3D previews with physically based shading</li>
+      <li>Export base color, normal, roughness, metallic, height and ambient occlusion maps as PNG, EXR, TGA, JPEG or TIFF; save packages as .mcraft</li>
+      <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=materialcraft-cli ai.storyteller.materialcraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.materialcraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.materialcraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The MaterialCraft workspace: explorer, node library, node graph, 3D and 2D views</caption>
+      <image>https://raw.githubusercontent.com/storytold/materialcraft/main/docs/images/materialcraft-workspace.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Wood planks: anisotropic grain warped and laid over a plank pattern</caption>
+      <image>https://raw.githubusercontent.com/storytold/materialcraft/main/docs/images/materialcraft-wood.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Lava rock: cracked Voronoi plates over glowing emissive seams</caption>
+      <image>https://raw.githubusercontent.com/storytold/materialcraft/main/docs/images/materialcraft-lava.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Eight sample materials, from brick wall and painted metal to marble</caption>
+      <image>https://raw.githubusercontent.com/storytold/materialcraft/main/docs/images/materialcraft-materials.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.materialcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>material</keyword>
+    <keyword>procedural</keyword>
+    <keyword>node graph</keyword>
+    <keyword>pbr</keyword>
+    <keyword>texture</keyword>
+    <keyword>3d</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#a8e3ef</color>
+    <color type="primary" scheme_preference="dark">#0e5f72</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>tablet</control>
+  </supports>
+  <provides>
+    <binary>materialcraft</binary>
+    <mediatype>application/x-materialcraft</mediatype>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-11-02"/>
+  </releases>
+</component>

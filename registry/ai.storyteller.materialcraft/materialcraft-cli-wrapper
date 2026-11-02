@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# MaterialCraft's headless CLI / MCP server is staged alongside the app.
+exec /app/extra/materialcraft/bin/materialcraft-cli "$@"

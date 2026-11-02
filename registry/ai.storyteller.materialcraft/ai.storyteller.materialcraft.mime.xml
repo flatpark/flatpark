@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- shared-mime-info definitions for MaterialCraft's package format.
+     Installed to /usr/share/mime/packages/ (update-mime-database runs on install). -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-materialcraft">
+    <comment>MaterialCraft package</comment>
+    <sub-class-of type="application/zip"/>
+    <icon name="ai.storyteller.materialcraft"/>
+    <glob pattern="*.mcraft" weight="60"/>
+  </mime-type>
+</mime-info>
