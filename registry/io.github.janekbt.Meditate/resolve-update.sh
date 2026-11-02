@@ -19,7 +19,7 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-asset() { jq -r --arg re "linux-$1\\.tar\\.gz$" --arg f "$2" '.assets[] | select(.name | test($re)) | .[$f]' <<<"$rel" | head -n1; }
+asset() { jq -r --arg re "^meditate-.*-linux-$1\\.tar\\.gz$" --arg f "$2" '.assets[] | select(.name | test($re)) | .[$f]' <<<"$rel" | head -n1; }
 url="$(asset x86_64 browser_download_url)"; size="$(asset x86_64 size)"
 url_arm="$(asset aarch64 browser_download_url)"; size_arm="$(asset aarch64 size)"
 
