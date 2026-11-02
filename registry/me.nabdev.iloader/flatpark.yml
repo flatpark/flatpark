@@ -1,0 +1,19 @@
+id: me.nabdev.iloader
+name: iloader
+summary: Sideload iOS apps and manage device pairing files
+website: https://iloader.app
+source_url: https://github.com/nab138/iloader
+build:
+  manifest: me.nabdev.iloader.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Utility
+  tags: [iOS, Sideloading, SideStore]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --device=all
