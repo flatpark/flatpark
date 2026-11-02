@@ -82,9 +82,9 @@ modules:
         filename: epic.AppImage
         only-arches:
           - x86_64
-        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.108.0%2Bg75260c2/Linux/EpicGamesLauncher-x86_64.AppImage
-        sha256: 7a15de1858c653c53f99cd7d562fa3d767908b9e9897df8be14e68876c8d9be1
-        size: 184953336
+        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.109.0%2Bge564459/Linux/EpicGamesLauncher-x86_64.AppImage
+        sha256: 20b5a1a51ccc20979a04621d34b1c2a4fc52f36e85cc52833b168cad2d9285ec
+        size: 185039352
       # END MANAGED EXTRA-DATA
       - type: file
         path: ld.so.conf

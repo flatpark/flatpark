@@ -58,9 +58,9 @@ modules:
         filename: folo.deb
         only-arches:
           - x86_64
-        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.16.0/Folo-1.16.0-linux-x64.deb
-        sha256: 7da639fd0e1a59284060fab21b327ebb193f14f1d04de51196c760298062ea71
-        size: 113212268
+        url: https://github.com/RSSNext/Folo/releases/download/desktop/v1.17.0/Folo-1.17.0-linux-x64.deb
+        sha256: 7be230335091f1eac668fe3e4d2ae9a94ac88ace76bc0205e89aedf5a7644da0
+        size: 113354164
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
