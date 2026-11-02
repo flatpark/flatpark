@@ -156,9 +156,9 @@ modules:
         filename: libpaper2.deb
         only-arches:
           - x86_64
-        url: https://deb.debian.org/debian/pool/main/libp/libpaper/libpaper2_2.2.5-0.4_amd64.deb
-        sha256: 887b7ae97eb45c6984e392686d987ead8d88270453587575d7d57d1c9fbdcd5d
-        size: 16564
+        url: https://deb.debian.org/debian/pool/main/libp/libpaper/libpaper2_2.3.0-0.3_amd64.deb
+        sha256: e03fa8b1ad29d4274c37fd9b58c7a9b24b4df92cc52ae040f25fb29377b481e7
+        size: 16608
       # END MANAGED DEBIAN
       - type: file
         path: apply_extra.sh
