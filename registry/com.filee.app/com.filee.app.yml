@@ -1,0 +1,51 @@
+id: com.filee.app
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: filee
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Avalonia's default Linux backend is X11 (XWayland on Wayland desktops).
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Filee downloads optional engines and checks for new releases.
+  - --share=network
+  # Read inputs and persist converted outputs in Downloads.
+  - --filesystem=xdg-download:create
+  # Avalonia's StatusNotifier tray icon.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.StatusNotifierItem-2-0
+modules:
+  - name: filee
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 filee-wrapper /app/bin/filee
+      - install -Dm755 filee-cli-wrapper /app/bin/filee-cli
+      - install -Dm644 com.filee.app.desktop /app/share/applications/com.filee.app.desktop
+      - install -Dm644 com.filee.app.metainfo.xml /app/share/metainfo/com.filee.app.metainfo.xml
+      - install -Dm644 com.filee.app.svg /app/share/icons/hicolor/scalable/apps/com.filee.app.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: filee.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/KnifeLemon/Filee/releases/download/v2.2.0/Filee-2.2.0-linux-x64.tar.gz
+        sha256: 68fb31d970b9f38e0e050e1c3ac41ce7932023fb0e7c4d50b1e721c477101351
+        size: 128948534
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: filee-wrapper
+      - type: file
+        path: filee-cli-wrapper
+      - type: file
+        path: com.filee.app.desktop
+      - type: file
+        path: com.filee.app.metainfo.xml
+      - type: file
+        path: com.filee.app.svg
