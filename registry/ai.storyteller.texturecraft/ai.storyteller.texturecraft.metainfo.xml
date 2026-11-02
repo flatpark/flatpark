@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.texturecraft</id>
+  <name>TextureCraft</name>
+  <summary>Paint PBR textures directly on 3D meshes</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/texturecraft</url>
+  <url type="bugtracker">https://github.com/storytold/texturecraft/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/texturecraft</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of TextureCraft, maintained independently and unaffiliated with the TextureCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>TextureCraft is an open-source, native 3D texture painter written in Rust that follows the Substance 3D Painter workflow: familiar menus, shortcuts, panels and tools, with texture sets, layers, masks, fills and effects painted straight onto the model.</p>
+    <ul>
+      <li>Open glTF/GLB, FBX, COLLADA, USD (USDA/USDC/USDZ), Alembic, OBJ, PLY and STL meshes and save projects as .tcraft</li>
+      <li>Paint base colour, roughness, metallic, normal and height together with PBR brushes</li>
+      <li>Bake mesh maps and export texture sets as PNG, EXR, TGA, JPEG or TIFF</li>
+      <li>Every action is a command, scriptable from a CLI and a JSON control channel</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=texturecraft-cli ai.storyteller.texturecraft --help</code></p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.texturecraft</code></li>
+      <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.texturecraft</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The TextureCraft workspace painting on a 3D model</caption>
+      <image>https://raw.githubusercontent.com/storytold/texturecraft/main/docs/images/texturecraft-workspace.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>PBR material layers and mask stacks on a detailed prop</caption>
+      <image>https://raw.githubusercontent.com/storytold/texturecraft/main/docs/images/texturecraft-lantern.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Mesh map baking panel</caption>
+      <image>https://raw.githubusercontent.com/storytold/texturecraft/main/docs/images/texturecraft-bake.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Real-time viewport rendering with lighting controls</caption>
+      <image>https://raw.githubusercontent.com/storytold/texturecraft/main/docs/images/texturecraft-rendering.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.texturecraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>texture painting</keyword>
+    <keyword>pbr</keyword>
+    <keyword>3d</keyword>
+    <keyword>mesh</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#f0c39c</color>
+    <color type="primary" scheme_preference="dark">#8f4416</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>tablet</control>
+  </supports>
+  <provides>
+    <binary>texturecraft</binary>
+    <mediatype>application/x-texturecraft</mediatype>
+    <mediatype>model/gltf-binary</mediatype>
+    <mediatype>model/gltf+json</mediatype>
+    <mediatype>model/x-fbx</mediatype>
+    <mediatype>model/vnd.collada+xml</mediatype>
+    <mediatype>model/x-usd</mediatype>
+    <mediatype>model/vnd.usda</mediatype>
+    <mediatype>model/vnd.usdz+zip</mediatype>
+    <mediatype>model/x-alembic</mediatype>
+    <mediatype>model/obj</mediatype>
+    <mediatype>model/x-ply</mediatype>
+    <mediatype>model/stl</mediatype>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.2.0" date="2026-11-01"/>
+    <release version="0.1.0" date="2026-10-24"/>
+  </releases>
+</component>

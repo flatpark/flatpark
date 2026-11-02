@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# TextureCraft's headless CLI / MCP server is staged alongside the app.
+exec /app/extra/texturecraft/bin/texturecraft-cli "$@"

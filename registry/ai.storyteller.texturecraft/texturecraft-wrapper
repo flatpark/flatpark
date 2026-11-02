@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# TextureCraft is staged by apply_extra at /app/extra/texturecraft.
+exec /app/extra/texturecraft/bin/texturecraft "$@"

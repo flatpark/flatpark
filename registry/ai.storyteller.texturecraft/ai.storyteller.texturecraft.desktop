@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=TextureCraft
+GenericName=3D Texture Painter
+Comment=Paint PBR textures directly on 3D meshes
+Exec=texturecraft %F
+TryExec=texturecraft
+Icon=ai.storyteller.texturecraft
+Terminal=false
+StartupNotify=true
+StartupWMClass=TextureCraft
+Categories=Graphics;3DGraphics;
+Keywords=texture;paint;pbr;material;3d;mesh;bake;gltf;fbx;usd;
+MimeType=application/x-texturecraft;model/gltf-binary;model/gltf+json;model/x-fbx;model/vnd.collada+xml;model/x-usd;model/vnd.usda;model/vnd.usdz+zip;model/x-alembic;model/obj;model/x-ply;model/stl;

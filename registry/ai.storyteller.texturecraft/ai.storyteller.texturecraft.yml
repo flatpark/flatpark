@@ -1,0 +1,72 @@
+id: ai.storyteller.texturecraft
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: texturecraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id, runtime and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/texturecraft), so this package and the
+# single-file bundle upstream attaches to each release are the same
+# application. The binaries need only glibc from the runtime.
+finish-args:
+  # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
+  # Vulkan/EGL loaders are dlopen()ed from the runtime.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open/Save go through the file-chooser portal. Pictures and Documents are
+  # granted so files passed by path (command line, Open Recent, saving next to
+  # the original) keep working there.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  # Deliberately not granted, as upstream:
+  #   --share=network          -> the optional --control automation server;
+  #                               the metainfo documents the override
+  #   --filesystem=home / host -> everything else goes through the portals
+modules:
+  - name: texturecraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 texturecraft-wrapper /app/bin/texturecraft
+      - install -Dm755 texturecraft-cli-wrapper /app/bin/texturecraft-cli
+      - install -Dm644 ai.storyteller.texturecraft.desktop /app/share/applications/ai.storyteller.texturecraft.desktop
+      - install -Dm644 ai.storyteller.texturecraft.metainfo.xml /app/share/metainfo/ai.storyteller.texturecraft.metainfo.xml
+      - install -Dm644 ai.storyteller.texturecraft.mime.xml /app/share/mime/packages/ai.storyteller.texturecraft.xml
+      - install -Dm644 ai.storyteller.texturecraft.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.texturecraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: texturecraft.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/texturecraft/releases/download/v0.2.0/texturecraft-0.2.0-linux-x86_64.tar.gz
+        sha256: 9919068b13d880d512d6a995433446c9fccb3e0b447fdce2c7716e1393d7cfb2
+        size: 36972234
+      - type: extra-data
+        filename: texturecraft.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/storytold/texturecraft/releases/download/v0.2.0/texturecraft-0.2.0-linux-aarch64.tar.gz
+        sha256: 88024d8168583c25a9e83ab2d4414a7b00ab93063a42b8c86af85668b3ea646a
+        size: 35613347
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: texturecraft-wrapper
+      - type: file
+        path: texturecraft-cli-wrapper
+      - type: file
+        path: ai.storyteller.texturecraft.desktop
+      - type: file
+        path: ai.storyteller.texturecraft.metainfo.xml
+      - type: file
+        path: ai.storyteller.texturecraft.mime.xml
+      - type: file
+        path: ai.storyteller.texturecraft.png

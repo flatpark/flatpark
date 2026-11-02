@@ -1,0 +1,22 @@
+id: ai.storyteller.texturecraft
+name: TextureCraft
+summary: Open-source 3D texture painter in the Substance mould
+website: https://getartcraft.com/apps/texturecraft
+source_url: https://github.com/storytold/texturecraft
+build:
+  manifest: ai.storyteller.texturecraft.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags:
+    - 3D
+    - Texturing
+    - PBR
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
