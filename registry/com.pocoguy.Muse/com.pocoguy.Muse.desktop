@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Mixtapes
+Comment=YouTube Music player with playlists, lyrics and offline downloads
+Exec=mixtapes %U
+Icon=com.pocoguy.Muse
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Player;Music;
+Keywords=youtube;music;streaming;player;audio;
+StartupNotify=true
+StartupWMClass=mixtapes
+MimeType=x-scheme-handler/mixtapes;

@@ -1,0 +1,4 @@
+#!/bin/sh
+# Resolve playback/download helpers inside the sandbox; FFmpeg comes from GNOME.
+export PATH="/app/extra/helpers:$PATH"
+exec /app/extra/usr/bin/mixtapes "$@"
