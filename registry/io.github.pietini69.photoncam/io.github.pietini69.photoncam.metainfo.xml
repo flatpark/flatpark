@@ -17,7 +17,7 @@
     <p>Sandbox: display, all devices (USB serial for the laser controller, the GPU, and cameras for alignment), the Documents folder, where the app keeps its material library and traffic log and where a project path keeps working, and ~/.config/laser_burn for its settings. Open and Save otherwise go through the file chooser. There is no network access by default. The package does not send a job to a machine by itself.</p>
     <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
     <ul>
-      <li>The web remote and the iPad bridge: <code>flatpak override --user --share=network io.github.pietini69.photoncam</code>. They listen on every network interface without authentication, and their update endpoint downloads and runs a script from upstream's default branch, so anyone on the same network can trigger it.</li>
+      <li>A controller behind a Raspberry Pi running PhotonCAM Bridge, the web remote, and the iPad bridge: <code>flatpak override --user --share=network io.github.pietini69.photoncam</code>. The web remote and the iPad bridge listen on every network interface without authentication, and their update endpoint downloads and runs a script from upstream's default branch, so anyone on the same network can trigger it.</li>
       <li>Open a project by path outside Documents: <code>flatpak override --user --filesystem=home io.github.pietini69.photoncam</code></li>
       <li>Undo all of these: <code>flatpak override --user --reset io.github.pietini69.photoncam</code></li>
     </ul>
