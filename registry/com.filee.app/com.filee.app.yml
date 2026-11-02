@@ -7,9 +7,11 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # Avalonia's default Linux backend is X11 (XWayland on Wayland desktops).
+  # Use upstream's native Wayland backend; it selects X11 when Wayland is absent.
   - --share=ipc
-  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --env=FILEE_USE_WAYLAND=1
   - --device=dri
   # Filee downloads optional engines and checks for new releases.
   - --share=network

@@ -21,7 +21,8 @@
     profiles keep their settings: choose Downloads as the output folder in
     General if needed. Saving beside a portal-selected file can leave the result
     in the portal's temporary view instead of the original folder.</p>
-    <p>The global drag gesture works on X11. GNOME Wayland gestures need the
+    <p>The interface uses native Wayland when available, with X11 as a fallback.
+    The global drag gesture works on X11. GNOME Wayland gestures need the
     upstream GNOME pointer extension, which is not installed by this package.
     Use the drop zone or file chooser on Wayland.</p>
     <p>To convert entire folders elsewhere and save beside their sources, grant the folder:
