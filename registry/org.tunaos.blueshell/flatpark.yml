@@ -27,6 +27,10 @@ policy:
     # the same mechanism every terminal and IDE on the remote uses.
     # Without this the window opens and can run nothing.
     - --talk-name=org.freedesktop.Flatpak
+    # Reads the host's ~/.config/ghostty (config, themes) and any config-file
+    # includes elsewhere in $HOME, the file the user edits for any Ghostty.
+    # Never writable: the sandbox-local config overrides it.
+    - --filesystem=home:ro
 # What the package does beyond copying the vendor's files, declared at the
 # packaging level. See docs/packagers/playbook.md (golden rule 1).
 packaging:

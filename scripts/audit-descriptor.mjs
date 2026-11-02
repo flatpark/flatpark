@@ -203,14 +203,19 @@ for (const src of sources) {
 const ESCAPE = ['--talk-name=org.freedesktop.Flatpak', '--filesystem=host', '--filesystem=/'];
 // G2(b) — broad perms must be declared in policy.dangerous_permissions (warn until schema lands).
 const WATCH = ['--device=all', '--filesystem=home'];
+// Compare --filesystem grants without their :ro / :rw / :create mode, so
+// home:ro and host:ro hit the same lists as home and host.
+const baseFs = (p) => p.replace(/^(--filesystem=[^:]+):(ro|rw|create)$/, '$1');
+const declared = new Set(dangerousPerms.map(baseFs));
 for (const fa of finishArgs) {
-  if (ESCAPE.includes(fa)) {
+  const base = baseFs(fa);
+  if (ESCAPE.includes(base)) {
     // A declared escape permission is an explicit, reviewed exemption: downgrade
     // the hard fail to a warning so it stays visible without blocking the gate.
-    if (dangerousPerms.includes(fa)) warn(`sandbox-escape permission ${fa} (declared in policy.dangerous_permissions)`);
+    if (declared.has(base)) warn(`sandbox-escape permission ${fa} (declared in policy.dangerous_permissions)`);
     else fail(`sandbox-escape permission: ${fa}`);
   }
-  if (WATCH.includes(fa) && !dangerousPerms.includes(fa)) {
+  if (WATCH.includes(base) && !declared.has(base)) {
     warn(`dangerous permission ${fa} not declared in policy.dangerous_permissions`);
   }
 }
