@@ -52,8 +52,8 @@
     <keyword>split</keyword>
   </keywords>
   <branding>
-    <color type="primary" scheme_preference="light">#9fd0ff</color>
-    <color type="primary" scheme_preference="dark">#1f64ba</color>
+    <color type="primary" scheme_preference="light">#f3cfd6</color>
+    <color type="primary" scheme_preference="dark">#8a011e</color>
   </branding>
   <requires>
     <display_length compare="ge">760</display_length>
