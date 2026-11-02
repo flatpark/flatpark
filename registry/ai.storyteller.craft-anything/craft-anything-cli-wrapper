@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
 
-# Craft Anything's headless CLI / MCP server is staged alongside the app.
+# Headless command runner and MCP server, reachable as
+#   flatpak run --command=craft-anything-cli ai.storyteller.craft-anything ...
 exec /app/extra/craft-anything/bin/craft-anything-cli "$@"

@@ -66,6 +66,7 @@
   </supports>
   <provides>
     <binary>craft-anything</binary>
+    <binary>craft-anything-cli</binary>
   </provides>
   <content_rating type="oars-1.1"/>
   <releases>

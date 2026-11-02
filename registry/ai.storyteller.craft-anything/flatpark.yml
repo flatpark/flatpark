@@ -19,4 +19,8 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  dangerous_permissions: []
+  dangerous_permissions:
+    # Upstream's own manifest grants read-only home so binaries and files
+    # passed by path (command line, recent targets) can be inspected; it is
+    # never writable. Open dialogs go through the file-chooser portal.
+    - --filesystem=home:ro
