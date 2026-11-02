@@ -53,13 +53,23 @@ finish-args:
   - --filesystem=~/.var/app/com.google.Chrome/data/pki/nssdb
   - --filesystem=~/.var/app/com.microsoft.Edge/.pki/nssdb
   - --filesystem=~/.var/app/com.microsoft.Edge/data/pki/nssdb
-  # Read-only: the icons Flatpak exports for the installed apps, to show each
-  # app with its own icon. The exported icons are links into each app's
-  # folder under app/, so those are needed too.
-  - --filesystem=xdg-data/flatpak/exports/share/icons:ro
-  - --filesystem=xdg-data/flatpak/app:ro
-  - --filesystem=/var/lib/flatpak/exports/share/icons:ro
-  - --filesystem=/var/lib/flatpak/app:ro
+  # Native apps (installed from the distribution), which load
+  # p11-kit-proxy.so from their NSS database: the native Firefox's profiles
+  # (Firefox 147+ under ~/.config, older releases under ~/.mozilla) and the
+  # database the native Chromium-based browsers share since Chromium 146
+  # (the older ~/.pki/nssdb is above). Only pkcs11.txt changes. No :create:
+  # Tessera does not make folders for apps that are not installed.
+  - --filesystem=~/.mozilla/firefox
+  - --filesystem=xdg-config/mozilla/firefox
+  - --filesystem=xdg-data/pki/nssdb
+  # The native PJeOffice Pro's settings, where "Set up" points its list of
+  # A3 libraries (list.a3) at p11-kit's library. Only that line changes.
+  - --filesystem=~/.pjeoffice-pro
+  # Read-only: the AppStream data Flatpak keeps for each remote, with the
+  # icons of every app in it, installed or not: each app's row shows its
+  # own icon without access to the apps' folders.
+  - --filesystem=xdg-data/flatpak/appstream:ro
+  - --filesystem=/var/lib/flatpak/appstream:ro
   # Read-only: whether `flatpak override --user` already gave an app the
   # p11-kit socket, to show it in the window.
   - --filesystem=xdg-data/flatpak/overrides:ro
@@ -101,9 +111,9 @@ modules:
         filename: tessera.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/pedrohqb/tessera/releases/download/v0.1.0/tessera-x86_64.tar.gz
-        sha256: 273d2109507f6e728c42a6297388be02d342c9188e536e6e6970b5120d8f7a2c
-        size: 1839384
+        url: https://github.com/pedrohqb/tessera/releases/download/v0.2.0/tessera-x86_64.tar.gz
+        sha256: 6f0b35f50794bb4d53c36a39d091592237a4b4af9cf63ff964d29ee60434208a
+        size: 1895424
       # END MANAGED EXTRA-DATA
       # The token drivers, from their vendors, with the same pins as
       # Tessera's own manifest and distrobox-adv-br. They stay fixed across

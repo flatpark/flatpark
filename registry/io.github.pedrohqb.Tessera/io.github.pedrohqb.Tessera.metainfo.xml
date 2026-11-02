@@ -28,7 +28,7 @@
     </ul>
     <p>Each driver runs in its own p11-kit server inside Tessera. Tessera adds them to the host's p11-kit configuration, and the host's p11-kit server (p11-kit-server.socket, enabled once) serves them to other apps. Sandboxed apps need --filesystem=xdg-run/p11-kit/pkcs11; PJeOffice Pro from FlatPark has it already.</p>
     <p>The host needs pcscd with the CCID driver and the user's p11-kit server, which most distributions ship. Turn the server on once with <code>systemctl --user enable --now p11-kit-server.socket</code>; Tessera's window shows the command too.</p>
-    <p>Each sandboxed app that should use the tokens needs access to that server, given once per app; Tessera's window shows the command for each, for example <code>flatpak override --user --filesystem=xdg-run/p11-kit/pkcs11 org.mozilla.firefox</code>. Firefox, Papers and Okular also need the "Set up" button in Tessera. To undo it for an app: <code>flatpak override --user --reset org.mozilla.firefox</code>.</p>
+    <p>Each sandboxed app that should use the tokens needs access to that server, given once per app; Tessera's window shows the command for each, for example <code>flatpak override --user --filesystem=xdg-run/p11-kit/pkcs11 org.mozilla.firefox</code>. Firefox, Papers and Okular also need the "Set up" button in Tessera. Apps installed from the distribution are on the Native tab, each with its own Set up. To undo it for an app: <code>flatpak override --user --reset org.mozilla.firefox</code>.</p>
   </description>
   <screenshots>
     <screenshot type="default">
@@ -52,6 +52,17 @@
     <display_length compare="ge">360</display_length>
   </requires>
   <releases>
+    <release version="0.2.0" date="2026-11-02">
+      <description>
+        <p>Native apps: a new tab sets up the Firefox, Chromium-based browsers, Okular, Papers and PJeOffice Pro installed from the distribution, and leaves alone the ones the system already gives p11-kit (Fedora and its family).</p>
+        <ul>
+          <li>Every app shows its own icon, installed or not, and the window keeps its icons on KDE Plasma; the tray icon follows the panel's colors.</li>
+          <li>SerproID's "approve on your phone" notification shows for every signature on KDE Plasma.</li>
+          <li>Fewer permissions: no access to the other apps' folders.</li>
+          <li>Tests of the window and of the detection on Fedora, Debian, Ubuntu, Arch and openSUSE run on every change.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-10-29">
       <description>
         <p>First release: one p11-kit server per driver (SafeSign IC, SafeNet Authentication Client, SerproID), published through the host p11-kit server; readers, tokens and certificates; set-up for Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Papers and Okular; tray icon and start at login.</p>
