@@ -50,9 +50,9 @@ modules:
         filename: piliplus.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/2.2.0/PiliPlus_linux_2.2.0%2B5580_amd64.tar.gz
-        sha256: 245cb20051dc1cf601886d04b80dc5d15e345b1884750abf41c3d22a81969164
-        size: 19272847
+        url: https://github.com/bggRGjQaUbCoE/PiliPlus/releases/download/2.2.0.1/PiliPlus_linux_2.2.0%2B5590_amd64.tar.gz
+        sha256: 2d9be172aaf3a308a0d133c7d47de8e54a102eb07016d0f38e8919c70333a173
+        size: 19271557
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
