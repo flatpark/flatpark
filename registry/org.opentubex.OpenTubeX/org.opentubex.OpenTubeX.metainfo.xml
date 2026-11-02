@@ -37,27 +37,27 @@
   <screenshots>
     <screenshot type="default">
       <caption>The main OpenTubeX window (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.2-beta/docs/screenshots/OpenTubeX1-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX1-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>The main OpenTubeX window (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.2-beta/docs/screenshots/OpenTubeX1-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX1-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Watching a video (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.2-beta/docs/screenshots/OpenTubeX2-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX2-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Watching a video (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.2-beta/docs/screenshots/OpenTubeX2-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX2-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Settings (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.2-beta/docs/screenshots/OpenTubeX3-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX3-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Settings (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.2-beta/docs/screenshots/OpenTubeX3-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX3-light.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1">
@@ -74,6 +74,49 @@
     <display_length compare="ge">360</display_length>
   </requires>
   <releases>
+    <release version="0.37.3-beta" date="2026-11-02">
+      <url type="details">https://github.com/OpenTubeX/OpenTubeX/releases/tag/v0.37.3-beta</url>
+      <description>
+        <p>Highlights</p>
+        <ul>
+          <li>Focus settings have a new Digital Wellbeing tab with a grayscale mode, daily watch time and Shorts limits, break reminders, and a bedtime reminder that can silence upload notifications.</li>
+        </ul>
+        <p>More improvements</p>
+        <ul>
+          <li>The Playlists icon in the navigation, tabs, and page headings is now outlined to match the other navigation icons.</li>
+          <li>When a package manager installed OpenTubeX, the update prompt now shows its update command with a Copy button instead of a link to the website.</li>
+          <li>Subscription groups can now have an icon, shown beside the group's name in the group tabs and the subscribe button's group list.</li>
+          <li>You can now choose how many search history entries and suggestions the search bar shows before its list scrolls, from 5 to 50, in Appearance settings.</li>
+          <li>Chapters now have a loop button that repeats the chapter with A-B repeat. Press it again to stop.</li>
+          <li>You can keep the window open when you close its last tab. Turn off "Close window when closing the last tab" in General settings, and a new tab opens in its place.</li>
+          <li>Follow creators from other platforms through RSS and Atom feeds, for example from an RSSHub instance, in an optional RSS tab on the Subscriptions page. Turn it on in the subscription settings.</li>
+          <li>YouTube playlists, including saved ones, now have the "Search for Videos" field. Searching loads the rest of the playlist so the results cover every video.</li>
+          <li>The actions below a video stay in one row of evenly sized buttons on narrow screens, and the actions that don't fit move to a More options menu.</li>
+          <li>Caption font size and background opacity have sliders again, in the captions menu next to common values and in the settings. Font sizes go from 50% to 400% and opacities from 0% to 100%, both in 5% steps.</li>
+          <li>Caption settings show color swatches, and the sample caption previews each option as you hover over or move through it.</li>
+          <li>Place each player control on the control bar, in the player menu, or nowhere, and reorder the player menu. Resolution, playback speed, audio tracks, loop, screenshot and chapters can now go on the control bar, and you can hide any player menu entry, such as ambient mode, the sleep timer or captions.</li>
+          <li>Screenshots can be saved as JPEG XL. The format picker now lists legacy and modern formats separately.</li>
+          <li>When the video actions below the player share a narrow row, the download button now sits at the end, after the More button.</li>
+          <li>Afrikaans, Esperanto, and Urdu are now available as display languages.</li>
+          <li>The Distraction Free settings category is now called Focus, and every settings category describes what it contains more accurately.</li>
+        </ul>
+        <p>Fixed bugs</p>
+        <ul>
+          <li>Dropdown menus, tooltips, and color pickers in the settings window now open next to their button in Firefox instead of off to the side.</li>
+          <li>Captions keep one size at font sizes other than 100%, instead of growing word by word and spilling past their background.</li>
+          <li>Video lengths past 24 hours now include days, such as 1:01:01:01, matching the player.</li>
+          <li>The tab bar now scrolls to the active tab when the app opens, when you switch tabs with the keyboard, and when you open a new tab, so the active tab stays visible.</li>
+          <li>Tooltips now stay where they open instead of following the pointer, and appear centered below buttons and navigation items.</li>
+          <li>The reminder button on upcoming videos is filled with the accent color again while a reminder is set, so it's easy to tell on from off.</li>
+          <li>The audio track menu no longer resets while a video plays, so dragging its scrollbar keeps scrolling.</li>
+          <li>Menus no longer end with an empty separator line, for example the More menu of a YouTube playlist.</li>
+          <li>The player menu in the Customize interface preview now looks like the real one, with centered tiles, and shows a list when the grid layout is turned off.</li>
+          <li>Channel About pages now show links whose address leaves out https://.</li>
+          <li>The default playback speed is now rounded to two decimal places, so changing the speed step no longer leaves values such as 1.1500000000000001.</li>
+          <li>When using Invidious, the arrow keys now reach the About tab on channel pages.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.37.2-beta" date="2026-10-31">
       <url type="details">https://github.com/OpenTubeX/OpenTubeX/releases/tag/v0.37.2-beta</url>
       <description>
