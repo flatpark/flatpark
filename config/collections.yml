@@ -44,6 +44,7 @@ collections:
           - ai.storyteller.lightcraft
           - ai.storyteller.designcraft
           - ai.storyteller.figcraft
+          - ai.storyteller.texturecraft
       - title:
           en: Video and effects
           zh-Hans: 视频与特效
@@ -68,6 +69,11 @@ collections:
           - ai.storyteller.gridcraft
           - ai.storyteller.deckcraft
           - ai.storyteller.pdfcraft
+      - title:
+          en: Developer tools
+          zh-Hans: 开发者工具
+        apps:
+          - ai.storyteller.craft-anything
   - slug: tunaos
     name: TunaOS
     upstream: https://tunaos.org
