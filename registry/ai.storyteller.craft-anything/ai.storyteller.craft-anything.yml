@@ -1,0 +1,65 @@
+id: ai.storyteller.craft-anything
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: craft-anything
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The app id, runtime and finish-args follow upstream's own Flatpak manifest
+# (packaging/linux/flatpak/ in storytold/craft-anything), so this package and the
+# single-file bundle upstream attaches to each release are the same
+# application. The binaries need only glibc from the runtime.
+finish-args:
+  # Display: Wayland first; X11 only when no Wayland compositor is running.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu GPU compositor (Vulkan, or GL as a fallback).
+  - --device=dri
+  # Open dialogs go through the file-chooser portal and drag-and-drop through
+  # the document portal. Home is readable (never writable) so files passed by
+  # path (command line, recent targets) can be inspected.
+  - --filesystem=home:ro
+  # AI backends (Anthropic, OpenAI, OpenRouter, local servers) and engine downloads.
+  - --share=network
+modules:
+  - name: craft-anything
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 craft-anything-wrapper /app/bin/craft-anything
+      - install -Dm755 craft-anything-cli-wrapper /app/bin/craft-anything-cli
+      - install -Dm644 ai.storyteller.craft-anything.desktop /app/share/applications/ai.storyteller.craft-anything.desktop
+      - install -Dm644 ai.storyteller.craft-anything.metainfo.xml /app/share/metainfo/ai.storyteller.craft-anything.metainfo.xml
+      - install -Dm644 ai.storyteller.craft-anything.png /app/share/icons/hicolor/512x512/apps/ai.storyteller.craft-anything.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: craft-anything.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/craft-anything/releases/download/v0.2.0/craft-anything-0.2.0-linux-x86_64.tar.gz
+        sha256: aa670c166b53265d37a64ec544cf7cabecf993802c27c4733746f7b16c12cb21
+        size: 66357097
+      - type: extra-data
+        filename: craft-anything.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/storytold/craft-anything/releases/download/v0.2.0/craft-anything-0.2.0-linux-aarch64.tar.gz
+        sha256: 4f8ac295af2cb919e26792b7e5d7ae4573f874892ebf39eabea0249c6707a9c5
+        size: 63580579
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: craft-anything-wrapper
+      - type: file
+        path: craft-anything-cli-wrapper
+      - type: file
+        path: ai.storyteller.craft-anything.desktop
+      - type: file
+        path: ai.storyteller.craft-anything.metainfo.xml
+      - type: file
+        path: ai.storyteller.craft-anything.png

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Craft Anything
+GenericName=Software Explorer
+Comment=Find out how any software works, then craft your own
+Exec=craft-anything %F
+TryExec=craft-anything
+Icon=ai.storyteller.craft-anything
+Terminal=false
+StartupNotify=true
+StartupWMClass=ai.storyteller.craft-anything
+Categories=Development;Debugger;
+Keywords=reverse engineering;disassembler;binary;analysis;executable;decompiler;inspect;

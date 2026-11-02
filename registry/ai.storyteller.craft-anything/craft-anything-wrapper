@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# Craft Anything is staged by apply_extra at /app/extra/craft-anything.
+exec /app/extra/craft-anything/bin/craft-anything "$@"

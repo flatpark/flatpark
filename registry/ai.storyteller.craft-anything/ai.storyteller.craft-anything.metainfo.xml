@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.craft-anything</id>
+  <name>Craft Anything</name>
+  <summary>Find out how any software works, then craft your own</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="ai.storyteller">
+    <name>Learning Machines LLC</name>
+  </developer>
+  <url type="homepage">https://getartcraft.com/apps/craft-anything</url>
+  <url type="bugtracker">https://github.com/storytold/craft-anything/issues</url>
+  <url type="vcs-browser">https://github.com/storytold/craft-anything</url>
+  <url type="contact">https://discord.gg/artcraft</url>
+  <description>
+    <p>This is a community package of Craft Anything, maintained independently and unaffiliated with the Craft Anything project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>Craft Anything shows anyone how a piece of software works, with answers backed by evidence, then helps them rebuild it. Open a program, an app, a file or a website and get a plain explanation of what it is, what it does and how it is put together.</p>
+    <ul>
+      <li>Reads executables, libraries, archives, Android packages, WebAssembly and web bundles</li>
+      <li>A built-in disassembler with functions, call graphs and pseudo-C</li>
+      <li>Every answer carries its evidence, confidence and what is still unknown</li>
+      <li>Beginner and Experienced modes</li>
+      <li>Every action is a tool, scriptable from a CLI and an MCP server</li>
+    </ul>
+    <p>The headless command runner and MCP server is included: <code>flatpak run --command=craft-anything-cli ai.storyteller.craft-anything --help</code></p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, read-only home access (to inspect binaries and files passed on the command line or from recent targets), and network access (for AI backends and model engines).</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The workbench analyzing an executable with decompilation and functions</caption>
+      <image>https://raw.githubusercontent.com/storytold/craft-anything/main/docs/images/workbench.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Interactive project view of an application architecture</caption>
+      <image>https://raw.githubusercontent.com/storytold/craft-anything/main/docs/images/project-game.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Web bundle inspector breaking down client assets and API endpoints</caption>
+      <image>https://raw.githubusercontent.com/storytold/craft-anything/main/docs/images/project-website.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Make mode assisting with rebuilding and generating component code</caption>
+      <image>https://raw.githubusercontent.com/storytold/craft-anything/main/docs/images/make.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ai.storyteller.craft-anything.desktop</launchable>
+  <categories>
+    <category>Development</category>
+    <category>Debugger</category>
+  </categories>
+  <keywords>
+    <keyword>reverse engineering</keyword>
+    <keyword>disassembler</keyword>
+    <keyword>binary analysis</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#efc39f</color>
+    <color type="primary" scheme_preference="dark">#8f4612</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <provides>
+    <binary>craft-anything</binary>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.2.0" date="2026-11-01"/>
+    <release version="0.1.0" date="2026-10-31"/>
+  </releases>
+</component>

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# Craft Anything's headless CLI / MCP server is staged alongside the app.
+exec /app/extra/craft-anything/bin/craft-anything-cli "$@"

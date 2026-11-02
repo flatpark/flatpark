@@ -1,0 +1,22 @@
+id: ai.storyteller.craft-anything
+name: Craft Anything
+summary: Open-source software explorer and binary analysis workbench
+website: https://getartcraft.com/apps/craft-anything
+source_url: https://github.com/storytold/craft-anything
+build:
+  manifest: ai.storyteller.craft-anything.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags:
+    - Reverse Engineering
+    - Disassembler
+    - Binary Analysis
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
