@@ -4,6 +4,9 @@ set -eu
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 [ -f filee.tar.gz ] || { echo "missing extra-data: filee.tar.gz" >&2; exit 1; }
+for stack in tesseract leptonica; do
+    [ -f "$stack.tar.xz" ] || { echo "missing extra-data: $stack.tar.xz" >&2; exit 1; }
+done
 rm -rf stage filee
 mkdir stage
 bsdtar --no-same-owner -xf filee.tar.gz -C stage
@@ -22,4 +25,12 @@ launcher="${config%.runtimeconfig.json}"
     echo "desktop or CLI apphost missing from portable Filee" >&2; exit 1;
 }
 ln -s "${launcher#filee/}" filee/desktop-launcher
+# Shared support tools stay beside the unchanged portable application tree.
+for stack in tesseract leptonica; do
+    rm -rf "$stack"
+    bsdtar --no-same-owner -xf "$stack.tar.xz"
+    [ -d "$stack/lib" ] || { echo "missing $stack libraries after unpack" >&2; exit 1; }
+    rm -f "$stack.tar.xz"
+done
+[ -x tesseract/bin/tesseract ] || { echo "missing OCR executable after unpack" >&2; exit 1; }
 rm -rf stage filee.tar.gz

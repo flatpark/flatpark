@@ -9,7 +9,7 @@ build:
   mode: extra-data
 catalog:
   category: Utility
-  tags: [Converter, Images, PDF, Documents, Archives]
+  tags: [Converter, Images, PDF, Documents, Archives, OCR]
 update:
   command: ./resolve-update.sh
 policy:
