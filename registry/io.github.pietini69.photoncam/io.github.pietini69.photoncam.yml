@@ -15,12 +15,13 @@ finish-args:
   # USB serial for a GRBL or Ruida controller (/dev/ttyUSB*, /dev/ttyACM*).
   # Also covers the GPU (dri) and the alignment camera (/dev/video*).
   - --device=all
-  # No --share=network: the default controller link is USB serial. The
-  # network is for opt-in features: a controller behind a Raspberry Pi running
-  # PhotonCAM Bridge (tcp, port 2323), and the web remote and iPad bridge,
-  # which bind 0.0.0.0 without authentication and serve POST
-  # /api/system/update, a curl | bash of upstream's install_pi_bridge.sh from
-  # master. Left to an override in the metainfo.
+  # A controller behind a Raspberry Pi running PhotonCAM Bridge (tcp, port
+  # 2323) is one of the two connection types next to USB serial. The same
+  # grant serves the web remote and iPad bridge, which only run after the user
+  # starts them from the app; they bind 0.0.0.0 without authentication and
+  # serve POST /api/system/update, a curl | bash of upstream's
+  # install_pi_bridge.sh from master. Disclosed in the metainfo.
+  - --share=network
   # Open and Save go through the file-chooser portal. Documents is granted
   # so a project passed by path keeps working.
   - --filesystem=xdg-documents
