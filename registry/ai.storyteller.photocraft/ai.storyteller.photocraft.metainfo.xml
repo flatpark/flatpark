@@ -23,11 +23,12 @@
       <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
     </ul>
     <p>The headless converter and command runner is included: <code>flatpak run --command=photocraft-cli ai.storyteller.photocraft --help</code></p>
-    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest — display (Wayland, with X11 as a fallback), the GPU device, and the Pictures and Documents folders. Files anywhere else are opened and saved through the system file chooser or by drag and drop. No network access is granted.</p>
+    <p>Permissions: display (Wayland, with X11 as a fallback), the GPU device, the Pictures and Documents folders, and printing through the host's CUPS. Files anywhere else, including other folders in your home and removable drives, are opened and saved through the system file chooser or by drag and drop. No network access is granted: FlatPark delivers updates.</p>
     <p>Optional overrides:</p>
     <ul>
-      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.photocraft</code></li>
       <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.photocraft</code></li>
+      <li>Open files by path on USB sticks, SD cards and external drives: <code>flatpak override --user --filesystem=/media --filesystem=/run/media ai.storyteller.photocraft</code></li>
+      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.photocraft</code></li>
     </ul>
   </description>
   <screenshots>

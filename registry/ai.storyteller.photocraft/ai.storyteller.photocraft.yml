@@ -6,9 +6,9 @@ command: photocraft
 separate-locales: false
 build-options:
   no-debuginfo: true
-# The app id, runtime and finish-args follow upstream's own Flatpak manifests
-# (packaging/linux/flatpak/ in storytold/photocraft), so this package and the
-# single-file bundle upstream builds are the same application.
+# The app id and runtime follow upstream's own Flatpak manifests
+# (packaging/linux/flatpak/ in storytold/photocraft). finish-args follow them
+# too, except where noted under "Deliberately not granted" below.
 finish-args:
   # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
   # Vulkan/EGL loaders are dlopen()ed from the runtime.
@@ -23,11 +23,23 @@ finish-args:
   # (command line, File > Open Recent, saving next to the original) keep working.
   - --filesystem=xdg-pictures
   - --filesystem=xdg-documents
-  # Deliberately not granted:
-  #   --share=network          -> the optional --control automation server
-  #                               listens on 127.0.0.1 inside the sandbox; the
-  #                               metainfo documents the override that exposes it
-  #   --filesystem=home / host -> everything else goes through the portals
+  # Printing: the app's in-process IPP client (crates/ipp upstream) sends jobs
+  # to the host's CUPS socket; without it they fall back to the print portal.
+  - --socket=cups
+  # Deliberately not granted (upstream grants all but the last):
+  #   --system-talk-name=org.freedesktop.Avahi, --filesystem=~/.cups:ro
+  #                            -> only used by the CUPS lp/lpstat/lpoptions
+  #                               upstream builds into its bundle (driverless
+  #                               printers via `lpstat -e`, client.conf); this
+  #                               package doesn't ship them
+  #   --share=network          -> upstream uses it for the in-app update check
+  #                               and the --control server; FlatPark ships
+  #                               updates itself, and the metainfo documents
+  #                               the override that exposes --control
+  #   xdg-data/ArtCraft/versions:ro -> version pins of upstream's ArtCraft
+  #                               launcher, which doesn't manage this package
+  #   --filesystem=home / host -> everything else goes through the portals;
+  #   /media, /run/media          the metainfo documents the overrides
 modules:
   - name: photocraft
     buildsystem: simple
