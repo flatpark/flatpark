@@ -35,10 +35,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: filee.tar.gz
-        only-arches: [x86_64]
-        url: https://github.com/KnifeLemon/Filee/releases/download/v2.2.0/Filee-2.2.0-linux-x64.tar.gz
-        sha256: 68fb31d970b9f38e0e050e1c3ac41ce7932023fb0e7c4d50b1e721c477101351
-        size: 128948534
+        only-arches:
+          - x86_64
+        url: https://github.com/KnifeLemon/Filee/releases/download/v2.3.0/Filee-2.3.0-linux-x64.tar.gz
+        sha256: 2f3cccc927fd9276acf0d08dfb16203d57cfd1e3025659403de5c6f247e1ea9b
+        size: 131059592
       # END MANAGED EXTRA-DATA
       # Shared OCR tools built on GNOME 51, which shares the 26.08 runtime base.
       # Keep these outside the app updater's managed block. Filee downloads its
