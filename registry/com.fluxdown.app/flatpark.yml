@@ -1,7 +1,7 @@
 id: com.fluxdown.app
 name: FluxDown
 summary: Multi-protocol download manager, a free IDM alternative
-website: https://fluxdown.zerx.dev
+website: https://fluxdown.com
 source_url: https://github.com/zerx-lab/FluxDown
 build:
   manifest: com.fluxdown.app.yml
