@@ -20,8 +20,11 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # The Linux x86_64 build is the `Kelivo_linux_<version>+<build>_amd64.deb` asset (the .rpm and
-# .AppImage, the detached .sig files and the macOS/Windows builds are skipped).
-url="$(jq -r '[.assets[] | select(.name | test("_amd64\\.deb$")) | .browser_download_url]
+# .AppImage, the detached .sig files and the macOS/Windows builds are skipped). Since v1.3.3
+# upstream also publishes a `-NoImpeller` variant of each Linux build (Flutter's legacy Skia
+# renderer, a fallback for GPUs where Impeller misrenders); FlatPark ships the default build,
+# so the NoImpeller .deb is excluded.
+url="$(jq -r '[.assets[] | select(.name | test("_amd64\\.deb$")) | select(.name | test("NoImpeller") | not) | .browser_download_url]
               | if length == 1 then .[0] else empty end' <<<"$rel")"
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve Kelivo release" >&2; exit 1; }
