@@ -61,16 +61,16 @@ modules:
         filename: trae-cn.deb
         only-arches:
           - x86_64
-        url: https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.99396/linux/TRAE_CN-linux-x64.deb
-        sha256: 2540d6e5501e3b7f505eb541271d1a872d8d0e2ce606617ded288dbcb66c6d0b
-        size: 512618336
+        url: https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.99936/linux/TRAE_CN-linux-x64.deb
+        sha256: 7a47569bc2e384d3dcfc1fecf45f6a4e983069d4f820569ed0d781d338887b1b
+        size: 512602772
       - type: extra-data
         filename: trae-cn.deb
         only-arches:
           - aarch64
-        url: https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.99396/linux/TRAE_CN-linux-arm64.deb
-        sha256: 70c42f555aaf71275b8aca0d790a78e4c66a6bb5658ca9c8abc1f9e282ee6012
-        size: 483037536
+        url: https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.99936/linux/TRAE_CN-linux-arm64.deb
+        sha256: c6d33c96be77773a0031da83bfd2ebfcf61537c9d07a0af068246c6a300244a4
+        size: 483401920
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

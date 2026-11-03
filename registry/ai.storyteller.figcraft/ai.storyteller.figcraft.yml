@@ -46,16 +46,16 @@ modules:
         filename: figcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/figcraft/releases/download/v0.14.0/figcraft-0.14.0-linux-x86_64.tar.gz
-        sha256: 0ea489ce299238af96106940cddb42091c3eba109c05fdf843b4e7f8eb970829
-        size: 101390282
+        url: https://github.com/storytold/figcraft/releases/download/v0.15.0/figcraft-0.15.0-linux-x86_64.tar.gz
+        sha256: 1e5e8e0b9b4a1811f31ce8204a9bc53c851f208b6fe45e0287302f70bc6a08d6
+        size: 101383019
       - type: extra-data
         filename: figcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/figcraft/releases/download/v0.14.0/figcraft-0.14.0-linux-aarch64.tar.gz
-        sha256: 17849e8fee7fa6655e02ef071e27f7bdb7edd0019172cd2e8e3523204cab0535
-        size: 97868089
+        url: https://github.com/storytold/figcraft/releases/download/v0.15.0/figcraft-0.15.0-linux-aarch64.tar.gz
+        sha256: cb483aaed6df57107c2b293484b0cb4192d841d7df2a26b39a76cf3e81a8727c
+        size: 97990954
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
