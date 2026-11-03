@@ -106,7 +106,12 @@ before the PR. Each item links to the page that explains it.
 - A compiled GApplication id different from the Flatpak id needs
   `--own-name=<compiled id>`, or the app exits silently
   ([second instance](desktop-integration.md#a-second-launch-starts-a-second-copy)).
-- Tray: `--own-name=org.fluttertray.*`; MPRIS uses an app-id prefix.
+- Tray: `--own-name=org.fluttertray.*`; MPRIS uses an app-id prefix unless
+  the app hard-codes another one
+  ([MPRIS](desktop-integration.md#media-controls-mpris-missing)).
+- Any Dart `dbus` client on the system bus (`nm`, `upower`, `bluez` packages)
+  hangs without one; see
+  [system bus probes](system-services.md#apps-that-probe-the-system-bus).
 - File associations: usually `%F`; many Flutter apps don't parse `file://` URIs
   ([opening files](desktop-integration.md#opening-files-from-the-file-manager)).
 - Fonts work through fontconfig; no `fonts.conf` needed.

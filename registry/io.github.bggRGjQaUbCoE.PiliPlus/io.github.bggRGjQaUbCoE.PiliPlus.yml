@@ -26,6 +26,17 @@ finish-args:
   - --own-name=org.kde.*
   # Desktop notifications
   - --talk-name=org.freedesktop.Notifications
+  # MPRIS: audio_service_mpris registers under the hard-coded dBusName
+  # com.example.piliplus.audio, not the app id, as
+  # org.mpris.MediaPlayer2.com.example.piliplus.audio.instance<pid>. Without it
+  # AudioService.init throws in main() and runApp is never reached (since 2.2.0).
+  - --own-name=org.mpris.MediaPlayer2.com.example.piliplus.*
+  # ConnectivityUtils.isWiFi asks NetworkManager whether the link is metered
+  # before loading each video, to pick the mobile-data quality and autoplay
+  # settings. With no system bus socket at all the dbus package's connect error
+  # escapes the app's try/catch and the await never completes, so videos stay
+  # on the cover (since 2.2.0). This grant also mounts the system bus.
+  - --system-talk-name=org.freedesktop.NetworkManager
 modules:
   - name: mpv-stack
     buildsystem: simple
