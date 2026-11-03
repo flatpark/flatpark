@@ -31,10 +31,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: uad-ng.tar.gz
-        only-arches: [x86_64]
-        url: https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation/releases/download/v1.2.0/uad-ng-noselfupdate-linux.tar.gz
-        sha256: 980273195eb39ae43c776159252d67be0a5eea31faf88b600c2f9218cb099314
-        size: 10568201
+        only-arches:
+          - x86_64
+        url: https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation/releases/download/v1.3.1/uad-ng-noselfupdate-linux.tar.gz
+        sha256: f4dd84f4bbce870e3be9a6803b8406a3685b0b7c17003de7c2ff885b610404cc
+        size: 11043001
       # END MANAGED EXTRA-DATA
       # ADB is a separate official download; its fixed version is independent
       # of the UAD-ng resolver. Keep the archive's license notices with it.
