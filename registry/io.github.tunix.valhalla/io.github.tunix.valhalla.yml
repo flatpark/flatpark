@@ -1,0 +1,67 @@
+id: io.github.tunix.valhalla
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: valhalla
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Core function: wallpaper candidates are fetched from online sources
+  # (Wallhaven, Unsplash, Pexels, Pixabay, Bing, NASA).
+  - --share=network
+  # Native GTK4/libadwaita app. Wayland by default with XWayland fallback,
+  # dri for GPU-accelerated rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The wallpaper is applied through the XDG wallpaper portal and folders are
+  # picked through the file chooser portal; both live on the portal bus,
+  # which every sandbox can reach. The grant is kept explicit to mirror the
+  # developer's own flatpak manifest.
+  - --talk-name=org.freedesktop.portal.Desktop
+  # Source API keys are stored in the user's keyring over the Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # "Start at login" writes its desktop entry into the XDG autostart dir.
+  - --filesystem=xdg-config/autostart:create
+  # Wallpaper folders added in Preferences (Manual source) are read through
+  # the document portal grants the file chooser persists; arbitrary host
+  # directories are NOT granted — they are the user's per-folder opt-in via
+  # the chooser.
+modules:
+  - name: valhalla
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 valhalla-wrapper /app/bin/valhalla
+      - install -Dm644 io.github.tunix.valhalla.desktop /app/share/applications/io.github.tunix.valhalla.desktop
+      - install -Dm644 io.github.tunix.valhalla.metainfo.xml /app/share/metainfo/io.github.tunix.valhalla.metainfo.xml
+      - install -Dm644 io.github.tunix.valhalla.png /app/share/icons/hicolor/256x256/apps/io.github.tunix.valhalla.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: valhalla.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tunix/valhalla/releases/download/v1.6.0/valhalla-v1.6.0-x86_64.tar.gz
+        sha256: 31dfef798e3a4642e5fccd81d8ea19cb079cb8e1fd50c01dac103f9c47b1b67e
+        size: 4894541
+      - type: extra-data
+        filename: valhalla.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/tunix/valhalla/releases/download/v1.6.0/valhalla-v1.6.0-aarch64.tar.gz
+        sha256: e533a1ddcd6c8e35b63b9785f45a05657e82a1a42f9376b6b75b1bdea5dd1538
+        size: 4509920
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: valhalla-wrapper
+      - type: file
+        path: io.github.tunix.valhalla.desktop
+      - type: file
+        path: io.github.tunix.valhalla.metainfo.xml
+      - type: file
+        path: io.github.tunix.valhalla.png

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Valhalla
+Comment=Theme-aware wallpaper switcher
+Exec=valhalla
+Icon=io.github.tunix.valhalla
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Utility;
+Keywords=wallpaper;background;dark;light;
+StartupNotify=true

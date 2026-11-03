@@ -1,0 +1,21 @@
+id: io.github.tunix.valhalla
+name: Valhalla
+summary: Theme-aware wallpaper switcher
+website: https://github.com/tunix/valhalla
+source_url: https://github.com/tunix/valhalla
+build:
+  manifest: io.github.tunix.valhalla.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Utility
+  tags:
+    - Wallpaper
+    - GNOME
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
