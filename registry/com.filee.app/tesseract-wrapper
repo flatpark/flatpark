@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Filee finds this tool on PATH and passes its job-local language-model path.
+# Keep support libraries local to Tesseract rather than changing Filee's loader.
+export LD_LIBRARY_PATH="/app/extra/tesseract/lib:/app/extra/leptonica/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/tesseract/bin/tesseract "$@"

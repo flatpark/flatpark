@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.filee.app</id>
+  <name>Filee</name>
+  <summary>Convert images, documents, media and archives offline</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.knifelemon"><name>KnifeLemon</name></developer>
+  <description>
+    <p>Filee converts images, PDFs, office documents, spreadsheets, presentations,
+    audio, video, e-books and archives locally. Its portable build includes the
+    .NET runtime and built-in conversion engines; additional engines such as Pandoc and calibre can
+    be downloaded from Filee's settings.</p>
+    <p>This community package runs the official Linux portable build unmodified.
+    Updates are delivered through Flatpak. Host file-manager actions, desktop
+    extensions and host-installed conversion engines are not integrated.
+    Conversions requiring LibreOffice or Ghostscript are unavailable
+    because those optional engines are not included.</p>
+    <p>Tesseract OCR is included for text recognition in scans and pictures and
+    searchable PDF output. Enable Recognize text in a conversion preset and
+    select the recognition language. Filee downloads and verifies that language's
+    model on first use, then keeps it for subsequent offline recognition.</p>
+    <p>On first run, converted files are saved to Downloads. This gives files
+    selected through the file chooser a persistent output destination. Existing
+    profiles keep their settings: choose Downloads as the output folder in
+    General if needed. Saving beside a portal-selected file can leave the result
+    in the portal's temporary view instead of the original folder.</p>
+    <p>The interface uses native Wayland when available, with X11 as a fallback.
+    The global drag gesture works on X11. GNOME Wayland gestures need the
+    upstream GNOME pointer extension, which is not installed by this package.
+    Use the drop zone or file chooser on Wayland.</p>
+    <p>To convert entire folders elsewhere and save beside their sources, grant the folder:
+    <code>flatpak override --user --filesystem=/path/to/folder com.filee.app</code>.
+    Undo with <code>flatpak override --user --reset com.filee.app</code>.</p>
+    <p>The command line is available with
+    <code>flatpak run --command=filee-cli com.filee.app</code>.</p>
+  </description>
+  <launchable type="desktop-id">com.filee.app.desktop</launchable>
+  <url type="homepage">https://filee.sh</url>
+  <url type="vcs-browser">https://github.com/KnifeLemon/Filee</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Home screen and recent conversions</caption>
+      <image>https://raw.githubusercontent.com/KnifeLemon/Filee/v2.2.0/docs/media/page-home-en.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1" />
+  <releases><release version="2.2.0" date="2026-10-28" /></releases>
+</component>

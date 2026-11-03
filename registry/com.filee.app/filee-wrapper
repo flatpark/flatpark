@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+# A file-picker grant covers the selected document, not arbitrary sibling files.
+# On first run, save converted files to the granted Downloads directory instead
+# of the document portal's temporary view. Keep existing settings untouched.
+settings_dir="${FILEE_DATA_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/Filee}"
+settings="$settings_dir/settings.json"
+if [ ! -e "$settings" ]; then
+    mkdir -p "$settings_dir"
+    seed="$(mktemp "$settings_dir/.flatpark-settings.XXXXXX")"
+    jq -n --arg output "$(xdg-user-dir DOWNLOAD)" \
+        '{defaultOutput:{location:"CustomFolder",customFolder:$output}}' > "$seed"
+    # Publish a complete settings file without replacing one another launch made.
+    ln "$seed" "$settings" 2>/dev/null || [ -e "$settings" ]
+    rm -f "$seed"
+fi
+# The portable apphost resolves its bundled .NET runtime and engines itself.
+exec /app/extra/filee/desktop-launcher "$@"

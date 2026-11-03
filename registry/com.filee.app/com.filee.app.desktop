@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Filee
+Comment=Convert images, documents, media and archives offline
+Exec=filee --convert %F
+Icon=com.filee.app
+Terminal=false
+Categories=Utility;FileTools;
+StartupWMClass=Filee
