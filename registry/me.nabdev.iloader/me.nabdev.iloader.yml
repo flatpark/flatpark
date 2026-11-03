@@ -13,9 +13,9 @@ finish-args:
   - --socket=fallback-x11
   # Apple signing services, app downloads and network-connected devices.
   - --share=network
-  # All-device access retained at the packager's request for compatibility
-  # with older Flatpak releases; this includes GPU rendering.
-  - --device=all
+  # GPU rendering for WebKitGTK. USB devices are reached through the host
+  # usbmuxd socket below, so no USB device access is needed.
+  - --device=dri
   # Device discovery and pairing use the host usbmuxd socket.
   - --filesystem=/run/usbmuxd
   # Store Apple credentials and pairing material using Secret Service.
@@ -28,7 +28,7 @@ modules:
       - install -Dm755 iloader-wrapper /app/bin/iloader
       - install -Dm644 me.nabdev.iloader.desktop /app/share/applications/me.nabdev.iloader.desktop
       - install -Dm644 me.nabdev.iloader.metainfo.xml /app/share/metainfo/me.nabdev.iloader.metainfo.xml
-      - install -Dm644 me.nabdev.iloader.png /app/share/icons/hicolor/512x512/apps/me.nabdev.iloader.png
+      - install -Dm644 me.nabdev.iloader.png /app/share/icons/hicolor/256x256/apps/me.nabdev.iloader.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data

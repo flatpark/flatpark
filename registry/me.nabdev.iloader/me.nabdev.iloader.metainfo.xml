@@ -8,7 +8,7 @@
   <developer id="me.nabdev"><name>nab138</name></developer>
   <description>
     <p>iloader installs SideStore and other IPA apps on iPhones and iPads, and manages device pairing files and development certificates.</p>
-    <p>This community package downloads the official upstream Debian build unmodified. It is not endorsed by the iloader developer. Device communication requires usbmuxd to be installed and running on the host Linux system. Install it using your distribution's package manager if needed. This package grants access to all devices for compatibility with older Flatpak releases. Connect your device and trust this computer before using iloader. An Apple account is required for signing apps.</p>
+    <p>This community package downloads the official upstream Debian build unmodified. It is not endorsed by the iloader developer. Device communication requires usbmuxd to be installed and running on the host Linux system. Install it using your distribution's package manager if needed. Connect your device and trust this computer before using iloader. An Apple account is required for signing apps.</p>
     <p>Use Flatpak to update this package; the in-app installer cannot replace the read-only application files.</p>
   </description>
   <launchable type="desktop-id">me.nabdev.iloader.desktop</launchable>

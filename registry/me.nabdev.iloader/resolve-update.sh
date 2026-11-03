@@ -9,6 +9,7 @@ jq -e '
       .[0] | {filename:"iloader.deb", arch:$arch, url:.browser_download_url, size:.size}
     end;
   {version:(.tag_name | ltrimstr("v")), releaseDate:(.published_at[0:10]),
+   releaseUrl:.html_url,
    sources:[asset("iloader-linux-amd64.deb"; "x86_64"), asset("iloader-linux-arm64.deb"; "aarch64")]}
   | if (.version | length) == 0 then error("missing version") else . end
 ' <<<"$rel"

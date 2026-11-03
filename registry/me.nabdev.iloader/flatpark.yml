@@ -15,5 +15,3 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  dangerous_permissions:
-    - --device=all
