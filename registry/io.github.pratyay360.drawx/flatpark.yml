@@ -1,0 +1,24 @@
+id: io.github.pratyay360.drawx
+name: DrawX
+summary: Offline first brainstorming and whiteboard app
+website: https://pratyay360.github.io/drawx
+source_url: https://github.com/Pratyay360/drawx
+build:
+  manifest: io.github.pratyay360.drawx.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  tags:
+    - Whiteboard
+    - Drawing
+    - Excalidraw
+    - Brainstorming
+    - Tauri
+  upstream_approved: true
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

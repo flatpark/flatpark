@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.pratyay360.drawx</id>
+  <launchable type="desktop-id">io.github.pratyay360.drawx.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>DrawX</name>
+  <summary>Offline first brainstorming and whiteboard app</summary>
+  <developer id="io.github.pratyay360">
+    <name>Pratyay360</name>
+  </developer>
+  <url type="homepage">https://pratyay360.github.io/drawx</url>
+  <url type="bugtracker">https://github.com/Pratyay360/drawx/issues</url>
+  <url type="vcs-browser">https://github.com/Pratyay360/drawx</url>
+  <description>
+    <p>DrawX is an offline-first brainstorming and whiteboard application. It provides an infinite canvas powered by Excalidraw, a shape and text toolkit, a library of saved elements, and local-first storage: every canvas stays on your device.</p>
+    <p>This is DrawX's own Flatpak package, published by its developer: it unpacks the official upstream Linux .deb unmodified into the Flatpak sandbox, and updates follow upstream releases automatically.</p>
+    <p>Notes on this package:</p>
+    <ul>
+      <li>New canvases and settings live inside the app's sandboxed HOME.</li>
+      <li>The sandbox has no filesystem access: opening or saving a drawing elsewhere goes through the file-chooser portal.</li>
+      <li>Network access serves the app's built-in update check and its error reporting; no canvas content leaves the device.</li>
+      <li>Updates arrive through this Flatpak remote with flatpak update; the app's built-in update check can't install anything inside the sandbox.</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Pratyay360/drawx/main/public/image.webp</image>
+      <caption>The infinite canvas with saved canvases and drawing tools</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Pratyay360/drawx/main/public/image1.webp</image>
+      <caption>Text and font controls on the canvas</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>brainstorming</keyword>
+    <keyword>whiteboard</keyword>
+    <keyword>drawing</keyword>
+    <keyword>excalidraw</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>drawx</binary>
+  </provides>
+  <releases>
+    <release version="1.0.0" date="2026-11-02">
+      <description></description>
+    </release>
+  </releases>
+</component>

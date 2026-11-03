@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=DrawX
+Comment=Offline first brainstorming and whiteboard app
+Exec=drawx
+Icon=io.github.pratyay360.drawx
+Terminal=false
+Categories=Graphics;
+StartupNotify=true
+StartupWMClass=drawx
+Keywords=whiteboard;drawing;diagram;brainstorm;excalidraw;

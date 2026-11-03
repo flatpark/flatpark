@@ -1,0 +1,49 @@
+id: io.github.pratyay360.drawx
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: drawx
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK app. Network: the app's built-in update check
+  # (cdn.crabnebula.app) and its Sentry error reporting. dri: hardware-accelerated
+  # WebKit rendering. x11: the clipboard plugin (arboard) falls back to X11
+  # because the sandbox's Wayland socket filters the data-control protocol.
+  # Notifications: the app's notification plugin talks to org.freedesktop.Notifications.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=x11
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: drawx
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 drawx-wrapper /app/bin/drawx
+      - install -Dm644 io.github.pratyay360.drawx.desktop /app/share/applications/io.github.pratyay360.drawx.desktop
+      - install -Dm644 io.github.pratyay360.drawx.metainfo.xml /app/share/metainfo/io.github.pratyay360.drawx.metainfo.xml
+      - install -Dm644 io.github.pratyay360.drawx.png /app/share/icons/hicolor/512x512/apps/io.github.pratyay360.drawx.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: drawx.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Pratyay360/drawx/releases/download/v1.0.0/drawx_1.0.0_amd64.deb
+        sha256: 659ec6d5b8b6ded778c3ea0d90e3d21088a9038c75b41fb0781bcfb0ae254732
+        size: 9325264
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: drawx-wrapper
+      - type: file
+        path: io.github.pratyay360.drawx.desktop
+      - type: file
+        path: io.github.pratyay360.drawx.metainfo.xml
+      - type: file
+        path: io.github.pratyay360.drawx.png
