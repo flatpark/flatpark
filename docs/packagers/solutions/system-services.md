@@ -64,6 +64,33 @@ the accessibility bus is. Without `--talk-name=org.a11y.Bus` screen readers
 don't see the window. Grant it when the binary carries `org.a11y.atspi` or
 `accesskit` symbols ([Navop](../../../registry/dev.navop.Navop/dev.navop.Navop.yml)).
 
+### Apps that probe the system bus
+
+Flatpak mounts the system bus socket only when the package grants at least one
+`--system-talk-name`. Without it, `/var/run/dbus/system_bus_socket` doesn't
+exist, and some D-Bus clients fail in a way the app can't catch. The Dart
+`dbus` package raises the connect error inside a signal subscription, outside
+the caller's `try`, so `await NetworkManagerClient().connect()` never
+completes and whatever waited on it stalls.
+[PiliPlus](../../../registry/io.github.bggRGjQaUbCoE.PiliPlus/io.github.bggRGjQaUbCoE.PiliPlus.yml)
+asks NetworkManager whether the link is metered before loading each video,
+and videos stayed on the cover image.
+
+Any `--system-talk-name` mounts the socket, so there are two fixes:
+
+- **Grant the service** the app asks
+  (`--system-talk-name=org.freedesktop.NetworkManager`), when its answer
+  drives a feature. PiliPlus does this to pick the mobile-data quality on a
+  metered link. Say in the comment what the app gets: NetworkManager exposes
+  every connection's name, Wi-Fi SSIDs and VPN profiles.
+- **Grant a name nobody owns** (`--system-talk-name=org.flatpark.Placeholder`),
+  when the app only reads a hint and has a fallback. The proxy mounts the
+  socket, the call fails with an ordinary D-Bus error, and the fallback runs
+  without the app seeing anything on the system bus.
+
+The log shows `SocketException … address = /var/run/dbus/system_bus_socket`
+with `DBusClient._openSocket` in the trace.
+
 ### Commands on the host
 
 An app that needs a host program (`git`, `lsof`, a CLI it manages) can't run it

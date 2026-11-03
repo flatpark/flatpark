@@ -51,6 +51,7 @@ other name is filtered and media keys and desktop widgets never see the player.
 | Electron, Chromium | `org.mpris.MediaPlayer2.chromium.instance2` (sandbox PID 2), only while media plays | `--own-name=org.mpris.MediaPlayer2.chromium.*` ([Folia](../../../registry/top.izuna.foliamajor/top.izuna.foliamajor.yml)) |
 | WebKitGTK (Tauri) | `org.mpris.MediaPlayer2.<id>.Sandboxed.instance-N`, where `<id>` is the GApplication id, else the program name if it is a dotted id, else `org.webkit.app-<hash>` | Name the launcher symlink after the app id; no grant needed ([Flow](../../../registry/io.github.aedev.flow.desktop/apply_extra.sh)) |
 | Flutter (audio plugins) | `org.mpris.MediaPlayer2.<app-id>.instance2` | Covered by default; a narrower `--own-name=…<app-id>.*` is harmless ([Vynody](../../../registry/io.github.axel10.vynody/io.github.axel10.vynody.yml)) |
+| Flutter `audio_service_mpris` with a hard-coded `dBusName` | `org.mpris.MediaPlayer2.<dBusName>.instance2`, often a `com.example.…` template id. A failed `requestName` throws out of `main()`, so the window opens but never draws | `--own-name=org.mpris.MediaPlayer2.<dBusName>.*`; grep the bundle's `libapp.so` for `dBusName` strings ([PiliPlus](../../../registry/io.github.bggRGjQaUbCoE.PiliPlus/io.github.bggRGjQaUbCoE.PiliPlus.yml)) |
 
 - **Test with sound playing.** Chromium registers the name only during
   playback, so an idle launch proves nothing. Start the app with
