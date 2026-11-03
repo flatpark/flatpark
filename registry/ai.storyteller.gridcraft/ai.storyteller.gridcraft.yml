@@ -45,16 +45,16 @@ modules:
         filename: gridcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/gridcraft/releases/download/v0.15.0/gridcraft-0.15.0-linux-x86_64.tar.gz
-        sha256: 6810f8ce7394b5a7cdfaf39838257b6384dceb9f8325024d475db895ee59daaa
-        size: 49315879
+        url: https://github.com/storytold/gridcraft/releases/download/v0.16.0/gridcraft-0.16.0-linux-x86_64.tar.gz
+        sha256: 4c5c223186bd1e94fed9fedaf3cbf77a9ac96dd45a32bf36448fc023066f13df
+        size: 51710002
       - type: extra-data
         filename: gridcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/gridcraft/releases/download/v0.15.0/gridcraft-0.15.0-linux-aarch64.tar.gz
-        sha256: 90b2b21613546309bbed30365914ba9c20dd6f7d175ac7ded7e27bc68e65539a
-        size: 47584174
+        url: https://github.com/storytold/gridcraft/releases/download/v0.16.0/gridcraft-0.16.0-linux-aarch64.tar.gz
+        sha256: 8c9384c6102b2f2a2d7d5e083f9bc3558d16555aef55dd4a445f142a43a89f17
+        size: 49776613
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

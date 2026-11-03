@@ -52,6 +52,10 @@
     <display_length compare="ge">360</display_length>
   </requires>
   <releases>
+    <release version="0.2.1" date="2026-11-02">
+      <url type="details">https://github.com/pedrohqb/tessera/releases/tag/v0.2.1</url>
+      <description></description>
+    </release>
     <release version="0.2.0" date="2026-11-02">
       <description>
         <p>Native apps: a new tab sets up the Firefox, Chromium-based browsers, Okular, Papers and PJeOffice Pro installed from the distribution, and leaves alone the ones the system already gives p11-kit (Fedora and its family).</p>

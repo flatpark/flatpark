@@ -111,9 +111,9 @@ modules:
         filename: tessera.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/pedrohqb/tessera/releases/download/v0.2.0/tessera-x86_64.tar.gz
-        sha256: 6f0b35f50794bb4d53c36a39d091592237a4b4af9cf63ff964d29ee60434208a
-        size: 1895424
+        url: https://github.com/pedrohqb/tessera/releases/download/v0.2.1/tessera-x86_64.tar.gz
+        sha256: be58b5a47b9c3369b0a66bf9fcddd822c0ef2fc61814a910053e731fc36a6970
+        size: 1898590
       # END MANAGED EXTRA-DATA
       # The token drivers, from their vendors, with the same pins as
       # Tessera's own manifest and distrobox-adv-br. They stay fixed across
