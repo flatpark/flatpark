@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# Vendor binary, unmodified, from the install-time extra-data tree. The app
+# points its own GSETTINGS_SCHEMA_DIR at gschemas.compiled next to its
+# binary, and detects the Flatpak sandbox via /.flatpak-info (portal-based
+# wallpaper apply, flatpak run autostart entry), so nothing to set here.
+exec /app/extra/valhalla/valhalla "$@"

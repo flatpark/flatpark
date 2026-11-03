@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.tunix.valhalla</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <developer id="io.github.tunix">
+    <name translate="no">Alper Kanat</name>
+  </developer>
+  <update_contact>tunix@src.gnome.org</update_contact>
+  <name>Valhalla</name>
+  <summary>Theme-aware wallpaper switcher</summary>
+  <description>
+    <p>A minimal wallpaper application that selects wallpapers from online sources and matches them to your desktop's light or dark appearance, so dark mode never gets a blinding white wallpaper.</p>
+    <p>This is a community package: it downloads Valhalla's official portable build from the project's releases at install time and runs it unmodified. The wallpaper is applied through the XDG desktop portal, and the headless refresh daemon can be started from the app's "start at login" switch.</p>
+  </description>
+  <launchable type="desktop-id">io.github.tunix.valhalla.desktop</launchable>
+  <url type="homepage">https://github.com/tunix/valhalla</url>
+  <url type="bugtracker">https://github.com/tunix/valhalla/issues</url>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <content_rating type="oars-1.1" />
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/tunix/valhalla/main/docs/screenshots/dark.png</image>
+      <caption>Dark style wallpaper in dark mode</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/tunix/valhalla/main/docs/screenshots/light.png</image>
+      <caption>Light style wallpaper in light mode</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.6.0" date="2026-11-03">
+      <description>
+        <ul>
+          <li>Manual source: folder-based sources with multi-folder looping</li>
+          <li>Packaging: ship gschemas.compiled next to the binary</li>
+          <li>UI: set minimum size on the preferences dialog</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>
