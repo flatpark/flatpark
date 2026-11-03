@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>me.nabdev.iloader</id>
+  <name>iloader</name>
+  <summary>Sideload iOS apps and manage device pairing files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="me.nabdev"><name>nab138</name></developer>
+  <description>
+    <p>iloader installs SideStore and other IPA apps on iPhones and iPads, and manages device pairing files and development certificates.</p>
+    <p>This community package downloads the official upstream Debian build unmodified. It is not endorsed by the iloader developer. Device communication requires usbmuxd to be installed and running on the host Linux system. Install it using your distribution's package manager if needed. Connect your device and trust this computer before using iloader. An Apple account is required for signing apps.</p>
+    <p>Use Flatpak to update this package; the in-app installer cannot replace the read-only application files.</p>
+  </description>
+  <launchable type="desktop-id">me.nabdev.iloader.desktop</launchable>
+  <url type="homepage">https://iloader.app</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/nab138/iloader</url>
+  <screenshots><screenshot type="default"><image>https://github.com/user-attachments/assets/93cd135d-6d89-46ee-9b9f-12c596806911</image></screenshot></screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="2.4.1" date="2026-10-28"/></releases>
+</component>

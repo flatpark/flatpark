@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Use WebKitGTK's compositing path for opaque Tauri windows in the sandbox.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+# Device communication uses the host daemon through the granted /run/usbmuxd.
+exec /app/extra/me.nabdev.iloader "$@"

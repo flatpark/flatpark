@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=iloader
+Comment=Sideload iOS apps and manage device pairing files
+Exec=iloader
+Icon=me.nabdev.iloader
+Terminal=false
+Categories=Utility;
+StartupWMClass=Me.nabdev.iloader
