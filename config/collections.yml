@@ -45,6 +45,7 @@ collections:
           - ai.storyteller.designcraft
           - ai.storyteller.figcraft
           - ai.storyteller.texturecraft
+          - ai.storyteller.materialcraft
       - title:
           en: Video and effects
           zh-Hans: 视频与特效
