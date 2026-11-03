@@ -10,6 +10,7 @@ build:
   arches: [x86_64, aarch64]
 catalog:
   category: Utility
+  upstream_approved: true
   tags:
     - Wallpaper
     - GNOME

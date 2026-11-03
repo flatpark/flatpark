@@ -16,7 +16,7 @@ repo="tunix/valhalla"
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer ***"} \
+rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         "https://api.github.com/repos/$repo/releases/latest")"
 
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
