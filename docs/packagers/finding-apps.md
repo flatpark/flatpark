@@ -135,10 +135,14 @@ the app.
 - **Prior attempts:** `gh api -X GET search/issues -f q='repo:flathub/flathub is:pr <name> in:title'`,
   and why each closed.
 - **Upstream's own Flatpak:** read the README. A `.flatpakref` or a
-  `flatpak remote-add` line means upstream already runs a repository users can
-  update from: skip it. A `.flatpak` bundle attached to releases with no
-  repository behind it is the best opening there is, because FlatPark supplies
-  the missing updates.
+  `flatpak remote-add` line means upstream runs its own repository. That
+  doesn't rule the app out: as long as it isn't on Flathub, it can be listed,
+  provided the release also has a file FlatPark can pin as extra-data (a
+  tarball, `.deb` or AppImage; the OSTree repository itself can't be pinned).
+  Ask upstream first and list it with their agreement. One FlatPark remote
+  instead of a remote per app means fewer remotes for users to add. A `.flatpak`
+  bundle attached to releases with no repository behind it is the best opening
+  there is, because FlatPark supplies the missing updates.
 - **The developer's own plans:** an open Flathub PR by the maintainer, or a
   statement that they're working on an official Flatpak, means skip it. A
   manifest prepared in their repository but never submitted, or a "we'd take it
