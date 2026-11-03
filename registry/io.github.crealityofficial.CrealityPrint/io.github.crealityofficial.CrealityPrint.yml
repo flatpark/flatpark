@@ -82,9 +82,9 @@ modules:
         filename: crealityprint.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/CrealityOfficial/CrealityPrint/releases/download/v7.3.0/CrealityPrint-V7.3.0.6157-x86_64-Release.AppImage
-        sha256: 55dedb43928b792e311d3223bc8072402d84ed456cc05239e027a10297c89955
-        size: 188664312
+        url: https://github.com/CrealityOfficial/CrealityPrint/releases/download/v7.3.1/CrealityPrint-V7.3.1.6378-x86_64-Release.AppImage
+        sha256: f8c8dbf18a6b0d5878961b24490fc20958eefe2f03f6a89f524cb9b21e55a107
+        size: 191511032
       # END MANAGED EXTRA-DATA
       # CrealityPrint links libdeflate.so.0 directly; neither the AppImage nor
       # the GNOME runtime carries it. scripts/update-debian-pins.mjs re-resolves

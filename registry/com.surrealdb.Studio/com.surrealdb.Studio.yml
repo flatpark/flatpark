@@ -45,16 +45,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://download.surrealdb.com/studio/v1.11.0/surrealdb-studio_1.11.0_amd64.deb
-        sha256: 40ec46e4311bb95986ace699bbb66e7c59c79d79fd09b83965bcd710c09e7a4f
-        size: 109701792
+        url: https://download.surrealdb.com/studio/v1.12.0/surrealdb-studio_1.12.0_amd64.deb
+        sha256: 28ade07c4d919d0958a1e6a14b4cc321fb8478e898568249ff23e9d0424bb456
+        size: 106115128
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://download.surrealdb.com/studio/v1.11.0/surrealdb-studio_1.11.0_arm64.deb
-        sha256: bd78da5e028799d40a7dc2e8d9d1328eb8f1484477f593fe5c6a2d692317ae45
-        size: 104808652
+        url: https://download.surrealdb.com/studio/v1.12.0/surrealdb-studio_1.12.0_arm64.deb
+        sha256: 2558d2aa639acc8a3ddb690bb88209dc54730d44f6108c1c5d01719b892140ed
+        size: 100997776
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
