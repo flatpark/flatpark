@@ -43,9 +43,9 @@ modules:
         filename: openplc.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/Autonomy-Logic/openplc-editor/releases/download/v4.3.3/OpenPLC.Editor-4.3.3.AppImage
-        sha256: 68005e0951010adfd404136f26218cc07945af62a962461d9194bad3cd0da473
-        size: 160326608
+        url: https://github.com/Autonomy-Logic/openplc-editor/releases/download/v4.3.4/OpenPLC.Editor-4.3.4.AppImage
+        sha256: b81863722d65eaa786f53234472601b649ea34a3f2f790f931beedaa7ec75fa0
+        size: 160378447
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

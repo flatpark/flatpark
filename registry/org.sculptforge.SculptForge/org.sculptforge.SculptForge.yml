@@ -40,16 +40,16 @@ modules:
         filename: sculptforge.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/islandmed/SculptForge/releases/download/v0.10.9/SculptForge-0.10.9-linux-x86_64.tar.gz
-        sha256: 66a5562681fe4c4f7effbf4de3f5f208e1f79ba208bfbdedd17a1ccbf61632fa
-        size: 26194238
+        url: https://github.com/islandmed/SculptForge/releases/download/v0.10.10/SculptForge-0.10.10-linux-x86_64.tar.gz
+        sha256: 9421341a28a03889a6dd563688707362829743910212c4fe4ad6808a7cd94e18
+        size: 26070583
       - type: extra-data
         filename: sculptforge.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/islandmed/SculptForge/releases/download/v0.10.9/SculptForge-0.10.9-linux-arm64.tar.gz
-        sha256: a56b1fbd4ecc5241d52eac1fc0e19a8b77c77141d6017cab3a99b4f1a60a89bd
-        size: 25314423
+        url: https://github.com/islandmed/SculptForge/releases/download/v0.10.10/SculptForge-0.10.10-linux-arm64.tar.gz
+        sha256: b793f3025179889814a87c0913c764897a71b5d4b42a36d46ab2c7e62a9928b6
+        size: 25187691
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -86,16 +86,16 @@ modules:
         filename: beeper.AppImage
         only-arches:
           - x86_64
-        url: https://beeper-desktop.download.beeper.com/builds/Beeper-4.3.264-x86_64.AppImage
-        sha256: 399ee4cd2b5e20b0d7d95039448190a98b6998a75648540149c4e5dbcce30551
-        size: 296039196
+        url: https://beeper-desktop.download.beeper.com/builds/Beeper-4.3.276-x86_64.AppImage
+        sha256: 35166a35fe137cbe254b34e7da52bb34f087a1829f00c87cf0f8b4604da9d5fe
+        size: 297002291
       - type: extra-data
         filename: beeper.AppImage
         only-arches:
           - aarch64
-        url: https://beeper-desktop.download.beeper.com/builds/Beeper-4.3.264-arm64.AppImage
-        sha256: ff5e22754b9c6af01b446f5e4e656ffeaf5fefeb37e46939a423065f897d3548
-        size: 297639337
+        url: https://beeper-desktop.download.beeper.com/builds/Beeper-4.3.276-arm64.AppImage
+        sha256: 42288498c17b33f5e35176c033a8a9b551d71738dd54e9351989c5586dbdb704
+        size: 298396770
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

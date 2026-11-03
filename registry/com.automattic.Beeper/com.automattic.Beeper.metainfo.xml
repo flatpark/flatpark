@@ -60,6 +60,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="4.3.276" date="2026-11-03">
+      <description></description>
+    </release>
     <release version="4.3.264" date="2026-10-30" />
   </releases>
 </component>
