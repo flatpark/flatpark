@@ -18,5 +18,5 @@ policy:
 packaging:
   - kind: seeded-config
     detail:
-      en: "On first run, converted files are saved to Downloads so files selected through the portal have a persistent output destination. Existing settings are kept."
-      zh-Hans: "首次运行时将转换结果保存到下载目录，确保通过文件选择器选取的文件有持久保存位置；保留现有设置。"
+      en: "On first run, converted files are saved to Downloads so files selected through the portal have a persistent output destination, and the in-app update check is turned off because Flatpak handles updates. Existing settings are kept."
+      zh-Hans: "首次运行时将转换结果保存到下载目录，确保通过文件选择器选取的文件有持久保存位置，并关闭应用内更新检查（更新由 Flatpak 负责）；保留现有设置。"
