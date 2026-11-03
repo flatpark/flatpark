@@ -25,6 +25,9 @@
     profiles keep their settings: choose Downloads as the output folder in
     General if needed. Saving beside a portal-selected file can leave the result
     in the portal's temporary view instead of the original folder.</p>
+    <p>Filee's own update check is turned off on first run; updates come with
+    <code>flatpak update</code>. Downloaded engines still show available updates
+    on the Engines page.</p>
     <p>The interface uses native Wayland when available, with X11 as a fallback.
     The global drag gesture works on X11. GNOME Wayland gestures need the
     upstream GNOME pointer extension, which is not installed by this package.

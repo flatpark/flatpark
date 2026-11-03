@@ -13,7 +13,7 @@ finish-args:
   - --socket=fallback-x11
   - --env=FILEE_USE_WAYLAND=1
   - --device=dri
-  # Filee downloads optional engines and checks for new releases.
+  # Filee downloads optional engines and OCR language models.
   - --share=network
   # Read inputs and persist converted outputs in Downloads.
   - --filesystem=xdg-download:create
