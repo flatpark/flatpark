@@ -289,8 +289,10 @@ else. It does no hashing and touches no file:
 - If upstream re-uploads a fixed build under a new name (`1.2.3-2`), put the
   revision in `version`; otherwise the version compares equal and the new file
   is never pinned.
-- Optional: `size` per source (re-pin when upstream silently replaces the file
-  behind the same URL), `releaseUrl` and `releaseNotes` for the metainfo.
+- Optional: `size` and/or `sha256` per source (re-pin when upstream silently
+  replaces the file behind the same URL; a re-cut can keep the same byte count,
+  so prefer `sha256` when upstream publishes one, e.g. a GitHub asset's
+  `digest`), `releaseUrl` and `releaseNotes` for the metainfo.
 - A vendor that serves one unversioned URL (`app_amd64.deb`) often has an
   electron-updater feed beside it (`latest-linux.yml`) with `version` and
   `releaseDate`: read the version there and return the fixed URL

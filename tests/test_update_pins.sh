@@ -140,4 +140,22 @@ run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%
 assert_eq "$RC" "0"
 assert_contains "$tmp/manifest.yml" "url: file://$tmp/new.bin"
 
+# 10) same version, same size, bytes replaced in place: only a reported sha256
+#     catches it. Re-pins with no <release>, then is a no-op; a reported digest
+#     the download does not match is an error. A "sha256:" prefix is accepted.
+head -c "$old_size" /dev/zero > "$tmp/samesize.bin"
+same_sha="$(sha256sum "$tmp/samesize.bin" | cut -d' ' -f1)"
+mk_manifest "file://$tmp/samesize.bin" "$old_sha" "$old_size"
+mk_metainfo "1.0"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/samesize.bin","size":%s}]}' "$tmp" "$old_size")"
+assert_eq "$RC" "10"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/samesize.bin","size":%s,"sha256":"sha256:%s"}]}' "$tmp" "$old_size" "$same_sha")"
+assert_eq "$RC" "0"
+assert_contains "$tmp/manifest.yml" "sha256: $same_sha"
+assert_eq "$(grep -c '<release ' "$tmp/app.metainfo.xml")" "1"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/samesize.bin","sha256":"%s"}]}' "$tmp" "$same_sha")"
+assert_eq "$RC" "10"
+run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/samesize.bin","sha256":"%s"}]}' "$tmp" "$old_sha")"
+assert_eq "$RC" "1"
+
 echo "test_update_pins: PASS"

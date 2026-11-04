@@ -4,7 +4,7 @@
 //
 //   <resolver JSON on stdin> | update-pins.mjs <manifest> [metainfo]
 //
-// Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch?, size? } ],
+// Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch?, size?, sha256? } ],
 //                  releaseUrl?, releaseNotes? }
 //
 // `arch` scopes a source to one architecture (it becomes the pin's only-arches).
@@ -25,6 +25,12 @@
 // Content-Length (a cheap HEAD), and a source whose size or URL no longer
 // matches its pin is re-pinned even though the version did not move. No
 // <release> is added for such a re-pin — it is the same version.
+//
+// `sha256` is the stronger form of the same opt-in, for upstreams that publish
+// a digest (GitHub release assets carry one in the API): a re-cut can keep the
+// exact byte count, which `size` alone misses. A source whose reported sha256
+// differs from its pin is re-pinned; the payload is still downloaded and hashed
+// FlatPark-side, and a download that disagrees with the reported digest fails.
 //
 // The comparison anchor is the VERSION: the latest <release version="..."> in
 // the metainfo is "what we have". If the resolver's version equals it and no
@@ -117,12 +123,15 @@ function previous(src) {
   return named[0];
 }
 
-// A source that reports its upstream size has drifted when that size (or its
-// URL) no longer matches the pin: upstream replaced the bytes in place.
+// A source that reports its upstream size or sha256 has drifted when that value
+// (or its URL) no longer matches the pin: upstream replaced the bytes in place.
+const reportedSha = (src) => (src.sha256 == null ? null : String(src.sha256).replace(/^sha256:/, '').toLowerCase());
 function drifted(src) {
-  if (src.size == null) return false;
+  if (src.size == null && src.sha256 == null) return false;
   const prev = previous(src);
-  return !prev || prev.url !== src.url || prev.size !== String(src.size);
+  if (!prev || prev.url !== src.url) return true;
+  if (src.size != null && prev.size !== String(src.size)) return true;
+  return reportedSha(src) != null && prev.sha256 !== reportedSha(src);
 }
 
 // Version gate: cheap short-circuit when upstream hasn't moved (no downloads).
@@ -144,6 +153,8 @@ for (const src of resolver.sources) {
   } else {
     try { ({ sha256, size } = await pin(src.url)); }
     catch (e) { die(e.message); }
+    const want = reportedSha(src);
+    if (want && want !== sha256) die(`${src.url}: downloaded sha256 ${sha256} != reported ${want}`);
   }
   out.push(`${baseIndent}- type: extra-data`);
   out.push(`${fields}filename: ${src.filename}`);
