@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.comfy.ComfyDesktop</id>
+  <name>Comfy Desktop</name>
+  <summary>Install and manage isolated ComfyUI environments</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <description>
+    <p>Comfy Desktop installs and manages independent ComfyUI environments for generative AI workflows, with bundled Python, PyTorch and GPU packages, snapshots and updates.</p>
+    <p>This community package downloads the official upstream AppImage unmodified. Update the desktop app with Flatpak; ComfyUI environments are managed by the app.</p>
+    <p>This package disables automatic Desktop update downloads and installation at each launch while preserving other settings. Upstream update checks still run.</p>
+    <p>The app can access all devices for NVIDIA CUDA inference. A compatible host NVIDIA driver and matching Flatpak NVIDIA driver extension are required. Custom nodes requiring a host compiler or CUDA toolkit are not supported by default.</p>
+    <p>ComfyUI installations, shared models and download caches persist in this app's private storage. To use an existing installation or models elsewhere, grant that directory: <code>flatpak override --user --filesystem=/path/to/models org.comfy.ComfyDesktop</code>. Undo overrides with <code>flatpak override --user --reset org.comfy.ComfyDesktop</code>.</p>
+  </description>
+  <launchable type="desktop-id">org.comfy.ComfyDesktop.desktop</launchable>
+  <url type="homepage">https://www.comfy.org/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/Comfy-Org/Comfy-Desktop</url>
+  <developer id="org.comfy"><name>Comfy Org</name></developer>
+  <screenshots><screenshot type="default"><image>https://raw.githubusercontent.com/Comfy-Org/Comfy-Desktop/main/assets/hero.png</image></screenshot></screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="1.1.8" date="2026-10-22"/></releases>
+</component>

@@ -1,0 +1,24 @@
+id: org.comfy.ComfyDesktop
+name: Comfy Desktop
+summary: Install and manage isolated ComfyUI environments
+website: https://www.comfy.org/
+source_url: https://github.com/Comfy-Org/Comfy-Desktop
+build:
+  manifest: org.comfy.ComfyDesktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AI
+  tags: [ComfyUI, Image generation, Python, CUDA]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --device=all
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Automatic Desktop update downloads and installation are disabled at each launch because Flatpak handles app updates. Other settings are preserved; upstream update checks still run."
+      zh-Hans: "每次启动时关闭 Desktop 自动下载和安装更新，应用更新由 Flatpak 管理。保留其他设置；上游更新检查仍会运行。"

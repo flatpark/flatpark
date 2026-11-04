@@ -1,0 +1,62 @@
+# Upstream Electron appId has a digit-leading segment, invalid for Flatpak.
+# Use reverse DNS of comfy.org instead.
+id: org.comfy.ComfyDesktop
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: comfy-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron UI and ComfyUI workflow previews.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  # Download managed environments/models and connect to the local ComfyUI server.
+  - --share=network
+  # CUDA needs NVIDIA device nodes beyond DRI; declared in flatpark.yml.
+  - --device=all
+  # Upstream defaults under home must survive sandbox restarts.
+  - --persist=ComfyUI-Installs
+  - --persist=ComfyUI-Shared
+  - --persist=ComfyUI-Cache
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: comfy-desktop
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 comfy-desktop-wrapper /app/bin/comfy-desktop
+      - install -Dm644 org.comfy.ComfyDesktop.desktop /app/share/applications/org.comfy.ComfyDesktop.desktop
+      - install -Dm644 org.comfy.ComfyDesktop.metainfo.xml /app/share/metainfo/org.comfy.ComfyDesktop.metainfo.xml
+      - install -Dm644 org.comfy.ComfyDesktop.png /app/share/icons/hicolor/512x512/apps/org.comfy.ComfyDesktop.png
+    sources:
+      # Offline AppImage extractor; system apply_extra cannot access /app/bin.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.AppImage
+        only-arches: [x86_64]
+        url: https://download.todesktop.com/241130tqe9q3y/comfyui-desktop-2-1.1.8-build-26102263fz4azlz-x86_64.AppImage
+        sha256: 3f3d4b710ecd7f6c0d3a4bb45a1d0cd8a5f5aa8f4d053975580a3de1ebb750a7
+        size: 220534474
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: comfy-desktop-wrapper
+      - type: file
+        path: org.comfy.ComfyDesktop.desktop
+      - type: file
+        path: org.comfy.ComfyDesktop.metainfo.xml
+      - type: file
+        path: org.comfy.ComfyDesktop.png
