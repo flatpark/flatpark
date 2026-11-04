@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.MarcoDotIO.Ycode</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Ycode</name>
+  <summary>An independent IDE for Swift and Apple-platform project formats</summary>
+  <developer id="io.github.marcodotio">
+    <name>The Ycode contributors</name>
+  </developer>
+  <description>
+    <p>This package is maintained by Ycode's developer. It installs Ycode's official Linux release from GitHub unmodified.</p>
+    <p>Ycode is an independent, open-source IDE for Swift packages and projects in the Xcode project format. On Linux it opens packages, projects and workspaces, edits source with syntax highlighting, live issues and completion through SourceKit-LSP, and builds and runs Swift packages through SwiftPM. The release also carries ycodebuild, an xcodebuild-compatible command line. Ycode is not affiliated with or endorsed by Apple Inc.</p>
+    <p>This is a beta, and the Linux IDE is behind the macOS one: the debugger, tests, source control and the visual editors are not there yet. The simulator tools in the release are experimental, and a simulator needs a runtime from your own copy of the platform tools.</p>
+    <p>Ycode builds with the Swift toolchain installed on your computer (Swift 6 or newer, for example through swiftly). Its release ships small launchers that run swift, sourcekit-lsp, lldb, git, ssh and the other developer tools on your system through flatpak-spawn, so this package can run commands outside the sandbox as your user. Without a toolchain it tells you what to install.</p>
+    <p>Permissions: network, display, GPU, audio, your SSH agent, the host-command bridge above, your home directory and /tmp. The host toolchain has to see projects at the same paths Ycode does, which is why the home folder is granted rather than files picked through a portal. To narrow it to one folder of projects:</p>
+    <ul>
+      <li><code>flatpak override --user --nofilesystem=home --filesystem=~/Projects io.github.MarcoDotIO.Ycode</code></li>
+    </ul>
+    <p>Optional, not granted by default:</p>
+    <ul>
+      <li>Run the experimental simulator on an ARM64 computer with KVM: <code>flatpak override --user --device=kvm io.github.MarcoDotIO.Ycode</code></li>
+      <li>Undo all overrides: <code>flatpak override --user --reset io.github.MarcoDotIO.Ycode</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.MarcoDotIO.Ycode.desktop</launchable>
+  <url type="homepage">https://github.com/MarcoDotIO/Ycode</url>
+  <url type="bugtracker">https://github.com/MarcoDotIO/Ycode/issues</url>
+  <url type="vcs-browser">https://github.com/MarcoDotIO/Ycode</url>
+  <categories>
+    <category>Development</category>
+    <category>IDE</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The workspace window with a Swift package open</caption>
+      <image>https://raw.githubusercontent.com/MarcoDotIO/Ycode/v1.0.0-beta.1/docs/images/hero-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The same window in the dark appearance</caption>
+      <image>https://raw.githubusercontent.com/MarcoDotIO/Ycode/v1.0.0-beta.1/docs/images/hero-dark.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.0-beta.1" date="2026-11-04" type="development">
+      <url type="details">https://github.com/MarcoDotIO/Ycode/releases/tag/v1.0.0-beta.1</url>
+      <description>
+        <p>First public beta: the IDE, with the simulator tools marked experimental.</p>
+      </description>
+    </release>
+  </releases>
+</component>

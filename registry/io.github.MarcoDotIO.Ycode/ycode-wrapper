@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# Ycode's release, unmodified, from the install-time extra-data tree. It finds
+# its own libraries, helpers and host-tool launchers relative to itself.
+exec /app/extra/ycode/bin/ycode-ide "$@"

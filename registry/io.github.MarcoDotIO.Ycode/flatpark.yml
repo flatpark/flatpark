@@ -1,0 +1,32 @@
+id: io.github.MarcoDotIO.Ycode
+name: Ycode
+summary: An independent IDE for Swift and Apple-platform project formats
+website: https://github.com/MarcoDotIO/Ycode
+source_url: https://github.com/MarcoDotIO/Ycode
+build:
+  manifest: io.github.MarcoDotIO.Ycode.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  upstream_approved: true
+  tags:
+    - IDE
+    - Swift
+    - Coding
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --filesystem=home
+    - --talk-name=org.freedesktop.Flatpak
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/permissions.md.
+packaging:
+  - kind: host-command
+    detail:
+      en: "Ycode builds with the Swift toolchain installed on your system: its own release ships small launchers that run swift, git, lldb and the other developer tools on the host through flatpak-spawn, with your user's access."
+      zh-Hans: "Ycode 使用你系统上安装的 Swift 工具链进行构建：它自己的发行包带有一组小型启动器，通过 flatpak-spawn 在宿主上运行 swift、git、lldb 等开发工具，拥有你这个用户的权限。"
