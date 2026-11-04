@@ -43,16 +43,16 @@ modules:
         filename: designcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/designcraft/releases/download/v0.17.0/designcraft-0.17.0-linux-x86_64.tar.gz
-        sha256: bb6f9cec404655350266e98ee10d9b5a154507ed998ad7af47b25335afad1872
-        size: 123796510
+        url: https://github.com/storytold/designcraft/releases/download/v0.17.1/designcraft-0.17.1-linux-x86_64.tar.gz
+        sha256: a3d71721025a1b1ec72f3ddcef40904f6dbe4d82503586d03465cc5af1fcb986
+        size: 124322265
       - type: extra-data
         filename: designcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/designcraft/releases/download/v0.17.0/designcraft-0.17.0-linux-aarch64.tar.gz
-        sha256: 1bb183f2e3a3b2a0748fa657f1677c82986a766669379d4f3239dc3c98e2a905
-        size: 119714375
+        url: https://github.com/storytold/designcraft/releases/download/v0.17.1/designcraft-0.17.1-linux-aarch64.tar.gz
+        sha256: 29e681f60f8531db8e20a39102a41cb4ddae92343cc7d1a4c8230819851158ed
+        size: 120145708
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
