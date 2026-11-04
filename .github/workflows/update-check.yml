@@ -304,6 +304,16 @@ jobs:
             done
           fi
 
+      # Permissions and modules are not pins. A package that names an upstream
+      # Flatpak manifest gets an issue when that file's finish-args, module
+      # names, or helper archive URLs differ. Nothing is copied and nothing is
+      # merged; the issue stays open until a person decides.
+      - name: Report upstream Flatpak manifest drift
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/check-upstream-manifests.mjs --alert
+
       # Last, so a held-back app still gets its PR opened for the apps that passed.
       # A red daily run is the point: an upstream that repackaged needs a human.
       - name: Fail if any pin was held back or failed to resolve
