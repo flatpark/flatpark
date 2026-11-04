@@ -6,12 +6,12 @@ command: wordcraft
 separate-locales: false
 build-options:
   no-debuginfo: true
-# The app id and finish-args follow upstream's own Flatpak manifest
-# (packaging/linux/flatpak/ in storytold/wordcraft), so this package and the
-# single-file bundle upstream builds are the same application; the one
-# addition is xdg-documents, matching PdfCraft. The runtime is
-# 26.08, shared with the other ArtCraft apps; the binaries need only glibc
-# from it.
+# Extra-data repackage of the official Linux tarball. Runtime 26.08 is shared
+# with the other ArtCraft apps; the binaries need glibc and the Wayland, X11
+# and Vulkan loaders from it. Printing follows upstream's Flatpak
+# (packaging/linux/flatpak/ in storytold/wordcraft, the cups-client module
+# from storytold/wordcraft#4909). Network stays off; the metainfo documents
+# the override for the optional --control server and for a remote CUPS server.
 finish-args:
   # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
   # Vulkan/EGL loaders are dlopen()ed from the runtime.
@@ -21,17 +21,47 @@ finish-args:
   - --share=ipc
   # wgpu GPU compositor (Vulkan, or GL as a fallback).
   - --device=dri
+  # Printing. craft-print lists printers with lpstat and sends jobs with lp.
+  # The runtime has libcups and lpr, not those tools, and without the CUPS
+  # socket the Print dialog stays empty. cups-client below builds them.
+  # Avahi is how `lpstat -e` finds driverless printers. ~/.cups is read-only:
+  # the default printer, saved options and a ServerName.
+  - --socket=cups
+  - --system-talk-name=org.freedesktop.Avahi
+  - --filesystem=~/.cups:ro
   # Open/Save go through the file-chooser portal. Documents and Pictures are
   # granted so files passed by path (command line, saving next to the
   # original) keep working; documents usually live under Documents.
   - --filesystem=xdg-documents
   - --filesystem=xdg-pictures
   # Deliberately not granted:
-  #   --share=network          -> the optional --control automation server
-  #                               listens on 127.0.0.1 inside the sandbox; the
-  #                               metainfo documents the override that exposes it
+  #   --share=network          -> the optional --control automation server, and
+  #                               a CUPS server reached over the network; the
+  #                               metainfo documents the override
   #   --filesystem=home / host -> everything else goes through the portals
 modules:
+  # CUPS client tools for craft-print. Linked statically against this CUPS
+  # release, so a runtime update cannot break them. The socket path matches
+  # the host's, which --socket=cups mounts. Apache-2.0; the licence is installed.
+  - name: cups-client
+    buildsystem: simple
+    build-commands:
+      - >
+        ./configure --prefix=/app --sysconfdir=/etc --localstatedir=/var
+        --with-rundir=/run/cups --with-domainsocket=/run/cups/cups.sock
+        --disable-shared --with-components=libcups --with-dnssd=avahi
+        --with-tls=gnutls --disable-pam --disable-dbus
+      - make -C cups libs
+      - make -C systemv lp lpoptions lpstat
+      - install -Dm755 -t /app/libexec/cups systemv/lp systemv/lpoptions systemv/lpstat
+      - for tool in lp lpoptions lpstat; do install -Dm755 cups-socket.sh "/app/bin/$tool"; done
+      - install -Dm644 -t /app/share/licenses/cups LICENSE NOTICE
+    sources:
+      - type: archive
+        url: https://github.com/OpenPrinting/cups/releases/download/v2.4.20/cups-2.4.20-source.tar.gz
+        sha256: ab4d9cd7f3e58060091d2b24972223d6401675f11c49b65abf4f6ef31dea22ff
+      - type: file
+        path: cups-socket.sh
   - name: wordcraft
     buildsystem: simple
     build-commands:
