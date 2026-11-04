@@ -67,6 +67,9 @@
     <mediatype>text/markdown</mediatype>
   </provides>
   <releases>
+    <release version="0.15.1" date="2026-11-04">
+      <description></description>
+    </release>
     <release version="0.15.0" date="2026-11-03">
       <description></description>
     </release>
