@@ -51,9 +51,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/chen08209/FlClash/releases/download/v0.9.2/FlClash-0.9.2-linux-amd64.deb
-        sha256: c6ca37446db92b57309d1c709fba6209f2c679b6d33cfc748f73b8eb1a59a6e8
-        size: 40536736
+        url: https://github.com/chen08209/FlClash/releases/download/v0.9.3/FlClash-0.9.3-linux-amd64.deb
+        sha256: 4064254329bb39c6289c743e16e5726ae56b5853e86d9f88e0145e2af032351b
+        size: 40482184
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
