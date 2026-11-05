@@ -1,0 +1,18 @@
+id: com.pocoguy.Muse
+name: Mixtapes
+summary: YouTube Music player with playlists, lyrics and offline downloads
+website: https://github.com/m-obeid/Mixtapes
+source_url: https://github.com/m-obeid/Mixtapes
+build:
+  manifest: com.pocoguy.Muse.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags: [Music, Audio, Player, YouTube, GTK]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.pocoguy.Muse</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Mixtapes</name>
+  <summary>YouTube Music player with playlists, lyrics and offline downloads</summary>
+  <developer id="com.pocoguy"><name>Mohamad Obeid</name></developer>
+  <description>
+    <p>Mixtapes is a Linux-first YouTube Music player built with GTK4 and Libadwaita. Search for music, manage playlists, follow synced lyrics, download tracks and control playback through your desktop's media controls.</p>
+    <p>This is a community package of the official upstream Linux build, unmodified, with pinned yt-dlp and Node helpers. Mixtapes is alpha software and is not affiliated with YouTube or Google.</p>
+    <p>Optional integrations are not granted by default:</p>
+    <ul>
+      <li>Pause for other media players: <code>flatpak override --user --talk-name=org.mpris.MediaPlayer2.* com.pocoguy.Muse</code></li>
+      <li>Discord Rich Presence: <code>flatpak override --user --filesystem=xdg-run/app/com.discordapp.Discord --filesystem=xdg-run/discord-ipc-0 com.pocoguy.Muse</code></li>
+      <li>Music stored elsewhere: <code>flatpak override --user --filesystem=/path/to/music com.pocoguy.Muse</code></li>
+      <li>Reset optional permissions: <code>flatpak override --user --reset com.pocoguy.Muse</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.pocoguy.Muse.desktop</launchable>
+  <url type="homepage">https://github.com/m-obeid/Mixtapes</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/m-obeid/Mixtapes</url>
+  <screenshots>
+    <screenshot type="default"><caption>Home feed</caption><image>https://raw.githubusercontent.com/m-obeid/Mixtapes/main/screenshots/0.png</image></screenshot>
+    <screenshot><caption>Playlist and queue</caption><image>https://raw.githubusercontent.com/m-obeid/Mixtapes/main/screenshots/1.png</image></screenshot>
+    <screenshot><caption>Search results</caption><image>https://raw.githubusercontent.com/m-obeid/Mixtapes/main/screenshots/5.png</image></screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="2026-10-31.1" date="2026-10-31"><url type="details">https://github.com/m-obeid/Mixtapes/releases/tag/2026-10-31.1</url></release></releases>
+</component>
