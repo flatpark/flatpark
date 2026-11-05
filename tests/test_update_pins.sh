@@ -158,4 +158,45 @@ assert_eq "$RC" "10"
 run "$(printf '{"version":"1.0","sources":[{"filename":"app.bin","url":"file://%s/samesize.bin","sha256":"%s"}]}' "$tmp" "$old_sha")"
 assert_eq "$RC" "1"
 
+# 11) GitHub release assets: digest + size come from the releases API (served
+#     here by a local stand-in), so nothing is downloaded — the URLs point at
+#     github.com and would fail if fetched. Same version + changed digest ->
+#     re-pinned with no <release>; a version bump pins straight from the API;
+#     an asset without a digest falls back to the version gate.
+gh_url="https://github.com/o/r/releases/download/v1.0/app-linux.bin"
+gh_sha="$(printf '%064d' 7)"
+mk_release() { # <tag> <digest-or-empty> <size>
+  mkdir -p "$tmp/api/repos/o/r/releases/tags"
+  local d=null; [ -n "$2" ] && d="\"sha256:$2\""
+  printf '{"tag_name":"%s","assets":[{"name":"app-linux.bin","size":%s,"digest":%s}]}' "$1" "$3" "$d" \
+    > "$tmp/api/repos/o/r/releases/tags/$1"
+}
+mkdir -p "$tmp/api"
+python3 -u -m http.server 0 --bind 127.0.0.1 --directory "$tmp/api" >"$tmp/http.log" 2>&1 &
+http_pid=$!
+trap 'kill $http_pid 2>/dev/null; rm -rf "$tmp"' EXIT
+for _ in $(seq 50); do grep -q 'port' "$tmp/http.log" && break; sleep 0.1; done
+port="$(sed -n 's/.* port \([0-9]*\).*/\1/p' "$tmp/http.log" | head -n1)"
+export FLATPARK_GITHUB_API="http://127.0.0.1:$port"
+mk_manifest "$gh_url" "$old_sha" "$old_size"
+mk_metainfo "1.0"
+mk_release v1.0 "$old_sha" "$old_size"
+run '{"version":"1.0","sources":[{"filename":"app.bin","url":"'"$gh_url"'"}]}'
+assert_eq "$RC" "10"
+mk_release v1.0 "$gh_sha" "$old_size"
+run '{"version":"1.0","sources":[{"filename":"app.bin","url":"'"$gh_url"'"}]}'
+assert_eq "$RC" "0"
+assert_contains "$tmp/manifest.yml" "sha256: $gh_sha"
+assert_eq "$(grep -c '<release ' "$tmp/app.metainfo.xml")" "1"
+gh_url2="https://github.com/o/r/releases/download/v2.0/app-linux.bin"
+mk_release v2.0 "$new_sha" "$new_size"
+run '{"version":"2.0","sources":[{"filename":"app.bin","url":"'"$gh_url2"'"}]}'
+assert_eq "$RC" "0"
+assert_contains "$tmp/manifest.yml" "sha256: $new_sha"
+assert_contains "$tmp/manifest.yml" "size: $new_size"
+mk_release v2.0 "" "$new_size"
+run '{"version":"2.0","sources":[{"filename":"app.bin","url":"'"$gh_url2"'"}]}'
+assert_eq "$RC" "10"
+unset FLATPARK_GITHUB_API
+
 echo "test_update_pins: PASS"
