@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <title>Leaf</title>
+  <desc>A written sheet of paper with a green folded corner.</desc>
+  <!-- Four-pixel front profile; the silhouette ends on the 116px baseline. -->
+  <path fill="#9a9996" d="M32 16h44l28 28v64a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V24a8 8 0 0 1 8-8Z"/>
+  <path fill="#deddda" d="M32 12h44l28 28v64a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V20a8 8 0 0 1 8-8Z"/>
+  <path fill="#f6f5f4" d="M32 12h44l26 28v64a6 6 0 0 1-6 6H32a6 6 0 0 1-6-6V20a8 8 0 0 1 6-8Z"/>
+  <!-- The fold's contact shade stays inside the paper silhouette. -->
+  <path fill="#26a269" d="M76 12v24a8 8 0 0 0 8 8h20v-4Z"/>
+  <path fill="#57e389" d="M76 12v20a8 8 0 0 0 8 8h20Z"/>
+  <!-- A short heading and two text groups remain clear at 32px. -->
+  <rect x="38" y="34" width="24" height="8" rx="2" fill="#26a269"/>
+  <g fill="#77767b">
+    <rect x="38" y="54" width="50" height="4" rx="2"/>
+    <rect x="38" y="64" width="50" height="4" rx="2"/>
+    <rect x="38" y="74" width="34" height="4" rx="2"/>
+    <rect x="38" y="90" width="50" height="4" rx="2"/>
+  </g>
+</svg>

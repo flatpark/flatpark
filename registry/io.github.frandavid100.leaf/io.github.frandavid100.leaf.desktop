@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Application
+Name=Leaf
+GenericName=Document Editor
+GenericName[es]=Editor de documentos
+Comment=Create and edit documents
+Comment[es]=Crea y edita documentos
+# A plain %U: flatpak's exporter rewrites this line and generates the
+# `@@u %U @@` file-forwarding markers itself.
+Exec=leaf %U
+TryExec=leaf
+Icon=io.github.frandavid100.leaf
+Terminal=false
+StartupNotify=true
+StartupWMClass=io.github.frandavid100.leaf
+Categories=Office;WordProcessor;GTK;
+MimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.oasis.opendocument.text;
+Keywords=document;word;docx;odt;write;
+Keywords[es]=documento;texto;docx;odt;escribir;
