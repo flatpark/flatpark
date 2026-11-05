@@ -1,0 +1,18 @@
+id: org.ginies.secure_mark
+name: SecureMark
+summary: Watermark images and PDFs and hide data with steganography
+website: https://github.com/aginies/SecureMark
+source_url: https://github.com/aginies/SecureMark
+build:
+  manifest: org.ginies.secure_mark.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  tags: [Watermark, Steganography, Images, PDF, Privacy, Flutter]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

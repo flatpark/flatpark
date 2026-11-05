@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.ginies.secure_mark</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>SecureMark</name>
+  <summary>Watermark images and PDFs and hide data with steganography</summary>
+  <description>
+    <p>SecureMark combines visible watermarking for images and PDF documents with invisible steganography for images. Customize visible text and image watermarks, preview the result, and export protected copies before sharing them.</p>
+    <p>Steganography embeds hidden text signatures or files within images. SecureMark includes least-significant-bit (LSB) embedding, encrypted hidden-file embedding, and experimental robust watermarking in the discrete cosine transform (DCT) domain. Its file analyzer can detect hidden content and verify digital signatures.</p>
+    <p>This community package downloads the official Linux AppImage at install time and runs the upstream build unmodified.</p>
+    <p>Files and output directories are selected through the desktop file chooser. Optional network sharing is disabled by default.</p>
+    <ul>
+      <li>Enable local network sharing: <code>flatpak override --user --share=network org.ginies.secure_mark</code></li>
+      <li>Allow drag and drop from a directory: <code>flatpak override --user --filesystem=/path/to/directory org.ginies.secure_mark</code></li>
+      <li>Undo these overrides: <code>flatpak override --user --reset org.ginies.secure_mark</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.ginies.secure_mark.desktop</launchable>
+  <url type="homepage">https://github.com/aginies/SecureMark</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <developer id="io.github.aginies"><name>Antoine Giniès</name></developer>
+  <categories><category>Graphics</category><category>Utility</category></categories>
+  <content_rating type="oars-1.1" />
+  <screenshots><screenshot type="default"><image>https://raw.githubusercontent.com/aginies/SecureMark/231980cc4a0ba780288b53bb74802ed2fe52bdf2/images/app.jpg</image></screenshot></screenshots>
+  <releases><release version="3.0.0" date="2026-10-20" /></releases>
+</component>

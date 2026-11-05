@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SecureMark
+Comment=Watermark images and PDFs and hide data with steganography
+Exec=securemark
+Icon=org.ginies.secure_mark
+Terminal=false
+Categories=Graphics;Utility;
+StartupWMClass=Org.ginies.secure_mark

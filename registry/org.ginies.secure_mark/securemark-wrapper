@@ -1,0 +1,3 @@
+#!/bin/sh
+# AppRun links to the vendor binary, whose RUNPATH finds its bundled libraries.
+exec /app/extra/securemark/AppRun "$@"
