@@ -291,8 +291,12 @@ else. It does no hashing and touches no file:
   is never pinned.
 - Optional: `size` and/or `sha256` per source (re-pin when upstream silently
   replaces the file behind the same URL; a re-cut can keep the same byte count,
-  so prefer `sha256` when upstream publishes one, e.g. a GitHub asset's
-  `digest`), `releaseUrl` and `releaseNotes` for the metainfo.
+  so prefer `sha256` when upstream publishes one), `releaseUrl` and
+  `releaseNotes` for the metainfo. With both `sha256` and `size` the pin is
+  taken without a download.
+- GitHub release asset URLs need none of that: update-pins reads the asset's
+  `digest` and `size` from the releases API, which both catches an in-place
+  re-upload and pins a new version without downloading it.
 - A vendor that serves one unversioned URL (`app_amd64.deb`) often has an
   electron-updater feed beside it (`latest-linux.yml`) with `version` and
   `releaseDate`: read the version there and return the fixed URL
@@ -304,7 +308,7 @@ else. It does no hashing and touches no file:
 - Use `${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"}` on GitHub API
   calls; unauthenticated runs are rate-limited and fail.
 - GitHub release assets carry `digest` (`sha256:…`) and `size` in the API, so a
-  first pin by hand doesn't need the download.
+  first pin by hand doesn't need the download either.
 
 Templates:
 
