@@ -49,16 +49,16 @@ modules:
         filename: ycode.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/MarcoDotIO/Ycode/releases/download/v1.0.0-beta.1/Ycode-1.0.0-beta.1-x86_64.tar.xz
-        sha256: bb343a9cdcc277a60c1551552e63b5a3bb392cf1b421bce389d578d9f8f28ea3
-        size: 49137564
+        url: https://github.com/MarcoDotIO/Ycode/releases/download/v1.0.0-beta.2/Ycode-1.0.0-beta.2-x86_64.tar.xz
+        sha256: 52651674ea4263ab1525b048e0ff8d82f436532d8ea4f2883570f3f73c6f4ca3
+        size: 53178832
       - type: extra-data
         filename: ycode.tar.xz
         only-arches:
           - aarch64
-        url: https://github.com/MarcoDotIO/Ycode/releases/download/v1.0.0-beta.1/Ycode-1.0.0-beta.1-aarch64.tar.xz
-        sha256: ef1c6c15bcc57b81efe4bf8c43dc9950207cc5a3b2081fc945f89a28cf847af2
-        size: 67723632
+        url: https://github.com/MarcoDotIO/Ycode/releases/download/v1.0.0-beta.2/Ycode-1.0.0-beta.2-aarch64.tar.xz
+        sha256: d87bbc6f39ca72342ccbbd8ebe01d1a8e47dd4503bc21669d42e47440edeca3a
+        size: 72596772
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
