@@ -23,24 +23,52 @@ finish-args:
   # (command line, File > Open Recent, saving next to the original) keep working.
   - --filesystem=xdg-pictures
   - --filesystem=xdg-documents
-  # Printing: the app's in-process IPP client (crates/ipp upstream) sends jobs
-  # to the host's CUPS socket; without it they fall back to the print portal.
+  # Printing. craft-print lists printers with lpstat, reads the default with
+  # lpoptions and sends jobs with lp. The runtime has libcups and lpr, not
+  # those tools, and without the CUPS socket the Print dialog stays empty.
+  # cups-client below ships them. Avahi is how `lpstat -e` finds driverless
+  # printers. ~/.cups is read-only: the default printer, saved options and a
+  # ServerName.
   - --socket=cups
+  - --system-talk-name=org.freedesktop.Avahi
+  - --filesystem=~/.cups:ro
   # Deliberately not granted (upstream grants all but the last):
-  #   --system-talk-name=org.freedesktop.Avahi, --filesystem=~/.cups:ro
-  #                            -> only used by the CUPS lp/lpstat/lpoptions
-  #                               upstream builds into its bundle (driverless
-  #                               printers via `lpstat -e`, client.conf); this
-  #                               package doesn't ship them
-  #   --share=network          -> upstream uses it for the in-app update check
-  #                               and the --control server; FlatPark ships
-  #                               updates itself, and the metainfo documents
-  #                               the override that exposes --control
+  #   --share=network          -> upstream uses it for the in-app update check,
+  #                               the --control server and a CUPS server named
+  #                               by address; FlatPark ships updates itself,
+  #                               and the metainfo documents the override
   #   xdg-data/ArtCraft/versions:ro -> version pins of upstream's ArtCraft
   #                               launcher, which doesn't manage this package
   #   --filesystem=home / host -> everything else goes through the portals;
   #   /media, /run/media          the metainfo documents the overrides
 modules:
+  # lp, lpstat and lpoptions from FlatPark's prebuilt cups-client stack: the
+  # same build as upstream's cups-client module (CUPS 2.4.20, libcups linked
+  # statically) plus upstream's socket wrapper; the tag's manifest records the
+  # sources. apply_extra unpacks it to /app/extra/cups-client; the links below
+  # put the tools on PATH and dangle until then. Extra-data, not built here: a
+  # dependency is never compiled in an app's manifest
+  # (docs/packagers/prebuilt.md). Kept as its own module so the module names
+  # match upstream's manifest.
+  - name: cups-client
+    buildsystem: simple
+    build-commands:
+      - for tool in lp lpoptions lpstat; do install -d /app/bin; ln -s "/app/extra/cups-client/bin/$tool" "/app/bin/$tool"; done
+    sources:
+      - type: extra-data
+        filename: cups-client.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/cups-client-v1/cups-client-cups-client-v1-fd-26.08-x86_64.tar.xz
+        sha256: a96f57051ab61c98c73d99fed4dbe05a040fb2d1dbd353e1241d79b3aefea851
+        size: 266076
+      - type: extra-data
+        filename: cups-client.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/cups-client-v1/cups-client-cups-client-v1-fd-26.08-aarch64.tar.xz
+        sha256: 7005c45fe7b1ebd24ed1146c47af34f00526407015cd7cbca5f0e1bbae37d909
+        size: 238968
   - name: photocraft
     buildsystem: simple
     build-commands:

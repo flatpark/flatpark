@@ -157,13 +157,17 @@ Two ways to close it, both a pull request:
 
 - Grant what a feature needs. A new permission is not always enough. WordCraft's
   print dialog runs `lpstat` and `lp`, which the runtime does not ship, so the
-  CUPS socket and the module that builds those tools belong together.
+  CUPS socket comes with the tools. Upstream builds them in a module; here they
+  come from the prebuilt `cups-client` stack, in a module of the same name
+  ([prebuilt stacks](prebuilt.md)).
 - Leave it out on purpose, and add the finish-arg to
   `accept_missing_permissions` or the module name to `accept_missing_modules`,
   with a comment saying why. A permission this package grants and upstream
   does not goes in `accept_extra_permissions`.
 
-The app's own module is not part of the archive comparison. It is a directory
-upstream and an extra-data tarball here, and that tarball's URL moves on every
-release. A helper that is an archive on both sides, such as a CUPS client, is
-compared.
+Only a module that is an archive on both sides has its URL compared. The app's
+own module is a directory upstream and an extra-data tarball here, and that
+tarball's URL moves on every release. A helper that upstream builds and this
+package takes from a prebuilt stack as extra-data, such as `cups-client`, is
+skipped too, so a new release of it upstream raises no issue; the stack's
+manifest is where to bump it.
