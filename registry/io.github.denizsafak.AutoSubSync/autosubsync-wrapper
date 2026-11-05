@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# AutoSubSync is a PyInstaller bundle unpacked by apply_extra to
+# /app/extra/autosubsync. It loads its own libraries and tools from
+# _internal/, so it is exec'd directly.
+exec /app/extra/autosubsync/AutoSubSync "$@"

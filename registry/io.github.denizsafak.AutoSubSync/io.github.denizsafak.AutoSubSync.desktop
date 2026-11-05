@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=AutoSubSync
+GenericName=Subtitle Synchronizer
+Comment=Synchronize subtitles with videos, automatically or by hand
+Exec=autosubsync
+Icon=io.github.denizsafak.AutoSubSync
+Terminal=false
+Categories=AudioVideo;Video;
+Keywords=subtitle;subtitles;sync;srt;ass;timing;alass;ffsubsync;
+StartupNotify=true
+StartupWMClass=autosubsyncapp

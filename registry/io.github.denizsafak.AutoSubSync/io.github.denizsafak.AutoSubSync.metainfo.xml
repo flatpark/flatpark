@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.denizsafak.AutoSubSync</id>
+  <launchable type="desktop-id">io.github.denizsafak.AutoSubSync.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>AutoSubSync</name>
+  <summary>Synchronize subtitles with videos, automatically or by hand</summary>
+  <developer id="io.github.denizsafak">
+    <name>Deniz Şafak</name>
+  </developer>
+  <url type="homepage">https://github.com/denizsafak/AutoSubSync</url>
+  <url type="bugtracker">https://github.com/denizsafak/AutoSubSync/issues</url>
+  <url type="vcs-browser">https://github.com/denizsafak/AutoSubSync</url>
+  <description>
+    <p>This is a community package of AutoSubSync, maintained independently and unaffiliated with the AutoSubSync project. It repackages the official upstream Linux build unmodified and follows upstream releases automatically.</p>
+    <p>AutoSubSync aligns subtitles with a video or with a correctly timed reference subtitle, using ffsubsync, autosubsync, alass and lapse. Drop the files onto the window and it does the rest; the manual tab shifts timings by hand.</p>
+    <ul>
+      <li>Four synchronization engines, each with its own options.</li>
+      <li>Batch mode with automatic pairing of videos and subtitles.</li>
+      <li>Subtitle streams embedded in the video can serve as the timing reference.</li>
+      <li>A library of processed items so repeated runs skip finished files.</li>
+    </ul>
+    <p>Permissions: this package grants read-write access to your Videos and Downloads folders and no network access. By default the synced subtitle is saved next to the input subtitle, so keep your files there or choose another save location in the app. To work across your whole home, run <code>flatpak override --user --filesystem=home io.github.denizsafak.AutoSubSync</code>. Without network access the "check for updates" option has no effect; FlatPark delivers new releases instead.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/denizsafak/AutoSubSync/v6.5/images/AutoSubSync1.png</image>
+      <caption>Automatic synchronization</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/denizsafak/AutoSubSync/v6.5/images/AutoSubSync2.png</image>
+      <caption>Manual timing adjustment</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/denizsafak/AutoSubSync/v6.5/images/AutoSubSync3.png</image>
+      <caption>Batch mode</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>autosubsync</binary>
+  </provides>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>subtitles</keyword>
+    <keyword>sync</keyword>
+    <keyword>srt</keyword>
+    <keyword>alass</keyword>
+    <keyword>ffsubsync</keyword>
+  </keywords>
+  <releases>
+    <release version="6.5" date="2026-08-17"/>
+  </releases>
+</component>
