@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Ycode</title>
+  <!-- The Y is a code chevron over a text caret. Colours: plum field, cream chevron, coral caret. -->
+  <defs>
+    <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A2157"/>
+      <stop offset="1" stop-color="#1F1033"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#field)" d="M319 100H705C832 100 924 192 924 319V705C924 832 832 924 705 924H319C192 924 100 832 100 705V319C100 192 192 100 319 100Z"/>
+  <path fill="none" stroke="#FFF3DC" stroke-width="98" stroke-linecap="round" stroke-linejoin="round" d="M322 290L512 486L702 290"/>
+  <path fill="none" stroke="#FF7A59" stroke-width="98" stroke-linecap="round" d="M512 616V752"/>
+</svg>
