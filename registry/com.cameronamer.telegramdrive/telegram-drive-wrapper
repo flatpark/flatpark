@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# Telegram Drive is a Tauri (WebKitGTK) app staged by apply_extra under
+# /app/extra/telegram-drive/usr. It links only libraries in org.gnome.Platform
+# and dlopens libayatana-appindicator3 for its tray icon, which the manifest's
+# ayatana-stack puts in /app/lib.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the sandbox. The app's own fallback for this only runs in its AppImage, so
+# the wrapper sets it. A value the user set with
+# `flatpak override --env=WEBKIT_DISABLE_DMABUF_RENDERER=0` is kept.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER-1}"
+
+exec /app/extra/telegram-drive/usr/bin/com.cameronamer.telegramdrive "$@"

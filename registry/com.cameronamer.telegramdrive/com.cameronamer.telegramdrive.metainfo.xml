@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.cameronamer.telegramdrive</id>
+  <name>Telegram Drive</name>
+  <summary>Use your Telegram account as cloud storage for your files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>NOASSERTION</project_license>
+  <developer id="com.cameronamer">
+    <name>Cameron Amer</name>
+  </developer>
+  <url type="homepage">https://telegram-drive.com/</url>
+  <url type="bugtracker">https://github.com/caamer20/Telegram-Drive/issues</url>
+  <url type="vcs-browser">https://github.com/caamer20/Telegram-Drive</url>
+  <description>
+    <p>This is a community package of Telegram Drive, maintained independently. It repackages the official upstream Linux build unmodified. The source is public, but the project has not published a license yet.</p>
+    <p>Telegram Drive organizes the files you keep in Saved Messages and Telegram channels as a drive on your desktop. You sign in with your own Telegram account and API credentials; files go straight to Telegram, with no separate relay server.</p>
+    <ul>
+      <li>Folders backed by Telegram channels, with list and grid views, search, sorting and bulk actions.</li>
+      <li>Durable upload and download queues with pause, resume, retry and bandwidth limits.</li>
+      <li>Previews for images and PDFs, and playback for audio and video.</li>
+      <li>Optional local encryption of uploads.</li>
+      <li>Folder Sync, a loopback-only WebDAV server and a local REST API.</li>
+    </ul>
+    <p>Every feature is free. The app shows sponsor placements, which an optional one-time supporter license from the developer removes.</p>
+    <p>The package has network access and no filesystem grant: settings, the local database and caches stay in the application's private per-app directory, the Telegram session is kept in the system keyring, and uploads and downloads go through the file chooser. Folder Sync watches a whole directory, which the file chooser cannot grant; to sync a folder, grant it first, for example <code>flatpak override --user --filesystem=xdg-documents com.cameronamer.telegramdrive</code>, and undo it with <code>flatpak override --user --reset com.cameronamer.telegramdrive</code>.</p>
+    <p>HEIC previews and video thumbnails use an FFmpeg installed on the host, which the sandbox cannot run; those files are shown without a preview. Updates come through Flatpak; if the application offers to install an update itself, update with Flatpak instead.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Folders and file list</caption>
+      <image>https://raw.githubusercontent.com/caamer20/Telegram-Drive/main/screenshots/DashboardWithFiles.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Video playback</caption>
+      <image>https://raw.githubusercontent.com/caamer20/Telegram-Drive/main/screenshots/VideoPlayback.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Image preview</caption>
+      <image>https://raw.githubusercontent.com/caamer20/Telegram-Drive/main/screenshots/ImagePreview.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.cameronamer.telegramdrive.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>telegram</keyword>
+    <keyword>cloud</keyword>
+    <keyword>storage</keyword>
+    <keyword>drive</keyword>
+    <keyword>sync</keyword>
+    <keyword>webdav</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">700</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <provides>
+    <binary>telegram-drive</binary>
+  </provides>
+  <releases>
+    <release version="4.1.2" date="2026-10-15">
+      <url type="details">https://github.com/caamer20/Telegram-Drive/releases/tag/v4.1.2</url>
+    </release>
+  </releases>
+</component>

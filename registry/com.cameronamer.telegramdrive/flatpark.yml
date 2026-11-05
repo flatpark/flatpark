@@ -1,0 +1,25 @@
+id: com.cameronamer.telegramdrive
+name: Telegram Drive
+summary: Use your Telegram account as cloud storage for your files
+website: https://telegram-drive.com/
+source_url: https://github.com/caamer20/Telegram-Drive
+build:
+  manifest: com.cameronamer.telegramdrive.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Telegram
+    - Cloud Storage
+    - File Sync
+    - WebDAV
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  # The source is public, but the repository has no license text; upstream's
+  # Docs/LINUX_PACKAGING.md says so itself. Until one is published, the
+  # project is treated as all rights reserved.
+  proprietary: true
+  dangerous_permissions: []
