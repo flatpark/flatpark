@@ -4,45 +4,8 @@ set -eu
 unset ELECTRON_RUN_AS_NODE
 # Do not inherit a host AppImage runtime environment.
 unset APPIMAGE APPDIR
-# Flatpak updates Desktop. Use the vendor's supported setting before startup;
-# bundled Python avoids adding a runtime dependency or changing vendor files.
-/app/extra/app/resources/bootstrap-python/bin/python3 -I -S - <<'PYTHON'
-"""Keep Desktop self-updates manual; Flatpak owns the installed application."""
-import json
-import os
-from pathlib import Path
-import tempfile
-
-config = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
-settings_path = config / "comfyui-desktop-2" / "settings.json"
-try:
-    settings = json.loads(settings_path.read_text(encoding="utf-8"))
-except FileNotFoundError:
-    settings = {}
-if not isinstance(settings, dict):
-    raise ValueError("Comfy Desktop settings must be a JSON object")
-
-# This is upstream's current download/install toggle. The legacy autoUpdate
-# field does not control update checks and must not be used for this purpose.
-if settings.get("autoInstallUpdates") is not False:
-    settings["autoInstallUpdates"] = False
-    settings_path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(
-        mode="w", encoding="utf-8", dir=settings_path.parent,
-        prefix=".flatpark-settings-", delete=False
-    ) as temporary:
-        temporary_path = Path(temporary.name)
-        try:
-            json.dump(settings, temporary, ensure_ascii=False, indent=2)
-            temporary.write("\n")
-            temporary.flush()
-            os.fsync(temporary.fileno())
-        except BaseException:
-            temporary_path.unlink(missing_ok=True)
-            raise
-    try:
-        os.replace(temporary_path, settings_path)
-    finally:
-        temporary_path.unlink(missing_ok=True)
-PYTHON
+# No updater settings to seed: ToDesktop's runtime only starts its auto-updater
+# inside an AppImage ("skipping autoUpdater initialization because application
+# is not in AppImage"), so the .deb build never downloads updates itself and
+# Flatpak alone updates it.
 exec zypak-wrapper "/app/extra/app/$(cat /app/extra/launcher)" --ozone-platform-hint=auto "$@"

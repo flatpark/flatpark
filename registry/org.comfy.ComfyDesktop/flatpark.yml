@@ -17,8 +17,3 @@ policy:
   proprietary: false
   dangerous_permissions:
     - --device=all
-packaging:
-  - kind: seeded-config
-    detail:
-      en: "Automatic Desktop update downloads and installation are disabled at each launch because Flatpak handles app updates. Other settings are preserved; upstream update checks still run."
-      zh-Hans: "每次启动时关闭 Desktop 自动下载和安装更新，应用更新由 Flatpak 管理。保留其他设置；上游更新检查仍会运行。"
