@@ -308,7 +308,11 @@ jobs:
       # Flatpak manifest gets an issue when that file's finish-args, module
       # names, or helper archive URLs differ. Nothing is copied and nothing is
       # merged; the issue stays open until a person decides.
+      # continue-on-error: drift is already exit 0 under --alert, so a failure
+      # here is the script itself breaking. That must not skip the gate below,
+      # which is what turns a held-back pin into a red run.
       - name: Report upstream Flatpak manifest drift
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           GITHUB_TOKEN: ${{ github.token }}
