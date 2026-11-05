@@ -1,15 +1,17 @@
 id: com.epicgames.eglv2
-runtime: org.freedesktop.Platform
-runtime-version: "26.08"
-sdk: org.freedesktop.Sdk
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
 command: epic-games-launcher
 separate-locales: false
 build-options:
   no-debuginfo: true
 # The app id is the launcher's own Tauri identifier, com.epicgames.eglv2.
-# Epic ships Linux as a linuxdeploy AppImage that carries its own GTK 3,
-# WebKitGTK 4.1, GStreamer and the EOS SDK, so the freedesktop runtime is
-# enough for the launcher itself. Windows games run through GE-Proton, which
+# Since 0.111.0 Epic ships Linux only as a .deb (the AppImage, which bundled
+# its own GTK and WebKit, is gone, #980). The .deb's binary links against the
+# system's WebKitGTK 4.1, GTK 3 and libsoup 3, all in org.gnome.Platform, and
+# carries only the EOS SDK beside it. GNOME 51 is built on freedesktop 26.08,
+# so the 26.08 i386 extensions below still match. Windows games run through GE-Proton, which
 # the launcher downloads into its data dir the first time one is launched
 # (pinned by SHA-512 in Epic's linux-manifest.txt); Proton's 32-bit half needs
 # the i386 compat extensions below.
@@ -17,8 +19,9 @@ finish-args:
   - --share=ipc
   # Store, downloads, sign-in, Epic Online Services.
   - --share=network
-  # The bundle's GTK hook selects X11 (GDK_BACKEND=x11), and Proton games draw
-  # through Wine's X11 driver.
+  # Proton games draw through Wine's X11 driver, so X11 is always needed; the
+  # launcher window itself can use Wayland where there is one.
+  - --socket=wayland
   - --socket=x11
   - --socket=pulseaudio
   # Where games are installed: the launcher's default install directory is
@@ -30,8 +33,12 @@ finish-args:
   - --device=all
   # Proton runs 32-bit Windows code and 32-bit Linux libraries.
   - --allow=multiarch
-  # Tray icon (the bundled libayatana-appindicator).
+  # Tray icon (libayatana-appindicator from the ayatana-stack module). The
+  # vendored Tauri tray-icon writes the icon PNG to $XDG_RUNTIME_DIR/tray-icon
+  # and hands the tray host that path; the grant makes it the same directory
+  # outside the sandbox, or the host draws a placeholder.
   - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
   - --talk-name=org.freedesktop.Notifications
   # The sign-in token is kept in the desktop keyring.
   - --talk-name=org.freedesktop.secrets
@@ -55,6 +62,17 @@ add-extensions:
     enable-if: active-gl-driver
     autoprune-unless: active-gl-driver
 modules:
+  # The launcher's Tauri tray-icon dlopen-s libayatana-appindicator3.so.1 and
+  # the GNOME runtime does not ship it. Prebuilt ayatana tray stack from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
   - name: epic-games-launcher
     buildsystem: simple
     build-commands:
@@ -67,24 +85,14 @@ modules:
       - mkdir -p /app/lib/i386-linux-gnu/GL
       - install -Dm644 ld.so.conf /app/etc/ld.so.conf
     sources:
-      # The offline AppImage extractor (appimage-offset + unsquashfs) from
-      # flatpark/prebuilt. Kept outside the managed block, which the updater
-      # rewrites from the resolver output.
-      - type: extra-data
-        filename: appimage-tools.tar.xz
-        only-arches:
-          - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
-        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
-        size: 57220
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: epic.AppImage
+        filename: epic.deb
         only-arches:
           - x86_64
-        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.110.0%2Bgf2e5ba5/Linux/EpicGamesLauncher-x86_64.AppImage
-        sha256: 53bbd1242e095f609963280ef132158115442ab719ba45785c5a93eafaa95c40
-        size: 185223672
+        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.111.0%2Bg3921dcd/Linux/EpicGamesLauncher-x86_64.deb
+        sha256: 0e01451883060f0b6028d311163ebd9f938d80ffb49f9720603ea6cc7aba666c
+        size: 86652578
       # END MANAGED EXTRA-DATA
       - type: file
         path: ld.so.conf

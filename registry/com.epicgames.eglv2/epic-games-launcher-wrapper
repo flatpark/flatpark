@@ -1,9 +1,14 @@
 #!/bin/sh
 set -eu
 
-# Epic Games Launcher, staged by apply_extra at /app/extra/epic from the AppDir
-# inside the upstream AppImage. It runs on the GTK 3 and WebKitGTK it bundles,
-# so it is started the way the AppImage starts it: through the AppDir's AppRun,
-# whose linuxdeploy hooks point GTK, GdkPixbuf, GIO and GStreamer at the
-# bundle and select X11 (GDK_BACKEND=x11).
-exec /app/extra/epic/AppRun "$@"
+# Epic Games Launcher, staged by apply_extra at /app/extra/epic from the
+# upstream .deb. It is a Tauri (WebKitGTK 4.1) binary that links only against
+# the GNOME runtime, plus libayatana-appindicator, which it dlopen-s for its
+# tray icon and which the manifest builds into /app/lib.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox. Disabling it is the reliable default; a
+# `flatpak override --env=` can still switch it back on.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/epic/usr/bin/EpicGamesLauncher "$@"
