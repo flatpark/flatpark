@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Comfy Desktop
+Comment=Install and manage isolated ComfyUI environments
+Exec=comfy-desktop %U
+Icon=org.comfy.ComfyDesktop
+Terminal=false
+Type=Application
+Categories=Graphics;3DGraphics;
+StartupWMClass=Comfy Desktop

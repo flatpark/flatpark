@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Prevent an IDE terminal from turning Electron into a Node process.
+unset ELECTRON_RUN_AS_NODE
+# Do not inherit a host AppImage runtime environment.
+unset APPIMAGE APPDIR
+# No updater settings to seed: ToDesktop's runtime only starts its auto-updater
+# inside an AppImage ("skipping autoUpdater initialization because application
+# is not in AppImage"), so the .deb build never downloads updates itself and
+# Flatpak alone updates it.
+exec zypak-wrapper "/app/extra/app/$(cat /app/extra/launcher)" --ozone-platform-hint=auto "$@"

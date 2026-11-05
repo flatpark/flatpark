@@ -1,0 +1,19 @@
+id: org.comfy.ComfyDesktop
+name: Comfy Desktop
+summary: Install and manage isolated ComfyUI environments
+website: https://www.comfy.org/
+source_url: https://github.com/Comfy-Org/Comfy-Desktop
+build:
+  manifest: org.comfy.ComfyDesktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AI
+  tags: [ComfyUI, Image generation, Python, CUDA]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --device=all
