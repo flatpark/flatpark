@@ -1,0 +1,85 @@
+id: br.gov.serpro.desktop.assinador
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: assinador-serpro
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+tags:
+  - proprietary
+finish-args:
+  # A Java Swing application with no Wayland backend, so X11 (XWayland on a
+  # Wayland session) is the display path.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Web pages talk to the signer through a local server it opens on 127.0.0.1
+  # (ports 65056, 65066, 65156 and 65166), and it fetches revocation lists and
+  # timestamps over the network.
+  - --share=network
+  # A1 certificates and the documents signed locally are opened through the
+  # app's own Java file dialog, which only sees what the sandbox can see.
+  # Documents and Downloads are where they usually are; wider access is an
+  # opt-in override in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Settings, logs and the driver list live in these folders of $HOME. Flatpak
+  # does not redirect $HOME, so without this they would land on the sandbox's
+  # tmpfs and be lost on exit. --persist keeps them private to the app.
+  - --persist=.serpro
+  - --persist=.signer
+  - --persist=.demoiselle
+  # A3 tokens and smart cards: the token's own driver runs on the host, served
+  # by a p11-kit server on this socket, and the app reaches it through
+  # pkcs11-bridge (below). Nothing listens here until the user starts that
+  # server on the host (see the metainfo); without it only A1 certificates are
+  # available. PJeOffice Pro uses the same socket.
+  - --filesystem=xdg-run/p11-kit/pkcs11
+modules:
+  # The two pieces of code loaded into the app, built from the sources in this
+  # directory. Both are declared in flatpark.yml and in the metainfo.
+  - name: sandbox-adapters
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 -Wall -Wextra $(pkg-config --cflags p11-kit-1)
+        -DCLIENT_MODULE="\"$(pkg-config --variable=p11_module_path p11-kit-1)/p11-kit-client.so\""
+        pkcs11-bridge.c -o pkcs11-bridge.so -ldl
+      - cc -shared -fPIC -O2 -Wall -Wextra local-hostname.c -o local-hostname.so -ldl
+      - install -Dm755 pkcs11-bridge.so /app/lib/assinador-serpro/pkcs11-bridge.so
+      - install -Dm755 local-hostname.so /app/lib/assinador-serpro/local-hostname.so
+    sources:
+      - type: file
+        path: pkcs11-bridge.c
+      - type: file
+        path: local-hostname.c
+
+  - name: assinador-serpro
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 assinador-serpro-wrapper /app/bin/assinador-serpro
+      - install -Dm644 br.gov.serpro.desktop.assinador.desktop /app/share/applications/br.gov.serpro.desktop.assinador.desktop
+      - install -Dm644 br.gov.serpro.desktop.assinador.metainfo.xml /app/share/metainfo/br.gov.serpro.desktop.assinador.metainfo.xml
+      - install -Dm644 br.gov.serpro.desktop.assinador.png /app/share/icons/hicolor/256x256/apps/br.gov.serpro.desktop.assinador.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: assinador.bin
+        only-arches:
+          - x86_64
+        url: https://artefatos-assinador.serpro.gov.br/downloads/4.6.0/Assinador-Serpro-4.6.0-Linux-x86_64.bin
+        sha256: 839c66e60530bd9668ce73b18be15ebb38d927a7f9b8f1395d7f150a1db3e99f
+        size: 103260322
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: assinador-serpro-wrapper
+      - type: file
+        path: br.gov.serpro.desktop.assinador.desktop
+      - type: file
+        path: br.gov.serpro.desktop.assinador.metainfo.xml
+      - type: file
+        path: br.gov.serpro.desktop.assinador.png

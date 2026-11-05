@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>br.gov.serpro.desktop.assinador</id>
+  <launchable type="desktop-id">br.gov.serpro.desktop.assinador.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>Assinador Serpro</name>
+  <summary>Digital signer for ICP-Brasil certificates</summary>
+  <summary xml:lang="pt-BR">Assinatura digital com certificado ICP-Brasil</summary>
+  <developer id="br.gov.serpro">
+    <name>Serpro</name>
+  </developer>
+  <url type="homepage">https://www.serpro.gov.br/links-fixos-superiores/assinador-digital/assinador-serpro</url>
+  <url type="bugtracker">https://github.com/LLawli/assinador-serpro-flatpak/issues</url>
+  <url type="vcs-browser">https://github.com/LLawli/assinador-serpro-flatpak</url>
+  <url type="help">https://artefatos-assinador.serpro.gov.br/downloads/Manual_Usuario_Assinador_Desktop.pdf</url>
+  <description>
+    <p>This is a community package of Assinador Serpro, maintained independently and unaffiliated with Serpro. It downloads the official Linux installer from Serpro at install time and takes the program out of it without running the installer. Using the program means accepting Serpro's terms of use. A new version reaches this package after it has been tested with a physical token.</p>
+    <p>Two small pieces of code are added inside the app. A PKCS#11 module, which Assinador Serpro loads for A3 tokens through its own PKCS11_DRIVER setting, passes the calls to the host's p11-kit, so the token's driver runs on the host; it hides p11-kit's trust slots and adjusts two calls to what p11-kit's RPC accepts. A library preloaded with LD_PRELOAD resolves assinador-desktop.serpro.gov.br to 127.0.0.1 inside the sandbox, because the native installer adds that name to /etc/hosts, which a sandboxed app cannot do. Nothing else is changed. Serpro's launcher is not used: this package starts the same Java command directly, and Flatpak does the updating.</p>
+    <p>Assinador Serpro is Serpro's desktop signer, for the Brazilian ICP-Brasil certificates. It signs documents with an A1 certificate file or an A3 token or smart card, and lets web pages in your browser request signatures through a local server.</p>
+    <p>Permissions: this package grants network access (web pages reach the signer through a local server, and it fetches revocation lists and timestamps), your Documents and Downloads folders, where A1 certificate files and documents to sign usually are, and the host&apos;s p11-kit socket for A3 tokens (below). Settings and logs stay inside the sandbox. To open certificates or documents from anywhere in your home folder: <code>flatpak override --user --filesystem=home br.gov.serpro.desktop.assinador</code>.</p>
+    <p>Signing from web pages needs one line on the host, because your browser runs outside the sandbox and the name is not in public DNS: <code>echo &apos;127.0.0.1 assinador-desktop.serpro.gov.br&apos; | sudo tee -a /etc/hosts</code>. The native installer adds the same line.</p>
+    <p>A3 tokens and smart cards need a one-time setup on the host, because the token&apos;s driver cannot run inside the sandbox. Install the driver from your certificate vendor and make sure pcscd is running, as for any Linux installation, and register the driver with p11-kit if the vendor does not (a file in ~/.config/pkcs11/modules/ with the line <code>module: /path/to/the/driver.so</code>). Then run a p11-kit server that listens on $XDG_RUNTIME_DIR/p11-kit/pkcs11: where your distribution ships the systemd user socket, that is <code>systemctl --user enable --now p11-kit-server.socket</code>. On an immutable system, Tessera from FlatPark can serve the driver instead of a package on the host. A1 certificate files need none of this.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Office</category>
+  </categories>
+  <releases>
+    <release version="4.6.0" date="2026-10-29"/>
+  </releases>
+</component>
