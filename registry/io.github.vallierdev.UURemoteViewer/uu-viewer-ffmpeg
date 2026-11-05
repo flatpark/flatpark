@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+# FFmpeg from the ffmpeg-full prebuilt stack, for the viewer's video and audio
+# child processes. The archive carries no RUNPATH, so its codec libraries are
+# found only through LD_LIBRARY_PATH. Setting it here rather than in the
+# viewer's own environment keeps that path away from GTK and SDL, where the same
+# variable would make the stack's libraries shadow the runtime's.
+LD_LIBRARY_PATH="/app/extra/ffmpeg-full/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LD_LIBRARY_PATH
+
+exec /app/extra/ffmpeg-full/bin/ffmpeg "$@"

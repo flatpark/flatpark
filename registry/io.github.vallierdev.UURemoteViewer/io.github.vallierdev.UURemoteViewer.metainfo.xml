@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.vallierdev.UURemoteViewer</id>
+  <name>UU Remote Viewer</name>
+  <name xml:lang="zh-Hans">UU 远程 Linux 控制端</name>
+  <summary>Unofficial Linux viewer for NetEase UU Remote</summary>
+  <summary xml:lang="zh-Hans">非官方 UU 远程 Linux 控制端</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.vallierdev">
+    <name>VallierDev</name>
+  </developer>
+  <url type="homepage">https://github.com/VallierDev/uu-remote-linux</url>
+  <url type="bugtracker">https://github.com/VallierDev/uu-remote-linux/issues</url>
+  <url type="vcs-browser">https://github.com/VallierDev/uu-remote-linux</url>
+  <description>
+    <p>This is a community package of UU Remote's Linux viewer, maintained independently and not affiliated with NetEase or with the upstream project. It repackages the viewer from upstream's official Linux release unmodified, and follows upstream's releases automatically.</p>
+    <p>UU Remote (网易 UU 远程) is a remote-access service. This viewer signs into a UU Remote account with a QR code, lists the devices on that account, and connects to Windows, macOS and Linux hosts, which the official desktop and mobile clients can also control.</p>
+    <ul>
+      <li>Remote desktop with H.264 or H.265 video, mouse and keyboard.</li>
+      <li>File transfer between the remote device and the folders this package can see.</li>
+      <li>Clipboard text on X11 and on GNOME or KDE Wayland sessions, port mapping, and view-only watching with annotations.</li>
+      <li>Chinese or English interface.</li>
+    </ul>
+    <p>This package installs the viewer only. The host side of the same release, which lets other devices control this computer, is not included: it needs screen capture, input injection, session unlocking through PAM and a systemd user service, and a Flatpak sandbox provides none of those. The "allow this computer to be controlled" switch in Settings therefore does not work. The remote terminal tool is also unavailable: it shows the remote shell in a local terminal emulator, and the sandbox has none.</p>
+    <p xml:lang="zh-Hans">本包只包含控制端（用它去控制别的设备）。同一个发布里的被控端（让别人控制这台电脑）没有包含：它需要抓屏、注入输入、通过 PAM 解锁会话以及 systemd 用户服务，这些在 Flatpak 沙盒里都做不到，因此设置里的“允许本机被控”开关不可用；远端的“终端”工具也不可用，它需要在本机打开终端程序，而沙盒里没有。</p>
+    <p>Upstream marks the viewer experimental. It is the viewer half of a project whose host is used more widely, so some flows are less exercised than the official clients.</p>
+    <p>Video and audio are decoded by FlatPark's ffmpeg-full build, fetched at install time, because the runtime's own FFmpeg is built without the H.264 and H.265 decoders this viewer needs.</p>
+    <p>Permissions: the package can use the network, play audio, use the display and GPU, and read and write your Downloads folder. The file tool is a two-pane browser that reads the local filesystem directly — there is no file chooser — so inside the sandbox its local pane sees only what the package is granted. The pane starts in the app's private home, which is discarded when the app exits; your Downloads folder is the persistent one. Open it in the local pane to upload from it, and received files are saved to whatever folder the pane is showing. To use another folder in both directions, grant it with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Also use Documents: <code>flatpak override --user --filesystem=xdg-documents io.github.vallierdev.UURemoteViewer</code></li>
+      <li>Undo: <code>flatpak override --user --reset io.github.vallierdev.UURemoteViewer</code></li>
+    </ul>
+    <p>Updates come through Flatpak; use <code>flatpak update</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Device list and remote-assistance window</caption>
+      <image>https://raw.githubusercontent.com/VallierDev/uu-remote-linux/main/docs/images/viewer-window.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Light theme</caption>
+      <image>https://raw.githubusercontent.com/VallierDev/uu-remote-linux/main/docs/images/appearance-light.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.vallierdev.UURemoteViewer.desktop</launchable>
+  <provides>
+    <binary>uu-remote-viewer</binary>
+  </provides>
+  <categories>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>remote</keyword>
+    <keyword>remote desktop</keyword>
+    <keyword>UU</keyword>
+    <keyword>远程</keyword>
+    <keyword>控制</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.2.50" date="2026-11-04"/>
+  </releases>
+</component>

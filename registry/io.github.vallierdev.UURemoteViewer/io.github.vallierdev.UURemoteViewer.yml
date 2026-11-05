@@ -1,0 +1,95 @@
+id: io.github.vallierdev.UURemoteViewer
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+# The viewer half of upstream's release: the window that signs into a UU Remote
+# account and controls other devices. The host half of the same release (this
+# machine being controlled) is not exposed as an entry point: it captures the
+# desktop, injects input, unlocks the session through PAM and runs as a systemd
+# user service, none of which a Flatpak sandbox provides. The host binary is
+# still inside the payload, because the viewer's QR sign-in runs it as
+# `uuremote-server login` (upstream src/viewer/ui.rs).
+#
+# org.gnome.Platform 51 supplies everything the viewer links: GTK3, the X11 and
+# Wayland client libraries, GL, and SDL2 (freedesktop-sdk's platform ships
+# sdl2-compat, which provides libSDL2-2.0.so.0). FFmpeg is not there in a usable
+# form — freedesktop-sdk builds it with the H.264 and H.265 decoders disabled —
+# so ffmpeg-full comes from flatpark/prebuilt as a second extra-data download.
+command: uu-remote-viewer
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK3 and SDL move window contents and frames through shared memory; without
+  # this the X11 path falls back to slow put-image transfers and some drivers
+  # fail to present at all.
+  - --share=ipc
+  # Sign-in, signalling and WebRTC media, file transfer, the remote terminal and
+  # port mapping all run over the network from inside the sandbox.
+  - --share=network
+  # A GTK3 window with an SDL video surface: Wayland when the session has it,
+  # X11 (through XWayland on a Wayland session) otherwise.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Hardware-accelerated GL for the SDL renderer; software rendering takes over
+  # when no device is exposed.
+  - --device=dri
+  # Remote audio is decoded to PCM by ffmpeg-full and played through SDL.
+  - --socket=pulseaudio
+  # The file tool reads the local filesystem directly and has no file chooser:
+  # its local pane starts in the sandbox's private home, which is discarded when
+  # the app exits, and shows only what the package is granted. Downloads is the
+  # persistent folder it can see without an override — uploads come from there,
+  # and received files are saved to whatever folder the pane is showing.
+  - --filesystem=xdg-download
+modules:
+  - name: uu-remote-viewer
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 uu-remote-viewer-wrapper /app/bin/uu-remote-viewer
+      - install -Dm755 uu-viewer-ffmpeg /app/bin/uu-viewer-ffmpeg
+      - install -Dm644 io.github.vallierdev.UURemoteViewer.desktop /app/share/applications/io.github.vallierdev.UURemoteViewer.desktop
+      - install -Dm644 io.github.vallierdev.UURemoteViewer.metainfo.xml /app/share/metainfo/io.github.vallierdev.UURemoteViewer.metainfo.xml
+      - install -Dm644 io.github.vallierdev.UURemoteViewer.svg /app/share/icons/hicolor/scalable/apps/io.github.vallierdev.UURemoteViewer.svg
+    sources:
+      # ffmpeg-full from https://github.com/flatpark/prebuilt, fetched from its
+      # GitHub release at install time. The viewer runs FFmpeg as a child
+      # process for every session (UU_VIEWER_FFMPEG); the runtime's own FFmpeg
+      # is built with --disable-decoder=h264,hevc by freedesktop-sdk, so it
+      # cannot decode the streams this viewer receives.
+      #
+      # x86_64 only: prebuilt publishes ffmpeg-full for the x86_64 base, and
+      # this package does not add an aarch64 FFmpeg of its own. build.arches
+      # stays at the x86_64 default for the same reason.
+      #
+      # Outside the managed block: update-pins.mjs rewrites that block whole
+      # from the resolver's sources and would drop this pin.
+      - type: extra-data
+        filename: ffmpeg-full.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v3/ffmpeg-full-ffmpeg-full-v3-gnome-51-x86_64.tar.xz
+        sha256: 3ae0b24a8d7e134ca034e9f0eb0a6efbfc7e467fd90bf967a750fd3872055e28
+        size: 13655872
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: uu-remote-linux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/VallierDev/uu-remote-linux/releases/download/v0.2.50/uu-remote-linux-v0.2.50-x86_64-linux.tar.gz
+        sha256: 38561e9c4bf3d0e9309154d08cba13a8d8894d6d159463849ad94fa86de31564
+        size: 15729995
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: uu-remote-viewer-wrapper
+      - type: file
+        path: uu-viewer-ffmpeg
+      - type: file
+        path: io.github.vallierdev.UURemoteViewer.desktop
+      - type: file
+        path: io.github.vallierdev.UURemoteViewer.metainfo.xml
+      - type: file
+        path: io.github.vallierdev.UURemoteViewer.svg

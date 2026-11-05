@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+# This package installs upstream's viewer only: the window that signs into a UU
+# Remote account and controls other devices. The host half of the same release
+# (this computer being controlled) needs desktop capture, input injection, PAM
+# and a systemd user service, none of which a Flatpak sandbox provides, so it is
+# not exposed as an entry point.
+
+# The viewer decodes video and audio by running FFmpeg as a child process, and
+# reads the binary from UU_VIEWER_FFMPEG (upstream src/viewer/decoder_cli.rs and
+# src/viewer/audio.rs). The runtime's FFmpeg is built without the H.264 and
+# H.265 decoders, so use the ffmpeg-full stack instead. The small launcher
+# beside this script keeps that stack's LD_LIBRARY_PATH inside the FFmpeg child
+# process rather than in the viewer, where it could shadow the runtime's
+# libraries for GTK and SDL.
+export UU_VIEWER_FFMPEG="${UU_VIEWER_FFMPEG:-/app/bin/uu-viewer-ffmpeg}"
+
+exec /app/extra/viewer/uuremote-viewer ui "$@"
