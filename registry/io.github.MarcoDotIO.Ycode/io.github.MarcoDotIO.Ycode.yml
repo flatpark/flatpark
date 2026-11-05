@@ -43,6 +43,7 @@ modules:
       - install -Dm644 io.github.MarcoDotIO.Ycode.metainfo.xml /app/share/metainfo/io.github.MarcoDotIO.Ycode.metainfo.xml
       - install -Dm644 io.github.MarcoDotIO.Ycode.png /app/share/icons/hicolor/512x512/apps/io.github.MarcoDotIO.Ycode.png
       - install -Dm644 io.github.MarcoDotIO.Ycode.svg /app/share/icons/hicolor/scalable/apps/io.github.MarcoDotIO.Ycode.svg
+      - install -Dm644 io.github.MarcoDotIO.Ycode.svg /app/share/icons/hicolor/scalable/apps/io.github.MarcoDotIO.Ycode.svg
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
@@ -70,5 +71,7 @@ modules:
         path: io.github.MarcoDotIO.Ycode.metainfo.xml
       - type: file
         path: io.github.MarcoDotIO.Ycode.png
+      - type: file
+        path: io.github.MarcoDotIO.Ycode.svg
       - type: file
         path: io.github.MarcoDotIO.Ycode.svg
