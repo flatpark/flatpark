@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eu
+
+# Assinador Serpro is unpacked by apply_extra to /app/extra. This starts the
+# bundled Java runtime with the same options as Serpro's own launcher. That
+# launcher is not used: it updates the program in its install folder, which is
+# read-only here, and Flatpak does the updating.
+
+base=/app/extra
+
+for jar in "$base"/lib/serpro-signer-*.jar; do :; done
+if [ ! -f "$jar" ]; then
+    echo "assinador-serpro: no jar in $base/lib" >&2
+    exit 1
+fi
+
+# PKCS11_DRIVER is the app's own setting for a token driver: the bridge to the
+# host's p11-kit server, see pkcs11-bridge.c.
+export PKCS11_DRIVER=/app/lib/assinador-serpro/pkcs11-bridge.so
+# The local server's name, which the native installer adds to /etc/hosts; see
+# local-hostname.c.
+export LD_PRELOAD=/app/lib/assinador-serpro/local-hostname.so
+
+exec "$base/jre_amd64/bin/java" \
+    -Xms256m -Xmx4096m \
+    -XX:MinHeapFreeRatio=20 -XX:MaxHeapFreeRatio=40 \
+    -Dfile.encoding=UTF-8 -Duser.timezone=GMT-3 -Djava.io.tmpdir=/tmp \
+    -Dswing.aatext=true -Dawt.useSystemAAFontSettings=on \
+    -Dsun.java2d.uiScale.enabled=true \
+    --add-modules=jdk.crypto.cryptoki \
+    --add-opens=java.base/java.io=ALL-UNNAMED \
+    --add-opens=java.base/java.lang=ALL-UNNAMED \
+    --add-opens=java.base/java.lang.reflect=ALL-UNNAMED \
+    --add-opens=java.base/java.util=ALL-UNNAMED \
+    --add-opens=java.base/sun.security.x509=ALL-UNNAMED \
+    --add-opens=java.desktop/java.awt=ALL-UNNAMED \
+    --add-opens=java.desktop/javax.swing=ALL-UNNAMED \
+    --add-exports=jdk.crypto.cryptoki/sun.security.pkcs11=ALL-UNNAMED \
+    --add-exports=jdk.crypto.cryptoki/sun.security.pkcs11.wrapper=ALL-UNNAMED \
+    -cp "$jar" org.demoiselle.signer.serpro.desktop.Main "$@"

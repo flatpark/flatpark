@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Assinador Serpro
+GenericName=Digital Signer
+Comment=Sign documents with your ICP-Brasil certificate
+Comment[pt_BR]=Assinatura digital com certificado ICP-Brasil
+Exec=assinador-serpro %U
+Icon=br.gov.serpro.desktop.assinador
+Terminal=false
+Categories=Office;
+Keywords=serpro;assinador;assinatura;certificado;icp-brasil;token;a1;a3;
+MimeType=application/pdf;application/xml;
+StartupNotify=true
+StartupWMClass=org-demoiselle-signer-serpro-desktop-Main

@@ -1,0 +1,35 @@
+id: br.gov.serpro.desktop.assinador
+name: Assinador Serpro
+summary: Digital signer for ICP-Brasil certificates
+website: https://www.serpro.gov.br/links-fixos-superiores/assinador-digital/assinador-serpro
+source_url: https://github.com/LLawli/assinador-serpro-flatpak
+build:
+  manifest: br.gov.serpro.desktop.assinador.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Brazil
+    - DigitalSignature
+    - ICP-Brasil
+    - SmartCard
+update:
+  # Follows this package's releases, not Serpro's download page: a version is
+  # released there after it has been tested with a physical A3 token.
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: injected-code
+    detail:
+      en: "A small PKCS#11 module, which Assinador Serpro loads through its own PKCS11_DRIVER setting, passes A3 token calls to the host's p11-kit, so the token driver runs on the host. It hides p11-kit's trust slots and adjusts two calls to what the p11-kit RPC accepts."
+      zh-Hans: "一个小型 PKCS#11 模块，由 Assinador Serpro 通过它自己的 PKCS11_DRIVER 设置加载，把 A3 令牌的调用转给宿主的 p11-kit，令牌驱动在宿主上运行。它会隐藏 p11-kit 的信任槽，并调整两个调用以符合 p11-kit RPC 的要求。"
+  - kind: injected-code
+    detail:
+      en: "A small library, preloaded with LD_PRELOAD, resolves assinador-desktop.serpro.gov.br to 127.0.0.1 inside the sandbox. The native installer adds that name to /etc/hosts, which a sandboxed app cannot do. Every other name goes to the C library unchanged."
+      zh-Hans: "一个小型库通过 LD_PRELOAD 预加载，在沙盒内把 assinador-desktop.serpro.gov.br 解析为 127.0.0.1。原生安装程序会把这个名称写入 /etc/hosts，而沙盒内的应用无法这样做。其他名称原样交给 C 库处理。"
