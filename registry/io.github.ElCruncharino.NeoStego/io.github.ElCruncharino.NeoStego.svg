@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- NeoStego: a 4x4 pixel field; the deep-indigo cells are the data bits hidden among the cover pixels -->
+  <g>
+    <rect x="50"  y="50"  width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="92"  y="50"  width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="134" y="50"  width="30" height="30" rx="8" fill="#4338CA"/>
+    <rect x="176" y="50"  width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="50"  y="92"  width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="92"  y="92"  width="30" height="30" rx="8" fill="#4338CA"/>
+    <rect x="134" y="92"  width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="176" y="92"  width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="50"  y="134" width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="92"  y="134" width="30" height="30" rx="8" fill="#4338CA"/>
+    <rect x="134" y="134" width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="176" y="134" width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="50"  y="176" width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="92"  y="176" width="30" height="30" rx="8" fill="#A5B4FC"/>
+    <rect x="134" y="176" width="30" height="30" rx="8" fill="#4338CA"/>
+    <rect x="176" y="176" width="30" height="30" rx="8" fill="#A5B4FC"/>
+  </g>
+</svg>

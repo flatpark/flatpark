@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=NeoStego
+Comment=Hide files in images and audio and embed invisible watermarks
+Exec=neostego
+Icon=io.github.ElCruncharino.NeoStego
+Terminal=false
+Categories=Utility;Graphics;Security;
+Keywords=Steganography;Watermark;Privacy;Security;
+StartupWMClass=com-elcruncharino-neostego-compose-MainKt
+Actions=Accessible;
+
+[Desktop Action Accessible]
+Name=Open in Accessible (Classic) mode
+Exec=neostego --classic
+Icon=io.github.ElCruncharino.NeoStego
