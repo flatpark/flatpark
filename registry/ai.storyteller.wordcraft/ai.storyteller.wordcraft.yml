@@ -6,12 +6,13 @@ command: wordcraft
 separate-locales: false
 build-options:
   no-debuginfo: true
-# The app id and finish-args follow upstream's own Flatpak manifest
-# (packaging/linux/flatpak/ in storytold/wordcraft), so this package and the
-# single-file bundle upstream builds are the same application; the one
-# addition is xdg-documents, matching PdfCraft. The runtime is
-# 26.08, shared with the other ArtCraft apps; the binaries need only glibc
-# from it.
+# Extra-data repackage of the official Linux tarball. Runtime 26.08 is shared
+# with the other ArtCraft apps; the binaries need glibc and the Wayland, X11
+# and Vulkan loaders from it. Printing follows upstream's Flatpak
+# (packaging/linux/flatpak/ in storytold/wordcraft, storytold/wordcraft#4909),
+# with its cups-client module taken from FlatPark's prebuilt stack. Network
+# stays off; the metainfo documents the override for the optional --control
+# server and for a remote CUPS server.
 finish-args:
   # Native Rust/egui app on winit; libwayland, libX11/xcb, xkbcommon and the
   # Vulkan/EGL loaders are dlopen()ed from the runtime.
@@ -21,17 +22,52 @@ finish-args:
   - --share=ipc
   # wgpu GPU compositor (Vulkan, or GL as a fallback).
   - --device=dri
+  # Printing. craft-print lists printers with lpstat and sends jobs with lp.
+  # The runtime has libcups and lpr, not those tools, and without the CUPS
+  # socket the Print dialog stays empty. cups-client below ships them.
+  # Avahi is how `lpstat -e` finds driverless printers. ~/.cups is read-only:
+  # the default printer, saved options and a ServerName.
+  - --socket=cups
+  - --system-talk-name=org.freedesktop.Avahi
+  - --filesystem=~/.cups:ro
   # Open/Save go through the file-chooser portal. Documents and Pictures are
   # granted so files passed by path (command line, saving next to the
   # original) keep working; documents usually live under Documents.
   - --filesystem=xdg-documents
   - --filesystem=xdg-pictures
   # Deliberately not granted:
-  #   --share=network          -> the optional --control automation server
-  #                               listens on 127.0.0.1 inside the sandbox; the
-  #                               metainfo documents the override that exposes it
+  #   --share=network          -> the optional --control automation server, and
+  #                               a CUPS server reached over the network; the
+  #                               metainfo documents the override
   #   --filesystem=home / host -> everything else goes through the portals
 modules:
+  # CUPS client tools for craft-print: lp, lpstat and lpoptions, from FlatPark's
+  # prebuilt cups-client stack. It is the same build as upstream's cups-client
+  # module (CUPS 2.4.20, libcups linked statically) plus upstream's socket
+  # wrapper; the tag's manifest records the sources. apply_extra unpacks it to
+  # /app/extra/cups-client; the links below put the tools on PATH and dangle
+  # until then. Extra-data, not built here: a dependency is never compiled in
+  # an app's manifest (docs/packagers/prebuilt.md). Kept as its own module so
+  # the module names still match upstream's manifest.
+  - name: cups-client
+    buildsystem: simple
+    build-commands:
+      - for tool in lp lpoptions lpstat; do install -d /app/bin; ln -s "/app/extra/cups-client/bin/$tool" "/app/bin/$tool"; done
+    sources:
+      - type: extra-data
+        filename: cups-client.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/cups-client-v1/cups-client-cups-client-v1-fd-26.08-x86_64.tar.xz
+        sha256: a96f57051ab61c98c73d99fed4dbe05a040fb2d1dbd353e1241d79b3aefea851
+        size: 266076
+      - type: extra-data
+        filename: cups-client.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/cups-client-v1/cups-client-cups-client-v1-fd-26.08-aarch64.tar.xz
+        sha256: 7005c45fe7b1ebd24ed1146c47af34f00526407015cd7cbca5f0e1bbae37d909
+        size: 238968
   - name: wordcraft
     buildsystem: simple
     build-commands:
