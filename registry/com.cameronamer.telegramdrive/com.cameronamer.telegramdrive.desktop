@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Telegram Drive
+Comment=Use your Telegram account as cloud storage for your files
+Exec=telegram-drive
+Icon=com.cameronamer.telegramdrive
+Terminal=false
+StartupWMClass=com.cameronamer.telegramdrive
+Categories=Network;FileTransfer;Utility;
+Keywords=telegram;cloud;storage;drive;backup;sync;webdav;

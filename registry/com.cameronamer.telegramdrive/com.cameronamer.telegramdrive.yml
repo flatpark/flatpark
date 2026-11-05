@@ -1,0 +1,77 @@
+id: com.cameronamer.telegramdrive
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: telegram-drive
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri v2 / WebKitGTK app. Everything it links against — webkit2gtk-4.1,
+  # gtk-3, libsoup-3, dbus — is in org.gnome.Platform.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Network is the core function: files are stored in Telegram over MTProto.
+  # The local REST API, WebDAV server and share links listen on loopback only.
+  - --share=network
+  # Audio and video files from Telegram play in the built-in player.
+  - --socket=pulseaudio
+  # Transfer and sync notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # The Telegram session, vault and supporter keys are kept in the system
+  # keyring (keyring crate, Secret Service backend).
+  - --talk-name=org.freedesktop.secrets
+  # System tray (Tauri tray-icon), used for background transfers.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # tauri-plugin-single-instance 2.4.3 owns <identifier>.SingleInstance; the
+  # identifier is the app id, so Flatpak's own-name default already covers it.
+  # No filesystem grant: uploads and downloads go through the file chooser
+  # portal, and settings, the database and caches live in the private per-app
+  # directory. Folder Sync of a whole directory is an opt-in override, listed
+  # in the metainfo.
+modules:
+  # The Tauri tray-icon dlopen-s libayatana-appindicator at startup and panics
+  # if it is missing, and the GNOME runtime does not ship it.
+  # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
+  # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
+  # against org.gnome.Sdk//51; the tag's manifest records the exact sources,
+  # pins and patches.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: telegram-drive
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 telegram-drive-wrapper /app/bin/telegram-drive
+      - install -Dm644 com.cameronamer.telegramdrive.desktop /app/share/applications/com.cameronamer.telegramdrive.desktop
+      - install -Dm644 com.cameronamer.telegramdrive.metainfo.xml /app/share/metainfo/com.cameronamer.telegramdrive.metainfo.xml
+      - install -Dm644 com.cameronamer.telegramdrive.png /app/share/icons/hicolor/512x512/apps/com.cameronamer.telegramdrive.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/caamer20/Telegram-Drive/releases/download/v4.1.2/Telegram.Drive_4.1.2_amd64.deb
+        sha256: daad31b94b889cac82c1e24ed32290e7e69976266839b1663c0eefed47a512f2
+        size: 24490966
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: telegram-drive-wrapper
+      - type: file
+        path: com.cameronamer.telegramdrive.desktop
+      - type: file
+        path: com.cameronamer.telegramdrive.metainfo.xml
+      - type: file
+        path: com.cameronamer.telegramdrive.png
