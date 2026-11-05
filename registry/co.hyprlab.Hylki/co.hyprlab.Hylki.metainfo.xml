@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Hyprlab -->
+<component type="desktop-application">
+  <id>co.hyprlab.Hylki</id>
+  <!-- Hylki was called Veem through v1.5.1 and Vireo through v1.34.0 -->
+  <replaces>
+    <id>co.hyprlab.Vireo</id>
+    <id>com.getveem.Veem</id>
+  </replaces>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <name>Hylki</name>
+  <name xml:lang="it">Hylki</name>
+  <name xml:lang="ca">Hylki</name>
+  <name xml:lang="pl">Hylki</name>
+  <name xml:lang="de">Hylki</name>
+  <name xml:lang="es">Hylki</name>
+  <name xml:lang="pt-BR">Hylki</name>
+  <name xml:lang="pt-PT">Hylki</name>
+  <name xml:lang="ru">Hylki</name>
+  <name xml:lang="hu">Hylki</name>
+  <name xml:lang="el">Hylki</name>
+  <name xml:lang="fr">Hylki</name>
+  <summary>A fast, GNOME-native email client, built with Rust and libadwaita. Open source and private by default.</summary>
+  <summary xml:lang="it">Un client e-mail veloce, nativo di GNOME, costruito con Rust e libadwaita. Open source e privato per impostazione predefinita.</summary>
+  <summary xml:lang="ca">Un client de correu ràpid i natiu per al GNOME, construït amb Rust i libadwaita. De codi obert i privat per defecte.</summary>
+  <summary xml:lang="pl">Szybki klient poczty stworzony dla środowiska GNOME, napisany w języku Rust z użyciem biblioteki libadwaita. Otwarte oprogramowanie, domyślnie dbające o prywatność.</summary>
+  <summary xml:lang="de">Ein schneller, GNOME-nativer E-Mail-Client, gebaut mit Rust und libadwaita. Open Source und datenschutzfreundlich.</summary>
+  <summary xml:lang="es">Un cliente de correo rápido y nativo de GNOME, desarrollado con Rust y libadwaita. De código abierto y privado de forma predeterminada.</summary>
+  <summary xml:lang="pt-BR">Um cliente de email rápido e nativo do GNOME, criado com Rust e libadwaita. De código aberto e privado por padrão.</summary>
+  <summary xml:lang="pt-PT">Um cliente de correio eletrónico rápido e nativo do GNOME, criado com Rust e libadwaita. De código aberto e privado por predefinição.</summary>
+  <summary xml:lang="ru">Быстрый почтовый клиент для GNOME, написанный на Rust и libadwaita. Открытый исходный код и конфиденциальность по умолчанию.</summary>
+  <summary xml:lang="hu">Egy gyors, GNOME-kompatibilis e-mail kliens, amelyet Rust és a libadwaita segítségével fejlesztettek ki. Nyílt forráskódú, alapértelmezés szerint magánjellegű.</summary>
+  <summary xml:lang="el">Μια γρήγορη, εγγενής εφαρμογή email για το GNOME, κατασκευασμένη με Rust και libadwaita. Ανοιχτού κώδικα και ιδιωτική από προεπιλογή.</summary>
+  <summary xml:lang="fr">Un client e-mail rapide et natif pour GNOME, conçu avec Rust et libadwaita. Open source et respectueux de la vie privée par défaut.</summary>
+  <description>
+    <p>
+      This is a community package of Hylki, maintained independently and
+      unaffiliated with Hyprlab; it is not Hyprlab's own Flatpak remote at
+      hylki.hyprlab.co. It repackages Hyprlab's official Debian package
+      unmodified, downloads it from Hyprlab's GitHub releases at install time,
+      and follows their stable releases automatically.
+    </p>
+    <p>
+      Hylki is a desktop email client for GNOME on Wayland, written in Rust with
+      libadwaita. Your mail and credentials stay on your machine, remote content
+      is blocked until you allow it, and there is no telemetry. It works with
+      IMAP, POP3, JMAP and Microsoft 365, and with any server from iCloud to
+      Proton Bridge to a Stalwart of your own.
+    </p>
+    <p xml:lang="it">Hylki è un client e-mail desktop per GNOME su Wayland, scritto in Rust con libadwaita. La tua posta e le credenziali rimangono sul tuo computer, il contenuto remoto è bloccato finché non lo consenti, e non c'è telemetria. Funziona con IMAP, POP3, JMAP e Microsoft 365, e con qualsiasi server da iCloud a Proton Bridge a uno Stalwart tuo.</p>
+    <p xml:lang="ca">L'Hylki és un client de correu d'escriptori per al GNOME a Wayland, escrit en Rust amb libadwaita. El teu correu i les credencials es queden a la teva màquina, el contingut remot està blocat fins que el permetis, i no hi ha telemetria. Funciona amb IMAP, POP3, JMAP i Microsoft 365, i amb qualsevol servidor des de l'iCloud fins al Proton Bridge fins a un Stalwart propi.</p>
+    <p xml:lang="pl">Hylki to klient poczty dla środowiska GNOME w sesji Wayland, napisany w języku Rust z użyciem biblioteki libadwaita. Poczta i dane logowania pozostają na komputerze użytkownika, zdalne treści są blokowane do czasu wyrażenia zgody, a aplikacja nie zbiera żadnej telemetrii. Aplikacja obsługuje protokoły IMAP, POP3, JMAP i Microsoft 365 oraz dowolne serwery – od iCloud, przez Proton Bridge, po własny serwer Stalwart.</p>
+    <p xml:lang="de">Hylki ist ein Desktop-E-Mail-Client für GNOME unter Wayland, entwickelt mit Rust und libadwaita. E-Mails und Zugangsdaten bleiben lokal, externe Inhalte sind standardmäßig blockiert und Telemetrie wird nicht erhoben. Unterstützt IMAP, POP3, JMAP sowie Microsoft 365 und ist kompatibel mit allen gängigen Anbietern und beliebigen Servern - von iCloud über Proton Bridge bis hin zu eigenen Stalwart-Instanzen</p>
+    <p xml:lang="es">Hylki es un cliente de correo de escritorio para GNOME sobre Wayland, escrito en Rust con libadwaita. Tu correo y tus credenciales permanecen en tu equipo, el contenido remoto se bloquea hasta que lo permitas y no existe telemetría. Funciona con IMAP, POP3, JMAP y Microsoft 365, así como con servidores desde iCloud y Proton Bridge hasta tu propio Stalwart.</p>
+    <p xml:lang="pt-BR">O Hylki é um cliente de email para o GNOME no Wayland, escrito em Rust com libadwaita. Seus emails e credenciais permanecem no seu computador, o conteúdo remoto é bloqueado até que você o permita e não há telemetria. Funciona com IMAP, POP3, JMAP e Microsoft 365, e com qualquer servidor, do iCloud e Proton Bridge até um servidor Stalwart próprio.</p>
+    <p xml:lang="pt-PT">O Hylki é um cliente de correio eletrónico para o GNOME no Wayland, escrito em Rust com libadwaita. O correio e as credenciais permanecem no seu computador, o conteúdo remoto é bloqueado até que o permita e não existe telemetria. Funciona com IMAP, POP3, JMAP e Microsoft 365, e com qualquer servidor, desde o iCloud e o Proton Bridge até um servidor Stalwart seu.</p>
+    <p xml:lang="ru">Hylki — это настольный почтовый клиент для GNOME на Wayland, написанный на Rust с использованием libadwaita. Ваши письма и учётные данные остаются на вашем компьютере, удалённое содержимое блокируется до вашего разрешения, а телеметрия отсутствует. Приложение поддерживает IMAP, POP3, JMAP и Microsoft 365, а также работает с любыми серверами: от iCloud и Proton Bridge до вашего собственного Stalwart.</p>
+    <p xml:lang="hu">A Hylki egy Wayland-alapú GNOME-környezethez készült asztali e-mail kliens, amelyet Rust nyelven írtak a libadwaita segítségével. Az e-mailjei és hitelesítő adatai a saját gépén maradnak, a távoli tartalmakat addig blokkolja a program, amíg Ön engedélyt nem ad rájuk, és nincs telemetria. IMAP, POP3, JMAP és Microsoft 365 protokollokkal, valamint bármilyen szerverrel működik, az iCloudtól a Proton Bridge-en át a saját Stalwart-szerveréig.</p>
+    <p xml:lang="el">Το Hylki είναι μια εφαρμογή email για επιτραπέζιους υπολογιστές GNOME σε Wayland, γραμμένη σε Rust με libadwaita. Η αλληλογραφία και τα διαπιστευτήριά σας παραμένουν στον υπολογιστή σας, το απομακρυσμένο περιεχόμενο αποκλείεται μέχρι να το επιτρέψετε και δεν υπάρχει τηλεμετρία. Λειτουργεί με IMAP, POP3, JMAP και Microsoft 365, καθώς και με οποιονδήποτε διακομιστή, από το iCloud και το Proton Bridge έως έναν δικό σας διακομιστή Stalwart.</p>
+    <p xml:lang="fr">Hylki est un client e-mail de bureau pour GNOME sous Wayland, écrit en Rust avec libadwaita. Votre courrier et vos identifiants restent sur votre machine, le contenu distant est bloqué tant que vous ne l’autorisez pas, et il n’y a aucune télémétrie. Il fonctionne avec IMAP, POP3, JMAP et Microsoft 365, et avec n’importe quel serveur, d’iCloud à Proton Bridge en passant par votre propre Stalwart.</p>
+    <p>Accounts and mail:</p>
+    <p xml:lang="it">Account e posta:</p>
+    <p xml:lang="ca">Comptes i correu:</p>
+    <p xml:lang="pl">Konta i poczta:</p>
+    <p xml:lang="de">Konten und E-Mail:</p>
+    <p xml:lang="es">Cuentas y correo:</p>
+    <p xml:lang="pt-BR">Contas e emails:</p>
+    <p xml:lang="pt-PT">Contas e correio:</p>
+    <p xml:lang="ru">Учётные записи и почта:</p>
+    <p xml:lang="hu">Fiókok és e-mailek:</p>
+    <p xml:lang="el">Λογαριασμοί και αλληλογραφία:</p>
+    <p xml:lang="fr">Comptes et messagerie :</p>
+    <ul>
+      <li>Multiple accounts with a unified Inboxes view; Google, Microsoft and custom OAuth sign-in, or an account imported from GNOME Online Accounts</li>
+      <li xml:lang="it">Più account con una vista Posta in arrivo unificata; accesso Google, Microsoft e OAuth personalizzato, o un account importato da GNOME Account online</li>
+      <li xml:lang="ca">Diversos comptes amb una vista unificada de bústies d'entrada; inici de sessió de Google, Microsoft i OAuth personalitzat, o un compte importat dels comptes en línia del GNOME</li>
+      <li xml:lang="pl">Wiele kont z widokiem zbiorczym „Skrzynki odbiorcze”; logowanie przez Google, Microsoft i własnego dostawcę OAuth lub konto zaimportowane z kont online GNOME</li>
+      <li xml:lang="de">Mehrere Konten mit einer einheitlichen Ansicht der Posteingänge; Google-, Microsoft- und benutzerdefinierte OAuth-Anmeldung oder ein aus GNOME Online-Konten importiertes Konto</li>
+      <li xml:lang="es">Varias cuentas con una vista unificada de Bandejas de entrada; inicio de sesión con Google, Microsoft y OAuth personalizado, o cuentas importadas desde Cuentas en línea de GNOME</li>
+      <li xml:lang="pt-BR">Várias contas com uma visualização unificada das Caixas de entrada; acesso com Google, Microsoft e OAuth personalizado, ou uma conta importada das Contas online do GNOME</li>
+      <li xml:lang="pt-PT">Várias contas com uma vista unificada das Caixas de entrada; início de sessão com Google, Microsoft e OAuth personalizado, ou uma conta importada das Contas online do GNOME</li>
+      <li xml:lang="ru">Несколько учётных записей с общим видом «Входящие»; вход через Google, Microsoft и пользовательский OAuth, а также импорт из «Сетевых учётных записей GNOME»</li>
+      <li xml:lang="hu">Több fiók egységes Beérkező levelek nézettel; Google-, Microsoft- és egyéni OAuth-bejelentkezés, illetve a GNOME Internetes Fiókok szolgáltatásból importált fiók</li>
+      <li xml:lang="el">Πολλοί λογαριασμοί με ενοποιημένη προβολή Εισερχομένων· σύνδεση μέσω Google, Microsoft και προσαρμοσμένου OAuth ή λογαριασμός που έχει εισαχθεί από τους Διαδικτυακούς λογαριασμούς GNOME</li>
+      <li xml:lang="fr">Plusieurs comptes avec une vue Boîtes de réception unifiée ; connexion OAuth à Google, Microsoft et fournisseurs personnalisés, ou compte importé depuis les Comptes en ligne de GNOME</li>
+      <li>Whole-mailbox sync and search, conversation threading, and changes made on other devices synced back</li>
+      <li xml:lang="it">Sincronizzazione e ricerca dell'intera casella di posta, thread di conversazione e modifiche apportate su altri dispositivi sincronizzate</li>
+      <li xml:lang="ca">Sincronització i cerca de tota la bústia, fil de converses, i canvis fets en altres dispositius sincronitzats de tornada</li>
+      <li xml:lang="pl">Synchronizacja i wyszukiwanie w całej skrzynce, grupowanie wiadomości w rozmowy oraz uwzględnianie zmian wprowadzonych na innych urządzeniach</li>
+      <li xml:lang="de">Vollständige Postfach-Synchronisation und -Suche, Unterhaltungsthreads sowie Abgleich aller geräteübergreifenden Änderungen</li>
+      <li xml:lang="es">Sincronización y búsqueda de buzones completos, conversaciones en hilos y sincronización de los cambios realizados en otros dispositivos</li>
+      <li xml:lang="pt-BR">Sincronização e pesquisa de toda a caixa de email, conversas encadeadas e sincronização das alterações feitas em outros dispositivos</li>
+      <li xml:lang="pt-PT">Sincronização e pesquisa de toda a caixa de correio, conversas encadeadas e sincronização das alterações efetuadas noutros dispositivos</li>
+      <li xml:lang="ru">Синхронизация и поиск по всему почтовому ящику, группировка по обсуждениям и обратная синхронизация изменений, сделанных на других устройствах</li>
+      <li xml:lang="hu">A teljes postafiók szinkronizálása és keresése, a beszélgetések szálba rendezése, valamint a más eszközökön végzett módosítások visszaszinkronizálása</li>
+      <li xml:lang="el">Πλήρης συγχρονισμός και αναζήτηση γραμματοκιβωτίων, ομαδοποίηση σε συνομιλίες και συγχρονισμός των αλλαγών που έγιναν σε άλλες συσκευές</li>
+      <li xml:lang="fr">Synchronisation et recherche sur l’ensemble de la boîte aux lettres, regroupement des conversations, et synchronisation des modifications faites sur d’autres appareils</li>
+      <li>Folder management, filters, tags, unified and filtered folders, and Trash and Junk emptied by hand or on a schedule</li>
+      <li xml:lang="it">Gestione cartelle, filtri, etichette, cartelle unificate e filtrate, e Cestino e Posta indesiderata svuotati manualmente o secondo una pianificazione</li>
+      <li xml:lang="ca">Gestió de carpetes, filtres, etiquetes, carpetes unificades i filtrades, i paperera i brossa buidats a mà o programats</li>
+      <li xml:lang="pl">Zarządzanie katalogami, filtry, etykiety, katalogi zbiorcze i filtrowane oraz opróżnianie kosza i katalogu spamu ręcznie lub według harmonogramu</li>
+      <li xml:lang="de">Ordnerverwaltung, Filter, Tags, einheitliche und gefilterte Ordner sowie Papierkorb und Junk, die von Hand oder nach einem Zeitplan geleert wurden</li>
+      <li xml:lang="es">Gestión de carpetas, filtros, etiquetas, carpetas unificadas y filtradas, y vaciado manual o programado de Papelera y Correo no deseado</li>
+      <li xml:lang="pt-BR">Gerenciamento de pastas, filtros, etiquetas, pastas unificadas e filtradas, e esvaziamento da Lixeira e do Spam manualmente ou de forma programada</li>
+      <li xml:lang="pt-PT">Gestão de pastas, filtros, etiquetas, pastas unificadas e filtradas, e esvaziamento do Lixo e do Lixo eletrónico manualmente ou segundo um horário</li>
+      <li xml:lang="ru">Управление папками, фильтры, теги, объединённые и отфильтрованные папки, а также очистка «Корзины» и «Спама» вручную или по расписанию</li>
+      <li xml:lang="hu">Mappakezelés, szűrők, címkék, egységesített és szűrt mappák, valamint a Kuka és a Levélszemét mappa tartalmának kézi vagy ütemezett ürítése</li>
+      <li xml:lang="el">Διαχείριση φακέλων, φίλτρα, ετικέτες, ενοποιημένοι και φιλτραρισμένοι φάκελοι, καθώς και χειροκίνητο ή προγραμματισμένο άδειασμα του Κάδου και των Ανεπιθύμητων</li>
+      <li xml:lang="fr">Gestion des dossiers, filtres, tags, dossiers unifiés et filtrés, et vidage de la Corbeille et des Indésirables à la demande ou selon une planification</li>
+      <li>An attachment gallery, an Outbox for sends that fail, and Send Later</li>
+      <li xml:lang="it">Una galleria allegati, una Posta in uscita per gli invii non riusciti e Invia più tardi</li>
+      <li xml:lang="ca">Una galeria d'adjunts, una bústia de sortida per als enviaments que fallen, i «Envia més tard»</li>
+      <li xml:lang="pl">Galeria załączników, skrzynka nadawcza dla nieudanych wysyłek i planowanie wysyłki</li>
+      <li xml:lang="de">Eine Anhangübersicht, ein Postausgang für fehlgeschlagene Sendeversuche und zeitversetztes Senden</li>
+      <li xml:lang="es">Una galería de archivos adjuntos, una Bandeja de salida para los envíos fallidos y la opción Enviar más tarde</li>
+      <li xml:lang="pt-BR">Uma galeria de anexos, uma Caixa de saída para envios que falham e a opção Enviar mais tarde</li>
+      <li xml:lang="pt-PT">Uma galeria de anexos, uma Caixa de saída para envios que falham e a opção Enviar mais tarde</li>
+      <li xml:lang="ru">Галерея вложений, «Исходящие» для неотправленных писем и функция «Отправить позже»</li>
+      <li xml:lang="hu">Mellékletgaléria, a sikertelen küldéseknek szánt „Kimenő” mappa és a „Később küldés” funkció</li>
+      <li xml:lang="el">Συλλογή συνημμένων, Εξερχόμενα για αποτυχημένες αποστολές και Αποστολή αργότερα</li>
+      <li xml:lang="fr">Une galerie de pièces jointes, une Boîte d’envoi pour les envois échoués, et l’envoi différé</li>
+    </ul>
+    <p>Writing:</p>
+    <p xml:lang="it">Scrittura:</p>
+    <p xml:lang="ca">Escriptura:</p>
+    <p xml:lang="pl">Pisanie:</p>
+    <p xml:lang="de">Verfassen:</p>
+    <p xml:lang="es">Redacción:</p>
+    <p xml:lang="pt-BR">Escrita:</p>
+    <p xml:lang="pt-PT">Escrita:</p>
+    <p xml:lang="ru">Составление писем:</p>
+    <p xml:lang="hu">Írás:</p>
+    <p xml:lang="el">Σύνταξη:</p>
+    <p xml:lang="fr">Écriture :</p>
+    <ul>
+      <li>Rich text, Markdown, HTML or plain text, with HTML signatures, inline images, spell check and undo</li>
+      <li xml:lang="it">Testo formattato, Markdown, HTML o testo normale, con firme HTML, immagini inline, controllo ortografico e annullamento</li>
+      <li xml:lang="ca">Text enriquit, Markdown, HTML o text pla, amb signatures HTML, imatges en línia, correcció ortogràfica i desfer</li>
+      <li xml:lang="pl">Tekst sformatowany, Markdown, HTML lub zwykły tekst z podpisami HTML, obrazami w treści, sprawdzaniem pisowni i cofaniem zmian</li>
+      <li xml:lang="de">Rich Text, Markdown, HTML oder Klartext, mit HTML-Signaturen, Inline-Bildern, Rechtschreibprüfung und Rückgängigmachen</li>
+      <li xml:lang="es">Texto enriquecido, Markdown, HTML o texto sin formato, con firmas HTML, imágenes integradas, corrección ortográfica y deshacer</li>
+      <li xml:lang="pt-BR">Texto formatado, Markdown, HTML ou texto simples, com assinaturas HTML, imagens incorporadas, verificação ortográfica e opção de desfazer</li>
+      <li xml:lang="pt-PT">Texto formatado, Markdown, HTML ou texto simples, com assinaturas HTML, imagens incorporadas, verificação ortográfica e possibilidade de anular</li>
+      <li xml:lang="ru">Форматированный текст, Markdown, HTML или обычный текст с HTML-подписями, встроенными изображениями, проверкой орфографии и отменой действий</li>
+      <li xml:lang="hu">Formázott szöveg, Markdown, HTML vagy egyszerű szöveg, HTML-aláírásokkal, beágyazott képekkel, helyesírás-ellenőrzéssel és visszavonási funkcióval</li>
+      <li xml:lang="el">Μορφοποιημένο κείμενο, Markdown, HTML ή απλό κείμενο, με υπογραφές HTML, ενσωματωμένες εικόνες, ορθογραφικό έλεγχο και αναίρεση</li>
+      <li xml:lang="fr">Texte enrichi, Markdown, HTML ou texte brut, avec signatures HTML, images intégrées, correction orthographique et annulation</li>
+      <li>Drafts, quote folding, split replies, and forwarding that keeps the attachments</li>
+      <li xml:lang="it">Bozze, piegatura delle citazioni, risposte suddivise e inoltro che mantiene gli allegati</li>
+      <li xml:lang="ca">Esborranys, plegat de cites, respostes dividides, i reenviament que conserva els adjunts</li>
+      <li xml:lang="pl">Szkice, zwijanie cytatów, dzielenie cytatu przy odpowiadaniu i przekazywanie dalej z zachowaniem załączników</li>
+      <li xml:lang="de">Entwürfe, Einklappen von Zitaten, geteilte Antworten und Weiterleiten inklusive Anhängen</li>
+      <li xml:lang="es">Borradores, citas plegables, respuestas separadas y reenvíos que conservan los archivos adjuntos</li>
+      <li xml:lang="pt-BR">Rascunhos, citações recolhíveis, respostas divididas e encaminhamento que mantém os anexos</li>
+      <li xml:lang="pt-PT">Rascunhos, citações recolhíveis, respostas divididas e reencaminhamento que mantém os anexos</li>
+      <li xml:lang="ru">Черновики, сворачивание цитат, раздельные ответы и пересылка с сохранением вложений</li>
+      <li xml:lang="hu">Piszkozatok, idézetek összecsukása, válaszok felosztása és a mellékleteket megőrző továbbítás</li>
+      <li xml:lang="el">Πρόχειρα, σύμπτυξη παρατιθέμενου κειμένου, διαχωρισμένες απαντήσεις και προώθηση που διατηρεί τα συνημμένα</li>
+      <li xml:lang="fr">Brouillons, masquage des citations, réponses partielles, et transfert conservant les pièces jointes</li>
+      <li>Large files uploaded to your own Nextcloud, OneDrive, Dropbox or Seafile; a Send with Hylki entry in GNOME Files</li>
+      <li xml:lang="it">File grandi caricati sul tuo Nextcloud, OneDrive, Dropbox o Seafile; una voce Invia con Hylki in File GNOME</li>
+      <li xml:lang="ca">Fitxers grans pujats al teu propi Nextcloud, OneDrive, Dropbox o Seafile; una entrada «Envia amb l'Hylki» als Fitxers del GNOME</li>
+      <li xml:lang="pl">Przesyłanie dużych plików do własnego serwera Nextcloud, OneDrive, Dropbox lub Seafile; pozycja „Wyślij za pomocą aplikacji Hylki” w aplikacji Pliki</li>
+      <li xml:lang="de">Große Dateien auf eigene Nextcloud-, OneDrive-, Dropbox- oder Seafile-Dienste hochladen; ein Eintrag »Mit Hylki senden« in GNOME Files</li>
+      <li xml:lang="es">Archivos grandes subidos a tu propio Nextcloud, OneDrive, Dropbox o Seafile; además de una opción Enviar con Hylki en Archivos de GNOME</li>
+      <li xml:lang="pt-BR">Arquivos grandes enviados para seu Nextcloud, OneDrive, Dropbox ou Seafile; uma opção Enviar com o Hylki nos Arquivos do GNOME</li>
+      <li xml:lang="pt-PT">Ficheiros grandes enviados para o seu Nextcloud, OneDrive, Dropbox ou Seafile; uma entrada Enviar com o Hylki nos Ficheiros do GNOME</li>
+      <li xml:lang="ru">Загрузка больших файлов в ваш Nextcloud, OneDrive, Dropbox или Seafile, a также пункт «Отправить через Hylki» в менеджере файлов GNOME</li>
+      <li xml:lang="hu">A saját Nextcloud-, OneDrive-, Dropbox- vagy Seafile-fiókodba feltöltött nagy méretű fájlok; a „Küldés a Hylki segítségével” bejegyzés a GNOME Fájlok alkalmazásban</li>
+      <li xml:lang="el">Μεγάλα αρχεία που μεταφορτώνονται στο δικό σας Nextcloud, OneDrive, Dropbox ή Seafile· καταχώριση «Αποστολή με Hylki» στα Αρχεία GNOME</li>
+      <li xml:lang="fr">Fichiers volumineux envoyés vers votre propre Nextcloud, OneDrive, Dropbox ou Seafile ; une entrée « Envoyer avec Hylki » dans Fichiers GNOME</li>
+    </ul>
+    <p>Reading:</p>
+    <p xml:lang="it">Lettura:</p>
+    <p xml:lang="ca">Lectura:</p>
+    <p xml:lang="pl">Czytanie:</p>
+    <p xml:lang="de">Lesen:</p>
+    <p xml:lang="es">Lectura:</p>
+    <p xml:lang="pt-BR">Leitura:</p>
+    <p xml:lang="pt-PT">Leitura:</p>
+    <p xml:lang="ru">Чтение:</p>
+    <p xml:lang="hu">Olvasás:</p>
+    <p xml:lang="el">Ανάγνωση:</p>
+    <p xml:lang="fr">Lecture :</p>
+    <ul>
+      <li>Reader View, your own font and colors, and per-message light or dark rendering</li>
+      <li xml:lang="it">Modalità lettore, il tuo carattere e i tuoi colori, e rendering chiaro o scuro per messaggio</li>
+      <li xml:lang="ca">Vista de lector, la teva pròpia font i colors, i renderitzat clar o fosc per missatge</li>
+      <li xml:lang="pl">Widok czytania, własne czcionki i kolory oraz jasne lub ciemne wyświetlanie poszczególnych wiadomości</li>
+      <li xml:lang="de">Leseansicht, eigene Schriftart und Farben sowie helle oder dunkle Darstellung pro Nachricht</li>
+      <li xml:lang="es">Vista de lectura, tus propias fuentes y colores y representación clara u oscura para cada mensaje</li>
+      <li xml:lang="pt-BR">Modo de leitura, sua própria fonte e cores, e exibição clara ou escura por mensagem</li>
+      <li xml:lang="pt-PT">Vista de leitura, o seu próprio tipo de letra e cores, e apresentação clara ou escura por mensagem</li>
+      <li xml:lang="ru">Режим чтения, пользовательские шрифты и цвета, а также светлое или тёмное оформление для каждого отдельного сообщения</li>
+      <li xml:lang="hu">Olvasói nézet, saját betűtípus és színek, valamint üzenetenkénti világos vagy sötét megjelenítés</li>
+      <li xml:lang="el">Προβολή ανάγνωσης, δική σας γραμματοσειρά και χρώματα και φωτεινή ή σκοτεινή απόδοση ανά μήνυμα</li>
+      <li xml:lang="fr">Mode Lecture, votre propre police et vos couleurs, et un rendu clair ou sombre par message</li>
+      <li>OpenPGP signing, encryption and reading; DKIM, SPF and DMARC checked on arrival</li>
+      <li xml:lang="it">Firma, crittografia e lettura OpenPGP; DKIM, SPF e DMARC verificati all'arrivo</li>
+      <li xml:lang="ca">Signatura, xifratge i lectura OpenPGP; DKIM, SPF i DMARC comprovats en arribar</li>
+      <li xml:lang="pl">Podpisywanie, szyfrowanie i odczytywanie OpenPGP; sprawdzanie DKIM, SPF i DMARC po odebraniu</li>
+      <li xml:lang="de">OpenPGP-Signierung, Verschlüsselung und Lesen; DKIM, SPF und DMARC bei Ankunft überprüft</li>
+      <li xml:lang="es">Firma, cifrado y lectura con OpenPGP; comprobación de DKIM, SPF y DMARC al recibir los mensajes</li>
+      <li xml:lang="pt-BR">Assinatura, criptografia e leitura com OpenPGP; verificação de DKIM, SPF e DMARC na chegada</li>
+      <li xml:lang="pt-PT">Assinatura, encriptação e leitura com OpenPGP; verificação de DKIM, SPF e DMARC à chegada</li>
+      <li xml:lang="ru">Подпись, шифрование и чтение OpenPGP; проверка DKIM, SPF и DMARC при получении</li>
+      <li xml:lang="hu">OpenPGP aláírás, titkosítás és olvasás; a beérkezéskor DKIM, SPF és DMARC ellenőrzése</li>
+      <li xml:lang="el">Υπογραφή, κρυπτογράφηση και ανάγνωση OpenPGP· έλεγχος DKIM, SPF και DMARC κατά την παραλαβή</li>
+      <li xml:lang="fr">Signature, chiffrement et lecture OpenPGP ; vérification DKIM, SPF et DMARC à la réception</li>
+      <li>Meeting invitations answered in place, and one-click unsubscribe from list mail</li>
+      <li xml:lang="it">Inviti a riunioni con risposta in loco e disiscrizione con un clic dalla posta di lista</li>
+      <li xml:lang="ca">Invitacions de reunió respostes al mateix lloc, i baixa amb un clic del correu de llistes</li>
+      <li xml:lang="pl">Odpowiadanie na zaproszenia na spotkania bezpośrednio w wiadomości i wypisywanie się z list dyskusyjnych jednym kliknięciem</li>
+      <li xml:lang="de">Direktes Bestätigen von Besprechungseinladungen und Abmelden von Mailinglisten mit nur einem Klick</li>
+      <li xml:lang="es">Respuesta directa a invitaciones de reuniones y cancelación de suscripciones a listas de correo con un solo clic</li>
+      <li xml:lang="pt-BR">Convites para reuniões respondidos no próprio local e cancelamento da inscrição em listas com um clique</li>
+      <li xml:lang="pt-PT">Convites para reuniões respondidos no próprio local e cancelamento da subscrição de listas com um clique</li>
+      <li xml:lang="ru">Ответ на приглашения на встречи прямо в письме и отписка от рассылок в один клик</li>
+      <li xml:lang="hu">OpenPGP aláírás, titkosítás és olvasás; a beérkezéskor DKIM, SPF és DMARC ellenőrzése</li>
+      <li xml:lang="el">Απαντήσεις σε προσκλήσεις συναντήσεων απευθείας από την εφαρμογή και κατάργηση εγγραφής από αλληλογραφία λιστών με ένα κλικ</li>
+      <li xml:lang="fr">Réponse aux invitations de réunion directement dans le message, et désabonnement en un clic des listes de diffusion</li>
+    </ul>
+    <p>The app:</p>
+    <p xml:lang="it">L'app:</p>
+    <p xml:lang="ca">L'aplicació:</p>
+    <p xml:lang="pl">Aplikacja:</p>
+    <p xml:lang="de">Die App:</p>
+    <p xml:lang="es">La aplicación:</p>
+    <p xml:lang="pt-BR">O aplicativo:</p>
+    <p xml:lang="pt-PT">A aplicação:</p>
+    <p xml:lang="ru">О программе:</p>
+    <p xml:lang="hu">Az alkalmazás:</p>
+    <p xml:lang="el">Η εφαρμογή:</p>
+    <p xml:lang="fr">L’application :</p>
+    <ul>
+      <li>Adaptive three-pane layout, five appearance themes, Focus Mode, a customizable toolbar and swipe actions</li>
+      <li xml:lang="it">Layout a tre pannelli adattivo, cinque temi di aspetto, Modalità focus, una barra degli strumenti personalizzabile e azioni di scorrimento</li>
+      <li xml:lang="ca">Disposició adaptativa de tres panells, cinc temes d'aparença, mode d'enfocament, una barra d'eines personalitzable i accions de lliscament</li>
+      <li xml:lang="pl">Dopasowujący się układ z trzema panelami, pięć motywów wyglądu, tryb skupienia, konfigurowalny pasek narzędzi i gesty przesuwania</li>
+      <li xml:lang="de">Adaptives Drei-Pane-Layout, fünf Erscheinungsbild-Themen, Fokus-Modus, eine anpassbare Symbolleiste und Swipe-Aktionen</li>
+      <li xml:lang="es">Diseño adaptable de tres paneles, cinco temas de apariencia, modo de concentración, barra de herramientas personalizable y acciones al deslizar</li>
+      <li xml:lang="pt-BR">Layout adaptável com três painéis, cinco temas de aparência, Modo de foco, barra de ferramentas personalizável e ações de deslizar</li>
+      <li xml:lang="pt-PT">Disposição adaptável com três painéis, cinco temas de apresentação, Modo de foco, barra de ferramentas personalizável e ações de deslizar</li>
+      <li xml:lang="ru">Адаптивный трехпанельный интерфейс, пять тем оформления, режим концентрации, настраиваемая панель инструментов и действия свайпом</li>
+      <li xml:lang="hu">Rugalmas háromablakos elrendezés, öt megjelenési téma, Fókusz mód, testreszabható eszköztár és csúsztatási műveletek</li>
+      <li xml:lang="el">Προσαρμοζόμενη διάταξη τριών πλαισίων, πέντε θέματα εμφάνισης, Λειτουργία συγκέντρωσης, προσαρμόσιμη γραμμή εργαλείων και ενέργειες με σάρωση</li>
+      <li xml:lang="fr">Disposition adaptative à trois volets, cinq thèmes d’apparence, mode Focus, une barre d’outils personnalisable et des actions par glissement</li>
+      <li>Gmail-style single-key shortcuts, notifications with actions, an optional tray icon and background running</li>
+      <li xml:lang="it">Scorciatoie a tasto singolo in stile Gmail, notifiche con azioni, un'icona nella barra opzionale e avvio in background</li>
+      <li xml:lang="ca">Dreceres d'una sola tecla a l'estil del Gmail, notificacions amb accions, una icona de safata opcional i execució en segon pla</li>
+      <li xml:lang="pl">Skróty jednoklawiszowe w stylu usługi Gmail, powiadomienia z przyciskami działań, opcjonalna ikona w zasobniku i działanie w tle</li>
+      <li xml:lang="de">Ein-Tasten-Tastenkombinationen im Gmail-Stil, interaktive Benachrichtigungen, optionales Statusleisten-Symbol und Hintergrundmodus</li>
+      <li xml:lang="es">Atajos de una sola tecla al estilo de Gmail, notificaciones con acciones, icono opcional en la bandeja del sistema y ejecución en segundo plano</li>
+      <li xml:lang="pt-BR">Atalhos de uma só tecla no estilo do Gmail, notificações com ações, ícone opcional na bandeja e execução em segundo plano</li>
+      <li xml:lang="pt-PT">Atalhos de uma só tecla ao estilo do Gmail, notificações com ações, ícone opcional na área de notificação e execução em segundo plano</li>
+      <li xml:lang="ru">Одноклавишные сочетания клавиш в стиле Gmail, уведомления с действиями, опциональный значок в трее и работа в фоновом режиме</li>
+      <li xml:lang="hu">Gmail-stílusú egygombos gyorsbillentyűk, műveletekkel kiegészített értesítések, opcionális tálcaikon és háttérben való futtatás</li>
+      <li xml:lang="el">Συντομεύσεις ενός πλήκτρου τύπου Gmail, ειδοποιήσεις με ενέργειες, προαιρετικό εικονίδιο στη γραμμή συστήματος και λειτουργία στο παρασκήνιο</li>
+      <li xml:lang="fr">Raccourcis à touche unique façon Gmail, notifications avec actions, icône de zone de notification facultative et exécution en arrière-plan</li>
+      <li>GNOME Contacts integration, your choice of language and clock, and passwords kept in the system keyring</li>
+      <li xml:lang="it">Integrazione con GNOME Contatti, scelta della lingua e dell'orologio, e password conservate nel portachiavi di sistema</li>
+      <li xml:lang="ca">Integració amb els contactes del GNOME, la teva elecció d'idioma i rellotge, i contrasenyes conservades a l'anell de claus del sistema</li>
+      <li xml:lang="pl">Integracja z aplikacją Kontakty, wybór języka i formatu zegara oraz hasła przechowywane w systemowej bazie kluczy</li>
+      <li xml:lang="de">GNOME-Kontakte-Integration, frei wählbare Sprache und Zeitanzeige sowie sichere Passwortspeicherung im System-Schlüsselbund</li>
+      <li xml:lang="es">Integración con Contactos de GNOME, elección de idioma y formato horario, y contraseñas almacenadas en el llavero del sistema</li>
+      <li xml:lang="pt-BR">Integração com os Contatos do GNOME, escolha de idioma e relógio e senhas armazenadas no chaveiro do sistema</li>
+      <li xml:lang="pt-PT">Integração com os Contactos do GNOME, escolha de idioma e relógio e palavras-passe guardadas no porta-chaves do sistema</li>
+      <li xml:lang="ru">Интеграция с «Контактами GNOME», выбор языка и формата времени, а также хранение паролей в связке ключей системы</li>
+      <li xml:lang="hu">A GNOME Névjegyzék integrációja, a nyelv és az óra beállítása, valamint a rendszer kulcstartójában tárolt jelszavak</li>
+      <li xml:lang="el">Ενσωμάτωση με τις Επαφές GNOME, επιλογή γλώσσας και ρολογιού και αποθήκευση κωδικών πρόσβασης στην κλειδοθήκη του συστήματος</li>
+      <li xml:lang="fr">Intégration avec Contacts GNOME, choix de la langue et de l’affichage de l’heure, et mots de passe conservés dans le trousseau système</li>
+    </ul>
+    <p>
+      Permissions: the display (Wayland, with X11 as a fallback), the GPU for
+      the message view, the network for your mail servers, the system keyring
+      for passwords and sign-in tokens, and GNOME Online Accounts, which is how
+      Google accounts sign in. Files are attached and saved through the system
+      file chooser, and attachments open in your other apps through the desktop
+      portal. A few optional features need more access and are off by default;
+      enable the ones you need with "flatpak override":
+    </p>
+    <ul>
+      <li>New-mail sound: <code>flatpak override --user --socket=pulseaudio co.hyprlab.Hylki</code></li>
+      <li>Tray icon: <code>flatpak override --user --talk-name=org.kde.StatusNotifierWatcher co.hyprlab.Hylki</code></li>
+      <li>GNOME Contacts address books: <code>flatpak override --user --talk-name=org.gnome.evolution.dataserver.* --talk-name=org.gnome.Contacts --filesystem=xdg-data/evolution:ro --filesystem=xdg-cache/evolution:ro --filesystem=xdg-config/evolution:ro co.hyprlab.Hylki</code></li>
+      <li>OpenPGP with your GnuPG keyring and agent: <code>flatpak override --user --filesystem=~/.gnupg --filesystem=xdg-run/gnupg co.hyprlab.Hylki</code></li>
+      <li>The "Open Online Accounts" button: <code>flatpak override --user --talk-name=org.gnome.Settings co.hyprlab.Hylki</code></li>
+      <li>"Send by email" from a file manager, which passes file paths rather than files: <code>flatpak override --user --filesystem=home:ro --filesystem=/run/media:ro --filesystem=/media:ro co.hyprlab.Hylki</code></li>
+      <li>The GNOME Files extension: <code>flatpak override --user --talk-name=org.gnome.Nautilus --filesystem=xdg-data/nautilus-python/extensions:create co.hyprlab.Hylki</code></li>
+      <li>Showing another app icon in the dock and app grid: <code>flatpak override --user --filesystem=xdg-data/icons/hicolor:create --filesystem=xdg-data/applications:create co.hyprlab.Hylki</code></li>
+      <li>Microsoft sign-in on a managed device (Conditional Access): <code>flatpak override --user --talk-name=com.microsoft.identity.broker1 co.hyprlab.Hylki</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset co.hyprlab.Hylki</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">co.hyprlab.Hylki.desktop</launchable>
+  <branding>
+    <color type="primary" scheme_preference="light">#99c1f1</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/hyprlab/hylki/main/data/repo/screenshot.png</image>
+      <caption>The unified inbox in light mode</caption>
+      <caption xml:lang="it">La posta in arrivo unificata in modalità chiara</caption>
+      <caption xml:lang="ca">La bústia d'entrada unificada en mode clar</caption>
+      <caption xml:lang="pl">Zbiorcza skrzynka odbiorcza w jasnym motywie</caption>
+      <caption xml:lang="de">Der gemeinsame Posteingang im hellen Modus.</caption>
+      <caption xml:lang="es">La bandeja de entrada unificada en modo claro</caption>
+      <caption xml:lang="pt-BR">A caixa de entrada unificada no modo claro</caption>
+      <caption xml:lang="pt-PT">A caixa de entrada unificada no modo claro</caption>
+      <caption xml:lang="ru">Общие входящие в светлом режиме</caption>
+      <caption xml:lang="hu">Az egységes beérkező levelek mappa világos üzemmódban</caption>
+      <caption xml:lang="el">Τα ενοποιημένα εισερχόμενα σε φωτεινή λειτουργία</caption>
+      <caption xml:lang="fr">La boîte de réception unifiée en mode clair</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://hylki.hyprlab.co</url>
+  <url type="bugtracker">https://github.com/hyprlab/hylki/issues</url>
+  <url type="vcs-browser">https://github.com/hyprlab/hylki</url>
+  <developer id="co.hyprlab">
+    <name>Hyprlab</name>
+  </developer>
+  <update_contact>hyprlab@proton.me</update_contact>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.47.1" date="2026-11-05">
+      <description>
+        <p>A PDF with a password no longer freezes the app.</p>
+      </description>
+    </release>
+  </releases>
+</component>

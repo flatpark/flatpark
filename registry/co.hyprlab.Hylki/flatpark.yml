@@ -1,0 +1,29 @@
+id: co.hyprlab.Hylki
+name: Hylki
+summary: A fast, GNOME-native email client, built with Rust and libadwaita
+website: https://hylki.hyprlab.co
+source_url: https://github.com/hyprlab/hylki
+build:
+  manifest: co.hyprlab.Hylki.yml
+  branch: stable
+  mode: extra-data
+  # Upstream publishes an arm64 .deb too, but the prebuilt poppler-glib stack
+  # the binary links is only cut for x86_64 (poppler-glib-v1).
+  arches:
+    - x86_64
+catalog:
+  category: Network
+  tags:
+    - Email
+    - GTK
+    - libadwaita
+    - Rust
+    - Open source
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
+# No `packaging:` entries: the package starts Hyprlab's binary unmodified. The
+# prebuilt poppler-glib library beside it is support-files, which the site
+# derives from the manifest.
