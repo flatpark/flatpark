@@ -42,12 +42,22 @@ try {
 }
 
 let appId = '';
+let sourceUrl = '';
 let manifestName = '';
 let updateCommand = '';
 let updateAuto = null;
 let proprietary = null;
+let upstreamSeen = false;
+let upstreamManifest = '';
+let upstreamList = null;
 const dangerousPerms = [];
 const packagingKinds = [];
+const UPSTREAM_LISTS = {
+  accept_missing_permissions: [],
+  accept_extra_permissions: [],
+  accept_missing_modules: [],
+  accept_extra_modules: [],
+};
 {
   let section = null;
   let inDanger = false;
@@ -57,8 +67,10 @@ const packagingKinds = [];
     const s = raw.trim();
     if (ind === 0) {
       inDanger = false;
+      upstreamList = null;
       const m = s.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
       if (m && m[1] === 'id' && m[2] !== '') appId = unquote(m[2]);
+      if (m && m[1] === 'source_url' && m[2] !== '') sourceUrl = unquote(m[2]);
       section = m && m[2] === '' ? m[1] : null;
       continue;
     }
@@ -69,6 +81,7 @@ const packagingKinds = [];
     }
     if (s.startsWith('- ')) {
       if (section === 'policy' && inDanger) dangerousPerms.push(unquote(s.slice(2)));
+      else if (section === 'upstream' && upstreamList) UPSTREAM_LISTS[upstreamList].push(unquote(s.slice(2)));
       continue;
     }
     const m = s.match(/^([A-Za-z0-9_]+):\s*(.*)$/);
@@ -84,11 +97,39 @@ const packagingKinds = [];
         if (t === '') inDanger = true;
         else if (t !== '[]') t.replace(/^\[|\]$/g, '').split(',').map(unquote).filter(Boolean).forEach((x) => dangerousPerms.push(x));
       }
+    } else if (section === 'upstream') {
+      upstreamSeen = true;
+      upstreamList = null;
+      if (k === 'manifest') upstreamManifest = unquote(v);
+      else if (Object.prototype.hasOwnProperty.call(UPSTREAM_LISTS, k)) {
+        const t = v.trim();
+        if (t === '') upstreamList = k;
+        else if (t !== '[]') fail(`upstream.${k} must be a block list or []`);
+      } else fail(`upstream: unknown key ${k}`);
     }
   }
 }
 
 if (!manifestName) fail('descriptor missing build.manifest');
+
+// Opt-in drift check (scripts/check-upstream-manifests.mjs). A typo here would
+// either point the sweep at the wrong file or hide a real permission change,
+// so the shape is a gate rather than a warning.
+if (upstreamSeen) {
+  if (!upstreamManifest) fail('upstream.manifest is required when upstream: is set');
+  else if (!/^[A-Za-z0-9._+/-]+\.ya?ml$/.test(upstreamManifest) || upstreamManifest.split('/').includes('..')) {
+    fail(`upstream.manifest must be a relative .yml path inside the upstream repo, got: ${upstreamManifest}`);
+  }
+  if (!/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(sourceUrl)) {
+    fail('upstream: source_url must be an https://github.com/owner/repo URL');
+  }
+  for (const p of UPSTREAM_LISTS.accept_missing_permissions.concat(UPSTREAM_LISTS.accept_extra_permissions)) {
+    if (!/^--\S+$/.test(p)) fail(`upstream permission must be a finish-arg, got: ${p}`);
+  }
+  for (const name of UPSTREAM_LISTS.accept_missing_modules.concat(UPSTREAM_LISTS.accept_extra_modules)) {
+    if (!/^[A-Za-z0-9._+-]+$/.test(name)) fail(`upstream module name is not a plain name, got: ${name}`);
+  }
+}
 
 // The catalog card and the app page render registry/<id>/<id>.svg|png, copied
 // verbatim by gen-apps-json.sh. Any other filename is invisible to the site,

@@ -131,3 +131,39 @@ listed; the fix belongs upstream.
 If upstream states what they want — more permissions, fewer, a different
 default — apply it in its own PR, declare what needs declaring, and link their
 request. The narrow default above is for when they haven't said.
+
+### When upstream's Flatpak manifest changes
+
+The pin sweep rewrites the download and nothing else. Finish-args and modules
+stay as they were the day the package was written. A package whose upstream
+publishes a Flatpak manifest opts into a diff, in `flatpark.yml`:
+
+```yaml
+upstream:
+  manifest: packaging/linux/flatpak/com.example.App.yml
+  accept_missing_permissions:
+    # Update checks stay opt-in; the metainfo documents the override.
+    - --share=network
+```
+
+`manifest` is a path in the repository at `source_url`, which has to be an
+`https://github.com/owner/repo` URL. The update sweep fetches that file
+from the default branch twice a day and opens an issue when the finish-args,
+the module names, or a shared module's archive URL differ.
+`scripts/check-upstream-manifests.mjs` does the comparison. It never edits a
+manifest, and the pin refresh still merges: the issue is the whole process.
+
+Two ways to close it, both a pull request:
+
+- Grant what a feature needs. A new permission is not always enough. WordCraft's
+  print dialog runs `lpstat` and `lp`, which the runtime does not ship, so the
+  CUPS socket and the module that builds those tools belong together.
+- Leave it out on purpose, and add the finish-arg to
+  `accept_missing_permissions` or the module name to `accept_missing_modules`,
+  with a comment saying why. A permission this package grants and upstream
+  does not goes in `accept_extra_permissions`.
+
+The app's own module is not part of the archive comparison. It is a directory
+upstream and an extra-data tarball here, and that tarball's URL moves on every
+release. A helper that is an archive on both sides, such as a CUPS client, is
+compared.

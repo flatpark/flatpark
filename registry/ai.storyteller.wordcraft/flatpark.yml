@@ -19,3 +19,14 @@ update:
 policy:
   proprietary: false
   dangerous_permissions: []
+# The update sweep fetches this file from source_url's default branch and opens
+# an issue when its finish-args or modules differ. It does not edit this package.
+upstream:
+  manifest: packaging/linux/flatpak/ai.storyteller.wordcraft.yml
+  accept_missing_permissions:
+    # Update checks and the --control server stay opt-in. The metainfo documents
+    # the override. A local CUPS queue does not need the network.
+    - --share=network
+    # The ArtCraft launcher reads version pins from here. This package does not
+    # ship that launcher.
+    - --filesystem=xdg-data/ArtCraft/versions:ro
