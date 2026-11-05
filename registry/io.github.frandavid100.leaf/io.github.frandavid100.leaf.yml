@@ -1,0 +1,70 @@
+id: io.github.frandavid100.leaf
+# Leaf is a GTK 4 / libadwaita document editor, and the extra-data here is the
+# /app tree out of upstream's own flatpak build: the leaf binary, its gettext
+# catalogs, the bundled Hunspell dictionaries and its action icons. No GTK, no
+# glib, no cairo: those come from this runtime, as they do in the Leaf .flatpak
+# bundle upstream publishes beside it.
+#
+# Upstream builds that tree against org.gnome.Platform//49. This package is on
+# //51 to stay on the major the rest of the catalog is on. The binary links only
+# GTK 4, libadwaita, pango, cairo, graphene and glib, all present in //51, and
+# upstream's release workflow installs the same tarball under /app/extra/leaf on
+# //51 and checks it (flatpark-smoke.log on each release). If they ever need a
+# newer runtime, they have said they will note it in the release notes.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: leaf
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GTK renders through GL.
+  - --device=dri
+  # No --share=network: Leaf edits local DOCX and ODT files and checks spelling
+  # against Hunspell dictionaries it ships; the About links open through the
+  # OpenURI portal, which needs no network inside the sandbox.
+  #
+  # No --filesystem= at all, the same as upstream's own bundle: Open, Save As,
+  # PDF export and the dictionary installer go through the file-chooser portal,
+  # which grants exactly the file the user picks, and a document handed over by
+  # a file manager arrives through flatpak's own file forwarding of the desktop
+  # entry's %U. Printing goes through the print portal. Settings and installed
+  # dictionaries land in the per-app config dir under
+  # ~/.var/app/io.github.frandavid100.leaf. Opt-in overrides for a static grant
+  # are documented in the metainfo.
+modules:
+  - name: leaf
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 leaf-wrapper /app/bin/leaf
+      - install -Dm644 io.github.frandavid100.leaf.desktop /app/share/applications/io.github.frandavid100.leaf.desktop
+      - install -Dm644 io.github.frandavid100.leaf.metainfo.xml /app/share/metainfo/io.github.frandavid100.leaf.metainfo.xml
+      - install -Dm644 io.github.frandavid100.leaf.svg /app/share/icons/hicolor/scalable/apps/io.github.frandavid100.leaf.svg
+      - install -Dm644 io.github.frandavid100.leaf-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.frandavid100.leaf-symbolic.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: leaf-app.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/frandavid100/leaf/releases/download/v0.1.0-alpha.27/Leaf-0.1.0-alpha.27-flatpark-x86_64.tar.xz
+        sha256: fc28c85a933b86184e672a060d40da6b485a140d247365a59317e06b074fcdfa
+        size: 11146928
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: leaf-wrapper
+      - type: file
+        path: io.github.frandavid100.leaf.desktop
+      - type: file
+        path: io.github.frandavid100.leaf.metainfo.xml
+      - type: file
+        path: io.github.frandavid100.leaf.svg
+      - type: file
+        path: io.github.frandavid100.leaf-symbolic.svg

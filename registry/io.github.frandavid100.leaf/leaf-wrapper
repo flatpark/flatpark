@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+# Leaf is staged by apply_extra to /app/extra/leaf: upstream's /app tree,
+# contents untouched, built for the GNOME runtime. It looks up its catalogs
+# (share/locale), bundled dictionaries (share/hunspell) and action icons
+# (share/icons) relative to its own executable, so nothing needs pointing at
+# the tree. It has to be exec'd by its real path, not through a symlink, which
+# this does.
+#
+# GTK 4, libadwaita, the GSettings schemas, the icon theme and the image
+# loaders all come from org.gnome.Platform.
+
+# apply_extra resolved the launcher's name out of the tree's own desktop entry,
+# so an upstream rename cannot break an automated pin refresh.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=leaf
+exec "/app/extra/leaf/bin/$launcher" "$@"

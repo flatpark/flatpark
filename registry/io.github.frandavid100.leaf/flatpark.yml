@@ -1,0 +1,23 @@
+id: io.github.frandavid100.leaf
+name: Leaf
+summary: Create and edit documents
+website: https://github.com/frandavid100/leaf
+source_url: https://github.com/frandavid100/leaf
+build:
+  manifest: io.github.frandavid100.leaf.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: true
+  tags:
+    - WordProcessor
+    - DOCX
+    - ODT
+    - Office
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
