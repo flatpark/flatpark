@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.jetbrains.PyCharm-Community</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>PyCharm Community</name>
+  <summary>Open-source Python IDE with a debugger and test runner</summary>
+  <developer id="com.jetbrains"><name>JetBrains</name></developer>
+  <description>
+    <p>PyCharm Community is an open-source Python IDE with code completion,
+    refactoring, an integrated debugger, a test runner and version control.</p>
+    <p>This community package installs the unmodified official Community build
+    from JetBrains' intellij-community GitHub releases. It follows the current
+    open-source releases; the discontinued Flathub Community package remains
+    on 2024.3.4. This is the PC product, not the unified Professional build.</p>
+    <p>Python, Git and development tools come from the Freedesktop SDK inside
+    the sandbox. Host interpreters, host virtual environments and system services
+    are not directly usable. Create project virtual environments with the
+    sandbox's /usr/bin/python3 interpreter. Keep projects and their virtual
+    environments in your Documents directory, which the IDE can read and write.
+    Its settings are kept separately inside its Flatpak profile.</p>
+    <p>The embedded browser, including built-in HTML and Markdown previews,
+    is suspended with the default sandbox configuration.</p>
+    <p>Optional agent sockets can be enabled for Git authentication:</p>
+    <ul>
+      <li>SSH agent: flatpak override --user --socket=ssh-auth com.jetbrains.PyCharm-Community</li>
+      <li>GPG agent: flatpak override --user --socket=gpg-agent com.jetbrains.PyCharm-Community</li>
+      <li>Undo overrides: flatpak override --user --reset com.jetbrains.PyCharm-Community</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.jetbrains.PyCharm-Community.desktop</launchable>
+  <url type="homepage">https://github.com/JetBrains/intellij-community/tree/master/python</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://www.jetbrains.com/help/pycharm/</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="2026.3" date="2026-11-05"/></releases>
+</component>

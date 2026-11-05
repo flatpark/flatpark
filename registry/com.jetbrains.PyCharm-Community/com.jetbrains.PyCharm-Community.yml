@@ -1,0 +1,61 @@
+id: com.jetbrains.PyCharm-Community
+# The SDK supplies Python, venv, Git and compilers for development in the sandbox.
+# This follows the IntelliJ Community reference at the catalog's current 26.08.
+runtime: org.freedesktop.Sdk
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pycharm
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display, shared memory and GPU rendering for the bundled JetBrains Runtime.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The bundled JBR requests this measured desktop integration bus name.
+  - --own-name=dbus.JBR.server
+  # Package downloads, Git remotes and programs developed in the IDE.
+  - --share=network
+  # Projects and their virtual environments are kept in the Documents directory.
+  - --filesystem=xdg-documents
+modules:
+  - name: pycharm
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pycharm-wrapper /app/bin/pycharm
+      - install -Dm644 pycharm.properties /app/etc/pycharm.properties
+      - install -Dm644 com.jetbrains.PyCharm-Community.desktop /app/share/applications/com.jetbrains.PyCharm-Community.desktop
+      - install -Dm644 com.jetbrains.PyCharm-Community.metainfo.xml /app/share/metainfo/com.jetbrains.PyCharm-Community.metainfo.xml
+      - install -Dm644 com.jetbrains.PyCharm-Community.svg /app/share/icons/hicolor/scalable/apps/com.jetbrains.PyCharm-Community.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pycharm.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/JetBrains/intellij-community/releases/download/pycharm/2026.3/pycharm-2026.3.tar.gz
+        sha256: 5c26292b328e45a259a96e94f3b1c03fc78b78ab5c238a4c7f70114f493e8864
+        size: 652070027
+      - type: extra-data
+        filename: pycharm.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/JetBrains/intellij-community/releases/download/pycharm/2026.3/pycharm-2026.3-aarch64.tar.gz
+        sha256: 46b8518432b7633237e7f864c2a11ca9b05cb16b10638cb70129f5001274954f
+        size: 668655585
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pycharm-wrapper
+      - type: file
+        path: pycharm.properties
+      - type: file
+        path: com.jetbrains.PyCharm-Community.desktop
+      - type: file
+        path: com.jetbrains.PyCharm-Community.metainfo.xml
+      - type: file
+        path: com.jetbrains.PyCharm-Community.svg
