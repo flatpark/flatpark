@@ -1,43 +1,38 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time inside org.freedesktop.Platform. Epic's Linux
-# launcher is a Tauri app shipped as a linuxdeploy AppImage: an ELF stub with
-# a SquashFS appended, carrying its own GTK 3, WebKitGTK 4.1, GStreamer and the
-# EOS SDK. It is never executed or FUSE-mounted; appimage-offset (from the
-# appimage-tools extra-data) finds where the SquashFS starts and unsquashfs
-# unpacks the AppDir from there, whole, to /app/extra/epic. The tree stays as
-# shipped: the bundled WebKit finds its helper processes through paths
-# relative to usr/, which the AppDir's own AppRun sets up.
+# The unpack below is a pipeline. Enable pipefail when the runtime shell supports
+# it so a failure in either bsdtar process cannot leave a partial installation.
+# shellcheck disable=SC3040
+(set -o pipefail) 2> /dev/null && set -o pipefail || true
+
+# Runs offline at install time inside org.gnome.Platform. Since 0.111.0 Epic
+# ships its Linux launcher (a Tauri app) only as a .deb: a plain FHS tree with
+# the binary in usr/bin and libEOSSDK plus resources/ in
+# usr/lib/epic-games-launcher, linking against the system's WebKitGTK 4.1 and
+# GTK 3 (both in the GNOME runtime). The usr/ tree is kept as shipped at
+# /app/extra/epic, because the binary finds libEOSSDK and its resources through
+# its RUNPATH $ORIGIN/../lib/epic-games-launcher.
+LC_ALL=C
+export LC_ALL
 
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-for f in epic.AppImage appimage-tools.tar.xz; do
-    [ -f "$f" ] || { echo "missing extra-data: $f" >&2; exit 1; }
-done
-rm -rf epic appimage-tools
+[ -f epic.deb ] || { echo "missing extra-data: epic.deb" >&2; exit 1; }
 
+rm -rf epic
+mkdir epic
 # --no-same-owner: a system-wide install runs this as root with every
 # capability dropped, so restoring an archive's owner would fail.
-bsdtar --no-same-owner -xf appimage-tools.tar.xz
-tools="$extra_root/appimage-tools/bin"
-[ -x "$tools/appimage-offset" ] && [ -x "$tools/unsquashfs" ] \
-    || { echo "appimage-tools stack incomplete" >&2; exit 1; }
+bsdtar -xOf epic.deb 'data.tar*' | bsdtar --no-same-owner -xf - -C epic
 
-offset="$("$tools/appimage-offset" epic.AppImage)"
-case "$offset" in
-    ''|*[!0-9]*) echo "appimage-offset did not return a number: '$offset'" >&2; exit 1 ;;
-esac
-"$tools/unsquashfs" -q -no-xattrs -o "$offset" -d epic epic.AppImage >/dev/null
-
-# The wrapper runs the AppDir's AppRun, which sources its GTK and GStreamer
-# hooks and execs AppRun.wrapped; that one reads Exec= from the AppDir's
-# desktop file. Fail here, not at launch, if a release changes that layout.
-[ -x epic/AppRun ] && [ -x epic/AppRun.wrapped ] \
-    || { echo "AppRun or AppRun.wrapped missing from the AppDir" >&2; exit 1; }
+# The wrapper execs the binary the vendor's desktop file names. Fail here, not
+# at launch, if a release changes that layout.
 exe="$(sed -n 's/^Exec=\([^ ]*\).*/\1/p' epic/usr/share/applications/*.desktop | head -n1)"
-[ -n "$exe" ] && [ -x "epic/usr/bin/$exe" ] \
-    || { echo "launcher '$exe' named by the AppDir's desktop file not found in usr/bin" >&2; exit 1; }
+[ "$exe" = EpicGamesLauncher ] && [ -x epic/usr/bin/EpicGamesLauncher ] \
+    || { echo "launcher '$exe' named by the .deb's desktop file is not usr/bin/EpicGamesLauncher" >&2; exit 1; }
+[ -f epic/usr/lib/epic-games-launcher/libEOSSDK-Linux-Shipping.so ] \
+    || { echo "libEOSSDK-Linux-Shipping.so missing from usr/lib/epic-games-launcher" >&2; exit 1; }
 
-rm -rf epic.AppImage appimage-tools.tar.xz appimage-tools
+rm -f epic.deb
