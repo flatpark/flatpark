@@ -1,0 +1,20 @@
+id: io.github.vallierdev.UURemoteViewer
+name: UU Remote Viewer
+summary: Unofficial Linux viewer for NetEase UU Remote
+website: https://github.com/VallierDev/uu-remote-linux
+source_url: https://github.com/VallierDev/uu-remote-linux
+build:
+  manifest: io.github.vallierdev.UURemoteViewer.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Remote Desktop
+    - Remote Access
+    - UU
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=UU Remote Viewer
+Name[zh_CN]=UU 远程 Linux 控制端
+GenericName=Remote desktop viewer
+GenericName[zh_CN]=远程桌面控制端
+Comment=Unofficial Linux viewer for NetEase UU Remote
+Comment[zh_CN]=非官方 UU 远程控制端，用于远控 Windows、Mac 与 Linux 设备
+Exec=uu-remote-viewer
+Icon=io.github.vallierdev.UURemoteViewer
+Terminal=false
+Categories=Network;RemoteAccess;
+Keywords=remote;desktop;viewer;UU;远程;控制;
+StartupNotify=false
+# The viewer sets no application id, so GDK derives WM_CLASS from the program
+# name; upstream's own desktop file uses the same value.
+StartupWMClass=uuremote-viewer
