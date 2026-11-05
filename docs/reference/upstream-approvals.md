@@ -103,3 +103,4 @@ that PR link in the table — the PR itself is the evidence.
 | SculptForge | `org.sculptforge.SculptForge` | [flatpark#936](https://github.com/flatpark/flatpark/issues/936) — islandmed, SculptForge's developer and repo owner: "I am the SculptForge developer, and I approve" | 2026-11-02 |
 | Valhalla | `io.github.tunix.valhalla` | Approved by construction — submitted and maintained by its own developer ([flatpark#961](https://github.com/flatpark/flatpark/pull/961)) | 2026-11-03 |
 | DrawX | `io.github.pratyay360.drawx` | Approved by construction — submitted and maintained by its own developer ([flatpark#909](https://github.com/flatpark/flatpark/pull/909)) | 2026-11-03 |
+| Ycode | `io.github.MarcoDotIO.Ycode` | Approved by construction — submitted and maintained by its own developer ([flatpark#976](https://github.com/flatpark/flatpark/pull/976)) | 2026-11-04 |

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Ycode
+GenericName=Integrated Development Environment
+Comment=Open, edit and build Swift packages and Xcode-format projects
+Exec=ycode-ide %f
+Icon=io.github.MarcoDotIO.Ycode
+Terminal=false
+Categories=Development;IDE;
+Keywords=swift;ide;xcodeproj;editor;
+StartupNotify=true
+StartupWMClass=ycode-ide
