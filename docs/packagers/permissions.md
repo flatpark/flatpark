@@ -69,7 +69,7 @@ after a restart.
   there start a second copy when it is lost, which then fails on a port the
   first one holds.
 - **Look for the app's own setting first.** An environment variable that moves
-  a directory (`CODEBURN_CACHE_DIR`, `PI_DESKTOP_DATA_DIR`) set in the wrapper
+  a directory (`PI_DESKTOP_DATA_DIR`) set in the wrapper
   needs no grant. A tool that finds its store through `XDG_DATA_HOME` (OpenCode,
   Goose) is never read through a grant alone, since Flatpak points that variable
   into the sandbox; set the tool's own variable to the real path instead.
