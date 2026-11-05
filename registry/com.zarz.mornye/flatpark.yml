@@ -1,0 +1,22 @@
+id: com.zarz.mornye
+name: Mornye
+summary: Music player and library manager for local and network music
+website: https://desktop.mornye.com
+source_url: https://github.com/mornyeapp/Mornye
+build:
+  manifest: com.zarz.mornye.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Music
+    - Audio
+    - Player
+    - Lyrics
+    - Flutter
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

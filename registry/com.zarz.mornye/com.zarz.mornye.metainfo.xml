@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.zarz.mornye</id>
+  <name>Mornye</name>
+  <summary>Music player and library manager for local and network music</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-3.0-only</project_license>
+  <developer id="io.github.zarzet">
+    <name>zarzet</name>
+  </developer>
+  <url type="homepage">https://desktop.mornye.com</url>
+  <url type="bugtracker">https://github.com/mornyeapp/Mornye/issues</url>
+  <url type="vcs-browser">https://github.com/mornyeapp/Mornye</url>
+  <url type="translate">https://crowdin.com/project/mornye</url>
+  <url type="donation">https://ko-fi.com/zarzet</url>
+  <description>
+    <p>This is a community package of Mornye, maintained independently and unaffiliated with the Mornye project. It repackages the official upstream Linux release build unmodified, and adds libmpv from FlatPark's prebuilt stacks, which Mornye uses for playback.</p>
+    <p>Mornye is a desktop music player and library manager built with Flutter and Rust, from the same code as the Mornye phone app.</p>
+    <ul>
+      <li>A local library that scans your music folders, with a sortable song table, duplicate review, metadata editing and M3U8 export.</li>
+      <li>Synced lyrics with word-by-word timing, optional translation and romanization lines, and a reorderable chain of lyrics providers.</li>
+      <li>A full-screen player with large lyrics over a backdrop drawn from the artwork.</li>
+      <li>Playback from SMB, WebDAV and HTTP/HTTPS servers.</li>
+      <li>Extensions from community repositories that add metadata, lyrics, search and download sources.</li>
+      <li>Backup and restore of settings, history and playlists, shared with the phone app.</li>
+    </ul>
+    <p>Permissions: this package grants display, GPU, audio, network access, MPRIS media controls, desktop notifications and your XDG music directory, which also holds the default download folder (<code>~/Music/Mornye</code>). The library database, caches and settings stay inside the sandbox under <code>~/.var/app/com.zarz.mornye</code>, and saved credentials go to a keyring there through the Secret portal. No home or host filesystem access is granted.</p>
+    <p>Updates arrive through <code>flatpak update</code>; Mornye's own update check only opens the release page.</p>
+    <p>Music kept outside <code>~/Music</code> is the one thing you may need to open up:</p>
+    <ul>
+      <li>Scan a music library elsewhere: <code>flatpak override --user --filesystem=/path/to/music:ro com.zarz.mornye</code></li>
+      <li>Write tags back to files there, or download into it (drop <code>:ro</code>): <code>flatpak override --user --filesystem=/path/to/music com.zarz.mornye</code></li>
+      <li>Discord rich presence: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 com.zarz.mornye</code> for a native Discord client, or <code>flatpak override --user --filesystem=xdg-run/app/com.discordapp.Discord com.zarz.mornye</code> for Discord installed as a Flatpak.</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The library and Now Playing with synced lyrics</caption>
+      <image>https://raw.githubusercontent.com/mornyeapp/Mornye-Desktop/main/assets/screenshots/desktop-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The same view in the dark theme</caption>
+      <image>https://raw.githubusercontent.com/mornyeapp/Mornye-Desktop/main/assets/screenshots/desktop-dark.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.zarz.mornye.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+    <category>Music</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>audio</keyword>
+    <keyword>flac</keyword>
+    <keyword>library</keyword>
+    <keyword>lyrics</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>mornye</binary>
+  </provides>
+  <releases>
+    <release version="5.3.0" date="2026-11-01">
+      <description></description>
+    </release>
+  </releases>
+</component>
