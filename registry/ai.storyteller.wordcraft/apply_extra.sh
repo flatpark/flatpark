@@ -28,3 +28,15 @@ for b in wordcraft wordcraft-cli; do
 done
 
 rm -f "$archive"
+
+# lp, lpstat and lpoptions from FlatPark's prebuilt cups-client stack. The
+# archive has one top-level cups-client/ directory; /app/bin links into it.
+cups=cups-client.tar.xz
+[ -f "$cups" ] || { echo "missing extra-data: $cups" >&2; exit 1; }
+rm -rf cups-client
+tar --no-same-owner -xJf "$cups"
+for t in lp lpoptions lpstat; do
+  [ -x "cups-client/bin/$t" ] && [ -x "cups-client/libexec/cups/$t" ] \
+    || { echo "cups-client/$t not found in $cups" >&2; exit 1; }
+done
+rm -f "$cups"
