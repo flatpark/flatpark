@@ -1,0 +1,78 @@
+id: com.zarz.mornye
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: mornye
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+finish-args:
+  # Flutter/GTK3 window with GPU rendering (Impeller over OpenGL ES).
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Playback goes through libmpv (media_kit) to PulseAudio/PipeWire.
+  - --socket=pulseaudio
+  # Online lyrics and metadata providers, extension repositories, SMB/WebDAV/
+  # HTTP network libraries, and the phone link, which finds the phone app with
+  # its own mDNS over UDP (no Avahi).
+  - --share=network
+  # The library scanner reads local music folders, and the default download
+  # folder is ~/Music/Mornye. Only the XDG music directory is granted; a library
+  # elsewhere is an opt-in override documented in the metainfo.
+  - --filesystem=xdg-music
+  # MPRIS: media keys and the shell's now-playing widget. The first instance
+  # owns org.mpris.MediaPlayer2.mornye, a second one
+  # org.mpris.MediaPlayer2.mornye.instance<pid>; the wildcard covers both.
+  - --own-name=org.mpris.MediaPlayer2.mornye.*
+  # Desktop notifications (flutter_local_notifications).
+  - --talk-name=org.freedesktop.Notifications
+  # Saved credentials (flutter_secure_storage/libsecret) need no grant: inside
+  # Flatpak libsecret keeps them in a file keyring under the app's data
+  # directory, unlocked through the Secret portal.
+  # Deliberately withheld: home or host filesystem access, the Discord IPC
+  # socket (opt-in override in the metainfo).
+modules:
+  # Mornye plays through media_kit, which dlopen()s libmpv.so.2 and falls back
+  # to GStreamer when it is missing; the .deb doesn't carry libmpv, and the
+  # GNOME runtime has none. The prebuilt stack installs it under /app/lib,
+  # which is on the loader's default path inside the sandbox.
+  - name: mpv-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/mpv-v2/mpv-stack-mpv-v2-gnome-51-x86_64.tar.xz
+        sha256: 3d4a1c48d8a466bd86badbf683f21dfd05ea15c2f8f512414316e7842c863c93
+
+  - name: mornye
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mornye-wrapper /app/bin/mornye
+      - install -Dm644 com.zarz.mornye.desktop /app/share/applications/com.zarz.mornye.desktop
+      - install -Dm644 com.zarz.mornye.metainfo.xml /app/share/metainfo/com.zarz.mornye.metainfo.xml
+      - install -Dm644 com.zarz.mornye.png /app/share/icons/hicolor/512x512/apps/com.zarz.mornye.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mornye.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/mornyeapp/Mornye-Desktop/releases/download/v5.3.0/Mornye-v5.3.0-linux-amd64.deb
+        sha256: 3eb6ead366511024334302295ebc25a190900e51658193544f66232c882cb36e
+        size: 129229806
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mornye-wrapper
+      - type: file
+        path: com.zarz.mornye.desktop
+      - type: file
+        path: com.zarz.mornye.metainfo.xml
+      - type: file
+        path: com.zarz.mornye.png

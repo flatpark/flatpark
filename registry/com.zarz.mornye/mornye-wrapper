@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# The Flutter bundle is relocatable and finds its engine, plugins, Rust core
+# and bundled FFmpeg through the launcher's own RPATH ($ORIGIN/lib), so no
+# LD_LIBRARY_PATH is needed. Flatpak redirects HOME and the XDG directories
+# into the sandbox, so the library database, caches and settings land in
+# ~/.var/app/com.zarz.mornye. The launcher name is whatever apply_extra found
+# in the official .deb.
+extra_root=/app/extra
+launcher="$(cat "$extra_root/launcher")"
+
+exec "$extra_root/app/$launcher" "$@"
