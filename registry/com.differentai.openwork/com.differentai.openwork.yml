@@ -53,9 +53,9 @@ modules:
         filename: openwork.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/different-ai/openwork/releases/download/v0.18.64/openwork-linux-x64-0.18.64.tar.gz
-        sha256: bac5829a56bd4b0f188edb9b98324367c12d567969647b24b70bf612855d667b
-        size: 354714707
+        url: https://github.com/different-ai/openwork/releases/download/v0.18.65/openwork-linux-x64-0.18.65.tar.gz
+        sha256: a78ec96b332aa3a3a4a617208498d39902029624dfce5e6f86bbe4a28cb60449
+        size: 354979986
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

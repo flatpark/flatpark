@@ -63,9 +63,9 @@ modules:
         filename: stirling-pdf.deb
         only-arches:
           - x86_64
-        url: https://github.com/Stirling-Tools/Stirling-PDF/releases/download/v3.2.2/Stirling-PDF-linux-x86_64.deb
-        sha256: 71046030c06cdbd9ca84829da09afc432051691e8d0be4c013cff52b0d76d6bb
-        size: 260820434
+        url: https://github.com/Stirling-Tools/Stirling-PDF/releases/download/v3.3.0/Stirling-PDF-linux-x86_64.deb
+        sha256: 1a7c4b721ebc7d9221a3f68d40e899395775e36027228f0220f80aa05d6a04e3
+        size: 227457310
       # END MANAGED EXTRA-DATA
       # Ghostscript, as Artifex's own Linux build. They publish no plain tarball —
       # the only prebuilt Linux artifact in their release is a snap, which is a
