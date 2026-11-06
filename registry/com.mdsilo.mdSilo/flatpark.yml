@@ -1,0 +1,18 @@
+id: com.mdsilo.mdSilo
+name: mdSilo
+summary: Local-first Markdown knowledge base, book reader and feed reader
+website: https://mdsilo.com/
+source_url: https://github.com/mdSilo/mdSilo-app
+build:
+  manifest: com.mdsilo.mdSilo.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  tags: [Markdown, Notes, Knowledge Base, RSS, Books]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

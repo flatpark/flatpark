@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=mdSilo
+Comment=Local-first Markdown knowledge base and feed reader
+Exec=mdsilo
+Icon=com.mdsilo.mdSilo
+Terminal=false
+Categories=Office;TextEditor;
+StartupWMClass=Com.mdsilo.mdSilo
