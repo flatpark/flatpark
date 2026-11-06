@@ -1,0 +1,60 @@
+id: org.pdfsam.basic
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: pdfsam
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A JavaFX application. JavaFX's Linux backend (libglassgtk3, which needs the
+  # GTK 3 of the GNOME runtime) draws through X11 only, so X11 (XWayland on a
+  # Wayland session) is the display path; dri for its OpenGL renderer.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # PDFsam plays a short sound when a task ends (on by default, a setting in the
+  # app). Without an audio device its media player fails and the failure shows
+  # in the app's log panel after every task.
+  - --socket=pulseaudio
+  # PDFs are picked with JavaFX's own GTK file dialog, which only sees what the
+  # sandbox can see, and the results are written next to the input files by
+  # default. Documents and Downloads are where PDFs usually are; wider access
+  # is an opt-in override in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Settings and window state are Java preferences in ~/.java. Flatpak does not
+  # redirect $HOME, so without this they would land on the sandbox's tmpfs and
+  # be lost on exit. --persist keeps them private to the app.
+  - --persist=.java
+  # No network: splitting, merging and the other tools work offline. The news
+  # panel and the premium-tools list need it; see the metainfo override.
+modules:
+  - name: pdfsam
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pdfsam-wrapper /app/bin/pdfsam
+      - install -Dm644 org.pdfsam.basic.desktop /app/share/applications/org.pdfsam.basic.desktop
+      - install -Dm644 org.pdfsam.basic.metainfo.xml /app/share/metainfo/org.pdfsam.basic.metainfo.xml
+      - install -Dm644 org.pdfsam.basic.svg /app/share/icons/hicolor/scalable/apps/org.pdfsam.basic.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pdfsam.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/torakiki/pdfsam/releases/download/v6.0.6/pdfsam-basic-6.0.6-linux-x64.tar.gz
+        sha256: 13626e3e94056888e5dcfe7f94a81a959b8e7a44c7f581c8c1b22daa6bbe1af6
+        size: 99854363
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pdfsam-wrapper
+      - type: file
+        path: org.pdfsam.basic.desktop
+      - type: file
+        path: org.pdfsam.basic.metainfo.xml
+      - type: file
+        path: org.pdfsam.basic.svg

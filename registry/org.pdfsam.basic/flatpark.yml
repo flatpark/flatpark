@@ -1,0 +1,23 @@
+id: org.pdfsam.basic
+name: PDFsam Basic
+summary: Split, merge, rotate and extract pages from PDF files
+website: https://pdfsam.org
+source_url: https://github.com/torakiki/pdfsam
+build:
+  manifest: org.pdfsam.basic.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - PDF
+    - Split
+    - Merge
+    - Documents
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

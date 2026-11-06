@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PDFsam Basic
+GenericName=PDF Split and Merge
+Comment=Split, merge, rotate, mix and extract pages from PDF files
+Comment[pt_BR]=Divida, junte, gire, misture e extraia páginas de arquivos PDF
+Exec=pdfsam %F
+Icon=org.pdfsam.basic
+Terminal=false
+Categories=Office;
+Keywords=pdf;split;merge;rotate;extract;mix;pages;
+MimeType=application/pdf;
+StartupNotify=true
+StartupWMClass=org.pdfsam.gui.PdfsamApp
