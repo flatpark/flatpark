@@ -68,6 +68,9 @@
   <content_rating type="oars-1.1"/>
 
   <releases>
+    <release version="0.28.4" date="2026-11-06">
+      <description></description>
+    </release>
     <release version="0.28.3" date="2026-10-08">
       <description>
         <p>Each release now carries the AppImage as a download. Distributions can ship system-wide default settings. Developers can use vici develop with Compass.</p>
