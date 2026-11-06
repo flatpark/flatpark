@@ -1,0 +1,77 @@
+[Desktop Entry]
+Name[fr]=Hylki
+Name[el]=Hylki
+Name[hu]=Hylki
+Name[ru]=Hylki
+Name[pt_PT]=Hylki
+Name[pt_BR]=Hylki
+Name[es]=Hylki
+Name[de]=Hylki
+Name[pl]=Hylki
+Name[ca]=Hylki
+Name[it]=Hylki
+Name=Hylki
+GenericName[fr]=Client e-mail
+GenericName[el]=Πρόγραμμα-πελάτης email
+GenericName[hu]=E-mail kliens
+GenericName[ru]=Почтовый клиент
+GenericName[pt_PT]=Cliente de correio eletrónico
+GenericName[pt_BR]=Cliente de email
+GenericName[es]=Cliente de correo electrónico
+GenericName[de]=E-Mail-Client
+GenericName[pl]=Klient poczty
+GenericName[ca]=Client de correu
+GenericName[it]=Client e-mail
+GenericName=Email Client
+Comment[fr]=Un client e-mail rapide et natif pour GNOME, conçu avec Rust et libadwaita. Open source et respectueux de la vie privée par défaut.
+Comment[el]=Μια γρήγορη, εγγενής εφαρμογή email για το GNOME, κατασκευασμένη με Rust και libadwaita. Ανοιχτού κώδικα και ιδιωτική από προεπιλογή.
+Comment[hu]=Egy gyors, GNOME-kompatibilis e-mail kliens, amelyet Rust és a libadwaita segítségével fejlesztettek ki. Nyílt forráskódú, alapértelmezés szerint magánjellegű.
+Comment[ru]=Быстрый почтовый клиент для GNOME, написанный на Rust и libadwaita. Открытый исходный код и конфиденциальность по умолчанию.
+Comment[pt_PT]=Um cliente de correio eletrónico rápido e nativo do GNOME, criado com Rust e libadwaita. De código aberto e privado por predefinição.
+Comment[pt_BR]=Um cliente de email rápido e nativo do GNOME, criado com Rust e libadwaita. De código aberto e privado por padrão.
+Comment[es]=Un cliente de correo rápido y nativo de GNOME, desarrollado con Rust y libadwaita. De código abierto y privado de forma predeterminada.
+Comment[de]=Ein schneller, GNOME-nativer E-Mail-Client, gebaut mit Rust und libadwaita. Open Source und datenschutzfreundlich.
+Comment[pl]=Szybki klient poczty stworzony dla środowiska GNOME, napisany w języku Rust z użyciem biblioteki libadwaita. Otwarte oprogramowanie, domyślnie dbające o prywatność.
+Comment[ca]=Un client de correu ràpid i natiu per al GNOME, construït amb Rust i libadwaita. De codi obert i privat per defecte.
+Comment[it]=Un client e-mail veloce, nativo di GNOME, costruito con Rust e libadwaita. Open source e privato per impostazione predefinita.
+Comment=A fast, GNOME-native email client, built with Rust and libadwaita. Open source and private by default.
+# %U, not %u: a file manager hands every selected file to one launch, so
+# they all land in the same message ("Send with Hylki" from GNOME Files).
+Exec=hylki %U
+Icon=co.hyprlab.Hylki
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Network;Email;
+Keywords[fr]=Email;Mail;Courrier;Messagerie;IMAP;
+Keywords[el]=Email;Αλληλογραφία;IMAP;
+Keywords[hu]=E-mail;Levél;IMAP;
+Keywords[ru]=Email;Mail;IMAP;Почта;Электронная почта;Письма;
+Keywords[pt_PT]=E-mail;Correio;IMAP;
+Keywords[pt_BR]=Email;Email;IMAP;
+Keywords[es]=Correo electrónico;Correo;Email;Mail;IMAP;
+Keywords[de]=E-Mail; E-Mail; IMAP;
+Keywords[pl]=E-mail;Poczta;Mail;Wiadomości;IMAP;
+Keywords[ca]=Correu;Mail;IMAP;
+Keywords[it]=Email;Posta;IMAP;
+Keywords=Email;Mail;IMAP;
+MimeType=x-scheme-handler/mailto;x-scheme-handler/mid;message/rfc822;application/vnd.ms-outlook;
+StartupNotify=true
+StartupWMClass=co.hyprlab.Hylki
+Actions=new-message;
+# Earlier names, for desktops that carry favourites across a rename.
+X-Flatpak-RenamedFrom=co.hyprlab.Vireo.desktop;com.getveem.Veem.desktop;
+
+[Desktop Action new-message]
+Name[fr]=Nouveau message
+Name[el]=Νέο μήνυμα
+Name[hu]=Új üzenet
+Name[ru]=Новое сообщение
+Name[pt_PT]=Nova mensagem
+Name[pt_BR]=Nova mensagem
+Name[es]=Mensaje nuevo
+Name[de]=Neue Nachricht
+Name[pl]=Nowa wiadomość
+Name[ca]=Missatge nou
+Name[it]=Nuovo messaggio
+Name=New Message
+Exec=hylki mailto:
