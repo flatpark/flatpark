@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Transparent WebKitGTK windows use acceleration on GNOME 51; allow overrides.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+export WEBKIT_DISABLE_COMPOSITING_MODE="${WEBKIT_DISABLE_COMPOSITING_MODE:-0}"
+exec /app/extra/nextai/bin/xyz.yetone.apps.openai-translator "$@"

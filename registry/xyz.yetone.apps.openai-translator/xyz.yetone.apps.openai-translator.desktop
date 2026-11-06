@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=NextAI Translator
+Comment=Translate, polish and summarize text with AI providers
+Exec=nextai-translator
+Icon=xyz.yetone.apps.openai-translator
+Terminal=false
+Categories=Office;Translation;
+StartupWMClass=Xyz.yetone.apps.openai-translator
