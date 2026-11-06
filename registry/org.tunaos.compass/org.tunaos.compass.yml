@@ -82,9 +82,9 @@ modules:
         filename: compass.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/tuna-os/compass/releases/download/v0.28.3/Compass-x86_64.AppImage
-        sha256: b8c139493c064275ce5aed0b8557d56667d325d7dd38936d8bbe35d1e689ebbb
-        size: 71305720
+        url: https://github.com/tuna-os/compass/releases/download/v0.28.4/Compass-x86_64.AppImage
+        sha256: b3e40bbea3fddf3eb0ea547d1acdbddb6c405a6b0362b8c3f976ac090fcb0750
+        size: 73525752
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
