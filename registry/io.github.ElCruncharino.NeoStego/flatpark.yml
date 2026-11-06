@@ -1,0 +1,18 @@
+id: io.github.ElCruncharino.NeoStego
+name: NeoStego
+summary: Hide files in images and audio and embed invisible watermarks
+website: https://github.com/ElCruncharino/neostego
+source_url: https://github.com/ElCruncharino/neostego
+build:
+  manifest: io.github.ElCruncharino.NeoStego.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Utility
+  tags: [Steganography, Watermarking, Privacy, Images, Audio]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

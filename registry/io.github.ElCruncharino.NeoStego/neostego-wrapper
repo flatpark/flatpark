@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+# The unmodified jpackage launcher reads its own config and bundled Java runtime.
+exec /app/extra/launcher "$@"

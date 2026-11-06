@@ -1,0 +1,47 @@
+id: io.github.ElCruncharino.NeoStego
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: neostego
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Compose Desktop and the accessible Swing UI render through AWT/X11.
+  - --share=ipc
+  - --socket=x11
+  # Skiko uses GPU rendering for the Compose interface.
+  - --device=dri
+  # Java file choosers access cover images, secret files and exported results.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  # Compose UI preferences use java.util.prefs under user.home, outside XDG.
+  - --persist=.java
+modules:
+  - name: neostego
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 neostego-wrapper /app/bin/neostego
+      - install -Dm644 io.github.ElCruncharino.NeoStego.desktop /app/share/applications/io.github.ElCruncharino.NeoStego.desktop
+      - install -Dm644 io.github.ElCruncharino.NeoStego.metainfo.xml /app/share/metainfo/io.github.ElCruncharino.NeoStego.metainfo.xml
+      - install -Dm644 io.github.ElCruncharino.NeoStego.svg /app/share/icons/hicolor/scalable/apps/io.github.ElCruncharino.NeoStego.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: neostego.deb
+        only-arches: [x86_64]
+        url: https://github.com/ElCruncharino/neostego/releases/download/v1.3.1/neostego_1.3.1_amd64.deb
+        sha256: 0c801451c22631f4b76a8ce805b9116d7eada27bd5da608dbfd6513cc0d29056
+        size: 114300532
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: neostego-wrapper
+      - type: file
+        path: io.github.ElCruncharino.NeoStego.desktop
+      - type: file
+        path: io.github.ElCruncharino.NeoStego.metainfo.xml
+      - type: file
+        path: io.github.ElCruncharino.NeoStego.svg
