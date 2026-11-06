@@ -8,9 +8,8 @@ build-options:
   no-debuginfo: true
   strip: true
 finish-args:
-  # WebKit rendering, with X11 also required by arboard and enigo for clipboard/input.
+  # Use X11 via XWayland by default; arboard and enigo require X11 for clipboard/input.
   - --share=ipc
-  - --socket=wayland
   - --socket=x11
   - --device=dri
   # Configured translation providers, including local OpenAI-compatible servers.
@@ -45,7 +44,7 @@ modules:
       - install -Dm755 nextai-wrapper /app/bin/nextai-translator
       - install -Dm644 xyz.yetone.apps.openai-translator.desktop /app/share/applications/xyz.yetone.apps.openai-translator.desktop
       - install -Dm644 xyz.yetone.apps.openai-translator.metainfo.xml /app/share/metainfo/xyz.yetone.apps.openai-translator.metainfo.xml
-      - install -Dm644 xyz.yetone.apps.openai-translator.png /app/share/icons/hicolor/512x512/apps/xyz.yetone.apps.openai-translator.png
+      - install -Dm644 xyz.yetone.apps.openai-translator.png /app/share/icons/hicolor/256x256/apps/xyz.yetone.apps.openai-translator.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
