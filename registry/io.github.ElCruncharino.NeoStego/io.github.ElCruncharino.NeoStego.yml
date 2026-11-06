@@ -30,7 +30,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: neostego.deb
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/ElCruncharino/neostego/releases/download/v1.3.1/neostego_1.3.1_amd64.deb
         sha256: 0c801451c22631f4b76a8ce805b9116d7eada27bd5da608dbfd6513cc0d29056
         size: 114300532
