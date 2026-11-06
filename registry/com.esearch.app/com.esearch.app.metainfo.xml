@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.esearch.app</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>eSearch</name>
+  <summary>Capture screenshots, recognize text offline, and search or translate</summary>
+  <developer id="io.github.xushengfeng"><name>xushengfeng</name></developer>
+  <description>
+    <p>eSearch captures and annotates screenshots, recognizes text with offline OCR,
+    searches and translates text, pins images on screen, and records the screen.</p>
+    <p>This community package installs the official upstream Linux tarball unmodified.
+    Screenshot and recording files can be saved in Pictures and Videos.</p>
+    <p>This package uses X11. Use an X11 desktop session for screen capture, recording,
+    and global shortcuts. Native Wayland capture and shortcuts are unsupported;
+    on a Wayland desktop, XWayland capture is limited to X11 windows.</p>
+    <p>To save files to another folder, grant that folder with
+    <code>flatpak override --user --filesystem=/path/to/folder com.esearch.app</code>.
+    Undo overrides with <code>flatpak override --user --reset com.esearch.app</code>.</p>
+  </description>
+  <launchable type="desktop-id">com.esearch.app.desktop</launchable>
+  <url type="homepage">https://esearch.vercel.app/</url>
+  <url type="vcs-browser">https://github.com/xushengfeng/eSearch</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="15.7.1" date="2026-11-04"/></releases>
+</component>
