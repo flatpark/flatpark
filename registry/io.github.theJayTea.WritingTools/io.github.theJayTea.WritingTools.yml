@@ -1,0 +1,51 @@
+id: io.github.theJayTea.WritingTools
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: writing-tools
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # pynput global shortcuts, X11 selection capture and text replacement.
+  - --socket=x11
+  - --share=ipc
+  - --unset-env=QT_QPA_PLATFORM
+  # Cloud or local HTTP AI endpoints.
+  - --share=network
+  # Qt graphics rendering.
+  - --device=dri
+  # Qt's generated org.kde.StatusNotifierItem-<pid>-<id> tray name requires
+  # a namespace wildcard: Flatpak cannot match part of the final name segment.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+modules:
+  - name: writing-tools
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 writing-tools-wrapper /app/bin/writing-tools
+      - install -Dm644 io.github.theJayTea.WritingTools.desktop /app/share/applications/io.github.theJayTea.WritingTools.desktop
+      - install -Dm644 io.github.theJayTea.WritingTools.metainfo.xml /app/share/metainfo/io.github.theJayTea.WritingTools.metainfo.xml
+      - install -Dm644 io.github.theJayTea.WritingTools.png /app/share/icons/hicolor/256x256/apps/io.github.theJayTea.WritingTools.png
+    sources:
+      # Independent release builds unmodified upstream source and bundles Qt,
+      # Python and clipboard support. Source archives accompany every release.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: writing-tools.tar.gz
+        only-arches: [x86_64]
+        url: 'https://github.com/rhgKc2yp/writingtools-release/releases/download/v2026.11.06-1/writing-tools-fedora45-x86_64.tar.gz'
+        sha256: '3c5d761adeb70a9fb26658feb9f650a50ed95ea3208c7b47df36560ab70888ca'
+        size: 90988389
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: writing-tools-wrapper
+      - type: file
+        path: io.github.theJayTea.WritingTools.desktop
+      - type: file
+        path: io.github.theJayTea.WritingTools.metainfo.xml
+      - type: file
+        path: io.github.theJayTea.WritingTools.png

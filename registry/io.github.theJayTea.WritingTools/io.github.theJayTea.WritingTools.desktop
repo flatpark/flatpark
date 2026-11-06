@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Writing Tools
+Comment=Rewrite, proofread and summarize text with AI on X11
+Exec=writing-tools
+Icon=io.github.theJayTea.WritingTools
+Terminal=false
+StartupWMClass=Writing-tools
+Categories=Office;Utility;
