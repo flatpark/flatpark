@@ -1,0 +1,35 @@
+id: br.jus.trt8.PJeCalc
+name: PJe-Calc Cidadão
+summary: Labour claim calculations for the Brazilian Labour Courts
+website: https://www.trt8.jus.br/pjecalc-cidadao/instalando-o-pje-calc-cidadao
+source_url: https://github.com/LLawli/pjecalc-flatpak
+build:
+  manifest: br.jus.trt8.PJeCalc.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Brazil
+    - PJe
+    - Legal
+    - Calculator
+update:
+  # Follows the mirror's releases at source_url, one per TRT8 installer, each
+  # checked against TRT8's published MD5 before it is released.
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: support-files
+    detail:
+      en: "PJe-Calc is a Java program shipped in a Windows installer. It runs on OpenJDK 8 for Linux (Azul Zulu, downloaded from Azul) instead of the installer's Windows Java runtime. A small script stands where the launcher looks for its bundled Firefox and opens the page in the user's own browser."
+      zh-Hans: "PJe-Calc 是装在 Windows 安装程序里的 Java 程序。它在 Linux 版 OpenJDK 8（Azul Zulu，从 Azul 下载）上运行，而不是安装程序自带的 Windows Java 运行时。启动器原本寻找自带 Firefox 的位置放了一个小脚本，用用户自己的浏览器打开页面。"
+  - kind: file-change
+    detail:
+      en: "At install time the persistence.xml.tmp template is renamed to persistence.xml, which PJe-Calc's own launcher does on first start but cannot do in the read-only /app. The launcher's working folder is built in the app's data directory: the program is linked from /app/extra, and Tomcat's configuration and the starting database are copied there."
+      zh-Hans: "安装时把 persistence.xml.tmp 模板改名为 persistence.xml；PJe-Calc 自己的启动器首次运行时也会这样做，但在只读的 /app 里做不到。启动器的工作目录建在应用的数据目录里：程序从 /app/extra 链接过来，Tomcat 的配置和初始数据库复制到那里。"
