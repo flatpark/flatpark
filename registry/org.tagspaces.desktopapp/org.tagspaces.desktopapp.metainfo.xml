@@ -12,6 +12,8 @@
     and HTML notes without an account.</p>
     <p>This community package downloads the official TagSpaces Lite Linux
     tarball at installation time and runs the upstream build unmodified.</p>
+    <p>Update this Flatpak with <code>flatpak update org.tagspaces.desktopapp</code>
+    instead of downloading updates offered by TagSpaces itself.</p>
     <p>Documents and Downloads are accessible by default. To organize another folder, grant
     that folder with <code>flatpak override --user --filesystem=/path/to/folder org.tagspaces.desktopapp</code>.</p>
     <p>Optional network features can be enabled with
