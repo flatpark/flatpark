@@ -37,7 +37,7 @@ modules:
         filename: constructcad.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/francisreboucas/constructcad/releases/download/v0.9.1/constructcad-v0.9.1-x86_64-unknown-linux-gnu.tar.gz
+        url: https://github.com/francisreboucas/constructcraft/releases/download/v0.9.1/constructcad-v0.9.1-x86_64-unknown-linux-gnu.tar.gz
         sha256: 755dbebfdf6c3ca977574c22cfda0d8dd77a4b9a1c749ba2ea4048ff426f2b6f
         size: 34917391
       # END MANAGED EXTRA-DATA

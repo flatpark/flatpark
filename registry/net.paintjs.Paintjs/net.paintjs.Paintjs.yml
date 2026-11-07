@@ -58,9 +58,9 @@ modules:
         filename: paintdotjs.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/LabyStudio/paintdotjs/releases/download/v2.4.7/paintdotjs-2.4.7-linux-x86_64.AppImage
-        sha256: f36ebb64542efe44a385fb8aeb84c80e49bbd14bee5d9b60163874eaaeb7cd0e
-        size: 151552104
+        url: https://github.com/LabyStudio/paintdotjs/releases/download/v2.4.9/paintdotjs-2.4.9-linux-x86_64.AppImage
+        sha256: a26c3ec39ea3b1d7e26700ea4b58388b8634a663eee6d2a36bb25de9ce65afef
+        size: 151564205
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

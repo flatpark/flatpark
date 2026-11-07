@@ -45,7 +45,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: voquill.deb
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/voquill/voquill/releases/download/desktop-v0.0.652/voquill-desktop_0.0.652_amd64.deb
         sha256: 01d449d03029193e39caab00acaad819f75e7a9ba161566edcf9b446b8a27f52
         size: 36002242

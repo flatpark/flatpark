@@ -77,9 +77,9 @@ modules:
         filename: uu-remote-linux.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/VallierDev/uu-remote-linux/releases/download/v0.2.54/uu-remote-linux-v0.2.54-x86_64-linux.tar.gz
-        sha256: a0e2feca44c58ec7e8a074b6c6214945e1d79b37b43b88025b6aef46e44614b5
-        size: 15785717
+        url: https://github.com/VallierDev/uu-remote-linux/releases/download/v0.2.55/uu-remote-linux-v0.2.55-x86_64-linux.tar.gz
+        sha256: 9d481374e85f89a92ecef8ef274a0af9e03792c30df7c88ce77dcff3f4092578
+        size: 15786311
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

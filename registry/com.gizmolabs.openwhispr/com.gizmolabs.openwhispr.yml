@@ -43,7 +43,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: openwhispr.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/OpenWhispr/openwhispr/releases/download/v1.11.0/OpenWhispr-1.11.0-linux-x64.tar.gz
         sha256: b238d9d3da3122c303f786590484b7aa627d4e625edd79d8c9f2f42af1ec4435
         size: 538725004
