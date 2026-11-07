@@ -1,0 +1,18 @@
+id: com.gizmolabs.openwhispr
+name: OpenWhispr
+summary: Voice dictation with local and cloud speech recognition
+website: https://openwhispr.com
+source_url: https://github.com/OpenWhispr/openwhispr
+build:
+  manifest: com.gizmolabs.openwhispr.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  tags: [Dictation, Speech, Transcription, Whisper]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.gizmolabs.openwhispr</id>
+  <name>OpenWhispr</name>
+  <summary>Voice dictation with local and cloud speech recognition</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.gizmolabs"><name>OpenWhispr Team</name></developer>
+  <description>
+    <p>OpenWhispr turns speech into text with local Whisper and Parakeet models or a cloud provider of your choice. It includes dictation, transcription history, and configurable shortcuts.</p>
+    <p>This community package downloads the official, unmodified Linux tarball at install time. It runs using X11 or XWayland and keeps models and settings in the app's private directories.</p>
+    <p>Dictation and automatic paste are tested with X11 target applications. Native Wayland targets and compositor-specific shortcuts are unverified. Browser sign-in is unavailable in this package; use email sign-in or continue without an account. Direct input-device and PipeWire access are not granted by default.</p>
+    <p>Optional system-audio capture needs direct PipeWire access, which also exposes other audio and video streams: <code>flatpak override --user --filesystem=xdg-run/pipewire-0 com.gizmolabs.openwhispr</code></p>
+    <p>Undo optional overrides: <code>flatpak override --user --reset com.gizmolabs.openwhispr</code></p>
+  </description>
+  <launchable type="desktop-id">com.gizmolabs.openwhispr.desktop</launchable>
+  <url type="homepage">https://openwhispr.com</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/OpenWhispr/openwhispr</url>
+  <categories><category>Utility</category><category>Accessibility</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="1.11.0" date="2026-10-29"/></releases>
+</component>

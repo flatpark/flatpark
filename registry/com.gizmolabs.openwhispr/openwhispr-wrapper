@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+unset ELECTRON_RUN_AS_NODE ELECTRON_NO_ATTACH_CONSOLE
+# Make Electron's temporary tray icon files readable by the desktop watcher.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+launcher="$(cat /app/extra/launcher)"
+# Launch the vendor's Electron binary with zypak; retain upstream's X11 choice
+# for overlay positioning. The portable shell launcher's namespace probe is
+# unnecessary with zypak providing the sandbox.
+exec zypak-wrapper "/app/extra/openwhispr/$launcher" --ozone-platform=x11 --password-store=gnome-libsecret "$@"
