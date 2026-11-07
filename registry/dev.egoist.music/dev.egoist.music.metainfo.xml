@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.egoist.music</id>
+  <name>MyGo Music</name>
+  <summary>Music player for your files and more</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="dev.egoist">
+    <name>EGOIST</name>
+  </developer>
+  <url type="homepage">https://music.egoist.dev/</url>
+  <url type="bugtracker">https://github.com/egoist/mygo-music/issues</url>
+  <url type="vcs-browser">https://github.com/egoist/mygo-music</url>
+  <description>
+    <p>This is a community package of MyGo Music, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>MyGo Music is a native desktop music player written in Go, without a WebView. It plays your local files out of the box, and everything else comes from plugins.</p>
+    <ul>
+      <li>Local files (MP3, FLAC, Ogg Vorbis, WAV, ALAC and AAC) with tags, covers and .lrc lyrics.</li>
+      <li>Playlists, liked songs, search, albums and artists.</li>
+      <li>Now Playing with lyric styles, a cover wall, queue, shuffle and repeat.</li>
+      <li>Tray icon, media keys, audio cache, loudness normalization and session restore.</li>
+      <li>Podcast captions written down on the device as episodes play.</li>
+      <li>Plugins add accounts, catalogs, podcasts, stations and pages of their own.</li>
+    </ul>
+    <p>The package can read your Music directory, play audio, expose media controls over MPRIS and show a tray icon, and it has network access for plugins and lyrics. Folders elsewhere can be added through the folder picker.</p>
+    <p>To have a folder outside Music read by its real path instead, grant it: <code>flatpak override --user --filesystem=/path/to/music:ro dev.egoist.music</code>. Remove custom grants with <code>flatpak override --user --reset dev.egoist.music</code>.</p>
+    <p>Updates come through Flatpak. If the application says a new release is available, update with Flatpak instead; you can turn off its own update checks in Settings.</p>
+  </description>
+  <launchable type="desktop-id">dev.egoist.music.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>podcast</keyword>
+    <keyword>lyrics</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>mygo-music</binary>
+  </provides>
+  <releases>
+    <release version="0.1.20" date="2026-11-07" />
+  </releases>
+</component>

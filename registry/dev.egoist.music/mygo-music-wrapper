@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+# The tray icon is handed to the panel as an absolute path to a PNG the app
+# writes under the temp directory. The sandbox's /tmp is private, so the
+# panel on the host can't read it; $XDG_RUNTIME_DIR/app/$FLATPAK_ID is the
+# per-app directory Flatpak shares with the host at the same path.
+if [ -n "${XDG_RUNTIME_DIR:-}" ] && [ -n "${FLATPAK_ID:-}" ]; then
+  export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+fi
+exec /app/extra/app/mygo-music "$@"
