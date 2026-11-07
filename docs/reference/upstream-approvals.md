@@ -105,4 +105,5 @@ that PR link in the table — the PR itself is the evidence.
 | DrawX | `io.github.pratyay360.drawx` | Approved by construction — submitted and maintained by its own developer ([flatpark#909](https://github.com/flatpark/flatpark/pull/909)) | 2026-11-03 |
 | Ycode | `io.github.MarcoDotIO.Ycode` | Approved by construction — submitted and maintained by its own developer ([flatpark#976](https://github.com/flatpark/flatpark/pull/976)) | 2026-11-04 |
 | Leaf | `io.github.frandavid100.leaf` | [flatpark#994](https://github.com/flatpark/flatpark/issues/994) — frandavid100, Leaf's developer and repo owner: "I'd like to request its inclusion and explicitly approve FlatPark packaging and distributing it" | 2026-11-05 |
+| ArtCraft Studio | `ai.artcraft.app` | Approved by construction — submitted and maintained by its own developer ([flatpark#1030](https://github.com/flatpark/flatpark/pull/1030)) | 2026-11-07 |
 | Tables | `org.tunaos.tables` | Approved by construction — submitted and maintained by its own developer ([flatpark#1032](https://github.com/flatpark/flatpark/pull/1032)) | 2026-11-07 |

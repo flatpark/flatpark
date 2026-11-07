@@ -1,0 +1,62 @@
+id: ai.artcraft.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: artcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri/WebKitGTK app: display via Wayland and X11 fallback, GPU acceleration,
+  # PulseAudio for audio/video playback, and network for AI provider generation.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --share=ipc
+  - --share=network
+  - --device=dri
+  # Pictures and Videos folders for saving generated artwork.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-download
+  # The app keeps settings, credentials, state and assets in a hardcoded
+  # ~/Artcraft (app_data_root.rs: home_dir().join("Artcraft"), no override).
+  # Without a home grant that lands in the sandbox's throwaway home and is
+  # lost on exit; persist it under ~/.var/app/ai.artcraft.app/Artcraft.
+  - --persist=Artcraft
+modules:
+  - name: artcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 artcraft-wrapper /app/bin/artcraft
+      - install -Dm644 ai.artcraft.app.desktop /app/share/applications/ai.artcraft.app.desktop
+      - install -Dm644 ai.artcraft.app.metainfo.xml /app/share/metainfo/ai.artcraft.app.metainfo.xml
+      - install -Dm644 ai.artcraft.app.png /app/share/icons/hicolor/512x512/apps/ai.artcraft.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: artcraft.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/storytold/artcraft/releases/download/artcraft-v0.41.1/artcraft-0.41.1-linux-x86_64.tar.gz
+        sha256: 149f9748ea33553177c021e1ade47a195fad25b881129d4178fe5bd922a94eb4
+        size: 49365185
+      - type: extra-data
+        filename: artcraft.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/storytold/artcraft/releases/download/artcraft-v0.41.1/artcraft-0.41.1-linux-aarch64.tar.gz
+        sha256: cb780e02e87234927d339c87dee03b224e1641320758be813d31d442d9a691ae
+        size: 49710171
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: artcraft-wrapper
+      - type: file
+        path: ai.artcraft.app.desktop
+      - type: file
+        path: ai.artcraft.app.metainfo.xml
+      - type: file
+        path: ai.artcraft.app.png
