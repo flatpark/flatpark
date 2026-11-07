@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=OpenWhispr
+Comment=Voice dictation with local and cloud speech recognition
+Exec=openwhispr %u
+Icon=com.gizmolabs.openwhispr
+Terminal=false
+Categories=Utility;Accessibility;
+MimeType=x-scheme-handler/openwhispr;
+StartupWMClass=open-whispr

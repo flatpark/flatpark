@@ -1,0 +1,60 @@
+id: com.gizmolabs.openwhispr
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: openwhispr
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Upstream uses X11/XWayland for overlay positioning and native paste.
+  - --socket=x11
+  - --share=ipc
+  # Download local models and access the user's chosen cloud providers.
+  - --share=network
+  # Microphone recording and playback.
+  - --socket=pulseaudio
+  # Accelerated Electron rendering and local inference.
+  - --device=dri
+  # Tray control and transcription notifications.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Electron's native tray uses sandbox PID 2, item 1 (measured on restart).
+  - --own-name=org.freedesktop.StatusNotifierItem-2-1
+  - --talk-name=org.freedesktop.Notifications
+  # Store cloud credentials through the desktop keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Upstream's D-Bus endpoint for desktop shortcut commands.
+  - --own-name=com.openwhispr.App
+  # Prevent Electron variables inherited from an IDE reaching zypak children.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  - --unset-env=ELECTRON_NO_ATTACH_CONSOLE
+modules:
+  - name: openwhispr
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openwhispr-wrapper /app/bin/openwhispr
+      - install -Dm644 com.gizmolabs.openwhispr.desktop /app/share/applications/com.gizmolabs.openwhispr.desktop
+      - install -Dm644 com.gizmolabs.openwhispr.metainfo.xml /app/share/metainfo/com.gizmolabs.openwhispr.metainfo.xml
+      - install -Dm644 com.gizmolabs.openwhispr.png /app/share/icons/hicolor/512x512/apps/com.gizmolabs.openwhispr.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openwhispr.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/OpenWhispr/openwhispr/releases/download/v1.11.0/OpenWhispr-1.11.0-linux-x64.tar.gz
+        sha256: b238d9d3da3122c303f786590484b7aa627d4e625edd79d8c9f2f42af1ec4435
+        size: 538725004
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openwhispr-wrapper
+      - type: file
+        path: com.gizmolabs.openwhispr.desktop
+      - type: file
+        path: com.gizmolabs.openwhispr.metainfo.xml
+      - type: file
+        path: com.gizmolabs.openwhispr.png
