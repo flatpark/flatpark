@@ -8,7 +8,7 @@
   <description>
     <p>NeoStego hides files inside images and WAV audio, optionally encrypted, and embeds invisible watermarks for detecting copies. It provides a Compose desktop interface, an accessible classic interface, and command-line tools.</p>
     <p>This community package downloads the official Linux Debian release from ElCruncharino/neostego at install time and runs its unmodified bundle, including the Java runtime.</p>
-    <p>Documents and Pictures are available to the file choosers. To work with files in other folders, grant only the folder you need:</p>
+    <p>NeoStego uses its own file choosers (falling back to Swing), not the desktop file portal. Documents and Pictures are accessible to these dialogs. For other folders, grant only the access you need:</p>
     <ul>
       <li>Audio in Music: <code>flatpak override --user --filesystem=xdg-music io.github.ElCruncharino.NeoStego</code></li>
       <li>Files in Downloads: <code>flatpak override --user --filesystem=xdg-download io.github.ElCruncharino.NeoStego</code></li>
@@ -24,7 +24,7 @@
   <categories><category>Utility</category><category>Graphics</category></categories>
   <content_rating type="oars-1.1"/>
   <screenshots>
-    <screenshot type="default"><image>https://raw.githubusercontent.com/ElCruncharino/neostego/master/docs/screenshots/hide-data-light.png</image><caption>Hide files inside cover images</caption></screenshot>
+    <screenshot type="default"><image>https://raw.githubusercontent.com/ElCruncharino/neostego/v1.3.1/docs/screenshots/hide-data-light.png</image><caption>Hide files inside cover images</caption></screenshot>
   </screenshots>
   <releases><release version="1.3.1" date="2026-09-14"/></releases>
 </component>
