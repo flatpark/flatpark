@@ -38,7 +38,7 @@ modules:
       - install -Dm755 openwhispr-wrapper /app/bin/openwhispr
       - install -Dm644 com.gizmolabs.openwhispr.desktop /app/share/applications/com.gizmolabs.openwhispr.desktop
       - install -Dm644 com.gizmolabs.openwhispr.metainfo.xml /app/share/metainfo/com.gizmolabs.openwhispr.metainfo.xml
-      - install -Dm644 com.gizmolabs.openwhispr.png /app/share/icons/hicolor/512x512/apps/com.gizmolabs.openwhispr.png
+      - install -Dm644 com.gizmolabs.openwhispr.png /app/share/icons/hicolor/256x256/apps/com.gizmolabs.openwhispr.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
