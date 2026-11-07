@@ -142,6 +142,14 @@ sed -i 's/^runtime-version: .*/runtime-version: "51"/' "$reg/$P/$P.yml"; g add -
 mv "$reg/$P" "$tmp/parent"; g add -A; g commit -qm delist
 assert_eq "$(changed --any-change)" "$E"
 mv "$tmp/parent" "$reg/$P"; g add -A; g commit -qm restore
+# The parent's manifest is found through its descriptor, and an sdk move counts.
+g mv "registry/$P/$P.yml" "registry/$P/hub.yml"
+sed -i 's/^  manifest: .*/  manifest: hub.yml/' "$reg/$P/flatpark.yml"; g add -A; g commit -qm rename
+sed -i 's/^sdk: .*/sdk: org.gnome.Sdk.Next/' "$reg/$P/hub.yml"; g add -A; g commit -qm sdk
+assert_eq "$(changed)" "$P $E"
+sed -i 's/^sdk: .*/sdk: org.gnome.Sdk/' "$reg/$P/hub.yml"
+g mv "registry/$P/hub.yml" "registry/$P/$P.yml"
+sed -i "s/^  manifest: .*/  manifest: $P.yml/" "$reg/$P/flatpark.yml"; g add -A; g commit -qm unrename
 
 if command -v ostree >/dev/null; then
     repo="$tmp/repo"; ostree --repo="$repo" init --mode=archive-z2

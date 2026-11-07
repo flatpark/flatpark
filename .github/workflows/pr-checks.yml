@@ -236,13 +236,12 @@ jobs:
             arch_diff="$(git diff -U0 "$base" HEAD -- "registry/$id/flatpark.yml" \
                           | grep -E '^[+-][[:space:]]*arches:' || true)"
             # An extension unpacks on its parent's runtime, which this PR may move.
-            parent="$(. scripts/lib/common.sh; load_config "$PWD"; load_app "$id"; printf '%s' "$APP_EXTENDS")"
-            parent_diff=""
-            if [ -n "$parent" ]; then
-              parent_diff="$(git diff -U0 "$base" HEAD -- "registry/$parent/$parent.yml" \
-                              | grep -E '^[+-](runtime|runtime-version):' || true)"
+            parent_moved=""
+            if ( . scripts/lib/common.sh; load_config "$PWD"; load_app "$id"
+                 [ -n "$APP_EXTENDS" ] && runtime_moved "$APP_EXTENDS" "$base" HEAD ); then
+              parent_moved=1
             fi
-            if [ -n "$pin_diff" ] || [ -n "$app_diff" ] || [ -n "$arch_diff" ] || [ -n "$parent_diff" ]; then
+            if [ -n "$pin_diff" ] || [ -n "$app_diff" ] || [ -n "$arch_diff" ] || [ -n "$parent_moved" ]; then
               payload_ids="$payload_ids $id"
             fi
           done

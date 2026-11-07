@@ -236,6 +236,17 @@ load_app() {
 # An entry's manifest, without replacing the app already loaded.
 manifest_of() { ( load_app "$1"; printf '%s\n' "$MANIFEST" ); }
 
+# True when an entry's manifest changes runtime, runtime-version or sdk between
+# two git revs: its extensions then build and unpack on the new one
+# (changed-apps.sh, pr-checks.yml). No grep -q: with pipefail, grep closing the
+# pipe on its first match can fail the pipeline on SIGPIPE.
+runtime_moved() {   # <id> <base-rev> <head-rev>
+    local manifest
+    manifest="$(manifest_of "$1" 2>/dev/null)" || return 1
+    [ -n "$(git -C "$ROOT" diff -U0 "$2" "$3" -- "$manifest" \
+        | grep -E '^[+-](runtime|runtime-version|sdk):' || true)" ]
+}
+
 # The registry ids that name this app in build.extends.
 extensions_of() {
     local parent="${1//./\\.}" record

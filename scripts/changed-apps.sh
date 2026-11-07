@@ -48,17 +48,11 @@ build_view() {
             inb && NF && $1 !~ /^#/ { print }'
 }
 
-# No grep -q, for the reason below.
-runtime_moved() {
-    [ -n "$(git -C "$ROOT" diff -U0 "$base" "$head" -- "registry/$1/$1.yml" \
-        | grep -E '^[+-](runtime|runtime-version|sdk):' || true)" ]
-}
-
 git -C "$ROOT" diff --name-only "$base" "$head" -- registry/ \
     | sed -nE 's#^registry/([^/]+)/.*#\1#p' \
     | sort -u \
     | while IFS= read -r id; do
-        if [ ! -f "$REGISTRY_DIR/$id/flatpark.yml" ] || runtime_moved "$id"; then
+        if [ ! -f "$REGISTRY_DIR/$id/flatpark.yml" ] || runtime_moved "$id" "$base" "$head"; then
             extensions_of "$id"
         fi
         [ -f "$REGISTRY_DIR/$id/flatpark.yml" ] || continue
