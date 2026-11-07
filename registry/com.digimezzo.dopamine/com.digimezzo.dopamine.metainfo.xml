@@ -12,7 +12,7 @@
   <url type="bugtracker">https://github.com/digimezzo/dopamine/issues</url>
   <url type="vcs-browser">https://github.com/digimezzo/dopamine</url>
   <description>
-    <p>This is a community package of Dopamine, maintained independently. It repackages the official upstream build unmodified.</p>
+    <p>This is a community package of Dopamine, maintained independently and published with the permission of its developer. It repackages the official upstream build unmodified.</p>
     <p>Dopamine is an audio player that tries to make organizing and listening to music as simple and pretty as possible. It indexes the folders you choose and lets you browse by artist, album, genre, folder and playlist.</p>
     <ul>
       <li>Plays MP3, FLAC, OGG, M4A, OPUS and WAV.</li>
