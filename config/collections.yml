@@ -189,3 +189,52 @@ collections:
         apps:
           - com.foobar2000.Foobar2000
           - com.analog.LTspice
+  - slug: icp-brasil
+    name: ICP-Brasil digital signature
+    summary:
+      en: >-
+        Tools for signing with ICP-Brasil certificates on Linux, including on
+        immutable systems where vendor driver packages can't be installed. A3
+        tokens and smart cards need the vendor's PKCS#11 driver, pcscd and
+        p11-kit. Tessera runs the drivers inside its own sandbox and shares
+        every token over the p11-kit socket, and the sandboxed signers below
+        reach it there.
+      zh-Hans: >-
+        在 Linux 上使用 ICP-Brasil（巴西公钥基础设施）证书签名的工具，也适用于无法安装厂商驱动包的不可变系统。
+        A3 令牌和智能卡需要厂商的 PKCS#11 驱动、pcscd 和 p11-kit。Tessera 在自己的沙盒里运行这些驱动，
+        通过 p11-kit 套接字共享所有令牌，下面的沙盒化签名工具就从那里访问令牌。
+    howto:
+      label:
+        en: How to set up an A3 token with Tessera
+        zh-Hans: 如何用 Tessera 配置 A3 令牌
+      url: /apps/io.github.pedrohqb.Tessera/
+    groups:
+      - title:
+          en: Token drivers
+          zh-Hans: 令牌驱动
+        summary:
+          en: >-
+            Install Tessera first and turn on the host's p11-kit server once
+            (systemctl --user enable --now p11-kit-server.socket). It ships the
+            SafeSign IC, SafeNet Authentication Client and SerproID drivers,
+            and can also set up browsers and PDF readers to use the tokens.
+          zh-Hans: >-
+            先安装 Tessera，并在宿主上启用一次 p11-kit 服务
+            （systemctl --user enable --now p11-kit-server.socket）。它自带 SafeSign IC、
+            SafeNet Authentication Client 和 SerproID 驱动，还能配置浏览器和 PDF 阅读器使用令牌。
+        apps:
+          - io.github.pedrohqb.Tessera
+      - title:
+          en: Signers
+          zh-Hans: 签名工具
+        summary:
+          en: >-
+            PJeOffice Pro signs in the PJe court system; Assinador Serpro is
+            Serpro's signer. Both already have access to the p11-kit socket and
+            use the token Tessera serves, with no driver installed on the host.
+          zh-Hans: >-
+            PJeOffice Pro 用于 PJe 法院系统签名，Assinador Serpro 是 Serpro 的签名工具。
+            两者都已获准访问 p11-kit 套接字，直接使用 Tessera 提供的令牌，宿主上无需安装驱动。
+        apps:
+          - br.jus.cnj.PJeOfficePro
+          - br.gov.serpro.desktop.assinador
