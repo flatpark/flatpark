@@ -80,20 +80,28 @@ collections:
     upstream: https://tunaos.org
     summary:
       en: >-
-        TunaOS makes container-native Linux desktop tools: Tavern (browse and
-        install Homebrew packages), Compass (a fast, extensible command
-        palette), and Blueshell (a container-native terminal powered by
-        Ghostty, with Toolbox, Distrobox, and Podman integration). Everything
-        is open source and maintained by its own developers.
-      zh-Hans: TunaOS 出品面向容器的 Linux 桌面工具：Tavern（浏览并安装 Homebrew 软件包）、Compass（快速、可扩展的命令面板）和 Blueshell（基于 Ghostty 的容器原生终端，集成 Toolbox、Distrobox 和 Podman）。全部开源，由开发者自己维护。
+        TunaOS makes container-native Linux desktop tools and GNOME office apps:
+        Tavern (browse and install Homebrew packages), Compass (a fast, extensible
+        command palette), Blueshell (a container-native terminal powered by
+        Ghostty), and the Hanthor Office Suite: Letters (word processor), Tables
+        (spreadsheet), and Decks (presentations). Everything is open source and
+        maintained by its own developers.
+      zh-Hans: TunaOS 出品面向容器的 Linux 桌面工具与 GNOME 办公套件：Tavern（浏览并安装 Homebrew 软件包）、Compass（快速、可扩展的命令面板）、Blueshell（基于 Ghostty 的容器原生终端）以及 Hanthor 办公套件：Letters（文字处理）、Tables（电子表格）与 Decks（演示文稿）。全部开源，由开发者自己维护。
     groups:
       - title:
-          en: Apps
-          zh-Hans: 应用
+          en: Desktop Tools
+          zh-Hans: 桌面工具
         apps:
           - org.tunaos.tavern
           - org.tunaos.compass
           - org.tunaos.blueshell
+      - title:
+          en: Office Suite
+          zh-Hans: 办公套件
+        apps:
+          - org.tunaos.letters
+          - org.tunaos.tables
+          - org.tunaos.decks
   - slug: ely-office
     name: Ely Office
     upstream: https://office.elygpui.com
