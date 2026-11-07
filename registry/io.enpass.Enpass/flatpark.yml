@@ -1,7 +1,7 @@
 id: io.enpass.Enpass
 name: Enpass
 summary: Password manager for storing credentials locally
-website: https://www.enpass.io/apps/linux/
+website: https://www.enpass.io/downloads/
 build:
   manifest: io.enpass.Enpass.yml
   branch: stable
