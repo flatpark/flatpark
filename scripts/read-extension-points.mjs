@@ -5,9 +5,11 @@
 // here keep a fixed shape, and the pipeline stays dependency-free.
 //
 // Run directly, it prints the metadata of that stand-in
-// (install-parent-skeleton.sh).
+// (install-parent-skeleton.sh), or with --bundled the points the app builds
+// itself (`bundle: true`), whose refs ship with it (prune-and-reclaim.sh).
 //
 // Usage: read-extension-points.mjs <manifest.yml> <arch>
+//        read-extension-points.mjs --bundled <manifest.yml>
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
@@ -59,8 +61,13 @@ function skeletonMetadata(head, arch) {
 if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [file, arch] = process.argv.slice(2);
   if (!file || !arch) {
-    process.stderr.write('usage: read-extension-points.mjs <manifest.yml> <arch>\n');
+    process.stderr.write('usage: read-extension-points.mjs <manifest.yml> <arch> | --bundled <manifest.yml>\n');
     process.exit(2);
+  }
+  if (file === '--bundled') {
+    const { points } = readManifestHead(readFileSync(arch, 'utf8'));
+    for (const [name, keys] of Object.entries(points)) if (keys.bundle === 'true') process.stdout.write(`${name}\n`);
+    process.exit(0);
   }
   const head = readManifestHead(readFileSync(file, 'utf8'));
   if (!head.id || !head.runtime || !head['runtime-version']) {

@@ -146,4 +146,6 @@ them, so an extension left on the old runtime, or without a parent, fails there.
 Move the extensions in the same PR ([batch changes](../reviewers/batch-changes.md)).
 
 A delisted extension has no app ref. `prune-and-reclaim.sh` finds it by the
-`[ExtensionOf]` group of its metadata and drops the ref.
+`[ExtensionOf]` group of its metadata, which names its parent app, and drops the
+ref, unless the parent is listed and builds that extension itself
+(`bundle: true`).

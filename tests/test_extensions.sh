@@ -33,6 +33,9 @@ add-extensions:
     no-autodownload: true
   $P.Single:
     directory: lib/hub/single
+  $P.Bundled:
+    directory: lib/hub/bundled
+    bundle: true
 modules:
   - name: lookalike
     subdirectories: true
@@ -144,11 +147,22 @@ if command -v ostree >/dev/null; then
     repo="$tmp/repo"; ostree --repo="$repo" init --mode=archive-z2
     commit() { rm -rf "$tmp/t"; mkdir -p "$tmp/t/files"; printf '%s\n' "$2" > "$tmp/t/metadata"
         ostree --repo="$repo" commit --branch="$1" --subject=t "$tmp/t" >/dev/null; }
-    commit "runtime/$E/x86_64/stable" "[ExtensionOf]"
-    commit "runtime/gone.Hub.Driver.Foo/x86_64/stable" "[ExtensionOf]"
+    of() { printf '[Runtime]\nname=x\n\n[ExtensionOf]\nref=%s\n' "$1"; }
+    commit "runtime/$E/x86_64/stable" "$(of "app/$P/x86_64/stable")"
+    commit "runtime/$P.Driver.Gone/x86_64/stable" "$(of "app/$P/x86_64/stable")"
+    commit "runtime/$P.Bundled/x86_64/stable" "$(of "app/$P/x86_64/stable")"
+    commit "runtime/gone.Hub.Driver.Foo/x86_64/stable" "$(of "app/gone.Hub/x86_64/stable")"
+    commit "runtime/org.example.Platform.GL.foo/x86_64/1" "$(of "runtime/org.example.Platform/x86_64/50")"
     commit "runtime/org.example.Platform/x86_64/50" "[Runtime]"
     env "${env_common[@]}" "$tmp/scripts/prune-and-reclaim.sh" "$repo" >/dev/null 2>&1
-    assert_eq "$(ostree --repo="$repo" refs | sort | paste -sd' ')" "runtime/$E/x86_64/stable runtime/org.example.Platform/x86_64/50"
+    assert_eq "$(ostree --repo="$repo" refs | sort | paste -sd' ')" \
+        "runtime/$P.Bundled/x86_64/stable runtime/$E/x86_64/stable runtime/org.example.Platform.GL.foo/x86_64/1 runtime/org.example.Platform/x86_64/50"
+    # A parent whose manifest can't be read: keep, don't guess.
+    commit "runtime/$P.Driver.Gone/x86_64/stable" "$(of "app/$P/x86_64/stable")"
+    mv "$reg/$P/$P.yml" "$tmp/parent.yml"
+    env "${env_common[@]}" "$tmp/scripts/prune-and-reclaim.sh" "$repo" >/dev/null 2>&1
+    mv "$tmp/parent.yml" "$reg/$P/$P.yml"
+    assert_eq "$(ostree --repo="$repo" refs | grep -c "^runtime/$P.Driver.Gone/")" "1"
 fi
 
 if [ -d "$ROOT/site/node_modules/yaml" ]; then
