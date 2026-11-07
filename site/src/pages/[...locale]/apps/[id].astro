@@ -136,6 +136,12 @@ const ld = {
             {app.proprietary ? <span class="ml-2 chip">{t('detail.proprietary')}</span> : null}
           </p>
           <p class="mt-2 max-w-2xl text-muted">{app.summary}</p>
+          {app.parent && (
+            <a
+              href={localizePath(`/apps/${app.parent.id}/`, lang)}
+              class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
+            >{t('detail.extension', { name: app.parent.name })} &rarr;</a>
+          )}
           {collections.map((c) => (
             <a
               href={localizePath(`/collections/${c.slug}/`, lang)}
@@ -270,7 +276,7 @@ const ld = {
           )
         }
       </div>
-      <InfoPanel rows={detailRows} permissions={app.permissions} packaging={app.packaging} />
+      <InfoPanel rows={detailRows} permissions={app.permissions} packaging={app.packaging} parent={app.parent} />
     </section>
   </main>
 
