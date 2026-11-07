@@ -107,3 +107,4 @@ that PR link in the table — the PR itself is the evidence.
 | Leaf | `io.github.frandavid100.leaf` | [flatpark#994](https://github.com/flatpark/flatpark/issues/994) — frandavid100, Leaf's developer and repo owner: "I'd like to request its inclusion and explicitly approve FlatPark packaging and distributing it" | 2026-11-05 |
 | ArtCraft Studio | `ai.artcraft.app` | Approved by construction — submitted and maintained by its own developer ([flatpark#1030](https://github.com/flatpark/flatpark/pull/1030)) | 2026-11-07 |
 | Letters | `org.tunaos.letters` | Approved by construction — submitted and maintained by its own developer ([flatpark#1031](https://github.com/flatpark/flatpark/pull/1031)) | 2026-11-07 |
+| Decks | `org.tunaos.decks` | Approved by construction — submitted and maintained by its own developer ([flatpark#1033](https://github.com/flatpark/flatpark/pull/1033)) | 2026-11-07 |

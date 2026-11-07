@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Decks
+Comment=Presentations — TunaOS office suite
+Exec=decks %U
+Icon=org.tunaos.decks
+StartupWMClass=decks
+Terminal=false
+Type=Application
+Categories=Office;
+MimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.oasis.opendocument.presentation;
