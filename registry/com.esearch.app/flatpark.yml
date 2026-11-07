@@ -1,0 +1,18 @@
+id: com.esearch.app
+name: eSearch
+summary: Capture screenshots, recognize text offline, and search or translate
+website: https://esearch.vercel.app/
+source_url: https://github.com/xushengfeng/eSearch
+build:
+  manifest: com.esearch.app.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Utility
+  tags: [Screenshot, OCR, Translation, Screen recording]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

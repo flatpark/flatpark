@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Application
+Name=eSearch
+Comment=Screenshots, offline OCR, search and translation
+Exec=esearch %F
+Icon=com.esearch.app
+Terminal=false
+Categories=Utility;Graphics;
+StartupWMClass=esearch
+MimeType=image/png;image/jpeg;image/svg+xml;image/webp;
+Actions=Capture;Settings;
+
+[Desktop Action Capture]
+Name=Capture screenshot
+Exec=esearch -c
+
+[Desktop Action Settings]
+Name=Settings
+Exec=esearch --setting
