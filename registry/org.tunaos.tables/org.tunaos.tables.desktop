@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Tables
+Comment=Spreadsheet — TunaOS office suite
+Exec=tables %U
+Icon=org.tunaos.tables
+Terminal=false
+Type=Application
+Categories=Office;
+MimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.ms-excel;application/vnd.oasis.opendocument.spreadsheet;text/csv;text/tab-separated-values;
