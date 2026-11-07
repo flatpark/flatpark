@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.pdfsam.basic</id>
+  <launchable type="desktop-id">org.pdfsam.basic.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <name>PDFsam Basic</name>
+  <summary>Split, merge, rotate and extract pages from PDF files</summary>
+  <summary xml:lang="pt-BR">Divida, junte, gire e extraia páginas de arquivos PDF</summary>
+  <developer id="org.pdfsam">
+    <name>Sober Lemur S.r.l.</name>
+  </developer>
+  <url type="homepage">https://pdfsam.org</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/torakiki/pdfsam</url>
+  <url type="help">https://pdfsam.org/documentation/</url>
+  <url type="translate">https://www.pdfsam.org/translate</url>
+  <url type="donation">https://www.pdfsam.org/donate</url>
+  <description>
+    <p>PDFsam Basic is a free and open source desktop application to split, merge, extract pages from, mix and rotate PDF files. Files are processed on your computer and nothing is uploaded.</p>
+    <ul>
+      <li>Merge whole documents or page ranges, keeping or rebuilding bookmarks, handling forms and adding a table of contents</li>
+      <li>Split after given pages, every n pages, by bookmark level or by file size</li>
+      <li>Extract pages, rotate pages, and mix two or more documents page by page</li>
+      <li>Insert the pages of one document into another, repeated every n pages</li>
+    </ul>
+    <p>This is a community package of PDFsam Basic. It downloads the official portable Linux build from the project&apos;s GitHub releases at install time and runs it unmodified, with the Java runtime it bundles. PDFsam&apos;s own update check is turned off with its own setting, because Flatpak does the updating. Report problems with this package on FlatPark&apos;s tracker, not to the PDFsam project.</p>
+    <p>Your Documents and Downloads folders are available, and results are saved next to the input files by default. The app has no network access, which every PDF tool works without; the news panel stays empty. A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Open and save PDFs anywhere in your home folder: <code>flatpak override --user --filesystem=home org.pdfsam.basic</code></li>
+      <li>Another folder only: <code>flatpak override --user --filesystem=/absolute/path org.pdfsam.basic</code></li>
+      <li>News and premium-tools panels: <code>flatpak override --user --share=network org.pdfsam.basic</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset org.pdfsam.basic</code></li>
+    </ul>
+  </description>
+  <categories>
+    <category>Office</category>
+  </categories>
+  <keywords>
+    <keyword>PDF</keyword>
+    <keyword>split</keyword>
+    <keyword>merge</keyword>
+    <keyword>rotate</keyword>
+    <keyword>extract</keyword>
+  </keywords>
+  <provides>
+    <mediatype>application/pdf</mediatype>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Merging PDF files</caption>
+      <image>https://pdfsam.org/imgs/features/basic-merge-pdf.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Splitting a PDF file</caption>
+      <image>https://pdfsam.org/imgs/features/basic-split-pdf.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Extracting pages</caption>
+      <image>https://pdfsam.org/imgs/features/basic-extract-pages.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="6.0.6" date="2026-10-02">
+      <url type="details">https://github.com/torakiki/pdfsam/releases/tag/v6.0.6</url>
+    </release>
+  </releases>
+</component>

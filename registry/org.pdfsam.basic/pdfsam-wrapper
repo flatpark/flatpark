@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+# PDFsam Basic is unpacked by apply_extra to /app/extra/pdfsam. This runs
+# upstream's own launcher, unmodified, which starts the bundled Java runtime.
+launcher=/app/extra/pdfsam/bin/pdfsam.sh
+if [ ! -x "$launcher" ]; then
+    echo "pdfsam: $launcher not found" >&2
+    exit 1
+fi
+# PDFsam's own switch for its update check (org.pdfsam.disable.updates), which
+# also hides the setting for it: Flatpak does the updating here. JDK_JAVA_OPTIONS
+# is read by the java launcher itself, so upstream's script stays as it is.
+export JDK_JAVA_OPTIONS="-Dorg.pdfsam.disable.updates=true${JDK_JAVA_OPTIONS:+ $JDK_JAVA_OPTIONS}"
+exec "$launcher" "$@"
