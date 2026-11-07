@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Use WebKit's compositing renderer for the opaque Tauri window. An override
+# remains available for drivers that require the DMABUF path.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+exec /app/extra/mdsilo/com.mdsilo.mdSilo "$@"

@@ -1,0 +1,61 @@
+id: com.mdsilo.mdSilo
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: mdsilo
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+finish-args:
+  # RSS feeds, podcasts, HTTPS Git sync and publishing.
+  - --share=network
+  # GTK windowing and WebKit rendering; the app has no native clipboard plugin.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Podcast audio output.
+  - --socket=pulseaudio
+  # Direct access to the PipeWire service, requested for this package.
+  - --filesystem=xdg-run/pipewire-0
+  # Tauri's tray icon registers with the watcher using its unique bus name.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+modules:
+  # Tauri's tray loads AppIndicator dynamically; GNOME does not provide it.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: mdsilo
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mdsilo-wrapper /app/bin/mdsilo
+      - install -Dm644 com.mdsilo.mdSilo.desktop /app/share/applications/com.mdsilo.mdSilo.desktop
+      - install -Dm644 com.mdsilo.mdSilo.metainfo.xml /app/share/metainfo/com.mdsilo.mdSilo.metainfo.xml
+      - install -Dm644 com.mdsilo.mdSilo.png /app/share/icons/hicolor/512x512/apps/com.mdsilo.mdSilo.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mdsilo.deb
+        only-arches: [x86_64]
+        url: https://github.com/mdSilo/mdSilo-app/releases/download/mdsilo-v0.7.0/mdsilo_0.7.0_amd64.deb
+        sha256: c79e5cda7ad096aa2341b53a7778eccb1dd26750201a0fd2c66cd89220db32b0
+        size: 17050716
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mdsilo-wrapper
+      - type: file
+        path: com.mdsilo.mdSilo.desktop
+      - type: file
+        path: com.mdsilo.mdSilo.metainfo.xml
+      - type: file
+        path: com.mdsilo.mdSilo.png
