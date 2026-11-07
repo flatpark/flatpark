@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=ArtCraft Studio
+GenericName=AI Image and Video Creation
+Comment=Create images and video with AI
+Exec=artcraft %U
+Icon=ai.artcraft.app
+Terminal=false
+Categories=Graphics;AudioVideo;
+StartupWMClass=artcraft

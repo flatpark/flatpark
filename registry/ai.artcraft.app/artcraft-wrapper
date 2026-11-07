@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# ArtCraft Studio is a Tauri (WebKitGTK) desktop app.
+# WebKitGTK's DMABUF renderer renders a blank window under many drivers inside
+# the Flatpak sandbox; use the compositing path unless the user set it.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER-1}"
+
+exec /app/extra/artcraft/bin/artcraft "$@"
