@@ -235,7 +235,14 @@ jobs:
             # An app newly opted into an arch has pins this arch never unpacked.
             arch_diff="$(git diff -U0 "$base" HEAD -- "registry/$id/flatpark.yml" \
                           | grep -E '^[+-][[:space:]]*arches:' || true)"
-            if [ -n "$pin_diff" ] || [ -n "$app_diff" ] || [ -n "$arch_diff" ]; then
+            # An extension unpacks on its parent's runtime, which this PR may move.
+            parent="$(. scripts/lib/common.sh; load_config "$PWD"; load_app "$id"; printf '%s' "$APP_EXTENDS")"
+            parent_diff=""
+            if [ -n "$parent" ]; then
+              parent_diff="$(git diff -U0 "$base" HEAD -- "registry/$parent/$parent.yml" \
+                              | grep -E '^[+-](runtime|runtime-version):' || true)"
+            fi
+            if [ -n "$pin_diff" ] || [ -n "$app_diff" ] || [ -n "$arch_diff" ] || [ -n "$parent_diff" ]; then
               payload_ids="$payload_ids $id"
             fi
           done
@@ -284,7 +291,7 @@ jobs:
           mkdir -p out/bundles
           for id in ${{ steps.changed.outputs.ids }}; do
             load_app "$id"             # resolves APP_BRANCH the same way build-app.sh did
-            flatpak build-bundle \
+            flatpak build-bundle ${APP_EXTENDS:+--runtime} \
               --runtime-repo=https://dl.flathub.org/repo/flathub.flatpakrepo \
               "$REPO_DIR" "out/bundles/$id.flatpak" "$id" "$APP_BRANCH"
           done

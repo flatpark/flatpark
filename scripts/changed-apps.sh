@@ -19,6 +19,10 @@
 # With --any-change, ANY file change in the app dir counts (still limited to
 # apps that exist) — for consumers that care about site-facing edits too, like
 # the PR dead-link check.
+#
+# An extension builds for its parent's runtime, so a parent that moves runtime
+# or leaves the registry lists its extensions too: the build and the audit then
+# catch one left behind.
 # Usage: changed-apps.sh [--any-change] <base-ref> [head-ref]
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
@@ -44,10 +48,19 @@ build_view() {
             inb && NF && $1 !~ /^#/ { print }'
 }
 
+# No grep -q, for the reason below.
+runtime_moved() {
+    [ -n "$(git -C "$ROOT" diff -U0 "$base" "$head" -- "registry/$1/$1.yml" \
+        | grep -E '^[+-](runtime|runtime-version|sdk):' || true)" ]
+}
+
 git -C "$ROOT" diff --name-only "$base" "$head" -- registry/ \
     | sed -nE 's#^registry/([^/]+)/.*#\1#p' \
     | sort -u \
     | while IFS= read -r id; do
+        if [ ! -f "$REGISTRY_DIR/$id/flatpark.yml" ] || runtime_moved "$id"; then
+            extensions_of "$id"
+        fi
         [ -f "$REGISTRY_DIR/$id/flatpark.yml" ] || continue
         if [ "$any_change" = "1" ]; then
             printf '%s\n' "$id"
@@ -68,4 +81,5 @@ git -C "$ROOT" diff --name-only "$base" "$head" -- registry/ \
         if [ "$(build_view "$base" "$id")" != "$(build_view "$head" "$id")" ]; then
             printf '%s\n' "$id"
         fi
-      done
+      done \
+    | awk '!seen[$0]++'
