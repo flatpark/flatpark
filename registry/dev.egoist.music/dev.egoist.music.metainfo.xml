@@ -47,6 +47,10 @@
     <binary>mygo-music</binary>
   </provides>
   <releases>
+    <release version="0.1.21" date="2026-11-07">
+      <url type="details">https://github.com/egoist/mygo-music/releases/tag/v0.1.21</url>
+      <description></description>
+    </release>
     <release version="0.1.20" date="2026-11-07" />
   </releases>
 </component>

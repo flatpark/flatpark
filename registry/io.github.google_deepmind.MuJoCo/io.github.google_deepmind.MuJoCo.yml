@@ -31,15 +31,15 @@ modules:
         only-arches:
           - x86_64
         url: https://github.com/google-deepmind/mujoco/releases/download/4.0.0/mujoco-4.0.0-linux-x86_64.tar.gz
-        sha256: 5d6f9a2d7d831165c936a685aad8151a7886698753098903c5575899169214fb
-        size: 52463733
+        sha256: 3d5d2d96b6d286b758c75198aa7862590c960256626d3aac53ac5721b0a697f3
+        size: 35358060
       - type: extra-data
         filename: mujoco.tar.gz
         only-arches:
           - aarch64
         url: https://github.com/google-deepmind/mujoco/releases/download/4.0.0/mujoco-4.0.0-linux-aarch64.tar.gz
-        sha256: e72313762824aff53fdce23592f7aa6b1c3aa09ace4d85f55f9aab325cbf9fdc
-        size: 51060440
+        sha256: 479cc07d8a8d1cc77a64dbc477a0e3b08b2caefcee293f137a050e71717163b2
+        size: 34806953
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

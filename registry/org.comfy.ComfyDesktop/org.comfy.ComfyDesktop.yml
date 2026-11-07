@@ -43,10 +43,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: app.deb
-        only-arches: [x86_64]
-        url: https://download.todesktop.com/241130tqe9q3y/comfyui-desktop-2-1.1.8-build-26102263fz4azlz-amd64.deb
-        sha256: ff076e83a1a97ead2b19c684394cff8f9395cb6cb6b287dee32888274687cc1e
-        size: 143804074
+        only-arches:
+          - x86_64
+        url: https://download.todesktop.com/241130tqe9q3y/comfyui-desktop-2-1.1.9-build-2611063zxyb71c9-amd64.deb
+        sha256: 186495cc3ec5b7cc5f54c4335f5b78c5d386fa7fe3d6c31c9cfcbf8ddea5b19e
+        size: 143527216
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
