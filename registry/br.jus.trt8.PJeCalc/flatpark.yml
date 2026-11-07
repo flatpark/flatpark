@@ -16,12 +16,9 @@ catalog:
     - Legal
     - Calculator
 update:
+  # Follows the mirror's releases at source_url, one per TRT8 installer, each
+  # checked against TRT8's published MD5 before it is released.
   command: ./resolve-update.sh
-  # www.trt8.jus.br answers 403 to GitHub's runners, so the scheduled check
-  # cannot download the installer to pin it, and a failed download skips the
-  # pin quietly. An update is a PR made from a machine that reaches the site:
-  # FORCE=1 ./scripts/check-updates.sh br.jus.trt8.PJeCalc
-  auto: false
 policy:
   proprietary: true
 

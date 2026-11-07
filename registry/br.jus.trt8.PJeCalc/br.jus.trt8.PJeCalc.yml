@@ -39,7 +39,7 @@ modules:
         filename: pjecalc-installer.exe
         only-arches:
           - x86_64
-        url: https://www.trt8.jus.br/sites/portal/files/roles/pje-calc/pjecalc-2.16.0-instalador-x64.exe
+        url: https://github.com/LLawli/pjecalc-flatpak/releases/download/v2.16.0/pjecalc-2.16.0-instalador-x64.exe
         sha256: f3526317b018c786f307adb2dba043cd35350a7e74ae85511b637b08be1f613e
         size: 282472034
       - type: extra-data
