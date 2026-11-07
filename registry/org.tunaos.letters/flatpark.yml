@@ -1,0 +1,22 @@
+id: org.tunaos.letters
+name: Letters
+summary: Word processor for the GNOME desktop
+website: https://github.com/tuna-os/gtk-office-suite
+source_url: https://github.com/tuna-os/gtk-office-suite
+build:
+  manifest: org.tunaos.letters.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: true
+  tags:
+    - Office
+    - WordProcessor
+    - Document
+    - GNOME
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
