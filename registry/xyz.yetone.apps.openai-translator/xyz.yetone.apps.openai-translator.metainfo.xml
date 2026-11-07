@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>xyz.yetone.apps.openai-translator</id>
+  <name>NextAI Translator</name>
+  <summary>Translate, polish and summarize text with AI providers</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="io.github.nextai-translator"><name>NextAI Translator contributors</name></developer>
+  <url type="homepage">https://github.com/nextai-translator/nextai-translator</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/nextai-translator/nextai-translator</url>
+  <description>
+    <p>NextAI Translator translates, polishes, explains and summarizes text using your configured AI provider. A provider account and API key, or a local compatible server, is required for translation.</p>
+    <p>This community package downloads the official upstream Debian release at install time and runs its application files unmodified. Shared tray and X11 input libraries accompany it.</p>
+    <p>Clipboard and keyboard integration use X11. Selecting text from native Wayland applications and inserting text into them is not supported by this package. Automatic mouse selection capture and OCR are unavailable in this Linux release.</p>
+    <p>On Wayland sessions, the application defaults to X11 via XWayland; native Wayland mode has not been verified. An XWayland server is required for the default mode.</p>
+    <p>Updates are installed through flatpak update. The upstream in-app updater may show new releases but cannot install them inside Flatpak.</p>
+    <p>Optional speech playback: flatpak override --user --socket=pulseaudio xyz.yetone.apps.openai-translator</p>
+    <p>Undo optional grants: flatpak override --user --reset xyz.yetone.apps.openai-translator</p>
+  </description>
+  <screenshots><screenshot type="default"><caption>NextAI Translator</caption><image>https://user-images.githubusercontent.com/1206493/223899374-ff386436-63b8-4618-afdd-fed2e6b48d56.png</image></screenshot></screenshots>
+  <launchable type="desktop-id">xyz.yetone.apps.openai-translator.desktop</launchable>
+  <categories><category>Office</category><category>Translation</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="0.6.55" date="2026-11-02"/></releases>
+</component>

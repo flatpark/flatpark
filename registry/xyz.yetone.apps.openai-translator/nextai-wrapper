@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Prefer X11, the backend tested for clipboard and text insertion.
+# On Wayland sessions this requires XWayland; users may override GDK_BACKEND.
+export GDK_BACKEND="${GDK_BACKEND:-x11}"
+exec /app/extra/nextai/bin/xyz.yetone.apps.openai-translator "$@"

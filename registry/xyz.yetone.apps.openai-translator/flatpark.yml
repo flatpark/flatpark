@@ -1,0 +1,18 @@
+id: xyz.yetone.apps.openai-translator
+name: NextAI Translator
+summary: Translate, polish and summarize text with AI providers
+website: https://github.com/nextai-translator/nextai-translator
+source_url: https://github.com/nextai-translator/nextai-translator
+build:
+  manifest: xyz.yetone.apps.openai-translator.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  tags: [Translation, Languages, AI]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
