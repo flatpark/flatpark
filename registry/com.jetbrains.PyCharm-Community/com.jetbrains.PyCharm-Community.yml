@@ -1,6 +1,6 @@
 id: com.jetbrains.PyCharm-Community
 # The SDK supplies Python, venv, Git and compilers for development in the sandbox.
-# This follows the IntelliJ Community reference at the catalog's current 26.08.
+# Flathub's archived com.jetbrains.PyCharm-Community did the same; 26.08 is the catalog's current SDK.
 runtime: org.freedesktop.Sdk
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk

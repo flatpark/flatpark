@@ -21,8 +21,9 @@
     Its settings are kept separately inside its Flatpak profile.</p>
     <p>The embedded browser, including built-in HTML and Markdown previews,
     is suspended with the default sandbox configuration.</p>
-    <p>Optional agent sockets can be enabled for Git authentication:</p>
+    <p>Optional access can be enabled with overrides:</p>
     <ul>
+      <li>Projects outside Documents: flatpak override --user --filesystem=~/Projects com.jetbrains.PyCharm-Community</li>
       <li>SSH agent: flatpak override --user --socket=ssh-auth com.jetbrains.PyCharm-Community</li>
       <li>GPG agent: flatpak override --user --socket=gpg-agent com.jetbrains.PyCharm-Community</li>
       <li>Undo overrides: flatpak override --user --reset com.jetbrains.PyCharm-Community</li>
