@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.zfilesync.app</id>
+  <name>ZFileSync</name>
+  <summary>Mirror files and folders between two locations in real time</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="eu.zsync">
+    <name>TheHolyOneZ</name>
+  </developer>
+  <url type="homepage">https://zsync.eu/zfilesync/</url>
+  <url type="bugtracker">https://github.com/TheHolyOneZ/ZFileSync/issues</url>
+  <url type="vcs-browser">https://github.com/TheHolyOneZ/ZFileSync</url>
+  <description>
+    <p>This is a FlatPark community package of ZFileSync. It repackages the official upstream Linux build unmodified.</p>
+    <p>ZFileSync mirrors files and folders between two locations on the same machine, or a mounted network drive, as soon as they change. It is made for files that live in inconvenient places, such as game logs, app output and config files, and keeps them in your workspace automatically. It is not a cloud backup tool.</p>
+    <ul>
+      <li>One-way and two-way sync for single files and whole folders, set per pair.</li>
+      <li>Conflict detection and resolution, a log of deleted files, and detection of files re-created after a delete.</li>
+      <li>Glob-based ignore patterns.</li>
+      <li>A start-up check that brings both sides back in line using content hashes.</li>
+      <li>USB sticks and network shares (SMB, NFS, sshfs, rclone and GNOME mounts) are detected and polled for server-side changes.</li>
+      <li>Keeps syncing from the system tray when the window is closed, with a live activity feed and history.</li>
+    </ul>
+    <p>Permissions: besides display, GPU, a tray icon and notifications, this package grants your home directory, the removable-media mounts (/media, /run/media), /mnt and GNOME's network mounts. ZFileSync watches the folders of each pair by path for as long as it runs, which a folder picked through the file chooser can't provide, so a pair outside these locations won't sync. In practice this means ZFileSync can read and write everything in your home directory.</p>
+    <p>To keep it to fewer folders, remove the home grant and add the ones you sync, for example: <code>flatpak override --user --nofilesystem=home --filesystem=~/Documents dev.zfilesync.app</code>. A pair somewhere else needs that folder added the same way. Undo it with <code>flatpak override --user --reset dev.zfilesync.app</code>.</p>
+    <p>The "Launch on system startup" setting doesn't start ZFileSync at login in this package: a login entry would point to a path that only exists inside the sandbox, so the package keeps it out of your autostart folder. To start it at login, add <code>flatpak run dev.zfilesync.app</code> to your desktop's startup applications.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Utility</category>
+    <category>FileTools</category>
+  </categories>
+  <keywords>
+    <keyword>sync</keyword>
+    <keyword>mirror</keyword>
+    <keyword>backup</keyword>
+    <keyword>folder</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">820</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>zfilesync</binary>
+  </provides>
+  <launchable type="desktop-id">dev.zfilesync.app.desktop</launchable>
+  <releases>
+    <release version="0.1.1" date="2026-10-12">
+      <url>https://github.com/TheHolyOneZ/ZFileSync/blob/main/CHANGELOG.md</url>
+    </release>
+  </releases>
+</component>
