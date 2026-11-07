@@ -1,0 +1,83 @@
+id: com.voquill.desktop
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: voquill
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+finish-args:
+  # X11 global hotkeys, clipboard and input simulation; XWayland for the UI.
+  - --share=ipc
+  - --socket=x11
+  # WebKit rendering and optional Vulkan inference.
+  - --device=dri
+  # Microphone capture and transcription feedback sounds.
+  - --socket=pulseaudio
+  # Model downloads and optional cloud providers.
+  - --share=network
+  # Tauri single-instance coordination and tray integration.
+  - --own-name=com.voquill.desktop.SingleInstance
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Dictation status notifications.
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  # Shared tray library built for GNOME 51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: voquill
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 voquill-wrapper /app/bin/voquill
+      - install -Dm644 com.voquill.desktop.desktop /app/share/applications/com.voquill.desktop.desktop
+      - install -Dm644 com.voquill.desktop.metainfo.xml /app/share/metainfo/com.voquill.desktop.metainfo.xml
+      - install -Dm644 com.voquill.desktop.png /app/share/icons/hicolor/512x512/apps/com.voquill.desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: voquill.deb
+        only-arches: [x86_64]
+        url: https://github.com/voquill/voquill/releases/download/desktop-v0.0.652/voquill-desktop_0.0.652_amd64.deb
+        sha256: 01d449d03029193e39caab00acaad819f75e7a9ba161566edcf9b446b8a27f52
+        size: 36002242
+      # END MANAGED EXTRA-DATA
+      # X11 input automation and the native GTK recording indicator.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libgtk-layer-shell0.deb
+        only-arches: [x86_64]
+        url: https://deb.debian.org/debian/pool/main/g/gtk-layer-shell/libgtk-layer-shell0_0.9.0-2_amd64.deb
+        sha256: de8f0e98a4f48cea3bee516f76b5c314e5e6e7e684fff91fc26a87e970f5edbf
+        size: 56592
+      - type: extra-data
+        filename: libxdo3.deb
+        only-arches: [x86_64]
+        url: https://deb.debian.org/debian/pool/main/x/xdotool/libxdo3_3.20160805.1-5.1_amd64.deb
+        sha256: d634e25d2b50af140ee9f44bab507fcfb665f3556fd483faefdb56e85598cc12
+        size: 30996
+      - type: extra-data
+        filename: xdotool.deb
+        only-arches: [x86_64]
+        url: https://deb.debian.org/debian/pool/main/x/xdotool/xdotool_3.20160805.1-5.1_amd64.deb
+        sha256: 98ac8681533b01020c7288fb2e9de403d586747dab48cfd58e04cb00d0c44fb1
+        size: 51488
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: voquill-wrapper
+      - type: file
+        path: com.voquill.desktop.desktop
+      - type: file
+        path: com.voquill.desktop.metainfo.xml
+      - type: file
+        path: com.voquill.desktop.png

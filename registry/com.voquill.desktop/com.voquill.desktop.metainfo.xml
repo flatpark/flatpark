@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.voquill.desktop</id>
+  <name>Voquill</name>
+  <summary>Voice dictation with local and cloud transcription</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="com.voquill"><name>Voquill, Inc.</name></developer>
+  <url type="homepage">https://voquill.com</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/voquill/voquill</url>
+  <description>
+    <p>Voquill turns speech into text using local Whisper models or configured cloud providers. This package uses X11 for global hotkeys and pasting into other X11 applications. On a Wayland desktop, its window runs through XWayland; global hotkeys and pasting into native Wayland applications are not supported.</p>
+    <p>This is an independent community package of the unmodified official Voquill Debian release, downloaded from upstream at install time.</p>
+    <ul>
+      <li>Dictate with local speech recognition without an account</li>
+      <li>Browse transcription history and replay recorded audio</li>
+      <li>Choose cloud providers using your own credentials</li>
+      <li>Customize writing styles and dictionary terms</li>
+    </ul>
+    <p>The package includes input automation, tray and recording indicator support libraries. Native Wayland setup, system integration installation and automatic startup are not configured by this package. Updates are delivered by Flatpak.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Voquill home and recent transcriptions</caption>
+      <image>https://raw.githubusercontent.com/voquill/voquill/desktop-v0.0.652/docs/home-page.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.voquill.desktop.desktop</launchable>
+  <categories><category>Utility</category><category>Accessibility</category></categories>
+  <keywords><keyword>dictation</keyword><keyword>transcription</keyword><keyword>speech</keyword><keyword>whisper</keyword></keywords>
+  <requires><display_length compare="ge">800</display_length></requires>
+  <recommends><control>keyboard</control><control>pointing</control></recommends>
+  <content_rating type="oars-1.1" />
+  <provides><binary>voquill</binary></provides>
+  <releases><release version="0.0.652" date="2026-09-26" /></releases>
+</component>
