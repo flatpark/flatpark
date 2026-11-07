@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+# X11 supplies the global keyboard capture and paste integration used here.
+# Clearing Wayland detection also selects upstream's X11 input implementation.
+unset WAYLAND_DISPLAY
+export GDK_BACKEND=x11
+export XDG_SESSION_TYPE=x11
+# Debian helpers supply input automation and the native recording indicator.
+export LD_LIBRARY_PATH="/app/extra/helpers/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export PATH="/app/extra/helpers/usr/bin:$PATH"
+# Leave accelerated WebKit rendering enabled on GNOME 51; allow user overrides.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+export WEBKIT_DISABLE_COMPOSITING_MODE="${WEBKIT_DISABLE_COMPOSITING_MODE:-0}"
+exec /app/extra/voquill/bin/com.voquill.desktop "$@"

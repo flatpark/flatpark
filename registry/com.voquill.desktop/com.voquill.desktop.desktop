@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Voquill
+Comment=Voice dictation with local and cloud transcription
+Exec=voquill
+Icon=com.voquill.desktop
+Terminal=false
+Type=Application
+Categories=Utility;Accessibility;
+StartupWMClass=Com.voquill.desktop
