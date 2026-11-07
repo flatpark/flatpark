@@ -1,0 +1,25 @@
+id: ai.artcraft.app
+name: ArtCraft Studio
+summary: Create images and video with AI
+website: https://getartcraft.com
+source_url: https://github.com/storytold/artcraft
+build:
+  manifest: ai.artcraft.app.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  upstream_approved: true
+  category: Graphics
+  tags:
+    - AI
+    - ImageGenerator
+    - VideoGenerator
+    - Creative
+    - Art
+    - Tauri
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
