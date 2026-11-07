@@ -247,10 +247,16 @@ runtime_moved() {   # <id> <base-rev> <head-rev>
         | grep -E '^[+-](runtime|runtime-version|sdk):' || true)" ]
 }
 
-# The registry ids that name this app in build.extends.
+# The registry ids that name this app in build.extends (only under build:,
+# the way read-descriptor.mjs reads it).
 extensions_of() {
-    local parent="${1//./\\.}" record
-    { grep -lE "^[[:space:]]+extends:[[:space:]]*['\"]?$parent['\"]?[[:space:]]*\$" \
+    local record
+    # || true: an empty registry leaves the glob unexpanded, and with pipefail
+    # awk's error would end the caller.
+    { awk -v p="$1" '
+        FNR == 1 { inb = 0 }
+        /^[^[:space:]#]/ { inb = ($0 ~ /^build:[[:space:]]*(#.*)?$/) }
+        inb && $1 == "extends:" { v = $2; gsub(/["\047]/, "", v); if (v == p) print FILENAME }' \
         "$REGISTRY_DIR"/*/flatpark.yml 2>/dev/null || true; } \
         | while IFS= read -r record; do basename "$(dirname "$record")"; done
 }

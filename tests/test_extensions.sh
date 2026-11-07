@@ -134,8 +134,12 @@ g add -A; g commit -qm base
 changed() { "$tmp/scripts/changed-apps.sh" "$@" HEAD~1 HEAD 2>/dev/null | sort | paste -sd' '; }
 sed -i 's/^command: hub/command: hubby/' "$reg/$P/$P.yml"; g add -A; g commit -qm "no move"
 assert_eq "$(changed)" "$P"
-sed -i 's/^runtime-version: .*/runtime-version: "52"/' "$reg/$P/$P.yml"; g add -A; g commit -qm move
+# Only build.extends names a parent; the same key elsewhere doesn't.
+mkdir -p "$reg/io.flatpark.Decoy"
+printf 'id: io.flatpark.Decoy\nbuild:\n  manifest: d.yml\ncatalog:\n  extends: %s\n' "$P" > "$reg/io.flatpark.Decoy/flatpark.yml"
+sed -i 's/^runtime-version: .*/runtime-version: "52"/' "$reg/$P/$P.yml"; g add "$reg/$P"; g commit -qm move
 assert_eq "$(changed)" "$P $E"
+rm -r "$reg/io.flatpark.Decoy"
 assert_eq "$(changed --any-change)" "$P $E"
 assert_eq "$(node "$tmp/scripts/audit-descriptor.mjs" "$reg/$E/flatpark.yml" 2>&1 | grep -c 'differs from')" "1"
 sed -i 's/^runtime-version: .*/runtime-version: "51"/' "$reg/$P/$P.yml"; g add -A; g commit -qm back
