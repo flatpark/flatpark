@@ -45,6 +45,31 @@ while IFS= read -r ref; do
     ostree --repo="$repo" refs --delete "$ref"
 done < <(ostree --repo="$repo" refs)
 
+# 1a. Delisted extensions: an extension from the registry has no app ref to hang
+#     off, and only its metadata tells it apart from a runtime we have to keep.
+#     Only an extension of an app (ExtensionOf ref=app/...), and not one a
+#     listed app builds itself (`bundle: true`): that one ships with the app.
+#     An extension whose parent left the registry has nothing to run in.
+while IFS= read -r ref; do
+    case "$ref" in
+        *:*|runtime/*.Debug/*|runtime/*.Locale/*|runtime/*.Sources/*) continue ;;
+        runtime/*) ;;
+        *) continue ;;
+    esac
+    id="${ref#runtime/}"; id="${id%%/*}"
+    [ ! -f "$REGISTRY_DIR/$id/flatpark.yml" ] || continue
+    meta="$(ostree --repo="$repo" cat "$ref" /metadata 2>/dev/null)" || continue
+    parent="$(printf '%s\n' "$meta" | awk -F'[=/]' '/^\[/ { s = ($0 == "[ExtensionOf]") } s && $1 == "ref" && $2 == "app" { print $3; exit }')"
+    [ -n "$parent" ] || continue
+    if [ -f "$REGISTRY_DIR/$parent/flatpark.yml" ]; then
+        # A parent whose manifest can't be read keeps the ref: never delete on a guess.
+        bundled="$(node "$ROOT/scripts/read-extension-points.mjs" --bundled "$(manifest_of "$parent")")" || continue
+        ! printf '%s\n' "$bundled" | grep -qxF "$id" || continue
+    fi
+    log "delist: removing extension ref $ref (no registry entry for $id)"
+    ostree --repo="$repo" refs --delete "$ref"
+done < <(ostree --repo="$repo" refs)
+
 # 1b. Orphaned extensions: drop a .Debug/.Locale/.Sources ref the app no longer
 #     exports. Adding `no-debuginfo: true` (or `separate-locales: false`) stops
 #     the next build from producing the extension, but the ref the *previous*

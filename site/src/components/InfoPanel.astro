@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, localizePath, packagingDot, packagingText, permissionText, useTranslations } from '../i18n';
-const { rows = [], permissions = [], packaging = null } = Astro.props;
+const { rows = [], permissions = [], packaging = null, parent = null } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const dot = {
@@ -52,6 +52,7 @@ const packItems = (packaging?.items ?? []).map((i) => ({ ...i, ...packagingText(
         )
       }
     </div>
+    {parent && <p class="mt-2 text-sm text-muted">{t('panel.parent', { name: parent.name })}</p>}
     {
       sorted.length === 0 ? (
         <p class="mt-2 text-sm text-muted">{t('panel.none')}</p>

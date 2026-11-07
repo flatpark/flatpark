@@ -51,6 +51,14 @@ freedesktop base (`org.electronjs.Electron2.BaseApp` 26.08 for both
 freedesktop 26.08 and GNOME 51 apps); a mismatched base links its own libraries
 against the wrong ICU and others.
 
+### Extensions move with their parent
+
+A parent's move lists its [extensions](../packagers/extensions.md) as changed,
+and the audit fails one whose `sdk` version is still the old one. Change `sdk` in
+the same PR, and check that the payload runs on the new runtime: a rebuild only
+repacks the small files around it, so a compiled payload that breaks there needs
+a new upstream release.
+
 ### Measuring a runtime upgrade
 
 A new runtime major is not a superset of the old one. From freedesktop 25.08 to

@@ -36,6 +36,11 @@ if [ -n "${RUNTIME_REPO_URL:-}" ]; then
     args+=(--install-deps-from="$RUNTIME_REMOTE_NAME" --user)
 fi
 
+if [ -n "$APP_EXTENDS" ]; then
+    trap '"$ROOT/scripts/install-parent-skeleton.sh" --remove "$APP_EXTENDS"' EXIT
+    "$ROOT/scripts/install-parent-skeleton.sh" "$APP_EXTENDS"
+fi
+
 flatpak_builder --cwd="$APP_SRC" --env=GNUPGHOME="$GNUPGHOME_DIR" -- \
     "${args[@]}" "$build_dir" "$MANIFEST"
 log "built $APP_ID into $REPO_DIR"

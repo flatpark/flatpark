@@ -337,6 +337,34 @@ function releaseExtras(rawXml) {
   return out;
 }
 
+function readDescriptor(dir) {
+  const path = join(dir || '', 'flatpark.yml');
+  return existsSync(path) ? YAML.parse(readFileSync(path, 'utf8')) || {} : null;
+}
+
+// The remote FlatPark's install commands name, from the catalog gen-apps-json.sh
+// wrote next to the app files.
+let catalogRemote;
+function remoteName() {
+  catalogRemote ??= JSON.parse(readFileSync(join(dataDir, 'catalog.json'), 'utf8')).repo?.remoteName;
+  if (!catalogRemote) {
+    console.error(`[enrich] ${join(dataDir, 'catalog.json')} names no remote`);
+    process.exit(1);
+  }
+  return catalogRemote;
+}
+
+function parentOf(srcDir, id) {
+  const dir = join(srcDir, '..', id);
+  const fy = readDescriptor(dir);
+  const manifest = fy?.build?.manifest ? join(dir, fy.build.manifest) : '';
+  if (!manifest || !existsSync(manifest)) {
+    console.error(`[enrich] the parent ${id} of ${srcDir} is not in the registry`);
+    process.exit(1);
+  }
+  return { name: fy.name || id, manifest: parseManifest(manifest) };
+}
+
 function parseManifest(path) {
   const raw = readFileSync(path, 'utf8');
   try {
@@ -581,10 +609,17 @@ async function enrichOne(file) {
   try {
     if (base._manifest && existsSync(base._manifest)) {
       const m = parseManifest(base._manifest);
-      out.runtime = m.runtime || '';
-      out.runtimeVersion = m['runtime-version'] ? String(m['runtime-version']) : '';
+      // An extension has no permissions or runtime of its own: it runs inside
+      // its parent with all of the parent's. A page that can't say so must
+      // not say "fully sandboxed", so a missing parent stops the build.
+      const fy = readDescriptor(srcDir);
+      const parent = fy?.build?.extends ? parentOf(srcDir, fy.build.extends) : null;
+      const host = parent ? parent.manifest : m;
+      if (parent) out.parent = { id: fy.build.extends, name: parent.name };
+      out.runtime = host.runtime || '';
+      out.runtimeVersion = host['runtime-version'] ? String(host['runtime-version']) : '';
       out.command = m.command || '';
-      out.permissions = toArray(m['finish-args']).map(describePermission).filter(Boolean);
+      out.permissions = toArray(host['finish-args']).map(describePermission).filter(Boolean);
       supportDerived = supportFiles(m, readFileSync(base._manifest, 'utf8'));
       if (toArray(m.tags).includes('proprietary')) out.proprietary = true;
     }
@@ -658,6 +693,9 @@ async function enrichOne(file) {
 
   out.packaging = packagingOf(packagingDeclared, supportDerived);
   out.requires = out.requires || [];
+  if (out.parent && !out.requires.some((r) => r.ref === out.parent.id)) {
+    out.requires.push({ remote: remoteName(), ref: out.parent.id, name: out.parent.name });
+  }
   out.installCmd = installWith(base.installCmd, [out]);
 
   out.screenshots = await cacheScreenshots(out.id, out.screenshots);

@@ -96,6 +96,13 @@ check_one() {
         esac
     done < <(node "$ROOT/scripts/read-extra-data.mjs" "$MANIFEST" "$arch")
 
+    # An extension's manifest names its parent app as the runtime; what it
+    # unpacks on is the parent's own runtime.
+    if [ -n "$APP_EXTENDS" ]; then
+        IFS=$'\t' read -r kind runtime runtime_version \
+            < <(node "$ROOT/scripts/read-extra-data.mjs" "$(manifest_of "$APP_EXTENDS")" "$arch")
+    fi
+
     if [ "${#sources[@]}" -eq 0 ]; then
         log "$APP_ID: no extra-data for $arch, nothing to check"
         return 0

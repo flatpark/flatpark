@@ -194,7 +194,7 @@ load_app() {
     local desc
     desc="$(node "$ROOT/scripts/read-descriptor.mjs" "$record")" \
         || die "failed to read descriptor: $record"
-    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
+    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
     # shellcheck disable=SC1090
     eval "$desc"
@@ -203,6 +203,7 @@ load_app() {
     APP_NAME="$_FP_NAME"
     APP_SUMMARY="$_FP_SUMMARY"
     APP_ARCHES="$_FP_ARCHES"   # space-separated, x86_64 when the descriptor is silent
+    APP_EXTENDS="$_FP_EXTENDS" # the parent app of an extension, empty for an app
     [ "$APP_ID" = "$app_id" ] || die "registry id mismatch: wanted $app_id got $APP_ID"
 
     # Defaults compose the descriptor values; any explicit env override (captured
@@ -225,11 +226,39 @@ load_app() {
         [ -n "${!var-}" ] || die "app registry entry $record did not set $var"
         declare -g "$var=${!var}"
     done
-    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO; do
+    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO APP_EXTENDS; do
         declare -g "$var=${!var}"
     done
-    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
+    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
+}
+
+# An entry's manifest, without replacing the app already loaded.
+manifest_of() { ( load_app "$1"; printf '%s\n' "$MANIFEST" ); }
+
+# True when an entry's manifest changes runtime, runtime-version or sdk between
+# two git revs: its extensions then build and unpack on the new one
+# (changed-apps.sh, pr-checks.yml). No grep -q: with pipefail, grep closing the
+# pipe on its first match can fail the pipeline on SIGPIPE.
+runtime_moved() {   # <id> <base-rev> <head-rev>
+    local manifest
+    manifest="$(manifest_of "$1" 2>/dev/null)" || return 1
+    [ -n "$(git -C "$ROOT" diff -U0 "$2" "$3" -- "$manifest" \
+        | grep -E '^[+-](runtime|runtime-version|sdk):' || true)" ]
+}
+
+# The registry ids that name this app in build.extends (only under build:,
+# the way read-descriptor.mjs reads it).
+extensions_of() {
+    local record
+    # || true: an empty registry leaves the glob unexpanded, and with pipefail
+    # awk's error would end the caller.
+    { awk -v p="$1" '
+        FNR == 1 { inb = 0 }
+        /^[^[:space:]#]/ { inb = ($0 ~ /^build:[[:space:]]*(#.*)?$/) }
+        inb && $1 == "extends:" { v = $2; gsub(/["\047]/, "", v); if (v == p) print FILENAME }' \
+        "$REGISTRY_DIR"/*/flatpark.yml 2>/dev/null || true; } \
+        | while IFS= read -r record; do basename "$(dirname "$record")"; done
 }
 
 # True when the loaded app (load_app) is published for the given arch.
