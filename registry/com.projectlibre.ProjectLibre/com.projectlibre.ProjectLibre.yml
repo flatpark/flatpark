@@ -1,0 +1,46 @@
+id: com.projectlibre.ProjectLibre
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: projectlibre
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Java Swing uses X11 and shared memory for its desktop UI.
+  - --socket=x11
+  - --share=ipc
+  # Swing's file chooser works directly with project files in Documents.
+  - --filesystem=xdg-documents
+  # Java preferences and ProjectLibre configuration survive restarts privately.
+  - --persist=.java
+  - --persist=.projectlibre
+modules:
+  - name: projectlibre
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 projectlibre-wrapper /app/bin/projectlibre
+      - install -Dm644 com.projectlibre.ProjectLibre.desktop /app/share/applications/com.projectlibre.ProjectLibre.desktop
+      - install -Dm644 com.projectlibre.ProjectLibre.metainfo.xml /app/share/metainfo/com.projectlibre.ProjectLibre.metainfo.xml
+      - install -Dm644 com.projectlibre.ProjectLibre.png /app/share/icons/hicolor/128x128/apps/com.projectlibre.ProjectLibre.png
+    sources:
+      # The Debian build includes upstream's Java 21 runtime; the tarball does not.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: projectlibre.deb
+        only-arches: [x86_64]
+        url: https://downloads.sourceforge.net/project/projectlibre/ProjectLibre/1.9.8/projectlibre_1.9.8_amd64.deb
+        sha256: ed10ed51fe098c162526219e49c0b38ba393470dca52d207484a5e9df9b88cfc
+        size: 57263818
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: projectlibre-wrapper
+      - type: file
+        path: com.projectlibre.ProjectLibre.desktop
+      - type: file
+        path: com.projectlibre.ProjectLibre.metainfo.xml
+      - type: file
+        path: com.projectlibre.ProjectLibre.png

@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# jpackage locates upstream's application and bundled Java runtime beside itself.
+exec /app/extra/projectlibre/bin/ProjectLibre "$@"

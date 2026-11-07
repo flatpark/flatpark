@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.projectlibre.ProjectLibre</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>CPAL-1.0</project_license>
+  <name>ProjectLibre</name>
+  <summary>Plan projects with Gantt charts, tasks and resources</summary>
+  <developer id="com.projectlibre"><name>ProjectLibre</name></developer>
+  <description>
+    <p>ProjectLibre is desktop project management software for planning tasks,
+    dependencies, schedules, resources and costs. View your project as a Gantt
+    chart, network diagram or work breakdown structure, and open Microsoft
+    Project files.</p>
+    <p>This community package installs the official ProjectLibre Linux build
+    unmodified, including its bundled Java runtime.</p>
+    <p>In package testing, reopening an exported Microsoft Project XML file
+    displayed an empty task view. Use the native .pod format to save and
+    reopen projects.</p>
+    <p>The Java file chooser can open and save files in your Documents folder.
+    To work in another folder, grant it with
+    <code>flatpak override --user --filesystem=/path/to/projects com.projectlibre.ProjectLibre</code>.
+    Undo custom permissions with
+    <code>flatpak override --user --reset com.projectlibre.ProjectLibre</code>.</p>
+    <p>Network access for optional registration and update checks is not enabled
+    by default. Enable it with
+    <code>flatpak override --user --share=network com.projectlibre.ProjectLibre</code>.</p>
+  </description>
+  <launchable type="desktop-id">com.projectlibre.ProjectLibre.desktop</launchable>
+  <url type="homepage">https://projectlibre.com/projectlibre-desktop/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="1.9.8" date="2025-04-28"/></releases>
+</component>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ProjectLibre
+Comment=Plan projects with Gantt charts, tasks and resources
+Exec=projectlibre %F
+Icon=com.projectlibre.ProjectLibre
+Terminal=false
+Categories=Office;ProjectManagement;
+StartupWMClass=com-projectlibre1-main-Main

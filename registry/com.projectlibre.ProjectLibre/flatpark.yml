@@ -1,0 +1,18 @@
+id: com.projectlibre.ProjectLibre
+name: ProjectLibre
+summary: Plan projects with Gantt charts, tasks and resources
+website: https://projectlibre.com/projectlibre-desktop/
+source_url: https://sourceforge.net/p/projectlibre/code/
+build:
+  manifest: com.projectlibre.ProjectLibre.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  tags: [Project Management, Gantt, Scheduling, Resources]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
