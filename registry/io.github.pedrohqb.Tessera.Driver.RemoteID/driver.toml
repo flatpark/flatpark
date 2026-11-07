@@ -1,0 +1,8 @@
+name = "RemoteID"
+vendor = "Certisign"
+description = "Cloud certificate; sign in with the RemoteID button"
+module = "extra/lib/libremoteid.so"
+
+[[tools]]
+name = "RemoteID"
+exec = ["extra/bin/remoteid"]
