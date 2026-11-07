@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.tunaos.letters" path="/org/tunaos/letters/">
+    <key name="dark-mode" type="b">
+      <default>false</default>
+      <summary>Dark mode</summary>
+      <description>Whether dark mode is enabled. Superseded by style, which can also keep light on a dark system; read when style is "default", as older versions saved only this.</description>
+    </key>
+    <key name="style" type="s">
+      <choices>
+        <choice value="default"/>
+        <choice value="light"/>
+        <choice value="dark"/>
+      </choices>
+      <default>"default"</default>
+      <summary>Style</summary>
+      <description>The style Toggle Dark Mode chose: "light" or "dark", kept whatever the system prefers, or "default" to follow the system.</description>
+    </key>
+    <key name="window-width" type="i">
+      <default>960</default>
+      <summary>Window width</summary>
+    </key>
+    <key name="window-height" type="i">
+      <default>680</default>
+      <summary>Window height</summary>
+    </key>
+    <key name="window-maximized" type="b">
+      <default>false</default>
+      <summary>Window maximized</summary>
+    </key>
+    <key name="font" type="s">
+      <default>'Sans 12'</default>
+      <summary>Font family</summary>
+    </key>
+    <key name="editor-margin" type="d">
+      <default>16.0</default>
+      <range min="0" max="50"/>
+      <summary>Editor margin percentage</summary>
+    </key>
+    <key name="spell-check-enabled" type="b">
+      <default>true</default>
+      <summary>Spell checking</summary>
+    </key>
+    <key name="page-width-pt" type="d">
+      <default>595.0</default>
+      <summary>Page width in points (1/72 inch)</summary>
+    </key>
+    <key name="page-height-pt" type="d">
+      <default>842.0</default>
+      <summary>Page height in points (1/72 inch)</summary>
+    </key>
+    <key name="page-margin-top" type="d">
+      <default>72.0</default>
+      <summary>Top page margin in points</summary>
+    </key>
+    <key name="page-margin-bottom" type="d">
+      <default>72.0</default>
+      <summary>Bottom page margin in points</summary>
+    </key>
+    <key name="page-margin-left" type="d">
+      <default>72.0</default>
+      <summary>Left page margin in points</summary>
+    </key>
+    <key name="page-margin-right" type="d">
+      <default>72.0</default>
+      <summary>Right page margin in points</summary>
+    </key>
+    <key name="ruler-metric" type="b">
+      <default>false</default>
+      <summary>Use metric units (cm) on ruler instead of imperial (inches)</summary>
+    </key>
+    <key name="distraction-free" type="b">
+      <default>false</default>
+      <summary>Hide the window's bars while typing; moving the pointer brings them back</summary>
+    </key>
+    <key name="zoom-level" type="d">
+      <default>100.0</default>
+      <range min="50" max="200"/>
+      <summary>Zoom level as percentage (50-200)</summary>
+    </key>
+    <key name="line-spacing" type="d">
+      <default>1.15</default>
+      <range min="1.0" max="3.0"/>
+      <summary>Line spacing multiplier</summary>
+    </key>
+    <key name="column-count" type="i">
+      <default>1</default>
+      <range min="1" max="3"/>
+      <summary>Number of text columns (1-3)</summary>
+    </key>
+    <key name="auto-save-interval" type="i">
+      <default>60</default>
+      <range min="0" max="3600"/>
+      <summary>Auto-save interval in seconds</summary>
+    </key>
+    <key name="show-toolbar" type="b">
+      <default>true</default>
+      <summary>Show formatting toolbar</summary>
+    </key>
+    <key name="default-format" type="s">
+      <default>'odt'</default>
+      <summary>Default save format</summary>
+    </key>
+    <key name="palette-recent" type="as">
+      <default>[]</default>
+      <summary>Recently used command-palette actions</summary>
+      <description>Most-recent-first action names, used for palette ranking.</description>
+    </key>
+    <key name="recent-files" type="as">
+      <default>[]</default>
+      <summary>Recently opened documents</summary>
+      <description>At most ten file URIs, with missing files pruned on read.</description>
+    </key>
+  </schema>
+</schemalist>
