@@ -1,0 +1,48 @@
+id: org.tunaos.letters
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: letters
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-pictures
+modules:
+  - name: letters
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 letters-wrapper /app/bin/letters
+      - install -Dm644 org.tunaos.letters.desktop /app/share/applications/org.tunaos.letters.desktop
+      - install -Dm644 org.tunaos.letters.gschema.xml /app/share/glib-2.0/schemas/org.tunaos.letters.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas/
+      - install -Dm644 org.tunaos.letters.metainfo.xml /app/share/metainfo/org.tunaos.letters.metainfo.xml
+      - install -Dm644 org.tunaos.letters.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.letters.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: letters.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.0/letters-x86_64.tar.gz
+        sha256: ff0224118daba8c8d88fd182e844762fd6370dc4e8b88731a6ea1dc4c3f497c6
+        size: 7519184
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: letters-wrapper
+      - type: file
+        path: org.tunaos.letters.desktop
+      - type: file
+        path: org.tunaos.letters.gschema.xml
+      - type: file
+        path: org.tunaos.letters.metainfo.xml
+      - type: file
+        path: org.tunaos.letters.svg
