@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Letters
+Comment=Word processor — TunaOS office suite
+Exec=letters %U
+Icon=org.tunaos.letters
+Terminal=false
+Type=Application
+Categories=Office;
+MimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document;text/markdown;text/plain;text/html;application/vnd.oasis.opendocument.text;
