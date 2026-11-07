@@ -1,7 +1,7 @@
 id: io.github.aedev.flow.desktop
 name: Flow
 summary: Privacy-first video and music streaming client with local recommendations
-website: https://flow-tube.org
+website: https://github.com/Flow-Tube/Flow-Desktop
 source_url: https://github.com/Flow-Tube/Flow-Desktop
 build:
   manifest: io.github.aedev.flow.desktop.yml
