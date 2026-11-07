@@ -7,6 +7,16 @@ set -eu
 # into the sandbox, so the library database, caches and settings land in
 # ~/.var/app/com.zarz.mornye. The launcher name is whatever apply_extra found
 # in the official .deb.
+
+# Mornye opens extension verification pages (Cloudflare challenges before a
+# download) with url_launcher, which first asks canLaunchUrl. On Linux that is
+# g_app_info_get_default_for_uri_scheme("https"), and the sandbox has no
+# browser registered, so the check fails and the page never opens. A private,
+# unexported handler makes the check pass; launchUrl itself goes through
+# gtk_show_uri_on_window and the OpenURI portal, so the host's default browser
+# opens the page and the handler's Exec is not used.
+export XDG_DATA_DIRS="/app/share/mornye/url-handler${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+
 extra_root=/app/extra
 launcher="$(cat "$extra_root/launcher")"
 

@@ -1,0 +1,9 @@
+[Desktop Entry]
+# Never exported: installed outside /app/share/applications and only put on
+# XDG_DATA_DIRS by the wrapper. It exists so GIO inside the sandbox reports a
+# handler for web links; see the wrapper.
+Type=Application
+Name=Web link handler
+NoDisplay=true
+Exec=xdg-open %u
+MimeType=x-scheme-handler/http;x-scheme-handler/https;

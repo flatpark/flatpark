@@ -115,6 +115,13 @@ before the PR. Each item links to the page that explains it.
 - File associations: usually `%F`; many Flutter apps don't parse `file://` URIs
   ([opening files](desktop-integration.md#opening-files-from-the-file-manager)).
 - Fonts work through fontconfig; no `fonts.conf` needed.
+- Links that never open: `url_launcher`'s `canLaunchUrl` asks GIO for a
+  default `https` handler, and the sandbox has none, so apps that check before
+  `launchUrl` silently do nothing (`launchUrl` alone works through the portal).
+  Ship a private `NoDisplay` handler for `x-scheme-handler/http;https` outside
+  `/app/share/applications`, run `update-desktop-database` on it (GIO needs the
+  `mimeinfo.cache`), and prepend its directory to `XDG_DATA_DIRS` in the
+  wrapper ([Mornye](../../../registry/com.zarz.mornye/mornye-wrapper)).
 
 ### Qt
 
