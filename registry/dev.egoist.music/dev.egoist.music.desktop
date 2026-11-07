@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=MyGo Music
+Comment=A music player for your files and more
+Exec=mygo-music %U
+Icon=dev.egoist.music
+Terminal=false
+StartupWMClass=mygo-music
+MimeType=x-scheme-handler/mygo-music;
+Categories=AudioVideo;Audio;Player;
+Keywords=music;player;audio;podcast;lyrics;

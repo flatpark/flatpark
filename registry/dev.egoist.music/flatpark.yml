@@ -1,0 +1,23 @@
+id: dev.egoist.music
+name: MyGo Music
+summary: Music player for your files and more
+website: https://music.egoist.dev/
+source_url: https://github.com/egoist/mygo-music
+build:
+  manifest: dev.egoist.music.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Music
+    - Player
+    - Podcast
+    - Lyrics
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

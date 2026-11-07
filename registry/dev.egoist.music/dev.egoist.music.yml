@@ -1,0 +1,90 @@
+id: dev.egoist.music
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: mygo-music
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native Go app on the MyGo framework (no WebView). The binary links only
+  # libc and dlopen-s GTK 3, GDK, Pango, Cairo, epoxy, wayland-client/X11,
+  # libpulse-simple and libsecret at startup, all from the GNOME runtime.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GL rendering through GtkGLArea.
+  - --device=dri
+  # Playback (libpulse-simple; PipeWire desktops answer on the same socket).
+  - --socket=pulseaudio
+  # Plugins (catalogs, podcasts, stations, installed from GitHub), cover and
+  # lyric lookups, the podcast-caption models downloaded on request.
+  - --share=network
+  # The local library. The app only reads the folders you add; the Music
+  # directory is granted read-only so the default location works with real
+  # paths. Folders elsewhere come in through the file-chooser portal.
+  - --filesystem=xdg-music:ro
+  # MPRIS: media keys and the desktop's now-playing controls. The framework
+  # owns org.mpris.MediaPlayer2.MyGo_Music.instance<pid>.
+  - --own-name=org.mpris.MediaPlayer2.MyGo_Music.*
+  # Tray icon (libayatana-appindicator → StatusNotifierItem).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Desktop notifications, called on the bus name directly.
+  - --talk-name=org.freedesktop.Notifications
+  # Plugin account tokens are kept in the Secret Service through libsecret.
+  - --talk-name=org.freedesktop.secrets
+  # Pauses/resumes around suspend (login1 PrepareForSleep signal).
+  - --system-talk-name=org.freedesktop.login1
+  # Settings, library index, plugins and caches live under XDG_CONFIG_HOME /
+  # XDG_DATA_HOME / XDG_CACHE_HOME, which Flatpak points into ~/.var/app.
+modules:
+  # The tray icon dlopen-s libayatana-appindicator3, which the GNOME runtime
+  # does not ship. Without it the app runs and only the tray icon is missing.
+  # Prebuilt ayatana tray stack from https://github.com/flatpark/prebuilt,
+  # built against org.gnome.Sdk//51; the tag's manifest records the sources.
+  # The ayatana-v2 release has no GNOME 51 aarch64 archive yet, so aarch64
+  # runs without the tray icon.
+  - name: ayatana-stack
+    only-arches: [x86_64]
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: mygo-music
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mygo-music-wrapper /app/bin/mygo-music
+      - install -Dm644 dev.egoist.music.desktop /app/share/applications/dev.egoist.music.desktop
+      - install -Dm644 dev.egoist.music.metainfo.xml /app/share/metainfo/dev.egoist.music.metainfo.xml
+      - install -Dm644 dev.egoist.music.png /app/share/icons/hicolor/512x512/apps/dev.egoist.music.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mygo-music.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/egoist/mygo-music/releases/download/v0.1.20/mygo-music-0.1.20-linux-amd64.tar.gz
+        sha256: fa6c31bca23eab61f0b43f3a71bd4145f15a63a88e631401af88bfad07852768
+        size: 12730886
+      - type: extra-data
+        filename: mygo-music.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/egoist/mygo-music/releases/download/v0.1.20/mygo-music-0.1.20-linux-arm64.tar.gz
+        sha256: 64f9ec1a1f7c73b857b268563db56efb282cfd793c0b3c233108068a3db8700d
+        size: 11586512
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mygo-music-wrapper
+      - type: file
+        path: dev.egoist.music.desktop
+      - type: file
+        path: dev.egoist.music.metainfo.xml
+      - type: file
+        path: dev.egoist.music.png
