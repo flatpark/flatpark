@@ -39,7 +39,6 @@ finish-args:
   - --talk-name=org.xfce.ScreenSaver
   - --own-name=org.mpris.MediaPlayer2.chromium.*
   - --filesystem=xdg-download
-  - --filesystem=xdg-run/pipewire-0
   - --persist=.pki
   # No GSettings backend is shipped, so proxy settings configured on the host
   # desktop are not read. A proxy is configured with --proxy-server in

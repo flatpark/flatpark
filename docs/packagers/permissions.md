@@ -20,7 +20,7 @@ description, so each user decides. Permissions show on every app's page.
   An app that writes a dotdir in your home loses it on every restart unless the
   package grants it.
 - **High-risk permissions** (running commands outside the sandbox, devices,
-  the whole home directory) are declared in `flatpark.yml`, argued for in the
+  direct PipeWire access, the whole home directory) are declared in `flatpark.yml`, argued for in the
   PR and reviewed by a maintainer. They are granted when the app's main feature
   needs them, or when leaving them out would take more overrides than a user
   can be expected to manage. The app page marks them with a warning.
@@ -99,6 +99,46 @@ patching Enpass, the package puts small `lsof`, `readlink` and `cat` scripts on
 Nothing is injected into Enpass, but the package needs
 `--talk-name=org.freedesktop.Flatpak`, which lets the app run any host command:
 it declares that, and its page says so.
+
+### The PipeWire socket
+
+Sound needs only `--socket=pulseaudio`: playback, the microphone and recording
+what other apps play all go through it, on PipeWire desktops too. Cameras and
+screen sharing go through the Camera and ScreenCast portals, which ask the user
+and hand the app a PipeWire connection that sees only what was shared. Neither
+needs `--filesystem=xdg-run/pipewire-0`.
+
+That grant puts the PipeWire daemon's own socket in the sandbox, and WirePlumber
+gives a Flatpak client read and use rights on every object in the graph.
+Measured with PipeWire 1.6 and WirePlumber 0.5, an app holding it can:
+
+- open any camera, with no `--device` grant and no portal asking;
+- record any other app's video stream, including the streams the ScreenCast
+  portal creates for another app's screen share;
+- see every device and stream and link any output to any input; the links stay
+  after the app exits.
+
+It can't change settings: its writes to PipeWire's metadata (the default
+devices) are refused. `:ro` changes nothing, since a read-only bind of a socket
+can still be connected to.
+
+So it is a high-risk permission. Declare it in `policy.dangerous_permissions`
+(the descriptor audit warns otherwise), and grant it only when the app's main
+feature connects to the default socket itself rather than to the fd a portal
+returns. [XerahS](../../registry/com.xerahs.XerahS/com.xerahs.XerahS.yml) is the
+case: it records a ScreenCast node by passing `path=<node>` to a
+`gst-launch-1.0 pipewiresrc` child, which can only use the default socket. A
+feature that merely works better with direct access (a PipeWire output plugin,
+a device watcher, sharing an app's audio with a screen share) is an
+[override](#optional-capabilities-as-overrides) whose line says what else it
+opens, as in [DeaDBeeF](../../registry/io.sourceforge.deadbeef/io.sourceforge.deadbeef.metainfo.xml).
+
+To find out whether an app needs it, look in its binaries for
+`pw_context_connect` (the default socket) as opposed to `pw_context_connect_fd`
+(a portal's fd), then run the feature with
+`flatpak run --nofilesystem=xdg-run/pipewire-0 <app-id>`. Chromium-based browsers
+and Electron apps reach cameras and screen sharing through portal fds and don't
+need it.
 
 ### Declaring changes to how the app runs
 

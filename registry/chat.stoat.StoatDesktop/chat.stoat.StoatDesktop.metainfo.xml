@@ -20,7 +20,8 @@
       <li>Notifications, an unread badge in the tray, and Discord-style rich presence.</li>
       <li>Works with stoat.chat or a self-hosted instance.</li>
     </ul>
-    <p>Permissions follow upstream's own Flatpak build: network, audio, the camera and other devices for calls, PipeWire for screen sharing, read-only access to Pictures and Videos for attachments, and Downloads for saving files. Other files can still be attached through the file chooser.</p>
+    <p>Permissions follow upstream's own Flatpak build: network, audio, the camera and other devices for calls, read-only access to Pictures and Videos for attachments, and Downloads for saving files. Other files can still be attached through the file chooser. Screen sharing goes through your desktop's screen-sharing dialog.</p>
+    <p>Not granted by default: sharing an application's audio along with its window needs direct access to PipeWire, which also lets the app open any camera and any other app's video stream, including other apps' screen shares. Enable it with <code>flatpak override --user --filesystem=xdg-run/pipewire-0 chat.stoat.StoatDesktop</code>, and undo it with <code>flatpak override --user --reset chat.stoat.StoatDesktop</code>.</p>
   </description>
   <launchable type="desktop-id">chat.stoat.StoatDesktop.desktop</launchable>
   <categories>

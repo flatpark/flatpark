@@ -518,10 +518,16 @@ function describePermission(arg) {
         'host-os': ['filesystem.host_os', 'Host OS files', 'warning', 'Filesystem'],
         'host-etc': ['filesystem.host_etc', 'Host /etc', 'warning', 'Filesystem'],
         home: ['filesystem.home', 'Home folder', 'caution', 'Filesystem'],
+        // A grant on the path, but what it opens is the PipeWire daemon: every
+        // camera and other apps' video streams, with no portal asking first.
+        'xdg-run/pipewire-0': ['filesystem.pipewire', 'Direct PipeWire access', 'warning', 'Devices',
+          'Can open any camera and other apps\' video streams, including screen shares, without asking'],
       };
       const m = map[v];
       // The read-only qualifier is a flag rather than part of the label: the
       // site wraps the translated label with it, since word order differs.
+      // :ro doesn't restrict a socket, so the PipeWire grant takes no qualifier.
+      if (m && m[0] === 'filesystem.pipewire') return base(m[0], m[1], m[2], m[3], m[4]);
       if (m) return { ...base(m[0], m[1] + (readOnly ? ' (read-only)' : ''), m[2], m[3]), readOnly };
       return base('filesystem.other', `Files: ${value}`, 'caution', 'Filesystem');
     }

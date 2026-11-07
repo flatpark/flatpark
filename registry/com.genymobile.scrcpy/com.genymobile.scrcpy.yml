@@ -11,9 +11,9 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --share=ipc
-  # Forward audio from the Android device to the desktop sound server.
+  # Forward audio from the Android device to the desktop sound server. The
+  # bundled SDL tries PipeWire first and falls back to PulseAudio.
   - --socket=pulseaudio
-  - --filesystem=xdg-run/pipewire-0:ro
   # ADB uses localhost:5037 and TCP/IP connections to Android devices.
   - --share=network
   # USB mirroring and libusb OTG input require direct device access. This

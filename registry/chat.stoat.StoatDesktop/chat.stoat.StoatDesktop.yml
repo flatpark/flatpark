@@ -31,10 +31,10 @@ finish-args:
   # opens webcams through /dev/video*, which only --device=all exposes.
   - --socket=pulseaudio
   - --device=all
-  # Screen sharing. Capture itself goes through the ScreenCast portal; the
-  # node-pipewire module Stoat bundles reads the PipeWire graph to share an
-  # application's audio along with its window.
-  - --filesystem=xdg-run/pipewire-0
+  # Screen sharing goes through the ScreenCast portal and needs no grant.
+  # Sharing an app's audio with it (the bundled node-pipewire reads and links
+  # the PipeWire graph) needs the PipeWire socket, which also exposes every
+  # camera and other apps' video streams; it is an override in the metainfo.
   # Upstream's choice of folders: pictures and videos read-only for attaching
   # media, and Downloads for saving attachments.
   - --filesystem=xdg-pictures:ro

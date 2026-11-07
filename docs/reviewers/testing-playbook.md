@@ -161,6 +161,18 @@ would use:
   can answer it, but a private bus can start a second document portal and,
   when closed, unmount `/run/user/$UID/doc`; check the mount afterwards and
   `systemctl --user restart xdg-document-portal` if it's gone.
+- **Sound, cameras and screen capture:** play and record through the
+  PulseAudio socket (with no audio device, load the null sink above).
+  Cameras and screen sharing go through portals whose dialogs open on the real
+  desktop. A camera can be tested without the dialog by granting it first,
+  `flatpak permission-set devices camera <app-id> yes`, and removing it
+  afterwards (`flatpak permission-remove devices camera <app-id>`); for
+  Chromium-based apps, add `--use-fake-ui-for-media-stream`. A screen share
+  needs someone at the desktop to pick a screen; if nobody did, say so in the
+  PR. A package that grants `xdg-run/pipewire-0` runs the feature that needs
+  it again with `--nofilesystem=xdg-run/pipewire-0`, and the PR says what
+  broke; if nothing did, the grant goes
+  ([the PipeWire socket](../packagers/permissions.md#the-pipewire-socket)).
 - **Saved passwords:** check an item was created over Secret Service, and delete
   test items afterwards.
 - **Helpers the app shells out to** (`ffmpeg`, `gs`, `git`): run the feature

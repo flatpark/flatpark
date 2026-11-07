@@ -24,6 +24,7 @@
       <li>Enable user plugin directories: <code>flatpak override --user --filesystem=~/.local/lib64/deadbeef:create --filesystem=~/.local/lib/deadbeef:create io.sourceforge.deadbeef</code></li>
       <li>Install a 64-bit plugin: <code>mkdir -p ~/.local/lib64/deadbeef &amp;&amp; cp ~/Downloads/plugins/example_GTK3.so ~/.local/lib64/deadbeef/</code></li>
     </ul>
+    <p>The default ALSA output plays through the desktop's sound server. The PipeWire output plugin needs direct access to PipeWire, which also lets the app open any camera and other apps' video streams; enable it only if you use that plugin: <code>flatpak override --user --filesystem=xdg-run/pipewire-0 io.sourceforge.deadbeef</code>. Undo all overrides with <code>flatpak override --user --reset io.sourceforge.deadbeef</code>.</p>
   </description>
   <screenshots>
     <screenshot type="default">

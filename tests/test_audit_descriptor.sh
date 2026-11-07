@@ -62,6 +62,18 @@ assert_eq "$rc" "1"
 printf '%s' "$out" | grep -qF 'unknown kind "magic"' || { echo "FAIL: unknown packaging kind not reported"; exit 1; }
 rm -rf "$pk"
 
+# G2(b): the PipeWire socket warns until declared, with or without :ro
+pw="$(mktemp -d)"
+cp "$F/good/flatpark.yml" "$F/good/manifest.yml" "$F/good/com.example.App.svg" "$pw/"
+sed -i 's|  - --socket=wayland|  - --socket=wayland\n  - --filesystem=xdg-run/pipewire-0:ro|' "$pw/manifest.yml"
+out="$($AUDIT "$pw/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "0"
+printf '%s' "$out" | grep -qF "xdg-run/pipewire-0:ro not declared" || { echo "FAIL: undeclared PipeWire socket not reported"; exit 1; }
+sed -i 's|  dangerous_permissions: \[\]|  dangerous_permissions:\n    - --filesystem=xdg-run/pipewire-0|' "$pw/flatpark.yml"
+out="$($AUDIT "$pw/flatpark.yml" 2>&1)"
+printf '%s' "$out" | grep -qF "pipewire-0" && { echo "FAIL: declared PipeWire socket still reported"; exit 1; }
+rm -rf "$pw"
+
 # Regression: every shipping registry app must pass (no hard fail)
 for d in "$ROOT"/registry/*/flatpark.yml; do
   $AUDIT "$d" >/dev/null 2>&1 || { echo "FAIL: audit hard-failed on shipping app $d"; $AUDIT "$d"; exit 1; }

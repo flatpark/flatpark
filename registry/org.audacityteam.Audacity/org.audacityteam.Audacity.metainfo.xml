@@ -14,7 +14,7 @@
     <p>The desktop window uses X11, including Xwayland on Wayland desktops. Audacity's native Wayland backend is optional: <code>flatpak override --user --socket=wayland --env=AU_QT_QPA_PLATFORM=wayland org.audacityteam.Audacity</code></p>
     <p> JACK through PipeWire requires a compatible JACK client library in addition to socket access; this package does not supply that library.</p>
     <p>Optional network access for audio.com and online features: <code>flatpak override --user --share=network org.audacityteam.Audacity</code></p>
-    <p>Optional direct PipeWire access, for the ALSA PipeWire device: <code>flatpak override --user --filesystem=xdg-run/pipewire-0:ro org.audacityteam.Audacity</code></p>
+    <p>Optional direct PipeWire access, for the ALSA PipeWire device. It also lets the app open any camera and other apps' video streams: <code>flatpak override --user --filesystem=xdg-run/pipewire-0 org.audacityteam.Audacity</code></p>
     <p>Undo optional permissions: <code>flatpak override --user --reset org.audacityteam.Audacity</code></p>
   </description>
   <launchable type="desktop-id">org.audacityteam.Audacity.desktop</launchable>

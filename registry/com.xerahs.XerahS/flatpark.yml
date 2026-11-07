@@ -21,4 +21,9 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  dangerous_permissions: []
+  dangerous_permissions:
+    # Screen recording: XerahS hands the portal's node id to a gst-launch
+    # child, which connects to the default PipeWire socket instead of the
+    # portal's fd. The socket also exposes every camera and other apps' video
+    # streams; see docs/packagers/permissions.md#the-pipewire-socket.
+    - --filesystem=xdg-run/pipewire-0

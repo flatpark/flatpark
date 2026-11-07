@@ -32,10 +32,10 @@ finish-args:
   # Audio playback (and recording for the song-identification feature) through
   # the sound server.
   - --socket=pulseaudio
-  # The audio engine's device watcher talks to the host PipeWire daemon
-  # directly (the runtime ships libpipewire); without the socket it logs a
-  # watcher failure and falls back to the output stream's error recovery.
-  - --filesystem=xdg-run/pipewire-0
+  # The audio engine's device watcher talks to the PipeWire daemon directly;
+  # without the socket it logs a watcher failure and playback falls back to
+  # the output stream's error recovery. The socket also exposes every camera
+  # and other apps' video streams, so it is an override in the metainfo.
   # The local music library and the default download folder
   # (app.getPath("music")/SPlayer-Next). Read-write because the app edits tags
   # and cover art in place. Other folders are an opt-in override in the

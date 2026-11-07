@@ -15,10 +15,12 @@ finish-args:
   - --share=network
   - --socket=wayland
   - --socket=fallback-x11
+  # The default ALSA output plays through PulseAudio (the runtime's ALSA
+  # default). The optional PipeWire output plugin needs the PipeWire socket,
+  # an override in the metainfo.
   - --socket=pulseaudio
   - --filesystem=xdg-music
   - --filesystem=xdg-run/deadbeef:create
-  - --filesystem=xdg-run/pipewire-0:ro
   # The upstream GTK3 plugin's GtkApplication id is hard-coded to this legacy
   # name, even though the Flatpak app id follows the sourceforge.io domain.
   - --own-name=music.deadbeef.player

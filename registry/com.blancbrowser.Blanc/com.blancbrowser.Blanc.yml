@@ -43,9 +43,6 @@ finish-args:
   # Where downloads land. Saving anywhere else goes through the file-chooser
   # portal and needs no grant of its own.
   - --filesystem=xdg-download
-  # Screen sharing in web pages (getDisplayMedia) goes through the ScreenCast
-  # portal, whose PipeWire stream needs this socket.
-  - --filesystem=xdg-run/pipewire-0
   # Not granted by default — the browser works without it; opt in per the
   # metainfo:
   #   --filesystem=~/.config/google-chrome:ro (or chromium, BraveSoftware,

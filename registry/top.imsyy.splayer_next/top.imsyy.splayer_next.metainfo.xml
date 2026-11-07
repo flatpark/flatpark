@@ -28,6 +28,7 @@
       <li>Save downloads to Downloads instead of Music: <code>flatpak override --user --filesystem=xdg-download top.imsyy.splayer_next</code></li>
       <li>Index music stored elsewhere, for example an external drive: <code>flatpak override --user --filesystem=/path/to/music top.imsyy.splayer_next</code></li>
       <li>Discord rich presence: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 top.imsyy.splayer_next</code> for a native Discord client, or <code>flatpak override --user --filesystem=xdg-run/app/com.discordapp.Discord top.imsyy.splayer_next</code> for Discord installed as a Flatpak.</li>
+      <li>Let the audio engine watch output devices directly, so playback follows a device being plugged in or removed without first hitting a stream error. This is direct access to PipeWire, which also lets the app open any camera and other apps' video streams: <code>flatpak override --user --filesystem=xdg-run/pipewire-0 top.imsyy.splayer_next</code></li>
       <li>Undo all of these: <code>flatpak override --user --reset top.imsyy.splayer_next</code></li>
     </ul>
     <p>Updates are delivered by Flatpak. When the application reports a new release, update it with <code>flatpak update</code> rather than downloading it again.</p>

@@ -44,7 +44,6 @@ finish-args:
   - --talk-name=org.xfce.ScreenSaver
   - --own-name=org.mpris.MediaPlayer2.brave.*
   - --filesystem=xdg-download
-  - --filesystem=xdg-run/pipewire-0
   - --persist=.pki
   - --env=CHROME_VERSION_EXTRA=stable
   # No GSettings backend is shipped, so proxy settings configured on the host
