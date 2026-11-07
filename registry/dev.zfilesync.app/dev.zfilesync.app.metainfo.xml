@@ -26,6 +26,12 @@
     <p>To keep it to fewer folders, remove the home grant and add the ones you sync, for example: <code>flatpak override --user --nofilesystem=home --filesystem=~/Documents dev.zfilesync.app</code>. A pair somewhere else needs that folder added the same way. Undo it with <code>flatpak override --user --reset dev.zfilesync.app</code>.</p>
     <p>The "Launch on system startup" setting doesn't start ZFileSync at login in this package: a login entry would point to a path that only exists inside the sandbox, so the package keeps it out of your autostart folder. To start it at login, add <code>flatpak run dev.zfilesync.app</code> to your desktop's startup applications.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Live sync pairs with an initial sync in progress</caption>
+      <image>https://zsync.eu/zfilesync/screenshot.webp</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories>
     <category>Utility</category>
