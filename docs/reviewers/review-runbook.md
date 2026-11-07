@@ -130,6 +130,10 @@ artifact provenance tier (1/2/3).
   instead documented as a `flatpak override` command in the metainfo description
   (see `org.electerm.Electerm`). A broad grant kept in `finish-args` needs a
   written justification in the PR body → warn if missing.
+- **Extensions** (`build.extends`): the audit checks the parent, the extension
+  point and the source types ([extensions](../packagers/extensions.md)). Read
+  the parent's `finish-args` too: the extension's code runs with all of them, so
+  review it as you would a new app with those permissions.
 - **What was tested:** the PR body says honestly what the submitter built,
   installed, launched and used, and what they couldn't test
   ([testing playbook](testing-playbook.md)). Missing → warn (the reviewer never
