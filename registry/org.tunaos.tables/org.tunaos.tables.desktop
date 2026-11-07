@@ -3,6 +3,7 @@ Name=Tables
 Comment=Spreadsheet — TunaOS office suite
 Exec=tables %U
 Icon=org.tunaos.tables
+StartupWMClass=tables
 Terminal=false
 Type=Application
 Categories=Office;
