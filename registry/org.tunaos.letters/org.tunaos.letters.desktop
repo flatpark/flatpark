@@ -3,6 +3,7 @@ Name=Letters
 Comment=Word processor — TunaOS office suite
 Exec=letters %U
 Icon=org.tunaos.letters
+StartupWMClass=letters
 Terminal=false
 Type=Application
 Categories=Office;
