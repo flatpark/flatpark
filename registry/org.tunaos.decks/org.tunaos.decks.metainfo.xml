@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.tunaos.decks</id>
+  <launchable type="desktop-id">org.tunaos.decks.desktop</launchable>
+  <name>Decks</name>
+  <summary>Presentation creator for the GNOME desktop</summary>
+  <developer id="org.tunaos">
+    <name>Hanthor Contributors</name>
+  </developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <description>
+    <p>Decks is a presentation application for the GNOME desktop, part of the Hanthor Office Suite.</p>
+    <p>Features include slide creation, shapes, image insertion, and fullscreen presentation mode.</p>
+  </description>
+  <url type="homepage">https://github.com/tuna-os/gtk-office-suite</url>
+  <url type="bugtracker">https://github.com/tuna-os/gtk-office-suite/issues</url>
+  <categories>
+    <category>Office</category>
+    <category>Presentation</category>
+  </categories>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/tuna-os/gtk-office-suite/main/docs/screenshots/decks.png</image>
+      <caption>Presentations for the GNOME desktop</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.1.0" date="2026-07-27">
+      <description>
+        <p>Crash fixes: reentrant state access that could close the app while opening files or editing.</p>
+      </description>
+    </release>
+    <release version="2.0.0" date="2026-07-27">
+      <description>
+        <p>New application IDs without the -rust suffix, and builds for aarch64.</p>
+      </description>
+    </release>
+    <release version="1.2.0" date="2026-07-27">
+      <description>
+        <p>Command palette, copy and paste between the three apps, autosave with crash recovery, and accessibility improvements.</p>
+      </description>
+    </release>
+    <release version="1.1.0" date="2026-07-18">
+      <description>
+        <p>Surfacing wave, measured format parity, oracle-verified DOCX/XLSX/PPTX/ODT/ODP, charts, footnotes, conditional formatting, master slides.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-06-23"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

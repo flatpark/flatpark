@@ -1,0 +1,49 @@
+id: org.tunaos.decks
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: decks
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --own-name=org.tunaos.decks
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-pictures
+modules:
+  - name: decks
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 decks-wrapper /app/bin/decks
+      - install -Dm644 org.tunaos.decks.desktop /app/share/applications/org.tunaos.decks.desktop
+      - install -Dm644 org.tunaos.decks.gschema.xml /app/share/glib-2.0/schemas/org.tunaos.decks.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas/
+      - install -Dm644 org.tunaos.decks.metainfo.xml /app/share/metainfo/org.tunaos.decks.metainfo.xml
+      - install -Dm644 org.tunaos.decks.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.decks.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: decks.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.0/decks-x86_64.tar.gz
+        sha256: 59adf528476c50a4631d3a0f60323610e4baefca7720dfdb0dc5397aa10b7c72
+        size: 4237829
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: decks-wrapper
+      - type: file
+        path: org.tunaos.decks.desktop
+      - type: file
+        path: org.tunaos.decks.gschema.xml
+      - type: file
+        path: org.tunaos.decks.metainfo.xml
+      - type: file
+        path: org.tunaos.decks.svg

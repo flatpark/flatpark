@@ -1,0 +1,22 @@
+id: org.tunaos.decks
+name: Decks
+summary: Presentation creator for the GNOME desktop
+website: https://github.com/tuna-os/gtk-office-suite
+source_url: https://github.com/tuna-os/gtk-office-suite
+build:
+  manifest: org.tunaos.decks.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: true
+  tags:
+    - Office
+    - Presentation
+    - Slides
+    - GNOME
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

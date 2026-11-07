@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.tunaos.decks" path="/org/tunaos/decks/">
+    <key name="dark-mode" type="b">
+      <default>false</default>
+      <summary>Dark mode</summary>
+    </key>
+    <key name="style" type="s">
+      <choices>
+        <choice value="default"/>
+        <choice value="light"/>
+        <choice value="dark"/>
+      </choices>
+      <default>"default"</default>
+      <summary>Style</summary>
+      <description>The style Toggle Dark Mode chose: "light" or "dark", kept whatever the system prefers, or "default" to follow the system.</description>
+    </key>
+    <key name="window-width" type="i">
+      <default>960</default>
+      <summary>Window width</summary>
+    </key>
+    <key name="window-height" type="i">
+      <default>680</default>
+      <summary>Window height</summary>
+    </key>
+    <key name="window-maximized" type="b">
+      <default>false</default>
+      <summary>Window maximized</summary>
+    </key>
+    <key name="default-slide-width" type="i">
+      <default>1920</default>
+      <summary>Default slide width in pixels</summary>
+    </key>
+    <key name="default-slide-height" type="i">
+      <default>1080</default>
+      <summary>Default slide height in pixels</summary>
+    </key>
+    <key name="show-grid" type="b">
+      <default>false</default>
+      <summary>Show alignment grid</summary>
+    </key>
+    <key name="snap-to-grid" type="b">
+      <default>true</default>
+      <summary>Snap objects to grid</summary>
+    </key>
+    <key name="grid-spacing" type="i">
+      <default>20</default>
+      <range min="5" max="100"/>
+      <summary>Grid spacing in pixels</summary>
+    </key>
+    <key name="transition-speed" type="i">
+      <default>400</default>
+      <range min="100" max="2000"/>
+      <summary>Default transition speed in milliseconds</summary>
+    </key>
+    <key name="auto-save" type="b">
+      <default>true</default>
+      <summary>Enable automatic save</summary>
+    </key>
+    <key name="auto-save-interval" type="i">
+      <default>60</default>
+      <range min="10" max="3600"/>
+      <summary>Auto-save interval in seconds</summary>
+    </key>
+    <key name="presentation-display" type="i">
+      <default>-1</default>
+      <range min="-1" max="15"/>
+      <summary>Display the audience sees a show on</summary>
+      <description>-1 is automatic: the second display when there is one. Otherwise the index of a display in the system's list; one that isn't connected falls back to automatic.</description>
+    </key>
+    <key name="palette-recent" type="as">
+      <default>[]</default>
+      <summary>Recently used command-palette actions</summary>
+      <description>Most-recent-first action names, used for palette ranking.</description>
+    </key>
+    <key name="recent-files" type="as">
+      <default>[]</default>
+      <summary>Recently opened presentations</summary>
+      <description>At most ten file URIs, with missing files pruned on read.</description>
+    </key>
+  </schema>
+</schemalist>
