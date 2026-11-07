@@ -55,9 +55,12 @@ if [ ! -f .dados/pjecalc.h2.db ]; then
 fi
 
 options=$(cat "$extra/java-options")
-# shellcheck disable=SC2086 # one option per line, none with spaces
+# One option per line, none with spaces: split them, but never glob them.
+set -f
+# shellcheck disable=SC2086
 "$extra/java/bin/java" $options -jar bin/pjecalc.jar "$@" &
 java=$!
+set +f
 
 # With a system tray the launcher opens the page itself; without one (GNOME,
 # most Wayland desktops) it only shows a small window with an "Abrir o PjeCalc"

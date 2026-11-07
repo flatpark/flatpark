@@ -20,14 +20,20 @@ jre=jre.tar.gz
 [ -f "$jre" ] || { echo "apply_extra: $jre is missing" >&2; exit 1; }
 
 rm -rf pjecalc java pjecalc-windows*
+# The archive holds one folder, pjecalc-windows64-<version>. Its name is read
+# first so the two exclusions match only that folder's navegador/ and bin/jre/:
+# in bsdtar patterns `*` also matches `/`.
+dir=$(bsdtar -tf "$installer" | head -n 1 | cut -d / -f 1)
+case "$dir" in
+    pjecalc-windows64-*) ;;
+    *) echo "apply_extra: unexpected top folder '$dir' in $installer" >&2; exit 1 ;;
+esac
 # --no-same-owner: on a system-wide install Flatpak runs apply_extra as root
 # with every capability dropped, so restoring the recorded owners would fail.
 bsdtar --no-same-owner -xf "$installer" \
-    --exclude '*/navegador/*' --exclude '*/bin/jre/*'
-for dir in pjecalc-windows*; do :; done
+    --exclude "$dir/navegador" --exclude "$dir/bin/jre"
 [ -f "$dir/bin/pjecalc.jar" ] || { echo "apply_extra: no bin/pjecalc.jar in $installer" >&2; exit 1; }
 mv "$dir" pjecalc
-rmdir pjecalc/navegador pjecalc/bin/jre 2>/dev/null || true
 basename "$dir" | sed -n 's/^pjecalc-windows64-//p' > version
 [ -s version ] || { echo "apply_extra: no version in the folder name $dir" >&2; exit 1; }
 
