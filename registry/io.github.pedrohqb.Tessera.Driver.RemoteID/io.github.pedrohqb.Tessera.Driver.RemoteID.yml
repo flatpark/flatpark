@@ -1,0 +1,30 @@
+id: io.github.pedrohqb.Tessera.Driver.RemoteID
+branch: stable
+runtime: io.github.pedrohqb.Tessera
+runtime-version: stable
+sdk: org.gnome.Sdk//51
+build-extension: true
+separate-locales: false
+modules:
+  - name: remoteid
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 driver.toml -t ${FLATPAK_DEST}
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      - install -Dm644 io.github.pedrohqb.Tessera.Driver.RemoteID.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: remoteid.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/LLawli/RemoteID-linux/releases/download/v0.4.1/remoteid-x86_64.tar.gz
+        sha256: 0e974cf5b073c83b1245ee590092c042f5a18962f99e1ba3fda78469aeede2b6
+        size: 6476871
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: driver.toml
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.pedrohqb.Tessera.Driver.RemoteID.metainfo.xml

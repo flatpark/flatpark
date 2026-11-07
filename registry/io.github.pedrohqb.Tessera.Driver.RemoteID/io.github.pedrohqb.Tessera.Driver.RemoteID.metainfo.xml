@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>io.github.pedrohqb.Tessera.Driver.RemoteID</id>
+  <extends>io.github.pedrohqb.Tessera</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>RemoteID</name>
+  <summary>Certisign cloud certificate driver for Tessera</summary>
+  <summary xml:lang="pt-BR">Driver do certificado em nuvem da Certisign para o Tessera</summary>
+  <developer id="dev.lukakuuhaku">
+    <name>Luka Kuuhaku</name>
+  </developer>
+  <url type="homepage">https://github.com/LLawli/RemoteID-linux</url>
+  <url type="bugtracker">https://github.com/LLawli/RemoteID-linux/issues</url>
+  <url type="vcs-browser">https://github.com/LLawli/RemoteID-linux</url>
+  <description>
+    <p>This package is maintained by RemoteID's developer. It installs RemoteID's official release build from its GitHub releases, unmodified. RemoteID is an independent open source project, not made or endorsed by Certisign.</p>
+    <p>RemoteID makes a Certisign RemoteID cloud certificate available on Linux as a token. Tessera loads it like any other driver, so browsers and document signers that use Tessera's tokens see the certificate and sign with it. The private key never leaves Certisign's servers; when the signing session has expired, a window asks for the code from the authenticator app.</p>
+    <ul>
+      <li>Sign in to the RemoteID account from the RemoteID button in Tessera</li>
+      <li>Signs from browsers, PDF readers and document signers, with only Tessera running in the background</li>
+      <li>The command line inside Tessera's sandbox signs files and produces .p7s signatures</li>
+      <li>When something fails, remoteid diagnostico packs a log with no password, PIN or authenticator code, to attach to a bug report</li>
+    </ul>
+    <p>The driver runs inside Tessera's sandbox with Tessera's permissions and has none of its own. It reaches Certisign's servers through Tessera's network access.</p>
+    <p>Logging in to websites with the certificate works over TLS 1.2 only: TLS 1.3 requires an RSA-PSS signature, which Certisign's service does not provide. Signing documents is not affected.</p>
+  </description>
+  <releases>
+    <release version="0.4.1" date="2026-11-07">
+      <url type="details">https://github.com/LLawli/RemoteID-linux/releases/tag/v0.4.1</url>
+      <description>
+        <p>Keeps a log of what browsers and signers ask of the certificate, and adds the remoteid diagnostico command to collect it. First release for Tessera.</p>
+      </description>
+    </release>
+  </releases>
+</component>

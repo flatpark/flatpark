@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- RemoteID: a certificate that lives in the cloud, with a keyhole. -->
+  <defs>
+    <linearGradient id="nuvem" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#62a0ea"/><stop offset="1" stop-color="#1c71d8"/>
+    </linearGradient>
+    <linearGradient id="borda" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3584e4"/><stop offset="1" stop-color="#1a5fb4"/>
+    </linearGradient>
+  </defs>
+  <path d="M34 100 H96 A22 22 0 0 0 99.5 56.3 A32 32 0 0 0 38.6 47.4 A26.5 26.5 0 0 0 34 100 Z"
+        fill="url(#nuvem)" stroke="url(#borda)" stroke-width="4" stroke-linejoin="round"/>
+  <g fill="#ffffff">
+    <circle cx="64" cy="66" r="11"/>
+    <path d="M58.5 72 H69.5 L72 90 H56 Z"/>
+  </g>
+</svg>

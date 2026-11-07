@@ -1,0 +1,20 @@
+id: io.github.pedrohqb.Tessera.Driver.RemoteID
+name: RemoteID
+summary: Certisign cloud certificate driver for Tessera
+website: https://github.com/LLawli/RemoteID-linux
+source_url: https://github.com/LLawli/RemoteID-linux
+build:
+  manifest: io.github.pedrohqb.Tessera.Driver.RemoteID.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
