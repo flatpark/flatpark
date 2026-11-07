@@ -53,6 +53,10 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 mornye-wrapper /app/bin/mornye
+      # Private web-link handler for url_launcher's canLaunchUrl (see the
+      # wrapper). GIO only sees MimeType associations through mimeinfo.cache.
+      - install -Dm644 url-handler.desktop /app/share/mornye/url-handler/applications/url-handler.desktop
+      - update-desktop-database /app/share/mornye/url-handler/applications
       - install -Dm644 com.zarz.mornye.desktop /app/share/applications/com.zarz.mornye.desktop
       - install -Dm644 com.zarz.mornye.metainfo.xml /app/share/metainfo/com.zarz.mornye.metainfo.xml
       - install -Dm644 com.zarz.mornye.png /app/share/icons/hicolor/512x512/apps/com.zarz.mornye.png
@@ -70,6 +74,8 @@ modules:
         path: apply_extra.sh
       - type: file
         path: mornye-wrapper
+      - type: file
+        path: url-handler.desktop
       - type: file
         path: com.zarz.mornye.desktop
       - type: file
