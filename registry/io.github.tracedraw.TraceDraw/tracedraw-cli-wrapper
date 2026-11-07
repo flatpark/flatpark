@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# Command-line converter and inspector, reachable as
+#   flatpak run --command=tracedraw-cli io.github.tracedraw.TraceDraw ...
+exec /app/extra/tracedraw/tracedraw-cli "$@"

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.tracedraw.TraceDraw</id>
+  <name>TraceDraw</name>
+  <summary>Vector illustration, page layout and print editor</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="io.github.tracedraw">
+    <name>TraceDraw members and contributors</name>
+  </developer>
+  <url type="homepage">https://tracedraw.github.io/tracedraw/</url>
+  <url type="bugtracker">https://github.com/tracedraw/tracedraw/issues</url>
+  <url type="vcs-browser">https://github.com/tracedraw/tracedraw</url>
+  <description>
+    <p>This is the FlatPark community package of TraceDraw. It repackages the official upstream Linux build unmodified at install time. TraceDraw is alpha software: it changes quickly, with new releases almost every day, and you should expect bugs.</p>
+    <p>TraceDraw is an open-source vector editor for illustration, page layout and print, written from scratch in Rust.</p>
+    <ul>
+      <li>Pages and layers, curves and nodes, artistic and paragraph text</li>
+      <li>Fills and outlines, live effects and symbols</li>
+      <li>Opens and writes real .cdr files, and exports PDF/X, SVG and PNG</li>
+      <li>tracedraw-cli converts and inspects files from the command line: <code>flatpak run --command=tracedraw-cli io.github.tracedraw.TraceDraw</code></li>
+    </ul>
+    <p>Save your drawings in your Documents folder. The Save Drawing window is part of the app and can only reach folders the sandbox has, which is Documents by default. Anything saved under another folder it shows, such as Home, stays in the sandbox and is lost when the app closes. A drawing opened from outside Documents can be saved again under its own name, but a new name in that folder is not kept: pick Documents for it. Open, Import and Export use the system file dialog and work anywhere.</p>
+    <p>To save anywhere in your home folder, give the app access to it:</p>
+    <ul>
+      <li>Allow your home folder: <code>flatpak override --user --filesystem=home io.github.tracedraw.TraceDraw</code></li>
+      <li>Undo it: <code>flatpak override --user --reset io.github.tracedraw.TraceDraw</code></li>
+    </ul>
+    <p>Updates come through Flatpak. In this package, Download in Help &gt; Updates only opens the release page.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>An illustrated poster open in TraceDraw</caption>
+      <image>https://raw.githubusercontent.com/tracedraw/tracedraw/v0.41.0/docs/images/tracedraw-hero.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Live effects with the Blend panel</caption>
+      <image>https://raw.githubusercontent.com/tracedraw/tracedraw/v0.41.0/docs/images/tracedraw-effects.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Smooth curves edited with the Shape tool</caption>
+      <image>https://raw.githubusercontent.com/tracedraw/tracedraw/v0.41.0/docs/images/tracedraw-curves.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Export dialog</caption>
+      <image>https://raw.githubusercontent.com/tracedraw/tracedraw/v0.41.0/docs/images/tracedraw-export.jpg</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.tracedraw.TraceDraw.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>VectorGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>vector</keyword>
+    <keyword>illustration</keyword>
+    <keyword>drawing</keyword>
+    <keyword>cdr</keyword>
+    <keyword>page layout</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>tracedraw</binary>
+    <binary>tracedraw-cli</binary>
+    <mediatype>application/x-tdraw</mediatype>
+    <mediatype>application/x-cdr</mediatype>
+  </provides>
+  <releases>
+    <release version="0.41.0" date="2026-11-06" />
+  </releases>
+</component>
