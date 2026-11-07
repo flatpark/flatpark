@@ -1,0 +1,59 @@
+id: garden.chiri.Chiri
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: chiri
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # CalDAV synchronization and account authentication.
+  - --share=network
+  # GTK windowing and WebKit rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Task reminders and overdue-task notifications use notify-rust over D-Bus.
+  - --talk-name=org.freedesktop.Notifications
+  # Tauri's single-instance service.
+  - --own-name=garden.chiri.Chiri.SingleInstance
+  # Chiri uses a pure-Rust ksni tray; no Ayatana libraries are needed.
+  # ksni owns org.kde.StatusNotifierItem-<pid>-<n>; Flatpak wildcards
+  # must follow a period, so org.kde.* is the narrowest valid grant.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+modules:
+  - name: chiri
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 chiri-wrapper /app/bin/chiri
+      - install -Dm644 garden.chiri.Chiri.desktop /app/share/applications/garden.chiri.Chiri.desktop
+      - install -Dm644 garden.chiri.Chiri.metainfo.xml /app/share/metainfo/garden.chiri.Chiri.metainfo.xml
+      - install -Dm644 garden.chiri.Chiri.png /app/share/icons/hicolor/512x512/apps/garden.chiri.Chiri.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: chiri.deb
+        only-arches: [x86_64]
+        url: https://github.com/chiriapp/chiri/releases/download/app-v1.0.0/Chiri_1.0.0_amd64.deb
+        sha256: e7ca939c9fe03a04d815780e838ddeb4fa7eca7f1ead12dcf67254a09fe2d417
+        size: 5979198
+      - type: extra-data
+        filename: chiri.deb
+        only-arches: [aarch64]
+        url: https://github.com/chiriapp/chiri/releases/download/app-v1.0.0/Chiri_1.0.0_arm64.deb
+        sha256: c927d4573d97068433ee45444df08d80b6fedbe324ef9a92e1c326a4ca2974f3
+        size: 6021758
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: chiri-wrapper
+      - type: file
+        path: garden.chiri.Chiri.desktop
+      - type: file
+        path: garden.chiri.Chiri.metainfo.xml
+      - type: file
+        path: garden.chiri.Chiri.png

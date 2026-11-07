@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>garden.chiri.Chiri</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Zlib</project_license>
+  <name>Chiri</name>
+  <summary>Organize and sync tasks with CalDAV servers</summary>
+  <developer id="garden.chiri"><name>Sapphic Angels</name></developer>
+  <description>
+    <p>Chiri is a task manager that syncs with CalDAV servers including Nextcloud, Fastmail, Radicale and Baikal. Organize tasks with subtasks, recurring tasks, lists and drag-and-drop reordering, or keep tasks locally.</p>
+    <p>This is a community package that downloads the official Chiri Debian build at install time and runs it unmodified.</p>
+    <p>Chiri's Launch at login switch is unavailable in this Flatpak. To start Chiri at login, add <code>flatpak run garden.chiri.Chiri --chiri-autostart</code> in your desktop's startup-applications settings.</p>
+  </description>
+  <launchable type="desktop-id">garden.chiri.Chiri.desktop</launchable>
+  <url type="homepage">https://github.com/chiriapp/chiri</url>
+  <url type="vcs-browser">https://github.com/chiriapp/chiri</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <categories><category>Office</category><category>ProjectManagement</category></categories>
+  <provides><mediatype>x-scheme-handler/garden.chiri</mediatype></provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Task management interface</caption>
+      <image>https://raw.githubusercontent.com/chiriapp/chiri/master/.github/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="1.0.0" date="2026-08-13"/></releases>
+</component>
