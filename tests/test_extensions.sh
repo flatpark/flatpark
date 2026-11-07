@@ -91,6 +91,33 @@ assert_contains "$tmp/meta" "[Extension $P.Single]"
 if grep -q lookalike "$tmp/meta"; then echo "FAIL: a key outside add-extensions leaked"; exit 1; fi
 
 env_common=(OUT_DIR="$tmp/out" GNUPGHOME_DIR="$tmp/gnupg" REPO_URL="file://$tmp/out/repo" REGISTRY_DIR="$reg")
+
+# The stand-in goes into the user installation only when the parent isn't
+# there, and leaves with the build: a stub left behind would shadow a parent
+# installed with --system. A fake flatpak answers the parent's origin.
+mkdir -p "$tmp/fake"
+cat > "$tmp/fake/flatpak" <<'FAKE'
+#!/bin/sh
+echo "$*" >> "$FAKE_LOG"
+case "$*" in
+    *--show-origin*) [ -n "$FAKE_ORIGIN" ] && echo "$FAKE_ORIGIN" ;;
+    --default-arch) echo x86_64 ;;
+esac
+exit 0
+FAKE
+chmod +x "$tmp/fake/flatpak"
+skeleton() {   # <origin of the installed parent, or empty> [--remove]
+    : > "$tmp/flatpak.log"
+    env "${env_common[@]}" PATH="$tmp/fake:$PATH" FAKE_LOG="$tmp/flatpak.log" FAKE_ORIGIN="$1" \
+        "$tmp/scripts/install-parent-skeleton.sh" ${2-} "$P" >/dev/null 2>&1
+    grep -E -- '--user (install|uninstall)' "$tmp/flatpak.log" | grep -F "$P" | awk '{print $2}' | paste -sd' '
+}
+assert_eq "$(skeleton "")" "install"
+assert_eq "$(skeleton flatpark-skeleton)" "install"
+assert_eq "$(skeleton flatpark)" ""
+assert_eq "$(skeleton flatpark-skeleton --remove)" "uninstall"
+assert_eq "$(skeleton flatpark --remove)" ""
+assert_eq "$(skeleton "" --remove)" ""
 env "${env_common[@]}" "$tmp/scripts/gen-signing-key.sh" >/dev/null 2>&1
 env "${env_common[@]}" "$tmp/scripts/gen-discovery.sh" "$E" 2>/dev/null
 env "${env_common[@]}" "$tmp/scripts/gen-discovery.sh" "$P" 2>/dev/null

@@ -98,14 +98,10 @@ folder named after the rest of its id when the point has `subdirectories`
 
 ## Test
 
-Install the real parent for your user first (`flatpak --user install flatpark
-<parent>`): the build then uses it instead of a stand-in (see below). Build and
-verify as in [submitting an app](submitting.md), keep the build installed with
-`FLATPARK_VERIFY_KEEP=1`, and run the feature the extension adds from the parent.
-An extension that installs and that the parent never loads is not tested.
-
-If a build ran without the real parent, the stand-in is installed in its place:
-`flatpak --user uninstall <parent>`, then install the real one.
+Build and verify as in [submitting an app](submitting.md), keep the build
+installed with `FLATPARK_VERIFY_KEEP=1`, then install the real parent
+(`flatpak install flatpark <parent>`) and run the feature the extension adds from
+it. An extension that installs and that the parent never loads is not tested.
 
 ## For agents
 
@@ -129,8 +125,15 @@ A manifest with `build-extension: true` also needs `build.extends`.
 made from the parent's registry manifest: its metadata and the extension point's
 folders. The real parent would fetch all of its extra-data on every build, and
 would describe what is published instead of the commit being built. The stand-in
-is never published. When the real parent is installed for the user, the build
-uses it and installs no stand-in.
+is never published, and it is in the user installation only while the build
+runs: flatpak-builder looks for the parent there, and left behind it would
+shadow a real parent installed with `--system`.
+
+When the real parent is already in the user installation, the build uses it and
+installs no stand-in. For a PR that moves the parent's runtime, that build
+follows the published parent and its old runtime: uninstall the parent from the
+user installation first, or rely on the PR's CI build, which always uses the
+stand-in.
 
 `check-apply-extra.sh` runs `apply_extra.sh` on the parent's runtime, and a
 `.flatpakref` to an extension says `IsRuntime=true`.
