@@ -1,0 +1,52 @@
+id: org.ginies.secure_mark
+# The Flutter AppImage links GTK 3 and bundles a recent GLib/GdkPixbuf stack.
+# GNOME supplies its supporting GTK services and image loaders.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: securemark
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK displays and Flutter's GPU renderer; IPC is needed for X11 shared memory.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # The upstream secure-storage plugin keeps signing keys in Secret Service.
+  - --talk-name=org.freedesktop.secrets
+modules:
+  - name: securemark
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 securemark-wrapper /app/bin/securemark
+      - install -Dm644 org.ginies.secure_mark.desktop /app/share/applications/org.ginies.secure_mark.desktop
+      - install -Dm644 org.ginies.secure_mark.metainfo.xml /app/share/metainfo/org.ginies.secure_mark.metainfo.xml
+      - install -Dm644 org.ginies.secure_mark.png /app/share/icons/hicolor/512x512/apps/org.ginies.secure_mark.png
+    sources:
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: securemark.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/aginies/SecureMark/releases/download/v3.0.0/SecureMark-v3.0.0-Linux.AppImage
+        sha256: c05cd65343889cca5bc6fe38cc101f85d0b5617c9dc57865553429df88b5b613
+        size: 29899256
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: securemark-wrapper
+      - type: file
+        path: org.ginies.secure_mark.desktop
+      - type: file
+        path: org.ginies.secure_mark.metainfo.xml
+      - type: file
+        path: org.ginies.secure_mark.png
