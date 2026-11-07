@@ -37,27 +37,27 @@
   <screenshots>
     <screenshot type="default">
       <caption>The main OpenTubeX window (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX1-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.4-beta/docs/screenshots/OpenTubeX1-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>The main OpenTubeX window (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX1-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.4-beta/docs/screenshots/OpenTubeX1-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Watching a video (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX2-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.4-beta/docs/screenshots/OpenTubeX2-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Watching a video (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX2-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.4-beta/docs/screenshots/OpenTubeX2-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Settings (dark theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX3-dark.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.4-beta/docs/screenshots/OpenTubeX3-dark.png</image>
     </screenshot>
     <screenshot>
       <caption>Settings (light theme)</caption>
-      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.3-beta/docs/screenshots/OpenTubeX3-light.png</image>
+      <image type="source" width="1710" height="1026">https://raw.githubusercontent.com/OpenTubeX/OpenTubeX/v0.37.4-beta/docs/screenshots/OpenTubeX3-light.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1">
@@ -74,6 +74,73 @@
     <display_length compare="ge">360</display_length>
   </requires>
   <releases>
+    <release version="0.37.4-beta" date="2026-11-06">
+      <url type="details">https://github.com/OpenTubeX/OpenTubeX/releases/tag/v0.37.4-beta</url>
+      <description>
+        <p>Highlights</p>
+        <ul>
+          <li>The app takes on Material 3 Expressive, with rounder corners, tinted buttons and selections, springier motion, and bolder titles. Custom themes keep working.</li>
+          <li>A bell in the top bar keeps your live stream reminders, new uploads, and automatic downloads, which appear in the app instead of as system notifications while you use OpenTubeX. A new setting in General switches notifications to system only or off.</li>
+        </ul>
+        <p>More improvements</p>
+        <ul>
+          <li>Exporting and importing large backups no longer freezes the app while the archive is created or read.</li>
+          <li>The cast menu lists the devices of every casting protocol together and, while casting, becomes a remote with seek and volume sliders, playback buttons, and subtitle choices.</li>
+          <li>You can now pin and unpin channels from their context menus.</li>
+          <li>Channels with TV shows now have a Shows tab. You can hide it in Distraction Free settings.</li>
+          <li>Right-clicking a collapsed tab group now opens a menu to expand it, close its tabs, or ungroup them.</li>
+          <li>Delete Old History on the History page can now delete your entire watch history with the new "All time" option.</li>
+          <li>The Material accent color picker now offers your system accent color, and the app follows it when you change it.</li>
+          <li>The About page and the update prompt now link to the new donation page, where you can support OpenTubeX through GitHub Sponsors or Liberapay.</li>
+          <li>Videos from other sites now work more like YouTube videos, with transcripts when they have captions and the same side panels and phone sheets.</li>
+          <li>Large watch histories and playlists are faster to edit, mark as watched, and sync.</li>
+          <li>OpenTubeX starts faster and stays responsive while loading a large watch history.</li>
+          <li>Layout settings in Appearance are now split into groups such as Interface, Tabs, Scrolling, and Notifications, and their switches, like those for video lists, sit in two columns.</li>
+          <li>OpenTubeX no longer contacts api.invidious.io at startup unless it uses a random Invidious instance.</li>
+          <li>Long YouTube playlists open and play without first downloading every page. Later pages load when playback, the playlist panel, or the progress bar reaches them.</li>
+          <li>Long video and playlist titles in lists and grids now stop after two lines with an ellipsis, so cards line up more evenly. Hover over a title to see all of it, or turn off Limit titles to two lines in Appearance settings.</li>
+          <li>32-bit ARM (armv7l) Linux builds are no longer available, because Electron no longer supports them. 64-bit ARM (arm64) builds are still available.</li>
+          <li>The watch queue and transcripts of long videos open and scroll smoothly even with hundreds of queued videos or thousands of transcript lines.</li>
+          <li>Menus, tooltips, and dialogs now follow Material 3, with accent-colored icons and smooth open and close animations. Dialogs and bottom sheets also blur the page behind them.</li>
+          <li>A new layout setting hides in-app notifications that only confirm an action or report a status. Errors, warnings, reminders, and notifications with an action like Undo still appear, and background progress shows in the progress bar.</li>
+          <li>In the phone layout, the description now opens from a button like Comments, with a two-line excerpt and chips for its music, games, tags, and content labels.</li>
+          <li>More menus open as bottom sheets on phones, including the channel setting, cast, subscription settings, comment filter, comment sort, and "More options" menus.</li>
+          <li>Videos in the watch page playlist have a one-tap Remove from playlist button on their thumbnails again. Add to playlist moved into each video's menu.</li>
+          <li>The chapters panel next to the video now has a resize handle like the playlist panel, so you can drag it taller to see more chapters at once. It remembers the size you choose.</li>
+          <li>RSS feeds can now refresh automatically. New items are marked as new and show in the New feed, and items have a menu to open, download, or mark them as watched.</li>
+          <li>The RSS feed manager can now browse RSSHub, so picking an instance, a service and a username fills in the feed address. Feeds from sites that ask for a browser check now say so.</li>
+          <li>Checking for updates downloads far less data, about 0.4 MB instead of 5 MB when you're up to date.</li>
+          <li>A channel's subscription settings and the Subscription settings manager use chips you can toggle, keep the notification choices visible while the bell is off, and set the daily video limit with a stepper.</li>
+          <li>Watch progress of media opened by link, such as videos from other websites, now syncs between your devices along with your history.</li>
+          <li>The Ocean themes are now Tally Light and Tally Dark, matching the website's new look. Their accent color defaults to red and can be changed to a preset, a custom color, or your system's accent color where available.</li>
+          <li>Twitch live chat uses less CPU in busy channels.</li>
+          <li>With the Local API, Up Next now shows when a video is a collaboration between several channels. Middle-clicking a collaboration's channel names now lists the collaborators instead of doing nothing.</li>
+          <li>You can now set the height of vertical tabs in Appearance settings.</li>
+          <li>The new Video descriptions setting in Distraction Free settings and Quick Settings hides descriptions, keeps them collapsed, or opens them expanded.</li>
+        </ul>
+        <p>Fixed bugs</p>
+        <ul>
+          <li>The App font list opens right away instead of freezing for several seconds when many fonts are installed.</li>
+          <li>When playback drops frames, automatic quality now steps down to a lower resolution of the same codec instead of switching to a codec that is harder to decode, such as AV1.</li>
+          <li>Captions grow and shrink with the player, so they cover the same share of the video in a window, in fullscreen, and in the mini player.</li>
+          <li>Older completed, queued, and paused downloads no longer disappear from Downloads after a restart, and a download whose files can't all be removed stays listed with an error message.</li>
+          <li>Downloaded videos now start playing within a few seconds when YouTube can't be reached, even while the rest of the internet works. Their details fill in once YouTube responds again.</li>
+          <li>A missing or wrong external player now shows a message that it couldn't be started instead of crashing OpenTubeX with an error dialog.</li>
+          <li>Failed or incomplete comment loads now offer a retry instead of reporting no comments or repeatedly retrying. The phone comments panel no longer duplicates its refresh and sort controls.</li>
+          <li>Invidious instances with special characters such as @, spaces, or % in the username or password of their URL now sign in correctly.</li>
+          <li>Buttons, selected controls, and accent-colored highlights are now easier to read with light main and secondary colors, such as Light Blue, Pink, and Green.</li>
+          <li>The app no longer crashes when you press a menu shortcut, such as Ctrl+, to open the settings, after watching a video.</li>
+          <li>When Start Videos Automatically is off, the next playlist or recommended video now starts after the countdown or Play Now, while videos you open yourself stay paused. Looping a playlist with one video now replays it every time.</li>
+          <li>Videos with captions in your preferred caption language now show those captions instead of the auto-translation you last picked in the player.</li>
+          <li>Videos and Shorts no longer take minutes to open while YouTube rate-limits your connection, and other requests no longer stall behind one that cannot succeed.</li>
+          <li>Setting Reduced Motion to Force off now brings back every animation when your system asks for reduced motion, and Force on stops the remaining tab, sheet and gesture animations.</li>
+          <li>RSS feeds that loaded before no longer reload after a restart when Fetch Feed on Startup is off, and show their saved items instead.</li>
+          <li>A failed search history import no longer erases your existing search history.</li>
+          <li>Videos keep loading at their selected quality on slow or high-latency connections, instead of dropping to 360p and reloading over and over.</li>
+          <li>Background subscription refresh no longer reports errors for channels without Shorts, live streams, or posts, or mistakes their regular uploads for Shorts or live streams.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.37.3-beta" date="2026-11-02">
       <url type="details">https://github.com/OpenTubeX/OpenTubeX/releases/tag/v0.37.3-beta</url>
       <description>
