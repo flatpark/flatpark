@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# Use the bundled JBR, independently of any host Java configuration.
+export PYCHARM_JDK=/app/extra/pycharm/jbr
+# Keep IDE settings, caches, plugins and logs in this Flatpak's own profile.
+export PYCHARM_PROPERTIES=/app/etc/pycharm.properties
+exec /app/extra/pycharm/bin/pycharm "$@"

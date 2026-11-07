@@ -1,0 +1,18 @@
+id: com.jetbrains.PyCharm-Community
+name: PyCharm Community
+summary: Open-source Python IDE with a debugger and test runner
+website: https://github.com/JetBrains/intellij-community/tree/master/python
+source_url: https://github.com/JetBrains/intellij-community
+build:
+  manifest: com.jetbrains.PyCharm-Community.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags: [Python, IDE, Debugger]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

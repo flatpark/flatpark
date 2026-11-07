@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=PyCharm Community
+Comment=Open-source Python IDE
+Exec=pycharm %F
+Icon=com.jetbrains.PyCharm-Community
+Terminal=false
+Categories=Development;IDE;
+StartupNotify=true
+StartupWMClass=jetbrains-pycharm
+MimeType=text/x-python;
