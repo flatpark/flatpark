@@ -9,6 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
+  upstream_approved: true
   category: Graphics
   tags:
     - AI

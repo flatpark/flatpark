@@ -13,7 +13,7 @@
   <url type="vcs-browser">https://github.com/storytold/artcraft</url>
   <url type="contact">https://discord.gg/artcraft</url>
   <description>
-    <p>This is a community package of ArtCraft Studio, maintained independently and unaffiliated with the ArtCraft project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>This package distributes the official upstream Linux release build of ArtCraft Studio.</p>
     <p>ArtCraft Studio is a creative desktop workspace for generating AI images and video with connected AI providers.</p>
     <ul>
       <li>Text-to-image and image-to-image creation with state-of-the-art models</li>

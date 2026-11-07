@@ -8,7 +8,7 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-        "https://api.github.com/repos/$repo/releases" | jq '[.[] | select(.draft == false and (.tag_name | startswith("artcraft-v")))] | first')"
+        "https://api.github.com/repos/$repo/releases" | jq '[.[] | select(.draft == false and .prerelease == false and (.tag_name | startswith("artcraft-v")))] | first')"
 
 tag="$(jq -r '.tag_name' <<<"$rel")"
 version="$(sed 's/^artcraft-v//' <<<"$tag")"
