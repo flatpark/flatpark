@@ -9,10 +9,13 @@ export function requiresOf(fy) {
     .map((r) => ({ remote: String(r.remote), ref: String(r.ref), name: String(r.name || r.ref) }));
 }
 
-/** cmd followed by one `flatpak install` per remote for what the apps require. */
+/** cmd followed by one `flatpak install` per remote for what the apps require
+ * and cmd doesn't already install (an extension's command names its parent). */
 export function installWith(cmd, apps) {
+  const named = new Set(String(cmd ?? '').split(/\s+/));
   const byRemote = new Map();
   for (const r of apps.flatMap((a) => a.requires ?? [])) {
+    if (named.has(r.ref)) continue;
     const refs = byRemote.get(r.remote) ?? new Set();
     refs.add(r.ref);
     byRemote.set(r.remote, refs);

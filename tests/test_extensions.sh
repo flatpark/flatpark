@@ -189,7 +189,9 @@ if [ -d "$ROOT/site/node_modules/yaml" ]; then
     out="$data/apps/$E.json"
     assert_contains "$out" '"label": "Network access"'
     assert_contains "$out" "\"id\": \"$P\""
-    assert_contains "$out" "flatpak install flatpark $P"
+    grep -q "\"installCmd\": \"flatpak install flatpark $P $E\"," "$out" \
+        || { echo "FAIL: not one command for the parent and the extension: $(grep installCmd "$out")"; exit 1; }
+    assert_contains "$out" "\"remote\": \"flatpark\""
     grep -q '"runtime": "org.gnome.Platform"' "$out" || { echo "FAIL: page runtime is not the parent's"; exit 1; }
 
     # With the parent gone the page can't be honest, so the build stops.

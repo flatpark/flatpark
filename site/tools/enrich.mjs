@@ -342,6 +342,18 @@ function readDescriptor(dir) {
   return existsSync(path) ? YAML.parse(readFileSync(path, 'utf8')) || {} : null;
 }
 
+// The remote FlatPark's install commands name, from the catalog gen-apps-json.sh
+// wrote next to the app files.
+let catalogRemote;
+function remoteName() {
+  catalogRemote ??= JSON.parse(readFileSync(join(dataDir, 'catalog.json'), 'utf8')).repo?.remoteName;
+  if (!catalogRemote) {
+    console.error(`[enrich] ${join(dataDir, 'catalog.json')} names no remote`);
+    process.exit(1);
+  }
+  return catalogRemote;
+}
+
 function parentOf(srcDir, id) {
   const dir = join(srcDir, '..', id);
   const fy = readDescriptor(dir);
@@ -682,7 +694,7 @@ async function enrichOne(file) {
   out.packaging = packagingOf(packagingDeclared, supportDerived);
   out.requires = out.requires || [];
   if (out.parent && !out.requires.some((r) => r.ref === out.parent.id)) {
-    out.requires.push({ remote: base.installCmd.split(' ')[2], ref: out.parent.id, name: out.parent.name });
+    out.requires.push({ remote: remoteName(), ref: out.parent.id, name: out.parent.name });
   }
   out.installCmd = installWith(base.installCmd, [out]);
 
