@@ -67,16 +67,16 @@ modules:
         filename: mygo-music.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/egoist/mygo-music/releases/download/v0.1.20/mygo-music-0.1.20-linux-amd64.tar.gz
-        sha256: fa6c31bca23eab61f0b43f3a71bd4145f15a63a88e631401af88bfad07852768
-        size: 12730886
+        url: https://github.com/egoist/mygo-music/releases/download/v0.1.21/mygo-music-0.1.21-linux-amd64.tar.gz
+        sha256: 9f7e3973d6294c766eb9ed27f643f81357090e9a2d2d24697a1807453b38cae6
+        size: 12753677
       - type: extra-data
         filename: mygo-music.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/egoist/mygo-music/releases/download/v0.1.20/mygo-music-0.1.20-linux-arm64.tar.gz
-        sha256: 64f9ec1a1f7c73b857b268563db56efb282cfd793c0b3c233108068a3db8700d
-        size: 11586512
+        url: https://github.com/egoist/mygo-music/releases/download/v0.1.21/mygo-music-0.1.21-linux-arm64.tar.gz
+        sha256: d378bdc2dd5492714deca91107db9cd51537881a6a99324af527cea8b9d03dcc
+        size: 11609476
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
