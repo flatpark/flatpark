@@ -19,6 +19,11 @@ finish-args:
   - --filesystem=xdg-pictures
   - --filesystem=xdg-videos
   - --filesystem=xdg-download
+  # The app keeps settings, credentials, state and assets in a hardcoded
+  # ~/Artcraft (app_data_root.rs: home_dir().join("Artcraft"), no override).
+  # Without a home grant that lands in the sandbox's throwaway home and is
+  # lost on exit; persist it under ~/.var/app/ai.artcraft.app/Artcraft.
+  - --persist=Artcraft
 modules:
   - name: artcraft
     buildsystem: simple
