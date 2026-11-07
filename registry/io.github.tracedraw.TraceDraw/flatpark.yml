@@ -1,0 +1,24 @@
+id: io.github.tracedraw.TraceDraw
+name: TraceDraw
+summary: Vector illustration, page layout and print editor
+website: https://tracedraw.github.io/tracedraw/
+source_url: https://github.com/tracedraw/tracedraw
+build:
+  manifest: io.github.tracedraw.TraceDraw.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Vector Graphics
+    - Illustration
+    - Page Layout
+    - CorelDRAW
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

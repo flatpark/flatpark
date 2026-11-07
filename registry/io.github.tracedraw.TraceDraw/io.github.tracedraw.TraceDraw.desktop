@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=TraceDraw
+Comment=Vector illustration editor
+Exec=tracedraw %F
+Icon=io.github.tracedraw.TraceDraw
+Terminal=false
+Categories=Graphics;2DGraphics;VectorGraphics;
+MimeType=application/x-tdraw;application/x-cdr;
+StartupWMClass=TraceDraw

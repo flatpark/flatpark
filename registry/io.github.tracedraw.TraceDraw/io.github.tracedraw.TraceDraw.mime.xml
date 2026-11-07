@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-tdraw">
+    <comment>TraceDraw drawing</comment>
+    <sub-class-of type="application/json"/>
+    <glob pattern="*.tdraw"/>
+    <icon name="io.github.tracedraw.TraceDraw"/>
+  </mime-type>
+</mime-info>
