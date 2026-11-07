@@ -44,9 +44,9 @@ modules:
         filename: pdfsam.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/torakiki/pdfsam/releases/download/v6.0.6/pdfsam-basic-6.0.6-linux-x64.tar.gz
-        sha256: 13626e3e94056888e5dcfe7f94a81a959b8e7a44c7f581c8c1b22daa6bbe1af6
-        size: 99854363
+        url: https://github.com/torakiki/pdfsam/releases/download/v6.0.10/pdfsam-basic-6.0.10-linux-x64.tar.gz
+        sha256: 49b0b6460503a2c4d4f42fe20f15ee25e0a80e1782bd8184b4d5394472160240
+        size: 99523476
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
