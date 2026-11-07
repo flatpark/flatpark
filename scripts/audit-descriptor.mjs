@@ -243,7 +243,9 @@ for (const src of sources) {
 // G2(a) — sandbox-escape permissions are a hard fail.
 const ESCAPE = ['--talk-name=org.freedesktop.Flatpak', '--filesystem=host', '--filesystem=/'];
 // G2(b) — broad perms must be declared in policy.dangerous_permissions (warn until schema lands).
-const WATCH = ['--device=all', '--filesystem=home'];
+// The PipeWire socket is here because it reaches every camera and other apps'
+// video streams without a portal (docs/packagers/permissions.md#the-pipewire-socket).
+const WATCH = ['--device=all', '--filesystem=home', '--filesystem=xdg-run/pipewire-0'];
 // Compare --filesystem grants without their :ro / :rw / :create mode, so
 // home:ro and host:ro hit the same lists as home and host.
 const baseFs = (p) => p.replace(/^(--filesystem=[^:]+):(ro|rw|create)$/, '$1');

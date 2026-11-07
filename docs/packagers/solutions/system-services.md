@@ -52,6 +52,9 @@ This is not compositor-specific; the same build behaves the same everywhere.
   socket itself (for example by spawning `gst-launch-1.0 pipewiresrc path=<node>`)
   rather than through the fd the portal hands out needs
   `--filesystem=xdg-run/pipewire-0` ([XerahS](../../../registry/com.xerahs.XerahS/com.xerahs.XerahS.yml)).
+  That grant also opens every camera and other apps' video streams, so it is
+  declared as high-risk; an app that uses the portal's fd doesn't need it
+  ([the PipeWire socket](../permissions.md#the-pipewire-socket)).
 - The runtime's FFmpeg has no `-f pipewire` input; an app that needs one records
   through GStreamer instead.
 - Apps that capture by their own X11 calls get only XWayland windows; a

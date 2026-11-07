@@ -184,6 +184,8 @@
   "perm.filesystem.host_etc": "主机 /etc",
   "perm.filesystem.home": "主目录",
   "perm.filesystem.other": "文件：{value}",
+  "perm.filesystem.pipewire": "直接访问 PipeWire",
+  "perm.filesystem.pipewire.detail": "无需询问即可打开任意摄像头和其他应用的视频流（包括屏幕共享）",
   "perm.talk_name": "与 {value} 通信",
   "perm.talk_name.flatpak": "与 {value} 通信",
   "perm.talk_name.flatpak.detail": "可通过 flatpak-spawn 在主机上执行命令",

@@ -184,6 +184,8 @@
   "perm.filesystem.host_etc": "Host /etc",
   "perm.filesystem.home": "Home folder",
   "perm.filesystem.other": "Files: {value}",
+  "perm.filesystem.pipewire": "Direct PipeWire access",
+  "perm.filesystem.pipewire.detail": "Can open any camera and other apps' video streams, including screen shares, without asking",
   "perm.talk_name": "Talk to {value}",
   "perm.talk_name.flatpak": "Talk to {value}",
   "perm.talk_name.flatpak.detail": "Can run commands on the host via flatpak-spawn",
