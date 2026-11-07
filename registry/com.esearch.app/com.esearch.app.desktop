@@ -7,7 +7,7 @@ Icon=com.esearch.app
 Terminal=false
 Categories=Utility;Graphics;
 StartupWMClass=esearch
-MimeType=image/png;image/jpeg;image/svg+xml;image/webp;
+MimeType=image/png;image/jpeg;image/svg+xml;
 Actions=Capture;Settings;
 
 [Desktop Action Capture]
