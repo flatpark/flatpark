@@ -45,6 +45,22 @@ while IFS= read -r ref; do
     ostree --repo="$repo" refs --delete "$ref"
 done < <(ostree --repo="$repo" refs)
 
+# 1a. Delisted extensions: an extension from the registry has no app ref to hang
+#     off, and only its metadata tells it apart from a runtime we have to keep.
+while IFS= read -r ref; do
+    case "$ref" in
+        *:*|runtime/*.Debug/*|runtime/*.Locale/*|runtime/*.Sources/*) continue ;;
+        runtime/*) ;;
+        *) continue ;;
+    esac
+    id="${ref#runtime/}"; id="${id%%/*}"
+    [ ! -f "$REGISTRY_DIR/$id/flatpark.yml" ] || continue
+    meta="$(ostree --repo="$repo" cat "$ref" /metadata 2>/dev/null)" || continue
+    printf '%s\n' "$meta" | grep -q '^\[ExtensionOf\]' || continue
+    log "delist: removing extension ref $ref (no registry entry for $id)"
+    ostree --repo="$repo" refs --delete "$ref"
+done < <(ostree --repo="$repo" refs)
+
 # 1b. Orphaned extensions: drop a .Debug/.Locale/.Sources ref the app no longer
 #     exports. Adding `no-debuginfo: true` (or `separate-locales: false`) stops
 #     the next build from producing the extension, but the ref the *previous*
