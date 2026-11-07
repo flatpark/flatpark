@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# ZFileSync is a single Tauri (WebKitGTK) binary staged by apply_extra at
+# /app/extra/dev.zfilesync.app. It links only against libraries in
+# org.gnome.Platform and dlopens libayatana-appindicator3 for its tray, which
+# the manifest builds into /app/lib. Its settings and the pair database live
+# under XDG_DATA_HOME / XDG_CONFIG_HOME, which Flatpak points into
+# ~/.var/app/dev.zfilesync.app.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the sandbox; use the compositing path unless the user set it.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER-1}"
+
+exec /app/extra/dev.zfilesync.app "$@"

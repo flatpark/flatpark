@@ -1,0 +1,25 @@
+id: dev.zfilesync.app
+name: ZFileSync
+summary: Mirror files and folders between two locations in real time
+website: https://zsync.eu/zfilesync/
+source_url: https://github.com/TheHolyOneZ/ZFileSync
+build:
+  manifest: dev.zfilesync.app.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Utility
+  tags:
+    - Sync
+    - Backup
+    - Files
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # A sync pair is two folders the app watches by path for as long as it
+    # runs, across restarts. A document-portal path can't back that: changes
+    # made on the host aren't reported through it. Home plus the removable-media
+    # and network mounts are where pairs live (see the manifest).
+    - --filesystem=home

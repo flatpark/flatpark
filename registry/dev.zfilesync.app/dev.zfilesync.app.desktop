@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=ZFileSync
+Comment=Mirror files and folders between two locations in real time
+Exec=zfilesync
+Icon=dev.zfilesync.app
+Terminal=false
+Categories=Utility;FileTools;
+StartupWMClass=dev.zfilesync.app
+Keywords=sync;mirror;backup;folder;watch;

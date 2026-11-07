@@ -1,0 +1,82 @@
+id: dev.zfilesync.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: zfilesync
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri v2 / WebKitGTK window; dri for hardware-accelerated WebKit rendering.
+  # No network: syncing is local, between mounted paths.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The folders being mirrored. Each pair is a source and a destination the app
+  # watches with inotify (the notify crate) and walks directly, for as long as
+  # it runs and again at every start. A folder picked through the file-chooser
+  # portal comes back as a /run/user/<uid>/doc path, which doesn't report
+  # changes made on the host, so pairs need the real paths: home, the
+  # removable-media mounts (USB sticks are a stated use), /mnt for manual and
+  # network mounts, and gvfs for GNOME network shares.
+  - --filesystem=home
+  - --filesystem=/media
+  - --filesystem=/run/media
+  - --filesystem=/mnt
+  - --filesystem=xdg-run/gvfs
+  # The app loads tauri-plugin-autostart, which writes a login entry with
+  # Exec= set to the binary's own path, /app/extra/dev.zfilesync.app: a path
+  # that doesn't exist on the host. 0.1.1's "Launch on system startup" switch
+  # only stores the setting and writes no entry, but with home granted any
+  # entry would land in the real autostart folder; keep it out.
+  - --nofilesystem=xdg-config/autostart
+  # System tray (Tauri tray-icon). The app keeps running in the tray when its
+  # window is closed.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Sync errors and conflicts are reported as desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # tauri-plugin-single-instance 2.4.2 owns dev.zfilesync.app.SingleInstance,
+  # which is under the app id and so needs no --own-name.
+modules:
+  # Tauri's tray-icon dlopens libayatana-appindicator at startup and panics if
+  # it is missing; the GNOME runtime doesn't ship it. Prebuilt ayatana tray
+  # stack from https://github.com/flatpark/prebuilt, built against
+  # org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: zfilesync
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 zfilesync-wrapper /app/bin/zfilesync
+      - install -Dm644 dev.zfilesync.app.desktop /app/share/applications/dev.zfilesync.app.desktop
+      - install -Dm644 dev.zfilesync.app.metainfo.xml /app/share/metainfo/dev.zfilesync.app.metainfo.xml
+      - install -Dm644 dev.zfilesync.app.png /app/share/icons/hicolor/256x256/apps/dev.zfilesync.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: zfilesync.deb
+        only-arches:
+          - x86_64
+        url: https://zsync.eu/zfilesync/release/ZFileSync_0.1.1_amd64.deb
+        sha256: d580a14f022013c9779d40b5f79f852c7f12980ab51ee37b34b290ef700169ac
+        size: 7485344
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: zfilesync-wrapper
+      - type: file
+        path: dev.zfilesync.app.desktop
+      - type: file
+        path: dev.zfilesync.app.metainfo.xml
+      - type: file
+        path: dev.zfilesync.app.png
