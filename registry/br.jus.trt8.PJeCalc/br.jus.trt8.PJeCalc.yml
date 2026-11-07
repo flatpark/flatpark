@@ -1,0 +1,64 @@
+id: br.jus.trt8.PJeCalc
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pjecalc
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+tags:
+  - proprietary
+finish-args:
+  # The launcher's window (and, where there is one, its system tray icon) is
+  # Java AWT/Swing, which has no Wayland backend: X11, or XWayland.
+  - --share=ipc
+  - --socket=x11
+  # PJe-Calc is a web application served by Tomcat on 127.0.0.1:9257 and used
+  # from the user's own browser, which runs outside the sandbox. It also
+  # downloads the updated index tables from the Labour Courts' servers.
+  - --share=network
+  # The tray menu's "Salvar Tudo" and "Restaurar Tudo" back up and restore the
+  # database through a Java file dialog, which only sees what the sandbox sees.
+  # Calculations exported or imported in the browser need no access.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+modules:
+  - name: pjecalc
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pjecalc.sh /app/bin/pjecalc
+      - install -Dm755 pjecalc-browser.sh /app/bin/pjecalc-browser
+      - install -Dm644 br.jus.trt8.PJeCalc.desktop /app/share/applications/br.jus.trt8.PJeCalc.desktop
+      - install -Dm644 br.jus.trt8.PJeCalc.metainfo.xml /app/share/metainfo/br.jus.trt8.PJeCalc.metainfo.xml
+      - install -Dm644 br.jus.trt8.PJeCalc.png /app/share/icons/hicolor/128x128/apps/br.jus.trt8.PJeCalc.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pjecalc-installer.exe
+        only-arches:
+          - x86_64
+        url: https://www.trt8.jus.br/sites/portal/files/roles/pje-calc/pjecalc-2.16.0-instalador-x64.exe
+        sha256: f3526317b018c786f307adb2dba043cd35350a7e74ae85511b637b08be1f613e
+        size: 282472034
+      - type: extra-data
+        filename: jre.tar.gz
+        only-arches:
+          - x86_64
+        url: https://cdn.azul.com/zulu/bin/zulu8.98.0.111-ca-jre8.0.512-linux_x64.tar.gz
+        sha256: 3844c96fd5305b96d0866551997d9a1b9cdabb8750a8c1ae844318caa36f5156
+        size: 41965827
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pjecalc.sh
+      - type: file
+        path: pjecalc-browser.sh
+      - type: file
+        path: br.jus.trt8.PJeCalc.desktop
+      - type: file
+        path: br.jus.trt8.PJeCalc.metainfo.xml
+      - type: file
+        path: br.jus.trt8.PJeCalc.png

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=PJe-Calc Cidadão
+Comment=Cálculos trabalhistas da Justiça do Trabalho
+Exec=pjecalc
+Icon=br.jus.trt8.PJeCalc
+Type=Application
+Categories=Office;Finance;
+Keywords=PJe;cálculo;trabalhista;TRT;CSJT;
+Terminal=false
+StartupNotify=false
+StartupWMClass=br-jus-trt8-pjecalcsa-container-Lancador
