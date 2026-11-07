@@ -8,8 +8,10 @@
 //
 // Exit 0 = no hard failures (warnings allowed); exit 1 = hard failure(s).
 // Hard failures print `FAIL: ...`; advisory findings print `WARN: ...`.
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { readManifestHead } from './read-extension-points.mjs';
 
 const file = process.argv[2];
@@ -271,6 +273,21 @@ if (manifestName && existsSync(join(dirname(file), manifestName))) {
       if (sdkVersion !== parent['runtime-version']) {
         fail(`build.extends: sdk version ${sdkVersion} differs from ${extendsId}'s runtime ${parent['runtime-version']}`);
       }
+      // build.arches as read-descriptor.mjs resolves it (x86_64 when silent).
+      // A descriptor it rejects fails on its own elsewhere.
+      const archesOf = (descriptor) => {
+        try {
+          const out = execFileSync(process.execPath, [fileURLToPath(new URL('./read-descriptor.mjs', import.meta.url)), descriptor],
+            { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
+          return (out.match(/^_FP_ARCHES='([^']*)'/m)?.[1] ?? '').split(' ').filter(Boolean);
+        } catch {
+          return null;
+        }
+      };
+      const ownArches = archesOf(file);
+      const parentArches = archesOf(join(parentDir, 'flatpark.yml'));
+      const missing = ownArches && parentArches ? ownArches.filter((a) => !parentArches.includes(a)) : [];
+      if (missing.length) fail(`build.arches: ${extendsId} is not built for ${missing.join(', ')}`);
     }
   }
 }

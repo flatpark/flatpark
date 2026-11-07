@@ -115,6 +115,7 @@ it. An extension that installs and that the parent never loads is not tested.
 - The manifest has `finish-args`.
 - It has no `extra-data` source, or it has a `git` or `archive` source.
 - The version in `sdk` differs from the parent's `runtime-version`.
+- `build.arches` names an arch the parent isn't built for.
 
 A manifest with `build-extension: true` also needs `build.extends`.
 
