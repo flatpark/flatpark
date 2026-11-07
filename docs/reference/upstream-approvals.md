@@ -108,3 +108,4 @@ that PR link in the table — the PR itself is the evidence.
 | ArtCraft Studio | `ai.artcraft.app` | Approved by construction — submitted and maintained by its own developer ([flatpark#1030](https://github.com/flatpark/flatpark/pull/1030)) | 2026-11-07 |
 | Letters | `org.tunaos.letters` | Approved by construction — submitted and maintained by its own developer ([flatpark#1031](https://github.com/flatpark/flatpark/pull/1031)) | 2026-11-07 |
 | Decks | `org.tunaos.decks` | Approved by construction — submitted and maintained by its own developer ([flatpark#1033](https://github.com/flatpark/flatpark/pull/1033)) | 2026-11-07 |
+| Tables | `org.tunaos.tables` | Approved by construction — submitted and maintained by its own developer ([flatpark#1032](https://github.com/flatpark/flatpark/pull/1032)) | 2026-11-07 |

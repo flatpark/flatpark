@@ -1,0 +1,47 @@
+id: org.tunaos.tables
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: tables
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  - --filesystem=xdg-documents
+modules:
+  - name: tables
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 tables-wrapper /app/bin/tables
+      - install -Dm644 org.tunaos.tables.desktop /app/share/applications/org.tunaos.tables.desktop
+      - install -Dm644 org.tunaos.tables.gschema.xml /app/share/glib-2.0/schemas/org.tunaos.tables.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas/
+      - install -Dm644 org.tunaos.tables.metainfo.xml /app/share/metainfo/org.tunaos.tables.metainfo.xml
+      - install -Dm644 org.tunaos.tables.svg /app/share/icons/hicolor/scalable/apps/org.tunaos.tables.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tables.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.0/tables-x86_64.tar.gz
+        sha256: f71f2f55fb67edc4b0a56e059926a758166091e60a3a7d07dcf5fa86bcf31629
+        size: 27669535
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tables-wrapper
+      - type: file
+        path: org.tunaos.tables.desktop
+      - type: file
+        path: org.tunaos.tables.gschema.xml
+      - type: file
+        path: org.tunaos.tables.metainfo.xml
+      - type: file
+        path: org.tunaos.tables.svg

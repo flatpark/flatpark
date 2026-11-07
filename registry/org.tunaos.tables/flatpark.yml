@@ -1,0 +1,22 @@
+id: org.tunaos.tables
+name: Tables
+summary: Spreadsheet for the GNOME desktop
+website: https://github.com/tuna-os/gtk-office-suite
+source_url: https://github.com/tuna-os/gtk-office-suite
+build:
+  manifest: org.tunaos.tables.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: true
+  tags:
+    - Office
+    - Spreadsheet
+    - Calculation
+    - GNOME
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
