@@ -194,7 +194,7 @@ load_app() {
     local desc
     desc="$(node "$ROOT/scripts/read-descriptor.mjs" "$record")" \
         || die "failed to read descriptor: $record"
-    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
+    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
     # shellcheck disable=SC1090
     eval "$desc"
@@ -203,6 +203,7 @@ load_app() {
     APP_NAME="$_FP_NAME"
     APP_SUMMARY="$_FP_SUMMARY"
     APP_ARCHES="$_FP_ARCHES"   # space-separated, x86_64 when the descriptor is silent
+    APP_EXTENDS="$_FP_EXTENDS" # the parent app of an extension, empty for an app
     [ "$APP_ID" = "$app_id" ] || die "registry id mismatch: wanted $app_id got $APP_ID"
 
     # Defaults compose the descriptor values; any explicit env override (captured
@@ -225,11 +226,22 @@ load_app() {
         [ -n "${!var-}" ] || die "app registry entry $record did not set $var"
         declare -g "$var=${!var}"
     done
-    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO; do
+    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO APP_EXTENDS; do
         declare -g "$var=${!var}"
     done
-    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_ARCHES \
+    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
+}
+
+# An entry's manifest, without replacing the app already loaded.
+manifest_of() { ( load_app "$1"; printf '%s\n' "$MANIFEST" ); }
+
+# The registry ids that name this app in build.extends.
+extensions_of() {
+    local parent="${1//./\\.}" record
+    { grep -lE "^[[:space:]]+extends:[[:space:]]*['\"]?$parent['\"]?[[:space:]]*\$" \
+        "$REGISTRY_DIR"/*/flatpark.yml 2>/dev/null || true; } \
+        | while IFS= read -r record; do basename "$(dirname "$record")"; done
 }
 
 # True when the loaded app (load_app) is published for the given arch.

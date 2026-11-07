@@ -5,7 +5,7 @@
 //
 // This is NOT a general YAML parser: the descriptor schema is small and
 // controlled, so we extract exactly the known paths (id, name, summary,
-// website, source_url, build.{manifest,branch,mode,arches},
+// website, source_url, build.{manifest,branch,mode,extends,arches},
 // catalog.{category,tags},
 // update.{command,auto}). Keeping it dependency-free means the core bash pipeline only
 // needs `node`, not an npm install.
@@ -94,6 +94,7 @@ for (const raw of text.split('\n')) {
     } else if (key === 'manifest') d.manifest = unquote(val);
     else if (key === 'branch') d.branch = unquote(val);
     else if (key === 'mode') d.mode = unquote(val);
+    else if (key === 'extends') d.extends = unquote(val);
   } else if (section === 'catalog') {
     if (key === 'category') d.category = unquote(val);
     else if (key === 'tags') {
@@ -150,6 +151,7 @@ const out = [
   `_FP_BRANCH=${sq(d.branch || '')}`,
   `_FP_MANIFEST=${sq(d.manifest)}`,
   `_FP_MODE=${sq(d.mode || '')}`,
+  `_FP_EXTENDS=${sq(d.extends || '')}`,
   `_FP_ARCHES=${sq(arches.join(' '))}`,
   `_FP_CATEGORY=${sq(d.category || '')}`,
   `_FP_TAGS=${sq((d.tags || []).join(', '))}`,

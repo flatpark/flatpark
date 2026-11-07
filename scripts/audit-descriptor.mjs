@@ -10,6 +10,7 @@
 // Hard failures print `FAIL: ...`; advisory findings print `WARN: ...`.
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { readManifestHead } from './read-extension-points.mjs';
 
 const file = process.argv[2];
 if (!file) {
@@ -44,6 +45,7 @@ try {
 let appId = '';
 let sourceUrl = '';
 let manifestName = '';
+let extendsId = '';
 let updateCommand = '';
 let updateAuto = null;
 let proprietary = null;
@@ -88,6 +90,7 @@ const UPSTREAM_LISTS = {
     if (!m) continue;
     const [, k, v] = m;
     if (section === 'build' && k === 'manifest') manifestName = unquote(v);
+    else if (section === 'build' && k === 'extends') extendsId = unquote(v);
     else if (section === 'update' && k === 'command') updateCommand = unquote(v);
     else if (section === 'update' && k === 'auto') updateAuto = unquote(v);
     else if (section === 'policy') {
@@ -237,6 +240,38 @@ for (const src of sources) {
     if (!src.keys.size || src.keys.size === '0') fail(`extra-data source missing/zero size (${src.keys.url || src.keys.filename || ''})`);
   } else if (t === '' || !LOCAL.has(t)) {
     warn(`source type '${t || '?'}' not auto-verified — needs human review`);
+  }
+}
+
+// An extension runs inside its parent's sandbox, on its parent's runtime, and
+// the repo only holds what the ref carries: its payload has to be extra-data.
+if (manifestName && existsSync(join(dirname(file), manifestName))) {
+  const own = readManifestHead(readText(join(dirname(file), manifestName)));
+  if (own['build-extension'] === 'true' && !extendsId) fail('build-extension: true needs build.extends in the descriptor');
+  if (extendsId) {
+    const parentDir = join(dirname(file), '..', extendsId);
+    const parentManifest = existsSync(join(parentDir, 'flatpark.yml'))
+      ? readText(join(parentDir, 'flatpark.yml')).match(/^\s+manifest:\s*(\S+)\s*$/m)?.[1]
+      : '';
+    if (!parentManifest || !existsSync(join(parentDir, parentManifest))) {
+      fail(`build.extends: ${extendsId} is not in the registry`);
+    } else {
+      const parent = readManifestHead(readText(join(parentDir, parentManifest)));
+      const declared = Object.entries(parent.points).some(([point, keys]) =>
+        appId === point || (keys.subdirectories === 'true' && appId.startsWith(`${point}.`)));
+      if (!declared) fail(`build.extends: ${extendsId} declares no extension point for ${appId}`);
+      if (own['build-extension'] !== 'true') fail('build.extends needs build-extension: true in the manifest');
+      if (own.runtime !== extendsId) fail(`build.extends: the manifest's runtime must be ${extendsId}`);
+      if (finishArgs.length) fail("an extension has no finish-args: it runs with its parent's");
+      if (!sources.some((s) => s.type === 'extra-data')) fail('an extension carries its payload as extra-data');
+      for (const s of sources) {
+        if (s.type === 'archive' || s.type === 'git') fail(`an extension can't build from a ${s.type} source: only extra-data keeps it out of the repo`);
+      }
+      const sdkVersion = (own.sdk || '').split('//')[1];
+      if (sdkVersion !== parent['runtime-version']) {
+        fail(`build.extends: sdk version ${sdkVersion} differs from ${extendsId}'s runtime ${parent['runtime-version']}`);
+      }
+    }
   }
 }
 
