@@ -17,8 +17,6 @@ finish-args:
   - --device=dri
   # Podcast audio output.
   - --socket=pulseaudio
-  # Direct access to the PipeWire service, requested for this package.
-  - --filesystem=xdg-run/pipewire-0
   # Tauri's tray icon registers with the watcher using its unique bus name.
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-run/tray-icon:create

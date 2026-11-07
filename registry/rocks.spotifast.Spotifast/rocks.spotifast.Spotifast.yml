@@ -19,10 +19,10 @@ finish-args:
   - --socket=fallback-x11
   # egui/glow rendering.
   - --device=dri
-  # Playback. --socket=pulseaudio also covers PipeWire; the extra read-only
-  # PipeWire socket lets the ALSA backend option in Settings work too.
+  # Playback. --socket=pulseaudio also covers PipeWire hosts, and the ALSA
+  # backend option in Settings plays through it too: the runtime routes ALSA's
+  # default device to PulseAudio.
   - --socket=pulseaudio
-  - --filesystem=xdg-run/pipewire-0:ro
   # MPRIS: media keys, the shell and playerctl. The player owns this fixed
   # well-known name (no instance suffix), which is a sibling of the app ID
   # rather than a child, so it has to be granted explicitly.

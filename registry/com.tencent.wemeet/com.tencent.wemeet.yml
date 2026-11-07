@@ -25,7 +25,6 @@ finish-args:
   - --socket=pulseaudio
   # Camera + microphone + GPU for the call. Declared in policy.dangerous_permissions.
   - --device=all
-  - --filesystem=xdg-run/pipewire-0
   - --talk-name=org.gnome.Shell.Screencast
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher

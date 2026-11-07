@@ -26,6 +26,7 @@ finish-args:
   # grant there is no socket in the sandbox and recording fails with
   # "pipewiresrc: Failed to connect". (Its ffmpeg path needs `-f pipewire`,
   # which no mainline FFmpeg build has, so the runtime's GStreamer is what runs.)
+  # Declared in policy.dangerous_permissions.
   - --filesystem=xdg-run/pipewire-0
   # The recorder's "system audio" and "microphone" options use pulsesrc.
   - --socket=pulseaudio
