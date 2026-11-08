@@ -1,0 +1,55 @@
+id: org.openaec.OpenPdfStudio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: open-pdf-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app. The binary links WebKitGTK 4.1, GTK 3 and libsoup 3, which
+# GNOME 51 provides, plus liblzma. PDFium and the OCR data ship in the deb
+# under usr/lib/Open PDF Studio, next to usr/bin, which is where Tauri looks.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # OpenAEC account sign-in, the online symbol library, and an optional local
+  # MCP connection. The in-app updater is a separate switch, turned off below.
+  - --share=network
+  # IPP to the CUPS socket. Without it the printer list stays empty.
+  - --socket=cups
+  # Second launch hands its file to the running window. The name is the Tauri
+  # identifier in lower case, not the Flatpak app id.
+  - --own-name=org.openaec.openpdfstudio.SingleInstance
+  # FlatPark delivers updates. Managed mode does not register the updater.
+  - --env=OPENAEC_BEHEERD=1
+modules:
+  - name: open-pdf-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-pdf-studio-wrapper /app/bin/open-pdf-studio
+      - install -Dm644 org.openaec.OpenPdfStudio.desktop /app/share/applications/org.openaec.OpenPdfStudio.desktop
+      - install -Dm644 org.openaec.OpenPdfStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenPdfStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenPdfStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenPdfStudio.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-pdf-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/download/v2026.45.0/Open.PDF.Studio_2026.45.0_amd64.deb
+        sha256: 98d362192e497f9a7b6bce97ec987b5eb217b7bb5e31bed8898301d65e931335
+        size: 55840290
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-pdf-studio-wrapper
+      - type: file
+        path: org.openaec.OpenPdfStudio.desktop
+      - type: file
+        path: org.openaec.OpenPdfStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenPdfStudio.png
