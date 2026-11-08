@@ -47,9 +47,9 @@ modules:
         filename: gyroflow.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/gyroflow/gyroflow/releases/download/v1.6.3/Gyroflow-linux64.tar.gz
-        sha256: 98625e3ce318964d49d3c66f2dc302a9e6c4c138233d9aa6cbd986f687c421c3
-        size: 62979603
+        url: https://github.com/gyroflow/gyroflow/releases/download/v1.7.0/Gyroflow-linux64.tar.gz
+        sha256: 8771263c1690020eb78a958c286c28e9daad0debc9463062b706dc3cec030c26
+        size: 96498302
       # END MANAGED EXTRA-DATA
       # Gyroflow and its bundled FFmpeg/mdk libraries are built against LLVM's
       # libc++, which neither the runtime nor the tarball ships. These are

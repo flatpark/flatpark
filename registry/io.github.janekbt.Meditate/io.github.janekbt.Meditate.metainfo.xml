@@ -186,6 +186,9 @@
     <content_attribute id="money-gambling">none</content_attribute>
   </content_rating>
   <releases>
+    <release version="26.11.1" date="2026-11-08">
+      <description></description>
+    </release>
     <release version="26.11.0" date="2026-10-30">
       <description translate="yes">
         <p>A ring that shows the session and its bells, Save next to Pause, presets in your own order, and bells that stay in your headphones. Thank you to @marius-shark and @voidplayer, whose reports and ideas led to most of this release. On Android, bells now play as media instead of as an alarm, so they may sound louder or quieter than before: please check your bell volumes.</p>
