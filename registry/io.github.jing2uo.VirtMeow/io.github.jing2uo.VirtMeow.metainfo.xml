@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Komh -->
+<component type="desktop-application">
+  <id>io.github.jing2uo.VirtMeow</id>
+  <name>virt-meow</name>
+  <summary>Manage libvirt virtual machines, here or over SSH</summary>
+  <summary xml:lang="zh_CN">管理本机或远程 (SSH) 的 libvirt 虚拟机</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.jing2uo">
+    <name>Komh</name>
+  </developer>
+
+  <description>
+    <p>
+      virt-meow is a libvirt virtual machine manager, a modern replacement for
+      virt-manager: for the machines on this computer, or on others over SSH.
+    </p>
+    <ul>
+      <li>Several connections at once (qemu:///system, qemu:///session, qemu+ssh), kept alive and reconnected on their own</li>
+      <li>SSH in process, with host keys checked and trusted only on your word</li>
+      <li>Create machines from an ISO, with BIOS, UEFI or Secure Boot and a TPM</li>
+      <li>Disks, networks, storage pools, snapshots and the XML definition</li>
+      <li>VNC and SPICE consoles, and the serial console</li>
+      <li>The same from the command line, virt-mm, and in a browser with virt-mm serve</li>
+    </ul>
+    <p>
+      This is an alpha release: it is tested against libvirt in a container,
+      little yet on real hosts.
+    </p>
+    <p>
+      This package ships the official release build unmodified. The command
+      line is available as <code>flatpak run --command=virt-mm io.github.jing2uo.VirtMeow help</code>.
+    </p>
+    <p>
+      Permissions: network, the GPU, this computer's libvirt sockets
+      (/run/libvirt and the session daemon's), the SSH agent and ~/.ssh
+      read-only for keys and known hosts, notifications and the keychain.
+      Storage stays with libvirt: an ISO or disk image is uploaded into a
+      storage pool from the file dialog, so no folder of yours is shared.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.jing2uo.VirtMeow.desktop</launchable>
+  <provides>
+    <binary>virt-mm</binary>
+  </provides>
+
+  <url type="homepage">https://github.com/jing2uo/virt-meow</url>
+  <url type="bugtracker">https://github.com/jing2uo/virt-meow/issues</url>
+  <url type="vcs-browser">https://github.com/jing2uo/virt-meow</url>
+
+  <categories>
+    <category>System</category>
+    <category>Emulator</category>
+  </categories>
+  <keywords>
+    <keyword>libvirt</keyword>
+    <keyword>kvm</keyword>
+    <keyword>qemu</keyword>
+    <keyword>virtual machine</keyword>
+    <keyword>virt-manager</keyword>
+  </keywords>
+
+  <content_rating type="oars-1.1" />
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>The machines of a connection</caption>
+      <image>https://raw.githubusercontent.com/jing2uo/virt-meow/main/docs/screenshots/machines.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A machine's details</caption>
+      <image>https://raw.githubusercontent.com/jing2uo/virt-meow/main/docs/screenshots/machine.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A machine's VNC console</caption>
+      <image>https://raw.githubusercontent.com/jing2uo/virt-meow/main/docs/screenshots/console.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The machine list in a dark desktop</caption>
+      <image>https://raw.githubusercontent.com/jing2uo/virt-meow/main/docs/screenshots/machines-dark.png</image>
+    </screenshot>
+  </screenshots>
+
+  <releases>
+    <release version="0.1.0" date="2026-11-08">
+      <description>
+        <p>The first release, an alpha.</p>
+      </description>
+      <url>https://github.com/jing2uo/virt-meow/releases/tag/v0.1.0</url>
+    </release>
+  </releases>
+</component>

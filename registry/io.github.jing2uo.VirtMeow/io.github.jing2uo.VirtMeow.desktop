@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=virt-meow
+GenericName=Virtual Machine Manager
+GenericName[zh_CN]=虚拟机管理器
+Comment=Manage libvirt virtual machines, here or over SSH
+Comment[zh_CN]=管理本机或远程 (SSH) 的 libvirt 虚拟机
+Exec=virt-mm
+Icon=io.github.jing2uo.VirtMeow
+Terminal=false
+Categories=System;Emulator;
+Keywords=libvirt;kvm;qemu;virtual;machine;vm;virt-mm;virt-meow;
+StartupWMClass=io.github.jing2uo.VirtMeow
