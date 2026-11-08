@@ -42,14 +42,14 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: virt-mm-linux
+        filename: virt-meow-linux
         only-arches:
           - x86_64
         url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.1/virt-meow-linux-x86_64
         sha256: ff9eceb3095c76425468ba50224c4b385a15f412858248484ced3df25f2a68c9
         size: 18326584
       - type: extra-data
-        filename: virt-mm-linux
+        filename: virt-meow-linux
         only-arches:
           - aarch64
         url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.1/virt-meow-linux-arm64
