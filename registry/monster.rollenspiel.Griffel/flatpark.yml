@@ -1,0 +1,31 @@
+id: monster.rollenspiel.Griffel
+name: Griffel
+summary: Markdown notes with a file sidebar
+website: https://git.rollenspiel.monster/Tealk/griffel
+source_url: https://git.rollenspiel.monster/Tealk/griffel
+build:
+  manifest: monster.rollenspiel.Griffel.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Office
+  # Flip to true in a follow-up commit together with a row in
+  # docs/reference/upstream-approvals.md that links this PR: the submitter is
+  # the developer, so the PR itself is the approval.
+  upstream_approved: false
+  tags:
+    - Markdown
+    - Notes
+    - Editor
+    - GTK4
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # The vault is any folder the user picks, and its absolute path is stored in
+    # GSettings. The tree is read and written live, and wiki links resolve
+    # against it, so the document portal (/run/user/.../doc paths, unstable
+    # across restarts) cannot stand in for a real grant.
+    - --filesystem=home

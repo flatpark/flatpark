@@ -1,0 +1,61 @@
+id: monster.rollenspiel.Griffel
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: griffel
+separate-locales: false
+build-options:
+  no-debuginfo: true
+
+finish-args:
+  # Windowing: Wayland first, XWayland for desktops that need it; ipc is
+  # required for the X11 fallback to work at all.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # WebKitGTK draws the Markdown preview; without DRM it falls back to software
+  # rendering, which is noticeably slower on long notes.
+  - --device=dri
+  # Any folder can be the vault, the chosen path is persisted in GSettings and
+  # the tree is watched and written, so a portal grant is not equivalent.
+  # Declared as a high-risk permission in flatpark.yml.
+  - --filesystem=home
+  # Adw.StyleManager follows the light/dark preference through this portal.
+  - --talk-name=org.freedesktop.portal.Settings
+
+modules:
+  # The payload is the vendor's own tarball, unpacked on the user's machine into
+  # /app/extra/griffel: the app, its vendored Python packages, style.css, the
+  # message catalog and the icon themes it looks up by itself. Only the files
+  # Flatpak has to export are installed here at build time — nothing that comes
+  # from extra-data can be visible to the desktop.
+  - name: griffel
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 griffel-wrapper /app/bin/griffel
+      - install -Dm644 monster.rollenspiel.Griffel.desktop /app/share/applications/monster.rollenspiel.Griffel.desktop
+      - install -Dm644 monster.rollenspiel.Griffel.metainfo.xml /app/share/metainfo/monster.rollenspiel.Griffel.metainfo.xml
+      - install -Dm644 monster.rollenspiel.Griffel.png /app/share/icons/hicolor/512x512/apps/monster.rollenspiel.Griffel.png
+      - install -Dm644 monster.rollenspiel.Griffel.gschema.xml /app/share/glib-2.0/schemas/monster.rollenspiel.Griffel.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: griffel.tar.gz
+        url: https://git.rollenspiel.monster/Tealk/griffel/releases/download/v0.4.1/Griffel-0.4.1-linux.tar.gz
+        sha256: 121422e1b9330f654b1f6ff5c954811f973034f77fbc467695d01285dcf88400
+        size: 1511066
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: griffel-wrapper
+      - type: file
+        path: monster.rollenspiel.Griffel.desktop
+      - type: file
+        path: monster.rollenspiel.Griffel.metainfo.xml
+      - type: file
+        path: monster.rollenspiel.Griffel.png
+      - type: file
+        path: monster.rollenspiel.Griffel.gschema.xml
