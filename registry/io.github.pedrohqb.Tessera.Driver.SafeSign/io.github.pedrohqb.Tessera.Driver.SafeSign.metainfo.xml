@@ -17,7 +17,7 @@
     <p>SafeSign IC is the PKCS#11 driver for GD Burti (G+D StarSign) tokens and other SafeSign tokens and cards. Tessera loads it like any other driver, so browsers, PDF readers and document signers that use Tessera's tokens can sign with them.</p>
     <p>It also adds SafeSign's Token Administration to Tessera's window, to change and unlock the PIN.</p>
     <p>This extension installs A.E.T. Europe's official Linux packages, downloaded from the vendor at install time and checked against pinned checksums. Only their files are taken: no install script runs. SafeSign is closed source and not made or endorsed by Tessera's author.</p>
-    <p>The driver runs inside Tessera's sandbox with Tessera's permissions and has none of its own. After installing it, quit Tessera from its menu and open it again.</p>
+    <p>The driver runs inside Tessera's sandbox with Tessera's permissions and has none of its own. After installing it, use Restart Tessera in Tessera's menu.</p>
   </description>
   <releases>
     <release version="4.5.0.0" date="2026-11-08"/>
