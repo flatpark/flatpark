@@ -14,21 +14,22 @@
   <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
   <url type="vcs-browser">https://github.com/pedrohqb/tessera</url>
   <description>
-    <p>This package is maintained by Tessera's developer. It installs Tessera's official release build from its GitHub releases, unmodified, and downloads each token driver from its vendor at install time, checked against a pinned checksum. One driver file is adapted: SerproID's launcher and configuration name its install folder, /usr/share/serproid-desktop, and are pointed at its copy inside the app. The drivers' install scripts never run.</p>
+    <p>This package is maintained by Tessera's developer. It installs Tessera's official release build from its GitHub releases, unmodified. The vendors' token drivers are separate extensions, installed for the token at hand: io.github.pedrohqb.Tessera.Driver.SafeSign (GD Burti and other SafeSign tokens), .SafeNet (SafeNet eToken and IDPrime) and .SerproID (Serpro's cloud certificate). After installing one, quit Tessera from its menu and open it again.</p>
     <p>Tessera lets sandboxed apps use hardware tokens, smart cards and cloud certificates without installing any driver on the system. It runs the token drivers inside its own sandbox and shares every token with other apps through p11-kit, the standard way for Linux apps to reach PKCS#11 devices.</p>
     <p>This is meant for immutable systems such as Fedora Silverblue, Kinoite, Bluefin, Aurora and Bazzite, where installing a vendor's driver package on the host is hard or impossible.</p>
     <ul>
       <li>Shows the card readers, the inserted tokens and their certificates</li>
-      <li>Drivers included: SafeSign IC, SafeNet Authentication Client and SerproID; more can be added as extensions</li>
-      <li>Vendor drivers are downloaded from the vendors at install time and checked against pinned checksums</li>
-      <li>Opens the vendors' tools, such as SafeSign's Token Administration and the SerproID app</li>
-      <li>Sets up Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Papers and Okular to use the tokens, and shows the command that lets them reach Tessera</li>
+      <li>OpenSC built in, for Feitian ePass2003, PIV cards and YubiKeys, OpenPGP cards and the many others OpenSC supports</li>
+      <li>The vendors' drivers are extensions, each downloaded from its vendor at install time and checked against pinned checksums; others can publish theirs the same way</li>
+      <li>Says which driver a connected token needs, with the command that installs it</li>
+      <li>Opens the drivers' tools, such as SafeSign's Token Administration and the SerproID app</li>
+      <li>Sets up Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Thunderbird, Evolution, LibreOffice, Papers, Okular and JSignPdf to use the tokens, and shows the command that lets them reach Tessera</li>
       <li>Publishes a driver only while it answers, so a driver that hangs cannot hang the apps</li>
       <li>Keeps running in the background with an icon in the tray, and can start at login</li>
     </ul>
     <p>Each driver runs in its own p11-kit server inside Tessera. Tessera adds them to the host's p11-kit configuration, and the host's p11-kit server (p11-kit-server.socket, enabled once) serves them to other apps. Sandboxed apps need --filesystem=xdg-run/p11-kit/pkcs11; PJeOffice Pro from FlatPark has it already.</p>
     <p>The host needs pcscd with the CCID driver and the user's p11-kit server, which most distributions ship. Turn the server on once with <code>systemctl --user enable --now p11-kit-server.socket</code>; Tessera's window shows the command too.</p>
-    <p>Each sandboxed app that should use the tokens needs access to that server, given once per app; Tessera's window shows the command for each, for example <code>flatpak override --user --filesystem=xdg-run/p11-kit/pkcs11 org.mozilla.firefox</code>. Firefox, Papers and Okular also need the "Set up" button in Tessera. Apps installed from the distribution are on the Native tab, each with its own Set up. To undo it for an app: <code>flatpak override --user --reset org.mozilla.firefox</code>.</p>
+    <p>Each sandboxed app that should use the tokens needs access to that server, given once per app; Tessera's window shows the command for each, for example <code>flatpak override --user --filesystem=xdg-run/p11-kit/pkcs11 org.mozilla.firefox</code>. Firefox, Thunderbird, LibreOffice, JSignPdf, Papers and Okular also need the "Set up" button in Tessera. Apps installed from the distribution are on the Native tab, each with its own Set up. To undo it for an app: <code>flatpak override --user --reset org.mozilla.firefox</code>.</p>
   </description>
   <screenshots>
     <screenshot type="default">

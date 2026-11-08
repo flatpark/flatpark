@@ -1,0 +1,36 @@
+# SerproID, a Tessera driver extension: mounted at
+# /app/lib/tessera/extensions/SerproID by Tessera's extension point
+# (io.github.pedrohqb.Tessera.Driver, flatpak/io.github.pedrohqb.Tessera.yml).
+# The vendor's files are downloaded at install time (extra-data) and checked
+# against these sha256 pins, then unpacked by apply_extra.sh into extra/.
+# FlatPark's registry entry builds from the same files.
+id: io.github.pedrohqb.Tessera.Driver.SerproID
+branch: stable
+runtime: io.github.pedrohqb.Tessera
+runtime-version: stable
+sdk: org.gnome.Sdk//51
+build-extension: true
+separate-locales: false
+modules:
+  - name: serproid
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 driver.toml -t ${FLATPAK_DEST}
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      - install -Dm644 io.github.pedrohqb.Tessera.Driver.SerproID.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: serproid.deb
+        only-arches:
+          - x86_64
+        url: https://storagegw.estaleiro.serpro.gov.br/instalador-desktop/SerproID-2.1.6-amd64.deb
+        sha256: 0ffa9ffe5bc343cc758a12f28bd7f08aec4b6e843d1c043baf0b81572461e588
+        size: 86209026
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: driver.toml
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.pedrohqb.Tessera.Driver.SerproID.metainfo.xml

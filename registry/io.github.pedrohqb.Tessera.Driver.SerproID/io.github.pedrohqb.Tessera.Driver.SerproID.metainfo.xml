@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>io.github.pedrohqb.Tessera.Driver.SerproID</id>
+  <extends>io.github.pedrohqb.Tessera</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>SerproID</name>
+  <summary>Serpro cloud certificate driver for Tessera</summary>
+  <summary xml:lang="pt-BR">Driver do certificado em nuvem do Serpro para o Tessera</summary>
+  <developer id="br.gov.serpro">
+    <name>Serpro</name>
+  </developer>
+  <url type="homepage">https://serproid.serpro.gov.br/</url>
+  <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
+  <url type="vcs-browser">https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SerproID</url>
+  <description>
+    <p>SerproID makes Serpro's cloud certificate available as a token. Tessera loads it like any other driver, so browsers, PDF readers and document signers that use Tessera's tokens can sign with it; each signature is approved in the SerproID phone app.</p>
+    <p>It also adds the SerproID app to Tessera's window, to sign in and download the certificate.</p>
+    <p>This extension installs Serpro's official Linux package, downloaded at install time and checked against a pinned checksum. Only its files are taken: no install script runs, and the app's launcher is pointed at its copy inside the extension. SerproID is closed source and not made or endorsed by Tessera's author.</p>
+    <p>The driver runs inside Tessera's sandbox with Tessera's permissions and has none of its own. After installing it, quit Tessera from its menu and open it again.</p>
+  </description>
+  <releases>
+    <release version="2.1.6" date="2026-11-08"/>
+  </releases>
+</component>

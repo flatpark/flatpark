@@ -1,0 +1,14 @@
+# SafeSign IC, a Tessera driver extension (io.github.pedrohqb.Tessera.Driver.SafeSign).
+# Paths are relative to this folder; apply_extra.sh unpacks into extra/.
+name = "SafeSign IC"
+vendor = "A.E.T. Europe"
+description = "GD Burti and other SafeSign tokens"
+module = "extra/libaetpkss.so"
+library_path = [
+    "extra/usr/lib",
+    "extra/gdbm/usr/lib/x86_64-linux-gnu",
+]
+
+[[tools]]
+name = "Token Administration"
+exec = ["extra/tokenadmin"]

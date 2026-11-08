@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>io.github.pedrohqb.Tessera.Driver.SafeNet</id>
+  <extends>io.github.pedrohqb.Tessera</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>SafeNet Authentication Client</name>
+  <summary>SafeNet eToken and IDPrime driver for Tessera</summary>
+  <summary xml:lang="pt-BR">Driver de eToken e IDPrime SafeNet para o Tessera</summary>
+  <developer id="com.thalesgroup">
+    <name>Thales</name>
+  </developer>
+  <url type="homepage">https://cpl.thalesgroup.com/access-management/authenticators/pki-usb-authentication/etoken-5110-usb-token</url>
+  <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
+  <url type="vcs-browser">https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SafeNet</url>
+  <description>
+    <p>SafeNet Authentication Client is the PKCS#11 driver for SafeNet eToken 5100 and 5110 tokens and IDPrime cards. Tessera loads it like any other driver, so browsers, PDF readers and document signers that use Tessera's tokens can sign with them.</p>
+    <p>While it is installed and on, Tessera's built-in OpenSC driver leaves IDPrime cards to it, so each token shows once.</p>
+    <p>This extension installs the core package from Thales's official Linux release, downloaded at install time and checked against a pinned checksum. Only its files are taken: no install script runs. SafeNet Authentication Client is closed source and not made or endorsed by Tessera's author.</p>
+    <p>The driver runs inside Tessera's sandbox with Tessera's permissions and has none of its own. After installing it, quit Tessera from its menu and open it again.</p>
+  </description>
+  <releases>
+    <release version="10.9" date="2026-11-08"/>
+  </releases>
+</component>

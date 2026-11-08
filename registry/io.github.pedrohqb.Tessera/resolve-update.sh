@@ -6,8 +6,8 @@
 #   { "version": "0.1.0", "releaseDate": "2026-10-29", "releaseUrl": "...",
 #     "sources": [ { "filename": "tessera.tar.gz", "url": "..." } ] }
 #
-# Only Tessera's own download is resolved. The vendors' driver downloads stay
-# on their fixed pins in the manifest (outside the managed block).
+# The vendors' token drivers are extensions with entries of their own
+# (io.github.pedrohqb.Tessera.Driver.*).
 # Logs go to stderr.
 set -euo pipefail
 

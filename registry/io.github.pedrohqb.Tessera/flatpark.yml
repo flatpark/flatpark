@@ -19,15 +19,8 @@ catalog:
 update:
   command: ./resolve-update.sh
 policy:
-  # Tessera itself is GPL-3.0-or-later; the token drivers it downloads from
-  # their vendors (SafeSign IC, SafeNet Authentication Client, SerproID) are
-  # closed source.
-  proprietary: true
-
-# What this package does around the vendors' builds; shown on the site as the
-# packaging level.
-packaging:
-  - kind: file-change
-    detail:
-      en: "The SerproID driver's launcher and configuration name its install folder (/usr/share/serproid-desktop); they are pointed at its copy under /app/extra. The drivers' /etc folders and install scripts are left out."
-      zh-Hans: "SerproID 驱动的启动脚本和配置写死了安装目录（/usr/share/serproid-desktop），改为指向 /app/extra 下的副本。各驱动的 /etc 目录和安装脚本不使用。"
+  # Tessera is GPL-3.0-or-later, and OpenSC, built into its release, is
+  # LGPL-2.1-or-later. The vendors' closed-source token drivers are separate
+  # extensions (io.github.pedrohqb.Tessera.Driver.*), each with its own
+  # entry.
+  proprietary: false
