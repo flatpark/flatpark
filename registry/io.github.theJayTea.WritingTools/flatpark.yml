@@ -1,0 +1,23 @@
+id: io.github.theJayTea.WritingTools
+name: Writing Tools
+summary: Rewrite, proofread and summarize selected text with AI on X11
+website: https://github.com/theJayTea/WritingTools
+source_url: https://github.com/rhgKc2yp/writingtools-release
+build:
+  manifest: io.github.theJayTea.WritingTools.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  upstream_approved: false
+  tags: [Writing, AI, Proofreading, X11]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+packaging:
+  - kind: seeded-config
+    detail:
+      en: Copies default options to private app data on first launch, preserving later edits.
+      zh-Hans: 首次启动时将默认选项复制到应用私有数据目录，并保留后续修改。
