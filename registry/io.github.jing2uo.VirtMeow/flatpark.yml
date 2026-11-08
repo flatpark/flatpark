@@ -1,0 +1,26 @@
+id: io.github.jing2uo.VirtMeow
+name: virt-meow
+summary: libvirt virtual machine manager, here or over SSH, with a GUI and a CLI
+website: https://github.com/jing2uo/virt-meow
+source_url: https://github.com/jing2uo/virt-meow
+build:
+  manifest: io.github.jing2uo.VirtMeow.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: System
+  # Packaged by virt-meow's developer. Row in
+  # docs/reference/upstream-approvals.md.
+  upstream_approved: true
+  tags:
+    - libvirt
+    - KVM
+    - QEMU
+    - Virtualization
+    - CLI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
