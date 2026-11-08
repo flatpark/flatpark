@@ -1,22 +1,19 @@
 id: now.alma.Alma
-runtime: org.freedesktop.Platform
-runtime-version: "26.08"
-sdk: org.freedesktop.Sdk
-# Electron app: use the Electron base app, which ships zypak. zypak redirects
-# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
-# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
-# base is a prebuilt ref merged into the app at build time; the official
-# upstream application tree is fetched as extra-data and left unmodified.
-base: org.electronjs.Electron2.BaseApp
-base-version: "26.08"
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+# Since 0.4.491 Alma is a native Go app that dlopens GTK 3 and WebKitGTK 4.1
+# (no longer Electron), so it needs the GNOME runtime for libwebkit2gtk-4.1.
+# The official upstream application tree is fetched as extra-data and left
+# unmodified.
 command: alma
 separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # Electron (Chromium) AI assistant. The prebuilt app bundles Chromium and its
-  # own ffmpeg/ANGLE; the GTK3, NSS, X11 and libsecret stacks it links come
-  # from the Freedesktop runtime.
+  # Native AI assistant on WebKitGTK 4.1; GTK 3, WebKitGTK, libsoup and
+  # libsecret come from the GNOME runtime. The server side is the bundled
+  # alma-server Node runtime under /app/extra/alma.
   - --share=ipc
   # Talks to the configured AI providers (OpenAI, Anthropic, Gemini, custom
   # endpoints) and its web-search integration.
@@ -31,16 +28,38 @@ finish-args:
   # Encrypt stored provider API keys (Electron safeStorage / libsecret) with
   # the session keyring when one is present.
   - --talk-name=org.freedesktop.secrets
-  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
-  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
-  # can't reach — always start as the GUI app rather than as plain Node.
+  # Strip a leaked ELECTRON_RUN_AS_NODE (set by VS Code and other Electron
+  # terminals). The native launcher still honours it: it drops the variable and
+  # execs the bundled alma-server runtime as plain Node, which exits at once
+  # with no window.
   - --unset-env=ELECTRON_RUN_AS_NODE
+  # Tray icon (StatusNotifierItem via libayatana-appindicator3, which the
+  # ayatana-stack module supplies).
+  - --talk-name=org.kde.StatusNotifierWatcher
   # Deliberately NOT granted by default (the chat/memory/tool core works
   # without them; users opt in per the metainfo notes via `flatpak override`):
   #   --filesystem=home -> let the agent's file and terminal skills act on real
   #                        files instead of the sandboxed private home
   #   --device=all      -> webcam for the camera-based skills
 modules:
+  # The launcher dlopens libayatana-appindicator3.so.1 for its tray and skips
+  # the tray without it; the GNOME runtime lacks it. Prebuilt stack from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v3/ayatana-stack-ayatana-v3-gnome-51-x86_64.tar.xz
+        sha256: 21b02738793af6cd8d3355a1c5008697096b3000c9d2a4d7dfdbc43375a70056
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v3/ayatana-stack-ayatana-v3-gnome-51-aarch64.tar.xz
+        sha256: b9f9cb632dc4456dd3711059df72e4fc92b30f59b688e411ab7c6df9a2bb7c27
   - name: alma
     buildsystem: simple
     build-commands:
@@ -55,16 +74,16 @@ modules:
         filename: alma.deb
         only-arches:
           - x86_64
-        url: https://github.com/yetone/alma-releases/releases/download/v0.4.487/alma-0.4.487-linux-amd64.deb
-        sha256: a03c5e83bb50b21a2047f749df6e7fdb1096d4a1df49f12a5e8d281d48287d8c
-        size: 300829272
+        url: https://github.com/yetone/alma-releases/releases/download/v0.4.496/alma-0.4.496-linux-amd64.deb
+        sha256: d5df19b3db372c2bed93a242624f66128978338d9758848a26a59635ed584993
+        size: 227111948
       - type: extra-data
         filename: alma.deb
         only-arches:
           - aarch64
-        url: https://github.com/yetone/alma-releases/releases/download/v0.4.487/alma-0.4.487-linux-arm64.deb
-        sha256: c6bd8013a2d0a22b96e70bccb69dce9bbc9cc2114cceebe46b6dc7a45760e1b1
-        size: 358524172
+        url: https://github.com/yetone/alma-releases/releases/download/v0.4.496/alma-0.4.496-linux-arm64.deb
+        sha256: dda01698cc72bbdfa90b22f1cb407eb21432bfc3f4d6c0c4c9d65d153eb77e4a
+        size: 219844502
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
