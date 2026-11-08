@@ -33,12 +33,28 @@ finish-args:
   # execs the bundled alma-server runtime as plain Node, which exits at once
   # with no window.
   - --unset-env=ELECTRON_RUN_AS_NODE
+  # Tray icon (StatusNotifierItem via libayatana-appindicator3, which the
+  # ayatana-stack module supplies).
+  - --talk-name=org.kde.StatusNotifierWatcher
   # Deliberately NOT granted by default (the chat/memory/tool core works
   # without them; users opt in per the metainfo notes via `flatpak override`):
   #   --filesystem=home -> let the agent's file and terminal skills act on real
   #                        files instead of the sandboxed private home
   #   --device=all      -> webcam for the camera-based skills
 modules:
+  # The launcher dlopens libayatana-appindicator3.so.1 for its tray and skips
+  # the tray without it; the GNOME runtime lacks it. Prebuilt stack from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
   - name: alma
     buildsystem: simple
     build-commands:

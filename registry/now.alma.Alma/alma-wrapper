@@ -10,4 +10,8 @@ set -eu
 # Node (no window); the manifest unsets it too, this covers `flatpak run --env`.
 unset ELECTRON_RUN_AS_NODE
 export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+# The tray writes its icon to $TMPDIR/mygo-tray-*/ and hands that directory to
+# the host's tray. The sandbox's /tmp is private, so point TMPDIR at the
+# per-app runtime dir, which has the same path inside and outside.
+export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
 exec /app/extra/alma/alma "$@"
