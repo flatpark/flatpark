@@ -19,11 +19,15 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
 # The release names these assets the same in every version (its
-# CONTRIBUTING.md, "Releasing"). Match the exact names: the CLI-only archives
-# (virt-mm_<version>_linux_<arch>.tar.gz) carry no GUI.
+# CONTRIBUTING.md, "Releasing"): virt-meow-linux-<arch> is the app, GUI and
+# CLI in one binary; virt-mm-linux-<arch>.tar.gz the CLI alone, no GUI. Match
+# the exact names. Through v0.1.0 the app's were virt-mm-linux-x86_64 and
+# virt-mm-linux-aarch64, taken when the new name is missing.
 asset() { jq -r --arg n "$1" '.assets[] | select(.name == $n) | .browser_download_url' <<<"$rel" | head -n1; }
-url="$(asset virt-mm-linux-x86_64)"
-url_arm="$(asset virt-mm-linux-aarch64)"
+url="$(asset virt-meow-linux-x86_64)"
+url_arm="$(asset virt-meow-linux-arm64)"
+[ -n "$url" ] || url="$(asset virt-mm-linux-x86_64)"
+[ -n "$url_arm" ] || url_arm="$(asset virt-mm-linux-aarch64)"
 
 [ -n "$version" ] && [ -n "$url" ] && [ -n "$url_arm" ] \
   || { echo "failed to resolve virt-meow release" >&2; exit 1; }
