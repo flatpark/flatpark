@@ -14,5 +14,5 @@ catalog:
 update:
   command: ./resolve-update.sh
 policy:
-  proprietary: false
+  proprietary: true
   dangerous_permissions: []
