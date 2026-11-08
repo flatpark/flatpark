@@ -6,6 +6,10 @@
   <name>VLC 4 Beta</name>
   <summary>Development builds of the VLC multimedia player</summary>
   <description>
+    <p>This unofficial VLC 4 nightly is for testing and experimentation.</p>
+    <p>Builds run on public GitHub Actions with traceable sources and immutable releases. Flatpak sandboxing restricts permissions. These safeguards reduce security risk.</p>
+    <p>Report issues to rhgKc2yp/vlc-nightly-release first. Contact upstream VideoLAN only for confirmed VLC bugs.</p>
+    
     <p>Play local audio and video files and network streams with the VLC 4 development interface.</p>
     <p>This community package consumes VLC 4 development builds from rhgKc2yp/vlc-nightly-release. It is not an official VideoLAN binary release. Builds use pinned VLC sources, VLC contrib and KDE Platform 6.11; source corrections and provenance are recorded in each release. Flathub provides stable VLC separately.</p>
     <p>Development builds can contain regressions. Through November 15, 2026 UTC, an explicitly recorded ARM64 verification exception may accept an X11 compositor assertion during rapid OpenUri followed immediately by Quit. This exception does not indicate that the crash is fixed.</p>
