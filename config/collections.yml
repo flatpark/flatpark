@@ -246,3 +246,24 @@ collections:
         apps:
           - br.jus.cnj.PJeOfficePro
           - br.gov.serpro.desktop.assinador
+  - slug: openaec
+    name: OpenAEC ecosystem
+    upstream: https://open-aec.com
+    summary:
+      en: >-
+        Open-source tools for architecture, engineering and construction from
+        the OpenAEC Foundation and its community, built to exchange models in
+        the open IFCX format. FlatPark carries two of them so far: Open CAD
+        Studio, a DWG/DXF CAD application by Hakan
+        Seven, and Open PDF Studio, a PDF editor for drawings.
+      zh-Hans: >-
+        OpenAEC 基金会及其社区出品的一套开源建筑、工程与施工（AEC）工具，各工具之间用开放的
+        IFCX 格式交换模型。FlatPark 目前收录了其中两个：Hakan Seven
+        开发的 DWG/DXF 制图软件 Open CAD Studio，以及面向图纸的 PDF 编辑器 Open PDF Studio。
+    groups:
+      - title:
+          en: Drawings and documents
+          zh-Hans: 图纸与文档
+        apps:
+          - io.github.HakanSeven12.OpenCadStudio
+          - org.openaec.OpenPdfStudio
