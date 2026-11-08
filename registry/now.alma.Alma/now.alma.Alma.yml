@@ -53,8 +53,13 @@ modules:
       - type: archive
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
-        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v3/ayatana-stack-ayatana-v3-gnome-51-x86_64.tar.xz
+        sha256: 21b02738793af6cd8d3355a1c5008697096b3000c9d2a4d7dfdbc43375a70056
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v3/ayatana-stack-ayatana-v3-gnome-51-aarch64.tar.xz
+        sha256: b9f9cb632dc4456dd3711059df72e4fc92b30f59b688e411ab7c6df9a2bb7c27
   - name: alma
     buildsystem: simple
     build-commands:
