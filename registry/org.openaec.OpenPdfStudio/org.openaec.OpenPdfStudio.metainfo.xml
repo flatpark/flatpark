@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.OpenPdfStudio</id>
+  <name>Open PDF Studio</name>
+  <summary>Edit and annotate PDF drawings</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-3.0-or-later</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-pdf-studio/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/open-pdf-studio/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/open-pdf-studio</url>
+  <description>
+    <p>This is a community package of Open PDF Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open PDF Studio edits and annotates PDF drawings. It measures to scale, compares two revisions, fills forms, recognises text in scans, and can import or export DWG and DXF. No account is required to edit a local file.</p>
+    <p>Sandbox: display, GPU, network for optional sign-in and the symbol library, and the printer socket so the printer list can fill. Files are opened and saved through the file chooser. The in-app updater is turned off. Updates come through FlatPark.</p>
+  </description>
+  <launchable type="desktop-id">org.openaec.OpenPdfStudio.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Viewer</category>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>PDF</keyword>
+    <keyword>editor</keyword>
+    <keyword>annotate</keyword>
+    <keyword>CAD</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Drawing tools and area take-off on building elevations</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-pdf-studio/v2026.45.0/docs/screenshots/drawing-tools.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Comparing two revisions of a drawing side by side</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-pdf-studio/v2026.45.0/docs/screenshots/pdf-compare.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Annotation tools, stamps and page thumbnails</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-pdf-studio/v2026.45.0/docs/screenshots/annotation-tools.jpg</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>open-pdf-studio</binary>
+    <mediatype>application/pdf</mediatype>
+  </provides>
+  <releases>
+    <release version="2026.45.0" date="2026-11-06">
+      <description>
+        <p>Official Linux build 2026.45.0.</p>
+      </description>
+    </release>
+  </releases>
+</component>
