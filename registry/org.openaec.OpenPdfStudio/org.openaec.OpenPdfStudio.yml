@@ -15,15 +15,16 @@ finish-args:
   - --socket=fallback-x11
   - --device=dri
   # OpenAEC account sign-in, the online symbol library, and an optional local
-  # MCP connection. The in-app updater is a separate switch, turned off below.
+  # MCP connection. The in-app updater stays off: the app does not register it
+  # when /.flatpak-info exists (lib.rs, running_in_flatpak). Do not set
+  # OPENAEC_BEHEERD=1: that is upstream's managed-container mode, which also
+  # hides "What's new" and binds an env-enabled MCP server to 0.0.0.0.
   - --share=network
   # IPP to the CUPS socket. Without it the printer list stays empty.
   - --socket=cups
   # Second launch hands its file to the running window. The name is the Tauri
   # identifier in lower case, not the Flatpak app id.
   - --own-name=org.openaec.openpdfstudio.SingleInstance
-  # FlatPark delivers updates. Managed mode does not register the updater.
-  - --env=OPENAEC_BEHEERD=1
 modules:
   - name: open-pdf-studio
     buildsystem: simple

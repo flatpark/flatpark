@@ -16,6 +16,10 @@ catalog:
     - Annotation
     - CAD
     - OCR
+# Upstream keeps a source-build Flatpak manifest; the update sweep diffs our
+# finish-args against it.
+upstream:
+  manifest: flatpak/org.openaec.OpenPdfStudio.yml
 update:
   command: ./resolve-update.sh
 policy:
