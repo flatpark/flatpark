@@ -86,10 +86,14 @@ needed to decide → escalate to a human.
 ### Phase 1 — Scope & classification
 Classify: new app (`registry/<id>/`) / existing-app change / infrastructure.
 **High-scrutiny surface (STOP if anyone but a maintainer touches it):** `.github/`,
-`scripts/`, `config/`, signing config, and — for an app that **already exists on
+`scripts/`, `config/` (except `config/collections.yml`), signing config, and — for an app that **already exists on
 the base commit** — its `resolve-update.sh` or `update.command`. These are
 CI-executed on a repo-write token (`update-check.yml` runs `contents: write` +
 `pull-requests: write`; `check-updates.sh` `eval`s `update.command`).
+
+`config/collections.yml` is site-only data that CI renders and never runs, so a
+packager adding their app to a collection (or proposing one) is routine: check
+the membership fits the collection and the text reads right.
 
 A resolver added inside a **brand-new** `registry/<id>/` directory is the normal
 submission flow, not a high-scrutiny event: every new app must bring one, its
@@ -248,7 +252,7 @@ open source · 2 = closed source · ★ = all.
 |---|---|---|---|---|---|
 | 0 | Safety | Static-only; nothing executed; artifacts handled in an isolated dir | ★ | | |
 | 1.1 | Scope | Classified: new app / app change / infra | ★ | | |
-| 1.2 | Scope | Touches high-scrutiny surface (`.github/`·`scripts/`·`config/`·signing, or an **existing** app's `resolve-update.sh`/`update.command`)? not a maintainer → STOP. A resolver in a brand-new app dir is routine | ★ | | |
+| 1.2 | Scope | Touches high-scrutiny surface (`.github/`·`scripts/`·`config/` except `collections.yml`·signing, or an **existing** app's `resolve-update.sh`/`update.command`)? not a maintainer → STOP. A resolver in a brand-new app dir is routine | ★ | | |
 | 2.1 | Provenance | Submitter account age / history / graph / other repos | ★ | | |
 | 2.2 | Provenance | Source repo age, corroboration | ★ | | |
 | 2.3 | Provenance | Commit identity sane (no malformed email) | ★ | | |
