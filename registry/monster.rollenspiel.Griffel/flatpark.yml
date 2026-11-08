@@ -10,10 +10,9 @@ build:
   arches: [x86_64, aarch64]
 catalog:
   category: Office
-  # Flip to true in a follow-up commit together with a row in
-  # docs/reference/upstream-approvals.md that links this PR: the submitter is
-  # the developer, so the PR itself is the approval.
-  upstream_approved: false
+  # Submitted and maintained by the app's own developer: the submission PR is
+  # the approval, and docs/reference/upstream-approvals.md carries the row.
+  upstream_approved: true
   tags:
     - Markdown
     - Notes
