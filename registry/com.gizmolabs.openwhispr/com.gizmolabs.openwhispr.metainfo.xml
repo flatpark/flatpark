@@ -9,7 +9,8 @@
   <description>
     <p>OpenWhispr turns speech into text with local Whisper and Parakeet models or a cloud provider of your choice. It includes dictation, transcription history, and configurable shortcuts.</p>
     <p>This community package downloads the official, unmodified Linux tarball at install time. It runs using X11 or XWayland and keeps models and settings in the app's private directories.</p>
-    <p>Dictation and automatic paste are tested with X11 target applications. Native Wayland targets and compositor-specific shortcuts are unverified. Browser sign-in is unavailable in this package; use email sign-in or continue without an account. Direct input-device and PipeWire access are not granted by default.</p>
+    <p>Dictation and automatic paste are tested with X11 target applications. Native Wayland targets and compositor-specific shortcuts are unverified. Browser sign-in is unavailable in this package; email sign-in may work but is untested, or you can continue without an account. Direct input-device and PipeWire access are not granted by default.</p>
+    <p>Transcribing audio from a URL may update the bundled yt-dlp to a nightly build in the app's private cache. These updates are managed by yt-dlp rather than FlatPark.</p>
     <p>Optional system-audio capture needs direct PipeWire access, which also exposes other audio and video streams: <code>flatpak override --user --filesystem=xdg-run/pipewire-0 com.gizmolabs.openwhispr</code></p>
     <p>Undo optional overrides: <code>flatpak override --user --reset com.gizmolabs.openwhispr</code></p>
   </description>
