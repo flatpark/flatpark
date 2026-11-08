@@ -41,16 +41,16 @@ modules:
         filename: meditate.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/janekbt/MeditationApp/releases/download/v26.11.0/meditate-26.11.0-linux-x86_64.tar.gz
-        sha256: f8b05bdc9dcac126a1bb9bb14e208cd16290725fc1359f7d99a668d1bfb4c556
-        size: 6274282
+        url: https://github.com/janekbt/MeditationApp/releases/download/v26.11.1/meditate-26.11.1-linux-x86_64.tar.gz
+        sha256: a7fc05d8ae26eccbb5cf95fa9f7792e241847d19ce4618cc1c2e5eee8dfb03a4
+        size: 6026466
       - type: extra-data
         filename: meditate.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/janekbt/MeditationApp/releases/download/v26.11.0/meditate-26.11.0-linux-aarch64.tar.gz
-        sha256: 534902e27a3ec9cf5f3e2e70ac1f5beb07ee5a4ee41610e802e5d599a40ddc9f
-        size: 6003205
+        url: https://github.com/janekbt/MeditationApp/releases/download/v26.11.1/meditate-26.11.1-linux-aarch64.tar.gz
+        sha256: 267590b9fd1d1f5ef1f537de9e990d61fa07d763dd81d9bb92e1b6ad1a2f0654
+        size: 5727988
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -57,6 +57,9 @@
     <binary>leaf</binary>
   </provides>
   <releases>
+    <release version="0.1.0-alpha.36" date="2026-11-08">
+      <description></description>
+    </release>
     <release version="0.1.0-alpha.34" date="2026-11-07">
       <description></description>
     </release>

@@ -55,9 +55,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/digimezzo/dopamine/releases/download/v3.0.11/Dopamine-3.0.11.deb
-        sha256: 3a8c99c4c0732469b66eaea526e2f6a2f8a18fed3275be6c4178e40c3685628b
-        size: 119467496
+        url: https://github.com/digimezzo/dopamine/releases/download/v3.0.12/Dopamine-3.0.12.deb
+        sha256: 6a8f611edcf691b4ac730d62db8aba68b3194d1fb2af6bc373f8685e0ac1f231
+        size: 119689280
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
