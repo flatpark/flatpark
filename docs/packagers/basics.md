@@ -438,4 +438,5 @@ repository's maintainer, not by sending users there.
 |-----|------------------|-----|
 | [AyuGram](../../registry/com.ayugram.desktop/com.ayugram.desktop.metainfo.xml) | [jing2uo/ayugram-release](https://github.com/jing2uo/ayugram-release) | no official Linux build |
 | [OpenModelica](../../registry/org.openmodelica.OpenModelica/org.openmodelica.OpenModelica.metainfo.xml) | [rhgKc2yp/OMEdit-release](https://github.com/rhgKc2yp/OMEdit-release) | official binaries need Qt WebEngine and runtime libraries bundled around them |
+| [Writing Tools](../../registry/io.github.theJayTea.WritingTools/io.github.theJayTea.WritingTools.metainfo.xml) | [rhgKc2yp/writingtools-release](https://github.com/rhgKc2yp/writingtools-release) | no official Linux build |
 | [DaVinci Resolve](../../registry/com.blackmagic.Resolve/com.blackmagic.Resolve.metainfo.xml), [Studio](../../registry/com.blackmagic.ResolveStudio/com.blackmagic.ResolveStudio.metainfo.xml) | [night199uk/resolve-flatpak](https://github.com/night199uk/resolve-flatpak) | the Linux installer is a personally maintained one |
