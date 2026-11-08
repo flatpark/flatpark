@@ -18,7 +18,7 @@
       <li>Choose cloud providers using your own credentials</li>
       <li>Customize writing styles and dictionary terms</li>
     </ul>
-    <p>The package includes input automation, tray and recording indicator support libraries. Native Wayland setup, system integration installation and automatic startup are not configured by this package. Updates are delivered by Flatpak.</p>
+    <p>The package includes input automation, tray and recording indicator support libraries. Native Wayland setup, system integration installation and automatic startup are not configured by this package. The in-app updater cannot install Debian updates inside the Flatpak sandbox; use Flatpak for updates instead.</p>
   </description>
   <screenshots>
     <screenshot type="default">

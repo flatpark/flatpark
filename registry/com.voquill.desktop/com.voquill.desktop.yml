@@ -40,7 +40,7 @@ modules:
       - install -Dm755 voquill-wrapper /app/bin/voquill
       - install -Dm644 com.voquill.desktop.desktop /app/share/applications/com.voquill.desktop.desktop
       - install -Dm644 com.voquill.desktop.metainfo.xml /app/share/metainfo/com.voquill.desktop.metainfo.xml
-      - install -Dm644 com.voquill.desktop.png /app/share/icons/hicolor/512x512/apps/com.voquill.desktop.png
+      - install -Dm644 com.voquill.desktop.png /app/share/icons/hicolor/256x256/apps/com.voquill.desktop.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
@@ -52,6 +52,8 @@ modules:
         size: 36002242
       # END MANAGED EXTRA-DATA
       # X11 input automation and the native GTK recording indicator.
+      # The shared libxdo-v2 stack lacks the xdotool CLI Voquill uses for paste;
+      # use the matched Debian libxdo3/xdotool pair instead.
       # BEGIN MANAGED DEBIAN trixie main
       - type: extra-data
         filename: libgtk-layer-shell0.deb
