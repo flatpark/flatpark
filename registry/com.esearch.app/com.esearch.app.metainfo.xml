@@ -21,6 +21,20 @@
     <code>flatpak override --user --filesystem=/path/to/folder com.esearch.app</code>.
     Undo overrides with <code>flatpak override --user --reset com.esearch.app</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Screen capture with the on-screen toolbar</caption>
+      <image>https://esearch-app.netlify.app/readme/1.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Recognized text opened in the main window</caption>
+      <image>https://esearch-app.netlify.app/readme/8.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Find and replace in the main window</caption>
+      <image>https://esearch-app.netlify.app/readme/4.webp</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.esearch.app.desktop</launchable>
   <url type="homepage">https://esearch.vercel.app/</url>
   <url type="vcs-browser">https://github.com/xushengfeng/eSearch</url>

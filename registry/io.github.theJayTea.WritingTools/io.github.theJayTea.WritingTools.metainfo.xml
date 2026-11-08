@@ -14,6 +14,12 @@
     desktop session. Native Wayland applications are not supported. Configure
     an AI provider after launching; cloud providers receive the text you send.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Custom buttons picker</caption>
+      <image>https://github.com/user-attachments/assets/f5391035-56a4-4a4f-9078-aedec4244af6</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">io.github.theJayTea.WritingTools.desktop</launchable>
   <url type="homepage">https://github.com/theJayTea/WritingTools</url>
   <url type="vcs-browser">https://github.com/rhgKc2yp/writingtools-release</url>

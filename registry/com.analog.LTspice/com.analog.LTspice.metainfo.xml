@@ -16,6 +16,16 @@
     <p>Your Documents folder is available for schematics, custom models and simulation output. Windows file dialogs show the accessible home folders on drive H:. Network access allows model downloads and the vendor updater. The package reads only Wine's installation folders outside Documents.</p>
     <p>To work in another folder, use <code>flatpak override --user --filesystem=/path/to/circuits com.analog.LTspice</code>. Undo added permissions with <code>flatpak override --user --reset com.analog.LTspice</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Schematic capture in LTspice</caption>
+      <image>https://www.analog.com/_/media/images/videoimages/en/video-still-6368296317112.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Running an AC simulation</caption>
+      <image>https://www.analog.com/_/media/images/videoimages/en/video-still-6368296902112.jpg</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories><category>Education</category><category>Science</category><category>Electronics</category><category>Engineering</category></categories>
   <keywords><keyword>SPICE</keyword><keyword>circuits</keyword><keyword>simulation</keyword><keyword>Wine</keyword></keywords>
