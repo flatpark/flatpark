@@ -20,6 +20,20 @@
     <code>flatpak override --user --share=network org.tagspaces.desktopapp</code>.
     Undo overrides with <code>flatpak override --user --reset org.tagspaces.desktopapp</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>TagSpaces with the Markdown editor</caption>
+      <image>https://www.tagspaces.org/content/v6/tagspaces-lite-demo.avif</image>
+    </screenshot>
+    <screenshot>
+      <caption>Gallery view of tagged images</caption>
+      <image>https://www.tagspaces.org/content/hero/hero-gallery-light.avif</image>
+    </screenshot>
+    <screenshot>
+      <caption>Kanban board view</caption>
+      <image>https://www.tagspaces.org/content/hero/hero-kanban-light.avif</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">org.tagspaces.desktopapp.desktop</launchable>
   <url type="homepage">https://www.tagspaces.org/</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>

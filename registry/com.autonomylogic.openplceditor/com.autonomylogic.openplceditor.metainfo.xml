@@ -16,6 +16,12 @@
       <li>Undo these overrides: <code>flatpak override --user --reset com.autonomylogic.openplceditor</code></li>
     </ul>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing a program with the OpenPLC dark theme</caption>
+      <image>https://raw.githubusercontent.com/Autonomy-Logic/openplc-editor/main/docs/assets/monaco-theme/06-fix-escuro.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.autonomylogic.openplceditor.desktop</launchable>
   <url type="homepage">https://autonomylogic.com/</url>
   <url type="help">https://github.com/Autonomy-Logic/openplc-runtime</url>

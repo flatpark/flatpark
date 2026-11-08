@@ -16,6 +16,12 @@
       <li>Undo optional overrides: <code>flatpak override --user --reset com.genymobile.scrcpy</code>.</li>
     </ul>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>An Android device mirrored with scrcpy on Debian</caption>
+      <image>https://raw.githubusercontent.com/Genymobile/scrcpy/master/assets/screenshot-debian-600.jpg</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.genymobile.scrcpy.desktop</launchable>
   <url type="homepage">https://github.com/Genymobile/scrcpy</url>
   <url type="vcs-browser">https://github.com/Genymobile/scrcpy</url>

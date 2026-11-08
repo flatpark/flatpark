@@ -17,6 +17,16 @@
     <p>Optional direct PipeWire access, for the ALSA PipeWire device. It also lets the app open any camera and other apps' video streams: <code>flatpak override --user --filesystem=xdg-run/pipewire-0 org.audacityteam.Audacity</code></p>
     <p>Undo optional permissions: <code>flatpak override --user --reset org.audacityteam.Audacity</code></p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The project page with recent projects</caption>
+      <image>https://www.audacityteam.org/_astro/Project_page.D35Jg12g_24ld71.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Compressor effect window</caption>
+      <image>https://www.audacityteam.org/effects/Compressor.webp</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">org.audacityteam.Audacity.desktop</launchable>
   <url type="homepage">https://www.audacityteam.org/</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>

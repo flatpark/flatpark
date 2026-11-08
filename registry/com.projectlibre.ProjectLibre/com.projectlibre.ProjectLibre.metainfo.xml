@@ -25,6 +25,16 @@
     by default. Enable it with
     <code>flatpak override --user --share=network com.projectlibre.ProjectLibre</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Gantt chart view of a project</caption>
+      <image>https://a.fsdn.com/con/app/proj/projectlibre/screenshots/ProjectLibre_Gantt.jpeg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Work Breakdown Structure view of tasks</caption>
+      <image>https://projectlibre.com/uploads/desktop/image35.webp</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.projectlibre.ProjectLibre.desktop</launchable>
   <url type="homepage">https://projectlibre.com/projectlibre-desktop/</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>

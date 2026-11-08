@@ -19,6 +19,16 @@
     <p>Files selected through the file chooser need no general home-directory access. For agent access to your Documents folder, enable: flatpak override --user --filesystem=xdg-documents com.useanything.AnythingLLMDesktop</p>
     <p>Undo optional permissions with: flatpak override --user --reset com.useanything.AnythingLLMDesktop</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Chatting with a document in a workspace</caption>
+      <image>https://raw.githubusercontent.com/mintplex-labs/anythingllm-docs/main/public/images/guides/chat-ui.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Chat logs for a workspace</caption>
+      <image>https://raw.githubusercontent.com/mintplex-labs/anythingllm-docs/main/public/images/features/chat-logs/workspace-chat.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.useanything.AnythingLLMDesktop.desktop</launchable>
   <categories><category>Office</category></categories>
   <keywords><keyword>AI</keyword><keyword>LLM</keyword><keyword>documents</keyword><keyword>chat</keyword></keywords>

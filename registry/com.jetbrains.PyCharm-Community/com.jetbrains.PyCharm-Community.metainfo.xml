@@ -29,6 +29,16 @@
       <li>Undo overrides: flatpak override --user --reset com.jetbrains.PyCharm-Community</li>
     </ul>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>PyCharm with a project open in the editor</caption>
+      <image>https://resources.jetbrains.com/help/img/idea/2026.3/py_main_window_overview.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The same window in the dark theme</caption>
+      <image>https://resources.jetbrains.com/help/img/idea/2026.3/py_main_window_overview_dark.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.jetbrains.PyCharm-Community.desktop</launchable>
   <url type="homepage">https://github.com/JetBrains/intellij-community/tree/master/python</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
