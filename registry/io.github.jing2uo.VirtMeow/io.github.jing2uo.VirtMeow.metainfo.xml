@@ -92,6 +92,9 @@
   </screenshots>
 
   <releases>
+    <release version="0.1.1" date="2026-11-08">
+      <description></description>
+    </release>
     <release version="0.1.0" date="2026-11-08">
       <description>
         <p>The first release, an alpha.</p>

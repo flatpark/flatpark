@@ -45,15 +45,15 @@ modules:
         filename: virt-mm-linux
         only-arches:
           - x86_64
-        url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.0/virt-mm-linux-x86_64
-        sha256: 2235c18d9314b63f5ee5fd0569e01ef08cc4bdabfc161aa8101ff94793a18c3d
+        url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.1/virt-meow-linux-x86_64
+        sha256: ff9eceb3095c76425468ba50224c4b385a15f412858248484ced3df25f2a68c9
         size: 18326584
       - type: extra-data
         filename: virt-mm-linux
         only-arches:
           - aarch64
-        url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.0/virt-mm-linux-aarch64
-        sha256: 1e4c542dc31876b5c9efcbbb4b6761adc0766ed33a297969bdb864112409d47b
+        url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.1/virt-meow-linux-arm64
+        sha256: b3cc3d328ed56361c920f953c08ebacbf55eeee231d6986818b6cab491403dd8
         size: 17056920
       # END MANAGED EXTRA-DATA
       - type: file
