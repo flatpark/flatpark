@@ -14,6 +14,9 @@
     <p>This package uses X11. Use an X11 desktop session for screen capture, recording,
     and global shortcuts. Native Wayland capture and shortcuts are unsupported;
     on a Wayland desktop, XWayland capture is limited to X11 windows.</p>
+    <p>Some upstream options do not work in this sandbox: Start at login and
+    Switch to portable. Linux select-text-and-search also needs xdotool,
+    which is not included in the runtime.</p>
     <p>To save files to another folder, grant that folder with
     <code>flatpak override --user --filesystem=/path/to/folder com.esearch.app</code>.
     Undo overrides with <code>flatpak override --user --reset com.esearch.app</code>.</p>

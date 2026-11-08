@@ -4,5 +4,4 @@ set -eu
 unset ELECTRON_RUN_AS_NODE ELECTRON_NO_ATTACH_CONSOLE
 # Tray icon files must be visible to the desktop outside the private /tmp.
 export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
-launcher="$(cat /app/extra/launcher-path)"
-exec zypak-wrapper "/app/extra/esearch/$launcher" --ozone-platform=x11 "$@"
+exec zypak-wrapper /app/extra/esearch/e-search --ozone-platform=x11 "$@"
