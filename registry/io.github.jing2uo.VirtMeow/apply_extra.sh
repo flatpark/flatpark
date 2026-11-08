@@ -8,6 +8,6 @@ set -eu
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-[ -f virt-mm-linux ] || { echo "missing extra-data: virt-mm-linux" >&2; exit 1; }
-mv virt-mm-linux virt-mm
+[ -f virt-meow-linux ] || { echo "missing extra-data: virt-meow-linux" >&2; exit 1; }
+mv virt-meow-linux virt-mm
 chmod +x virt-mm
