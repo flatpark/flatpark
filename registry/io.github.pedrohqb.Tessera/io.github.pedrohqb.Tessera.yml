@@ -70,8 +70,12 @@ finish-args:
   - --filesystem=~/.var/app/org.libreoffice.LibreOffice/config/libreoffice
   - --filesystem=~/.var/app/org.libreoffice.LibreOffice/data
   # JSignPdf's Flatpak: its config folder, where "Set up" writes
-  # jsignpdf/pkcs11.cfg (p11-kit-client.so and the slot of Tessera's tokens).
+  # jsignpdf/pkcs11.cfg (p11-kit-client.so and the slot of Tessera's tokens)
+  # and the keystore type in jsignpdf/config.properties.
   - --filesystem=~/.var/app/io.github.intoolswetrust.JSignPdf/config
+  # Master PDF Editor's Flatpak: its config folder, where "Set up" writes
+  # the PKCS#11 provider in Code Industry/Master PDF Editor 5.conf.
+  - --filesystem=~/.var/app/net.code_industry.MasterPDFEditor/config
   # Native apps (installed from the distribution), which load
   # p11-kit-proxy.so from their NSS database: the native Firefox's profiles
   # (Firefox 147+ under ~/.config, older releases under ~/.mozilla) and the
