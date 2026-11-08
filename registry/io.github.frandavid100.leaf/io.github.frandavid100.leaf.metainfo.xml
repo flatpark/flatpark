@@ -5,8 +5,8 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Leaf</name>
-  <summary>Create and edit documents</summary>
-  <summary xml:lang="es">Crea y edita documentos</summary>
+  <summary>Create and edit documents in GNOME</summary>
+  <summary xml:lang="es">Crea y edita documentos en GNOME</summary>
   <developer id="io.github.frandavid100">
     <name>Leaf contributors</name>
   </developer>
@@ -15,33 +15,60 @@
   <url type="vcs-browser">https://github.com/frandavid100/leaf</url>
   <url type="help">https://github.com/frandavid100/leaf/blob/main/docs/TESTING.md</url>
   <description>
-    <p>Leaf is an experimental GTK 4 and libadwaita document editor powered by WordCraft. Every release so far is an alpha, and this package follows them as they come out.</p>
+    <p>Leaf is a free word processor with a simple interface that integrates with GNOME. Write from scratch, work with DOCX and ODT documents and export the result to PDF.</p>
+    <p xml:lang="es">Leaf es un procesador de textos libre con una interfaz sencilla e integrada en GNOME. Escribe desde cero, trabaja con documentos DOCX y ODT y exporta el resultado a PDF.</p>
+    <p>Shape your documents with styles, tables, images and columns. Add headers, footers, footnotes and tables of contents, and find each section using page thumbnails and the document outline.</p>
+    <p xml:lang="es">Da forma a tus documentos con estilos, tablas, imágenes y columnas. Añade encabezados, pies de página, notas al pie e índices de contenido, y encuentra cada apartado mediante las miniaturas y la estructura del documento.</p>
     <ul>
-      <li>Edit DOCX and ODT files, with text and paragraph styles, tables and inline images.</li>
-      <li>Headers and footers per section, page numbering, columns and rulers for margins.</li>
-      <li>Comment threads, bookmarks, and spelling review with bundled Spanish dictionaries; more Hunspell dictionaries can be added from Preferences.</li>
-      <li>Page thumbnails and a heading outline, search and replace, several documents open at once.</li>
-      <li>PDF export and printing.</li>
-      <li>Interface in English and Spanish, following the system language.</li>
+      <li>Format text and paragraphs with native controls.</li>
+      <li xml:lang="es">Aplica formato al texto y a los párrafos con controles nativos.</li>
+      <li>Insert images and adjust their size and position alongside text.</li>
+      <li xml:lang="es">Inserta imágenes y ajusta su tamaño y su disposición junto al texto.</li>
+      <li>Check spelling and work with comments and tracked changes.</li>
+      <li xml:lang="es">Revisa la ortografía y trabaja con comentarios y seguimiento de cambios.</li>
+      <li>Search and replace text throughout the document or within a selection.</li>
+      <li xml:lang="es">Busca y reemplaza texto en todo el documento o en una selección.</li>
+      <li>Open several documents in tabs and use your own templates.</li>
+      <li xml:lang="es">Abre varios documentos en pestañas y utiliza tus propias plantillas.</li>
     </ul>
-    <p>Development, documentation and artwork have used substantial AI assistance.</p>
+    <p>Leaf is under development and its current versions are alphas. DOCX and ODT compatibility continues to improve: some documents may have formatting differences or contain features that are not yet supported. Keep a copy of important files.</p>
+    <p xml:lang="es">Leaf está en desarrollo y sus versiones actuales son alfa. La compatibilidad con DOCX y ODT sigue mejorando: algunos documentos pueden presentar diferencias de formato o contener funciones todavía no compatibles. Conserva una copia de los archivos importantes.</p>
+    <p>Leaf uses the WordCraft engine. Its development, documentation and artwork have used artificial intelligence assistance.</p>
+    <p xml:lang="es">Leaf utiliza el motor WordCraft. Su desarrollo, documentación e ilustraciones han contado con asistencia de inteligencia artificial.</p>
     <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is listed with the approval of Leaf's developer.</p>
     <p>Permissions: Leaf runs with no network access and no static access to your files. Opening, saving and exporting go through the file-chooser portal, which grants exactly the file you pick, and settings are kept in the app's own directory under <code>~/.var/app/io.github.frandavid100.leaf</code>. If you would rather give it a directory outright, enable it with <code>flatpak override</code>:</p>
     <ul>
-      <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code></li>
+      <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code>
+      </li>
     </ul>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/frandavid100/leaf/main/docs/screenshots/leaf-showcase.png</image>
-      <caption>Leaf editing an illustrated document, with page thumbnails in the sidebar</caption>
+      <caption>Edit documents with page previews and native formatting tools</caption>
+      <caption xml:lang="es">Edita documentos con miniaturas y controles de formato nativos</caption>
+      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-main.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Edit automatically numbered footnotes on the page</caption>
+      <caption xml:lang="es">Edita notas al pie numeradas en la propia página</caption>
+      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-notes.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Review a document with comment threads</caption>
+      <caption xml:lang="es">Revisa un documento con hilos de comentarios</caption>
+      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-review.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Apply paragraph formatting with native controls</caption>
+      <caption xml:lang="es">Aplica formato de párrafo con controles nativos</caption>
+      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-format.png</image>
     </screenshot>
   </screenshots>
   <supports>
     <control>pointing</control>
     <control>keyboard</control>
   </supports>
-  <content_rating type="oars-1.1"/>
+  <content_rating type="oars-1.1" />
   <categories>
     <category>Office</category>
     <category>WordProcessor</category>
@@ -57,17 +84,98 @@
     <binary>leaf</binary>
   </provides>
   <releases>
-    <release version="0.1.0-alpha.34" date="2026-11-07">
-      <description></description>
+    <release version="0.1.0-alpha.35" date="2026-11-08" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.35</url>
+      <description>
+        <p>Personal templates and editing tools</p>
+        <p xml:lang="es">Plantillas personales y herramientas de edición</p>
+        <ul>
+          <li>Start documents from your own templates and choose the style for the following paragraph.</li>
+          <li>Paste plain text, copy formatting and insert images from the clipboard or by dropping a file.</li>
+          <li>Reorder complete sections from the document outline, with a single Undo to restore the move.</li>
+          <li>Search whole words or a selection, preserve capitalization and include notes, headers and footers. Advanced options support regular expressions.</li>
+          <li>Inspect the fonts used in a document and replace a font throughout the document.</li>
+          <li xml:lang="es">Crea documentos desde tus propias plantillas y elige el estilo del párrafo siguiente.</li>
+          <li xml:lang="es">Pega texto sin formato, copia el formato e inserta imágenes desde el portapapeles o arrastrando un archivo.</li>
+          <li xml:lang="es">Reordena apartados completos desde la estructura del documento y restaura el movimiento con un solo paso de Deshacer.</li>
+          <li xml:lang="es">Busca palabras completas o dentro de una selección, conserva las mayúsculas e incluye notas, encabezados y pies. Las opciones avanzadas admiten expresiones regulares.</li>
+          <li xml:lang="es">Consulta las fuentes utilizadas y sustituye una fuente en todo el documento.</li>
+        </ul>
+        <p>Changes to the following paragraph style require DOCX when ODT cannot preserve them. Section movement and font replacement have additional restrictions while tracking changes. A selected search range is cleared after unrelated edits; regular-expression replacements skip empty matches.</p>
+        <p xml:lang="es">Los cambios del estilo siguiente requieren DOCX cuando ODT no puede conservarlos. El movimiento de apartados y la sustitución de fuentes tienen restricciones adicionales al registrar cambios. Una selección de búsqueda se invalida tras otras ediciones; los reemplazos con expresiones regulares omiten coincidencias vacías.</p>
+      </description>
     </release>
-    <release version="0.1.0-alpha.32" date="2026-11-07">
-      <description></description>
+    <release version="0.1.0-alpha.34" date="2026-11-07" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.34</url>
+      <description>
+        <p>Additional spelling dictionaries</p>
+        <p xml:lang="es">Diccionarios ortográficos adicionales</p>
+        <ul>
+          <li>Choose an additional Hunspell dictionary folder through the native file chooser.</li>
+          <li>Refresh the selected folder, remove it or import a matching dictionary file pair.</li>
+          <li>See which spelling languages are available without changing the document language or its Undo history.</li>
+          <li xml:lang="es">Elige una carpeta adicional de diccionarios Hunspell con el selector de archivos nativo.</li>
+          <li xml:lang="es">Actualiza la carpeta elegida, retírala o importa una pareja de archivos de diccionario.</li>
+          <li xml:lang="es">Consulta los idiomas disponibles para la revisión sin cambiar el idioma del documento ni su historial de Deshacer.</li>
+        </ul>
+        <p>Dictionaries must use a Hunspell dialect supported by the document engine. Some system dictionaries may not be compatible.</p>
+        <p xml:lang="es">Los diccionarios deben utilizar una variante de Hunspell compatible con el motor. Algunos diccionarios del sistema pueden no ser compatibles.</p>
+      </description>
     </release>
-    <release version="0.1.0-alpha.30" date="2026-11-06">
-      <description></description>
+    <release version="0.1.0-alpha.32" date="2026-11-07" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.32</url>
+      <description>
+        <p>Improved ODT preservation and rich paste</p>
+        <p xml:lang="es">Mejor conservación de ODT y pegado con formato</p>
+        <ul>
+          <li>Preserve editable footnotes, comments, floating images and newly created basic equations when saving supported ODT documents.</li>
+          <li>Paste formatted content from other applications using HTML or RTF.</li>
+          <li>Preserve custom column widths and reduce repeated work when navigating documents.</li>
+          <li xml:lang="es">Conserva notas al pie editables, comentarios, imágenes flotantes y ecuaciones básicas nuevas al guardar documentos ODT compatibles.</li>
+          <li xml:lang="es">Pega contenido con formato de otras aplicaciones mediante HTML o RTF.</li>
+          <li xml:lang="es">Conserva las anchuras de columna personalizadas y reduce el trabajo repetido al navegar por documentos.</li>
+        </ul>
+        <p>Some document features still require DOCX. Leaf continues to block ODT saves that would lose unsupported content.</p>
+        <p xml:lang="es">Algunas funciones siguen requiriendo DOCX. Leaf continúa bloqueando los guardados ODT que perderían contenido no compatible.</p>
+      </description>
     </release>
-    <release version="0.1.0-alpha.28" date="2026-11-05">
-      <description></description>
+    <release version="0.1.0-alpha.30" date="2026-11-06" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.30</url>
+      <description>
+        <p>Document navigation and review</p>
+        <p xml:lang="es">Navegación y revisión de documentos</p>
+        <ul>
+          <li>Keep the active page and thumbnail linked to the editing cursor.</li>
+          <li>Follow automatic contents entries with a click and keep the viewport stable while editing images.</li>
+          <li>Review corrections, suggested changes and comments together; choose whether new edits are suggestions.</li>
+          <li>Use improved image resize handles, document references and basic equation editing.</li>
+          <li xml:lang="es">Mantén la página y la miniatura activas vinculadas al cursor de edición.</li>
+          <li xml:lang="es">Sigue las entradas del índice automático con un clic y conserva la vista al editar imágenes.</li>
+          <li xml:lang="es">Revisa correcciones, cambios sugeridos y comentarios en el mismo panel; elige si las nuevas ediciones se registran como sugerencias.</li>
+          <li xml:lang="es">Utiliza controles de tamaño de imagen mejorados, referencias de documento y edición de ecuaciones básicas.</li>
+        </ul>
+        <p>Advanced references, notes, floating images and equations require DOCX in this version.</p>
+        <p xml:lang="es">Las referencias avanzadas, las notas, las imágenes flotantes y las ecuaciones requieren DOCX en esta versión.</p>
+      </description>
+    </release>
+    <release version="0.1.0-alpha.28" date="2026-11-05" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.28</url>
+      <description>
+        <p>Footnotes and document references</p>
+        <p xml:lang="es">Notas al pie y referencias de documento</p>
+        <ul>
+          <li>Insert and edit numbered footnotes directly on the page.</li>
+          <li>Create an automatic table of contents from headings and add captions and cross-references.</li>
+          <li>Place images beside text, adjust their spacing and move or resize them with the pointer.</li>
+          <li>Fit portrait and landscape sections independently while keeping thumbnails at a common width.</li>
+          <li xml:lang="es">Inserta y edita notas al pie numeradas directamente en la página.</li>
+          <li xml:lang="es">Crea un índice automático a partir de los títulos y añade leyendas y referencias cruzadas.</li>
+          <li xml:lang="es">Coloca imágenes junto al texto, ajusta su separación y muévelas o cambia su tamaño con el ratón.</li>
+          <li xml:lang="es">Ajusta por separado las secciones verticales y apaisadas manteniendo una anchura común de las miniaturas.</li>
+        </ul>
+        <p>Use DOCX for footnotes, automatic contents, cross-references, captions and floating images in this version.</p>
+        <p xml:lang="es">Utiliza DOCX para las notas, los índices automáticos, las referencias cruzadas, las leyendas y las imágenes flotantes en esta versión.</p>
+      </description>
     </release>
     <release version="0.1.0-alpha.27" date="2026-11-05">
       <description>
@@ -75,4 +183,8 @@
       </description>
     </release>
   </releases>
+  <branding>
+    <color type="primary" scheme_preference="light">#E4F2E8</color>
+    <color type="primary" scheme_preference="dark">#1B3327</color>
+  </branding>
 </component>

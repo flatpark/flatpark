@@ -294,6 +294,16 @@ else. It does no hashing and touches no file:
   so prefer `sha256` when upstream publishes one), `releaseUrl` and
   `releaseNotes` for the metainfo. With both `sha256` and `size` the pin is
   taken without a download.
+- `upstreamMetainfo` is an optional complete upstream metainfo XML string from
+  the exact packaged release tag or a reviewed immutable metadata-only commit.
+  The importer checks the component ID, latest release version and nonempty
+  notes, then copies only summaries, description, branding, screenshots and
+  matching release prose. IDs, categories, links, licensing and other packaging
+  fields remain distributor-owned. `distributionDescription` may append a
+  separate AppStream description fragment for persistent installation details.
+  Final AppStream validation is mandatory before either file is written. This
+  opt-in also refreshes same-version presentation without re-pinning unchanged
+  application bytes. Do not fetch from a moving upstream branch.
 - GitHub release asset URLs need none of that: update-pins reads the asset's
   `digest` and `size` from the releases API, which both catches an in-place
   re-upload and pins a new version without downloading it.

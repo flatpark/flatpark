@@ -13,6 +13,7 @@ repo="frandavid100/leaf"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
+app_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Every Leaf release so far is a prerelease (0.1.0-alpha.N), and upstream asked
 # for those to be followed (flatpark#994), so this reads the release list, not
@@ -37,5 +38,15 @@ url="$(jq -r '.assets[] | select(.name | test("^Leaf-.+-flatpark-x86_64\\.tar\\.
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve leaf release" >&2; exit 1; }
 echo "resolved leaf $version ($date): $url" >&2
 
+# Normally presentation comes from the immutable application release tag, never
+# main. An explicitly reviewed metadata-only correction for an existing release
+# may instead name its immutable source commit in presentation-sources.json.
+ref="$(jq -r --arg tag "v$version" '.[$tag] // $tag' "$app_dir/presentation-sources.json")"
+[[ "$ref" = "v$version" || "$ref" =~ ^[0-9a-f]{40}$ ]] || { echo "invalid presentation ref" >&2; exit 1; }
+meta="$(curl -fsSL "https://raw.githubusercontent.com/$repo/$ref/data/io.github.frandavid100.leaf.metainfo.xml")"
+
 jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"leaf-app.tar.xz", url:$u}]}'
+  --arg details "https://github.com/$repo/releases/tag/v$version" \
+  --arg upstream "$meta" --rawfile extra "$app_dir/distribution-description.xml" \
+  '{version:$v, releaseDate:$d, releaseUrl:$details, upstreamMetainfo:$upstream,
+    distributionDescription:$extra, sources:[{filename:"leaf-app.tar.xz", url:$u}]}'

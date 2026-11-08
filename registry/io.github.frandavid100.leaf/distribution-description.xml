@@ -1,0 +1,8 @@
+<description>
+  <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is listed with the approval of Leaf's developer.</p>
+  <p>Permissions: Leaf runs with no network access and no static access to your files. Opening, saving and exporting go through the file-chooser portal, which grants exactly the file you pick, and settings are kept in the app's own directory under <code>~/.var/app/io.github.frandavid100.leaf</code>. If you would rather give it a directory outright, enable it with <code>flatpak override</code>:</p>
+  <ul>
+    <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code>
+    </li>
+  </ul>
+</description>
