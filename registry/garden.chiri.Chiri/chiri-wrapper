@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# Keep WebKit acceleration available on GNOME 51; users may override this.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+exec /app/extra/chiri/usr/bin/garden.chiri.Chiri "$@"
