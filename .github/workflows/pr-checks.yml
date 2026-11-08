@@ -135,6 +135,9 @@ jobs:
             [ -n "$f" ] || continue
             id="${f#registry/}"; id="${id%%/*}"
             case "$f" in
+              # Collections are site-only data (rendered, never executed), so a
+              # packager may add their app to one; a maintainer still reviews it.
+              config/collections.yml) ;;
               .github/*|scripts/*|config/*)
                 flagged="${flagged}  - ${f} (repo-wide automation)"$'\n' ;;
               registry/*/resolve-update.sh)
