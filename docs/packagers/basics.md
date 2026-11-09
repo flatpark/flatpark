@@ -264,6 +264,11 @@ The rest of the metainfo:
   names that repository and points its support links there.
 - **`project_license`** is the app's real licence; for closed source,
   `LicenseRef-proprietary=<URL of the vendor's terms>`.
+- **Telemetry** is upstream's feature: someone installing the app already
+  trusts upstream or needs what it does. If you happen to notice telemetry or
+  analytics while packaging or testing, you can mention it in the description
+  (and how to turn it off, if there's a setting). Don't go looking for it;
+  it's not a check, and saying nothing means only that nobody noticed.
 - **Screenshots** are `<image>` URLs pointing at upstream, never files in the
   package. The site downloads them at build time and serves them as WebP,
   falling back to the upstream URL if the download fails.
