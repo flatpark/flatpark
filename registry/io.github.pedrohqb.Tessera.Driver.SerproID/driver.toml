@@ -1,0 +1,28 @@
+# SerproID, a Tessera driver extension (io.github.pedrohqb.Tessera.Driver.SerproID).
+# Paths are relative to this folder; apply_extra.sh unpacks into extra/.
+name = "SerproID"
+vendor = "Serpro"
+description = "Cloud certificate; sign in with the SerproID app"
+module = "extra/libserproidp11.so"
+library_path = ["extra/usr/lib"]
+create_dirs = ["~/.config/serproid/certificados"]
+
+# The library reads serproid/certificados, serproid/ambiente and writes
+# serproid/serproid.log under the user's configuration folder. The SerproID
+# app keeps them in ~/.config/serproid (persisted by Tessera's manifest), but
+# a Flatpak sets XDG_CONFIG_HOME to the app's own config folder: point it
+# back so the library finds what the app downloaded.
+# Its built-in OpenSSL looks for CA certificates in Debian's /usr/lib/ssl,
+# which the runtime doesn't have: point it at the runtime's bundle.
+# The library uses libgcc_s's unwinder (_Unwind_Resume_or_Rethrow) without
+# listing libgcc_s as a dependency; p11-kit-remote, a C program, doesn't
+# load it, so dlopen fails with "undefined symbol". Preload it.
+[env]
+LD_PRELOAD = "libgcc_s.so.1"
+XDG_CONFIG_HOME = "~/.config"
+SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt"
+SSL_CERT_DIR = "/etc/ssl/certs"
+
+[[tools]]
+name = "SerproID"
+exec = ["extra/serproid"]

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="griffel">
+  <schema id="monster.rollenspiel.Griffel" path="/monster/rollenspiel/Griffel/">
+    <key name="last-folder" type="s">
+      <default>''</default>
+      <summary>Last opened vault</summary>
+      <description>Absolute path of the folder that was opened last.</description>
+    </key>
+    <key name="last-note" type="s">
+      <default>''</default>
+      <summary>Last opened note</summary>
+      <description>Absolute path of the note that was open when the window closed.</description>
+    </key>
+    <key name="window-width" type="i">
+      <default>1100</default>
+      <summary>Window width</summary>
+    </key>
+    <key name="window-height" type="i">
+      <default>760</default>
+      <summary>Window height</summary>
+    </key>
+    <key name="sidebar-width" type="i">
+      <default>280</default>
+      <summary>Sidebar width</summary>
+    </key>
+    <key name="default-folder" type="s">
+      <default>''</default>
+      <summary>Folder to open on every start</summary>
+      <description>When empty, the folder that was open last is used instead.</description>
+    </key>
+    <key name="default-view-mode" type="s">
+      <default>'edit'</default>
+      <summary>How notes open</summary>
+      <description>One of "edit", "preview" or "last".</description>
+    </key>
+    <key name="view-mode" type="s">
+      <default>'edit'</default>
+      <summary>Editor or preview</summary>
+      <description>The mode that was active last; used when "default-view-mode" is "last".</description>
+    </key>
+    <key name="line-numbers" type="b">
+      <default>true</default>
+      <summary>Show line numbers</summary>
+    </key>
+    <key name="color-scheme" type="s">
+      <default>'system'</default>
+      <summary>Color scheme</summary>
+      <description>One of "system", "light" or "dark".</description>
+    </key>
+  </schema>
+</schemalist>

@@ -58,7 +58,6 @@ One feature or one piece of desktop integration.
 | Yaak | Installed the CEF build instead of WebKitGTK | Loose resolver match | d1d0020 | [Unpacks](../reviewers/testing-playbook.md#it-unpacks-as-a-system-install) |
 | WorkBuddy | Install failed in one region | CDN served different bytes per region | #651 | — (no local check reproduces it) |
 | Cellar | Installer shortcuts written to the host desktop | Desktop path not redirected | #676 | [Home folder](../reviewers/testing-playbook.md#nothing-new-in-the-home-folder) |
-| Leaf | Empty release details and presentation lagging upstream | Independent registry metadata without imported release prose | Prepared for Leaf #185 | Exact-version import and pin-updater regression tests |
 
 ## What the record shows
 

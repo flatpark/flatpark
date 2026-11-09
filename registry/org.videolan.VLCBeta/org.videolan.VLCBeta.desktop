@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=VLC 4 Beta
+GenericName=Media Player
+Comment=Play audio and video with VLC development builds
+Exec=vlc-beta --started-from-file %U
+Icon=org.videolan.VLCBeta
+Terminal=false
+Categories=AudioVideo;Player;
+MimeType=video/mp4;video/x-matroska;video/webm;audio/mpeg;audio/flac;audio/x-wav;application/ogg;
+StartupNotify=true
+StartupWMClass=vlc

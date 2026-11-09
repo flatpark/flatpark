@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+# Starts the app from the unpacked payload. The GNOME runtime provides the
+# interpreter and the GTK 4 / libadwaita / GtkSourceView 5 / WebKitGTK 6 stack;
+# the two Python packages the runtime does not guarantee travel in vendor/.
+#
+# GRIFFEL_DATADIR and GRIFFEL_LOCALEDIR are the hooks griffel.paths looks at
+# first, so the payload finds its own style.css, icons and message catalog even
+# though they live outside /app/share. The GSettings schema is not in the
+# payload — it is installed and compiled at build time and found through the
+# sandbox's XDG_DATA_DIRS.
+
+payload=/app/extra/griffel
+
+export PYTHONPATH="$payload:$payload/vendor"
+export GRIFFEL_DATADIR="$payload/share/griffel"
+export GRIFFEL_LOCALEDIR="$payload/share/locale"
+
+# -P keeps the working directory off sys.path: a folder called griffel/ in the
+# user's home must not shadow the payload.
+exec python3 -P -m griffel "$@"

@@ -7,9 +7,14 @@ order: 8
 
 A packaging, review or test run leaves things behind: a worktree, build output,
 a test install and its data, files the app wrote into your home folder, a test
-display, downloads. When the work is merged or abandoned, remove all of it, and
-**only** what this run created. Then report what was removed, what was kept on
-purpose, and what was found but isn't yours.
+display, downloads. Keep it while the person is still trying the package. Once
+the PR is open (or the work is dropped), list what this run left and ask whether
+to remove it; on a yes, remove all of it, and **only** what this run created.
+Then report what was removed, what was kept on purpose, and what was found but
+isn't yours.
+
+The local branch can go once the PR is open; the remote branch is the PR's, so
+it waits until the PR is merged or closed.
 
 The machine is usually shared: other sessions work in other worktrees, use the
 same build cache, and may be testing an app right now. The person also uses
@@ -99,8 +104,8 @@ flatpak permission-reset <app-id>                # only for an app installed jus
 git worktree list
 git worktree remove --force <path>     # takes its out/ build tree with it
 git worktree prune
-git branch -D <branch>
-git push origin --delete <branch>      # often already deleted on merge
+git branch -D <branch>                 # local only; the PR keeps the remote one
+git push origin --delete <branch>      # only after merge or close; often already deleted on merge
 git fetch --prune                      # drops stale remote-tracking refs
 git update-ref -d refs/remotes/pr/<N>  # refs fetched to review a PR
 ```

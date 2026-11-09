@@ -5,10 +5,7 @@
 //   <resolver JSON on stdin> | update-pins.mjs <manifest> [metainfo]
 //
 // Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch?, size?, sha256? } ],
-//                  releaseUrl?, releaseNotes?, upstreamMetainfo?, distributionDescription? }
-// upstreamMetainfo opts in to summary/description/branding/screenshots and news
-// from the exact packaged version. Other registry fields stay distributor-owned.
-// distributionDescription optionally appends persistent distributor prose.
+//                  releaseUrl?, releaseNotes? }
 //
 // `arch` scopes a source to one architecture (it becomes the pin's only-arches).
 // An app published for several arches gives each payload the same filename and
@@ -183,7 +180,7 @@ for (const src of resolver.sources) {
 
 // Version gate: cheap short-circuit when upstream hasn't moved (no downloads).
 const sameVersion = !!resolver.version && !!knownVersion && resolver.version === knownVersion;
-if (sameVersion && !resolver.sources.some(drifted) && !resolver.upstreamMetainfo) process.exit(10);
+if (sameVersion && !resolver.sources.some(drifted)) process.exit(10);
 
 // A version present here means a real bump (or no anchor yet) -> re-pin fresh.
 // Otherwise (no version, or same version with drift) only moved sources are
@@ -308,29 +305,6 @@ if (metainfo && resolver.version && resolver.version !== knownVersion) {
     process.stderr.write('update-pins: releaseNotes failed AppStream validation, dropping them\n');
   }
   newMetainfo = insertRelease(releaseElement(keepNotes));
-  metainfoChanged = newMetainfo !== metainfo;
-}
-
-// Import presentation only after resolving every pin, before writing either
-// file. The exact-version/ID checks and final AppStream validation are mandatory
-// for this opt-in; older resolver behavior is unchanged.
-if (resolver.upstreamMetainfo) {
-  if (!metainfo || !resolver.version) die('upstreamMetainfo requires local metainfo and a version');
-  const helper = fileURLToPath(new URL('./sync-upstream-metainfo.py', import.meta.url));
-  const merged = spawnSync('python3', [helper], {
-    input: JSON.stringify({ local: newMetainfo, upstream: resolver.upstreamMetainfo,
-      version: resolver.version, distributionDescription: resolver.distributionDescription || '' }),
-    encoding: 'utf8', maxBuffer: 4 * 1024 * 1024,
-  });
-  if (merged.error || merged.status !== 0) die(merged.stderr || merged.error?.message || 'upstream metainfo import failed');
-  const directory = mkdtempSync(join(tmpdir(), 'flatpark-metainfo-'));
-  try {
-    const path = join(directory, 'import.metainfo.xml');
-    writeFileSync(path, merged.stdout);
-    const validation = spawnSync('appstreamcli', ['validate', '--no-net', path], { encoding: 'utf8' });
-    if (validation.error || validation.status !== 0) throw new Error(validation.stdout || validation.stderr || 'appstreamcli is required for upstreamMetainfo');
-  } finally { rmSync(directory, { recursive: true, force: true }); }
-  newMetainfo = merged.stdout;
   metainfoChanged = newMetainfo !== metainfo;
 }
 

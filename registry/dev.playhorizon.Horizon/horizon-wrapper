@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+# The Horizon launcher is one self-contained binary staged by apply_extra at
+# /app/extra/horizon-launcher. It links only libxkbcommon, libxcb and glibc
+# from org.freedesktop.Platform and dlopens Vulkan and the Wayland/X11 client
+# libraries. Game builds, instances, worlds and the Java runtimes it downloads
+# go under $XDG_DATA_HOME/horizon-launcher, which Flatpak points at
+# ~/.var/app/dev.playhorizon.Horizon/data.
+
+# The launcher replaces its own binary when a new release is out. /app/extra
+# is read-only, and new releases arrive as Flatpak updates; this is upstream's
+# own switch for builds that must not replace themselves.
+export HORIZON_LAUNCHER_NO_SELF_UPDATE=1
+
+# GPUI resolves fonts through cosmic-text/fontdb, which reads only the <dir>
+# entries of one fontconfig file, so the runtime's configuration hides the
+# host's fonts from it; /app/etc/fonts/fonts.conf lists them explicitly.
+# To use your own configuration instead:
+#   flatpak override --user --env=HORIZON_FONTCONFIG_FILE=/path/to/fonts.conf dev.playhorizon.Horizon
+export FONTCONFIG_FILE="${HORIZON_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+exec /app/extra/horizon-launcher "$@"

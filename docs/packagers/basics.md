@@ -264,6 +264,11 @@ The rest of the metainfo:
   names that repository and points its support links there.
 - **`project_license`** is the app's real licence; for closed source,
   `LicenseRef-proprietary=<URL of the vendor's terms>`.
+- **Telemetry** is upstream's feature: someone installing the app already
+  trusts upstream or needs what it does. If you happen to notice telemetry or
+  analytics while packaging or testing, you can mention it in the description
+  (and how to turn it off, if there's a setting). Don't go looking for it;
+  it's not a check, and saying nothing means only that nobody noticed.
 - **Screenshots** are `<image>` URLs pointing at upstream, never files in the
   package. The site downloads them at build time and serves them as WebP,
   falling back to the upstream URL if the download fails.
@@ -294,16 +299,6 @@ else. It does no hashing and touches no file:
   so prefer `sha256` when upstream publishes one), `releaseUrl` and
   `releaseNotes` for the metainfo. With both `sha256` and `size` the pin is
   taken without a download.
-- `upstreamMetainfo` is an optional complete upstream metainfo XML string from
-  the exact packaged release tag or a reviewed immutable metadata-only commit.
-  The importer checks the component ID, latest release version and nonempty
-  notes, then copies only summaries, description, branding, screenshots and
-  matching release prose. IDs, categories, links, licensing and other packaging
-  fields remain distributor-owned. `distributionDescription` may append a
-  separate AppStream description fragment for persistent installation details.
-  Final AppStream validation is mandatory before either file is written. This
-  opt-in also refreshes same-version presentation without re-pinning unchanged
-  application bytes. Do not fetch from a moving upstream branch.
 - GitHub release asset URLs need none of that: update-pins reads the asset's
   `digest` and `size` from the releases API, which both catches an in-place
   re-upload and pins a new version without downloading it.

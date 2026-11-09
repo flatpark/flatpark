@@ -1,0 +1,27 @@
+id: org.openaec.OpenPdfStudio
+name: Open PDF Studio
+summary: Edit and annotate PDF drawings
+website: https://open-aec.com/open-pdf-studio/
+source_url: https://github.com/OpenAEC-Foundation/open-pdf-studio
+build:
+  manifest: org.openaec.OpenPdfStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - PDF
+    - Annotation
+    - CAD
+    - OCR
+# Upstream keeps a source-build Flatpak manifest; the update sweep diffs our
+# finish-args against it.
+upstream:
+  manifest: flatpak/org.openaec.OpenPdfStudio.yml
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

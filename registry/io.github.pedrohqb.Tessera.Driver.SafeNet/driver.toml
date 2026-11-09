@@ -1,0 +1,7 @@
+# SafeNet Authentication Client, a Tessera driver extension
+# (io.github.pedrohqb.Tessera.Driver.SafeNet). Paths are relative to this
+# folder; apply_extra.sh unpacks into extra/.
+name = "SafeNet Authentication Client"
+vendor = "Thales"
+description = "SafeNet eToken 5100/5110 and IDPrime"
+module = "extra/libeToken.so"

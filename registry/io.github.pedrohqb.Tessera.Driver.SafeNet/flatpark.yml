@@ -1,0 +1,23 @@
+id: io.github.pedrohqb.Tessera.Driver.SafeNet
+name: SafeNet Authentication Client
+summary: SafeNet eToken and IDPrime driver for Tessera
+website: https://cpl.thalesgroup.com/access-management/authenticators/pki-usb-authentication/etoken-5110-usb-token
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SafeNet
+build:
+  manifest: io.github.pedrohqb.Tessera.Driver.SafeNet.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - SmartCard
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's driver is closed source.
+  proprietary: true
+

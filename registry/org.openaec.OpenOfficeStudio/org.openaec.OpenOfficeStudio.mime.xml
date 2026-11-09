@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Aanvulling op shared-mime-info (geïnstalleerd als /usr/share/mime/packages/open-office-studio.xml).
+     De andere gekoppelde formaten (tauri.linux.conf.json) kent shared-mime-info al; ACCDB niet.
+     ACCDB krijgt hetzelfde MIME-type als MDB, zodat MimeType=application/vnd.ms-access beide opent.
+     dpkg/rpm-triggers van shared-mime-info draaien update-mime-database na installeren. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/vnd.ms-access">
+    <glob pattern="*.accdb"/>
+  </mime-type>
+  <mime-type type="application/x-openaec-office-ifcx">
+    <comment>OpenAEC Office IFCX</comment>
+    <glob pattern="*.ifcx"/>
+  </mime-type>
+</mime-info>

@@ -1,0 +1,66 @@
+id: io.github.jing2uo.VirtMeow
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: virt-mm
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # This computer's libvirt: the system daemon's socket, and the session
+  # daemon's under $XDG_RUNTIME_DIR. Remote hosts are reached over the
+  # network, with SSH in process (no host ssh binary).
+  - --filesystem=/run/libvirt
+  - --filesystem=xdg-run/libvirt
+  # SSH: the agent, and ~/.ssh read-only for the default keys and
+  # known_hosts (virt-meow writes its own known_hosts in its config dir).
+  - --socket=ssh-auth
+  - --filesystem=~/.ssh:ro
+  # Desktop notifications when a long operation ends or a machine stops
+  # while no virt-meow window has focus (off in its settings).
+  - --talk-name=org.freedesktop.Notifications
+  # The keychain (Secret Service), for the passwords and key passphrases
+  # the user asks to be remembered.
+  - --talk-name=org.freedesktop.secrets
+modules:
+  - name: virt-mm
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      # The release asset is the whole app: one Wails v3 (Go + GTK 4 /
+      # WebKitGTK 6) binary carrying both the GUI and the CLI. apply_extra
+      # stages it at /app/extra/virt-mm.
+      - ln -s /app/extra/virt-mm /app/bin/virt-mm
+      - install -Dm644 io.github.jing2uo.VirtMeow.desktop /app/share/applications/io.github.jing2uo.VirtMeow.desktop
+      - install -Dm644 io.github.jing2uo.VirtMeow.metainfo.xml /app/share/metainfo/io.github.jing2uo.VirtMeow.metainfo.xml
+      - install -Dm644 io.github.jing2uo.VirtMeow.png /app/share/icons/hicolor/512x512/apps/io.github.jing2uo.VirtMeow.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: virt-meow-linux
+        only-arches:
+          - x86_64
+        url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.1/virt-meow-linux-x86_64
+        sha256: ff9eceb3095c76425468ba50224c4b385a15f412858248484ced3df25f2a68c9
+        size: 18326584
+      - type: extra-data
+        filename: virt-meow-linux
+        only-arches:
+          - aarch64
+        url: https://github.com/jing2uo/virt-meow/releases/download/v0.1.1/virt-meow-linux-arm64
+        sha256: b3cc3d328ed56361c920f953c08ebacbf55eeee231d6986818b6cab491403dd8
+        size: 17056920
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.jing2uo.VirtMeow.desktop
+      - type: file
+        path: io.github.jing2uo.VirtMeow.metainfo.xml
+      - type: file
+        path: io.github.jing2uo.VirtMeow.png

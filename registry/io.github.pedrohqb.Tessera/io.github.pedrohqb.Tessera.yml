@@ -6,16 +6,15 @@ command: tessera
 separate-locales: false
 build-options:
   no-debuginfo: true
-tags:
-  - proprietary
 # The same permissions as Tessera's own manifest
 # (https://github.com/pedrohqb/tessera/blob/main/flatpak/io.github.pedrohqb.Tessera.yml).
 finish-args:
   - --share=ipc
   - --socket=wayland
-  # x11, not fallback-x11: the vendors' tools (SerproID's JavaFX app,
-  # SafeSign's Token Administration) draw only through X11, which needs the
-  # X socket (XWayland) even when Tessera itself is on Wayland.
+  # x11, not fallback-x11: the vendors' tools that come with their driver
+  # extensions (SerproID's JavaFX app, SafeSign's Token Administration) draw
+  # only through X11, which needs the X socket (XWayland) even when Tessera
+  # itself is on Wayland. Extensions have no permissions of their own.
   - --socket=x11
   - --device=dri
   # The token drivers talk to the host's pcscd, which owns the USB readers.
@@ -28,11 +27,13 @@ finish-args:
   # "remote:" file per driver so the host's p11-kit server (and native
   # apps) serve them. Only files named tessera-*.module are touched.
   - --filesystem=xdg-config/pkcs11:create
-  # The small NSS database Tessera sets up for Papers, which poppler finds
-  # first (see paths.rs). Nothing else of Papers is visible.
-  - --filesystem=~/.var/app/org.gnome.Papers/config/mozilla:create
+  # Papers' config folder, where Tessera makes the small NSS database poppler
+  # finds first (mozilla/firefox/tessera.default; see paths.rs). No :create:
+  # the folder exists once Papers has run, and Tessera does not make folders
+  # for apps that are not installed.
+  - --filesystem=~/.var/app/org.gnome.Papers/config
   # The same for Okular, which signs through poppler too.
-  - --filesystem=~/.var/app/org.kde.okular/config/mozilla:create
+  - --filesystem=~/.var/app/org.kde.okular/config
   # The Firefox Flatpak's profiles (Firefox 147+ keeps them under config/,
   # older releases under .mozilla/), so "Set up" can register the module in
   # each profile's NSS database. Only pkcs11.txt changes.
@@ -53,6 +54,30 @@ finish-args:
   - --filesystem=~/.var/app/com.google.Chrome/data/pki/nssdb
   - --filesystem=~/.var/app/com.microsoft.Edge/.pki/nssdb
   - --filesystem=~/.var/app/com.microsoft.Edge/data/pki/nssdb
+  # Thunderbird's Flatpaks (Mozilla's; the ESR and the old ID too): their
+  # profiles (--persist=.thunderbird, or the XDG folder in newer releases),
+  # so "Set up" can register the module in each profile's NSS database.
+  # Only pkcs11.txt changes.
+  - --filesystem=~/.var/app/org.mozilla.thunderbird/.thunderbird
+  - --filesystem=~/.var/app/org.mozilla.thunderbird/config/thunderbird
+  - --filesystem=~/.var/app/org.mozilla.thunderbird_esr/.thunderbird
+  - --filesystem=~/.var/app/org.mozilla.thunderbird_esr/config/thunderbird
+  - --filesystem=~/.var/app/org.mozilla.Thunderbird/.thunderbird
+  # Evolution's Flatpak, when it has no ~/.pki/nssdb to share: its own
+  # database, where "Set up" only removes a duplicate module.
+  - --filesystem=~/.var/app/org.gnome.Evolution/data/pki/nssdb
+  # LibreOffice's Flatpak: its settings (registrymodifications.xcu, where
+  # "Set up" writes the certificate path, CertDir) and its data folder,
+  # where Tessera makes the empty NSS database it points to. No :create.
+  - --filesystem=~/.var/app/org.libreoffice.LibreOffice/config/libreoffice
+  - --filesystem=~/.var/app/org.libreoffice.LibreOffice/data
+  # JSignPdf's Flatpak: its config folder, where "Set up" writes
+  # jsignpdf/pkcs11.cfg (p11-kit-client.so and the slot of Tessera's tokens)
+  # and the keystore type in jsignpdf/config.properties.
+  - --filesystem=~/.var/app/io.github.intoolswetrust.JSignPdf/config
+  # Master PDF Editor's Flatpak: its config folder, where "Set up" writes
+  # the PKCS#11 provider in Code Industry/Master PDF Editor 5.conf.
+  - --filesystem=~/.var/app/net.code_industry.MasterPDFEditor/config
   # Native apps (installed from the distribution), which load
   # p11-kit-proxy.so from their NSS database: the native Firefox's profiles
   # (Firefox 147+ under ~/.config, older releases under ~/.mozilla) and the
@@ -65,11 +90,24 @@ finish-args:
   # The native PJeOffice Pro's settings, where "Set up" points its list of
   # A3 libraries (list.a3) at p11-kit's library. Only that line changes.
   - --filesystem=~/.pjeoffice-pro
+  # The native Thunderbird's profiles (~/.thunderbird, or the XDG folder in
+  # newer releases). Only pkcs11.txt changes.
+  - --filesystem=~/.thunderbird
+  - --filesystem=xdg-config/thunderbird
+  # The native LibreOffice's settings, where "Set up" writes the
+  # certificate path (CertDir) to a database in Tessera's own data folder.
+  - --filesystem=xdg-config/libreoffice
   # Read-only: the AppStream data Flatpak keeps for each remote, with the
   # icons of every app in it, installed or not: each app's row shows its
   # own icon without access to the apps' folders.
   - --filesystem=xdg-data/flatpak/appstream:ro
   - --filesystem=/var/lib/flatpak/appstream:ro
+  # Read-only: which Flatpak apps are installed (each app's folder in the
+  # user and system installations), for the rows that depend on it: the
+  # Thunderbird ESR and old-ID rows, and whether the Chromium or Evolution
+  # Flatpak shares ~/.pki/nssdb with the native apps. Nothing is written.
+  - --filesystem=xdg-data/flatpak/app:ro
+  - --filesystem=/var/lib/flatpak/app:ro
   # Read-only: whether `flatpak override --user` already gave an app the
   # p11-kit socket, to show it in the window.
   - --filesystem=xdg-data/flatpak/overrides:ro
@@ -81,6 +119,7 @@ finish-args:
   # SerproID keeps its certificate list in ~/.config/serproid; keep it inside
   # Tessera's own data instead of the host home.
   - --persist=.config/serproid
+
 add-extensions:
   # Drivers published as extensions, e.g. io.github.pedrohqb.Tessera.Driver.Foo,
   # each mounted at /app/lib/tessera/extensions/Foo with a driver.toml.
@@ -104,63 +143,18 @@ modules:
       - mkdir -p /app/lib/tessera/extensions
     sources:
       # Tessera's release build: the /app tree of its own Flatpak build on
-      # the same runtime (the tessera binary, the driver descriptions and the
-      # PC/SC client library it bundles).
+      # the same runtime (the tessera binary, its built-in OpenSC driver and
+      # the PC/SC client library it bundles). The vendors' drivers are
+      # extensions of their own (io.github.pedrohqb.Tessera.Driver.*).
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: tessera.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/pedrohqb/tessera/releases/download/v0.2.1/tessera-x86_64.tar.gz
-        sha256: be58b5a47b9c3369b0a66bf9fcddd822c0ef2fc61814a910053e731fc36a6970
-        size: 1898590
+        url: https://github.com/pedrohqb/tessera/releases/download/v0.3.1/tessera-x86_64.tar.gz
+        sha256: 367b781f2422f8a48ce1f6065f8020bfe02f8a56a34a3261162ec3877551276a
+        size: 3576730
       # END MANAGED EXTRA-DATA
-      # The token drivers, from their vendors, with the same pins as
-      # Tessera's own manifest and distrobox-adv-br. They stay fixed across
-      # Tessera releases; a new vendor version is a manual pin change.
-      # SafeSign IC (GD Burti tokens): the PKCS#11 libraries.
-      - type: extra-data
-        filename: safesign.deb
-        only-arches: [x86_64]
-        url: https://assets.ctfassets.net/zuadwp3l2xby/6vGICRnQgQ8TkcHTgcouIr/5acf96dcbc0364aa9228606d3969ef97/SafeSignICStandardLinux4.5.0.0-AET.000ub2404x86_64.deb
-        sha256: 7742e21e3141e51e307d7613b4046886bc7c4aa203835dcf5c43cd348f2a1b91
-        size: 2034336
-      # SafeSign's Token Administration, from the vendor's RHEL 10 package,
-      # which needs no wxWidgets.
-      - type: extra-data
-        filename: safesign.rpm
-        only-arches: [x86_64]
-        url: https://assets.ctfassets.net/zuadwp3l2xby/3b4YS8ts1cuD4BnUoQGZXl/93f644f03cc226b2adab290be11c6cd5/SafeSignICStandardLinux4.5.0.0-AET.000redhat10x86_64.rpm
-        sha256: 2f5ea4622fda213c9bfc8bf4da51dac09983a349326f9275309565dbdb123378
-        size: 4623566
-      # GDBM, which SafeSign's libaetpkss.so needs and the runtime lacks,
-      # from Ubuntu 24.04 (the release SafeSign's package is built for).
-      - type: extra-data
-        filename: gdbm.deb
-        only-arches: [x86_64]
-        url: https://archive.ubuntu.com/ubuntu/pool/main/g/gdbm/libgdbm6t64_1.23-5.1build1_amd64.deb
-        sha256: 18d6d74a5c038b458d95ba0c0909e0f086cd50bb9a0fee32697902724fc5645e
-        size: 34440
-      - type: extra-data
-        filename: gdbm-compat.deb
-        only-arches: [x86_64]
-        url: https://archive.ubuntu.com/ubuntu/pool/main/g/gdbm/libgdbm-compat4t64_1.23-5.1build1_amd64.deb
-        sha256: fb8564afd7b7d74d55207070ba50339478e22d29a39ec740dc482f069ac7ee65
-        size: 6710
-      # SafeNet Authentication Client (SafeNet eToken 5100/5110, IDPrime).
-      - type: extra-data
-        filename: safenet.zip
-        only-arches: [x86_64]
-        url: https://www.digicert.com/StaticFiles/Linux_SAC_10.9_GA.zip
-        sha256: 46759cfe91d736af18a49d10e4749f264022db44e04ed4caf94e1ca77d6a013e
-        size: 91474258
-      # SerproID (Serpro's cloud certificate) and its desktop app.
-      - type: extra-data
-        filename: serproid.deb
-        only-arches: [x86_64]
-        url: https://storagegw.estaleiro.serpro.gov.br/instalador-desktop/SerproID-2.1.6-amd64.deb
-        sha256: 0ffa9ffe5bc343cc758a12f28bd7f08aec4b6e843d1c043baf0b81572461e588
-        size: 86209026
       - type: file
         path: apply_extra.sh
       - type: file

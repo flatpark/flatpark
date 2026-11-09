@@ -34,9 +34,10 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: writing-tools.tar.gz
-        only-arches: [x86_64]
-        url: 'https://github.com/rhgKc2yp/writingtools-release/releases/download/v2026.11.06-1/writing-tools-fedora45-x86_64.tar.gz'
-        sha256: '3c5d761adeb70a9fb26658feb9f650a50ed95ea3208c7b47df36560ab70888ca'
+        only-arches:
+          - x86_64
+        url: https://github.com/rhgKc2yp/writingtools-release/releases/download/v2026.11.06-1/writing-tools-fedora45-x86_64.tar.gz
+        sha256: 3c5d761adeb70a9fb26658feb9f650a50ed95ea3208c7b47df36560ab70888ca
         size: 90988389
       # END MANAGED EXTRA-DATA
       - type: file

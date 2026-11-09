@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Open PDF Studio
+GenericName=PDF Editor
+Comment=A free, open-source PDF annotation editor
+Exec=open-pdf-studio %U
+TryExec=open-pdf-studio
+Icon=org.openaec.OpenPdfStudio
+Terminal=false
+StartupNotify=true
+Categories=Office;Viewer;Graphics;
+Keywords=PDF;editor;annotator;viewer;document;
+MimeType=application/pdf;x-scheme-handler/openpdfstudio;
+StartupWMClass=Open-pdf-studio

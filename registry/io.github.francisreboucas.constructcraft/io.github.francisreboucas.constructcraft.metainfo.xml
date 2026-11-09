@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.francisreboucas.constructcraft</id>
+  <!-- ConstructCraft was called ConstructCAD through v0.9.1 -->
+  <replaces>
+    <id>io.github.francisreboucas.constructcad</id>
+  </replaces>
+  <name>ConstructCraft</name>
+  <summary>Open-source BIM authoring for buildings</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.francisreboucas">
+    <name>Francis Rebouças</name>
+  </developer>
+  <url type="homepage">https://francisreboucas.github.io/constructcraft/</url>
+  <url type="help">https://github.com/francisreboucas/constructcraft/blob/v0.10.0/docs/interface.md</url>
+  <url type="bugtracker">https://github.com/francisreboucas/constructcraft/issues</url>
+  <url type="vcs-browser">https://github.com/francisreboucas/constructcraft</url>
+  <description>
+    <p>This is a community package of ConstructCraft, maintained independently and unaffiliated with Francis Rebouças. It repackages the official upstream Linux build unmodified.</p>
+    <p>ConstructCraft, formerly ConstructCAD, is a building information modeling application. One parametric model is the source of truth: floor plans, sections, elevations, 3D views, legends, schedules and sheets are views of that model. It imports IFC2X3 and IFC4 and exports IFC4.</p>
+    <p>The interface is available in English, Portuguese, Spanish, French, German, Italian, Lao, Polish, Ukrainian, Traditional Chinese, Simplified Chinese and Japanese. No account is required.</p>
+    <p>Known issue: the app looks for Chinese, Japanese, Korean and Lao fonts only at fixed paths under /usr/share/fonts, which inside Flatpak is the runtime, not your system. Those interfaces show boxes until upstream also looks in /run/host/fonts; on a system set to one of these languages, switch to another under File → Language.</p>
+    <p>Sandbox: display, GPU and the Documents folder so a project path keeps working. Open and Save otherwise go through the file chooser. The in-app update notice is turned off; updates come through FlatPark.</p>
+    <p>The headless runner is <code>flatpak run --command=ccad io.github.francisreboucas.constructcraft -h</code>.</p>
+    <p>To open a project by path outside Documents, run <code>flatpak override --user --filesystem=home io.github.francisreboucas.constructcraft</code>.</p>
+  </description>
+  <launchable type="desktop-id">io.github.francisreboucas.constructcraft.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>BIM</keyword>
+    <keyword>IFC</keyword>
+    <keyword>architecture</keyword>
+    <keyword>building</keyword>
+    <keyword>CAD</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Floor plan and 3D view of the showcase house</caption>
+      <image>https://raw.githubusercontent.com/francisreboucas/constructcraft/v0.10.0/docs/screenshots/en/hero.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Hip roof over an arc wall</caption>
+      <image>https://raw.githubusercontent.com/francisreboucas/constructcraft/v0.10.0/docs/screenshots/en/roof-3d.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Plumbing plan with cold water and drains</caption>
+      <image>https://raw.githubusercontent.com/francisreboucas/constructcraft/v0.10.0/docs/screenshots/en/plumbing.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>constructcraft</binary>
+    <binary>ccad</binary>
+    <mediatype>application/x-constructcad</mediatype>
+  </provides>
+  <releases>
+    <release version="0.10.0" date="2026-11-08">
+      <description>
+        <p>Official Linux build 0.10.0. ConstructCAD is now ConstructCraft; the desktop program is constructcraft, while ccad and the .ccad files keep their names. The package id changed with the name: users of io.github.francisreboucas.constructcad install this app once. Its preferences start fresh; to keep the old ones, copy ~/.var/app/io.github.francisreboucas.constructcad/ to ~/.var/app/io.github.francisreboucas.constructcraft/ before the first run.</p>
+      </description>
+    </release>
+  </releases>
+</component>

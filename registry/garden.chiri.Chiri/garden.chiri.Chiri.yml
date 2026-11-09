@@ -36,13 +36,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: chiri.deb
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/chiriapp/chiri/releases/download/app-v1.0.0/Chiri_1.0.0_amd64.deb
         sha256: e7ca939c9fe03a04d815780e838ddeb4fa7eca7f1ead12dcf67254a09fe2d417
         size: 5979198
       - type: extra-data
         filename: chiri.deb
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/chiriapp/chiri/releases/download/app-v1.0.0/Chiri_1.0.0_arm64.deb
         sha256: c927d4573d97068433ee45444df08d80b6fedbe324ef9a92e1c326a4ca2974f3
         size: 6021758

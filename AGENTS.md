@@ -8,6 +8,6 @@ needs to package, review and maintain apps in this repository.
 - Testing a package or a change to one: [`docs/reviewers/testing-playbook.md`](docs/reviewers/testing-playbook.md).
 - Something doesn't work in the sandbox: [`docs/packagers/solutions/`](docs/packagers/solutions/README.md).
 - Reviewing a PR: [`docs/reviewers/review-runbook.md`](docs/reviewers/review-runbook.md).
-- After a run, clean up: [`docs/packagers/cleanup.md`](docs/packagers/cleanup.md).
+- After the PR is open, ask before cleaning up, then follow [`docs/packagers/cleanup.md`](docs/packagers/cleanup.md).
 - Documentation is written in `docs/` and nowhere else; the site renders it.
   Link between pages with relative `.md` paths.

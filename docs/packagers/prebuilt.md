@@ -33,7 +33,7 @@ it in (see [archive or extra-data](#archive-module-or-extra-data)).
 | `leptonica` | `leptonica-v2` | GNOME 51 | 1.2 MB | `libleptonica.so.6`, needed by `tesseract` | extra-data | SubtitleEdit, Stirling PDF |
 | `uchardet` | `uchardet-v2` | GNOME 51 | 0.1 MB | `libuchardet.so.0`, guesses a text file's encoding | extra-data | SubtitleEdit |
 | `sevenzip` | `sevenzip-v2` | GNOME 51 | 0.5 MB | 7-Zip `7zr`, `.7z` only | extra-data | SubtitleEdit |
-| `poppler-glib` | `poppler-glib-v1` | GNOME 51 | 1.5 MB | `libpoppler-glib.so.8` and `libpoppler`, PDF rendering for GLib apps | extra-data | Strata, flux, Inua |
+| `poppler-glib` | `poppler-glib-v2` | GNOME 51 | 1.5 MB | `libpoppler-glib.so.8` and `libpoppler`, PDF rendering for GLib apps | extra-data | Flux, Strata, Hylki, Inua |
 | `cups-client` | `cups-client-v1` | fd 26.08 | 0.3 MB | CUPS 2.4.20 `lp`, `lpstat`, `lpoptions` behind a wrapper that finds the CUPS socket Flatpak mounted; for print dialogs that run them | extra-data | WordCraft, PhotoCraft |
 | `sql-clients` | `sql-clients-v1` | fd 25.08 | 0.5 MB | `libmariadb.so.3` with its auth plugins, `libpq.so.5`, `libsybdb.so.5`, `sshpass` | extra-data | [HeidiSQL](../../registry/com.heidisql.HeidiSQL/com.heidisql.HeidiSQL.yml) (on KDE 6.11, a 25.08 base) |
 | `opencv-imgproc` | `opencv-imgproc-v3` | fd 26.08 | 4.4 MB | OpenCV 4.13 core and imgproc | extra-data | WeMeet (loaded by the screen-share hook) |

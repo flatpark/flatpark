@@ -43,10 +43,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: mdsilo.deb
-        only-arches: [x86_64]
-        url: https://github.com/mdSilo/mdSilo-app/releases/download/mdsilo-v0.7.0/mdsilo_0.7.0_amd64.deb
-        sha256: c79e5cda7ad096aa2341b53a7778eccb1dd26750201a0fd2c66cd89220db32b0
-        size: 17050716
+        only-arches:
+          - x86_64
+        url: https://github.com/mdSilo/mdSilo-app/releases/download/mdsilo-v0.8.0/mdsilo_0.8.0_amd64.deb
+        sha256: a8e7b51e3ce8d4a446a5e13144ea61f88420660c717467efc148da9648a87c54
+        size: 18107196
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

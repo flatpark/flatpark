@@ -1,0 +1,61 @@
+# Community source-built release tree; exact pins are filled by update-pins.mjs.
+id: org.videolan.VLCBeta
+runtime: org.kde.Platform
+runtime-version: "6.11"
+sdk: org.kde.Sdk
+command: vlc-beta
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Local streams and network media URLs.
+  - --share=network
+  # Qt Wayland/X11 display and video rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Audio output through the desktop PulseAudio-compatible service.
+  - --socket=pulseaudio
+  # Default media directories; other folders remain opt-in or portal-mediated.
+  - --filesystem=xdg-music:ro
+  - --filesystem=xdg-videos:ro
+  # VLC's actual MPRIS names, including multiple instances.
+  - --own-name=org.mpris.MediaPlayer2.vlc
+  - --own-name=org.mpris.MediaPlayer2.vlc.*
+modules:
+  - name: vlc-beta
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 vlc-beta-wrapper /app/bin/vlc-beta
+      - install -Dm644 org.videolan.VLCBeta.desktop /app/share/applications/org.videolan.VLCBeta.desktop
+      - install -Dm644 org.videolan.VLCBeta.metainfo.xml /app/share/metainfo/org.videolan.VLCBeta.metainfo.xml
+      - install -Dm644 org.videolan.VLCBeta.png /app/share/icons/hicolor/256x256/apps/org.videolan.VLCBeta.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: vlc.tar.zst
+        only-arches:
+          - x86_64
+        url: https://github.com/rhgKc2yp/vlc-nightly-release/releases/download/4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119/vlc-4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119-x86_64.tar.zst
+        sha256: 0c188ff9804295f7a80c2505a24752c57ab08608e81308a47e96f640074a6f90
+        size: 47165523
+      - type: extra-data
+        filename: vlc.tar.zst
+        only-arches:
+          - aarch64
+        url: https://github.com/rhgKc2yp/vlc-nightly-release/releases/download/4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119/vlc-4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119-aarch64.tar.zst
+        sha256: e27ae232b19f3f5955ea11d2e3ec16c8f51f806b01b51a76e7da79876bd33ecd
+        size: 45924347
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: vlc-beta-wrapper
+      - type: file
+        path: org.videolan.VLCBeta.desktop
+      - type: file
+        path: org.videolan.VLCBeta.metainfo.xml
+      - type: file
+        path: org.videolan.VLCBeta.png

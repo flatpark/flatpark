@@ -1,8 +1,9 @@
 # Flux - a GTK 4 / libadwaita file manager, the official Linux release tarball
 # repackaged unmodified as extra-data.
 #
-# Upstream publishes one x86_64 tarball per release with the flux-fm binary
-# beside its GResource icons, LICENSE and README. The binary links GTK 4,
+# Upstream publishes an x86_64 and an aarch64 tarball per release (aarch64
+# since v0.3.0, killown/flux#34), each with the flux-fm binary beside its
+# GResource icons, LICENSE and README. The binary links GTK 4,
 # libadwaita and cairo/pango from org.gnome.Platform//51; libpoppler-glib, the
 # one library the runtime lacks, comes from FlatPark's prebuilt poppler-glib
 # stack.
@@ -52,9 +53,16 @@ modules:
         filename: poppler-glib.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v1/poppler-glib-poppler-glib-v1-gnome-51-x86_64.tar.xz
-        sha256: c8eddb747c9d7ff794b8dc02a01ea8bcaa9b9ecbc7e3d6a6fec83d6211c7fea9
-        size: 1561500
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v2/poppler-glib-poppler-glib-v2-gnome-51-x86_64.tar.xz
+        sha256: c29f452aaa0170ee84a4458819e1575e47e5e05e1a047c84c01dae1a5bf8259d
+        size: 1561208
+      - type: extra-data
+        filename: poppler-glib.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v2/poppler-glib-poppler-glib-v2-gnome-51-aarch64.tar.xz
+        sha256: 708e0e46c204668aa32349c1e60bfbc533c09a9d34a36398ac394fa20f9fc143
+        size: 1295588
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: flux.tar.gz
@@ -63,6 +71,13 @@ modules:
         url: https://github.com/killown/flux/releases/download/v0.8.0/flux-v0.8.0-x86_64.tar.gz
         sha256: b6c15e5e9c03d90fb72742fe158344b389ef0a8e8d9ebadc096d2b2f06d02e1e
         size: 9026040
+      - type: extra-data
+        filename: flux.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/killown/flux/releases/download/v0.8.0/flux-v0.8.0-aarch64.tar.gz
+        sha256: 90b57089fe172c382ab5b3845bb7eee569290f69848cfcbd24f461d0268b776c
+        size: 8512507
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

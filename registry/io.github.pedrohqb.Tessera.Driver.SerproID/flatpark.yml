@@ -1,0 +1,34 @@
+id: io.github.pedrohqb.Tessera.Driver.SerproID
+name: SerproID
+summary: Serpro cloud certificate driver for Tessera
+website: https://serproid.serpro.gov.br/
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SerproID
+build:
+  manifest: io.github.pedrohqb.Tessera.Driver.SerproID.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - SmartCard
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's driver is closed source.
+  proprietary: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level.
+packaging:
+  - kind: file-change
+    detail:
+      en: "The SerproID app's launcher and configuration name its install folder (/usr/share/serproid-desktop); they are pointed at its copy inside the extension. The package's /etc folder and install scripts are not used."
+      zh-Hans: "SerproID 应用的启动脚本和配置写死了安装目录（/usr/share/serproid-desktop），改为指向扩展内的副本。软件包的 /etc 目录和安装脚本不使用。"
+  - kind: injected-code
+    detail:
+      en: "The process that serves the driver preloads libgcc_s.so.1 (LD_PRELOAD in driver.toml), the runtime's own copy: the vendor's library needs its stack unwinder but does not link it. No code of the package's own is added."
+      zh-Hans: "提供驱动的进程会预加载 libgcc_s.so.1（driver.toml 中的 LD_PRELOAD），即运行时自带的副本：厂商的库需要它的栈展开功能，却没有链接它。软件包没有加入自己的代码。"

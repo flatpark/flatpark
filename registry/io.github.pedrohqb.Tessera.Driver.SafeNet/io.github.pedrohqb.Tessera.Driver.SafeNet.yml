@@ -1,0 +1,36 @@
+# SafeNet, a Tessera driver extension: mounted at
+# /app/lib/tessera/extensions/SafeNet by Tessera's extension point
+# (io.github.pedrohqb.Tessera.Driver, flatpak/io.github.pedrohqb.Tessera.yml).
+# The vendor's files are downloaded at install time (extra-data) and checked
+# against these sha256 pins, then unpacked by apply_extra.sh into extra/.
+# FlatPark's registry entry builds from the same files.
+id: io.github.pedrohqb.Tessera.Driver.SafeNet
+branch: stable
+runtime: io.github.pedrohqb.Tessera
+runtime-version: stable
+sdk: org.gnome.Sdk//51
+build-extension: true
+separate-locales: false
+modules:
+  - name: safenet
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 driver.toml -t ${FLATPAK_DEST}
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      - install -Dm644 io.github.pedrohqb.Tessera.Driver.SafeNet.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: safenet.zip
+        only-arches:
+          - x86_64
+        url: https://www.digicert.com/StaticFiles/Linux_SAC_10.9_GA.zip
+        sha256: 46759cfe91d736af18a49d10e4749f264022db44e04ed4caf94e1ca77d6a013e
+        size: 91474258
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: driver.toml
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.pedrohqb.Tessera.Driver.SafeNet.metainfo.xml

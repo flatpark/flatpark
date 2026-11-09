@@ -38,10 +38,13 @@
     <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is listed with the approval of Leaf's developer.</p>
     <p>Permissions: Leaf runs with no network access and no static access to your files. Opening, saving and exporting go through the file-chooser portal, which grants exactly the file you pick, and settings are kept in the app's own directory under <code>~/.var/app/io.github.frandavid100.leaf</code>. If you would rather give it a directory outright, enable it with <code>flatpak override</code>:</p>
     <ul>
-      <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code>
-      </li>
+      <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code></li>
     </ul>
   </description>
+  <branding>
+    <color type="primary" scheme_preference="light">#E4F2E8</color>
+    <color type="primary" scheme_preference="dark">#1B3327</color>
+  </branding>
   <screenshots>
     <screenshot type="default">
       <caption>Edit documents with page previews and native formatting tools</caption>
@@ -68,7 +71,7 @@
     <control>pointing</control>
     <control>keyboard</control>
   </supports>
-  <content_rating type="oars-1.1" />
+  <content_rating type="oars-1.1"/>
   <categories>
     <category>Office</category>
     <category>WordProcessor</category>
@@ -84,25 +87,50 @@
     <binary>leaf</binary>
   </provides>
   <releases>
-    <release version="0.1.0-alpha.35" date="2026-11-08" type="development">
-      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.35</url>
+    <release version="0.1.0-alpha.38" date="2026-11-08" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.38</url>
       <description>
-        <p>Personal templates and editing tools</p>
-        <p xml:lang="es">Plantillas personales y herramientas de edición</p>
+        <p>Recovery in the start view and smoother transitions</p>
+        <p xml:lang="es">Recuperación en la vista inicial y transiciones más suaves</p>
         <ul>
-          <li>Start documents from your own templates and choose the style for the following paragraph.</li>
-          <li>Paste plain text, copy formatting and insert images from the clipboard or by dropping a file.</li>
-          <li>Reorder complete sections from the document outline, with a single Undo to restore the move.</li>
-          <li>Search whole words or a selection, preserve capitalization and include notes, headers and footers. Advanced options support regular expressions.</li>
-          <li>Inspect the fonts used in a document and replace a font throughout the document.</li>
-          <li xml:lang="es">Crea documentos desde tus propias plantillas y elige el estilo del párrafo siguiente.</li>
-          <li xml:lang="es">Pega texto sin formato, copia el formato e inserta imágenes desde el portapapeles o arrastrando un archivo.</li>
-          <li xml:lang="es">Reordena apartados completos desde la estructura del documento y restaura el movimiento con un solo paso de Deshacer.</li>
-          <li xml:lang="es">Busca palabras completas o dentro de una selección, conserva las mayúsculas e incluye notas, encabezados y pies. Las opciones avanzadas admiten expresiones regulares.</li>
-          <li xml:lang="es">Consulta las fuentes utilizadas y sustituye una fuente en todo el documento.</li>
+          <li>Navigation and Review stay fixed at the bottom of every sidebar view, including Search; upper selectors and filters keep scrolling with their content.</li>
+          <li>New blank windows and tabs show labeled template and pending-recovery rows only when they have items. The editable blank page is always available; the separate recovery menu and picker are removed.</li>
+          <li>Choose a pending recovery directly from its row. It opens as an unsaved document, while late results cannot replace newer edits or steal focus from another tab.</li>
+          <li>Starting to type gently retracts the start rows upward and moves the page into the reclaimed space. Typing, paste and input methods remain responsive; reduced-animation settings are respected.</li>
+          <li xml:lang="es">Navegación y Revisión permanecen fijas al pie de todas las vistas del panel lateral, incluida Búsqueda; los selectores y filtros superiores siguen desplazándose con el contenido.</li>
+          <li xml:lang="es">Las ventanas y pestañas nuevas muestran filas con título para plantillas y recuperaciones solo cuando contienen elementos. El folio editable siempre está disponible; se eliminan el menú y el selector separado de recuperación.</li>
+          <li xml:lang="es">Elige una recuperación directamente desde su fila. Se abre como documento con cambios por guardar, sin que una respuesta tardía sustituya ediciones posteriores ni quite el foco a otra pestaña.</li>
+          <li xml:lang="es">Al empezar a escribir, las filas iniciales se retiran suavemente hacia arriba y el folio ocupa ese espacio. La escritura, el pegado y los métodos de entrada siguen respondiendo; se respeta la preferencia del sistema sobre animaciones.</li>
         </ul>
-        <p>Changes to the following paragraph style require DOCX when ODT cannot preserve them. Section movement and font replacement have additional restrictions while tracking changes. A selected search range is cleared after unrelated edits; regular-expression replacements skip empty matches.</p>
-        <p xml:lang="es">Los cambios del estilo siguiente requieren DOCX cuando ODT no puede conservarlos. El movimiento de apartados y la sustitución de fuentes tienen restricciones adicionales al registrar cambios. Una selección de búsqueda se invalida tras otras ediciones; los reemplazos con expresiones regulares omiten coincidencias vacías.</p>
+        <p>WordCraft remains at 0.16.0. Existing engine-dependent issues and the deferred issue #52 are unchanged.</p>
+        <p>The Flatpak uses the read-only system Templates folder; custom template folder selection remains unavailable (#171).</p>
+        <p xml:lang="es">WordCraft sigue en 0.16.0. Se mantienen los límites de los issues dependientes del motor y el aplazamiento del #52.</p>
+        <p xml:lang="es">El Flatpak usa la carpeta de plantillas del sistema en modo de solo lectura; la elección de carpetas personalizadas sigue desactivada (#171).</p>
+      </description>
+    </release>
+    <release version="0.1.0-alpha.36" date="2026-11-08" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.36</url>
+      <description>
+        <p>A simpler editing interface</p>
+        <p xml:lang="es">Una interfaz de edición más sencilla</p>
+        <ul>
+          <li>Choose a personal template from actual page thumbnails above a new blank document, or start typing straight away. The Flatpak reads the system Templates folder without write access.</li>
+          <li>Keep ordinary Copy and Paste one click away, with formatting and plain-text variants grouped in their own menus. The context menu follows Style, Paragraph, Text, Elements. Inspect and replace document fonts inside Document Properties, with navigation, available fallback information and Undo.</li>
+          <li>Search options share one compact group, with the scope selector at the bottom. Paste tabs or line endings directly; the special-character picker has been removed.</li>
+          <li>Hidden tabs reclaim their row. Structure preserves your position when branches fold, separates document sections and places heading move actions in three-dot menus.</li>
+          <li>Image drags show an insertion caret. Cancelling a drag preserves the selection, and delayed imports reject obsolete document targets.</li>
+          <li xml:lang="es">Elige una plantilla personal desde miniaturas reales de sus páginas, encima de un documento nuevo en blanco, o empieza a escribir directamente. El Flatpak lee la carpeta de plantillas del sistema sin permiso de escritura.</li>
+          <li xml:lang="es">Copiar y Pegar siguen disponibles con un clic, con sus variantes de formato y texto sin formato agrupadas en menús propios. El menú contextual sigue el orden Estilo, Párrafo, Texto, Elementos. Consulta y sustituye las fuentes dentro de Propiedades del documento, con navegación, información disponible sobre fuentes de sustitución y Deshacer.</li>
+          <li xml:lang="es">Las opciones de búsqueda comparten un grupo compacto, con el selector de ámbito al final. Pega tabulaciones o saltos directamente; se ha eliminado el selector de caracteres especiales.</li>
+          <li xml:lang="es">Las pestañas ocultas recuperan su espacio. Estructura conserva la posición al plegar ramas, separa las secciones y reúne las acciones para mover títulos en menús de tres puntos.</li>
+          <li xml:lang="es">Al arrastrar una imagen se muestra el punto de inserción. Cancelar conserva la selección y las importaciones demoradas rechazan destinos del documento que hayan quedado obsoletos.</li>
+        </ul>
+        <p>Custom template folder selection is unavailable in the Flatpak because the folder portal grants write access and rejects self-revocation. The read-only system Templates folder remains usable; issue #171 remains open.</p>
+        <p>Plain-text clipboard data cannot distinguish soft line breaks from paragraph boundaries. Pasted line endings find both; ordinary replacement line endings create paragraphs.</p>
+        <p>DOCX is required when ODT cannot preserve a selected feature, including changed following-paragraph styles. WordCraft remains at 0.16.0.</p>
+        <p xml:lang="es">La selección de otra carpeta de plantillas no está disponible en el Flatpak: el portal concede escritura y rechaza que la aplicación retire ese permiso. Se conserva la carpeta de plantillas del sistema en solo lectura; el issue #171 sigue abierto.</p>
+        <p xml:lang="es">El texto plano del portapapeles no distingue los saltos de línea de los saltos de párrafo. La búsqueda de saltos pegados encuentra ambos; los saltos de un reemplazo normal crean párrafos.</p>
+        <p xml:lang="es">Se requiere DOCX cuando ODT no puede conservar una función elegida, incluidos los cambios de estilo del párrafo siguiente. WordCraft se mantiene en 0.16.0.</p>
       </description>
     </release>
     <release version="0.1.0-alpha.34" date="2026-11-07" type="development">
@@ -183,8 +211,4 @@
       </description>
     </release>
   </releases>
-  <branding>
-    <color type="primary" scheme_preference="light">#E4F2E8</color>
-    <color type="primary" scheme_preference="dark">#1B3327</color>
-  </branding>
 </component>

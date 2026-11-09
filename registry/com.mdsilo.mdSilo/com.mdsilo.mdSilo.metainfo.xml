@@ -25,5 +25,8 @@
     <screenshot><image>https://raw.githubusercontent.com/mdSilo/mdSilo-app/mdsilo-v0.7.0/docs/images/reader.png</image><caption>Book reader</caption></screenshot>
   </screenshots>
   <content_rating type="oars-1.1"/>
-  <releases><release version="0.7.0" date="2026-10-31"/></releases>
+  <releases>
+    <release version="0.8.0" date="2026-11-08">
+      <description></description>
+    </release><release version="0.7.0" date="2026-10-31"/></releases>
 </component>

@@ -18,8 +18,9 @@ const t = useTranslations(lang);
 const { repo } = loadCatalog();
 const apps = loadApps();
 const collections = loadCollections(apps);
-// The tab shows the first few; the rest are a click away on /collections/.
-const HOME_COLLECTIONS = 4;
+// Five rows, like the card grid; each "show more" press reveals as many
+// again (the fold is in Base.astro); /collections/ is still a click away.
+const HOME_COLLECTIONS = 5;
 // Default order: most new installs in the last 30 days first, the way
 // Flathub's front page leads with Popular. New (when *we* listed it) and Updated (upstream's release
 // date) are the next two tabs, and Approved narrows the grid to the
@@ -133,11 +134,18 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
         {ordered.map((app) => <AppCard app={app} />)}
       </div>
       {collections.length > 0 && (
-        <div data-collections-panel hidden class="min-h-[28rem] pt-0.5">
+        <div data-collections-panel data-fold-step={HOME_COLLECTIONS} hidden class="min-h-[28rem] pt-0.5">
           <div class="grid gap-4">
-            {collections.slice(0, HOME_COLLECTIONS).map((collection) => <CollectionRow collection={collection} />)}
+            {collections.map((collection, i) => <CollectionRow collection={collection} hidden={i >= HOME_COLLECTIONS} />)}
           </div>
-          <div class="mt-6 flex justify-center">
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            {collections.length > HOME_COLLECTIONS && (
+              <button
+                type="button"
+                data-more-collections
+                class="inline-flex h-11 items-center rounded-full border border-line bg-surface px-6 text-sm font-semibold transition hover:border-brand"
+              >{t('collections.more')}</button>
+            )}
             <a
               href={localizePath('/collections/', lang)}
               class="inline-flex h-11 items-center rounded-full border border-line bg-surface px-6 text-sm font-semibold transition hover:border-brand"
