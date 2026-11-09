@@ -28,6 +28,7 @@
       <li>Import worlds and versions from the official launcher's folder: <code>flatpak override --user --filesystem=~/.minecraft:ro dev.playhorizon.Horizon</code> (Prism Launcher: <code>--filesystem=~/.local/share/PrismLauncher:ro</code>)</li>
       <li>Discord Rich Presence: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 dev.playhorizon.Horizon</code> (for Flatpak Discord: <code>--filesystem=xdg-run/app/com.discordapp.Discord:create</code>)</li>
     </ul>
+    <p>Native Rust mods are built on your computer. The launcher downloads its own Rust toolchain, but the build also needs a C compiler, pkg-config and the ALSA and libudev development files, which the app's runtime does not include. To build, install the matching SDK and start the launcher on it: <code>flatpak install flathub org.freedesktop.Sdk//26.08</code>, then <code>flatpak run --devel dev.playhorizon.Horizon</code>. You only need this while building; a normal launch plays the result.</p>
   </description>
   <launchable type="desktop-id">dev.playhorizon.Horizon.desktop</launchable>
   <categories>
