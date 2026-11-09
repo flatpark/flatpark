@@ -48,8 +48,10 @@ install or a data directory you have checked is the one in use. Before launching
 `ELECTRON_RUN_AS_NODE` and `ELECTRON_NO_ATTACH_CONSOLE`
 (`env -u … flatpak run`). Check `~/.local/share/flatpak/overrides/global`
 first: a global override can make a permission look granted when the package
-doesn't grant it. When done, `flatpak kill <app-id>` and clean up as in
-[cleaning up after a run](../packagers/cleanup.md).
+doesn't grant it. When done, `flatpak kill <app-id>`, but leave the install and
+its data for the person to try the app themselves; clean up as in
+[cleaning up after a run](../packagers/cleanup.md) only after the PR is open
+and they agree (step 4 of the [packaging playbook](../packagers/playbook.md)).
 
 In the PR, say honestly what you tested and what you couldn't; a line per
 check is enough. Problems a reviewer finds come up in review.

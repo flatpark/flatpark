@@ -67,9 +67,20 @@ problems are in [common problems](solutions/README.md). In particular:
 Run the [testing playbook](../reviewers/testing-playbook.md) on the build
 installed from a local repository ([submitting an app](submitting.md#build) has
 the build and install steps), and say in the PR what you tested and what you
-couldn't. `flatpak kill
-<id>` after every run; when the work is merged or dropped, clean up as in
-[cleaning up after a run](cleanup.md).
+couldn't. `flatpak kill <id>` after every run, but **leave the test install and
+its data in place**: don't uninstall, delete data or remove the remote yet.
+
+Then hand it to the person:
+
+1. Prepare the commit and the PR draft, show the draft, and stop.
+2. Ask them to use the app themselves, especially what you couldn't test or
+   tested poorly: sign-in, hardware, audio and video, notifications, tray,
+   drag and drop, file dialogs, their own desktop. Name those points.
+3. If they find a problem, fix it, rebuild, reinstall and test again; the
+   install stays until they are done.
+4. When they say it's fine, rewrite the PR body once, in the format of
+   [submitting an app](submitting.md#open-the-pr). It describes the final
+   package and what was tested on it, not a log of every round.
 
 ## 5. Open the PR
 
@@ -77,8 +88,14 @@ Branch, commit and PR body as in [submitting an app](submitting.md#open-the-pr).
 One app per PR. When packaging several apps in one run, open each app's PR as
 soon as that app is tested, then start the next; a run can end before the batch
 does, and unpushed work is lost.
-Add the trailer and footer your tool uses for AI-assisted work. Draft the body,
-show it, and open the PR only on approval (rule 2).
+Add the trailer and footer your tool uses for AI-assisted work. Open the PR only
+on approval (rule 2).
+
+Once the PR is open, ask whether to clean up what this run left on the machine,
+and list it: the local branch and worktree, the test install, its data and
+remote, downloads and build output, and anything the app created in the home
+folder. Remove it only on a yes, as in [cleaning up after a run](cleanup.md).
+Delete only the local branch; the remote branch stays until the PR is merged.
 
 ## 6. Tell upstream
 
