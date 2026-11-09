@@ -1,0 +1,30 @@
+id: org.openaec.OpenOfficeStudio
+name: Open Office Studio
+summary: Edit Word, Excel and PowerPoint files, notes, Access databases and email
+website: https://open-aec.com/open-office-studio/
+source_url: https://github.com/OpenAEC-Foundation/open-office-studio
+build:
+  manifest: org.openaec.OpenOfficeStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Office
+    - WordProcessor
+    - Spreadsheet
+    - Presentation
+    - Notes
+    - Database
+    - Email
+# Upstream also releases six single-module apps from the same source (Writer,
+# Spreadsheet, Presentation, Email, Notition, Database). They are not packaged:
+# the suite has every module, and the module a build opens is fixed at build
+# time, so a second launcher on the suite could not open Writer directly.
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
