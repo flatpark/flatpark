@@ -1,0 +1,22 @@
+id: io.github.pedrohqb.Tessera.Signer.WebPKI
+name: Lacuna Web PKI
+summary: Lacuna Web PKI for Tessera's tokens in Flatpak browsers
+website: https://www.lacunasoftware.com/en/home/webpki
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/WebPKI
+build:
+  manifest: io.github.pedrohqb.Tessera.Signer.WebPKI.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - Legal
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's program is closed source.
+  proprietary: true

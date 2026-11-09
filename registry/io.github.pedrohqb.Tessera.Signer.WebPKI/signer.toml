@@ -1,0 +1,21 @@
+# Lacuna Web PKI, a Tessera web signer extension
+# (io.github.pedrohqb.Tessera.Signer.WebPKI). Tessera reads this to show
+# the browsers' steps; the browsers run `start` (paths are relative to this
+# folder). See docs/signers.md.
+name = "Lacuna Web PKI"
+vendor = "Lacuna Software"
+# The native messaging host: its name and the browser extensions allowed to
+# start it, as in the vendor's own manifests.
+host = "com.lacunasoftware.webpki"
+exec = "start"
+# The Chrome Web Store's extension and the Edge Add-ons' one.
+chrome_extensions = ["dcngeagmmhegagicpcmpinaoklddcgon", "nedeegdmhlnmboboahchfpkmdnnemapd"]
+firefox_extensions = ["webpki@lacunasoftware.com", "webpki-beta@lacunasoftware.com"]
+# The program keeps its data in ~/<persist>, which the browsers' sandboxes
+# keep in their own folders.
+persist = ".lacuna-webpki"
+# Its dialogs (Avalonia) draw only through X11, which Firefox's Flatpak
+# reaches only with --socket=x11.
+firefox_x11 = true
+# The option to tick, once, in the plugin's settings.
+option = "Dispositivos SafeSign AET"

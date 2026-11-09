@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>io.github.pedrohqb.Tessera.Signer.WebPKI</id>
+  <extends>io.github.pedrohqb.Tessera</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>Lacuna Web PKI</name>
+  <summary>Lacuna Web PKI for Tessera's tokens in Flatpak browsers</summary>
+  <summary xml:lang="pt-BR">Lacuna Web PKI para os tokens do Tessera nos navegadores Flatpak</summary>
+  <developer id="com.lacunasoftware">
+    <name>Lacuna Software</name>
+  </developer>
+  <url type="homepage">https://www.lacunasoftware.com/en/home/webpki</url>
+  <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
+  <url type="vcs-browser">https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/WebPKI</url>
+  <description>
+    <p>Web PKI is the program behind Lacuna's browser plugin, which many sites use to sign with a digital certificate.</p>
+    <p>With this extension, the Flatpak browsers Tessera sets up (Firefox, Chromium, Google Chrome, Microsoft Edge and Brave) run the plugin's program inside their own sandbox, and it signs with Tessera's tokens through the system's p11-kit server: no distrobox, no packages installed on the system.</p>
+    <p>Tessera does not run it. After installing, restart Tessera: its Web signers section shows, for each browser, the one command that lets the browser start the program (run once in a terminal), and what to tick in the plugin's settings.</p>
+    <p>This extension installs the program from the vendor's official Linux package, downloaded at install time and checked against a pinned checksum. Only its files are taken: no install script runs. Lacuna Web PKI is closed source and not made or endorsed by Tessera's author.</p>
+  </description>
+  <releases>
+    <release version="2.17.0" date="2026-11-09"/>
+  </releases>
+</component>
