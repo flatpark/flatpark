@@ -57,6 +57,13 @@ FLATPARK_VERIFY_KEEP=1 ./scripts/publish.sh --verify com.example.App
 flatpak --user run com.example.App
 # … use the app's main feature, quit, start it again: are settings still there?
 flatpak kill com.example.App
+```
+
+Leave it installed until the PR is open: you will often want to try something
+else after reading the draft. Then remove the test install and its data
+([cleaning up after a run](cleanup.md)):
+
+```sh
 flatpak --user uninstall -y com.example.App
 flatpak --user remote-delete --force flatpark-local
 rm -rf ~/.var/app/com.example.App  # only if it didn't exist before the test
@@ -149,6 +156,7 @@ flatpak --user remote-add --if-not-exists --no-gpg-verify test-tmp "file://$PWD/
 flatpak --user install -y test-tmp com.example.App
 # … test …
 flatpak kill com.example.App
+# after the PR is open, and only once the person agrees:
 flatpak --user uninstall -y com.example.App
 flatpak --user remote-delete test-tmp
 rm -rf ~/.var/app/com.example.App  # only if it didn't exist before the test
