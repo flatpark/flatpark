@@ -1,0 +1,36 @@
+[Desktop Entry]
+# From the .deb's "Open Office Studio.desktop" (v2026.45.4); only Exec, TryExec, Icon and
+# StartupWMClass are changed for the app id.
+Type=Application
+Name=Open Office Studio
+GenericName=Office suite
+GenericName[nl]=Kantoorpakket
+GenericName[de]=Office-Paket
+GenericName[fr]=Suite bureautique
+GenericName[es]=Paquete ofimático
+GenericName[it]=Suite per ufficio
+GenericName[pt_BR]=Pacote de escritório
+GenericName[zh_CN]=办公套件
+Comment=Local OpenAEC office environment
+Comment[nl]=Lokale OpenAEC-kantooromgeving
+Comment[de]=Lokale OpenAEC-Büroumgebung
+Comment[fr]=Environnement bureautique local OpenAEC
+Comment[es]=Entorno ofimático local de OpenAEC
+Comment[it]=Ambiente per ufficio locale di OpenAEC
+Comment[pt_BR]=Ambiente de escritório local da OpenAEC
+Comment[zh_CN]=本地 OpenAEC 办公环境
+Keywords=word processor;spreadsheet;presentation;database;email;office;
+Keywords[nl]=tekstverwerker;rekenblad;presentatie;database;e-mail;kantoor;
+Keywords[de]=Textverarbeitung;Tabellenkalkulation;Präsentation;Datenbank;E-Mail;Büro;Office;
+Keywords[fr]=traitement de texte;tableur;présentation;base de données;courriel;bureautique;
+Keywords[es]=procesador de textos;hoja de cálculo;presentación;base de datos;correo;ofimática;
+Keywords[it]=elaboratore di testi;foglio di calcolo;presentazione;database;email;ufficio;
+Keywords[pt_BR]=processador de texto;planilha;apresentação;banco de dados;e-mail;escritório;
+Keywords[zh_CN]=文字处理;电子表格;演示文稿;数据库;电子邮件;办公;office;
+Exec=open-office-studio %F
+TryExec=open-office-studio
+StartupWMClass=org.openaec.OpenOfficeStudio
+Icon=org.openaec.OpenOfficeStudio
+Terminal=false
+Categories=Office;
+MimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.ms-word.document.macroEnabled.12;application/vnd.openxmlformats-officedocument.wordprocessingml.template;application/vnd.ms-word.template.macroEnabled.12;application/msword;application/msword-template;application/vnd.oasis.opendocument.text;application/vnd.oasis.opendocument.text-template;application/rtf;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.openxmlformats-officedocument.spreadsheetml.template;application/vnd.ms-excel.template.macroEnabled.12;application/vnd.ms-excel.sheet.binary.macroEnabled.12;application/vnd.ms-excel;application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.spreadsheet-template;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.ms-powerpoint.presentation.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.ms-powerpoint.template.macroEnabled.12;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/vnd.ms-powerpoint;application/vnd.oasis.opendocument.presentation;application/vnd.oasis.opendocument.presentation-template;application/vnd.ms-access;application/x-openaec-office-ifcx

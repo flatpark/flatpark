@@ -1,0 +1,72 @@
+id: org.openaec.OpenOfficeStudio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: open-office-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app, the suite build of Open Office Studio (every module: Writer,
+# Spreadsheet, Presentation, Notes, Database, Email). The binary links WebKitGTK
+# 4.1, GTK 3 and libsoup 3, all in GNOME 51; the .deb has nothing beside it.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # X11, not fallback-x11: tauri-plugin-clipboard-manager goes through arboard,
+  # which falls back to X11 because the sandbox's Wayland socket filters the
+  # data-control protocol. The window itself stays Wayland-native.
+  - --socket=x11
+  - --device=dri
+  # Email: IMAP and SMTP to the user's own servers, server lookup (autoconfig,
+  # DNS SRV/MX) and the OAuth2 sign-in for Microsoft and Google, whose redirect
+  # comes back to a loopback port. The in-app updater has no signing key or
+  # endpoint configured in this build, so it does not run.
+  - --share=network
+  # Email account passwords are kept in the Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Printing goes through WebKitGTK's GTK print dialog, which lists printers
+  # over IPP to the CUPS socket. Without it the printer list stays empty.
+  - --socket=cups
+  # Second launch (another file opened from the file manager) hands its files
+  # to the running window. tauri-plugin-single-instance 2.5 owns the Tauri
+  # identifier plus .SingleInstance, not the Flatpak app id.
+  - --own-name=org.openaec.office-studio.SingleInstance
+  # Deliberately not granted; the metainfo documents it:
+  #   Opening legacy .doc/.xls/.ppt and ODF files converts them with an
+  #   external LibreOffice (soffice) found on the host. The sandbox cannot run
+  #   host programs, and the permission to do so (org.freedesktop.Flatpak)
+  #   escapes the sandbox entirely. DOCX, XLSX and PPTX are edited natively.
+modules:
+  - name: open-office-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-office-studio-wrapper /app/bin/open-office-studio
+      - install -Dm644 org.openaec.OpenOfficeStudio.desktop /app/share/applications/org.openaec.OpenOfficeStudio.desktop
+      - install -Dm644 org.openaec.OpenOfficeStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenOfficeStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenOfficeStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenOfficeStudio.png
+      # The .deb's shared-mime-info file (ACCDB as application/vnd.ms-access,
+      # and .ifcx). Flatpak exports a MIME package only under the app id.
+      - install -Dm644 org.openaec.OpenOfficeStudio.mime.xml /app/share/mime/packages/org.openaec.OpenOfficeStudio.xml
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-office-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-office-studio/releases/download/v2026.45.4/Open.Office.Studio_2026.45.4_amd64.deb
+        sha256: a07e79aeaa0fb05d3f854bff17ef1426b427aa2fa33b2e5186c9e5b55ea968b7
+        size: 74156662
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-office-studio-wrapper
+      - type: file
+        path: org.openaec.OpenOfficeStudio.desktop
+      - type: file
+        path: org.openaec.OpenOfficeStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenOfficeStudio.png
+      - type: file
+        path: org.openaec.OpenOfficeStudio.mime.xml
