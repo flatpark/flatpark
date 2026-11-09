@@ -136,6 +136,7 @@
   "collection.member": "属于 {name} 合集（{count} 个应用）",
   "collection.banner": "{name} 全部 {count} 个应用，一个源、一条命令装齐",
   "collections.all": "全部合集",
+  "collections.more": "显示更多合集",
   "collections.heading": "合集",
   "collections.title": "合集 — {repo}",
   "collections.meta": "{repo} 上成套的应用，每套都能一次装齐。",

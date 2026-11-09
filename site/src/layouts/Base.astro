@@ -280,6 +280,20 @@ const searchMeta = {
 
       const sortTabs = Array.from(document.querySelectorAll('[data-sort-tab]'));
       const collectionsPanel = document.querySelector<HTMLElement>('[data-collections-panel]');
+
+      // Collections tab fold: every row is in the page, all but the first
+      // `step` start hidden, and each press reveals another `step`. The button
+      // leaves once nothing is left to show.
+      const collectionRows = Array.from(
+        collectionsPanel?.querySelectorAll<HTMLElement>('[data-collection-row]') ?? [],
+      );
+      const moreCollectionsBtn = collectionsPanel?.querySelector<HTMLElement>('[data-more-collections]');
+      const collectionStep = Number(collectionsPanel?.dataset.foldStep) || collectionRows.length;
+      moreCollectionsBtn?.addEventListener('click', () => {
+        const next = collectionRows.filter((row) => row.hidden).slice(0, collectionStep);
+        for (const row of next) row.hidden = false;
+        moreCollectionsBtn.hidden = collectionRows.every((row) => !row.hidden);
+      });
       for (const tab of sortTabs) {
         tab.addEventListener('click', () => {
           for (const t of sortTabs) {

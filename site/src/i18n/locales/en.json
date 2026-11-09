@@ -136,6 +136,7 @@
   "collection.member": "Part of the {name} collection ({count} apps)",
   "collection.banner": "All {count} {name} apps, one remote, one command",
   "collections.all": "All collections",
+  "collections.more": "Show more collections",
   "collections.heading": "Collections",
   "collections.title": "Collections — {repo}",
   "collections.meta": "App suites on {repo}, each installable as a set.",
