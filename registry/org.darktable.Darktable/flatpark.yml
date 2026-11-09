@@ -1,0 +1,18 @@
+id: org.darktable.Darktable
+name: darktable
+summary: Organize and develop raw photos, with darktable's local AI tools
+website: https://www.darktable.org/
+source_url: https://github.com/darktable-org/darktable
+build:
+  manifest: org.darktable.Darktable.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags: [Photography, RAW, Photo Editing, AI]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

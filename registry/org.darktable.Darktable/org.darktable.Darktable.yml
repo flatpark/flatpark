@@ -1,0 +1,83 @@
+id: org.darktable.Darktable
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: darktable
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The AppImage bundles its own GTK 3; its launcher prefers Wayland and falls
+  # back to X11.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # OpenCL and OpenGL acceleration of the pixel pipeline.
+  - --device=dri
+  # AI models are downloaded on request from GitHub releases; also map tiles
+  # and the online export targets.
+  - --share=network
+  # The default photo library and import folder is Pictures; imports usually
+  # come from memory cards and external drives. Other folders are overrides
+  # (metainfo).
+  - --filesystem=xdg-pictures
+  - --filesystem=/run/media
+  - --filesystem=/media
+  # Display colour profiles from colord.
+  - --system-talk-name=org.freedesktop.ColorManager
+  # Credentials for online export targets.
+  - --talk-name=org.freedesktop.secrets
+  # darktable's own session-bus service (single instance, Lua remote).
+  - --own-name=org.darktable.service
+modules:
+  - name: darktable
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 darktable-wrapper /app/bin/darktable
+      - install -Dm644 org.darktable.Darktable.desktop /app/share/applications/org.darktable.Darktable.desktop
+      - install -Dm644 org.darktable.Darktable.metainfo.xml /app/share/metainfo/org.darktable.Darktable.metainfo.xml
+      - install -Dm644 org.darktable.Darktable.svg /app/share/icons/hicolor/scalable/apps/org.darktable.Darktable.svg
+    sources:
+      # Extraction tools must be extra-data: apply_extra cannot see /app/bin
+      # during system-wide installation. These pins stay outside the app updates.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-aarch64.tar.xz
+        sha256: 96fbb5d8b79c53954bad1e2760efd34ab9267b9e6783b7c60930214e44cf7e18
+        size: 51796
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: darktable.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/darktable-org/darktable/releases/download/release-5.6.2/Darktable-5.6.2-x86_64.AppImage
+        sha256: 4b0d1c737a2a18c7d8afb81aa3daaf25930bbe541dda98e6354dabd5c2e4dc36
+        size: 178346488
+      - type: extra-data
+        filename: darktable.AppImage
+        only-arches:
+          - aarch64
+        url: https://github.com/darktable-org/darktable/releases/download/release-5.6.2/Darktable-5.6.2-aarch64.AppImage
+        sha256: 5b8015f8534453cb3bbd6e5a03e362cb7d9d9573f20d3928aadad354df18ad10
+        size: 171637256
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: darktable-wrapper
+      - type: file
+        path: org.darktable.Darktable.desktop
+      - type: file
+        path: org.darktable.Darktable.metainfo.xml
+      - type: file
+        path: org.darktable.Darktable.svg
