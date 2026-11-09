@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Shared MIME info: .ccad files are ConstructCraft projects (RON text). -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-constructcad">
+    <comment>ConstructCraft project</comment>
+    <comment xml:lang="pt_BR">Projeto do ConstructCraft</comment>
+    <sub-class-of type="text/plain"/>
+    <generic-icon name="io.github.francisreboucas.constructcraft"/>
+    <glob pattern="*.ccad"/>
+  </mime-type>
+</mime-info>

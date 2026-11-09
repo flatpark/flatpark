@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=ConstructCraft
+GenericName=BIM Authoring
+GenericName[pt_BR]=Modelagem BIM
+Comment=Free and open source Building Information Modeling (BIM)
+Comment[pt_BR]=Modelagem da Informação da Construção (BIM) livre e de código aberto
+Exec=constructcraft %f
+TryExec=constructcraft
+Icon=io.github.francisreboucas.constructcraft
+Terminal=false
+StartupNotify=true
+Categories=Graphics;3DGraphics;Engineering;
+Keywords=BIM;CAD;IFC;architecture;building;
+MimeType=application/x-constructcad;
+StartupWMClass=constructcraft
