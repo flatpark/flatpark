@@ -1,5 +1,0 @@
-#!/bin/sh
-set -eu
-
-# Headless runner from the same official tarball.
-exec /app/extra/constructcad/ccad "$@"
