@@ -27,11 +27,13 @@ finish-args:
   # "remote:" file per driver so the host's p11-kit server (and native
   # apps) serve them. Only files named tessera-*.module are touched.
   - --filesystem=xdg-config/pkcs11:create
-  # The small NSS database Tessera sets up for Papers, which poppler finds
-  # first (see paths.rs). Nothing else of Papers is visible.
-  - --filesystem=~/.var/app/org.gnome.Papers/config/mozilla:create
+  # Papers' config folder, where Tessera makes the small NSS database poppler
+  # finds first (mozilla/firefox/tessera.default; see paths.rs). No :create:
+  # the folder exists once Papers has run, and Tessera does not make folders
+  # for apps that are not installed.
+  - --filesystem=~/.var/app/org.gnome.Papers/config
   # The same for Okular, which signs through poppler too.
-  - --filesystem=~/.var/app/org.kde.okular/config/mozilla:create
+  - --filesystem=~/.var/app/org.kde.okular/config
   # The Firefox Flatpak's profiles (Firefox 147+ keeps them under config/,
   # older releases under .mozilla/), so "Set up" can register the module in
   # each profile's NSS database. Only pkcs11.txt changes.
