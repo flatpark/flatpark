@@ -6,8 +6,7 @@
 # and OpenSSL 3 from org.gnome.Platform//51 (it needs glibc 2.39; the runtime
 # has 2.44). libpoppler-glib.so.8, for PDF attachment thumbnails, is the one
 # DT_NEEDED the runtime lacks; it comes from FlatPark's prebuilt poppler-glib
-# stack. That stack is cut for x86_64 only, so this package is x86_64 only for
-# now, although upstream also publishes an arm64 .deb.
+# stack. Upstream publishes an amd64 and an arm64 .deb; both are packaged.
 #
 # WebKitGTK 6 keeps its own web-process sandbox: it goes through Flatpak's
 # sub-sandbox portal, and the app's GApplication id is the Flatpak id, so
@@ -65,9 +64,16 @@ modules:
         filename: poppler-glib.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v1/poppler-glib-poppler-glib-v1-gnome-51-x86_64.tar.xz
-        sha256: c8eddb747c9d7ff794b8dc02a01ea8bcaa9b9ecbc7e3d6a6fec83d6211c7fea9
-        size: 1561500
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v2/poppler-glib-poppler-glib-v2-gnome-51-x86_64.tar.xz
+        sha256: c29f452aaa0170ee84a4458819e1575e47e5e05e1a047c84c01dae1a5bf8259d
+        size: 1561208
+      - type: extra-data
+        filename: poppler-glib.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v2/poppler-glib-poppler-glib-v2-gnome-51-aarch64.tar.xz
+        sha256: 708e0e46c204668aa32349c1e60bfbc533c09a9d34a36398ac394fa20f9fc143
+        size: 1295588
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: hylki.deb
@@ -76,6 +82,13 @@ modules:
         url: https://github.com/hyprlab/hylki/releases/download/v1.47.1/hylki_1.47.1-1_amd64.deb
         sha256: 1a52a796a68a2c5f8674d6b3438928a0a3ccfef77e77d467eb96f0740118f8dc
         size: 12524772
+      - type: extra-data
+        filename: hylki.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/hyprlab/hylki/releases/download/v1.47.1/hylki_1.47.1-1_arm64.deb
+        sha256: 7f7cbd0b251d0a7a4e0f70e256df5ead6014ff22abb4af8cd784b4a813f5a92e
+        size: 11202228
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
