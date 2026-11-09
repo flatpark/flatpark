@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>monster.rollenspiel.Griffel</id>
+
+  <name>Griffel</name>
+  <summary>Markdown notes with a file sidebar</summary>
+  <summary xml:lang="de">Markdown-Notizen mit Datei-Seitenleiste</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+
+  <description>
+    <p>
+      Griffel is a small Markdown reader and editor for GNOME. It opens a folder
+      of notes and shows everything inside it in a sidebar, without the weight of
+      a full knowledge base.
+    </p>
+    <p xml:lang="de">
+      Griffel ist ein kleiner Markdown-Reader und -Editor für GNOME. Er öffnet
+      einen Ordner mit Notizen und zeigt alles darin in einer Seitenleiste –
+      ohne den Ballast einer kompletten Wissensdatenbank.
+    </p>
+    <p>Features:</p>
+    <p xml:lang="de">Funktionen:</p>
+    <ul>
+      <li>Sidebar with the whole folder tree, updated live</li>
+      <li xml:lang="de">Seitenleiste mit dem kompletten Dateibaum, live aktualisiert</li>
+      <li>Editor with Markdown highlighting, autosave and find in document</li>
+      <li xml:lang="de">Editor mit Markdown-Highlighting, Autosave und Suchen im Dokument</li>
+      <li>Rendered preview with tables, highlighted code and images</li>
+      <li xml:lang="de">Gerenderte Vorschau mit Tabellen, hervorgehobenem Code und Bildern</li>
+      <li>Clickable [[wiki links]] between notes</li>
+      <li xml:lang="de">Klickbare [[Wiki-Links]] zwischen Notizen</li>
+      <li>Quick search across file names and note contents</li>
+      <li xml:lang="de">Schnellsuche über Dateinamen und Notizinhalte</li>
+      <li>New notes and folders, rename and delete from the sidebar</li>
+      <li xml:lang="de">Neue Notizen und Ordner, Umbenennen und Löschen aus der Seitenleiste</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">monster.rollenspiel.Griffel.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing a note, with the folder tree on the left</caption>
+      <caption xml:lang="de">Eine Notiz bearbeiten, links der Dateibaum</caption>
+      <image type="source">https://git.rollenspiel.monster/Tealk/griffel/raw/branch/main/data/screenshots/editor-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The rendered preview, with the outline of the headings on the left</caption>
+      <caption xml:lang="de">Die gerenderte Vorschau, links die Gliederung der Überschriften</caption>
+      <image type="source">https://git.rollenspiel.monster/Tealk/griffel/raw/branch/main/data/screenshots/preview-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The editor and the outline in the dark appearance</caption>
+      <caption xml:lang="de">Editor und Gliederung im dunklen Erscheinungsbild</caption>
+      <image type="source">https://git.rollenspiel.monster/Tealk/griffel/raw/branch/main/data/screenshots/editor-dark.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The preview in the dark appearance</caption>
+      <caption xml:lang="de">Die Vorschau im dunklen Erscheinungsbild</caption>
+      <image type="source">https://git.rollenspiel.monster/Tealk/griffel/raw/branch/main/data/screenshots/preview-dark.png</image>
+    </screenshot>
+  </screenshots>
+
+  <categories>
+    <category>Office</category>
+    <category>TextEditor</category>
+    <category>Utility</category>
+  </categories>
+
+  <keywords>
+    <keyword>markdown</keyword>
+    <keyword>notes</keyword>
+    <keyword>editor</keyword>
+    <keyword xml:lang="de">notizen</keyword>
+    <keyword xml:lang="de">notizbuch</keyword>
+  </keywords>
+
+  <developer id="monster.rollenspiel">
+    <name>Daniel Buck</name>
+  </developer>
+
+  <url type="homepage">https://git.rollenspiel.monster/Tealk/griffel</url>
+  <url type="bugtracker">https://git.rollenspiel.monster/Tealk/griffel/issues</url>
+  <url type="vcs-browser">https://git.rollenspiel.monster/Tealk/griffel</url>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.4.1" date="2026-10-15">
+      <description>
+        <p>The rendered preview now follows a change of the appearance while it is on screen.</p>
+        <p xml:lang="de">Die gerenderte Vorschau folgt jetzt einem Wechsel des Erscheinungsbilds, während sie sichtbar ist.</p>
+      </description>
+    </release>
+    <release version="0.4.0" date="2026-10-15">
+      <description>
+        <p>A view switcher in the sidebar flips between the file tree and an outline of the note's headings, which jumps to that heading in the editor and in the preview.</p>
+        <p xml:lang="de">Ein Ansichtswechsler in der Seitenleiste schaltet zwischen Dateibaum und einer Gliederung der Überschriften um, die im Editor und in der Vorschau zur Überschrift springt.</p>
+        <p>Griffel has an icon of its own.</p>
+        <p xml:lang="de">Griffel hat ein eigenes Icon.</p>
+      </description>
+    </release>
+    <release version="0.3.2" date="2026-10-15">
+      <description>
+        <p>A file handed over by a file manager or on the command line is no longer replaced by the pinned start folder.</p>
+        <p xml:lang="de">Eine aus einem Dateimanager oder auf der Kommandozeile geöffnete Datei wird nicht mehr vom festen Startordner verdrängt.</p>
+      </description>
+    </release>
+    <release version="0.3.1" date="2026-10-15">
+      <description>
+        <p>Fix the folder chooser in the preferences, which did nothing.</p>
+        <p xml:lang="de">Die Ordnerauswahl in den Einstellungen behoben, die ohne Wirkung war.</p>
+      </description>
+    </release>
+    <release version="0.3.0" date="2026-10-15">
+      <description>
+        <p>New preferences: pin a start folder and choose whether notes open in the editor or in the preview.</p>
+        <p xml:lang="de">Neue Einstellungen: ein fester Startordner und die Wahl, ob Notizen im Editor oder in der Vorschau öffnen.</p>
+      </description>
+    </release>
+    <release version="0.2.0" date="2026-10-15">
+      <description>
+        <p>Search notes limited to a single folder.</p>
+        <p xml:lang="de">Notizen nur in einem einzelnen Ordner suchen.</p>
+        <p>The last folder and note are restored correctly after a restart.</p>
+        <p xml:lang="de">Der zuletzt geöffnete Ordner und die letzte Notiz werden nach einem Neustart korrekt wiederhergestellt.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-10-15">
+      <description>
+        <p>First release.</p>
+        <p xml:lang="de">Erste Veröffentlichung.</p>
+      </description>
+    </release>
+  </releases>
+</component>

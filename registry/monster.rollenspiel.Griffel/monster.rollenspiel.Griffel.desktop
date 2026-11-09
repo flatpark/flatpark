@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Griffel
+Name[de]=Griffel
+GenericName=Markdown Editor
+GenericName[de]=Markdown-Editor
+Comment=A slim Markdown reader and editor with a file sidebar
+Comment[de]=Schlanker Markdown-Reader und -Editor mit Datei-Seitenleiste
+Exec=griffel %U
+Icon=monster.rollenspiel.Griffel
+Terminal=false
+Type=Application
+Categories=Office;TextEditor;Utility;
+MimeType=text/markdown;text/x-markdown;
+Keywords=markdown;notes;editor;
+Keywords[de]=markdown;notizen;editor;
+StartupNotify=true
