@@ -70,6 +70,9 @@
   </provides>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.6.0" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="0.5.0" date="2026-11-06">
       <description></description>
     </release>

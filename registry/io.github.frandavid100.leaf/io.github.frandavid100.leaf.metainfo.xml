@@ -87,6 +87,9 @@
     <binary>leaf</binary>
   </provides>
   <releases>
+    <release version="0.1.0-alpha.40" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="0.1.0-alpha.38" date="2026-11-08" type="development">
       <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.38</url>
       <description>
