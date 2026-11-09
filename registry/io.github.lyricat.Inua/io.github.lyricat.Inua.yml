@@ -59,9 +59,16 @@ modules:
         filename: poppler-glib.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v1/poppler-glib-poppler-glib-v1-gnome-51-x86_64.tar.xz
-        sha256: c8eddb747c9d7ff794b8dc02a01ea8bcaa9b9ecbc7e3d6a6fec83d6211c7fea9
-        size: 1561500
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v2/poppler-glib-poppler-glib-v2-gnome-51-x86_64.tar.xz
+        sha256: c29f452aaa0170ee84a4458819e1575e47e5e05e1a047c84c01dae1a5bf8259d
+        size: 1561208
+      - type: extra-data
+        filename: poppler-glib.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/poppler-glib-v2/poppler-glib-poppler-glib-v2-gnome-51-aarch64.tar.xz
+        sha256: 708e0e46c204668aa32349c1e60bfbc533c09a9d34a36398ac394fa20f9fc143
+        size: 1295588
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: inua.tar.gz
@@ -70,6 +77,13 @@ modules:
         url: https://github.com/lyricat/inua/releases/download/v0.1.29/inua_linux_amd64.tar.gz
         sha256: 02d4f158b6362ec73d0b7edb6657425e4787d675abe4cab1320362371ce9135d
         size: 143338710
+      - type: extra-data
+        filename: inua.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/lyricat/inua/releases/download/v0.1.29/inua_linux_arm64.tar.gz
+        sha256: c17fe496222c86b9d0bf4aa8699f0d28c49ebea03fbce0b523afd89b90790e13
+        size: 132697654
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

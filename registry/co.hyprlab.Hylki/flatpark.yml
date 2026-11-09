@@ -7,10 +7,7 @@ build:
   manifest: co.hyprlab.Hylki.yml
   branch: stable
   mode: extra-data
-  # Upstream publishes an arm64 .deb too, but the prebuilt poppler-glib stack
-  # the binary links is only cut for x86_64 (poppler-glib-v1).
-  arches:
-    - x86_64
+  arches: [x86_64, aarch64]
 catalog:
   category: Network
   tags:
