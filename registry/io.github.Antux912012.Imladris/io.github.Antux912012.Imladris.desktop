@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Imladris
+Comment=Scientific notebook studio and Markdown editor
+Exec=imladris %F
+Icon=io.github.Antux912012.Imladris
+Terminal=false
+Type=Application
+Categories=Development;IDE;GTK;GNOME;
+Keywords=markdown;editor;quarto;notebook;rstudio;jupyter;science;odt;odp;mallorn;
+MimeType=text/markdown;text/x-markdown;text/plain;application/x-ipynb+json;application/json;text/x-r-markdown;
+StartupNotify=true

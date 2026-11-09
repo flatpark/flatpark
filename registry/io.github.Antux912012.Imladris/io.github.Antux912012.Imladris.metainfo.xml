@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Antux912012.Imladris</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Imladris</name>
+  <summary>Scientific notebook studio</summary>
+  <description>
+    <p>
+      Imladris is a native Linux polyglot document studio and scientific Markdown editor built with Vala, GTK4, Libadwaita, GtkSourceView 5, and WebKitGTK 6.0. Featuring an adaptive ribbon interface, Imladris provides a distraction-free writing environment for technical authors, data scientists, and researchers.
+    </p>
+    <p>
+      Whether editing Quarto research reports, R Markdown statistical documents, or Jupyter notebooks, Imladris renders mathematical formulas, tables, and charts in real time.
+    </p>
+    <ul>
+      <li>Categorized Launch Modal: 9 creation targets across multi-file projects (Standard and Sandboxed) and standalone simple files</li>
+      <li>Sandbox Dependency Engine: Isolated environments with renv for R and venv for Python</li>
+      <li>The .mallorn Exchange Format: 1:1 bidirectional compatibility with RStudio projects and portable single-file bundles</li>
+      <li>OpenDocument Export Pipeline: Headless export to ODT and ODP presentations</li>
+      <li>Adaptive Modern Ribbon: High-density GTK4 and Libadwaita tabs for Home, Insert, Computation, Publish, and View with linked controls and quick collapse (Ctrl+F1)</li>
+      <li>Real-Time Live Preview: WebKitGTK 6.0 preview with KaTeX mathematics, Mermaid diagrams, and syntax highlighting</li>
+      <li>Dual AI Co-Author: In-editor writing assistant with support for local offline models and cloud LLMs</li>
+      <li>Model Context Protocol (MCP): Built-in MCP server integration for agentic document analysis and data retrieval</li>
+    </ul>
+    <p>
+      Note: This application is independently developed and is not affiliated with or endorsed by Posit, RStudio, or Project Jupyter.
+    </p>
+  </description>
+  <branding>
+    <color type="primary" scheme_preference="light">#d8e6f8</color>
+    <color type="primary" scheme_preference="dark">#1c3b64</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-screenshot.png</image>
+      <caption>Imladris polyglot scientific authoring workspace and notebook studio</caption>
+    </screenshot>
+    <screenshot>
+      <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-ai-copilot.png</image>
+      <caption>Elrond AI copilot and agent harness integration with code synthesis and live assistance</caption>
+    </screenshot>
+    <screenshot>
+      <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-preferences-theming.png</image>
+      <caption>Appearance preferences with theme selection and GNOME accent colors</caption>
+    </screenshot>
+    <screenshot>
+      <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-preferences-ai.png</image>
+      <caption>Multi-provider AI assistant configuration with direct API key portal links</caption>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.Antux912012.Imladris.desktop</launchable>
+  <url type="homepage">https://github.com/Antux912012/imladris</url>
+  <url type="bugtracker">https://github.com/Antux912012/imladris/issues</url>
+  <url type="vcs-browser">https://github.com/Antux912012/imladris</url>
+  <provides>
+    <binary>imladris</binary>
+  </provides>
+  <developer id="io.github.antux912012">
+    <name>Antonio De Gaetano</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.16.0" date="2026-11-09">
+      <description>
+        <p>Release v0.16.0 delivers comprehensive codebase deduplication, optimization, and stability refactoring: Eliminates redundant and dormant code across ExportService, RibbonFactory, and ChunkExecutionEngine; refactors DocumentPage buffer change debouncing and snapshot caching to eliminate redundant string memory copies; introduces pre-compiled regular expressions for Markdown formatting and Shiny URL parsing; optimizes Flatpak host runtime resolution to avoid duplicate IPC roundtrips; secures DataGridViewer column lifecycle against UI thread blocking; and improves multi-language code block detection across Julia, SQL, Bash, TypeScript, and Python.</p>
+      </description>
+    </release>
+    <release version="0.15.2" date="2026-11-08">
+      <description>
+        <p>Release v0.15.2 introduces complete R Shiny interactive web application support matching RStudio workbench capabilities: Real-time Shiny app detection across app.R, server.R, ui.R, and inline reactive notebooks; context-aware HeaderBar 'Run App' / 'Stop' execution controls with Ctrl+Shift+A shortcut; multi-target display engine supporting the embedded Viewer Pane in Quadrant 4, a dedicated standalone Adw.Window, and the user's default external browser; dynamic ephemeral port allocation and stdout/stderr stream interception; and built-in modern bslib sidebar Shiny templates accessible from the primary menu and welcome dashboard.</p>
+      </description>
+    </release>
+    <release version="0.15.1" date="2026-11-08">
+      <description>
+        <p>Release v0.15.1 incorporates deep GNOME architectural debugging and stability improvements: Resolves GObject circular reference memory cycles in citation completion; secures code chunk signal disconnections with try-finally execution guards; adds graceful persistent session shutdown routines to eliminate zombie subshell processes; guarantees stream and descriptor closure in REPL bridges; adds non-blocking timeout wrappers for binary checks; harmonizes license declarations to GPL-3.0-or-later; and resolves GTK4 widget class compiler warnings.</p>
+      </description>
+    </release>
+    <release version="0.15.0" date="2026-11-08">
+      <description>
+        <p>Release v0.15.0 delivers full functional parity with RStudio across the 4-quadrant workbench docking system: Introduces interactive Command History tracking with project-level .Rhistory synchronization, readline Up/Down navigation, and history export; adds the dedicated History panel (Quadrant 3) and Packages manager panel (Quadrant 4) with live library attach/detach toggles; upgrades Plots to a multi-plot gallery deck with Previous/Next navigation, zoom popout window, image/PDF export, and clipboard copy; adds complete Files workspace actions (New Folder, New File, Delete, Rename, and Set Working Directory); integrates the Help documentation browser with R Rd2HTML pipeline; refines Environment categorization into Data (with 1-click View), Values, and Functions with live search and CSV/text dataset import; and implements cell execution controls (Run Chunks Above, Clear Console) with custom keyboard shortcuts.</p>
+      </description>
+    </release>
+    <release version="0.14.1" date="2026-10-28">
+      <description>
+        <p>Release v0.14.1 resolves critical live preview display and application crash issues, and introduces direct Pandoc-powered document exports: Fixes GLib-GIO file opening crash by implementing HANDLES_OPEN and application open hooks; resolves Gtk.IconTheme display singleton assertion crash; resolves WebKit WebProcess crash loops and pane width squashing on laptop displays; hardens WebKit local file access and sandbox configuration; adds native Pandoc HTML (standalone with embedded resources) and PDF export pipeline with graceful fallback renderers; and sanitizes Pango markup escaping across preferences and plugin views.</p>
+      </description>
+    </release>
+    <release version="0.14.0" date="2026-10-28">
+      <description>
+        <p>Release v0.14.0 introduces three major workbench pillars: (1) R and Python Global Environment Management with broom clear confirmation, dynamic object querying, and an interactive virtualized Dataframe &amp; Matrix Viewer backed by GtkColumnView and GioListStore with View(x) hooks; (2) Customizable detachable workbench layout engine supporting 2x2 Quad, Left Tall, and Right Tall topologies, standalone floating window undocking and automatic re-docking, and layout preset persistence in ~/.config/imladris/layouts/; and (3) Integrated Elrond AI Copilot tab in the bottom-left quadrant with context toggle chips (+Active File, +Dataframe Schemas, +Last Error), streamed chat history, and one-click 'Insert at Cursor' and 'Run in Console' code actions.</p>
+      </description>
+    </release>
+    <release version="0.13.1" date="2026-10-28">
+      <description>
+        <p>Release v0.13.1 brings critical security hardening, memory safety, and live preview rendering fixes: Resolves WebKitGTK 6.0 inner bwrap sandbox credential handshake collisions in Flatpak (WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1) ensuring reliable live preview; adds base URI directory resolution for relative images and stylesheets; introduces automatic WebProcess crash recovery; hardens plugin ID validation against directory traversal and blocks symlink expansion during archive extraction; secures workspace file access against path traversal; optimizes real-time word counting to zero-allocation streaming; cleans up deprecated Libadwaita expander row icons; and implements application window close resource cleanup.</p>
+      </description>
+    </release>
+    <release version="0.13.0" date="2026-10-28">
+      <description>
+        <p>Release v0.13.0 introduces an Obsidian-style JavaScript Extension &amp; Plugin Engine powered by JavaScriptCore (JSC.Context): Enables lightweight, isolated JavaScript plugins with onload/onunload lifecycle hooks; provides declarative imladris bridge exposing native toasts, dynamic ribbon buttons in the Extensions ribbon group, safe GtkSource.Buffer read/insert actions, gated R and Python console execution, and Elrond AI queries; supports one-click bundle imports (.implugin and .zip) with permission and GPLv3 license consent modals; and adds an Extensions management page in Preferences.</p>
+      </description>
+    </release>
+    <release version="0.12.2" date="2026-10-28">
+      <description>
+        <p>Release v0.12.2 delivers the complete Conventional Software Architecture and Engineering Audit refactoring: Eliminates dormant proto-code and uncalled methods in MallornManager and ElrondEngineController; resolves GObject lifecycle memory retention across document tabs via Adw.TabView close_page hooks and explicit signal disconnection; fixes syntax language mapping for .qmd files in GtkSourceView; eliminates whole-document string duplication in frontmatter parsing; resolves nested block formatting in basic_markdown_to_html; optimizes host command generation; and synchronizes MCP server protocol metadata.</p>
+      </description>
+    </release>
+    <release version="0.12.1" date="2026-10-28">
+      <description>
+        <p>Release v0.12.1 resolves container exit 127 issues and streamlines multimedia insertion: Transitions Elrond AI into a robust Smart Local Server &amp; Agent Harness Bridge supporting Ollama (:11434), LM Studio (:1234), Cherry Studio / LocalAI (:23333 / :8080), and host Antigravity CLI (agy); introduces an interactive file picker dialog for images and videos with automatic asset copying to the project's /img subfolder in sandboxed projects; supports format-aware Quarto video shortcodes and HTML5 video rendering in live preview; and adds an About Imladris dialog with documentation links, ecosystem credits, and Gemini Assistance acknowledgment.</p>
+      </description>
+    </release>
+    <release version="0.12.0" date="2026-10-28">
+      <description>
+        <p>Release v0.12.0 introduces major enhancements across AI architecture, GNOME 51 integration, and layout flexibility: Reworks the internal llama.cpp engine with soname symlink preservation, Flatpak host fallback, and 60-second health handshakes; modernizes UI spinners to Adw.Spinner with GNOME 51 platform targeting; adds user preferences for inline AI editing popovers and dynamic Left/Right side panel docking; bundles official vector SVG brand logos across all frontier and local AI models; and publishes the full architectural blueprint and bug localization matrix.</p>
+      </description>
+    </release>
+    <release version="0.11.0" date="2026-10-28">
+      <description>
+        <p>Release v0.11.0 delivers enhanced UX controls and comprehensive performance optimizations: Introduces an intuitive 3-stop slider (Low, Medium, High) for Elrond Assistance Level, automatic host distribution detection displaying tailored llama.cpp installation commands across Debian, Fedora, Arch, openSUSE, Solus, and NixOS, and dual backend switching between Vulkan and NVIDIA CUDA. Also includes major codebase deduplication and performance tuning, caching telemetry size calculations, extracting the standalone PackageIndexCache service, and removing dormant legacy code.</p>
+      </description>
+    </release>
+    <release version="0.10.0" date="2026-10-27">
+      <description>
+        <p>Release v0.10.0 introduces the unified 'Write with Elrond Assistance (AI)' zero-configuration local copilot and telemetry status bar monitor. Features automatic Qwen2.5-Coder-3B model bootstrapping, zero-setup llama-server lifecycle management with Vulkan GPU offloading and CPU fallback, real-time RAM/VRAM telemetry polling every 2 seconds, editor context menu action and Ctrl+Shift+E shortcut. Also introduces the dedicated top 'Packages' Ribbon Tab with live prefix autocomplete, ETag disk caching, O(log N) binary search, pak and uv fast-path installation, and automatic sandboxed lockfile synchronization.</p>
+      </description>
+    </release>
+    <release version="0.9.0" date="2026-10-26">
+      <description>
+        <p>Release v0.9.0 introduces the Automated micromamba Data Science Toolchain Manager and 4-tier runtime resolution hierarchy (Project Sandbox → Managed Global Toolchain → Host Flatpak Spawn → Host Native). Provides one-click automated installation of R 4.4 with dev compilers, IRkernel, pre-compiled tidyverse, Python 3.12 with uv, and Quarto CLI into user storage ($XDG_DATA_HOME/imladris/toolchains/) with zero root permissions and zero host compilation errors. Enables completely self-contained execution on clean Linux installations inside Flatpak containers.</p>
+      </description>
+    </release>
+    <release version="0.8.0" date="2026-10-26">
+      <description>
+        <p>Release v0.8.0 introduces transparent host R interpreter discovery and execution support inside Flatpak sandboxes via the flatpak-spawn host portal, shared host-sandbox cache directory (~/.cache/imladris) for graphics plots and temporary scripts, and real-time package compilation log streaming to the interactive console pane.</p>
+      </description>
+    </release>
+    <release version="0.7.0" date="2026-10-26">
+      <description>
+        <p>Release v0.7.0 brings the complete 11-pillar expansion, modernized Libadwaita Ribbon menu with 5 consolidated high-density tabs and collapsible deck (Ctrl+F1), appearance theming with GNOME default accent colors, and a vastly expanded AI Assistant subsystem: First-class support for Google Gemini (AI Studio and Google OAuth token), Claude (Anthropic Messages API with thinking blocks), OpenAI (GPT-4o, o1, o3-mini), Cursor API compatibility, NVIDIA NIM cloud endpoints, DeepSeek (including DeepSeek-R1 reasoning stream extraction), Kimi (Moonshot AI), Qwen (Alibaba DashScope), Ollama, and LM Studio local server with persistent user credentials; clean launch modal with clean UI labels, context-aware ribbon state machine, RStudio-style package installer for CRAN and PyPI, interactive R and Python persistent consoles with inline chunk output cards and plot rendering, automatic pwd synchronization, sandboxed project engine with RStudio and Jupyter export, 1:1 DCF parity for .mallorn bundles, and headless ODT/ODP pipeline.</p>
+      </description>
+    </release>
+    <release version="0.6.0" date="2026-10-26">
+      <description>
+        <p>Release v0.6.0 introduces the 6 core pillars: Categorized creation pop-up dialog with 9 creation targets, sandboxed vs standard project engines (renv and venv isolation), the 1:1 RStudio-compatible .mallorn exchange format, and comprehensive ODT and ODP OpenDocument export pipelines.</p>
+      </description>
+    </release>
+    <release version="0.5.1" date="2026-10-25">
+      <description>
+        <p>Release v0.5.1 standardizes the canonical Flatpak and Freedesktop Application ID to io.github.Antux912012.Imladris and includes the Phase 1.1.3 RStudio 4-Quadrant Drag-and-Drop Docking System.</p>
+      </description>
+    </release>
+    <release version="0.5.0" date="2026-10-25">
+      <description>
+        <p>Release v0.5.0 introduces dynamic UI morphing (GNOME Apostrophe distraction-free mode and RStudio 4-quadrant workbench), full multi-format adapters (.md, .qmd, .rmd, .ipynb), atomic crash recovery with shadow buffer caching, and 5 interactive Smart Ribbon popovers.</p>
+      </description>
+    </release>
+    <release version="0.4.0" date="2026-10-17">
+      <description>
+        <p>Release v0.4.0 with AI co-authoring assistance, polyglot auto-completion, and Model Context Protocol (MCP) server integration.</p>
+      </description>
+    </release>
+    <release version="0.3.0" date="2026-10-17">
+      <description>
+        <p>Release v0.3.0 featuring WebKitGTK 6.0 live preview, KaTeX math rendering, and multi-format export.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-10-14"/>
+  </releases>
+</component>
