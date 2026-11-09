@@ -48,7 +48,13 @@ const detailRows = [
   },
   runtimeLabel && { label: t('detail.row.runtime'), value: runtimeLabel, title: runtimeRef },
   app.arches?.length && { label: t('detail.row.arches'), value: app.arches.join(', ') },
-  latest && { label: t('detail.row.version'), value: `${latest.version}${latest.date ? ` · ${latest.date}` : ''}` },
+  latest && {
+    label: t('detail.row.version'),
+    value: `${latest.version}${latest.date ? ` · ${latest.date}` : ''}`,
+    // Nightly-style versions (VLC 4 dev: `4.0.0-dev-39705-g…-qt…`) run past the
+    // panel width; the row truncates, so keep the full string on hover.
+    title: latest.version,
+  },
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
   app.urls?.help && { label: t('detail.row.support'), value: t('detail.row.help'), href: app.urls.help },
   app.sourceUrl && { label: t('detail.row.source'), value: app.name, href: app.sourceUrl },
@@ -216,7 +222,13 @@ const ld = {
           )
         }
         {app.license ? <span class="chip">{app.license.label}</span> : null}
-        {latest ? <span class="chip">v{latest.version}</span> : null}
+        {
+          latest ? (
+            <span class="chip max-w-[14rem]" title={`v${latest.version}`}>
+              <span class="truncate">v{latest.version}</span>
+            </span>
+          ) : null
+        }
         {
           app.stats?.installs30 > 0 && (
             <span
@@ -238,7 +250,7 @@ const ld = {
     {/* left column: screenshot carousel (if any) + About, stacked under the image;
         right column: the Details + Permissions panel. Keeping About on the left
         fills the space beside a tall info panel instead of leaving a big gap. */}
-    <section class="mx-auto grid max-w-5xl items-start gap-8 px-5 py-10 lg:grid-cols-[1.7fr_1fr]">
+    <section class="mx-auto grid max-w-5xl items-start gap-8 px-5 py-10 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
       <div class="flex min-w-0 flex-col gap-8">
         {hasShots ? <Screenshots screenshots={app.screenshots} /> : null}
         <div>
@@ -258,8 +270,8 @@ const ld = {
           showWhatsNew && (
             <div>
               <div class="flex items-baseline gap-3">
-                <h2 class="text-lg font-bold">{t('detail.whats_new')}</h2>
-                <span class="text-sm text-muted">
+                <h2 class="shrink-0 text-lg font-bold">{t('detail.whats_new')}</h2>
+                <span class="min-w-0 truncate text-sm text-muted" title={`v${latest.version}`}>
                   v{latest.version}
                   {latest.date ? ` · ${latest.date}` : ''}
                 </span>
