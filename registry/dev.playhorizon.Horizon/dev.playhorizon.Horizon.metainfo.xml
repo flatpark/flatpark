@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.playhorizon.Horizon</id>
+  <name>Horizon</name>
+  <summary>Launcher for Horizon, a Minecraft Java Edition client written in Rust</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="dev.playhorizon">
+    <name>Horizon contributors</name>
+  </developer>
+  <url type="homepage">https://playhorizon.dev</url>
+  <url type="bugtracker">https://github.com/horizon-rust/horizon/issues</url>
+  <url type="vcs-browser">https://github.com/horizon-rust/horizon</url>
+  <url type="help">https://playhorizon.dev/docs/</url>
+  <description>
+    <p>This is a community package of the Horizon launcher, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Horizon is Minecraft: Java Edition 26.3 rewritten from scratch in Rust: the same rules, terrain and worlds as the Java game, in one native program. It is free, open source and unofficial, and you play it with your own copy of Java Edition. The launcher signs in to your Microsoft account, installs and updates the game, and prepares its files from your copy of Minecraft.</p>
+    <ul>
+      <li>Survival, creative, hardcore and spectator, with vanilla world generation in all three dimensions</li>
+      <li>Join vanilla and Horizon servers, open a world to LAN or invite friends with a code</li>
+      <li>Distant terrain, graphics presets, HDR and controller support</li>
+      <li>Resource packs, data packs, shader packs, content mods and native Rust mods from the launcher</li>
+      <li>Host a server from the launcher</li>
+    </ul>
+    <p>The package is sandboxed: it can reach the network, the GPU, sound, game controllers and its own data directory, and nothing else. Game builds, instances and worlds live in ~/.var/app/dev.playhorizon.Horizon/data. The launcher does not update itself here; new releases arrive as Flatpak updates, and the launcher still installs and updates game builds on its own.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Import worlds and versions from the official launcher's folder: <code>flatpak override --user --filesystem=~/.minecraft:ro dev.playhorizon.Horizon</code> (Prism Launcher: <code>--filesystem=~/.local/share/PrismLauncher:ro</code>)</li>
+      <li>Discord Rich Presence: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 dev.playhorizon.Horizon</code> (for Flatpak Discord: <code>--filesystem=xdg-run/app/com.discordapp.Discord:create</code>)</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">dev.playhorizon.Horizon.desktop</launchable>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>minecraft</keyword>
+    <keyword>launcher</keyword>
+    <keyword>mods</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">mild</content_attribute>
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <supports>
+    <control>gamepad</control>
+  </supports>
+  <provides>
+    <binary>horizon-launcher</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The launcher's Home page</caption>
+      <image>https://raw.githubusercontent.com/horizon-rust/horizon/main/docs/media/readme/launcher-home.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>A river valley with a plains village and a cherry grove</caption>
+      <image>https://raw.githubusercontent.com/horizon-rust/horizon/main/docs/media/readme/valley.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Nether</caption>
+      <image>https://raw.githubusercontent.com/horizon-rust/horizon/main/docs/media/readme/nether.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Multiplayer</caption>
+      <image>https://raw.githubusercontent.com/horizon-rust/horizon/main/docs/media/readme/multiplayer.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Finding mods in the launcher</caption>
+      <image>https://raw.githubusercontent.com/horizon-rust/horizon/main/docs/media/readme/launcher-mods.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.2.56" date="2026-11-08">
+      <description></description>
+    </release>
+  </releases>
+</component>

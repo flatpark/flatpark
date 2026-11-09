@@ -1,0 +1,72 @@
+id: dev.playhorizon.Horizon
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: horizon-launcher
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The launcher is a GPUI application and the game it starts renders through
+  # wgpu/Vulkan: both need the GPU and the display sockets. ipc covers the X11
+  # fallback path.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Game sound (the client links libasound, which the runtime routes to the
+  # PulseAudio/PipeWire-pulse socket).
+  - --socket=pulseaudio
+  # Game controllers: the client reads them through evdev (gilrs).
+  - --device=input
+  # AccessKit's AT-SPI adapter asks org.a11y.Bus where the accessibility bus
+  # is; without it screen readers never see the launcher window.
+  - --talk-name=org.a11y.Bus
+  # Download and play notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # The core function: Microsoft/Minecraft sign-in, downloading game builds,
+  # the vanilla files and Java runtime from Mojang, mods, and multiplayer.
+  - --share=network
+  # No filesystem grants. The launcher keeps everything - game builds,
+  # instances, worlds, Java runtimes - under $XDG_DATA_HOME/horizon-launcher
+  # and $XDG_DATA_HOME/horizon, which Flatpak points at
+  # ~/.var/app/dev.playhorizon.Horizon/data. The
+  # account token goes to the Secret portal. Files are opened through the
+  # file-chooser portal.
+  #
+  # Optional grants are documented as `flatpak override` commands in the
+  # metainfo description:
+  #   ~/.minecraft:ro, other launchers' folders   import worlds and versions
+  #   xdg-run/discord-ipc-0                       Discord Rich Presence
+modules:
+  - name: horizon
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 horizon-wrapper /app/bin/horizon-launcher
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 dev.playhorizon.Horizon.desktop /app/share/applications/dev.playhorizon.Horizon.desktop
+      - install -Dm644 dev.playhorizon.Horizon.metainfo.xml /app/share/metainfo/dev.playhorizon.Horizon.metainfo.xml
+      - install -Dm644 dev.playhorizon.Horizon.png /app/share/icons/hicolor/512x512/apps/dev.playhorizon.Horizon.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: horizon-launcher.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/horizon-rust/horizon/releases/download/launcher%400.2.56/horizon-launcher-linux-x86_64.tar.gz
+        sha256: 5db49dba1eafda14b7efcb25426f2411990056c9e9d4c1a8461acdd085f5c7bf
+        size: 29104800
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: horizon-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: dev.playhorizon.Horizon.desktop
+      - type: file
+        path: dev.playhorizon.Horizon.metainfo.xml
+      - type: file
+        path: dev.playhorizon.Horizon.png

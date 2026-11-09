@@ -1,0 +1,31 @@
+# FlatPark catalog descriptor for Horizon.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; dev.playhorizon.Horizon.yml is the Flatpak manifest
+# it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: dev.playhorizon.Horizon
+name: Horizon
+summary: Launcher for Horizon, a Minecraft Java Edition client written in Rust
+website: https://playhorizon.dev
+source_url: https://github.com/horizon-rust/horizon
+build:
+  manifest: dev.playhorizon.Horizon.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  upstream_approved: false
+  tags:
+    - Minecraft
+    - Launcher
+    - Rust
+    - Mods
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
