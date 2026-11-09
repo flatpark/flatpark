@@ -223,15 +223,20 @@ collections:
         summary:
           en: >-
             Install Tessera first and turn on the host's p11-kit server once
-            (systemctl --user enable --now p11-kit-server.socket). It ships the
-            SafeSign IC, SafeNet Authentication Client and SerproID drivers,
-            and can also set up browsers and PDF readers to use the tokens.
+            (systemctl --user enable --now p11-kit-server.socket). OpenSC is
+            built in; each vendor's driver is a separate extension, so install
+            only the one your token needs (Tessera's window tells you which),
+            then use Restart Tessera. Tessera can also set up browsers, mail
+            clients and PDF signers to use the tokens.
           zh-Hans: >-
             先安装 Tessera，并在宿主上启用一次 p11-kit 服务
-            （systemctl --user enable --now p11-kit-server.socket）。它自带 SafeSign IC、
-            SafeNet Authentication Client 和 SerproID 驱动，还能配置浏览器和 PDF 阅读器使用令牌。
+            （systemctl --user enable --now p11-kit-server.socket）。OpenSC 已内置；各厂商的驱动是独立的扩展，只需安装手上令牌对应的那个（Tessera 窗口会提示是哪个），然后在菜单里重启 Tessera。Tessera 还能配置浏览器、邮件客户端和 PDF 签名工具使用令牌。
         apps:
           - io.github.pedrohqb.Tessera
+          - io.github.pedrohqb.Tessera.Driver.SafeSign
+          - io.github.pedrohqb.Tessera.Driver.SafeNet
+          - io.github.pedrohqb.Tessera.Driver.SerproID
+          - io.github.pedrohqb.Tessera.Driver.RemoteID
       - title:
           en: Signers
           zh-Hans: 签名工具

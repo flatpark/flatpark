@@ -1,0 +1,30 @@
+id: io.github.pedrohqb.Tessera.Driver.SerproID
+name: SerproID
+summary: Serpro cloud certificate driver for Tessera
+website: https://serproid.serpro.gov.br/
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SerproID
+build:
+  manifest: io.github.pedrohqb.Tessera.Driver.SerproID.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - SmartCard
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's driver is closed source.
+  proprietary: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level.
+packaging:
+  - kind: file-change
+    detail:
+      en: "The SerproID app's launcher and configuration name its install folder (/usr/share/serproid-desktop); they are pointed at its copy inside the extension. The package's /etc folder and install scripts are not used."
+      zh-Hans: "SerproID 应用的启动脚本和配置写死了安装目录（/usr/share/serproid-desktop），改为指向扩展内的副本。软件包的 /etc 目录和安装脚本不使用。"

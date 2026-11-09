@@ -1,0 +1,30 @@
+id: io.github.pedrohqb.Tessera.Driver.SafeSign
+name: SafeSign IC
+summary: SafeSign IC token driver for Tessera
+website: https://www.aeteurope.com/
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SafeSign
+build:
+  manifest: io.github.pedrohqb.Tessera.Driver.SafeSign.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - SmartCard
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's driver is closed source.
+  proprietary: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level.
+packaging:
+  - kind: file-change
+    detail:
+      en: "Token Administration runs through a small launcher that puts the driver's own libraries on the library path. GDBM, which the SafeSign library needs and the runtime lacks, comes from Ubuntu 24.04's packages. The package's /etc folder and install scripts are not used."
+      zh-Hans: "Token Administration 通过一个小启动脚本运行，把驱动自带的库加入库路径。SafeSign 库需要而运行时没有的 GDBM 取自 Ubuntu 24.04 的软件包。软件包的 /etc 目录和安装脚本不使用。"
