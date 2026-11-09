@@ -16,12 +16,12 @@ finish-args:
   # WebKitGTK draws the Markdown preview; without DRM it falls back to software
   # rendering, which is noticeably slower on long notes.
   - --device=dri
-  # Any folder can be the vault, the chosen path is persisted in GSettings and
-  # the tree is watched and written, so a portal grant is not equivalent.
-  # Declared as a high-risk permission in flatpark.yml.
+  # Any folder can be the vault: the chosen path is persisted in GSettings, the
+  # tree is watched live and written (new note, new folder, rename, delete), and
+  # wiki links resolve inside it. The document portal is no substitute — changes
+  # made outside the sandbox do not reach a file monitor over its FUSE mount,
+  # so the sidebar would go stale. Declared as high-risk in flatpark.yml.
   - --filesystem=home
-  # Adw.StyleManager follows the light/dark preference through this portal.
-  - --talk-name=org.freedesktop.portal.Settings
 
 modules:
   # The payload is the vendor's own tarball, unpacked on the user's machine into

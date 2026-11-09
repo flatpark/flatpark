@@ -23,8 +23,9 @@ update:
 policy:
   proprietary: false
   dangerous_permissions:
-    # The vault is any folder the user picks, and its absolute path is stored in
-    # GSettings. The tree is read and written live, and wiki links resolve
-    # against it, so the document portal (/run/user/.../doc paths, unstable
-    # across restarts) cannot stand in for a real grant.
+    # The vault is any folder the user picks: its path is stored in GSettings,
+    # the tree is watched live and written, and wiki links resolve inside it.
+    # The document portal cannot stand in, because changes made outside the
+    # sandbox do not reach the app's file monitor through the portal's FUSE
+    # mount. Without a real grant the sidebar would silently go stale.
     - --filesystem=home

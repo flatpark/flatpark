@@ -7,9 +7,10 @@ set -eu
 #
 # GRIFFEL_DATADIR and GRIFFEL_LOCALEDIR are the hooks griffel.paths looks at
 # first, so the payload finds its own style.css, icons and message catalog even
-# though they live outside /app/share. The GSettings schema is not in the
-# payload — it is installed and compiled at build time and found through the
-# sandbox's XDG_DATA_DIRS.
+# though they live outside /app/share. The payload also carries the GSettings
+# schema, but that copy is unused: glib only looks for schemas on
+# XDG_DATA_DIRS, so the one compiled at build time under /app/share is what the
+# app reads.
 
 payload=/app/extra/griffel
 
