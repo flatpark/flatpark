@@ -1,0 +1,75 @@
+id: com.wps.Office
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: wps
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # WPS Office International Edition (wps.com). Repackages the official .deb
+  # unmodified. The suite bundles its own Qt 5 (renamed *Kso libraries) with
+  # only the xcb platform plugin, so it runs on X11/XWayland.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Sign-in, cloud documents, templates and online help.
+  - --share=network
+  # Audio and video embedded in presentations.
+  - --socket=pulseaudio
+  # The vendor launchers read and write Office.conf under $HOME/.config (the
+  # wrapper points XDG_CONFIG_HOME there too); persist it into the app's data
+  # directory so settings survive a restart.
+  # A file opened while WPS is already running starts a second sandbox, whose
+  # launch hands the file to the running instance over local sockets under
+  # TMPDIR. /tmp is private to each sandbox, /var/tmp (the app's cache/tmp) is
+  # shared; without this the hand-off stalls at "opening document".
+  - --env=TMPDIR=/var/tmp
+  - --persist=.config
+  # The suite keeps its device keys, account state and the local copy of WPS
+  # Cloud files in $HOME/.local/share/Kingsoft whatever XDG_DATA_HOME says;
+  # without this they are lost on every restart.
+  - --persist=.local/share/Kingsoft
+  # Where documents are opened from and saved to by default. The bundled Qt's
+  # file dialog does not go through the portal, so it only sees granted
+  # folders; more are documented as overrides in the metainfo.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  - --filesystem=xdg-desktop
+modules:
+  - name: wps
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 wps-wrapper /app/bin/wps
+      - install -Dm644 com.wps.Office.metainfo.xml -t /app/share/metainfo
+      - install -Dm644 com.wps.Office.mime.xml /app/share/mime/packages/com.wps.Office.xml
+      - install -Dm644 com.wps.Office.svg -t /app/share/icons/hicolor/scalable/apps
+      - install -Dm644 com.wps.Office.desktop -t /app/share/applications
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: wps-office.deb
+        only-arches: [x86_64]
+        url: https://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/wps-office.deb
+        sha256: ca6be0aa3d803c8fb810dc95f888e7221a95d173dc81e2ea5a3e54535b7e9b48
+        size: 659809280
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: wps-wrapper
+      - type: file
+        path: com.wps.Office.metainfo.xml
+      # The vendor's MIME definitions (custom-wps-office.xml) without their
+      # generic-icon names, which point at icons this package doesn't export.
+      - type: file
+        path: com.wps.Office.mime.xml
+      - type: file
+        path: com.wps.Office.svg
+      # One launcher for the whole suite: the vendor's combined WPS Office
+      # entry, carrying the MIME types of its Writer, Spreadsheets,
+      # Presentation and PDF entries. The combined window opens each file in
+      # the matching component.
+      - type: file
+        path: com.wps.Office.desktop
