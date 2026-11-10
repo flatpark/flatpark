@@ -1,8 +1,8 @@
-id: com.longbridgeapp.LongbridgePro
+id: com.longbridge.Longbridge
 runtime: org.gnome.Platform
 runtime-version: "51"
 sdk: org.gnome.Sdk
-command: longbridgepro
+command: longbridge
 build-options:
   no-debuginfo: true
 tags:
@@ -15,15 +15,15 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
 modules:
-  - name: longbridgepro
+  - name: longbridge
     buildsystem: simple
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
-      - install -Dm755 longbridgepro-wrapper /app/bin/longbridgepro
-      - install -Dm644 com.longbridgeapp.LongbridgePro.png /app/share/icons/hicolor/512x512/apps/com.longbridgeapp.LongbridgePro.png
-      - install -Dm644 com.longbridgeapp.LongbridgePro.metainfo.xml /app/share/metainfo/com.longbridgeapp.LongbridgePro.metainfo.xml
+      - install -Dm755 longbridge-wrapper /app/bin/longbridge
+      - install -Dm644 com.longbridge.Longbridge.png /app/share/icons/hicolor/512x512/apps/com.longbridge.Longbridge.png
+      - install -Dm644 com.longbridge.Longbridge.metainfo.xml /app/share/metainfo/com.longbridge.Longbridge.metainfo.xml
       - install -Dm644 fonts.conf /app/share/fonts/fonts.conf
-      - install -Dm644 com.longbridgeapp.LongbridgePro.desktop /app/share/applications/com.longbridgeapp.LongbridgePro.desktop
+      - install -Dm644 com.longbridge.Longbridge.desktop /app/share/applications/com.longbridge.Longbridge.desktop
     sources:
       # The app's entire font set: fonts.conf points fontconfig at /app/extra/fonts
       # and nowhere else, so the CJK face has to be here or the UI renders as tofu.
@@ -49,7 +49,7 @@ modules:
         size: 19484784
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: longbridgepro.deb
+        filename: longbridge.deb
         only-arches:
           - x86_64
         url: https://assets.lbkrs.com/github/release/longbridge-desktop/stable/longbridge-v1.1.0-linux-x86_64.deb
@@ -59,12 +59,12 @@ modules:
       - type: file
         path: apply_extra.sh
       - type: file
-        path: longbridgepro-wrapper
+        path: longbridge-wrapper
       - type: file
-        path: com.longbridgeapp.LongbridgePro.desktop
+        path: com.longbridge.Longbridge.desktop
       - type: file
-        path: com.longbridgeapp.LongbridgePro.metainfo.xml
+        path: com.longbridge.Longbridge.metainfo.xml
       - type: file
-        path: com.longbridgeapp.LongbridgePro.png
+        path: com.longbridge.Longbridge.png
       - type: file
         path: fonts.conf

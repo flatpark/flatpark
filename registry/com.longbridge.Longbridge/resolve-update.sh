@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Update resolver for Longbridge Pro.
+# Update resolver for Longbridge.
 #
 # Prints the current version + Linux x86_64 .deb as JSON on stdout:
 #   { "version": "0.17.2", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "longbridgepro.deb", "url": "..." } ] }
+#     "sources": [ { "filename": "longbridge.deb", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting -- FlatPark downloads the
 # URL and computes the extra-data sha256/size at update time.
 set -euo pipefail
@@ -32,11 +32,11 @@ for asset in latest.get("assets", []):
         break
 
 if not version or not url:
-    raise SystemExit("failed to resolve Longbridge Pro release")
+    raise SystemExit("failed to resolve Longbridge release")
 
 print(json.dumps({
     "version": version,
     "releaseDate": release_date,
-    "sources": [{"filename": "longbridgepro.deb", "url": url}],
+    "sources": [{"filename": "longbridge.deb", "url": url}],
 }, indent=2))
 PY

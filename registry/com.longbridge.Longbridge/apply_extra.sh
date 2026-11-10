@@ -2,7 +2,7 @@
 set -eu
 
 # Runs offline at install time inside org.gnome.Platform. Upstream ships
-# Longbridge Pro as a .deb holding a single self-contained application binary.
+# Longbridge as a .deb holding a single self-contained application binary.
 # Flatpak-exported metadata (desktop entry, icon, AppStream) is installed by the
 # manifest at build time; extra-data stages the proprietary app binary and the
 # two Noto faces into /app/extra.
@@ -10,7 +10,7 @@ set -eu
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-[ -f longbridgepro.deb ] || { echo "missing extra-data: longbridgepro.deb" >&2; exit 1; }
+[ -f longbridge.deb ] || { echo "missing extra-data: longbridge.deb" >&2; exit 1; }
 
 # The app's whole font set. /app/share/fonts/fonts.conf — which the wrapper
 # points FONTCONFIG_FILE at — declares this directory and nothing else, so a
@@ -27,7 +27,7 @@ mkdir stage
 # --no-same-owner: on a system-wide install Flatpak runs apply_extra as root with
 # every capability dropped, so restoring the archive's recorded uid/gid fails and
 # aborts the unpack even though every member extracted fine.
-bsdtar -xOf longbridgepro.deb 'data.tar*' | bsdtar --no-same-owner -xf - -C stage
+bsdtar -xOf longbridge.deb 'data.tar*' | bsdtar --no-same-owner -xf - -C stage
 
 # Where the binary sits inside the .deb is upstream's to change, and they have:
 # 0.19.0 shipped /usr/local/bin/longbridge, 0.19.1 moved it to
@@ -55,5 +55,5 @@ esac
 target="$(readlink -f "$target" 2>/dev/null || true)"
 [ -n "$target" ] && [ -x "$target" ] || { echo "Longbridge binary not found in .deb (Exec=$exec_path)" >&2; exit 1; }
 mv "$target" longbridge
-rm -rf stage longbridgepro.deb
+rm -rf stage longbridge.deb
 [ -x longbridge ] || { echo "Longbridge binary missing after stage" >&2; exit 1; }
