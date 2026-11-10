@@ -312,9 +312,12 @@ const searchMeta = {
         moreCollectionsBtn.hidden = collectionRows.every((row) => !row.hidden);
       });
       // Home page: the tab picks which cards (scope), the switch beside it picks
-      // the order (metric), and the order holds across tabs. Without either
-      // count (a local build with no stats and no token) there is no switch
-      // and every scope lists newest first.
+      // the order (metric), and the order holds across Popular and Approved.
+      // New and Updated are about recency, so they always list newest first by
+      // their own date and the switch steps aside there: ranked by installs or
+      // stars, the freshest listings and releases would sink out of sight.
+      // Without either count (a local build with no stats and no token) there
+      // is no switch and every scope lists newest first.
       const metricBtns = Array.from(document.querySelectorAll<HTMLElement>('[data-metric]'));
       const metrics = metricBtns.map((b) => b.dataset.metric || '');
       let metric = metrics[0] || 'added';
@@ -345,8 +348,9 @@ const searchMeta = {
         const showCollections = tab.dataset.sortTab === 'collections';
         if (collectionsPanel) collectionsPanel.hidden = !showCollections;
         if (grid) grid.hidden = showCollections;
+        windowField = showCollections ? '' : tab.dataset.windowField || '';
         const metricGroup = document.querySelector<HTMLElement>('[data-metric-group]');
-        if (metricGroup) metricGroup.hidden = showCollections;
+        if (metricGroup) metricGroup.hidden = showCollections || !!windowField;
         if (showCollections) {
           apply();
           return;
@@ -354,9 +358,8 @@ const searchMeta = {
         // A new scope starts over from the first five rows.
         foldRows = FOLD_ROWS;
         approvedOnly = tab.dataset.sortTab === 'approved';
-        windowField = tab.dataset.windowField || '';
         windowDays = Number(tab.dataset.windowDays) || 0;
-        sortCards(metric);
+        sortCards(windowField || metric);
       }
 
       for (const tab of sortTabs) tab.addEventListener('click', () => selectTab(tab));
