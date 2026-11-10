@@ -1,0 +1,34 @@
+id: io.github.pedrohqb.Tessera.Signer.CertisignWebSigner
+name: Certisign WebSigner
+summary: Certisign WebSigner for Tessera's tokens in Flatpak browsers
+website: https://www.certisign.com.br
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/CertisignWebSigner
+build:
+  manifest: io.github.pedrohqb.Tessera.Signer.CertisignWebSigner.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - Legal
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's program is closed source.
+  proprietary: true
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level.
+packaging:
+  - kind: file-change
+    detail:
+      en: "The program opens its dialogs from a fixed folder, /opt/certisign-websigner/res, which a browser's sandbox does not have. The seven dialog paths in the program are rewritten in place to res/, and it runs from the extension's own folder, where res/ is. The package's native messaging manifests and install scripts are not used."
+      zh-Hans: "该程序从固定目录 /opt/certisign-websigner/res 打开对话框，而浏览器的沙箱中没有这个目录。程序中的七个对话框路径被原地改写为 res/，程序从扩展自身的目录运行，res/ 就在那里。软件包的原生消息清单和安装脚本不使用。"
+  - kind: injected-code
+    detail:
+      en: "A small PKCS#11 module, which the program loads under the name its plugin's SafeSign option asks for, passes every call to the runtime's p11-kit client, so the program reaches Tessera's tokens; it leaves out the slots of the system's trust store, on which the program crashes."
+      zh-Hans: "一个小型 PKCS#11 模块，程序以其插件的 SafeSign 选项所要求的名称加载它；它把所有调用转给运行时的 p11-kit 客户端，使程序能访问 Tessera 的令牌，并略去系统信任存储的插槽，否则程序会在那里崩溃。"

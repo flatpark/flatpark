@@ -1,0 +1,13 @@
+#!/bin/sh
+# Started by a Flatpak browser (native messaging), inside the browser's own
+# sandbox, from where Flatpak deploys this extension on the host. The lib/
+# folder next to this script goes first in the library search: there the
+# name the plugin's "SafeSign" option loads (libaetpkss.so.3) is p11-kit's
+# client without the trust store's slots (hide-trust.c), which reaches
+# Tessera's tokens through the system's p11-kit server. The program
+# opens its dialogs at res/<name>.glade (see apply_extra.sh), so it runs
+# from the folder that has res/.
+D=$(dirname "$(readlink -f "$0")")
+export LD_LIBRARY_PATH="$D/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+cd "$D/extra" || exit 1
+exec ./cswebsigner "$@"

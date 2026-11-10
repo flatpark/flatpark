@@ -1,0 +1,55 @@
+# Certisign WebSigner, a Tessera web signer extension: mounted at
+# /app/lib/tessera/signers/CertisignWebSigner by Tessera's extension point
+# (io.github.pedrohqb.Tessera.Signer, flatpak/io.github.pedrohqb.Tessera.yml).
+# Tessera does not run it: the Flatpak browsers do, by native messaging,
+# from where Flatpak deploys the extension on the host (see docs/signers.md).
+# The vendor's package is downloaded at install time (extra-data) and
+# checked against this sha256 pin, then unpacked by apply_extra.sh into
+# extra/. FlatPark's registry entry builds from the same files.
+id: io.github.pedrohqb.Tessera.Signer.CertisignWebSigner
+branch: stable
+runtime: io.github.pedrohqb.Tessera
+runtime-version: stable
+sdk: org.gnome.Sdk//51
+build-extension: true
+separate-locales: false
+modules:
+  - name: cswebsigner
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 signer.toml -t ${FLATPAK_DEST}
+      - install -Dm755 start -t ${FLATPAK_DEST}
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      # The library name the plugin's "SafeSign" option asks for: a small
+      # module that hands every call to p11-kit's client in the browser's own
+      # runtime (which reaches Tessera's tokens through the system's p11-kit
+      # server) and leaves out the trust store's slots, on which the program
+      # crashes (see hide-trust.c).
+      - mkdir -p ${FLATPAK_DEST}/lib
+      - gcc -shared -fPIC -O2 -Wall -o ${FLATPAK_DEST}/lib/libaetpkss.so.3 hide-trust.c $(pkg-config --cflags p11-kit-1)
+      - install -Dm644 io.github.pedrohqb.Tessera.Signer.CertisignWebSigner.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+      # The vendor's icon (from its browser extension), shown in Tessera's
+      # window next to the signer.
+      - install -Dm644 io.github.pedrohqb.Tessera.Signer.CertisignWebSigner.png ${FLATPAK_DEST}/icon.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cswebsigner.deb
+        only-arches:
+          - x86_64
+        url: https://get.websignerplugin.com/Downloads/2.17.7/setup-deb-64
+        sha256: 04981f073f61ac7e8662ec12f3d69be1cb8090131836935a111ef9d5b012abfb
+        size: 616360
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: signer.toml
+      - type: file
+        path: start
+      - type: file
+        path: hide-trust.c
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.pedrohqb.Tessera.Signer.CertisignWebSigner.metainfo.xml
+      - type: file
+        path: io.github.pedrohqb.Tessera.Signer.CertisignWebSigner.png

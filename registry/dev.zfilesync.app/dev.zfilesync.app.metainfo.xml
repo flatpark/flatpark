@@ -12,7 +12,7 @@
   <url type="bugtracker">https://github.com/TheHolyOneZ/ZFileSync/issues</url>
   <url type="vcs-browser">https://github.com/TheHolyOneZ/ZFileSync</url>
   <description>
-    <p>This is a FlatPark community package of ZFileSync. It repackages the official upstream Linux build unmodified.</p>
+    <p>This is a FlatPark community package of ZFileSync, published with the permission of its developer. It repackages the official upstream Linux build unmodified.</p>
     <p>ZFileSync mirrors files and folders between two locations on the same machine, or a mounted network drive, as soon as they change. It is made for files that live in inconvenient places, such as game logs, app output and config files, and keeps them in your workspace automatically. It is not a cloud backup tool.</p>
     <ul>
       <li>One-way and two-way sync for single files and whole folders, set per pair.</li>

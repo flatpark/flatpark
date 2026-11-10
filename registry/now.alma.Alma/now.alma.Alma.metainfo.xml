@@ -65,6 +65,9 @@
     <binary>alma</binary>
   </provides>
   <releases>
+    <release version="0.4.553" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="0.4.550" date="2026-11-09">
       <description></description>
     </release>

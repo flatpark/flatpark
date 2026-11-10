@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>com.tldraw.Offline</id>
-  <name>tldraw offline</name>
+  <name>tldraw office</name>
   <summary>Local whiteboard and diagramming canvas</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>LicenseRef-proprietary=https://github.com/tldraw/tldraw-offline#license</project_license>
+  <project_license>LicenseRef-proprietary=https://github.com/tldraw/tldraw-office#license</project_license>
   <developer id="com.tldraw">
     <name>tldraw</name>
   </developer>
   <url type="homepage">https://offline.tldraw.com</url>
-  <url type="bugtracker">https://github.com/tldraw/tldraw-offline/issues</url>
+  <url type="bugtracker">https://github.com/tldraw/tldraw-office/issues</url>
   <url type="help">https://app.notion.com/p/tldraw/User-manual-39a3e4c324c080e7b2eacc5afd078e85</url>
-  <url type="vcs-browser">https://github.com/tldraw/tldraw-offline</url>
+  <url type="vcs-browser">https://github.com/tldraw/tldraw-office</url>
   <description>
-    <p>This is a community package of tldraw offline, maintained independently and unaffiliated with tldraw. It repackages the official upstream Linux build unmodified.</p>
-    <p>tldraw offline is a desktop application for drawing, diagramming and whiteboarding on tldraw's infinite canvas. There are no accounts and no servers, and the app works without an internet connection. Documents are saved as portable .tldraw files you can keep private, back up or share.</p>
+    <p>This is a community package of tldraw office, maintained independently and unaffiliated with tldraw. It repackages the official upstream Linux build unmodified.</p>
+    <p>tldraw office (formerly tldraw offline) is a desktop application for drawing, diagramming and whiteboarding on tldraw's infinite canvas. There are no accounts and no servers, and the app works without an internet connection. Documents are saved as portable .tldraw files you can keep private, back up or share.</p>
     <ul>
       <li>Draw, add text and media, or build a diagram on an infinite canvas.</li>
       <li>Each document opens in its own window, with working copies kept so unsaved work can be recovered after an unexpected exit.</li>
@@ -57,10 +57,13 @@
   <screenshots>
     <screenshot type="default">
       <image>https://offline.tldraw.com/social-og.png</image>
-      <caption>The tldraw offline canvas</caption>
+      <caption>The tldraw office canvas</caption>
     </screenshot>
   </screenshots>
   <releases>
+    <release version="1.24.0" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="1.23.1" date="2026-10-23">
       <description></description>
     </release>
@@ -100,7 +103,7 @@
     <release version="1.12.1" date="2026-07-29" />
     <release version="1.12.0" date="2026-07-27" />
     <release version="1.11.0" date="2026-07-17">
-      <url>https://github.com/tldraw/tldraw-offline/releases/tag/v1.11.0</url>
+      <url>https://github.com/tldraw/tldraw-office/releases/tag/v1.11.0</url>
     </release>
   </releases>
 </component>

@@ -1,0 +1,14 @@
+# Softplan WebSigner, a Tessera web signer extension
+# (io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner). Tessera reads this
+# to show the browsers' steps; the browsers run `start` (paths are relative
+# to this folder). See docs/signers.md.
+name = "Softplan WebSigner"
+vendor = "Softplan"
+host = "br.com.softplan.webpki"
+exec = "start"
+chrome_extensions = ["bbafmabaelnnkondpfpjmdklbmfnbmol"]
+firefox_extensions = ["websigner@softplan.com.br", "websigner@softplan_com_br"]
+persist = ".softplan-websigner"
+# The same engine as Web PKI: its dialogs draw only through X11.
+firefox_x11 = true
+option = "Dispositivos SafeSign AET"

@@ -128,6 +128,16 @@ add-extensions:
     subdirectories: true
     no-autodownload: true
     autodelete: true
+  # Web signers published as extensions, e.g.
+  # io.github.pedrohqb.Tessera.Signer.Foo, each mounted at
+  # /app/lib/tessera/signers/Foo with a signer.toml. Tessera only reads them
+  # (to show each browser's steps); the Flatpak browsers run them, from
+  # where Flatpak deploys the extension on the host.
+  io.github.pedrohqb.Tessera.Signer:
+    directory: lib/tessera/signers
+    subdirectories: true
+    no-autodownload: true
+    autodelete: true
 
 modules:
   - name: tessera
@@ -140,7 +150,7 @@ modules:
       # Tessera's tray icon reads the scalable icon from this path.
       - install -Dm644 io.github.pedrohqb.Tessera.svg /app/share/icons/hicolor/scalable/apps/io.github.pedrohqb.Tessera.svg
       - install -Dm644 io.github.pedrohqb.Tessera-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.pedrohqb.Tessera-symbolic.svg
-      - mkdir -p /app/lib/tessera/extensions
+      - mkdir -p /app/lib/tessera/extensions /app/lib/tessera/signers
     sources:
       # Tessera's release build: the /app tree of its own Flatpak build on
       # the same runtime (the tessera binary, its built-in OpenSC driver and
@@ -151,9 +161,9 @@ modules:
         filename: tessera.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/pedrohqb/tessera/releases/download/v0.3.1/tessera-x86_64.tar.gz
-        sha256: 367b781f2422f8a48ce1f6065f8020bfe02f8a56a34a3261162ec3877551276a
-        size: 3576730
+        url: https://github.com/pedrohqb/tessera/releases/download/v0.4.0/tessera-x86_64.tar.gz
+        sha256: 824e5825c5fa4352c9982153fc01e013515c87dacaa8e1e023b3443d54f4f21f
+        size: 3605661
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
