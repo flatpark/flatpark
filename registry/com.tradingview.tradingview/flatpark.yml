@@ -2,14 +2,12 @@ id: com.tradingview.tradingview
 name: TradingView
 summary: Where the world charts, chats and trades markets
 website: https://www.tradingview.com
-source_url: https://github.com/flathub/com.tradingview.tradingview
+source_url: https://www.tradingview.com/desktop/
 build:
   manifest: com.tradingview.tradingview.yml
   branch: stable
   mode: extra-data
 catalog:
-  # closed app; source_url is a packaging repo, whose stars are not the app's
-  stars_repo: none
   category: Finance
   tags:
     - Trading
