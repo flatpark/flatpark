@@ -24,7 +24,9 @@ const HOME_COLLECTIONS = 5;
 // The tabs pick which apps (all, developer-approved, listed in the last 30
 // days, updated in the last 14) and the switch beside them picks the order:
 // new installs in the last 30 days, or upstream GitHub stars. The order holds
-// across tabs, so every scope can be read either way. The windows are applied
+// across Popular and Approved; New and Updated always list newest first by
+// their own date (the switch hides there), since ranking them by popularity
+// buries exactly what those tabs exist to show. The windows are applied
 // in the browser against today's date (Base.astro), since the site is only
 // rebuilt on merge.
 // Updated is shorter than New because upstream ships often: 30 days of
