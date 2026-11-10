@@ -313,6 +313,10 @@ else. It does no hashing and touches no file:
 ```
 
 - `filename` must match the one in the manifest.
+- `releaseDate` is upstream's release date. If upstream doesn't publish one,
+  leave it out and the release is dated the day the update is picked up. A
+  `<release>` with no date is ignored by Flatpak, which then shows no version
+  for the app.
 - For several arches, emit one source per arch with `"arch": "x86_64"` or
   `"arch": "aarch64"`.
 - If upstream re-uploads a fixed build under a new name (`1.2.3-2`), put the
