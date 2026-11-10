@@ -11,5 +11,5 @@
 #   { "version": "...", "sources": [ { "filename": "...", "url": "..." } ] }
 set -euo pipefail
 command -v jq >/dev/null 2>&1 || { echo "missing command: jq" >&2; exit 1; }
-echo "pinned SafeNet Authentication Client 10.9" >&2
-jq -n '{version:"10.9", sources:[{filename:"safenet.zip", url:"https://www.digicert.com/StaticFiles/Linux_SAC_10.9_GA.zip"}]}'
+echo "pinned SafeNet Authentication Client 10.9.6885" >&2
+jq -n '{version:"10.9.6885", sources:[{filename:"safenet.zip", url:"https://www.globalsign.com/en/safenet-drivers/USB/10.9/GlobalSign-SAC-Linux-Ubuntu-24.04.4-v10.9.zip"}]}'
