@@ -68,6 +68,9 @@
     <binary>effectcraft-cli</binary>
   </provides>
   <releases>
+    <release version="0.23.1" date="2026-11-10">
+      <description></description>
+    </release>
     <release version="0.23.0" date="2026-11-09">
       <description></description>
     </release>

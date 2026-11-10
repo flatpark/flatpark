@@ -66,9 +66,9 @@ modules:
         filename: zfilesync.deb
         only-arches:
           - x86_64
-        url: https://zsync.eu/zfilesync/release/ZFileSync_0.1.1_amd64.deb
-        sha256: d580a14f022013c9779d40b5f79f852c7f12980ab51ee37b34b290ef700169ac
-        size: 7485344
+        url: https://zsync.eu/zfilesync/release/ZFileSync_0.1.2_amd64.deb
+        sha256: 8fc34118d61f631a1ba08f4109b496acf36b781cf7a893f93ce524772a43ac27
+        size: 7484314
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

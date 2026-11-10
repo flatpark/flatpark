@@ -52,9 +52,9 @@ modules:
         filename: phpo.deb
         only-arches:
           - x86_64
-        url: https://github.com/xiaokentrl/phpo/releases/download/v0.1.147/phpo_0.1.147_amd64.deb
-        sha256: 702f39cb9f932ea71320fa4809d0fe582dce8b46ce5004d7a54645355abdc12b
-        size: 9337094
+        url: https://github.com/xiaokentrl/phpo/releases/download/v0.1.149/phpo_0.1.149_amd64.deb
+        sha256: 7f389f6706c98f77365ca43882c832e791a8378278997309bcf73ef96c847d99
+        size: 9334600
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

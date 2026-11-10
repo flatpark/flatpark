@@ -66,6 +66,9 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.17.0" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="0.16.0" date="2026-11-09">
       <description>
         <p>Release v0.16.0 delivers comprehensive codebase deduplication, optimization, and stability refactoring: Eliminates redundant and dormant code across ExportService, RibbonFactory, and ChunkExecutionEngine; refactors DocumentPage buffer change debouncing and snapshot caching to eliminate redundant string memory copies; introduces pre-compiled regular expressions for Markdown formatting and Shiny URL parsing; optimizes Flatpak host runtime resolution to avoid duplicate IPC roundtrips; secures DataGridViewer column lifecycle against UI thread blocking; and improves multi-language code block detection across Julia, SQL, Bash, TypeScript, and Python.</p>

@@ -34,9 +34,9 @@ modules:
         filename: canon-eos-utility.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/night199uk/canon-eos-utility-linux/releases/download/v0.1.0/canon-eos-utility-0.1.0-x86_64.tar.xz
-        sha256: c00e8cb160c1681e6922652c8a2e0555036861d8eddff1c9ade74bc9e2263f1f
-        size: 59240152
+        url: https://github.com/night199uk/canon-eos-utility-linux/releases/download/v0.1.2/canon-eos-utility-0.1.2-x86_64.tar.xz
+        sha256: c36708147670bb933a5adac70a1a2608527a8eea8f880e31375039da17b1765b
+        size: 61820692
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
