@@ -54,6 +54,10 @@
     <display_length compare="ge">360</display_length>
   </requires>
   <releases>
+    <release version="0.4.1" date="2026-11-10">
+      <url type="details">https://github.com/pedrohqb/tessera/releases/tag/v0.4.1</url>
+      <description></description>
+    </release>
     <release version="0.4.0" date="2026-11-09">
       <url type="details">https://github.com/pedrohqb/tessera/releases/tag/v0.4.0</url>
       <description></description>
