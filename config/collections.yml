@@ -238,6 +238,26 @@ collections:
           - io.github.pedrohqb.Tessera.Driver.SerproID
           - io.github.pedrohqb.Tessera.Driver.RemoteID
       - title:
+          en: Web signers
+          zh-Hans: 网页签名插件
+        summary:
+          en: >-
+            Browser plugins that sign on websites: Lacuna Web PKI, Softplan
+            WebSigner (used by e-SAJ) and Certisign WebSigner. Each is an
+            extension of Tessera that the Flatpak browsers (Firefox, Chromium,
+            Chrome, Edge, Brave) run themselves; Tessera's Web signers section
+            shows the one command each browser needs. Then install the plugin
+            from the browser's store and tick its SafeSign option once.
+          zh-Hans: >-
+            在网站上签名的浏览器插件：Lacuna Web PKI、Softplan WebSigner（e-SAJ 使用）和
+            Certisign WebSigner。每个都是 Tessera 的扩展，由 Flatpak 浏览器（Firefox、Chromium、
+            Chrome、Edge、Brave）自行运行；Tessera 的“网页签名插件”部分会显示每个浏览器需要运行的那一条命令。
+            之后从浏览器商店安装插件，并在其设置中勾选一次 SafeSign 选项。
+        apps:
+          - io.github.pedrohqb.Tessera.Signer.WebPKI
+          - io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner
+          - io.github.pedrohqb.Tessera.Signer.CertisignWebSigner
+      - title:
           en: Signers
           zh-Hans: 签名工具
         summary:
