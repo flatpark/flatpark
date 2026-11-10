@@ -24,9 +24,9 @@ modules:
         filename: safenet.zip
         only-arches:
           - x86_64
-        url: https://www.digicert.com/StaticFiles/Linux_SAC_10.9_GA.zip
-        sha256: 46759cfe91d736af18a49d10e4749f264022db44e04ed4caf94e1ca77d6a013e
-        size: 91474258
+        url: https://www.globalsign.com/en/safenet-drivers/USB/10.9/GlobalSign-SAC-Linux-Ubuntu-24.04.4-v10.9.zip
+        sha256: c076c2ecb3842478e431ba81e1688f8c6386d7a374780c055047d2c9930cf428
+        size: 22005776
       # END MANAGED EXTRA-DATA
       - type: file
         path: driver.toml

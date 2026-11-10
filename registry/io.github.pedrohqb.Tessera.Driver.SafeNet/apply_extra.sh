@@ -3,10 +3,12 @@
 # IDPrime cards.
 #
 # Runs offline at install time, in the extension's extra/ folder, after
-# Flatpak has downloaded the vendor's zip and checked its sha256. The zip
-# carries packages for several distributions; like distrobox-adv-br, only
-# the Ubuntu "withoutUI" core package is taken, the clean way: its files,
-# no maintainer script, no /etc.
+# Flatpak has downloaded the zip and checked its sha256. The zip is the one
+# GlobalSign distributes for Ubuntu 24.04 (the same Thales packages, signed
+# by Thales; the AUR's sac-core uses it too). It carries the full package
+# and the "withoutUI" core one; only the core package is taken, the clean
+# way: its files, no maintainer script, no /etc. The zip's folders are
+# read-only (0555), so they are made writable before being removed.
 set -eu
 export LC_ALL=C
 
@@ -19,9 +21,10 @@ unpack_deb() { # deb dest
 
 mkdir -p zip
 bsdtar --no-same-owner -xf safenet.zip -C zip
-deb=$(find zip -path '*withoutUI*' -name 'safenetauthenticationclient-core_*_amd64.deb' | sort | tail -n1)
+deb=$(find zip -path '*withoutUI*' -name '*safenetauthenticationclient-core_*_amd64.deb' | sort | tail -n1)
 [ -n "$deb" ] || { log "the core package is not in the zip"; exit 1; }
 unpack_deb "$deb" .
+chmod -R u+w zip
 rm -rf zip safenet.zip etc
 lib=$(find usr -name 'libeToken.so*' \( -type f -o -type l \) | sort | head -n1)
 [ -n "$lib" ] || { log "libeToken.so not found in the package"; exit 1; }
