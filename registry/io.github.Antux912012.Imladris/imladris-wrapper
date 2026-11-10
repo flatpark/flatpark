@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+
+# Imladris is a Vala / GTK4 / Libadwaita / WebKitGTK IDE staged by apply_extra
+# to /app/extra/imladris.
+
+# WebKitGTK's DMABUF renderer can render a blank/frozen window under certain
+# GPU drivers inside a Flatpak container sandbox; disable DMABUF by default for safety.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/imladris "$@"

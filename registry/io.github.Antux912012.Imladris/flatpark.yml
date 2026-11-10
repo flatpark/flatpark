@@ -1,0 +1,37 @@
+id: io.github.Antux912012.Imladris
+name: Imladris
+summary: Scientific notebook studio and Markdown IDE with local AI
+website: https://github.com/Antux912012/imladris
+source_url: https://github.com/Antux912012/imladris
+build:
+  manifest: io.github.Antux912012.Imladris.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Development
+  upstream_approved: true
+  tags:
+    - Markdown
+    - Data Science
+    - R
+    - Python
+    - Quarto
+    - Shiny
+    - AI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --filesystem=home
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail:
+      en: "Imladris runs host language engines (R, Quarto, Python) via flatpak-spawn to execute notebook chunks and manage external packages with the user's host environment."
+      zh-Hans: "Imladris 通过 flatpak-spawn 运行宿主机语言引擎（R、Quarto、Python）以执行笔记本代码块并管理外部计算环境。"
+  - kind: sandbox-off
+    detail:
+      en: "Imladris itself sets WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1 at startup, so the WebKit process that renders the live preview runs without WebKit's own sandbox."
+      zh-Hans: "Imladris 启动时自行设置 WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1，因此渲染实时预览的 WebKit 进程不启用 WebKit 自带的沙箱。"

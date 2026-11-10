@@ -1,0 +1,53 @@
+id: io.github.Antux912012.Imladris
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: imladris
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native IPC, Wayland and X11 fallback display, DRI GPU acceleration
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  # Network access for AI models, Shiny live server, and package installations
+  - --share=network
+  # Workspace file access across user directories for data science notebooks & projects
+  - --filesystem=home
+  # Host execution portal for spawning host toolchains (R, Quarto, Python) via flatpak-spawn
+  - --talk-name=org.freedesktop.Flatpak
+modules:
+  - name: imladris
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 imladris-wrapper /app/bin/imladris
+      - install -Dm644 io.github.Antux912012.Imladris.desktop /app/share/applications/io.github.Antux912012.Imladris.desktop
+      - install -Dm644 io.github.Antux912012.Imladris.metainfo.xml /app/share/metainfo/io.github.Antux912012.Imladris.metainfo.xml
+      - install -Dm644 io.github.Antux912012.Imladris.png /app/share/icons/hicolor/512x512/apps/io.github.Antux912012.Imladris.png
+      - install -Dm644 io.github.Antux912012.Imladris.gschema.xml /app/share/glib-2.0/schemas/io.github.Antux912012.Imladris.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: imladris.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Antux912012/imladris/releases/download/v0.16.0/imladris_0.16.0_amd64.deb
+        sha256: e587495cc076667bcf266666ee9842bbcd971deabb199308205e988265a6f33e
+        size: 1391476
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: imladris-wrapper
+      - type: file
+        path: io.github.Antux912012.Imladris.desktop
+      - type: file
+        path: io.github.Antux912012.Imladris.metainfo.xml
+      - type: file
+        path: io.github.Antux912012.Imladris.png
+      - type: file
+        path: io.github.Antux912012.Imladris.gschema.xml

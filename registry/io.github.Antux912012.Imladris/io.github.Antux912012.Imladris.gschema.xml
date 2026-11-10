@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="io.github.Antux912012.Imladris" path="/io/github/Antux912012/Imladris/">
+    <key name="hw-acceleration" type="b">
+      <default>true</default>
+      <summary>Hardware acceleration</summary>
+      <description>Use the GPU for WebKit previews and plot rendering. Disable on older hardware, virtual machines or systems with problematic drivers to fall back to software rendering.</description>
+    </key>
+    <key name="theme" type="s">
+      <default>'system'</default>
+      <summary>Application theme</summary>
+      <description>Color scheme and appearance theme: 'system', 'light', 'dark', or 'eye-friendly'.</description>
+    </key>
+    <key name="accent-color" type="s">
+      <default>'blue'</default>
+      <summary>GNOME Accent Color</summary>
+      <description>Preferred GNOME accent color: 'blue', 'teal', 'green', 'yellow', 'orange', 'red', 'pink', 'purple', or 'slate'.</description>
+    </key>
+  </schema>
+</schemalist>
