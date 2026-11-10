@@ -50,6 +50,9 @@
     <binary>hermes-light</binary>
   </provides>
   <releases>
+    <release version="0.23.1" date="2026-11-10">
+      <description><p>Built from upstream's v0.23.1 tag by the packaging repository's release automation.</p></description>
+    </release>
     <release version="0.22.5" date="2026-11-02" />
   </releases>
 </component>

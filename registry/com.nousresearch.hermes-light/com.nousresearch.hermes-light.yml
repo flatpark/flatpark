@@ -74,9 +74,9 @@ modules:
         filename: hermes-light.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/tunix/homebrew-tap/releases/download/hermes-desktop-v0.22.5/HermesLight-0.22.5-linux-x86_64.AppImage
-        sha256: 598f62c95e6954eebfff3bd9ddc6ea02d394c657a90de5b36a4c7aaf69cbcbd9
-        size: 144151767
+        url: https://github.com/tunix/homebrew-tap/releases/download/hermes-desktop-v0.23.1/HermesLight-0.23.1-linux-x86_64.AppImage
+        sha256: 1c4c6b62ba7e54a31cb674db2b0bf3f1edfcdda41bd71184ee69f39dbadf7618
+        size: 144073903
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
