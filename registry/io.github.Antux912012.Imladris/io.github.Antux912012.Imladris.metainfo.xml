@@ -23,6 +23,12 @@
       <li>Model Context Protocol (MCP): Built-in MCP server integration for agentic document analysis and data retrieval</li>
     </ul>
     <p>
+      Permissions: this package can read and write your whole home directory, so notebooks and projects can live anywhere, and it can reach the network for AI providers, package repositories and Shiny apps. It can also run programs on your computer outside the sandbox through flatpak-spawn, so that notebook chunks and consoles can use the R, Python, Quarto and Julia installed on your system. Code run that way has your normal user privileges. The live preview also runs with WebKit's own web-content sandbox turned off.
+    </p>
+    <p>
+      If you only use the toolchain Imladris manages itself, or per-project environments, you can remove the host access with <code>flatpak override --user --no-talk-name=org.freedesktop.Flatpak io.github.Antux912012.Imladris</code>. Tools installed on your system will then no longer be found.
+    </p>
+    <p>
       Note: This application is independently developed and is not affiliated with or endorsed by Posit, RStudio, or Project Jupyter.
     </p>
   </description>
