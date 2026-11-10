@@ -48,9 +48,9 @@ modules:
         filename: yetease-music-linux.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/Gloridust/YetEaseMusic/releases/download/v0.2.11/yetease-music-0.2.11-linux-x86_64.tar.gz
-        sha256: 7d06992b6ee7a1e2464f85d3e881e4e3ef9b096bd0d6136425e84d2867f0ad89
-        size: 18202576
+        url: https://github.com/Gloridust/YetEaseMusic/releases/download/v0.2.12/yetease-music-0.2.12-linux-x86_64.tar.gz
+        sha256: 84b40f2809a15d7704a72b3dabdb140f1df61c62f2d450ece3b225d74b9607e8
+        size: 18206207
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
