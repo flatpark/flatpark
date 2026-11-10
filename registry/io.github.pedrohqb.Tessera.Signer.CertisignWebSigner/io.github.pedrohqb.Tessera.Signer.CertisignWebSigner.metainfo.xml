@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>io.github.pedrohqb.Tessera.Signer.CertisignWebSigner</id>
+  <extends>io.github.pedrohqb.Tessera</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>Certisign WebSigner</name>
+  <summary>Certisign WebSigner for Tessera's tokens in Flatpak browsers</summary>
+  <summary xml:lang="pt-BR">Certisign WebSigner para os tokens do Tessera nos navegadores Flatpak</summary>
+  <developer id="br.com.certisign">
+    <name>Certisign</name>
+  </developer>
+  <url type="homepage">https://www.certisign.com.br</url>
+  <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
+  <url type="vcs-browser">https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/CertisignWebSigner</url>
+  <description>
+    <p>WebSigner is the program behind Certisign's browser plugin, which Certisign's signing portals use to sign with a digital certificate.</p>
+    <p>With this extension, the Flatpak browsers Tessera sets up (Firefox, Chromium, Google Chrome, Microsoft Edge and Brave) run the plugin's program inside their own sandbox, and it signs with Tessera's tokens through the system's p11-kit server: no distrobox, no packages installed on the system.</p>
+    <p>Tessera does not run it. After installing, restart Tessera: its Web signers section shows, for each browser, the one command that lets the browser start the program (run once in a terminal), and what to tick in the plugin's settings.</p>
+    <p>This extension installs the program from the vendor's official Linux package, downloaded at install time and checked against a pinned checksum. Only its files are taken: no install script runs. Certisign WebSigner is closed source and not made or endorsed by Tessera's author.</p>
+  </description>
+  <releases>
+    <release version="2.9.5" date="2026-11-08"/>
+  </releases>
+</component>

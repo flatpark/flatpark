@@ -14,7 +14,7 @@
   <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
   <url type="vcs-browser">https://github.com/pedrohqb/tessera</url>
   <description>
-    <p>This package is maintained by Tessera's developer. It installs Tessera's official release build from its GitHub releases, unmodified. The vendors' token drivers are separate extensions, installed for the token at hand: io.github.pedrohqb.Tessera.Driver.SafeSign (GD Burti and other SafeSign tokens), .SafeNet (SafeNet eToken and IDPrime) and .SerproID (Serpro's cloud certificate). After installing one, use Restart Tessera in its menu.</p>
+    <p>This package is maintained by Tessera's developer. It installs Tessera's official release build from its GitHub releases, unmodified. The vendors' token drivers are separate extensions, installed for the token at hand: io.github.pedrohqb.Tessera.Driver.SafeSign (GD Burti and other SafeSign tokens), .SafeNet (SafeNet eToken and IDPrime) and .SerproID (Serpro's cloud certificate). The browser plugins Lacuna Web PKI, Softplan WebSigner (e-SAJ) and Certisign WebSigner are extensions too, for the Flatpak browsers: io.github.pedrohqb.Tessera.Signer.WebPKI, .SoftplanWebSigner and .CertisignWebSigner. After installing one, use Restart Tessera in its menu.</p>
     <p>Tessera lets sandboxed apps use hardware tokens, smart cards and cloud certificates without installing any driver on the system. It runs the token drivers inside its own sandbox and shares every token with other apps through p11-kit, the standard way for Linux apps to reach PKCS#11 devices.</p>
     <p>This is meant for immutable systems such as Fedora Silverblue, Kinoite, Bluefin, Aurora and Bazzite, where installing a vendor's driver package on the host is hard or impossible.</p>
     <ul>
@@ -24,6 +24,7 @@
       <li>Says which driver a connected token needs, with its page in the app store and the command that installs it</li>
       <li>Opens the drivers' tools, such as SafeSign's Token Administration and the SerproID app</li>
       <li>Sets up Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Thunderbird, Evolution, LibreOffice, Papers, Okular, JSignPdf and Master PDF Editor to use the tokens, and shows the command that lets them reach Tessera</li>
+      <li>Brings the web signers Lacuna Web PKI, Softplan WebSigner (e-SAJ) and Certisign WebSigner, each an extension, to the Flatpak browsers, with the one command each browser needs</li>
       <li>Publishes a driver only while it answers, so a driver that hangs cannot hang the apps</li>
       <li>Keeps running in the background with an icon in the tray, and can start at login</li>
     </ul>

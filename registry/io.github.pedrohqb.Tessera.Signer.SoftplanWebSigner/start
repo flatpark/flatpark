@@ -1,0 +1,10 @@
+#!/bin/sh
+# Started by a Flatpak browser (native messaging), inside the browser's own
+# sandbox, from where Flatpak deploys this extension on the host. The lib/
+# folder next to this script goes first in the library search: there the
+# name the browser plugin loads (libaetpkss.so.3, its "SafeSign AET
+# devices" option) is p11-kit's client, which reaches Tessera's tokens
+# through the system's p11-kit server.
+D=$(dirname "$(readlink -f "$0")")
+export LD_LIBRARY_PATH="$D/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$D/extra/websigner" "$@"

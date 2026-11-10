@@ -1,0 +1,56 @@
+# Softplan WebSigner, a Tessera web signer extension: mounted at
+# /app/lib/tessera/signers/SoftplanWebSigner by Tessera's extension point
+# (io.github.pedrohqb.Tessera.Signer, flatpak/io.github.pedrohqb.Tessera.yml).
+# Tessera does not run it: the Flatpak browsers do, by native messaging,
+# from where Flatpak deploys the extension on the host (see docs/signers.md).
+# The vendor's package is downloaded at install time (extra-data) and
+# checked against this sha256 pin, then unpacked by apply_extra.sh into
+# extra/. FlatPark's registry entry builds from the same files.
+id: io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner
+branch: stable
+runtime: io.github.pedrohqb.Tessera
+runtime-version: stable
+sdk: org.gnome.Sdk//51
+build-extension: true
+separate-locales: false
+modules:
+  - name: websigner
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 signer.toml -t ${FLATPAK_DEST}
+      - install -Dm755 start -t ${FLATPAK_DEST}
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      # The library name the browser plugin asks for, pointing at p11-kit's
+      # client in the browser's own runtime (a dangling link anywhere else),
+      # which reaches Tessera's tokens through the system's p11-kit server.
+      - mkdir -p ${FLATPAK_DEST}/lib
+      - ln -s /usr/lib/x86_64-linux-gnu/pkcs11/p11-kit-client.so ${FLATPAK_DEST}/lib/libaetpkss.so.3
+      - install -Dm644 io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+      # The vendor's icon (from its browser extension), shown in Tessera's
+      # window next to the signer.
+      - install -Dm644 io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner.png ${FLATPAK_DEST}/icon.png
+    sources:
+      # websigner.softplan.com.br sends an incomplete certificate chain (no
+      # intermediate), which Flatpak's downloader rejects. The site is a
+      # CloudFront distribution: its own address serves the same file
+      # (same sha256) with a valid certificate. The weekly download check
+      # notices if that address stops serving it.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: websigner.deb
+        only-arches:
+          - x86_64
+        url: https://d1qzl0w4epswjx.cloudfront.net/Downloads/2.15.0/webpki-chrome-64-deb
+        sha256: 04fa41e962d91e4d7337f4707479437bf660f19057fac63829fb46784ee08289
+        size: 47128110
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: signer.toml
+      - type: file
+        path: start
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner.metainfo.xml
+      - type: file
+        path: io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner.png

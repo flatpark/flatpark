@@ -1,0 +1,16 @@
+# Certisign WebSigner, a Tessera web signer extension
+# (io.github.pedrohqb.Tessera.Signer.CertisignWebSigner). Tessera reads this
+# to show the browsers' steps; the browsers run `start` (paths are relative
+# to this folder). See docs/signers.md.
+name = "Certisign WebSigner"
+vendor = "Certisign"
+host = "br.com.certisign.websigner"
+exec = "start"
+chrome_extensions = ["acfifjfajpekbmhmjppnmmjgmhjkildl"]
+firefox_extensions = ["websigner@certisign.com.br"]
+persist = ".certisign-websigner"
+# Its dialogs are GTK 3, which draws on Wayland too.
+firefox_x11 = false
+# The "SafeSign" option loads libaetpkss.so.3, which lib/ has. Its "SafeNet"
+# option (libeToken.so) finds nothing and is left alone.
+option = "SafeSign"

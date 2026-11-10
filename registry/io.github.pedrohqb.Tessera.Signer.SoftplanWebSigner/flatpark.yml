@@ -1,0 +1,22 @@
+id: io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner
+name: Softplan WebSigner
+summary: Softplan WebSigner (e-SAJ) for Tessera's tokens in Flatpak browsers
+website: https://www.softplan.com.br
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/SoftplanWebSigner
+build:
+  manifest: io.github.pedrohqb.Tessera.Signer.SoftplanWebSigner.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - Legal
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's program is closed source.
+  proprietary: true
