@@ -47,9 +47,9 @@ modules:
         filename: photoncam.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/pietini69/photoncam/releases/download/v1.2.8/PhotonCAM-1.2.8-linux-x86_64.tar.gz
-        sha256: f4b76afc62d36e28e3a9a1eca9513f18986689d809dc884eaff358c09e3c386f
-        size: 8104053
+        url: https://github.com/pietini69/photoncam/releases/download/v1.2.9/PhotonCAM-1.2.9-linux-x86_64.tar.gz
+        sha256: c9bef7adffa74aff253e85667ed3b47ec572bde5301c29c0448de7b0fbbe9d82
+        size: 8560993
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

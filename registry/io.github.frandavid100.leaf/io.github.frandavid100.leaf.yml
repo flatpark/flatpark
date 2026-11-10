@@ -52,9 +52,9 @@ modules:
         filename: leaf-app.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/frandavid100/leaf/releases/download/v0.1.0-alpha.42/Leaf-0.1.0-alpha.42-flatpark-x86_64.tar.xz
-        sha256: 95b3095e71dda48b69b12a04e9e5b0689d214891874b876d2f56eee721ebb7b1
-        size: 13790716
+        url: https://github.com/frandavid100/leaf/releases/download/v0.1.0-alpha.44/Leaf-0.1.0-alpha.44-flatpark-x86_64.tar.xz
+        sha256: 5fa6460772a3508e852c445bf45b1bee183d07dd9c710becec80a1156ea10361
+        size: 13998516
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
