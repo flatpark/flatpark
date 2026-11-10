@@ -8,6 +8,8 @@ build:
   branch: stable
   mode: extra-data
 catalog:
+  # closed app; source_url is a packaging repo, whose stars are not the app's
+  stars_repo: none
   category: AudioVideo
   upstream_approved: false
   tags:

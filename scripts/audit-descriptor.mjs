@@ -52,6 +52,7 @@ let updateCommand = '';
 let updateAuto = null;
 let proprietary = null;
 let upstreamSeen = false;
+let starsRepo = null;
 let upstreamManifest = '';
 let upstreamList = null;
 const dangerousPerms = [];
@@ -93,6 +94,7 @@ const UPSTREAM_LISTS = {
     const [, k, v] = m;
     if (section === 'build' && k === 'manifest') manifestName = unquote(v);
     else if (section === 'build' && k === 'extends') extendsId = unquote(v);
+    else if (section === 'catalog' && k === 'stars_repo') starsRepo = unquote(v);
     else if (section === 'update' && k === 'command') updateCommand = unquote(v);
     else if (section === 'update' && k === 'auto') updateAuto = unquote(v);
     else if (section === 'policy') {
@@ -133,6 +135,22 @@ if (upstreamSeen) {
   }
   for (const name of UPSTREAM_LISTS.accept_missing_modules.concat(UPSTREAM_LISTS.accept_extra_modules)) {
     if (!/^[A-Za-z0-9._+-]+$/.test(name)) fail(`upstream module name is not a plain name, got: ${name}`);
+  }
+}
+
+// Upstream stars (site/src/lib/stars.mjs) come from source_url's repository
+// unless catalog.stars_repo names another or opts out. A source_url that is a
+// build or packaging repo (a third-party build, or a closed app packaged by
+// someone else) would show that repo's handful of stars as the project's, so
+// it has to say which repository counts.
+if (starsRepo !== null && starsRepo !== 'none' && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(starsRepo)) {
+  fail(`catalog.stars_repo must be owner/name or none, got: ${starsRepo}`);
+}
+{
+  const gh = /^https?:\/\/github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)/.exec(sourceUrl);
+  if (gh && starsRepo === null && !extendsId &&
+      (gh[1].toLowerCase() === 'flathub' || /[-_.](release|releases|flatpak|build|builds|packaging)$/i.test(gh[2]))) {
+    warn(`source_url ${gh[1]}/${gh[2]} looks like a build/packaging repo: set catalog.stars_repo to upstream's owner/name, or none (docs/packagers/basics.md)`);
   }
 }
 

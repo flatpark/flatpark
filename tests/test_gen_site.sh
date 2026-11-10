@@ -46,6 +46,7 @@ cat > "$one_dir/flatpark.yml" <<'EOF'
 id: io.flatpark.TestOne
 name: Test One
 summary: First test app
+source_url: https://github.com/example/test-one
 build:
   manifest: io.flatpark.TestOne.yml
 catalog:
@@ -55,10 +56,12 @@ cat > "$two_dir/flatpark.yml" <<'EOF'
 id: io.flatpark.TestTwo
 name: Test Two
 summary: 'Second test app </script><script>globalThis.pwned=1</script> & more'
+source_url: https://github.com/example/two-release
 build:
   manifest: io.flatpark.TestTwo.yml
 catalog:
   category: Finance
+  stars_repo: example/two-upstream
 EOF
 
 data="$tmp/data"
@@ -74,7 +77,14 @@ fi
 cat > "$tmp/totals.json" <<'EOF'
 {"since":"2026-10-01","through":"2026-10-03","apps":{"io.flatpark.TestOne":{"installs":1234,"updates":9,"installs30":56,"updates30":9,"downloads":1243,"active":40}}}
 EOF
-FLATPARK_DATA_DIR="$data" FLATPARK_STATS_URL="$tmp/totals.json" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1 || true
+# Upstream stars from a local file, so the build never calls the API: TestOne
+# counts its own source_url repo, TestTwo (a build repo) upstream's via
+# catalog.stars_repo.
+cat > "$tmp/stars.json" <<'EOF'
+{"example/test-one":4321,"example/two-upstream":99}
+EOF
+env -u GH_TOKEN -u GITHUB_TOKEN FLATPARK_DATA_DIR="$data" FLATPARK_STATS_URL="$tmp/totals.json" \
+    FLATPARK_STARS_FILE="$tmp/stars.json" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1 || true
 # One collection over both fixtures, plus an unknown id that must be skipped.
 cat > "$tmp/collections.yml" <<'EOF'
 collections:
@@ -116,16 +126,32 @@ assert_contains "$index" "Test One"
 assert_contains "$index" "Test Two"
 assert_contains "$index" "Search apps"
 assert_contains "$index" "data-app-card"
-# Install counts: a badge in the detail page's chip row, and a "Popular" order (new installs in the
-# last 30 days) — a dropdown option on the browse page, the default tab on the home page.
+# Install counts and upstream stars: a badge each in the detail page's chip
+# row, two orders on the browse page's dropdown, and on the home page a switch
+# between them beside the scope tabs (Popular is the default scope).
 assert_contains "$detail" ">56</span>"
 assert_contains "$detail" "new installs in 30 days"
-assert_contains "$site_out/apps/index.html" 'value="popular"'
-assert_contains "$site_out/apps/index.html" 'data-popular="56"'
+assert_contains "$detail" ">4,321</span>"
+assert_contains "$detail" 'href="https://github.com/example/test-one"'
+detail_two="$site_out/apps/io.flatpark.TestTwo/index.html"
+assert_contains "$detail_two" ">99</span>"
+# A build repo's app counts upstream's stars but never links users there.
+if grep -q 'href="https://github.com/example/two-upstream"' "$detail_two"; then
+    echo "FAIL: build-repo app links its stars to upstream"; exit 1
+fi
+assert_contains "$site_out/apps/index.html" 'value="installs"'
+assert_contains "$site_out/apps/index.html" 'value="stars"'
+assert_contains "$site_out/apps/index.html" 'data-installs="56"'
+assert_contains "$site_out/apps/index.html" 'data-stars="4321"'
 assert_contains "$index" 'class="seg is-active" aria-selected="true" data-sort-tab="popular"'
-assert_contains "$index" 'data-sort-tab="added"'
-assert_contains "$index" 'data-sort-tab="updated"'
 assert_contains "$index" 'data-sort-tab="approved"'
+assert_contains "$index" 'data-sort-tab="added" data-window-field="added" data-window-days="30"'
+assert_contains "$index" 'data-sort-tab="updated" data-window-field="updated" data-window-days="14"'
+assert_contains "$index" 'data-metric="installs"'
+assert_contains "$index" 'data-metric="stars"'
+# Approved now sits right after Popular, ahead of the dated scopes.
+[ "$(grep -o 'data-sort-tab="[a-z]*"' "$index" | sed -n 2p)" = 'data-sort-tab="approved"' ] \
+    || { echo "FAIL: Approved is not the second tab"; exit 1; }
 assert_contains "$site_out/zh-Hans/apps/io.flatpark.TestOne/index.html" "近 30 天新装"
 # The first row needs enough clearance to lift beneath the sticky controls.
 assert_contains "$index" "pt-0.5"

@@ -8,6 +8,8 @@ build:
   branch: stable
   mode: extra-data
 catalog:
+  # source_url is the build repo; stars count upstream's
+  stars_repo: OpenModelica/OpenModelica
   category: Development
   upstream_approved: false
   tags:

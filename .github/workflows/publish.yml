@@ -340,6 +340,10 @@ jobs:
             flatpark-screenshots-
 
       - name: Build the site (full catalog)
+        # The token is for upstream GitHub stars (site/src/lib/stars.mjs):
+        # GraphQL takes no anonymous calls, and the whole catalog is one query.
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: ./scripts/gen-site.sh $(./scripts/scan-registry.sh --ids | tr '\n' ' ')
 
       - name: Sync repo to R2 (objects first, summary last)

@@ -20,6 +20,8 @@ build:
   branch: stable
   mode: extra-data
 catalog:
+  # the developer's own release repo, so its stars are the app's
+  stars_repo: Pawandeep-prog/revpdf-release
   category: Office
   upstream_approved: false
   tags:

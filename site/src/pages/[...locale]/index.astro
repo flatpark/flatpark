@@ -21,21 +21,38 @@ const collections = loadCollections(apps);
 // Five rows, like the card grid; each "show more" press reveals as many
 // again (the fold is in Base.astro); /collections/ is still a click away.
 const HOME_COLLECTIONS = 5;
-// Default order: most new installs in the last 30 days first, the way
-// Flathub's front page leads with Popular. New (when *we* listed it) and Updated (upstream's release
-// date) are the next two tabs, and Approved narrows the grid to the
-// blue-shield apps. Install counts are optional (the build reads them
-// best-effort), so without them the page opens on New instead.
+// The tabs pick which apps (all, developer-approved, listed in the last 30
+// days, updated in the last 14) and the switch beside them picks the order:
+// new installs in the last 30 days, or upstream GitHub stars. The order holds
+// across tabs, so every scope can be read either way. The windows are applied
+// in the browser against today's date (Base.astro), since the site is only
+// rebuilt on merge.
+// Updated is shorter than New because upstream ships often: 30 days of
+// releases is most of the catalog, which would make the tab filter nothing.
+// Both counts are optional (the build reads them best-effort), so the switch
+// offers only what was measured, and without either there is no switch and
+// no Popular tab: every scope lists newest first.
 const hasStats = apps.some((a) => a.stats);
+const hasStars = apps.some((a) => a.upstreamStars);
+const metrics = [
+  ...(hasStats ? [{ mode: 'installs', label: t('apps.metric.installs'), title: t('apps.metric.installs.title') }] : []),
+  ...(hasStars ? [{ mode: 'stars', label: t('apps.metric.stars'), title: t('apps.metric.stars.title') }] : []),
+];
 const byAdded = (a, b) => (b.added || '').localeCompare(a.added || '');
 const byInstalls30 = (a, b) =>
   (b.stats?.installs30 ?? 0) - (a.stats?.installs30 ?? 0) || a.name.localeCompare(b.name);
-const ordered = [...apps].sort(hasStats ? byInstalls30 : byAdded);
+const byStars = (a, b) =>
+  (b.upstreamStars?.count ?? -1) - (a.upstreamStars?.count ?? -1) || a.name.localeCompare(b.name);
+// Server order matches the first metric so the page reads right before the
+// script runs; the script re-sorts if the reader picked the other one.
+const ordered = [...apps].sort(hasStats ? byInstalls30 : hasStars ? byStars : byAdded);
+const NEW_DAYS = 30;
+const UPDATED_DAYS = 14;
 const tabs = [
-  ...(hasStats ? [{ mode: 'popular', label: t('apps.tab.popular') }] : []),
-  { mode: 'added', label: t('apps.tab.added') },
-  { mode: 'updated', label: t('apps.tab.updated') },
+  ...(metrics.length ? [{ mode: 'popular', label: t('apps.tab.popular') }] : []),
   { mode: 'approved', label: t('apps.tab.approved') },
+  { mode: 'added', label: t('apps.tab.added'), title: t('apps.tab.added.title', { days: NEW_DAYS }), field: 'added', days: NEW_DAYS },
+  { mode: 'updated', label: t('apps.tab.updated'), title: t('apps.tab.updated.title', { days: UPDATED_DAYS }), field: 'updated', days: UPDATED_DAYS },
   // Not an order: swaps the grid for the collection rows (see Base.astro).
   ...(collections.length ? [{ mode: 'collections', label: t('apps.tab.collections') }] : []),
 ];
@@ -117,13 +134,39 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
               class:list={['seg', i === 0 && 'is-active']}
               aria-selected={i === 0 ? 'true' : 'false'}
               data-sort-tab={tab.mode}
+              data-window-field={tab.field}
+              data-window-days={tab.days}
+              title={tab.title}
             >{tab.label}</button>
           ))}
         </div>
-        <a
+        <div class="flex items-center gap-3">
+          {metrics.length > 1 && (
+            <div
+              role="radiogroup"
+              aria-label={t('apps.metric.label')}
+              data-metric-group
+              class="inline-grid grid-flow-col auto-cols-fr rounded-lg border border-line bg-surface p-0.5 text-sm"
+            >
+              {metrics.map((m, i) => (
+                <button
+                  type="button"
+                  role="radio"
+                  class:list={['seg', i === 0 && 'is-active']}
+                  aria-checked={i === 0 ? 'true' : 'false'}
+                  title={m.title}
+                  data-metric={m.mode}
+                >{m.label}</button>
+              ))}
+            </div>
+          )}
+          {/* One metric is not a choice: no switch, but the script still orders by it. */}
+          {metrics.length === 1 && <span hidden data-metric={metrics[0].mode}></span>}
+          <a
           href={localizePath('/apps/', lang)}
           class="inline-flex h-9 items-center rounded-lg border border-line bg-surface px-3 text-sm font-semibold transition hover:border-brand"
         >{t('apps.browse')}</a>
+        </div>
       </div>
 
       <!--
@@ -132,6 +175,10 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
       -->
       <div data-grid class="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4 pt-0.5">
         {ordered.map((app) => <AppCard app={app} />)}
+      </div>
+      <div class="rounded-2xl border border-dashed border-line p-12 text-center text-muted" data-empty hidden>
+        <h3 class="font-bold text-ink">{t('apps.window.empty.title')}</h3>
+        <p>{t('apps.window.empty.body')}</p>
       </div>
       {collections.length > 0 && (
         <div data-collections-panel data-fold-step={HOME_COLLECTIONS} hidden class="min-h-[28rem] pt-0.5">

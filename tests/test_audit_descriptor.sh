@@ -74,6 +74,23 @@ out="$($AUDIT "$pw/flatpark.yml" 2>&1)"
 printf '%s' "$out" | grep -qF "pipewire-0" && { echo "FAIL: declared PipeWire socket still reported"; exit 1; }
 rm -rf "$pw"
 
+# catalog.stars_repo: a build/packaging-repo source_url warns until it says
+# which repository's stars count; a malformed value is a hard failure.
+st="$(mktemp -d)"
+cp "$F/good/flatpark.yml" "$F/good/manifest.yml" "$F/good/com.example.App.svg" "$st/"
+sed -i 's|^name: Example App|name: Example App\nsource_url: https://github.com/someone/app-release|' "$st/flatpark.yml"
+out="$($AUDIT "$st/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "0"
+printf '%s' "$out" | grep -qF "looks like a build/packaging repo" || { echo "FAIL: build-repo source_url without stars_repo not reported"; exit 1; }
+printf 'catalog:\n  stars_repo: upstream/app\n' >> "$st/flatpark.yml"
+out="$($AUDIT "$st/flatpark.yml" 2>&1)"
+printf '%s' "$out" | grep -qF "build/packaging repo" && { echo "FAIL: declared stars_repo still reported"; exit 1; }
+sed -i 's|  stars_repo: upstream/app|  stars_repo: none|' "$st/flatpark.yml"
+$AUDIT "$st/flatpark.yml" >/dev/null 2>&1 || { echo "FAIL: stars_repo: none rejected"; exit 1; }
+sed -i 's|  stars_repo: none|  stars_repo: https://github.com/upstream/app|' "$st/flatpark.yml"
+if $AUDIT "$st/flatpark.yml" >/dev/null 2>&1; then echo "FAIL: malformed stars_repo accepted"; exit 1; fi
+rm -rf "$st"
+
 # Regression: every shipping registry app must pass (no hard fail)
 for d in "$ROOT"/registry/*/flatpark.yml; do
   $AUDIT "$d" >/dev/null 2>&1 || { echo "FAIL: audit hard-failed on shipping app $d"; $AUDIT "$d"; exit 1; }
