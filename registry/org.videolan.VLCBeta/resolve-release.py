@@ -8,7 +8,13 @@ import re
 import sys
 import urllib.request
 
-REPOSITORY='rhgKc2yp/vlc-nightly-release'
+REPOSITORY='jing2uo/vlc-nightly-release'
+# The repository was transferred from rhgKc2yp. GitHub now serves every release
+# (and its download URLs) under the new owner, but release.json is a signed,
+# immutable asset: releases published before the transfer still record the old
+# name in `repository` and in each asset `url`. Accept that name only inside
+# release.json; the API side and emitted pins always use REPOSITORY.
+LEGACY_REPOSITORIES=('rhgKc2yp/vlc-nightly-release',)
 VERSION=re.compile(r'4\.0\.0-dev-\d+-g[0-9a-f]+-r\d+-qt[0-9a-f]{16}')
 
 
@@ -38,7 +44,8 @@ def select(releases,load,now=None):
         # Fetch failures (including rate limits) fail closed, never emit partial JSON.
         data=load(base+'release.json')
         if not isinstance(data,dict):continue
-        if (data.get('schema')!=1 or data.get('channel')!='production' or data.get('repository')!=REPOSITORY
+        recorded=data.get('repository')
+        if (data.get('schema')!=1 or data.get('channel')!='production' or recorded not in (REPOSITORY,*LEGACY_REPOSITORIES)
                 or data.get('version')!=version or data.get('runtime')!='org.kde.Platform//6.11'
                 or data.get('attestation_required') is not True
                 or not re.fullmatch('[0-9a-f]{40}',data.get('upstream_sha',''))):continue
@@ -60,7 +67,8 @@ def select(releases,load,now=None):
         sources=[]
         for arch in ('x86_64','aarch64'):
             name=f'vlc-{version}-{arch}.tar.zst';asset=indexed[name];record=data['assets'][arch]
-            if (record.get('name')!=name or record.get('url')!=base+name
+            recorded_base=f'https://github.com/{recorded}/releases/download/{version}/'
+            if (record.get('name')!=name or record.get('url')!=recorded_base+name
                     or asset.get('browser_download_url')!=base+name or asset.get('state')!='uploaded'
                     or type(record.get('size')) is not int or not 0<record['size']<2**31
                     or asset.get('size')!=record['size']

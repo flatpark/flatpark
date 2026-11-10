@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# tldraw offline is an Electron app staged by apply_extra to
+# tldraw office is an Electron app staged by apply_extra to
 # /app/extra/tldraw-offline. Run it through zypak-wrapper (from
 # org.electronjs.Electron2.BaseApp): zypak redirects Chromium's SUID sandbox
 # onto the Flatpak sandbox, so the app keeps an internal sandbox rather than

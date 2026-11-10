@@ -6,7 +6,7 @@
   <name>VLC 4 Beta</name>
   <summary>Development builds of the VLC multimedia player</summary>
   <description>
-    <p>This is a community package of VLC 4 development builds and is not affiliated with or endorsed by VideoLAN. The builds come from rhgKc2yp/vlc-nightly-release, which builds VLC weekly from a pinned VLC master commit with VLC's own contrib system against KDE Platform 6.11, on public GitHub Actions with signed build attestations. One small compatibility fix is applied to the source; it and each release's provenance are recorded in that repository. Report problems there, not to VideoLAN.</p>
+    <p>This is a community package of VLC 4 development builds and is not affiliated with or endorsed by VideoLAN. The builds come from jing2uo/vlc-nightly-release, which builds VLC weekly from a pinned VLC master commit with VLC's own contrib system against KDE Platform 6.11, on public GitHub Actions with signed build attestations. One small compatibility fix is applied to the source; it and each release's provenance are recorded in that repository. Report problems there, not to VideoLAN.</p>
     <p>VLC 4 is still in development, so these builds can contain regressions and crashes. For the stable release, use org.videolan.VLC from Flathub; both can be installed side by side.</p>
     <p>Play local audio and video files and network streams with the new VLC 4 interface.</p>
     <p>Music and Videos folders are available by default. Allow another media folder with <code>flatpak override --user --filesystem=/path/to/media:ro org.videolan.VLCBeta</code>. Undo custom permissions with <code>flatpak override --user --reset org.videolan.VLCBeta</code>.</p>
@@ -15,15 +15,15 @@
   </description>
   <launchable type="desktop-id">org.videolan.VLCBeta.desktop</launchable>
   <url type="homepage">https://www.videolan.org/vlc/</url>
-  <url type="vcs-browser">https://github.com/rhgKc2yp/vlc-nightly-release</url>
-  <url type="help">https://github.com/rhgKc2yp/vlc-nightly-release/issues</url>
-  <url type="bugtracker">https://github.com/rhgKc2yp/vlc-nightly-release/issues</url>
+  <url type="vcs-browser">https://github.com/jing2uo/vlc-nightly-release</url>
+  <url type="help">https://github.com/jing2uo/vlc-nightly-release/issues</url>
+  <url type="bugtracker">https://github.com/jing2uo/vlc-nightly-release/issues</url>
   <developer id="org.videolan"><name>VideoLAN</name></developer>
   <categories><category>AudioVideo</category><category>Player</category></categories>
   <content_rating type="oars-1.1" />
   <releases>
     <release version="4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119" date="2026-11-08">
-      <url type="details">https://github.com/rhgKc2yp/vlc-nightly-release/releases/tag/4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119</url>
+      <url type="details">https://github.com/jing2uo/vlc-nightly-release/releases/tag/4.0.0-dev-39705-g978212a42d-r4-qt83e596ea4f40c119</url>
       <description><p>Update to the stripped community VLC development build for x86_64 and aarch64.</p></description>
     </release>
   </releases>

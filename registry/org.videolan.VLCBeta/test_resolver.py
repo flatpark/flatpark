@@ -67,5 +67,21 @@ class ResolverTests(unittest.TestCase):
         with self.assertRaises(ValueError):r.select([self.rel],lambda url:self.data,datetime(2026,11,16,tzinfo=timezone.utc))
         self.data['known_issues'][0]['expires_at']='2026-12-01T00:00:00Z'
         with self.assertRaises(ValueError):self.resolve()
+    def test_release_json_from_before_the_transfer(self):
+        legacy=r.LEGACY_REPOSITORIES[0];old=f'https://github.com/{r.REPOSITORY}/';new=f'https://github.com/{legacy}/'
+        self.data['repository']=legacy
+        for record in self.data['assets'].values():record['url']=record['url'].replace(old,new)
+        result=self.resolve()
+        self.assertTrue(all(s['url'].startswith(old) for s in result['sources']))
+        # Repository and asset URLs must name the same owner.
+        self.data['assets']['x86_64']['url']=self.data['assets']['x86_64']['url'].replace(new,old)
+        with self.assertRaises(ValueError):self.resolve()
+    def test_unknown_repository_rejected(self):
+        self.data['repository']='someone-else/vlc-nightly-release'
+        with self.assertRaises(ValueError):self.resolve()
+        # The API side never accepts the legacy owner.
+        rel=copy.deepcopy(self.rel)
+        for asset in rel['assets']:asset['browser_download_url']=asset['browser_download_url'].replace(r.REPOSITORY,r.LEGACY_REPOSITORIES[0])
+        with self.assertRaises(ValueError):self.resolve(rel)
 
 if __name__=='__main__':unittest.main()
