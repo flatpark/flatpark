@@ -2,14 +2,12 @@ id: com.longbridge.Longbridge
 name: Longbridge
 summary: Trading platform
 website: https://longbridge.com/hk/zh-CN/download
-source_url: https://github.com/flathub/com.longbridgeapp.LongbridgePro
+source_url: https://longbridge.com/hk/zh-CN/download
 build:
   manifest: com.longbridge.Longbridge.yml
   branch: stable
   mode: extra-data
 catalog:
-  # closed app; source_url is a packaging repo, whose stars are not the app's
-  stars_repo: none
   category: Finance
   tags:
     - Trading

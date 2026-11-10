@@ -71,7 +71,7 @@ id: com.example.App           # required: the directory name
 name: Example App             # required
 summary: One-line description # required
 website: https://example.com/
-source_url: https://github.com/example/app   # upstream source, if open; or the build repository
+source_url: https://github.com/example/app   # upstream source; or the build repository; closed: the vendor's download page
 build:
   manifest: com.example.App.yml  # required, relative to this directory
   branch: stable              # default: stable
@@ -108,11 +108,18 @@ packaging:                    # anything beyond a plain launch
   and sorts by. Leave it out when `source_url` is upstream's own repository;
   that one is used. Set it to upstream's `owner/name` when `source_url` is a
   [build repository](#build-repositories), and to `none` for a closed app whose
-  `source_url` is someone else's packaging repository (a Flathub manifest, a
-  `-flatpak` repo). When the developer publishes releases from a repository of
+  `source_url` is the contributor's own packaging repository (a `-flatpak`
+  repo). When the developer publishes releases from a repository of
   their own, name it here so the audit knows it is meant. Extensions never show
   stars. The PR audit warns about a `source_url` that looks like a build or
   packaging repository and has no `stars_repo`.
+- `source_url` is where the app comes from: upstream's source if it is open,
+  the [build repository](#build-repositories) if one makes the release, the
+  contributor's packaging repository if the package came from one. A closed app
+  without any of these points at the vendor's download page. Never an
+  unrelated packaging repository, such as a Flathub manifest the package was
+  once modelled on: FlatPark's package doesn't come from it, and the
+  Packaging row already links the registry.
 - `requires` lists other Flatpak apps the app runs with. Flatpak has no
   dependency between apps, so the site's install command installs them too,
   and the app page says they are needed; a `.flatpakref` can't bring them.
