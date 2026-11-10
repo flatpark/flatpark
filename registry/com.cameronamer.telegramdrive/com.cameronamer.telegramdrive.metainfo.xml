@@ -9,7 +9,8 @@
     <name>Cameron Amer</name>
   </developer>
   <url type="homepage">https://telegram-drive.com/</url>
-  <url type="bugtracker">https://github.com/caamer20/Telegram-Drive/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/caamer20/Telegram-Drive</url>
   <description>
     <p>This is a community package of Telegram Drive, maintained independently. It repackages the official upstream Linux build unmodified. The source is public, but the project has not published a license yet.</p>

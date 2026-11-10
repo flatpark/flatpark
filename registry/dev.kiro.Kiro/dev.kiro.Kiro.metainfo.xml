@@ -9,8 +9,9 @@
     <name>Amazon Web Services</name>
   </developer>
   <url type="homepage">https://kiro.dev</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://kiro.dev/download</url>
-  <url type="help">https://kiro.dev/docs</url>
   <description>
     <p>This is a community package of Kiro, maintained independently and unaffiliated with Amazon Web Services. It repackages the official upstream Linux Debian build unmodified.</p>
     <p>Kiro is an AI IDE that helps you do your best work by turning your ideas into production code with spec-driven development. It keeps the VS Code editor, extensions and keybindings you already know, and adds spec-driven agents that plan before they code, agent hooks that automate the repetitive parts of a workflow, and steering files that keep the whole team's conventions in context.</p>

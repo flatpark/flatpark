@@ -9,7 +9,8 @@
     <name>xiaokentrl</name>
   </developer>
   <url type="homepage">https://github.com/xiaokentrl/phpo</url>
-  <url type="bugtracker">https://github.com/xiaokentrl/phpo/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/xiaokentrl/phpo</url>
   <description>
     <p>This is a community package of phpo, maintained by FlatPark at the request of phpo's developer. It repackages the official upstream Linux build unmodified. phpo does not yet publish a license; until it does, the upstream README states that all rights are reserved.</p>

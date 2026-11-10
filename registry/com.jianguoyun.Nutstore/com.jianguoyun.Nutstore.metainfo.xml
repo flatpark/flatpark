@@ -11,7 +11,8 @@
     <name>Shanghai YiJing Network Tech Co., Ltd</name>
   </developer>
   <url type="homepage">https://www.jianguoyun.com</url>
-  <url type="help">https://help.jianguoyun.com</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of Nutstore, maintained independently. It repackages the official upstream Linux build unmodified.</p>
     <p>Nutstore (坚果云) keeps folders in sync between your computers and the Nutstore cloud, shares them with others, and keeps file history as a backup.</p>

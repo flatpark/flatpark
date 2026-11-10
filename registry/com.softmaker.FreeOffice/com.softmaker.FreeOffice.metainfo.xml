@@ -9,8 +9,8 @@
     <name>SoftMaker Software GmbH</name>
   </developer>
   <url type="homepage">https://www.freeoffice.com/</url>
-  <url type="help">https://www.freeoffice.com/en/download/manuals</url>
-  <url type="bugtracker">https://forum.softmaker.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of FreeOffice, maintained independently and unaffiliated with SoftMaker. It repackages the official upstream Linux .deb, downloaded from SoftMaker at install time, and follows upstream releases automatically.</p>
     <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that answers FreeOffice's screen-size query from the desktop's Xft.dpi setting. XWayland always reports 96 dpi, so on a HiDPI Wayland session the interface would otherwise come up at half size. Nothing else is changed.</p>

@@ -9,6 +9,8 @@
     <name>ByteDance</name>
   </developer>
   <url type="homepage">https://trae.com.cn</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://www.trae.com.cn/ide/download</url>
   <description>
     <p>This is a community package of Trae CN, maintained independently and unaffiliated with ByteDance. It repackages the official upstream Linux Debian build unmodified.</p>

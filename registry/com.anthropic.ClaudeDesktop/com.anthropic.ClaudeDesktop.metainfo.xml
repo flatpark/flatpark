@@ -9,7 +9,8 @@
     <name>Anthropic</name>
   </developer>
   <url type="homepage">https://claude.ai</url>
-  <url type="help">https://support.claude.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://code.claude.com/docs/en/desktop-linux</url>
   <description>
     <p>This is a community package of Claude Desktop, maintained independently and unaffiliated with Anthropic. It repackages Anthropic's official Linux Debian package unmodified.</p>

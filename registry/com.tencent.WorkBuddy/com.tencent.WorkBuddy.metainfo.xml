@@ -9,8 +9,9 @@
     <name>Tencent</name>
   </developer>
   <url type="homepage">https://www.workbuddy.cn/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://www.workbuddy.cn/app</url>
-  <url type="help">https://www.workbuddy.cn/docs/workbuddy/Overview</url>
   <description>
     <p>This is a community package of WorkBuddy CN, maintained independently and unaffiliated with Tencent. It repackages the official upstream Linux Debian build unmodified.</p>
     <p>WorkBuddy is Tencent's AI agent workspace for office work. You describe a task in your own words; it breaks the task down, plans the steps and carries them out on your machine, then hands back a finished artifact rather than a chat reply. Several agents can work in parallel, and it ships its own Node and Python runtimes so its tools run without anything installed on the host.</p>

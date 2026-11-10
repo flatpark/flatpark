@@ -9,8 +9,9 @@
     <name>Alibaba Cloud</name>
   </developer>
   <url type="homepage">https://qoder.com</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://qoder.com/download</url>
-  <url type="help">https://docs.qoder.com</url>
   <description>
     <p>This is a community package of Qoder, maintained independently and unaffiliated with Alibaba Cloud. It repackages the official upstream Linux Debian build unmodified.</p>
     <p>Qoder is an agentic coding platform: it keeps the VS Code editor, extensions and keybindings you already know, and adds coding agents with deep codebase awareness. Delegate a multi-file task to the Quest window, code side by side with agentic chat, or keep precise inline completions, with RepoWiki summarising the repository for you.</p>

@@ -9,6 +9,8 @@
     <name>Tencent</name>
   </developer>
   <url type="homepage">https://www.workbuddy.ai/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://www.workbuddy.ai/</url>
   <description>
     <p>This is a community package of WorkBuddy AI, maintained independently and unaffiliated with Tencent. It repackages the official upstream Linux Debian build unmodified.</p>

@@ -9,6 +9,8 @@
     <name>Z.ai</name>
   </developer>
   <url type="homepage">https://zcode.z.ai</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://zcode.z.ai/en#all-downloads</url>
   <description>
     <p>This is a community package of ZCode, maintained independently and unaffiliated with Z.ai. It repackages the official upstream Linux Debian build unmodified.</p>

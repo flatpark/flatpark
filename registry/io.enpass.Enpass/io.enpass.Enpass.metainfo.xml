@@ -7,8 +7,8 @@
   <project_license>LicenseRef-proprietary=https://www.enpass.io/terms-of-use/</project_license>
   <developer_name>Enpass Technologies Inc.</developer_name>
   <url type="homepage">https://www.enpass.io/</url>
-  <url type="help">https://support.enpass.io/</url>
-  <url type="bugtracker">https://discussion.enpass.io/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <launchable type="desktop-id">io.enpass.Enpass.desktop</launchable>
   <categories>
     <category>Utility</category>

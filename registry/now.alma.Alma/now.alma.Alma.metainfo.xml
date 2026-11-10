@@ -9,7 +9,8 @@
     <name>yetone</name>
   </developer>
   <url type="homepage">https://alma.now</url>
-  <url type="bugtracker">https://feedback.alma.now</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/yetone/alma-releases</url>
   <description>
     <p>This is a community package of Alma, maintained independently and unaffiliated with its developer. It repackages the official Linux Debian package unmodified.</p>

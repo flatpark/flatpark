@@ -9,8 +9,8 @@
     <name>tldraw</name>
   </developer>
   <url type="homepage">https://offline.tldraw.com</url>
-  <url type="bugtracker">https://github.com/tldraw/tldraw-office/issues</url>
-  <url type="help">https://app.notion.com/p/tldraw/User-manual-39a3e4c324c080e7b2eacc5afd078e85</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/tldraw/tldraw-office</url>
   <description>
     <p>This is a community package of tldraw office, maintained independently and unaffiliated with tldraw. It repackages the official upstream Linux build unmodified.</p>

@@ -9,7 +9,8 @@
     <name>Aptakube</name>
   </developer>
   <url type="homepage">https://aptakube.com</url>
-  <url type="bugtracker">https://github.com/aptakube/aptakube/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of Aptakube, maintained independently and unaffiliated with the Aptakube project. It repackages the official upstream Linux build unmodified. Aptakube is proprietary software; using it means accepting the vendor's own licence terms.</p>
     <p>Aptakube is a desktop client for Kubernetes. You can connect to multiple clusters, manage workloads, view logs, compare resources, and a lot more. It talks to the Kubernetes API directly, so no kubectl installation is required for browsing or managing resources.</p>

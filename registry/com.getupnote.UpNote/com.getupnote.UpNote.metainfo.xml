@@ -9,8 +9,8 @@
     <name>UpNote Pte. Ltd.</name>
   </developer>
   <url type="homepage">https://getupnote.com</url>
-  <url type="help">https://help.getupnote.com/</url>
-  <url type="bugtracker">https://help.getupnote.com/resources/contact-us</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of UpNote, maintained independently and unaffiliated with UpNote Pte. Ltd. It repackages the official Linux Debian package.</p>
     <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that reports a fixed process ID to the tray code. Every Flatpak app runs as process 2 in its own sandbox, so without it the tray icon competes with other sandboxed apps for the same name and may not appear. The real process ID is still used wherever the system checks it, and nothing else is changed.</p>

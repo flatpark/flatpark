@@ -272,6 +272,13 @@ The rest of the metainfo:
   unmodified. A closed-source package that injects code says what it injects
   instead of "unmodified". A package from a [build repository](#build-repositories)
   names that repository and points its support links there.
+- **Support links of a closed-source package** (`policy.proprietary: true`)
+  point at [FlatPark's tracker](https://github.com/flatpark/flatpark/issues):
+  the metainfo `help` (the site's Support row) and `bugtracker` are both
+  `https://github.com/flatpark/flatpark/issues`. The vendor didn't make this
+  package, and a sandbox problem reported to its support desk goes nowhere.
+  `homepage` stays the vendor's site. The exception is a package from a
+  third-party packaging repository, which points at that repository's issues.
 - **`project_license`** is the app's real licence; for closed source,
   `LicenseRef-proprietary=<URL of the vendor's terms>`.
 - **Telemetry** is upstream's feature: someone installing the app already

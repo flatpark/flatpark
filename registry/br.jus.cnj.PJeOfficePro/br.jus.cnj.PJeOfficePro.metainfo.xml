@@ -10,7 +10,8 @@
     <name>Conselho Nacional de Justiça</name>
   </developer>
   <url type="homepage">https://pjeoffice.trf3.jus.br/pjeoffice-pro/</url>
-  <url type="help">https://pjeoffice.trf3.jus.br/pjeoffice-pro/docs/userguide.html</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of PJeOffice Pro, maintained independently and unaffiliated with the CNJ or TRF3. It repackages the official Linux build and follows upstream releases automatically.</p>
     <p>One thing is added inside the app: a small PKCS#11 module, which PJeOffice Pro loads for A3 tokens through its own PKCS11_DRIVER setting. It passes every call to the host's p11-kit, so the token's driver runs on the host. Nothing else is changed.</p>
