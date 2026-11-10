@@ -18,12 +18,15 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 # The tap hosts releases for several packages; only the hermes-desktop-v* tags
-# carry the Hermes Light artifact. List and filter rather than /releases/latest,
-# which returns the newest release of any kind the tap has published.
+# carry the Hermes Light artifact. A catch-up run can publish an older version
+# after a newer one is already out, so the newest is chosen by version, not by
+# the releases API's publish-date order.
 rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         "https://api.github.com/repos/$repo/releases?per_page=100")"
 
-rel="$(jq -c '[.[] | select(.tag_name | test("^hermes-desktop-v[0-9]"))] | .[0]' <<<"$rels")"
+rel="$(jq -c 'map(select(.tag_name | test("^hermes-desktop-v[0-9]")))
+              | sort_by(.tag_name | sub("^hermes-desktop-v"; "") | split(".") | map(tonumber))
+              | last' <<<"$rels")"
 [ -n "$rel" ] && [ "$rel" != "null" ] || { echo "no hermes-desktop-v* release found on $repo" >&2; exit 1; }
 
 version="$(jq -r '.tag_name | ltrimstr("hermes-desktop-v")' <<<"$rel")"
