@@ -9,7 +9,8 @@
     <name>SurrealDB</name>
   </developer>
   <url type="homepage">https://surrealdb.com/studio</url>
-  <url type="help">https://surrealdb.com/docs</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of SurrealDB Studio, maintained independently. It repackages the official upstream build unmodified.</p>
     <p>SurrealDB Studio is SurrealDB's desktop app for working with your databases and the successor to Surrealist. With it you can write and run SurrealQL queries, browse and edit records, design schemas, watch your agents' memory, and deploy and manage SurrealDB Cloud instances.</p>

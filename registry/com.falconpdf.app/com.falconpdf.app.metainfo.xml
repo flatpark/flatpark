@@ -10,7 +10,8 @@
     <name>ANRMS Private Limited</name>
   </developer>
   <url type="homepage">https://falconpdf.com</url>
-  <url type="bugtracker">https://github.com/avrapps/falcon-pdf-app/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of Falcon PDF, maintained independently and unaffiliated with ANRMS Private Limited. It repackages the official upstream .deb unmodified and follows upstream releases automatically. Falcon PDF is proprietary software, free to use with no ads.</p>
     <p>Falcon PDF is a cross-platform PDF viewer and editor.</p>

@@ -9,7 +9,8 @@
     <name>Automattic</name>
   </developer>
   <url type="homepage">https://www.beeper.com/</url>
-  <url type="help">https://help.beeper.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of Beeper, maintained independently and not endorsed by Automattic. It repackages the official upstream Linux build unmodified.</p>
     <p>Beeper brings your chats from WhatsApp, Telegram, Signal, Instagram, Messenger, X, LinkedIn, Discord, Slack, Google Messages and more into one inbox.</p>

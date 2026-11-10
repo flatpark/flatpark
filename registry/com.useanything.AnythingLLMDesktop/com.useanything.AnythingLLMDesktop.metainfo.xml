@@ -7,8 +7,9 @@
   <project_license>LicenseRef-proprietary=https://docs.anythingllm.com/installation-desktop/terms</project_license>
   <developer id="com.mintplexlabs"><name>Mintplex Labs</name></developer>
   <url type="homepage">https://anythingllm.com</url>
-  <url type="vcs-browser">https://github.com/Mintplex-Labs/anything-llm</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/Mintplex-Labs/anything-llm</url>
   <description>
     <p>This is a community package of AnythingLLM, maintained independently. It repackages the official upstream Linux desktop build unmodified.</p>
     <p>At runtime, the application downloads local inference engines from cdn.anythingllm.com and Prisma query/schema engines from binaries.prisma.sh. Models are downloaded from their providers. Downloads and app data stay under the private Flatpak directory ~/.var/app/com.useanything.AnythingLLMDesktop/, with documents and models in config/anythingllm-desktop/storage/. You can also connect a separate inference server or cloud provider.</p>

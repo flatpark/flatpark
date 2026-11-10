@@ -10,8 +10,8 @@
     <name>Snipaste</name>
   </developer>
   <url type="homepage">https://www.snipaste.com/</url>
-  <url type="help">https://docs.snipaste.com/</url>
-  <url type="bugtracker">https://github.com/Snipaste/feedback/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of Snipaste, maintained independently and unaffiliated with the Snipaste developer. It repackages the official upstream AppImage unmodified — extracted at install time, not rebuilt — and follows upstream releases automatically. Snipaste is proprietary software, free for personal use; a PRO licence unlocks the features marked as such upstream.</p>
     <p>Snipaste is a screenshot tool built around one idea: after you snip a region you can paste it straight back onto the desktop as a floating, always-on-top window, then keep working with it next to the thing you are comparing it against.</p>

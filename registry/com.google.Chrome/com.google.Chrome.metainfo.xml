@@ -8,8 +8,8 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LicenseRef-proprietary=https://www.google.com/chrome/terms/</project_license>
   <url type="homepage">https://www.google.com/chrome/</url>
-  <url type="bugtracker">https://support.google.com/chrome/?p=feedback</url>
-  <url type="help">https://support.google.com/chrome</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>Google Chrome is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier.</p>
     <p>This is a community package. It installs Google's official Linux .deb unmodified, downloaded from Google at install time, and follows new stable releases automatically. It is maintained independently of Google.</p>

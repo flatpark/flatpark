@@ -9,8 +9,9 @@
     <name>Anysphere</name>
   </developer>
   <url type="homepage">https://cursor.com</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="download">https://cursor.com/download</url>
-  <url type="help">https://docs.cursor.com</url>
   <description>
     <p>This is a community package of Cursor, maintained independently and unaffiliated with Anysphere. It repackages the official upstream Linux Debian build unmodified.</p>
     <p>Cursor is an AI code editor built on VS Code. It keeps the editor, extensions and keybindings you already know, and adds model-driven editing: an agent that carries out multi-step work across a codebase, inline edits from a prompt, multi-line autocomplete, and a chat that can read the project you have open.</p>

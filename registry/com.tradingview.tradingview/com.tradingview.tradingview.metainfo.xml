@@ -8,7 +8,8 @@
   <summary>Where the world charts, chats and trades markets</summary>
   <launchable type="desktop-id">com.tradingview.tradingview.desktop</launchable>
   <url type="homepage">https://www.tradingview.com/</url>
-  <url type="help">https://www.tradingview.com/support/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This wrapper is not verified by, affiliated with, or supported by TradingView.</p>
     <p>TradingView is a social network and analysis platform for traders and investors. It provides access to market data with a focus on charts and technical analysis.</p>

@@ -9,6 +9,8 @@
     <name>Tenzen Studio</name>
   </developer>
   <url type="homepage">https://tenzen.studio/photon/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="donation">https://tenzen.studio/photon/</url>
   <description>
     <p>This is a community package of Photon Studio, maintained independently. It repackages the official upstream Linux build unmodified.</p>

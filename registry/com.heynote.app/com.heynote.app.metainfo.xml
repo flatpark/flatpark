@@ -9,8 +9,8 @@
     <name>Jonatan Heyman</name>
   </developer>
   <url type="homepage">https://heynote.com</url>
-  <url type="help">https://heynote.com/docs/</url>
-  <url type="bugtracker">https://github.com/heyman/heynote/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/heyman/heynote</url>
   <description>
     <p>This is a community package of Heynote, maintained independently. It repackages the official upstream Linux build.</p>

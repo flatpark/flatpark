@@ -9,8 +9,8 @@
     <name>Peter Pawłowski</name>
   </developer>
   <url type="homepage">https://www.foobar2000.org</url>
-  <url type="help">https://wiki.hydrogenaud.io/index.php?title=Foobar2000:Foobar2000</url>
-  <url type="bugtracker">https://hydrogenaud.io/index.php/board,28.0.html</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>foobar2000 is a freeware audio player with gapless playback, ReplayGain, full Unicode tag support, a customizable interface and a large library of third-party components. It plays MP3, AAC, FLAC, Opus, Vorbis, WavPack, Musepack, ALAC, WAV and more, converts between formats and rips audio CDs.</p>
     <p>This package runs the official Windows x64 build under Wine, which it does not include: install Wine from Flathub as well, with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>. One Wine installation serves every Wine app. The vendor's installer is downloaded unmodified and run silently in your own Wine prefix on first launch, and again when the package brings a newer version, so the first start takes a little longer. The prefix is managed by cellar, a declarative Wine prefix manager.</p>

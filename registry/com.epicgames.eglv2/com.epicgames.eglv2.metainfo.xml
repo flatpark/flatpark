@@ -9,6 +9,8 @@
     <name>Epic Games</name>
   </developer>
   <url type="homepage">https://launcher.epicgames.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of the Epic Games Launcher, maintained independently. It repackages Epic's official Linux .deb unmodified.</p>
     <p>The Epic Games Launcher is where you buy, download and play games from the Epic Games Store: your library, downloads and updates, cloud saves, friends and parties. This is Epic's new launcher, which Epic still calls a Preview, so some features may not work as expected.</p>

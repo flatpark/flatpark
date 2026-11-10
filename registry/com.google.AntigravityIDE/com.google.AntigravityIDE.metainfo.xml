@@ -9,6 +9,8 @@
     <name>Google</name>
   </developer>
   <url type="homepage">https://antigravity.google</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of Antigravity IDE, maintained independently and unaffiliated with Google. It repackages Google's official Linux tarball unmodified.</p>
     <p>Antigravity IDE is Google's fully-featured, agentic IDE with a deep understanding of your codebase. It enables you to manage and run local AI coding agents in parallel, edit code, and navigate project files.</p>

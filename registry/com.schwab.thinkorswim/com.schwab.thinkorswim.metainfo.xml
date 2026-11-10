@@ -9,7 +9,8 @@
     <name>Charles Schwab &amp; Co., Inc.</name>
   </developer>
   <url type="homepage">https://www.schwab.com/trading/thinkorswim</url>
-  <url type="help">https://www.schwab.com/trading/thinkorswim/desktop</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of thinkorswim and not officially supported by Charles Schwab &amp; Co., Inc.</p>
     <p>One thing is added inside the app: a small preloaded library (LD_PRELOAD) that adds --no-sandbox when thinkorswim starts the embedded Chromium that shows the Schwab login page. Chromium's own sandbox needs user namespaces, which Flatpak does not allow, so without this the login form never appears. The login page still runs inside the Flatpak sandbox, and nothing else is changed.</p>

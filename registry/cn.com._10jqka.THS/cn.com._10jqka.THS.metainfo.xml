@@ -8,7 +8,8 @@
   <summary>Hithink RoyalFlush (THS) stock market quotes and analysis</summary>
   <launchable type="desktop-id">cn.com._10jqka.THS.desktop</launchable>
   <url type="homepage">https://www.10jqka.com.cn/</url>
-  <url type="help">https://activity.10jqka.com.cn/acmake/cache/1380.html</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This wrapper is not verified by, affiliated with, or supported by Hithink RoyalFlush Information Network.</p>
     <p>THS (同花顺) is a proprietary desktop client for Chinese A-share market quotes, charting, news and portfolio tracking, distributed by Hithink RoyalFlush for Linux systems.</p>

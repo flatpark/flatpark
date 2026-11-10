@@ -9,8 +9,8 @@
     <name>OpenAI</name>
   </developer>
   <url type="homepage">https://chatgpt.com</url>
-  <url type="help">https://learn.chatgpt.com/docs/linux/linux-app</url>
-  <url type="bugtracker">https://help.openai.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>This is a community package of the ChatGPT desktop app, maintained independently and unaffiliated with OpenAI. It repackages OpenAI's official Linux Debian package unmodified.</p>
     <p>The desktop app puts ChatGPT in a native window and bundles OpenAI's Codex agent, so conversations and coding sessions live in one place. OpenAI ships the Linux build as a preview.</p>

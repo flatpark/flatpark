@@ -7,8 +7,8 @@
   <project_license>LicenseRef-proprietary=https://ltspice.analog.com/software/License.pdf</project_license>
   <developer id="com.analog"><name>Analog Devices, Inc.</name></developer>
   <url type="homepage">https://www.analog.com/ltspice</url>
-  <url type="help">https://www.analog.com/en/resources/design-tools-and-calculators/ltspice-simulator.html</url>
-  <url type="bugtracker">https://ez.analog.com/design-tools-and-calculators/ltspice/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>LTspice provides schematic capture, SPICE simulation and waveform viewing for analog circuit design, with a library of component models and example circuits from Analog Devices.</p>
     <p>This community package downloads the official Windows x64 MSI from Analog Devices at install time and runs it unmodified under Wine. Cellar installs it into your private, persistent Wine prefix on first launch and when the packaged installer changes. The first launch takes longer while installation completes.</p>

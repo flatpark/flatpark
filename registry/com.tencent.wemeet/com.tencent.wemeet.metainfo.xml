@@ -42,7 +42,8 @@
     </release>
   </releases>
   <url type="homepage">https://meeting.tencent.com/</url>
-  <url type="help">https://meeting.tencent.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
   <categories>
     <category>Office</category>
     <category>Chat</category>
