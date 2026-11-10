@@ -53,6 +53,9 @@
   </provides>
   <launchable type="desktop-id">dev.zfilesync.app.desktop</launchable>
   <releases>
+    <release version="0.1.2" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="0.1.1" date="2026-10-12">
       <url>https://github.com/TheHolyOneZ/ZFileSync/blob/main/CHANGELOG.md</url>
     </release>
