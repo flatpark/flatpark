@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.darktable.Darktable</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>darktable</name>
+  <summary>Organize and develop raw photos, with darktable's local AI tools</summary>
+  <developer id="org.darktable"><name>darktable developers</name></developer>
+  <description>
+    <p>darktable manages your camera raw files and images in a database, lets you view them through lighttable mode and develop/enhance them in darkroom mode. Other modes are a map for geotagging, tethering, print and a slideshow.</p>
+    <p>This community package downloads the official darktable AppImage unmodified at install time and follows upstream releases. Like upstream's own binaries, it includes darktable's optional AI tools (object masks, denoise and upscale), which the community Flathub package is built without. They are off until you enable them in preferences; models are downloaded on request and run locally on the CPU.</p>
+    <p>It uses the same app id as the Flathub package, so an existing library and settings carry over; the two can't be installed side by side in the same installation.</p>
+    <p>Your Pictures folder, memory cards and external drives under /run/media and /media are available directly. Photos elsewhere, including folders an existing library already refers to, need a grant, for example: <code>flatpak override --user --filesystem=home org.darktable.Darktable</code></p>
+    <p>Optional camera tethering and import over USB: <code>flatpak override --user --device=all org.darktable.Darktable</code></p>
+    <p>Undo optional permissions: <code>flatpak override --user --reset org.darktable.Darktable</code></p>
+  </description>
+  <screenshots>
+    <screenshot>
+      <caption>Virtual light table, showing a collection</caption>
+      <image>https://www.darktable.org/images/darktable-appdata-lighttable.jpg</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Virtual dark room with an opened image</caption>
+      <image>https://www.darktable.org/images/darktable-appdata-darkroom1.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Show images on a map</caption>
+      <image>https://www.darktable.org/images/darktable-appdata-map.jpg</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">org.darktable.Darktable.desktop</launchable>
+  <url type="homepage">https://www.darktable.org/</url>
+  <url type="vcs-browser">https://github.com/darktable-org/darktable</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="5.6.2" date="2026-10-04">
+      <url type="details">https://github.com/darktable-org/darktable/releases/tag/release-5.6.2</url>
+    </release>
+  </releases>
+</component>

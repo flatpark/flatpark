@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+# The AppImage's own OpenCL loader looks for drivers in /etc/OpenCL/vendors;
+# in the Flatpak runtime they are in the GL extensions' merged vendors
+# directory.
+if [ -z "${OCL_ICD_VENDORS:-}" ]; then
+    for d in /usr/lib/*/GL/OpenCL/vendors; do
+        [ -d "$d" ] && export OCL_ICD_VENDORS="$d"
+    done
+fi
+# AppRun points GTK, GdkPixbuf, GIO and libgphoto2 at the bundled copies and
+# selects the Wayland backend with an X11 fallback; keep upstream's launcher.
+exec /app/extra/darktable/AppRun "$@"
