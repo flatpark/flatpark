@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+# Velopack's automatic check also downloads a package. FlatPark delivers
+# updates, so the first launch writes the app's own preference off. A later
+# change in the app is left alone.
+if [ -n "${BENCHUP_DATA_DIR:-}" ]; then
+    data="$BENCHUP_DATA_DIR"
+else
+    data="${XDG_DATA_HOME:-$HOME/.local/share}/BenchUp/BenchUp"
+fi
+if [ ! -e "$data/updates.json" ]; then
+    mkdir -p "$data"
+    printf '%s\n' '{"automatic_updates":false}' > "$data/updates.json"
+fi
+
+exec /app/extra/benchup/usr/bin/benchup-app "$@"
