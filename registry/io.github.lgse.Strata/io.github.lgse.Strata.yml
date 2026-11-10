@@ -87,16 +87,16 @@ modules:
         filename: strata.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/lgse/strata/releases/download/v1.2.0/strata-1.2.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 1cb68428d6079473862523f0ff35e48ff092c7ed21cd72b536356f6c51df46e3
-        size: 21663352
+        url: https://github.com/lgse/strata/releases/download/v1.2.1/strata-1.2.1-x86_64-unknown-linux-gnu.tar.gz
+        sha256: a63710ce626078ecc107105223680179a4437b8cb9fbce34d74e3d42c80330d0
+        size: 21672127
       - type: extra-data
         filename: strata.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/lgse/strata/releases/download/v1.2.0/strata-1.2.0-aarch64-unknown-linux-gnu.tar.gz
-        sha256: c9b84c32d7c636a5b634f9b336e2399ccdff6e11e8138d8d75b7211f5382d235
-        size: 20505344
+        url: https://github.com/lgse/strata/releases/download/v1.2.1/strata-1.2.1-aarch64-unknown-linux-gnu.tar.gz
+        sha256: 4c5552b81757639062034b9022442bf13a96c8c07af68c0f682dd000c33a78f0
+        size: 20518813
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

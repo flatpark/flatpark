@@ -55,6 +55,9 @@
   </provides>
   <launchable type="desktop-id">com.bytedance.TraeCN.desktop</launchable>
   <releases>
+    <release version="3.4.17" date="2026-11-09">
+      <description></description>
+    </release>
     <release version="3.4.16" date="2026-11-08">
       <description></description>
     </release>
