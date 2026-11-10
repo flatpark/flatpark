@@ -1,10 +1,10 @@
-id: com.longbridgeapp.LongbridgePro
-name: Longbridge Pro
+id: com.longbridge.Longbridge
+name: Longbridge
 summary: Trading platform
-website: https://longbridge.com/desktop/
+website: https://longbridge.com/hk/zh-CN/download
 source_url: https://github.com/flathub/com.longbridgeapp.LongbridgePro
 build:
-  manifest: com.longbridgeapp.LongbridgePro.yml
+  manifest: com.longbridge.Longbridge.yml
   branch: stable
   mode: extra-data
 catalog:
