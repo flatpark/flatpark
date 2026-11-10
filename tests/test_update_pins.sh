@@ -101,6 +101,12 @@ if command -v appstreamcli >/dev/null 2>&1; then
     || { echo "FAIL: metainfo does not validate after the update"; exit 1; }
 fi
 
+# 5b) a resolver without releaseDate still gets a dated <release> (today, UTC):
+#     Flatpak ignores undated releases, which leaves the app's version blank.
+run "$(printf '{"version":"5.0","sources":[{"filename":"app.bin","url":"file://%s/new.bin"}]}' "$tmp")"
+assert_eq "$RC" "0"
+assert_contains "$tmp/app.metainfo.xml" "<release version=\"5.0\" date=\"$(date -u +%F)\">"
+
 # 6) per-arch payloads share a filename; `arch` picks the pin. Adding an aarch64
 #    source next to an existing x86_64 pin creates a new record scoped to it and,
 #    with no version anchor, leaves the unchanged x86_64 pin alone.

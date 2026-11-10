@@ -4,8 +4,15 @@
 //
 //   <resolver JSON on stdin> | update-pins.mjs <manifest> [metainfo]
 //
-// Resolver JSON: { version, releaseDate, sources: [ { filename, url, arch?, size?, sha256? } ],
+// Resolver JSON: { version, releaseDate?, sources: [ { filename, url, arch?, size?, sha256? } ],
 //                  releaseUrl?, releaseNotes? }
+//
+// releaseDate is upstream's date for the version. Without it the <release> is
+// dated today (UTC), the day FlatPark picked the version up. Every release
+// needs a date: Flatpak takes the installed version (`flatpak list`, `flatpak
+// info`) from the release with the newest date or timestamp and ignores
+// releases with neither. Undated releases left the Version column empty for
+// Chrome, or showed the last dated release, which is older.
 //
 // `arch` scopes a source to one architecture (it becomes the pin's only-arches).
 // An app published for several arches gives each payload the same filename and
@@ -229,7 +236,7 @@ function reindent(fragment, pad) {
 // date and the details link, so bad notes can never hold up an update.
 function releaseElement(withNotes) {
   const I = '    ';
-  const date = resolver.releaseDate ? ` date="${escAttr(resolver.releaseDate)}"` : '';
+  const date = ` date="${escAttr(resolver.releaseDate || new Date().toISOString().slice(0, 10))}"`;
   const el = [`${I}<release version="${escAttr(resolver.version)}"${date}>`];
   if (resolver.releaseUrl) el.push(`${I}  <url type="details">${escText(resolver.releaseUrl)}</url>`);
   if (withNotes && String(resolver.releaseNotes || '').trim()) {

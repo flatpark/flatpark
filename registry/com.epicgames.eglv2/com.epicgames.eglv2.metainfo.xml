@@ -40,43 +40,43 @@
     <binary>epic-games-launcher</binary>
   </provides>
   <releases>
-    <release version="0.113.1">
+    <release version="0.113.1" date="2026-11-10">
       <description></description>
     </release>
-    <release version="0.113.0">
+    <release version="0.113.0" date="2026-11-06">
       <description></description>
     </release>
-    <release version="0.112.0">
+    <release version="0.112.0" date="2026-11-05">
       <description></description>
     </release>
-    <release version="0.111.0">
+    <release version="0.111.0" date="2026-11-05">
       <description></description>
     </release>
-    <release version="0.110.0">
+    <release version="0.110.0" date="2026-11-03">
       <description></description>
     </release>
-    <release version="0.109.0">
+    <release version="0.109.0" date="2026-11-02">
       <description></description>
     </release>
-    <release version="0.108.0">
+    <release version="0.108.0" date="2026-10-30">
       <description></description>
     </release>
-    <release version="0.106.0">
+    <release version="0.106.0" date="2026-10-29">
       <description></description>
     </release>
-    <release version="0.105.0">
+    <release version="0.105.0" date="2026-10-28">
       <description></description>
     </release>
-    <release version="0.104.0">
+    <release version="0.104.0" date="2026-10-27">
       <description></description>
     </release>
-    <release version="0.103.0">
+    <release version="0.103.0" date="2026-10-26">
       <description></description>
     </release>
-    <release version="0.102.0">
+    <release version="0.102.0" date="2026-10-23">
       <description></description>
     </release>
-    <release version="0.101.0">
+    <release version="0.101.0" date="2026-10-22">
       <description></description>
     </release>
     <release version="0.100.0" date="2026-10-21"/>

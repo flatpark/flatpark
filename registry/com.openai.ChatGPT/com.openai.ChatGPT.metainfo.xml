@@ -53,160 +53,160 @@
   </provides>
   <launchable type="desktop-id">com.openai.ChatGPT.desktop</launchable>
   <releases>
-    <release version="26.1103.60933">
+    <release version="26.1103.60933" date="2026-11-08">
       <description></description>
     </release>
-    <release version="26.1103.32239">
+    <release version="26.1103.32239" date="2026-11-06">
       <description></description>
     </release>
-    <release version="26.1103.31037">
+    <release version="26.1103.31037" date="2026-11-05">
       <description></description>
     </release>
-    <release version="26.1029.61003">
+    <release version="26.1029.61003" date="2026-11-03">
       <description></description>
     </release>
-    <release version="26.1027.51404">
+    <release version="26.1027.51404" date="2026-11-01">
       <description></description>
     </release>
-    <release version="26.1027.30824">
+    <release version="26.1027.30824" date="2026-10-29">
       <description></description>
     </release>
-    <release version="26.1023.51421">
+    <release version="26.1023.51421" date="2026-10-28">
       <description></description>
     </release>
-    <release version="26.1023.50603">
+    <release version="26.1023.50603" date="2026-10-27">
       <description></description>
     </release>
-    <release version="26.1021.22027">
+    <release version="26.1021.22027" date="2026-10-23">
       <description></description>
     </release>
-    <release version="26.1016.61520">
+    <release version="26.1016.61520" date="2026-10-22">
       <description></description>
     </release>
-    <release version="26.1016.51333">
+    <release version="26.1016.51333" date="2026-10-21">
       <description></description>
     </release>
-    <release version="26.1013.40934">
+    <release version="26.1013.40934" date="2026-10-17">
       <description></description>
     </release>
-    <release version="26.1013.31256">
+    <release version="26.1013.31256" date="2026-10-16">
       <description></description>
     </release>
-    <release version="26.1007.71326">
+    <release version="26.1007.71326" date="2026-10-14">
       <description></description>
     </release>
-    <release version="26.1007.21434">
+    <release version="26.1007.21434" date="2026-10-09">
       <description></description>
     </release>
-    <release version="26.1002.52244">
+    <release version="26.1002.52244" date="2026-10-07">
       <description></description>
     </release>
-    <release version="26.930.61225">
+    <release version="26.930.61225" date="2026-10-06">
       <description></description>
     </release>
-    <release version="26.930.51102">
+    <release version="26.930.51102" date="2026-10-05">
       <description></description>
     </release>
-    <release version="26.930.41038">
+    <release version="26.930.41038" date="2026-10-04">
       <description></description>
     </release>
-    <release version="26.930.31730">
+    <release version="26.930.31730" date="2026-10-03">
       <description></description>
     </release>
-    <release version="26.930.21537">
+    <release version="26.930.21537" date="2026-10-02">
       <description></description>
     </release>
-    <release version="26.928.31416">
+    <release version="26.928.31416" date="2026-10-01">
       <description></description>
     </release>
-    <release version="26.928.21956">
+    <release version="26.928.21956" date="2026-09-30">
       <description></description>
     </release>
-    <release version="26.924.51851">
+    <release version="26.924.51851" date="2026-09-29">
       <description></description>
     </release>
-    <release version="26.924.22138">
+    <release version="26.924.22138" date="2026-09-26">
       <description></description>
     </release>
-    <release version="26.917.71314">
+    <release version="26.917.71314" date="2026-09-24">
       <description></description>
     </release>
-    <release version="26.917.62051">
+    <release version="26.917.62051" date="2026-09-23">
       <description></description>
     </release>
-    <release version="26.915.31945">
+    <release version="26.915.31945" date="2026-09-19">
       <description></description>
     </release>
-    <release version="26.915.31029">
+    <release version="26.915.31029" date="2026-09-18">
       <description></description>
     </release>
-    <release version="26.911.61220">
+    <release version="26.911.61220" date="2026-09-17">
       <description></description>
     </release>
-    <release version="26.908.70816">
+    <release version="26.908.70816" date="2026-09-15">
       <description></description>
     </release>
-    <release version="26.908.40834">
+    <release version="26.908.40834" date="2026-09-12">
       <description></description>
     </release>
-    <release version="26.908.31748">
+    <release version="26.908.31748" date="2026-09-11">
       <description></description>
     </release>
-    <release version="26.903.71938">
+    <release version="26.903.71938" date="2026-09-10">
       <description></description>
     </release>
-    <release version="26.903.61454">
+    <release version="26.903.61454" date="2026-09-09">
       <description></description>
     </release>
-    <release version="26.901.51231">
+    <release version="26.901.51231" date="2026-09-06">
       <description></description>
     </release>
-    <release version="26.901.41600">
+    <release version="26.901.41600" date="2026-09-05">
       <description></description>
     </release>
-    <release version="26.901.31953">
+    <release version="26.901.31953" date="2026-09-04">
       <description></description>
     </release>
-    <release version="26.901.20858">
+    <release version="26.901.20858" date="2026-09-03">
       <description></description>
     </release>
-    <release version="26.831.21537">
+    <release version="26.831.21537" date="2026-09-02">
       <description></description>
     </release>
-    <release version="26.825.51511">
+    <release version="26.825.51511" date="2026-08-30">
       <description></description>
     </release>
-    <release version="26.825.41651">
+    <release version="26.825.41651" date="2026-08-29">
       <description></description>
     </release>
-    <release version="26.825.32147">
+    <release version="26.825.32147" date="2026-08-28">
       <description></description>
     </release>
-    <release version="26.825.31414">
+    <release version="26.825.31414" date="2026-08-28">
       <description></description>
     </release>
-    <release version="26.820.71523">
+    <release version="26.820.71523" date="2026-08-27">
       <description></description>
     </release>
-    <release version="26.820.60940">
+    <release version="26.820.60940" date="2026-08-26">
       <description></description>
     </release>
-    <release version="26.818.61809">
+    <release version="26.818.61809" date="2026-08-24">
       <description></description>
     </release>
-    <release version="26.818.41705">
+    <release version="26.818.41705" date="2026-08-22">
       <description></description>
     </release>
-    <release version="26.818.31338">
+    <release version="26.818.31338" date="2026-08-21">
       <description></description>
     </release>
-    <release version="26.818.21641">
+    <release version="26.818.21641" date="2026-08-20">
       <description></description>
     </release>
-    <release version="26.814.41957">
+    <release version="26.814.41957" date="2026-08-19">
       <description></description>
     </release>
-    <release version="26.814.41407">
+    <release version="26.814.41407" date="2026-08-18">
       <description></description>
     </release>
     <release version="26.810.52044" date="2026-08-15">
