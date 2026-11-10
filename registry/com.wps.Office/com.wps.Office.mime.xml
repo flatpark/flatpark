@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/wps-office.doc">
+		<comment>Microsoft Word</comment>
+		<sub-class-of type="application/msword"/>
+		<sub-class-of type="application/vnd.ms-word"/>
+		<sub-class-of type="application/x-msword"/>
+		<sub-class-of type="application/vnd.ms-word.document.macroenabled.12"/>
+		<glob pattern="*.doc" />
+		<glob pattern="*.docm" />
+		<glob pattern="*.rtf" />
+	</mime-type>
+	<mime-type type="application/wps-office.dot">
+		<comment>Microsoft Word Template</comment>
+		<sub-class-of type="application/msword-template"/>
+		<sub-class-of type="application/vnd.ms-word.template.macroenabled.12"/>
+		<sub-class-of type="application/msword"/>
+		<glob pattern="*.dot" />
+		<glob pattern="*.dotm" />
+	</mime-type>
+	<mime-type type="application/wps-office.dotx">
+		<comment>Microsoft Word Template</comment>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.wordprocessingml.template"/>
+		<glob pattern="*.dotx" />
+	</mime-type>
+	<mime-type type="application/wps-office.docx">
+		<comment>Microsoft Word</comment>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+		<glob pattern="*.docx" />
+	</mime-type>
+	<mime-type type="application/wps-office.wps">
+		<comment>WPS Writer Document</comment>
+		<comment xml:lang="zh_CN">WPS文字 文档</comment>
+		<sub-class-of type="application/vnd.ms-works"/>
+		<glob pattern="*.wps" />
+		<glob pattern="*.wpsx" />
+	</mime-type>
+	<mime-type type="application/wps-office.wpt">
+		<comment>WPS Writer Template</comment>
+		<comment xml:lang="zh_CN">WPS文字 模板</comment>
+		<glob pattern="*.wpt" />
+		<glob pattern="*.wptx" />
+	</mime-type>
+	<mime-type type="application/wps-office.wpss">
+		<comment>WPS Writer Security</comment>
+		<comment xml:lang="zh_CN">WPS文字 安全</comment>
+		<glob pattern="*.wpss" />
+	</mime-type>
+	<mime-type type="application/wps-office.wpso">
+		<comment>WPS Writer Outgoing Document</comment>
+		<comment xml:lang="zh_CN">WPS文字 外发文档</comment>
+		<glob pattern="*.wpso" />
+	</mime-type>
+	<mime-type type="application/wps-office.ppt">
+		<comment>Microsoft Powerpoint</comment>
+		<sub-class-of type="application/vnd.ms-powerpoint"/>
+		<sub-class-of type="application/powerpoint"/>
+		<sub-class-of type="application/mspowerpoint"/>
+		<sub-class-of type="application/x-mspowerpoint"/>
+		<sub-class-of type="application/vnd.ms-powerpoint.presentation.macroenabled.12"/>
+		<sub-class-of type="application/vnd.ms-powerpoint"/>
+		<glob pattern="*.ppt" />
+		<glob pattern="*.pptm" />
+		<glob pattern="*.pps" />
+	</mime-type>
+	<mime-type type="application/wps-office.pot">
+		<comment>Microsoft Powerpoint Template</comment>
+		<sub-class-of type="application/vnd.ms-powerpoint"/>
+		<sub-class-of type="application/powerpoint"/>
+		<sub-class-of type="application/mspowerpoint"/>
+		<sub-class-of type="application/x-mspowerpoint"/>
+		<sub-class-of type="application/vnd.ms-powerpoint.template.macroenabled.12"/>
+		<glob pattern="*.pot" />
+		<glob pattern="*.potm" />
+	</mime-type>
+	<mime-type type="application/wps-office.potx">
+		<comment>Microsoft Powerpoint Template</comment>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.presentationml.template"/>
+		<glob pattern="*.potx" />
+	</mime-type>
+	<mime-type type="application/wps-office.pptx">
+		<comment>Microsoft Powerpoint</comment>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.presentationml.presentation"/>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.presentationml.slideshow"/>
+		<glob pattern="*.pptx" />
+		<glob pattern="*.ppsx" />
+	</mime-type>
+	<mime-type type="application/wps-office.dps">
+		<comment>WPS Presentation File</comment>
+		<comment xml:lang="zh_CN">WPS演示 演示文稿</comment>
+		<glob pattern="*.dps" />
+		<glob pattern="*.dpsx" />
+	</mime-type>
+	<mime-type type="application/wps-office.dpt">
+		<comment>WPS Presentation Template</comment>
+		<comment xml:lang="zh_CN">WPS演示 模板</comment>
+		<glob pattern="*.dpt" />
+		<glob pattern="*.dptx" />
+	</mime-type>
+	<mime-type type="application/wps-office.dpss">
+		<comment>WPS Presentation Security</comment>
+		<comment xml:lang="zh_CN">WPS演示 安全</comment>
+		<glob pattern="*.dpss" />
+	</mime-type>
+	<mime-type type="application/wps-office.dpso">
+		<comment>WPS Presentation Outgoing Documen</comment>
+		<comment xml:lang="zh_CN">WPS演示 外发文档</comment>
+		<glob pattern="*.dpso" />
+	</mime-type>
+	<mime-type type="application/wps-office.xls">
+		<comment>Microsoft Excel Spreadsheet</comment>
+		<comment xml:lang="en">Microsoft Excel Spreadsheet</comment>
+		<comment xml:lang="zh_CN">Microsoft Excel 工作表</comment>
+		<sub-class-of type="application/vnd.ms-excel"/>
+		<sub-class-of type="application/msexcel"/>
+		<sub-class-of type="application/x-msexcel"/>
+		<sub-class-of type="application/vnd.ms-excel.sheet.macroenabled.12"/>
+		<glob pattern="*.xls" />
+		<glob pattern="*.xlsm" />
+	</mime-type>
+	<mime-type type="application/wps-office.xlt">
+		<comment>Microsoft Excel Template</comment>
+		<comment xml:lang="zh_CN">Microsoft Excel 模板</comment>
+		<sub-class-of type="application/vnd.ms-excel.template.macroenabled.12"/>
+		<sub-class-of type="application/vnd.ms-excel"/>
+		<glob pattern="*.xlt" />
+		<glob pattern="*.xltm" />
+	</mime-type>
+	<mime-type type="application/wps-office.xltx">
+		<comment>Microsoft Excel Template</comment>
+		<comment xml:lang="zh_CN">Microsoft Excel 模板</comment>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.spreadsheetml.template"/>
+		<glob pattern="*.xltx" />
+	</mime-type>
+	<mime-type type="application/wps-office.xlsx">
+		<comment>Microsoft Excel Spreadsheet</comment>
+		<comment xml:lang="zh_CN">Microsoft Excel 工作表</comment>
+		<sub-class-of type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+		<glob pattern="*.xlsx" />
+	</mime-type>
+	<mime-type type="application/wps-office.et">
+		<comment>WPS Spreadsheets Workbook</comment>
+		<comment xml:lang="zh_CN">WPS表格 工作簿</comment>
+		<glob pattern="*.et" />
+		<glob pattern="*.etx" />
+	</mime-type>
+	<mime-type type="application/wps-office.ett">
+		<comment>WPS Spreadsheets Template</comment>
+		<comment xml:lang="zh_CN">WPS表格 模板</comment>
+		<glob pattern="*.ett" />
+		<glob pattern="*.ettx" />
+	</mime-type>
+	<mime-type type="application/wps-office.ets">
+		<comment>WPS Spreadsheets Security</comment>
+		<comment xml:lang="zh_CN">WPS表格 安全</comment>
+		<glob pattern="*.ets" />
+	</mime-type>
+	<mime-type type="application/wps-office.eto">
+		<comment>WPS Spreadsheets Outgoing Documen</comment>
+		<comment xml:lang="zh_CN">WPS表格 外发文档</comment>
+		<glob pattern="*.eto" />
+	</mime-type>
+	<mime-type type="application/wps-office.uot3">
+		<comment>UOT3 document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uot3" />
+		<glob pattern="*.uot" />
+	</mime-type>
+	<mime-type type="application/wps-office.uott3">
+		<comment>UOTT3 Template</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uott3" />
+		<glob pattern="*.uott" />
+	</mime-type>
+	<mime-type type="application/wps-office.uos">
+		<comment>UOS document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uos" />
+	</mime-type>
+	<mime-type type="application/wps-office.uos3">
+		<comment>UOS3 document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uos3" />
+	</mime-type>
+	<mime-type type="application/wps-office.uost3">
+		<comment>UOST3 Template</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uost3" />
+	</mime-type>
+	<mime-type type="application/wps-office.uop">
+		<comment>UOP document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uop" />
+	</mime-type>
+	<mime-type type="application/wps-office.uop3">
+		<comment>UOP3 document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uop3" />
+	</mime-type>
+	<mime-type type="application/wps-office.uopt3">
+		<comment>UOPT3 document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uopt3" />
+	</mime-type>
+	<mime-type type="application/wps-office.uof">
+		<comment>UOF document</comment>
+		<sub-class-of type="application/zip"/>
+		<glob pattern="*.uof" />
+	</mime-type>
+	<mime-type type="application/wps-office.msg">
+		<comment>Microsoft Outlook Message</comment>
+		<comment xml:lang="zh_CN">Outlook 邮件文件</comment>
+		<sub-class-of type="application/vnd.ms-outlook"/>
+		<glob pattern="*.msg"/>
+	</mime-type>
+	<mime-type type="application/wps-office.eml">
+		<comment>E-mail message</comment>
+		<comment xml:lang="zh_CN">电子邮件文件</comment>
+		<sub-class-of type="message/rfc822"/>
+		<glob pattern="*.eml"/>
+	</mime-type>
+</mime-info>

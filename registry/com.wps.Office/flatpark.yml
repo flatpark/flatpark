@@ -1,0 +1,22 @@
+id: com.wps.Office
+name: WPS Office
+summary: Office suite for documents, spreadsheets, presentations and PDF (International Edition)
+website: https://www.wps.com/office/linux/
+source_url: https://www.wps.com/office/linux/
+build:
+  manifest: com.wps.Office.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Office
+    - Word Processor
+    - Spreadsheet
+    - Presentation
+    - PDF
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

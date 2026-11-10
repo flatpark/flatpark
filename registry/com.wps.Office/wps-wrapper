@@ -1,0 +1,24 @@
+#!/bin/sh
+# Launcher for WPS Office, installed as /app/bin/wps. Starts the vendor's own
+# wps launcher, which apply_extra moved next to the suite in
+# /app/extra/wps-office; in its default combined mode it opens every document
+# type (text, spreadsheet, presentation, PDF) in the one WPS Office window.
+
+# The vendor launchers keep their settings (Office.conf, read and written by
+# the launcher itself and by the suite) under $HOME/.config. Inside the sandbox
+# that path is not persistent; the manifest persists ~/.config into the app's
+# data directory, and pointing XDG_CONFIG_HOME at the same place makes the
+# suite read the same Office.conf the launcher writes.
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# The suite bundles Qt 5 with the fcitx and ibus input-method plugins, but Qt
+# only picks one when QT_IM_MODULE names it; derive it from XMODIFIERS the way
+# the desktop session would.
+if [ -z "${QT_IM_MODULE:-}" ]; then
+    case "${XMODIFIERS:-}" in
+        *@im=fcitx*) export QT_IM_MODULE=fcitx ;;
+        *@im=ibus*) export QT_IM_MODULE=ibus ;;
+    esac
+fi
+
+exec /app/extra/wps-office/wps "$@"

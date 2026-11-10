@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.wps.Office</id>
+  <name>WPS Office</name>
+  <summary>Office suite for documents, spreadsheets, presentations and PDF</summary>
+  <summary xml:lang="zh-Hans">处理文档、表格、演示和 PDF 的办公套件</summary>
+  <developer id="com.wps">
+    <name>WPS Software Pte. Ltd.</name>
+  </developer>
+  <launchable type="desktop-id">com.wps.Office.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.wps.com/eula/</project_license>
+  <description>
+    <p>This is a community package that repackages the official WPS Office for
+    Linux build (International Edition, from wps.com) unmodified. It is not
+    verified by, affiliated with, or supported by WPS Software Pte. Ltd.</p>
+    <p>WPS Office combines Writer, Spreadsheets, Presentation and PDF tools in
+    one suite. It opens, edits and saves Microsoft Office files (DOCX, XLSX,
+    PPTX) as well as its own formats, and supports international WPS accounts,
+    cloud documents and an interface in 20 languages.</p>
+    <p>The package adds a single WPS Office launcher. Documents, spreadsheets,
+    presentations and PDFs all open in the combined WPS Office window.</p>
+    <p>WPS Office runs on X11 (XWayland on a Wayland session). It can open and
+    save files in Documents, Downloads and Desktop. A few optional capabilities
+    are not granted by default; enable the ones you need with
+    "flatpak override":</p>
+    <ul>
+      <li>Your whole home folder: <code>flatpak override --user --filesystem=home com.wps.Office</code></li>
+      <li>USB drives and other removable media: <code>flatpak override --user --filesystem=/run/media --filesystem=/media com.wps.Office</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset com.wps.Office</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://global-static.wpscdn.com/cms/official-website/v2/_nuxt/banner_2x.6JYAfX50.webp</image>
+      <caption>WPS Office</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="12.1.2.29182" date="2026-10-08">
+      <url type="details">https://www.wps.com/whatsnew/linux/20261010/</url>
+    </release>
+  </releases>
+  <url type="homepage">https://www.wps.com/office/linux/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <categories>
+    <category>Office</category>
+    <category>WordProcessor</category>
+    <category>Spreadsheet</category>
+    <category>Presentation</category>
+  </categories>
+  <keywords>
+    <keyword>WPS</keyword>
+    <keyword>Writer</keyword>
+    <keyword>Spreadsheet</keyword>
+    <keyword>Presentation</keyword>
+    <keyword>PDF</keyword>
+    <keyword>docx</keyword>
+    <keyword>xlsx</keyword>
+    <keyword>pptx</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+</component>
