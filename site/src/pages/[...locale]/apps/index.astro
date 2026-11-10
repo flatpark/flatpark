@@ -15,10 +15,12 @@ const t = useTranslations(lang);
 const { repo } = loadCatalog();
 const apps = loadApps();
 // Default order: newest listing first (the home grid opens on Popular).
-// Install counts are optional (the build reads them best-effort), so the
-// "Popular" order (total downloads) only appears when there is something to
-// order by.
+// Install counts and upstream stars are both optional (the build reads them
+// best-effort), so each order only appears when there is something to order
+// by. They are two entries here rather than the home page's switch: this page
+// is for finding an app, and a dropdown already holds every order in one place.
 const hasStats = apps.some((a) => a.stats);
+const hasStars = apps.some((a) => a.upstreamStars);
 const ordered = [...apps].sort((a, b) => (b.added || '').localeCompare(a.added || ''));
 
 // Curated sections present in the catalog, with counts, for the sidebar. The
@@ -65,7 +67,8 @@ const sections = Object.entries(counts)
           >
             <option value="added" selected>{t('apps.sort.added')}</option>
             <option value="updated">{t('apps.sort.recent')}</option>
-            {hasStats && <option value="popular">{t('apps.sort.popular')}</option>}
+            {hasStats && <option value="installs">{t('apps.sort.installs')}</option>}
+            {hasStars && <option value="stars">{t('apps.sort.stars')}</option>}
             <option value="approved">{t('apps.sort.approved')}</option>
             <option value="name">{t('apps.sort.name')}</option>
           </select>

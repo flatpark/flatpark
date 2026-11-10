@@ -10,6 +10,7 @@ import YAML from 'yaml';
 import { XMLParser } from 'fast-xml-parser';
 import sharp from 'sharp';
 import { requiresOf, installWith } from '../src/lib/requires.mjs';
+import { starsRepoOf, fetchStars } from '../src/lib/stars.mjs';
 
 // Curated top-level sections. Raw AppStream/descriptor categories map into this
 // fixed set so the catalog filter stays small no matter how many raw categories
@@ -138,6 +139,52 @@ const installStats = await (async () => {
     return await res.json();
   } catch (e) {
     console.warn(`[enrich] install stats unavailable (${src}): ${e.message}`);
+    return null;
+  }
+})();
+
+// Upstream GitHub stars (src/lib/stars.mjs), the other Popular order. Looked
+// up once for the whole catalog before the per-app pass, since one aliased
+// GraphQL query covers every repository. Needs a token (GH_TOKEN or
+// GITHUB_TOKEN; the publish workflow passes github.token) because GraphQL
+// takes no anonymous calls. Best-effort like the install counts: no token or a
+// failed lookup means no star row and no Stars order, never a failed build.
+// FLATPARK_STARS_FILE, a local {"owner/name": count} JSON, stands in for the
+// API (tests, offline builds) and wins over a token.
+const starsByApp = await (async () => {
+  const starsFile = process.env.FLATPARK_STARS_FILE || '';
+  const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN || '';
+  if ((!starsFile && !token) || !existsSync(appsDir)) return null;
+  const wanted = {};
+  for (const f of readdirSync(appsDir).filter((x) => x.endsWith('.json'))) {
+    try {
+      const base = JSON.parse(readFileSync(join(appsDir, f), 'utf8'));
+      const fyPath = join(base._srcDir || '', 'flatpark.yml');
+      const fy = base._srcDir && existsSync(fyPath) ? YAML.parse(readFileSync(fyPath, 'utf8')) : null;
+      const repo = starsRepoOf(fy, base.sourceUrl);
+      if (repo) wanted[base.id] = repo;
+    } catch {
+      // the per-app pass reports a broken file; here it just has no stars
+    }
+  }
+  try {
+    const counts = starsFile
+      ? Object.fromEntries(
+          Object.entries(JSON.parse(readFileSync(starsFile, 'utf8'))).map(([repo, count]) => [
+            repo.toLowerCase(),
+            { repo, count: Number(count) },
+          ]),
+        )
+      : await fetchStars(Object.values(wanted), token);
+    const out = {};
+    for (const [id, repo] of Object.entries(wanted)) {
+      const hit = counts[repo.toLowerCase()];
+      if (hit) out[id] = hit;
+      else console.warn(`[enrich] ${id}: no GitHub repository ${repo} for stars`);
+    }
+    return out;
+  } catch (e) {
+    console.warn(`[enrich] upstream stars unavailable: ${e.message}`);
     return null;
   }
 })();
@@ -732,6 +779,10 @@ async function enrichOne(file) {
       since: installStats.since,
     };
   }
+  // No row means "not measured" (no repository, or the lookup did not run),
+  // which the Stars order sorts after every counted app rather than as 0.
+  const stars = starsByApp?.[out.id];
+  if (stars) out.upstreamStars = stars;
 
   writeFileSync(path, JSON.stringify(out, null, 2) + '\n');
   return out.id;

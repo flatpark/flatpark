@@ -9,6 +9,8 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
+  # source_url is our build repo; stars count upstream's
+  stars_repo: videolan/vlc
   category: AudioVideo
   tags:
     - Video

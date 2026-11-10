@@ -93,6 +93,17 @@ const ld = {
   ...(latest?.version ? { softwareVersion: latest.version } : {}),
   ...(app.developer ? { author: { '@type': 'Organization', name: app.developer } } : {}),
 };
+// The stars chip links to the repository only when it is the one source_url
+// already names. A build repository's app counts upstream's stars
+// (catalog.stars_repo) but must not send users to upstream
+// (docs/packagers/basics.md#build-repositories), so there it is plain text.
+const starsLink =
+  app.upstreamStars &&
+  /^https?:\/\/github\.com\/([^/]+\/[^/#?]+)/.exec(app.sourceUrl || '')?.[1].replace(/\.git$/, '').toLowerCase() ===
+    app.upstreamStars.repo.toLowerCase()
+    ? `https://github.com/${app.upstreamStars.repo}`
+    : undefined;
+const StarsTag = starsLink ? 'a' : 'span';
 ---
 
 <Base
@@ -242,6 +253,21 @@ const ld = {
               <span class="text-sm font-extrabold tabular-nums text-brand">{app.stats.installs30.toLocaleString(lang)}</span>
               <span class="font-semibold">{t('detail.installs30.label')}</span>
             </span>
+          )
+        }
+        {
+          app.upstreamStars?.count > 0 && (
+            <StarsTag
+              href={starsLink}
+              class="inline-flex min-h-6 items-center gap-1.5 rounded-full border border-line bg-surface pr-2.5 pl-2 text-xs text-muted transition hover:border-brand"
+              title={t('detail.stars.title', { repo: app.upstreamStars.repo })}
+            >
+              <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" class="shrink-0 text-brand" aria-hidden="true">
+                <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
+              </svg>
+              <span class="text-sm font-extrabold tabular-nums text-ink">{app.upstreamStars.count.toLocaleString(lang)}</span>
+              <span class="font-semibold">{t('detail.stars.label')}</span>
+            </StarsTag>
           )
         }
       </div>

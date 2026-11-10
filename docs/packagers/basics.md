@@ -81,6 +81,7 @@ catalog:
   category: Productivity
   tags: [Example, Demo]
   upstream_approved: true     # only with a row in upstream-approvals.md
+  stars_repo: owner/name      # only when source_url is not upstream's repo; or none
 requires:                     # other Flatpak apps it runs with, if any
   - remote: flathub
     ref: org.winehq.Wine//stable-26.08
@@ -103,6 +104,15 @@ packaging:                    # anything beyond a plain launch
   `apply_extra.sh` unpacks one name on either arch.
 - `catalog.upstream_approved` is the blue shield. CI fails it without a matching
   row in [upstream approvals](../reference/upstream-approvals.md).
+- `catalog.stars_repo` says which GitHub repository's stars the site shows
+  and sorts by. Leave it out when `source_url` is upstream's own repository;
+  that one is used. Set it to upstream's `owner/name` when `source_url` is a
+  [build repository](#build-repositories), and to `none` for a closed app whose
+  `source_url` is someone else's packaging repository (a Flathub manifest, a
+  `-flatpak` repo). When the developer publishes releases from a repository of
+  their own, name it here so the audit knows it is meant. Extensions never show
+  stars. The PR audit warns about a `source_url` that looks like a build or
+  packaging repository and has no `stars_repo`.
 - `requires` lists other Flatpak apps the app runs with. Flatpak has no
   dependency between apps, so the site's install command installs them too,
   and the app page says they are needed; a `.flatpakref` can't bring them.
@@ -435,6 +445,8 @@ upstream's tracker:
   or donation, can stay.
 - The description says it is not upstream's build and names the repository
   that makes it.
+- `catalog.stars_repo` names upstream's repository, so the site shows
+  upstream's stars, not the build repository's.
 
 Bugs that turn out to be upstream's are reported upstream by the build
 repository's maintainer, not by sending users there.

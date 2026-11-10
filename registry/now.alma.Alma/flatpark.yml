@@ -9,6 +9,8 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
+  # the developer's own release repo, so its stars are the app's
+  stars_repo: yetone/alma-releases
   category: AI
   tags:
     - AI

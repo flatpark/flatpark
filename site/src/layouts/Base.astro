@@ -154,8 +154,19 @@ const searchMeta = {
       const grid = document.querySelector('[data-grid]');
       const empty = document.querySelector('[data-empty]');
       let activeSection = '';
-      // Home page's Approved tab: show only developer-approved (blue shield) cards.
+      // Home page tabs are scopes, not orders: Approved keeps the blue-shield
+      // cards, New and Updated keep the cards whose date falls inside the tab's
+      // window. The window is measured against the reader's clock rather than
+      // fixed at build time, because the site is only rebuilt when something is
+      // merged and a baked-in "last 30 days" would go stale in between.
       let approvedOnly = false;
+      let windowField = '';
+      let windowDays = 0;
+      const inWindow = (card) => {
+        if (!windowField) return true;
+        const t = Date.parse(card.dataset[windowField] || '');
+        return Number.isFinite(t) && Date.now() - t <= windowDays * 86400000;
+      };
 
       // Card fold (home page only — the button is what turns it on). The cap is
       // counted in rows rather than cards so the fold lands on a clean edge at
@@ -194,11 +205,13 @@ const searchMeta = {
         for (const card of cards) {
           const show =
             (!activeSection || card.dataset.section === activeSection) &&
-            (!approvedOnly || card.dataset.approved === '1');
+            (!approvedOnly || card.dataset.approved === '1') &&
+            inWindow(card);
           card.hidden = !show;
           if (show) shown.push(card);
         }
-        if (empty) empty.hidden = shown.length !== 0;
+        // The Collections tab hides the grid, and its empty note with it.
+        if (empty) empty.hidden = shown.length !== 0 || !!grid?.hidden;
         fold(shown);
       }
 
@@ -259,9 +272,13 @@ const searchMeta = {
           if (mode === 'updated') return (b.dataset.updated || '').localeCompare(a.dataset.updated || '');
           // added: newest listing first — when *we* shipped it, not when upstream released
           if (mode === 'added') return (b.dataset.added || '').localeCompare(a.dataset.added || '');
-          // popular: most new installs in the last 30 days, then name
-          if (mode === 'popular') {
-            const d = Number(b.dataset.popular || 0) - Number(a.dataset.popular || 0);
+          // installs: most new installs in the last 30 days, then name.
+          // stars: most upstream GitHub stars, then name. A card with no count
+          // (no repository, or not measured) goes after every counted one
+          // instead of reading as zero.
+          if (mode === 'installs' || mode === 'stars') {
+            const n = (c) => (c.dataset[mode] === '' || c.dataset[mode] === undefined ? -1 : Number(c.dataset[mode]));
+            const d = n(b) - n(a);
             return d || (a.dataset.name || '').localeCompare(b.dataset.name || '');
           }
           // approved: developer-approved (blue shield) first, then name
@@ -294,26 +311,71 @@ const searchMeta = {
         for (const row of next) row.hidden = false;
         moreCollectionsBtn.hidden = collectionRows.every((row) => !row.hidden);
       });
-      for (const tab of sortTabs) {
-        tab.addEventListener('click', () => {
-          for (const t of sortTabs) {
-            t.classList.toggle('is-active', t === tab);
-            t.setAttribute('aria-selected', String(t === tab));
-          }
-          // Collections is a view, not an order: it swaps the grid for the
-          // collection rows and leaves the cards' order alone.
-          const showCollections = tab.dataset.sortTab === 'collections';
-          if (collectionsPanel) collectionsPanel.hidden = !showCollections;
-          if (grid) grid.hidden = showCollections;
-          if (showCollections) {
-            apply();
-            return;
-          }
-          // A new order starts over from the first five rows.
+      // Home page: the tab picks which cards (scope), the switch beside it picks
+      // the order (metric), and the order holds across tabs. Without either
+      // count (a local build with no stats and no token) there is no switch
+      // and every scope lists newest first.
+      const metricBtns = Array.from(document.querySelectorAll<HTMLElement>('[data-metric]'));
+      const metrics = metricBtns.map((b) => b.dataset.metric || '');
+      let metric = metrics[0] || 'added';
+      const METRIC_KEY = 'catalogMetric';
+      {
+        let saved = new URLSearchParams(location.search).get('by') || '';
+        if (!saved) {
+          try { saved = localStorage.getItem(METRIC_KEY) || ''; } catch {}
+        }
+        if (metrics.includes(saved)) metric = saved;
+      }
+      const showMetric = () => {
+        for (const b of metricBtns) {
+          const on = b.dataset.metric === metric;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-checked', String(on));
+        }
+      };
+
+      function selectTab(tab) {
+        for (const t of sortTabs) {
+          t.classList.toggle('is-active', t === tab);
+          t.setAttribute('aria-selected', String(t === tab));
+        }
+        // Collections is a view, not a scope: it swaps the grid for the
+        // collection rows and leaves the cards alone. The order switch has
+        // nothing to order there, so it steps aside.
+        const showCollections = tab.dataset.sortTab === 'collections';
+        if (collectionsPanel) collectionsPanel.hidden = !showCollections;
+        if (grid) grid.hidden = showCollections;
+        const metricGroup = document.querySelector<HTMLElement>('[data-metric-group]');
+        if (metricGroup) metricGroup.hidden = showCollections;
+        if (showCollections) {
+          apply();
+          return;
+        }
+        // A new scope starts over from the first five rows.
+        foldRows = FOLD_ROWS;
+        approvedOnly = tab.dataset.sortTab === 'approved';
+        windowField = tab.dataset.windowField || '';
+        windowDays = Number(tab.dataset.windowDays) || 0;
+        sortCards(metric);
+      }
+
+      for (const tab of sortTabs) tab.addEventListener('click', () => selectTab(tab));
+      for (const btn of metricBtns) {
+        btn.addEventListener('click', () => {
+          metric = btn.dataset.metric || metric;
+          try { localStorage.setItem(METRIC_KEY, metric); } catch {}
+          const url = new URL(location.href);
+          if (metric === metrics[0]) url.searchParams.delete('by');
+          else url.searchParams.set('by', metric);
+          if (url.href !== location.href) history.replaceState(history.state, '', url);
+          showMetric();
           foldRows = FOLD_ROWS;
-          approvedOnly = tab.dataset.sortTab === 'approved';
-          sortCards(tab.dataset.sortTab);
+          sortCards(metric);
         });
+      }
+      if (sortTabs.length) {
+        showMetric();
+        selectTab(sortTabs.find((t) => t.classList.contains('is-active')) || sortTabs[0]);
       }
 
       // Featured carousel: stop rotation on interaction or reduced motion.
