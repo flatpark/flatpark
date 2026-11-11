@@ -1,0 +1,22 @@
+id: de.alphatester.music-generator
+name: Music Generator
+summary: Generate music locally
+website: https://github.com/rabbitfiremediacreation/music-generator-desktop
+source_url: https://github.com/rabbitfiremediacreation/music-generator-desktop
+build:
+  manifest: de.alphatester.music-generator.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Music
+    - Audio
+    - AI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

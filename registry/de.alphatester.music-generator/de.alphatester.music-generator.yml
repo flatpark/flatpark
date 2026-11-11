@@ -1,0 +1,57 @@
+id: de.alphatester.music-generator
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: music-generator
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri app. The AppImage bundles WebKitGTK 4.1, GTK 3 and its own
+# libvulkan.so.1, and the binary looks for them beside itself. The music
+# engine in this build is the Vulkan/CPU one. GNOME 51 supplies the matching
+# WebKit stack for anything the bundle still loads from the runtime.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  # Vulkan for the music engine, with the CPU backend as the fallback.
+  - --device=dri
+  # Model downloads, and the optional phone link and MCP server.
+  - --share=network
+modules:
+  - name: music-generator
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 music-generator-wrapper /app/bin/music-generator
+      - install -Dm644 de.alphatester.music-generator.desktop /app/share/applications/de.alphatester.music-generator.desktop
+      - install -Dm644 de.alphatester.music-generator.metainfo.xml /app/share/metainfo/de.alphatester.music-generator.metainfo.xml
+      - install -Dm644 de.alphatester.music-generator.png /app/share/icons/hicolor/512x512/apps/de.alphatester.music-generator.png
+    sources:
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: music-generator.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/rabbitfiremediacreation/music-generator-desktop/releases/download/v0.2.0/Music-Generator-0.2.0-linux-x64.AppImage
+        sha256: 43083aa88c0aef3fe8fff18e4ab08a2d40732fdd4376d52b4da981bd8d11b351
+        size: 148482552
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: music-generator-wrapper
+      - type: file
+        path: de.alphatester.music-generator.desktop
+      - type: file
+        path: de.alphatester.music-generator.metainfo.xml
+      - type: file
+        path: de.alphatester.music-generator.png

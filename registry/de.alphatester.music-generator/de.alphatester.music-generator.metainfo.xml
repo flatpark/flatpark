@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>de.alphatester.music-generator</id>
+  <name>Music Generator</name>
+  <summary>Generate music locally</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="de.alphatester">
+    <name>rabbitfiremediacreation</name>
+  </developer>
+  <url type="homepage">https://github.com/rabbitfiremediacreation/music-generator-desktop</url>
+  <url type="bugtracker">https://github.com/rabbitfiremediacreation/music-generator-desktop/issues</url>
+  <url type="vcs-browser">https://github.com/rabbitfiremediacreation/music-generator-desktop</url>
+  <description>
+    <p>This is a community package of Music Generator, maintained independently and unaffiliated with rabbitfiremediacreation. It repackages the official upstream Linux build unmodified.</p>
+    <p>This is the Vulkan/CPU build. It generates music on the GPU through Vulkan and otherwise on the CPU. The NVIDIA CUDA build is a separate app, de.alphatester.music-generator.Cuda, and is not part of this package. The two can be installed side by side once that package is listed.</p>
+    <p>Music Generator writes songs on this computer. Models are downloaded when you choose them. No account is required.</p>
+    <p>Sandbox: display, sound, GPU, and network for model downloads and the optional phone link. Models and songs stay in the app's data folder unless you pick another folder. Updates come through FlatPark.</p>
+  </description>
+  <launchable type="desktop-id">de.alphatester.music-generator.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>audio</keyword>
+    <keyword>generator</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The studio, with models and the library</caption>
+      <image>https://raw.githubusercontent.com/rabbitfiremediacreation/music-generator-desktop/v0.2.0/docs/pr/issue-1-react/studio-stack-en.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Generating a song</caption>
+      <image>https://raw.githubusercontent.com/rabbitfiremediacreation/music-generator-desktop/v0.2.0/docs/pr/issue-1-react/generation-progress-de.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>music-generator</binary>
+  </provides>
+  <releases>
+    <release version="0.2.0" date="2026-11-08">
+      <description>
+        <p>Official Linux Vulkan/CPU build 0.2.0.</p>
+      </description>
+    </release>
+  </releases>
+</component>
