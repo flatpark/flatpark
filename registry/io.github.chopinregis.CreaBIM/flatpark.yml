@@ -1,0 +1,23 @@
+id: io.github.chopinregis.CreaBIM
+name: CreaBIM
+summary: Design a building and draw it from one model
+website: https://chopinregis.github.io/CreaBIM/
+source_url: https://github.com/chopinregis/CreaBIM
+build:
+  manifest: io.github.chopinregis.CreaBIM.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - BIM
+    - IFC
+    - Architecture
+    - CAD
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,61 @@
+id: io.github.chopinregis.CreaBIM
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: creabim
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# eframe with a Wgpu viewport and a WebKitGTK 4.1 interface. The binary links
+# WebKitGTK 4.1, GTK 3, libsoup 3 and GLib, which GNOME 51 provides.
+# On Linux the program itself asks for X11, because the web panes are GTK
+# children of that window.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # The 3D view is Wgpu.
+  - --device=dri
+  # Open and Save go through the file chooser. Documents is granted so a
+  # project passed by path, and an export written next to it, keep working.
+  # No network: the program works offline. Check for updates opens the
+  # releases page in the browser and downloads nothing.
+  - --filesystem=xdg-documents
+modules:
+  - name: creabim
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 creabim-wrapper /app/bin/creabim
+      - install -Dm755 creabim-cli-wrapper /app/bin/creabim-cli
+      - install -Dm644 io.github.chopinregis.CreaBIM.desktop /app/share/applications/io.github.chopinregis.CreaBIM.desktop
+      - install -Dm644 io.github.chopinregis.CreaBIM.metainfo.xml /app/share/metainfo/io.github.chopinregis.CreaBIM.metainfo.xml
+      - install -Dm644 io.github.chopinregis.CreaBIM.mime.xml /app/share/mime/packages/io.github.chopinregis.CreaBIM.xml
+      - install -Dm644 io.github.chopinregis.CreaBIM.svg /app/share/icons/hicolor/scalable/apps/io.github.chopinregis.CreaBIM.svg
+      - install -Dm644 io.github.chopinregis.CreaBIM.png /app/share/icons/hicolor/512x512/apps/io.github.chopinregis.CreaBIM.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: creabim.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/chopinregis/CreaBIM/releases/download/v1.1.0/CreaBIM-1.1.0-2026-11-10-linux-x64.tar.gz
+        sha256: c9e4cd14bc30f709ac87490ab293545d6277e700c37dcb1776c294e221b7967b
+        size: 22859191
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: creabim-wrapper
+      - type: file
+        path: creabim-cli-wrapper
+      - type: file
+        path: io.github.chopinregis.CreaBIM.desktop
+      - type: file
+        path: io.github.chopinregis.CreaBIM.metainfo.xml
+      - type: file
+        path: io.github.chopinregis.CreaBIM.mime.xml
+      - type: file
+        path: io.github.chopinregis.CreaBIM.svg
+      - type: file
+        path: io.github.chopinregis.CreaBIM.png

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=CreaBIM
+GenericName=BIM Modeller
+Comment=Design a building and draw it from one model
+Exec=creabim %F
+TryExec=creabim
+Icon=io.github.chopinregis.CreaBIM
+Terminal=false
+StartupNotify=true
+Categories=Graphics;3DGraphics;Engineering;
+Keywords=bim;ifc;architecture;building;cad;plan;section;
+MimeType=application/x-creabim;
+StartupWMClass=CreaBIM
