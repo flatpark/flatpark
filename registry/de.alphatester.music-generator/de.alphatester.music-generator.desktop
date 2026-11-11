@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Music Generator
+GenericName=Music Generator
+Comment=Generate music locally
+Exec=music-generator %U
+TryExec=music-generator
+Icon=de.alphatester.music-generator
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo;Audio;
+Keywords=music;audio;generator;
+StartupWMClass=Music-generator

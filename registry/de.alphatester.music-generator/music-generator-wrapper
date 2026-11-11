@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the sandbox. Override with WEBKIT_DISABLE_DMABUF_RENDERER=0 to use it.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/music/AppRun "$@"
