@@ -1,0 +1,4 @@
+#!/bin/sh
+# The in-app Velopack updater stays inactive here: it only runs when $APPIMAGE
+# points to the running AppImage, and FlatPark runs the extracted binary.
+exec /app/extra/benchup/usr/bin/benchup-app "$@"

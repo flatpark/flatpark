@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.BenchUp3D.BenchUp</id>
+  <name>BenchUp</name>
+  <summary>3D woodworking and modeling</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.benchup3d">
+    <name>BenchUp</name>
+  </developer>
+  <url type="homepage">https://benchup3d.github.io/editor/</url>
+  <url type="bugtracker">https://github.com/BenchUp3D/editor/issues</url>
+  <url type="vcs-browser">https://github.com/BenchUp3D/editor</url>
+  <description>
+    <p>This is a community package of BenchUp, maintained independently and unaffiliated with BenchUp. It repackages the official upstream Linux build unmodified.</p>
+    <p>BenchUp is a 3D modeler for woodworking. Draw parts, join them, and keep a project in a local file. No account is required.</p>
+    <p>Sandbox: display and GPU. Files are opened and saved through the file chooser. The in-app updater is not available in this package. Updates come through FlatPark.</p>
+    <p>Sharing a project with your own server needs a network grant: flatpak override --user --share=network io.github.BenchUp3D.BenchUp, then start BenchUp with --server-url=URL or set BENCHUP_SERVER_URL. A 3D mouse is read through /dev/hidraw, which needs flatpak override --user --device=all io.github.BenchUp3D.BenchUp.</p>
+  </description>
+  <launchable type="desktop-id">io.github.BenchUp3D.BenchUp.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>3D</keyword>
+    <keyword>modeling</keyword>
+    <keyword>woodworking</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>BenchUp modeling a woodworking project</caption>
+      <image>https://raw.githubusercontent.com/BenchUp3D/editor/v0.6.7/assets/screenshots/benchup.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Joinery on a woodworking model</caption>
+      <image>https://raw.githubusercontent.com/BenchUp3D/editor/v0.6.7/assets/screenshots/wood-joinery.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>benchup-app</binary>
+  </provides>
+  <releases>
+    <release version="0.6.7" date="2026-11-10">
+      <description>
+        <p>Official Linux build 0.6.7.</p>
+      </description>
+    </release>
+  </releases>
+</component>
