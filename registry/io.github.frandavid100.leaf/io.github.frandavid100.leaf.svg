@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
   <title>Leaf</title>
-  <desc>A written sheet of paper with a green folded corner.</desc>
-  <!-- Four-pixel front profile; the silhouette ends on the 116px baseline. -->
-  <path fill="#9a9996" d="M32 16h44l28 28v64a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V24a8 8 0 0 1 8-8Z"/>
-  <path fill="#deddda" d="M32 12h44l28 28v64a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V20a8 8 0 0 1 8-8Z"/>
-  <path fill="#f6f5f4" d="M32 12h44l26 28v64a6 6 0 0 1-6 6H32a6 6 0 0 1-6-6V20a8 8 0 0 1 6-8Z"/>
-  <!-- The fold's contact shade stays inside the paper silhouette. -->
-  <path fill="#26a269" d="M76 12v24a8 8 0 0 0 8 8h20v-4Z"/>
-  <path fill="#57e389" d="M76 12v20a8 8 0 0 0 8 8h20Z"/>
-  <!-- A short heading and two text groups remain clear at 32px. -->
-  <rect x="38" y="34" width="24" height="8" rx="2" fill="#26a269"/>
+  <desc>A blue leaf-shaped quill resting on a written sheet of paper.</desc>
+  <!-- The front profile ends on the GNOME template baseline, y=116. -->
+  <rect x="20" y="26" width="72" height="90" rx="8" fill="#62a0ea"/>
+  <rect x="20" y="22" width="72" height="90" rx="8" fill="#deddda"/>
+  <rect x="22" y="22" width="68" height="88" rx="6" fill="#f6f5f4"/>
   <g fill="#77767b">
-    <rect x="38" y="54" width="50" height="4" rx="2"/>
-    <rect x="38" y="64" width="50" height="4" rx="2"/>
-    <rect x="38" y="74" width="34" height="4" rx="2"/>
-    <rect x="38" y="90" width="50" height="4" rx="2"/>
+    <rect x="34" y="40" width="38" height="4" rx="2"/>
+    <rect x="34" y="52" width="30" height="4" rx="2"/>
+    <rect x="34" y="64" width="20" height="4" rx="2"/>
   </g>
+  <!-- A shorter quill keeps the combined silhouette horizontally centered. -->
+  <path fill="#1a5fb4" d="M58 86C50 58 72 20 108 20c0 36-22 62-50 66Z"/>
+  <path fill="#3584e4" d="M58 82C50 54 72 16 108 16c0 36-22 62-50 66Z"/>
+  <path fill="#62a0ea" d="M58 82C50 54 72 16 108 16Z"/>
+  <path d="M50 96C60 72 76 50 96 30" fill="none" stroke="#1a5fb4" stroke-width="6" stroke-linecap="round"/>
+  <path d="m72 58-2-14m14 0 12-2" fill="none" stroke="#1a5fb4" stroke-width="4" stroke-linecap="round"/>
 </svg>

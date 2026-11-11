@@ -15,30 +15,31 @@
   <url type="vcs-browser">https://github.com/frandavid100/leaf</url>
   <url type="help">https://github.com/frandavid100/leaf/blob/main/docs/TESTING.md</url>
   <description>
-    <p>Leaf is a free word processor with a simple interface that integrates with GNOME. Write from scratch, work with DOCX and ODT documents and export the result to PDF.</p>
-    <p xml:lang="es">Leaf es un procesador de textos libre con una interfaz sencilla e integrada en GNOME. Escribe desde cero, trabaja con documentos DOCX y ODT y exporta el resultado a PDF.</p>
-    <p>Shape your documents with styles, tables, images and columns. Add headers, footers, footnotes and tables of contents, and find each section using page thumbnails and the document outline.</p>
-    <p xml:lang="es">Da forma a tus documentos con estilos, tablas, imágenes y columnas. Añade encabezados, pies de página, notas al pie e índices de contenido, y encuentra cada apartado mediante las miniaturas y la estructura del documento.</p>
+    <p>Leaf brings advanced word processing to a simple, native GNOME interface. Create richly formatted reports, navigate long documents and review changes, with everyday tools close at hand and detailed options when you need them.</p>
+    <p xml:lang="es">Leaf reúne herramientas avanzadas de edición en una interfaz sencilla e integrada en GNOME. Crea informes con una maquetación cuidada, recorre documentos largos y revisa los cambios, con las herramientas habituales a mano y las opciones detalladas disponibles cuando las necesitas.</p>
     <ul>
-      <li>Format text and paragraphs with native controls.</li>
-      <li xml:lang="es">Aplica formato al texto y a los párrafos con controles nativos.</li>
-      <li>Insert images and adjust their size and position alongside text.</li>
-      <li xml:lang="es">Inserta imágenes y ajusta su tamaño y su disposición junto al texto.</li>
-      <li>Check spelling and work with comments and tracked changes.</li>
-      <li xml:lang="es">Revisa la ortografía y trabaja con comentarios y seguimiento de cambios.</li>
-      <li>Search and replace text throughout the document or within a selection.</li>
-      <li xml:lang="es">Busca y reemplaza texto en todo el documento o en una selección.</li>
-      <li>Open several documents in tabs and use your own templates.</li>
-      <li xml:lang="es">Abre varios documentos en pestañas y utiliza tus propias plantillas.</li>
+      <li>Create and edit DOCX and ODT documents with styles, tables, images and columns.</li>
+      <li xml:lang="es">Crea y edita documentos DOCX y ODT con estilos, tablas, imágenes y columnas.</li>
+      <li>Find your way through long documents with page thumbnails, headings and bookmarks.</li>
+      <li xml:lang="es">Recorre documentos largos mediante miniaturas de páginas, títulos y marcadores.</li>
+      <li>Add footnotes, and build automatic contents, numbered captions and cross-references in DOCX.</li>
+      <li xml:lang="es">Añade notas al pie y crea índices automáticos, leyendas numeradas y referencias cruzadas en DOCX.</li>
+      <li>Review spelling, grammar, comments and tracked changes in a dedicated sidebar.</li>
+      <li xml:lang="es">Revisa la ortografía, la gramática, los comentarios y el seguimiento de cambios desde un panel lateral.</li>
+      <li>Choose the tools on your toolbar, work across tabs and start from your own templates.</li>
+      <li xml:lang="es">Elige las herramientas de tu barra, trabaja con varios documentos en pestañas y utiliza tus propias plantillas.</li>
+      <li>Use autosave and recovery, then export to PDF or print.</li>
+      <li xml:lang="es">Utiliza el autoguardado y la recuperación, y exporta el resultado a PDF o imprímelo.</li>
     </ul>
-    <p>Leaf is under development and its current versions are alphas. DOCX and ODT compatibility continues to improve: some documents may have formatting differences or contain features that are not yet supported. Keep a copy of important files.</p>
-    <p xml:lang="es">Leaf está en desarrollo y sus versiones actuales son alfa. La compatibilidad con DOCX y ODT sigue mejorando: algunos documentos pueden presentar diferencias de formato o contener funciones todavía no compatibles. Conserva una copia de los archivos importantes.</p>
-    <p>Leaf uses the WordCraft engine. Its development, documentation and artwork have used artificial intelligence assistance.</p>
-    <p xml:lang="es">Leaf utiliza el motor WordCraft. Su desarrollo, documentación e ilustraciones han contado con asistencia de inteligencia artificial.</p>
+    <p>Leaf is in alpha. Test with copies of important documents: compatibility is still being improved, and some advanced features require DOCX. Leaf blocks ODT saves when it detects structures it cannot yet preserve.</p>
+    <p xml:lang="es">Leaf está en fase alfa. Pruébalo con copias de los documentos importantes: la compatibilidad sigue mejorando y algunas funciones avanzadas requieren DOCX. Leaf bloquea el guardado en ODT cuando detecta estructuras que todavía no puede conservar.</p>
+    <p>Leaf uses the existing WordCraft document engine. Much of Leaf’s native interface, tests and packaging was produced through vibe coding with ChatGPT/Codex; the icon also used AI assistance.</p>
+    <p xml:lang="es">Leaf utiliza el motor de documentos WordCraft. Buena parte de su interfaz nativa, pruebas y empaquetado se ha producido mediante vibe coding con ChatGPT/Codex; el icono también se ha creado con asistencia de IA.</p>
     <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is listed with the approval of Leaf's developer.</p>
     <p>Permissions: Leaf runs with no network access and no static access to your files. Opening, saving and exporting go through the file-chooser portal, which grants exactly the file you pick, and settings are kept in the app's own directory under <code>~/.var/app/io.github.frandavid100.leaf</code>. If you would rather give it a directory outright, enable it with <code>flatpak override</code>:</p>
     <ul>
-      <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code></li>
+      <li>Read and write documents in Documents without the portal: <code>flatpak override --user --filesystem=xdg-documents io.github.frandavid100.leaf</code>
+      </li>
     </ul>
   </description>
   <branding>
@@ -47,31 +48,31 @@
   </branding>
   <screenshots>
     <screenshot type="default">
-      <caption>Edit documents with page previews and native formatting tools</caption>
-      <caption xml:lang="es">Edita documentos con miniaturas y controles de formato nativos</caption>
-      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-main.png</image>
+      <caption>Create illustrated documents with page previews</caption>
+      <caption xml:lang="es">Crea documentos ilustrados con miniaturas de páginas</caption>
+      <image type="source" width="1074" height="890">https://raw.githubusercontent.com/frandavid100/leaf/233d5b9c1e0201c55c79c62ec8b6a56c12970b2c/docs/screenshots/leaf-2026-11-main.png</image>
     </screenshot>
     <screenshot>
-      <caption>Edit automatically numbered footnotes on the page</caption>
-      <caption xml:lang="es">Edita notas al pie numeradas en la propia página</caption>
-      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-notes.png</image>
+      <caption>Navigate long documents with columns and text wrapping</caption>
+      <caption xml:lang="es">Recorre documentos largos con columnas y texto alrededor de imágenes</caption>
+      <image type="source" width="1074" height="890">https://raw.githubusercontent.com/frandavid100/leaf/233d5b9c1e0201c55c79c62ec8b6a56c12970b2c/docs/screenshots/leaf-2026-11-layout.png</image>
     </screenshot>
     <screenshot>
-      <caption>Review a document with comment threads</caption>
-      <caption xml:lang="es">Revisa un documento con hilos de comentarios</caption>
-      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-review.png</image>
+      <caption>Review comments and language suggestions in context</caption>
+      <caption xml:lang="es">Revisa comentarios y sugerencias de idioma junto al documento</caption>
+      <image type="source" width="1074" height="890">https://raw.githubusercontent.com/frandavid100/leaf/233d5b9c1e0201c55c79c62ec8b6a56c12970b2c/docs/screenshots/leaf-2026-11-review.png</image>
     </screenshot>
     <screenshot>
-      <caption>Apply paragraph formatting with native controls</caption>
-      <caption xml:lang="es">Aplica formato de párrafo con controles nativos</caption>
-      <image type="source">https://raw.githubusercontent.com/frandavid100/leaf/2bbc75e1aa74c1ecd3acb1109062abc2a47f64af/docs/screenshots/leaf-alpha28-format.png</image>
+      <caption>Use detailed formatting tools when you need them</caption>
+      <caption xml:lang="es">Accede a opciones de formato detalladas cuando las necesites</caption>
+      <image type="source" width="1074" height="890">https://raw.githubusercontent.com/frandavid100/leaf/233d5b9c1e0201c55c79c62ec8b6a56c12970b2c/docs/screenshots/leaf-2026-11-format.png</image>
     </screenshot>
   </screenshots>
   <supports>
     <control>pointing</control>
     <control>keyboard</control>
   </supports>
-  <content_rating type="oars-1.1"/>
+  <content_rating type="oars-1.1" />
   <categories>
     <category>Office</category>
     <category>WordProcessor</category>
@@ -87,17 +88,93 @@
     <binary>leaf</binary>
   </provides>
   <releases>
-    <release version="0.1.0-alpha.44" date="2026-11-10">
-      <description></description>
+    <release version="0.1.0-alpha.44" date="2026-11-10" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.44</url>
+      <description>
+        <p>Native GNOME colors and a simpler frontend</p>
+        <p xml:lang="es">Colores nativos de GNOME y una interfaz más sencilla de mantener</p>
+        <ul>
+          <li>Color properties use GTK’s standard GNOME palette and custom-color editor again. Automatic text color, No Highlight, mixed selections, immediate edits and last-color actions retain their own meanings.</li>
+          <li>Toolbar menus reuse their catalog and placement reads per group. Shared diagnostic scheduling reduces repeated frontend work while retaining the existing real-widget tests.</li>
+          <li>An occasional Windows x86_64 installer and portable package are prepared separately from the same source, with the bundled GTK runtime and the final approved blue-quill icon.</li>
+          <li xml:lang="es">Las propiedades de color vuelven a utilizar la paleta y el editor de colores personalizados estándar de GTK/GNOME. Se conservan Color automático, Sin resaltado, las selecciones mixtas, la aplicación inmediata y las acciones de último color.</li>
+          <li xml:lang="es">Los menús de herramientas reutilizan las consultas de catálogo y colocación por grupo. El registro compartido de diagnósticos reduce trabajo repetido sin retirar las pruebas gráficas existentes.</li>
+          <li xml:lang="es">Se preparan por separado un instalador y un paquete portable ocasionales para Windows x86_64, desde la misma fuente, con GTK incluido y el icono definitivo de la pluma azul.</li>
+        </ul>
+        <p>WordCraft remains at 0.17.0. The remaining engine issues and incomplete List, Columns, Borders, Image and Table work from alpha.43 remain open. Store description and public screenshots (#185) stay paused.</p>
+        <p>Refactoring size and timing comparisons cover the measured Linux build and synthetic cases, not every document or Windows hardware. Windows packages are unsigned and still require real-user testing.</p>
+        <p xml:lang="es">WordCraft sigue en 0.17.0. Permanecen abiertos los problemas del motor y las partes pendientes de Listas, Columnas, Bordes, Imagen y Tabla de la alpha.43. La descripción y las capturas públicas (#185) continúan en pausa.</p>
+        <p xml:lang="es">Las comparaciones de tamaño y tiempos corresponden a la compilación Linux y a casos sintéticos medidos; no representan todos los documentos ni equipos Windows. Los paquetes Windows no están firmados y necesitan pruebas de usuarios reales.</p>
+      </description>
     </release>
-    <release version="0.1.0-alpha.42" date="2026-11-10">
-      <description></description>
+    <release version="0.1.0-alpha.42" date="2026-11-10" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.42</url>
+      <description>
+        <p>Clearer controls, safer window closing and a blue quill icon</p>
+        <p xml:lang="es">Controles más claros, cierre conjunto y un icono de pluma azul</p>
+        <ul>
+          <li>Leaf has a blue leaf-shaped quill over a sheet of paper, with a matching symbolic icon.</li>
+          <li>Text tools precede Paragraph tools. Bottom dropdown arrows point upward, and opening a group menu after a standalone control no longer imitates Back navigation. One shared bottom menu contains Text, Paragraph and Elements. Choose Always in Toolbar, In Toolbar When Space Allows or Only in More Options for each tool; pinned tools scroll while the menu stays visible.</li>
+          <li>The sidebar remembers your wide-window visibility choice when temporarily collapsed on narrow windows. Search options sit inside the search field with the Files filter symbol.</li>
+          <li>Close a window with one Save Changes list: choose which documents to save, cancel the whole close or discard all. Failed or cancelled saves keep the remaining work open. Save, Save As, Export and Print share one menu section, followed by Document Properties.</li>
+          <li>Start previews align with the document page, and the recovery discard button sits inside the paper preview. The system Templates folder is the accepted template source.</li>
+          <li xml:lang="es">Leaf estrena una pluma azul con forma de hoja sobre un folio, acompañada de su icono simbólico.</li>
+          <li xml:lang="es">Las herramientas de Texto aparecen antes que las de Párrafo. Las flechas de los desplegables inferiores apuntan hacia arriba y abrir el menú de un grupo después de un control independiente ya no imita la navegación Atrás. Un solo menú inferior reúne Texto, Párrafo y Elementos. Elige para cada herramienta Siempre en la barra, En la barra si cabe o Solo en Más opciones; las ancladas se desplazan y el menú permanece visible.</li>
+          <li xml:lang="es">El panel recuerda si lo querías visible en una ventana ancha después de ocultarse al estrecharla. Las opciones de búsqueda están dentro del campo, con el símbolo de filtros de Archivos.</li>
+          <li xml:lang="es">Cierra una ventana con una sola lista de cambios pendientes: elige qué documentos guardar, cancela el cierre completo o descarta todo. Un guardado cancelado o fallido conserva el trabajo restante abierto. Guardar, Guardar como, Exportar e Imprimir comparten sección; Propiedades aparece debajo.</li>
+          <li xml:lang="es">Las miniaturas de Inicio se alinean con el folio y el botón de descarte queda dentro de la miniatura. La carpeta de plantillas del sistema queda como origen aceptado.</li>
+        </ul>
+        <p>WordCraft remains at 0.17.0. Unequal-column continuation (#1), table footnotes (#99) and whole-paragraph formatting transfer (#152) still require upstream integration. The intermittent recovery report (#231) remains under investigation.</p>
+        <p>The store description and new public screenshots (#185) are paused until David prepares captures after this alpha. New Windows packages are occasional.</p>
+        <p xml:lang="es">WordCraft sigue en 0.17.0. Continúan pendientes de integración en el motor las columnas desiguales (#1), las notas al pie tras tablas (#99) y el formato heredado al borrar párrafos completos (#152). El informe intermitente de recuperación (#231) sigue en investigación.</p>
+        <p xml:lang="es">La descripción de la tienda y las nuevas capturas públicas (#185) quedan en pausa hasta que David prepare capturas después de esta alpha. Las entregas para Windows son ocasionales.</p>
+      </description>
     </release>
-    <release version="0.1.0-alpha.41" date="2026-11-09">
-      <description></description>
+    <release version="0.1.0-alpha.41" date="2026-11-09" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.41</url>
+      <description>
+        <p>Clearer start previews and native formatting controls</p>
+        <p xml:lang="es">Miniaturas iniciales más claras y controles de formato nativos</p>
+        <ul>
+          <li>Start uses a continuous list of full-size page previews, with recoveries first and templates second, newest first within each kind. Names appear below the previews; the Templates folder button remains fixed in the sidebar footer, including when the list is empty.</li>
+          <li>Choose styles from one fixed-width, subtly framed dropdown. Direct formatting pickers belong to their launcher, open without internal page-slide animations and close on a second click. Independent controls have native spacing; underline and strikethrough use native split buttons. Bullet, numbering and Remove List choices have distinct visible icons.</li>
+          <li>Choose and reorder Paragraph, Text and Elements buttons in Preferences. Choices apply to open windows and survive restarting; other commands remain in overflow. Insertion actions stay in fixed popup footers. Live recovery snapshots are protected and omitted from recovery choices; obsolete scans cannot restore stale rows.</li>
+          <li>Pasted Chrome web text adapts its predominant neutral theme colors for readability while retaining local colors, highlights and formatting. Firefox, Undo/Redo and document roundtrips are covered by regression tests.</li>
+          <li>Update to WordCraft 0.17, including upstream fixes for moving floating pictures across manual page breaks and preserving a following heading when deleting an empty paragraph. Replacing a picture retains its width and follows the replacement’s proportions.</li>
+          <li xml:lang="es">Inicio muestra una lista continua de miniaturas de página grandes: primero las recuperaciones y después las plantillas, de más reciente a más antigua dentro de cada tipo. Los nombres aparecen debajo; el botón de la carpeta de plantillas permanece fijo al pie del panel, incluso si la lista está vacía.</li>
+          <li xml:lang="es">Elige estilos desde un único desplegable de anchura fija y fondo suave. Los selectores directos pertenecen a su botón, se abren sin animaciones internas de cambio de página y se cierran al pulsar de nuevo. Los controles independientes tienen separación nativa; subrayado y tachado usan botones divididos nativos. Viñetas, numeración y Quitar lista tienen iconos distintos y visibles.</li>
+          <li xml:lang="es">Elige y ordena los botones de Párrafo, Texto y Elementos en Preferencias. Los cambios se aplican a las ventanas abiertas y se conservan al reiniciar; las demás acciones siguen en los menús. Las acciones de inserción permanecen en pies fijos. Las copias del trabajo abierto se conservan protegidas y quedan fuera de recuperación; las consultas sustituidas no pueden restaurar filas obsoletas.</li>
+          <li xml:lang="es">El texto web pegado desde Chrome adapta los colores neutros predominantes del tema para resultar legible y conserva los colores locales, el resaltado y el formato. Las regresiones comprueban Firefox, Deshacer/Rehacer y el guardado y reapertura.</li>
+          <li xml:lang="es">Actualización a WordCraft 0.17, con las correcciones del motor para mover imágenes flotantes entre páginas tras un salto manual y conservar el título siguiente al borrar un párrafo vacío. Sustituir una imagen conserva su anchura y usa las proporciones de la nueva.</li>
+        </ul>
+        <p>Discarding a recovery copy is permanent and requires confirmation. No Undo is offered for that deletion.</p>
+        <p>WordCraft is 0.17.0. Whole-paragraph deletion can still transfer formatting to the following paragraph (#152); unequal-column continuation (#1) and table footnotes (#99) remain engine issues. The deferred Files thumbnail report (#52), custom read-only template-folder portal support (#171), and final store screenshots/client validation (#185) remain open.</p>
+        <p xml:lang="es">Descartar una copia de recuperación es permanente y exige confirmación. Ese borrado no ofrece Deshacer.</p>
+        <p xml:lang="es">WordCraft es 0.17.0. Borrar un párrafo completo todavía puede transferir su formato al siguiente (#152); siguen pendientes la continuación entre columnas desiguales (#1) y las notas al pie tras tablas (#99). Continúan abiertos las miniaturas de Archivos aplazadas (#52), el portal de carpetas de plantillas personalizadas de solo lectura (#171) y las capturas finales y comprobación en la tienda (#185).</p>
+      </description>
     </release>
-    <release version="0.1.0-alpha.40" date="2026-11-09">
-      <description></description>
+    <release version="0.1.0-alpha.40" date="2026-11-09" type="development">
+      <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.40</url>
+      <description>
+        <p>A useful start sidebar and direct formatting tools</p>
+        <p xml:lang="es">Un panel inicial útil y herramientas de formato directas</p>
+        <ul>
+          <li>Start choices live in the sidebar, with recoverable documents before personal templates. The blank page stays in place; typing shows Navigation, and deleting all content brings Start back.</li>
+          <li>Discard an individual recovery copy after confirming the document name. Open the Templates folder from its explanatory button, even when the folder is empty.</li>
+          <li>A persistent bottom bar groups Style, Paragraph, Text and Elements, with separators and distinct overflow menus. Narrow windows keep every operation reachable.</li>
+          <li>See the current style name, choose a style with previews or open its current-style actions. Use alignment, lists, Bold, Italic and Underline directly, including visible mixed-selection states.</li>
+          <li>Open Image or Table tools with one click while retaining the document target. Insertion remains an explicit action inside the tools.</li>
+          <li xml:lang="es">Las opciones iniciales pasan al panel lateral, con los documentos por recuperar antes de las plantillas personales. El folio permanece en su sitio: escribir muestra Navegación y borrar todo el contenido recupera Inicio.</li>
+          <li xml:lang="es">Descarta una copia de recuperación concreta tras confirmar el nombre del documento. Abre la carpeta de plantillas desde su botón explicativo, incluso cuando esté vacía.</li>
+          <li xml:lang="es">Una barra inferior permanente agrupa Estilo, Párrafo, Texto y Elementos, con separadores y menús adicionales diferenciados. En ventanas estrechas todas las operaciones siguen accesibles.</li>
+          <li xml:lang="es">Consulta el nombre del estilo actual, elige otro mediante vistas previas o abre sus acciones. Usa directamente alineación, listas, negrita, cursiva y subrayado, con indicaciones visibles de selecciones mixtas.</li>
+          <li xml:lang="es">Abre las herramientas de Imagen o Tabla con un clic, conservando el objeto o la posición del documento. La inserción sigue siendo una acción explícita dentro de las herramientas.</li>
+        </ul>
+        <p>Discarding a recovery copy is permanent and requires confirmation. No Undo is offered for that deletion.</p>
+        <p>WordCraft remains at 0.16.0. Engine-dependent issues, the deferred issue #52, custom template-folder selection in the sandbox (#171), FlatPark publication and the Chrome paste-color investigation (#217) remain separate.</p>
+        <p xml:lang="es">Descartar una copia de recuperación es permanente y exige confirmación. Ese borrado no ofrece Deshacer.</p>
+        <p xml:lang="es">WordCraft sigue en 0.16.0. Se mantienen por separado los issues del motor, el aplazamiento del #52, la elección de carpetas de plantillas en el sandbox (#171), la publicación en FlatPark y la investigación de los colores pegados desde Chrome (#217).</p>
+      </description>
     </release>
     <release version="0.1.0-alpha.38" date="2026-11-08" type="development">
       <url type="details">https://github.com/frandavid100/leaf/releases/tag/v0.1.0-alpha.38</url>
