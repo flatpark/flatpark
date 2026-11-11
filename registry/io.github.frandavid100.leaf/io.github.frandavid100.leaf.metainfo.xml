@@ -15,26 +15,26 @@
   <url type="vcs-browser">https://github.com/frandavid100/leaf</url>
   <url type="help">https://github.com/frandavid100/leaf/blob/main/docs/TESTING.md</url>
   <description>
-    <p>Leaf is a free word processor with a simple interface that integrates with GNOME. Write from scratch, work with DOCX and ODT documents and export the result to PDF.</p>
-    <p xml:lang="es">Leaf es un procesador de textos libre con una interfaz sencilla e integrada en GNOME. Escribe desde cero, trabaja con documentos DOCX y ODT y exporta el resultado a PDF.</p>
-    <p>Shape your documents with styles, tables, images and columns. Add headers, footers, footnotes and tables of contents, and find each section using page thumbnails and the document outline.</p>
-    <p xml:lang="es">Da forma a tus documentos con estilos, tablas, imágenes y columnas. Añade encabezados, pies de página, notas al pie e índices de contenido, y encuentra cada apartado mediante las miniaturas y la estructura del documento.</p>
+    <p>Leaf brings advanced word processing to a simple, native GNOME interface. Create richly formatted reports, navigate long documents and review changes, with everyday tools close at hand and detailed options when you need them.</p>
+    <p xml:lang="es">Leaf reúne herramientas avanzadas de edición en una interfaz sencilla e integrada en GNOME. Crea informes con una maquetación cuidada, recorre documentos largos y revisa los cambios, con las herramientas habituales a mano y las opciones detalladas disponibles cuando las necesitas.</p>
     <ul>
-      <li>Format text and paragraphs with native controls.</li>
-      <li xml:lang="es">Aplica formato al texto y a los párrafos con controles nativos.</li>
-      <li>Insert images and adjust their size and position alongside text.</li>
-      <li xml:lang="es">Inserta imágenes y ajusta su tamaño y su disposición junto al texto.</li>
-      <li>Check spelling and work with comments and tracked changes.</li>
-      <li xml:lang="es">Revisa la ortografía y trabaja con comentarios y seguimiento de cambios.</li>
-      <li>Search and replace text throughout the document or within a selection.</li>
-      <li xml:lang="es">Busca y reemplaza texto en todo el documento o en una selección.</li>
-      <li>Open several documents in tabs and use your own templates.</li>
-      <li xml:lang="es">Abre varios documentos en pestañas y utiliza tus propias plantillas.</li>
+      <li>Create and edit DOCX and ODT documents with styles, tables, images and columns.</li>
+      <li xml:lang="es">Crea y edita documentos DOCX y ODT con estilos, tablas, imágenes y columnas.</li>
+      <li>Find your way through long documents with page thumbnails, headings and bookmarks.</li>
+      <li xml:lang="es">Recorre documentos largos mediante miniaturas de páginas, títulos y marcadores.</li>
+      <li>Add footnotes, and build automatic contents, numbered captions and cross-references in DOCX.</li>
+      <li xml:lang="es">Añade notas al pie y crea índices automáticos, leyendas numeradas y referencias cruzadas en DOCX.</li>
+      <li>Review spelling, grammar, comments and tracked changes in a dedicated sidebar.</li>
+      <li xml:lang="es">Revisa la ortografía, la gramática, los comentarios y el seguimiento de cambios desde un panel lateral.</li>
+      <li>Choose the tools on your toolbar, work across tabs and start from your own templates.</li>
+      <li xml:lang="es">Elige las herramientas de tu barra, trabaja con varios documentos en pestañas y utiliza tus propias plantillas.</li>
+      <li>Use autosave and recovery, then export to PDF or print.</li>
+      <li xml:lang="es">Utiliza el autoguardado y la recuperación, y exporta el resultado a PDF o imprímelo.</li>
     </ul>
-    <p>Leaf is under development and its current versions are alphas. DOCX and ODT compatibility continues to improve: some documents may have formatting differences or contain features that are not yet supported. Keep a copy of important files.</p>
-    <p xml:lang="es">Leaf está en desarrollo y sus versiones actuales son alfa. La compatibilidad con DOCX y ODT sigue mejorando: algunos documentos pueden presentar diferencias de formato o contener funciones todavía no compatibles. Conserva una copia de los archivos importantes.</p>
-    <p>Leaf uses the WordCraft engine. Its development, documentation and artwork have used artificial intelligence assistance.</p>
-    <p xml:lang="es">Leaf utiliza el motor WordCraft. Su desarrollo, documentación e ilustraciones han contado con asistencia de inteligencia artificial.</p>
+    <p>Leaf is in alpha. Test with copies of important documents: compatibility is still being improved, and some advanced features require DOCX. Leaf blocks ODT saves when it detects structures it cannot yet preserve.</p>
+    <p xml:lang="es">Leaf está en fase alfa. Pruébalo con copias de los documentos importantes: la compatibilidad sigue mejorando y algunas funciones avanzadas requieren DOCX. Leaf bloquea el guardado en ODT cuando detecta estructuras que todavía no puede conservar.</p>
+    <p>Leaf uses the existing WordCraft document engine. Much of Leaf’s native interface, tests and packaging was produced through vibe coding with ChatGPT/Codex; the icon also used AI assistance.</p>
+    <p xml:lang="es">Leaf utiliza el motor de documentos WordCraft. Buena parte de su interfaz nativa, pruebas y empaquetado se ha producido mediante vibe coding con ChatGPT/Codex; el icono también se ha creado con asistencia de IA.</p>
     <p>This package installs the official upstream build unmodified: upstream publishes the application tree from their own Flatpak build as a release asset, and it is unpacked here at install time, not rebuilt. It follows their releases automatically, and is listed with the approval of Leaf's developer.</p>
     <p>Permissions: Leaf runs with no network access and no static access to your files. Opening, saving and exporting go through the file-chooser portal, which grants exactly the file you pick, and settings are kept in the app's own directory under <code>~/.var/app/io.github.frandavid100.leaf</code>. If you would rather give it a directory outright, enable it with <code>flatpak override</code>:</p>
     <ul>
