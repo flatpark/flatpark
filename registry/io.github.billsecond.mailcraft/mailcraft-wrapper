@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# The first window asks whether to check GitHub daily and install a new
+# version on quit. That replaces files this package does not own, so the
+# answer is no until the owner changes it. Only a missing settings file is
+# written; one the owner already has is left as it is.
+settings="${XDG_CONFIG_HOME:-$HOME/.config}/mailcraft"
+if [ ! -e "$settings/ui.json" ]; then
+    mkdir -p "$settings"
+    printf '%s\n' '{"updateCheck":"off"}' > "$settings/ui.json"
+    chmod 600 "$settings/ui.json"
+fi
+
+exec /app/extra/mailcraft/bin/mailcraft "$@"

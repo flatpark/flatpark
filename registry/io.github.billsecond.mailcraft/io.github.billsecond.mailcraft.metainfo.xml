@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.billsecond.mailcraft</id>
+  <name>MailCraft</name>
+  <summary>Read and write mail, keep a calendar, contacts and tasks</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="io.github.billsecond">
+    <name>MailCraft contributors</name>
+  </developer>
+  <url type="homepage">https://github.com/UCS-Care-Group/mailcraft</url>
+  <url type="bugtracker">https://github.com/UCS-Care-Group/mailcraft/issues</url>
+  <url type="vcs-browser">https://github.com/UCS-Care-Group/mailcraft</url>
+  <description>
+    <p>This is a community package of MailCraft, maintained independently and unaffiliated with the MailCraft contributors. It repackages the official upstream Linux build unmodified.</p>
+    <p>MailCraft reads and writes mail, and keeps a calendar, contacts and tasks. It talks to IMAP and SMTP servers and opens .eml, .mbox, .ics and .vcf files. No account is set up until you add one.</p>
+    <p>Sandbox: display, GPU, network for mail servers, the Documents and Pictures folders, the keyring for saved sign-ins, and notifications. Updates come through FlatPark. On the first launch this package turns off the daily update check in MailCraft's own settings; an existing settings file is left as it is, and the check can be turned back on in the program.</p>
+  </description>
+  <launchable type="desktop-id">io.github.billsecond.mailcraft.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Email</category>
+    <category>Calendar</category>
+    <category>ContactManagement</category>
+  </categories>
+  <keywords>
+    <keyword>mail</keyword>
+    <keyword>calendar</keyword>
+    <keyword>contacts</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Mail with the navigation pane</caption>
+      <image>https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/v0.11.1/docs/images/mail-dark.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A week in the calendar</caption>
+      <image>https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/v0.11.1/docs/images/calendar-week.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Adding a mail account</caption>
+      <image>https://raw.githubusercontent.com/UCS-Care-Group/mailcraft/v0.11.1/docs/images/add-account.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>mailcraft</binary>
+    <binary>mailcraft-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.11.1" date="2026-11-08">
+      <description>
+        <p>Official Linux build 0.11.1.</p>
+      </description>
+    </release>
+  </releases>
+</component>

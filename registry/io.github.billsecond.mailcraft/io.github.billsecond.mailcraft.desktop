@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=MailCraft
+GenericName=Mail Client
+Comment=Read and write mail, keep a calendar, contacts and tasks
+Exec=mailcraft %U
+TryExec=mailcraft
+Icon=io.github.billsecond.mailcraft
+Terminal=false
+StartupNotify=true
+Categories=Office;Email;Calendar;ContactManagement;
+Keywords=mail;email;e-mail;inbox;calendar;contacts;tasks;imap;smtp;
+MimeType=message/rfc822;application/mbox;text/calendar;text/vcard;x-scheme-handler/mailto;
+StartupWMClass=io.github.billsecond.mailcraft
