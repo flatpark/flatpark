@@ -10,7 +10,7 @@ build:
   arches: [x86_64]
 catalog:
   category: AudioVideo
-  upstream_approved: false
+  upstream_approved: true
   tags: [Radio, Music, Streaming, Player]
 update:
   command: ./resolve-update.sh
