@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=BearWave
+Comment=Internet radio player
+Exec=bearwave
+Icon=de.nerdbear.bearwave
+Terminal=false
+Categories=AudioVideo;Audio;Music;Player;Qt;
+Keywords=radio;stream;internet;audio;music;
+StartupNotify=true
+StartupWMClass=de.nerdbear.bearwave

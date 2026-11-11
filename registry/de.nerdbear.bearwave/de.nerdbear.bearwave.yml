@@ -1,0 +1,45 @@
+id: de.nerdbear.bearwave
+runtime: org.kde.Platform
+runtime-version: "6.11"
+sdk: org.kde.Sdk
+command: bearwave
+separate-locales: false
+build-options: {no-debuginfo: true}
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --socket=pulseaudio
+  - --own-name=org.mpris.MediaPlayer2.bearwave
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: bearwave
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 bearwave-wrapper /app/bin/bearwave
+      - install -Dm644 de.nerdbear.bearwave.desktop /app/share/applications/de.nerdbear.bearwave.desktop
+      - install -Dm644 de.nerdbear.bearwave.metainfo.xml /app/share/metainfo/de.nerdbear.bearwave.metainfo.xml
+      - install -Dm644 de.nerdbear.bearwave.svg /app/share/icons/hicolor/scalable/apps/de.nerdbear.bearwave.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: bearwave.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/spalencsar/bearwave/releases/download/v1.3.2/bearwave-1.3.2-linux-x86_64.tar.xz
+        sha256: 3c08fb076c883dd7f9e7fa71c1f530c7ce1ce2d4692b04f24281090761795d7d
+        size: 399192
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: bearwave-wrapper
+      - type: file
+        path: de.nerdbear.bearwave.desktop
+      - type: file
+        path: de.nerdbear.bearwave.metainfo.xml
+      - type: file
+        path: de.nerdbear.bearwave.svg

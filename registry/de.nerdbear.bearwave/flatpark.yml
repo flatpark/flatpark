@@ -1,0 +1,19 @@
+id: de.nerdbear.bearwave
+name: BearWave
+summary: Desktop internet radio player for Linux
+website: https://github.com/spalencsar/bearwave
+source_url: https://github.com/spalencsar/bearwave
+build:
+  manifest: de.nerdbear.bearwave.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  upstream_approved: true
+  tags: [Radio, Music, Streaming, Player]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
