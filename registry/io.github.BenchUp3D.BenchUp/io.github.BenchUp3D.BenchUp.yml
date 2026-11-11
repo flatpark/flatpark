@@ -13,9 +13,7 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
-  # Open and Save go through the file chooser. Documents stays visible when a
-  # project is passed by path.
-  - --filesystem=xdg-documents
+  # No filesystem grant: Open and Save go through the file chooser portal.
 modules:
   - name: benchup
     buildsystem: simple
@@ -24,7 +22,6 @@ modules:
       - install -Dm755 benchup-wrapper /app/bin/benchup-app
       - install -Dm644 io.github.BenchUp3D.BenchUp.desktop /app/share/applications/io.github.BenchUp3D.BenchUp.desktop
       - install -Dm644 io.github.BenchUp3D.BenchUp.metainfo.xml /app/share/metainfo/io.github.BenchUp3D.BenchUp.metainfo.xml
-      - install -Dm644 io.github.BenchUp3D.BenchUp.mime.xml /app/share/mime/packages/io.github.BenchUp3D.BenchUp.xml
       - install -Dm644 io.github.BenchUp3D.BenchUp.png /app/share/icons/hicolor/512x512/apps/io.github.BenchUp3D.BenchUp.png
     sources:
       # appimage-offset + unsquashfs, so apply_extra can open the AppImage
@@ -54,7 +51,5 @@ modules:
         path: io.github.BenchUp3D.BenchUp.desktop
       - type: file
         path: io.github.BenchUp3D.BenchUp.metainfo.xml
-      - type: file
-        path: io.github.BenchUp3D.BenchUp.mime.xml
       - type: file
         path: io.github.BenchUp3D.BenchUp.png

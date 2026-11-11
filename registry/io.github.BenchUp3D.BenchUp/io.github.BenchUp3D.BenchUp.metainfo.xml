@@ -14,8 +14,8 @@
   <description>
     <p>This is a community package of BenchUp, maintained independently and unaffiliated with BenchUp. It repackages the official upstream Linux build unmodified.</p>
     <p>BenchUp is a 3D modeler for woodworking. Draw parts, join them, and keep a project in a local file. No account is required.</p>
-    <p>Sandbox: display, GPU, and the Documents folder. Files are also opened and saved through the file chooser. Automatic updates are turned off. Updates come through FlatPark.</p>
-    <p>Sharing a project with your own server needs a network grant: flatpak override --user --share=network io.github.BenchUp3D.BenchUp, plus BENCHUP_SERVER_URL. A 3D mouse needs flatpak override --user --device=input io.github.BenchUp3D.BenchUp.</p>
+    <p>Sandbox: display and GPU. Files are opened and saved through the file chooser. The in-app updater is not available in this package. Updates come through FlatPark.</p>
+    <p>Sharing a project with your own server needs a network grant: flatpak override --user --share=network io.github.BenchUp3D.BenchUp, then start BenchUp with --server-url=URL or set BENCHUP_SERVER_URL. A 3D mouse is read through /dev/hidraw, which needs flatpak override --user --device=all io.github.BenchUp3D.BenchUp.</p>
   </description>
   <launchable type="desktop-id">io.github.BenchUp3D.BenchUp.desktop</launchable>
   <categories>
