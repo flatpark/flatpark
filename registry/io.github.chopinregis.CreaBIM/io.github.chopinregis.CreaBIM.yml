@@ -8,12 +8,12 @@ build-options:
   no-debuginfo: true
 # eframe with a Wgpu viewport and a WebKitGTK 4.1 interface. The binary links
 # WebKitGTK 4.1, GTK 3, libsoup 3 and GLib, which GNOME 51 provides.
-# On Linux the program itself asks for X11, because the web panes are GTK
-# children of that window.
 finish-args:
   - --share=ipc
-  - --socket=wayland
-  - --socket=fallback-x11
+  # On Linux the program forces X11 (winit with_x11, GDK_BACKEND=x11), because
+  # its web panes are GTK children of that window. fallback-x11 withholds X11
+  # on a Wayland session, where the app then exits with XOpenDisplayFailed.
+  - --socket=x11
   # The 3D view is Wgpu.
   - --device=dri
   # Open and Save go through the file chooser. Documents is granted so a
