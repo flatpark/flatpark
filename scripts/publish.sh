@@ -72,7 +72,7 @@ if [ "$verify" = "1" ]; then
     fi
 
     remote_args=(--title="$REPO_TITLE" --comment="$REPO_COMMENT"
-        --homepage="$REPO_HOMEPAGE" --gpg-import="$PUBKEY_FILE")
+        --homepage="$REPO_HOMEPAGE" --icon="$REPO_ICON" --gpg-import="$PUBKEY_FILE")
     if flatpak --user remotes | awk '{print $1}' | grep -qxF "$remote"; then
         flatpak --user remote-modify --url="$remote_url" "${remote_args[@]}" "$remote"
     else
