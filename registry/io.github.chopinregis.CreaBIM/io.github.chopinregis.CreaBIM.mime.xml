@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-creabim">
+    <comment>CreaBIM project</comment>
+    <generic-icon name="io.github.chopinregis.CreaBIM"/>
+    <glob pattern="*.creabim"/>
+  </mime-type>
+</mime-info>

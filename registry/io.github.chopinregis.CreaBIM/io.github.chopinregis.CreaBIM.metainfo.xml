@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.chopinregis.CreaBIM</id>
+  <name>CreaBIM</name>
+  <summary>Design a building and draw it from one model</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.chopinregis">
+    <name>Regis Benoit Brice Nde Tene</name>
+  </developer>
+  <url type="homepage">https://chopinregis.github.io/CreaBIM/</url>
+  <url type="bugtracker">https://github.com/chopinregis/CreaBIM/issues</url>
+  <url type="vcs-browser">https://github.com/chopinregis/CreaBIM</url>
+  <description>
+    <p>This is a community package of CreaBIM, maintained independently and unaffiliated with its author. It repackages the official upstream Linux build unmodified.</p>
+    <p>CreaBIM is a BIM modeller. One model holds the 3D view, plans, sections, sheets, schedules and quantities, and it reads and writes IFC. It opens on a starter house. It is ready to explore and not yet for production work.</p>
+    <p>Sandbox: display, GPU, and the Documents folder for projects passed by path. It works offline. Check for updates opens the releases page in the browser and downloads nothing.</p>
+  </description>
+  <launchable type="desktop-id">io.github.chopinregis.CreaBIM.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>bim</keyword>
+    <keyword>ifc</keyword>
+    <keyword>architecture</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The Maple Lane House in 3D beside its ground-floor plan</caption>
+      <image>https://raw.githubusercontent.com/chopinregis/CreaBIM/v1.1.0/docs/screenshot.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A cover sheet with a 3D view and the drawing list</caption>
+      <image>https://raw.githubusercontent.com/chopinregis/CreaBIM/v1.1.0/docs/screenshot-sheet.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>creabim</binary>
+    <binary>creabim-cli</binary>
+  </provides>
+  <releases>
+    <release version="1.1.0" date="2026-11-11">
+      <description>
+        <p>Official Linux build 1.1.0.</p>
+      </description>
+    </release>
+  </releases>
+</component>

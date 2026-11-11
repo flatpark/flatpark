@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# WebKit's GPU renderer stays black on some GPUs. The program sets the same
+# default itself when the variable is unset. Override with
+# WEBKIT_DISABLE_DMABUF_RENDERER=0 to use it.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+exec /app/extra/creabim/creabim "$@"
