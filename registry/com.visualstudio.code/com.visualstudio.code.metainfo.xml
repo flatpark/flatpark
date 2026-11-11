@@ -36,6 +36,10 @@
     <content_attribute id="social-info">moderate</content_attribute>
   </content_rating>
   <releases>
+    <release version="1.146.0" date="2026-11-10">
+      <url type="details">https://code.visualstudio.com/updates</url>
+      <description></description>
+    </release>
     <release version="1.145.3" date="2026-11-07">
       <url type="details">https://code.visualstudio.com/updates</url>
       <description></description>
