@@ -17,6 +17,7 @@ cat > "$repo_file" <<EOF
 Title=$REPO_TITLE
 Url=$REPO_URL
 Homepage=$REPO_HOMEPAGE
+Icon=$REPO_ICON
 Comment=$REPO_COMMENT
 GPGKey=$gpgkey_b64
 EOF
