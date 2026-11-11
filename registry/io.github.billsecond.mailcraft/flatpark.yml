@@ -1,0 +1,32 @@
+id: io.github.billsecond.mailcraft
+name: MailCraft
+summary: Read and write mail, keep a calendar, contacts and tasks
+website: https://github.com/UCS-Care-Group/mailcraft
+source_url: https://github.com/UCS-Care-Group/mailcraft
+build:
+  manifest: io.github.billsecond.mailcraft.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Mail
+    - Calendar
+    - Contacts
+update:
+  command: ./resolve-update.sh
+upstream:
+  manifest: packaging/linux/flatpak/io.github.billsecond.mailcraft.yml
+policy:
+  proprietary: false
+  dangerous_permissions: []
+
+# The first window would ask to check GitHub daily and install a new version
+# on quit. That file is MailCraft's own settings, and only when it is absent.
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "On first launch, turns off MailCraft's daily update check; Flatpak delivers updates instead. An existing settings file is left as it is."
+      zh-Hans: "首次启动时关闭 MailCraft 的每日更新检查，改由 Flatpak 负责更新。已有的设置文件保持原样。"
