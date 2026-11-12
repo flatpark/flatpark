@@ -70,16 +70,16 @@ modules:
         filename: soundcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/soundcraft/releases/download/v0.19.0/soundcraft-0.19.0-linux-x86_64.tar.gz
-        sha256: 89a29bf48c299eee593d7cd684b21c8483ca287abc196657ae3f959a1ebc18ad
-        size: 21053331
+        url: https://github.com/storytold/soundcraft/releases/download/v0.20.0/soundcraft-0.20.0-linux-x86_64.tar.gz
+        sha256: ce8474473e3e7feb2276af04ff20732ed6391055f188913779834f514ee1a648
+        size: 21122502
       - type: extra-data
         filename: soundcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/soundcraft/releases/download/v0.19.0/soundcraft-0.19.0-linux-aarch64.tar.gz
-        sha256: 488ec7ebc0be4f3f274fb058e4d3fefd648c3e984d2b9adfcdc969eebdaf7f3c
-        size: 19400465
+        url: https://github.com/storytold/soundcraft/releases/download/v0.20.0/soundcraft-0.20.0-linux-aarch64.tar.gz
+        sha256: d5da77a61e82d393963e51559378ef3d0bed1502a38e7c6e272c92fc63a52de8
+        size: 19458320
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

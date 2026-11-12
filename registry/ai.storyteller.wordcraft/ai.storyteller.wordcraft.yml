@@ -83,16 +83,16 @@ modules:
         filename: wordcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/wordcraft/releases/download/v0.17.0/wordcraft-0.17.0-linux-x86_64.tar.gz
-        sha256: 9c744c0c31a3ce25df82680fc75e645d682846faccbe103f4f91a758b19f3687
-        size: 118118832
+        url: https://github.com/storytold/wordcraft/releases/download/v0.18.1/wordcraft-0.18.1-linux-x86_64.tar.gz
+        sha256: 312a057d46dd80597c12dccfd1097ce25edea40baaaeb50bcb6f01ac1aebadb5
+        size: 118327756
       - type: extra-data
         filename: wordcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/wordcraft/releases/download/v0.17.0/wordcraft-0.17.0-linux-aarch64.tar.gz
-        sha256: c172dc50ce4d8b262e49f9f0ef4ba4f988c3bda1669c37b9dd6964e46c9e56db
-        size: 114554702
+        url: https://github.com/storytold/wordcraft/releases/download/v0.18.1/wordcraft-0.18.1-linux-aarch64.tar.gz
+        sha256: 3f4afc0598357378ad8af9b2e37a2c171f6dd474c9206c9cf0cf56ea686259ed
+        size: 114732959
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

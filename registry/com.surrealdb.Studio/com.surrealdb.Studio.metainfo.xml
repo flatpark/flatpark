@@ -38,6 +38,9 @@
     <binary>surrealdb-studio</binary>
   </provides>
   <releases>
+    <release version="1.15.0" date="2026-11-11">
+      <description></description>
+    </release>
     <release version="1.14.0" date="2026-11-05">
       <description></description>
     </release>

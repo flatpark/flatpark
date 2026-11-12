@@ -45,16 +45,16 @@ modules:
         filename: texturecraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/texturecraft/releases/download/v0.5.0/texturecraft-0.5.0-linux-x86_64.tar.gz
-        sha256: 0d564fe27d620850212a907711f307a0077e7d471d2277924431d5e91d40bb5f
-        size: 42462823
+        url: https://github.com/storytold/texturecraft/releases/download/v0.6.0/texturecraft-0.6.0-linux-x86_64.tar.gz
+        sha256: 931865846ea6a8202bb3c25897be61e0afaf8ed3264c268d5d5bada973fd772e
+        size: 43008271
       - type: extra-data
         filename: texturecraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/texturecraft/releases/download/v0.5.0/texturecraft-0.5.0-linux-aarch64.tar.gz
-        sha256: f03fbd48e1a44745be7ebbda9b475eb791638bf05ab4290022796a7edc8e4313
-        size: 40716282
+        url: https://github.com/storytold/texturecraft/releases/download/v0.6.0/texturecraft-0.6.0-linux-aarch64.tar.gz
+        sha256: d73229f6cebb1e7a32349000c3904fa6fa57fe3afd2cb387baf109345f613091
+        size: 41212210
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

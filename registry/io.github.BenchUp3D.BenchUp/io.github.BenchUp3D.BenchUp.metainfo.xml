@@ -46,6 +46,10 @@
     <binary>benchup-app</binary>
   </provides>
   <releases>
+    <release version="0.6.8" date="2026-11-11">
+      <url type="details">https://github.com/BenchUp3D/editor/releases/tag/v0.6.8</url>
+      <description></description>
+    </release>
     <release version="0.6.7" date="2026-11-10">
       <description>
         <p>Official Linux build 0.6.7.</p>
