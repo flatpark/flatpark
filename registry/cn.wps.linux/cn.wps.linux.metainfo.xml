@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>cn.wps.linux</id>
+  <name>WPS Office CN</name>
+  <name xml:lang="zh-Hans">WPS Office 国内版</name>
+  <summary>Office suite for documents, spreadsheets, presentations and PDF (China edition)</summary>
+  <summary xml:lang="zh-Hans">处理文档、表格、演示和 PDF 的办公套件（国内版）</summary>
+  <developer id="cn.wps">
+    <name>Zhuhai Kingsoft Office Software Co., Ltd.</name>
+    <name xml:lang="zh-Hans">珠海金山办公软件有限公司</name>
+  </developer>
+  <launchable type="desktop-id">cn.wps.linux.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://privacy.wps.cn/policies/eula/WPS-Office-common</project_license>
+  <description>
+    <p>This is a community package that repackages the official WPS Office for
+    Linux build (mainland China edition, from linux.wps.cn) unmodified. It is
+    not verified by, affiliated with, or supported by Kingsoft Office.</p>
+    <p>WPS Office combines Writer, Spreadsheets, Presentation and PDF tools in
+    one suite. It opens, edits and saves Microsoft Office files (DOCX, XLSX,
+    PPTX) as well as its own formats. This edition signs in with a mainland
+    China WPS account and uses its cloud documents; its interface is Chinese
+    and English. For the international edition, install com.wps.Office.</p>
+    <p xml:lang="zh-Hans">本包为社区打包，原样重新打包 WPS Office Linux 官方安装包（国内版，来自
+    linux.wps.cn），未经金山办公认证，与其无关，也不由其提供支持。</p>
+    <p xml:lang="zh-Hans">WPS Office 集文字、表格、演示和 PDF 于一体，可打开、编辑和保存
+    Microsoft Office 文件（DOCX、XLSX、PPTX）及 WPS 自有格式。本版本使用国内 WPS
+    账号登录和云文档，界面为中文和英文。国际版请安装 com.wps.Office。</p>
+    <p>The package adds a single WPS Office launcher. Documents, spreadsheets,
+    presentations and PDFs all open in the combined WPS Office window.</p>
+    <p>WPS Office runs on X11 (XWayland on a Wayland session). It can open and
+    save files in Documents, Downloads and Desktop. A few optional capabilities
+    are not granted by default; enable the ones you need with
+    "flatpak override":</p>
+    <ul>
+      <li>Your whole home folder: <code>flatpak override --user --filesystem=home cn.wps.linux</code></li>
+      <li>USB drives and other removable media: <code>flatpak override --user --filesystem=/run/media --filesystem=/media cn.wps.linux</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset cn.wps.linux</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://img1.template.cache.wps.cn/wpsweb/images/product/wpslinux/peitu-190703.png</image>
+      <caption>WPS Office</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="12.1.2.29183" date="2026-10-12">
+      <url type="details">https://linux.wps.cn/wpslinuxlog</url>
+    </release>
+  </releases>
+  <url type="homepage">https://linux.wps.cn/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <categories>
+    <category>Office</category>
+    <category>WordProcessor</category>
+    <category>Spreadsheet</category>
+    <category>Presentation</category>
+  </categories>
+  <keywords>
+    <keyword>WPS</keyword>
+    <keyword>Writer</keyword>
+    <keyword>Spreadsheet</keyword>
+    <keyword>Presentation</keyword>
+    <keyword>PDF</keyword>
+    <keyword>docx</keyword>
+    <keyword>xlsx</keyword>
+    <keyword>pptx</keyword>
+    <keyword xml:lang="zh-Hans">金山</keyword>
+    <keyword xml:lang="zh-Hans">文字</keyword>
+    <keyword xml:lang="zh-Hans">表格</keyword>
+    <keyword xml:lang="zh-Hans">演示</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+</component>
