@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=IMGo
+Comment=Batch image compression and conversion, processed locally
+Exec=imgo %F
+Icon=com.meowtec.imgo
+Terminal=false
+Categories=Graphics;
+StartupWMClass=imgo
+Keywords=image;compress;optimize;convert;webp;avif;jxl;heic;png;jpeg;gif;
+MimeType=image/png;image/jpeg;image/gif;image/webp;image/avif;image/heic;image/heif;image/jxl;

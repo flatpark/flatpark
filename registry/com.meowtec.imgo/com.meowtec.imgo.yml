@@ -1,0 +1,60 @@
+id: com.meowtec.imgo
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: imgo
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Core function: batch image processing, fully local. No network is granted —
+  # the app loads nothing from the web and uploads nothing.
+  - --share=ipc
+  # WebKitGTK (Tauri) rendering: Wayland by default with XWayland fallback,
+  # dri for hardware-accelerated compositing.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The single-instance plugin registers its bus name under the sandbox; the
+  # grant keeps a second launch from dying with "could not acquire name".
+  - --own-name=com.meowtec.imgo.SingleInstance
+  # No filesystem grant by default: files picked through the Tauri file-chooser
+  # portal need no grant, and the app has no fixed output directory. Broader
+  # access (xdg-pictures, xdg-download, home) is documented as overrides in the
+  # metainfo. Upstream's own Flatpak grants --filesystem=host; we don't.
+modules:
+  - name: imgo
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 imgo-wrapper /app/bin/imgo
+      - install -Dm644 com.meowtec.imgo.desktop /app/share/applications/com.meowtec.imgo.desktop
+      - install -Dm644 com.meowtec.imgo.metainfo.xml /app/share/metainfo/com.meowtec.imgo.metainfo.xml
+      - install -Dm644 com.meowtec.imgo.png /app/share/icons/hicolor/256x256/apps/com.meowtec.imgo.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: imgo.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/meowtec/imgo/releases/download/v1.1.0/imgo_1.1.0_amd64.deb
+        sha256: 10c781c6c95c0f6a256ec0475b65bbc4f994a5f3d92044a50ee1c561182bc2b3
+        size: 13139216
+      - type: extra-data
+        filename: imgo.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/meowtec/imgo/releases/download/v1.1.0/imgo_1.1.0_arm64.deb
+        sha256: cc3b9a4b80f6d2192da6542db6dc300cc65764de4588ebbe44f0c228246a3159
+        size: 12773344
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: imgo-wrapper
+      - type: file
+        path: com.meowtec.imgo.desktop
+      - type: file
+        path: com.meowtec.imgo.metainfo.xml
+      - type: file
+        path: com.meowtec.imgo.png

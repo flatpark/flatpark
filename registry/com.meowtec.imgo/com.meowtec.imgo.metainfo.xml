@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.meowtec.imgo</id>
+  <name>IMGo</name>
+  <summary>Batch image compression and conversion, processed locally</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <!-- Upstream publishes no licence text; their own Flatpak metainfo declares
+       LicenseRef-proprietary, so we follow that. -->
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer id="io.github.meowtec">
+    <name>meowtec</name>
+  </developer>
+  <url type="homepage">https://imgo.app/</url>
+  <!-- A proprietary package's support and bug links point at FlatPark's
+       tracker: the vendor didn't make this package, and a sandbox problem
+       reported to the app's own support desk goes nowhere. -->
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/meowtec/imgo</url>
+  <description>
+    <p>This is a community package of IMGo: it repackages the official upstream Debian build unmodified, fetched from upstream's releases at install time.</p>
+    <p>IMGo is a batch image compression and conversion tool. Process multiple images at once, adjust quality and dimensions, and convert between common formats without uploading your files.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Batch compression and conversion of JPEG, PNG, GIF, WebP, AVIF and HEIC images</li>
+      <li>JPEG XL (JXL) output in the desktop app</li>
+      <li>Animated PNG, GIF, WebP and AVIF output</li>
+      <li>Quality, lossless, resize and metadata controls</li>
+      <li>Everything runs locally; images never leave the device</li>
+    </ul>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Process images in your Pictures folder without picking them through the file chooser: <code>flatpak override --user --filesystem=xdg-pictures com.meowtec.imgo</code></li>
+      <li>Process images in your Downloads folder without picking them through the file chooser: <code>flatpak override --user --filesystem=xdg-download com.meowtec.imgo</code></li>
+      <li>The whole home directory, as upstream's own Flatpak grants: <code>flatpak override --user --filesystem=home com.meowtec.imgo</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset com.meowtec.imgo</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Batch processing view</caption>
+      <image>https://raw.githubusercontent.com/meowtec/imgo/main/docs/images/imgo.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Image comparison view</caption>
+      <image>https://raw.githubusercontent.com/meowtec/imgo/main/docs/images/imgo-2.webp</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">com.meowtec.imgo.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+  </categories>
+  <keywords>
+    <keyword>image</keyword>
+    <keyword>compress</keyword>
+    <keyword>optimize</keyword>
+    <keyword>convert</keyword>
+    <keyword>webp</keyword>
+    <keyword>avif</keyword>
+    <keyword>jpeg</keyword>
+    <keyword>png</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>imgo</binary>
+  </provides>
+  <releases>
+    <release version="1.1.0" date="2026-10-15"/>
+  </releases>
+</component>

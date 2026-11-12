@@ -1,0 +1,37 @@
+id: com.meowtec.imgo
+name: IMGo
+summary: Batch image compression and conversion, processed locally
+website: https://imgo.app/
+source_url: https://github.com/meowtec/imgo
+build:
+  manifest: com.meowtec.imgo.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags:
+    - Image
+    - Compression
+    - Conversion
+    - WebP
+    - AVIF
+    - JXL
+    - HEIC
+update:
+  command: ./resolve-update.sh
+upstream:
+  # Upstream ships its own Flatpak manifest and releases .flatpak bundles; we
+  # package their .deb as extra-data on the catalog's current runtime, so the
+  # finish-args differ on purpose. This diff keeps the rest in step.
+  manifest: packaging/flatpak/com.meowtec.imgo.yml
+  accept_missing_permissions:
+    # We grant the sandbox-narrow set instead of --filesystem=host; picked
+    # files and folders come through the file-chooser portal.
+    - --filesystem=host
+  accept_extra_permissions:
+    # The single-instance plugin registers this name under the sandbox.
+    - --own-name=com.meowtec.imgo.SingleInstance
+policy:
+  proprietary: true
+  dangerous_permissions: []
