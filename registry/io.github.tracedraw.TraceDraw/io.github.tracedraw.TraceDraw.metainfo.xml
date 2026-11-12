@@ -70,6 +70,9 @@
     <mediatype>application/x-cdr</mediatype>
   </provides>
   <releases>
+    <release version="0.44.2" date="2026-11-12">
+      <description></description>
+    </release>
     <release version="0.44.0" date="2026-11-10">
       <description></description>
     </release>

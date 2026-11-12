@@ -39,16 +39,16 @@ modules:
         filename: esearch.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/xushengfeng/eSearch/releases/download/15.7.1/eSearch-15.7.1-linux-x64.tar.gz
-        sha256: 5cc1901695304fde4323341d2747f385a7793cb08d89bf4678b64835bb663cf8
-        size: 371311563
+        url: https://github.com/xushengfeng/eSearch/releases/download/15.8.0/eSearch-15.8.0-linux-x64.tar.gz
+        sha256: 9d5becc2af040258925079abdf2bf9707fceb8859a758d49f11c0375614db314
+        size: 372563357
       - type: extra-data
         filename: esearch.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/xushengfeng/eSearch/releases/download/15.7.1/eSearch-15.7.1-linux-arm64.tar.gz
-        sha256: 37f4d047671af631e2b22a3ce02b3af7fbd93e5211051998948b1fad2c8a1ab2
-        size: 165428649
+        url: https://github.com/xushengfeng/eSearch/releases/download/15.8.0/eSearch-15.8.0-linux-arm64.tar.gz
+        sha256: 8840274d195725f4cac7418e9311b86b35872e1aed15fe65fd7c518251efd666
+        size: 166678147
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

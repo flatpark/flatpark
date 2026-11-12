@@ -53,6 +53,9 @@
     <keyword>ffsubsync</keyword>
   </keywords>
   <releases>
+    <release version="6.6" date="2026-11-12">
+      <description></description>
+    </release>
     <release version="6.5" date="2026-08-17"/>
   </releases>
 </component>

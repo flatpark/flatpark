@@ -40,16 +40,16 @@ modules:
         filename: craft-anything.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/craft-anything/releases/download/v0.6.0/craft-anything-0.6.0-linux-x86_64.tar.gz
-        sha256: cbc65972a8eb4c89ed74b99bcf14aa5ea0f7aa9da709def38da79ccacc5e07a0
-        size: 69441863
+        url: https://github.com/storytold/craft-anything/releases/download/v0.6.1/craft-anything-0.6.1-linux-x86_64.tar.gz
+        sha256: 83ec0730c9117f399122b315c63ed4c3a8d31ac55bddd74cb8b33cd2f76ef704
+        size: 70371364
       - type: extra-data
         filename: craft-anything.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/craft-anything/releases/download/v0.6.0/craft-anything-0.6.0-linux-aarch64.tar.gz
-        sha256: e22f2df940882421d95395a685647168aa828618058dd2f8ed4b21c2dffbee01
-        size: 66241076
+        url: https://github.com/storytold/craft-anything/releases/download/v0.6.1/craft-anything-0.6.1-linux-aarch64.tar.gz
+        sha256: b4255ac806e2a598b9fc6dba4e8ed2190e49baafd2f68dd7e037f3294e472941
+        size: 67089499
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

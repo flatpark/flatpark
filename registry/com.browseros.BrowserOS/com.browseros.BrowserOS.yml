@@ -47,7 +47,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: browseros.deb
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/browseros-ai/BrowserOS/releases/download/browserclaw/v0.52.0/BrowserOS_neo_v0.52.1.1_amd64.deb
         sha256: d5ebe332d863768afb3c63995b092f6cab0db59290ac5859cbcc47ae001e6ada
         size: 186449362
