@@ -8,7 +8,7 @@
 # expires; the bare URL answers 403. Such a link can't be pinned as
 # extra-data. Ubuntu Kylin's partner pool carries the same .deb (same sha256)
 # at a versioned URL that stays put:
-#   https://mirrors.163.com/ubuntukylin/pool/partner/wps-office_<version>_amd64.deb
+#   https://archive.ubuntukylin.com/software/pool/partner/wps-office_<version>_amd64.deb
 # So the version and date come from linux.wps.cn, the file from the pool, and
 # the control file in the pool's .deb is checked to be that wps-office build
 # for linux.wps.cn. If the pool hasn't got the version linux.wps.cn announces
@@ -23,7 +23,7 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq; need python3
 
 page="https://linux.wps.cn/"
-pool="https://mirrors.163.com/ubuntukylin/pool/partner"
+pool="https://archive.ubuntukylin.com/software/pool/partner"
 
 tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
 curl -fsSL "$page" -o "$tmp/page.html"

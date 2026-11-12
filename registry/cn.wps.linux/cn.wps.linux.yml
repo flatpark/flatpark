@@ -55,7 +55,7 @@ modules:
       - type: extra-data
         filename: wps-office.deb
         only-arches: [x86_64]
-        url: https://mirrors.163.com/ubuntukylin/pool/partner/wps-office_12.1.2.29183_amd64.deb
+        url: https://archive.ubuntukylin.com/software/pool/partner/wps-office_12.1.2.29183_amd64.deb
         sha256: 77ffbdc1be76c834e1853c27ff9063e49d5d3b1f30b206d785761b5bf560c83b
         size: 562396452
       # END MANAGED EXTRA-DATA
