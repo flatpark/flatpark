@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.roldanjr.pomatez</id>
+  <launchable type="desktop-id">com.roldanjr.pomatez.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Pomatez</name>
+  <summary>Manage work and breaks with a customizable Pomodoro timer</summary>
+  <developer id="com.roldanjr"><name>Roldan Montilla Jr</name></developer>
+  <url type="homepage">https://zidoro.github.io/pomatez/</url>
+  <url type="bugtracker">https://github.com/zidoro/pomatez/issues</url>
+  <url type="vcs-browser">https://github.com/zidoro/pomatez</url>
+  <description>
+    <p>This is a community package of Pomatez, maintained independently and unaffiliated with the Pomatez project. It repackages the official upstream Electron AppImage unmodified and follows upstream releases automatically.</p>
+    <p>Pomatez helps you alternate focused work with regular breaks. Customize work and break intervals, keep a task list, and use desktop notifications, full-screen breaks, strict mode and a compact timer.</p>
+    <p>The timer works offline with its own sandboxed storage. Network access is optional; update this package with Flatpak rather than the in-app updater. Open at login is not integrated with the host desktop; use your desktop's startup settings to launch <code>flatpak run com.roldanjr.pomatez</code>.</p>
+    <p>Optional capabilities can be enabled with these commands:</p>
+    <ul>
+      <li>Network access for online features: <code>flatpak override --user --share=network com.roldanjr.pomatez</code></li>
+      <li>Discord rich presence with a native Discord installation: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 com.roldanjr.pomatez</code></li>
+      <li>Undo these overrides: <code>flatpak override --user --reset com.roldanjr.pomatez</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/zidoro/pomatez/v1.11.0/website/assets/images/work-time-light.PNG</image>
+      <caption>Work timer</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/zidoro/pomatez/v1.11.0/website/assets/images/tasks-light.PNG</image>
+      <caption>Task list</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Utility</category><category>Clock</category></categories>
+  <keywords><keyword>Pomodoro</keyword><keyword>Timer</keyword><keyword>Tasks</keyword></keywords>
+  <releases><release version="1.11.0" date="2026-05-19"/></releases>
+</component>

@@ -1,0 +1,17 @@
+id: com.roldanjr.pomatez
+name: Pomatez
+summary: Manage work and breaks with a customizable Pomodoro timer
+website: https://zidoro.github.io/pomatez/
+source_url: https://github.com/zidoro/pomatez
+build:
+  manifest: com.roldanjr.pomatez.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Productivity
+  tags: [Pomodoro, Timer, Tasks, Electron]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

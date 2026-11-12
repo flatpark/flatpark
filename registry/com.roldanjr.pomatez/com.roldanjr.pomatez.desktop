@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Pomatez
+Comment=Manage work and breaks with a customizable Pomodoro timer
+Exec=pomatez
+Icon=com.roldanjr.pomatez
+Terminal=false
+Categories=Utility;Clock;
+Keywords=Pomodoro;Timer;Tasks;Productivity;
+StartupWMClass=pomatez

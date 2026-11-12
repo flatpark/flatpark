@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Keep Electron launches from IDE terminals in GUI mode.
+unset ELECTRON_RUN_AS_NODE
+# Match AppRun's library path for its bundled tray and notification libraries.
+export LD_LIBRARY_PATH="/app/extra/app/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Let the host tray read Chromium's temporary icon files.
+export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+launcher="$(cat /app/extra/launcher)"
+# The Electron base provides zypak; keep Chromium's internal sandbox enabled.
+exec zypak-wrapper "/app/extra/app/$launcher" --ozone-platform-hint=auto "$@"
