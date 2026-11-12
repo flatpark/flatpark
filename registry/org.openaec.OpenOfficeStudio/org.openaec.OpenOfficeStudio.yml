@@ -54,9 +54,9 @@ modules:
         filename: open-office-studio.deb
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/open-office-studio/releases/download/v2026.45.4/Open.Office.Studio_2026.45.4_amd64.deb
-        sha256: a07e79aeaa0fb05d3f854bff17ef1426b427aa2fa33b2e5186c9e5b55ea968b7
-        size: 74156662
+        url: https://github.com/OpenAEC-Foundation/open-office-studio/releases/download/v2026.46.1/Open.Office.Studio_2026.46.1_amd64.deb
+        sha256: fa8bd94e86ac0f3ba5fa4e93011ab0d1f1cd0f2e6c76a92a2696ae95c9456ce1
+        size: 76267018
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

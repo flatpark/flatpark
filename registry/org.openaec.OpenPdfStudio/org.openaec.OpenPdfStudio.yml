@@ -40,9 +40,9 @@ modules:
         filename: open-pdf-studio.deb
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/download/v2026.45.0/Open.PDF.Studio_2026.45.0_amd64.deb
-        sha256: 98d362192e497f9a7b6bce97ec987b5eb217b7bb5e31bed8898301d65e931335
-        size: 55840290
+        url: https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/download/v2026.46.0/Open.PDF.Studio_2026.46.0_amd64.deb
+        sha256: 4f1242a45197f39bcf62421d4ccbdd55b0e28d01158eaca52e05e24f86695170
+        size: 56082464
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

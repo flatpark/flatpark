@@ -45,16 +45,16 @@ modules:
         filename: materialcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/materialcraft/releases/download/v0.3.0/materialcraft-0.3.0-linux-x86_64.tar.gz
-        sha256: d1439d1f073e2bacd8e18a123d7b8c24c0c41743919b3ccae32a932183f76285
-        size: 21111023
+        url: https://github.com/storytold/materialcraft/releases/download/v0.4.0/materialcraft-0.4.0-linux-x86_64.tar.gz
+        sha256: ac6a742386a92c4adbd1452d5530f0c2449078fdc9e070333e833e6d2bdf8cf7
+        size: 22036033
       - type: extra-data
         filename: materialcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/materialcraft/releases/download/v0.3.0/materialcraft-0.3.0-linux-aarch64.tar.gz
-        sha256: 264679e4a62612aba7f102699fb67646c993060492b2f18fd3faa8aa3618dd55
-        size: 19633811
+        url: https://github.com/storytold/materialcraft/releases/download/v0.4.0/materialcraft-0.4.0-linux-aarch64.tar.gz
+        sha256: c0bb304df206d68af0866d7e6679beb8f0cdfdcd9689b54e5903d18a439d388a
+        size: 20464204
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

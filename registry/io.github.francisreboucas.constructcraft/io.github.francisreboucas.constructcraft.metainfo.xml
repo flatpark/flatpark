@@ -62,6 +62,9 @@
     <mediatype>application/x-constructcad</mediatype>
   </provides>
   <releases>
+    <release version="0.11.1" date="2026-11-12">
+      <description></description>
+    </release>
     <release version="0.10.0" date="2026-11-08">
       <description>
         <p>Official Linux build 0.10.0. ConstructCAD is now ConstructCraft; the desktop program is constructcraft, while ccad and the .ccad files keep their names. The package id changed with the name: users of io.github.francisreboucas.constructcad install this app once. Its preferences start fresh; to keep the old ones, copy ~/.var/app/io.github.francisreboucas.constructcad/ to ~/.var/app/io.github.francisreboucas.constructcraft/ before the first run.</p>
