@@ -46,6 +46,10 @@
     <binary>creabim-cli</binary>
   </provides>
   <releases>
+    <release version="1.1.1" date="2026-11-12">
+      <url type="details">https://github.com/chopinregis/CreaBIM/releases/tag/v1.1.1</url>
+      <description></description>
+    </release>
     <release version="1.1.0" date="2026-11-11">
       <description>
         <p>Official Linux build 1.1.0.</p>

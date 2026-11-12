@@ -42,9 +42,9 @@ modules:
         filename: autosubsync.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/denizsafak/AutoSubSync/releases/download/v6.5/AutoSubSync-linux-amd64.tar.gz
-        sha256: 0385e8e77bfbb5fae183521c7222cab6db5c11f811651afdd722ede207724196
-        size: 175854591
+        url: https://github.com/denizsafak/AutoSubSync/releases/download/v6.6/AutoSubSync-linux-amd64.tar.gz
+        sha256: 3f47a4753422dc35f37b428a28bbbcde24fa97985d192e8bc7c6aff773d60a3d
+        size: 178785537
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
