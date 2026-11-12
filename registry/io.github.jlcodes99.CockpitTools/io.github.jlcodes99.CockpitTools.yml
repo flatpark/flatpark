@@ -61,9 +61,9 @@ modules:
         filename: cockpit-tools.deb
         only-arches:
           - x86_64
-        url: https://github.com/jlcodes99/cockpit-tools/releases/download/v1.3.81/Cockpit.Tools_1.3.81_amd64.deb
-        sha256: 105cf5135d27bd79e9f9ea808a00a0cd7b82c7144c9696bdf550ae8d9137909b
-        size: 51319564
+        url: https://github.com/jlcodes99/cockpit-tools/releases/download/v1.3.82/Cockpit.Tools_1.3.82_amd64.deb
+        sha256: 44d6ec8bc58d5f396bd53165851f7c07d4766fbcd75b08c6f3b272d77cef53ed
+        size: 54274904
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
