@@ -1,0 +1,74 @@
+id: io.github.barry_ran.QtScrcpy
+# The official AppImage carries Qt 5 and its multimedia libraries. Only the
+# display, graphics and system libraries come from the current runtime.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: qtscrcpy
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Bundled Qt's working desktop platform is xcb; IPC is for X11 shared memory.
+  - --socket=x11
+  - --share=ipc
+  - --unset-env=QT_QPA_PLATFORM
+  # Play audio forwarded from Android through the desktop sound server.
+  - --socket=pulseaudio
+  # Like com.genymobile.scrcpy, use network + direct devices + private ADB
+  # storage for Android access, and PulseAudio for forwarded audio.
+  # Reference: https://flatpark.org/apps/com.genymobile.scrcpy/
+  # ADB connects to localhost:5037 and wireless Android devices.
+  - --share=network
+  # USB Android access, also covering GPU rendering; declared in flatpark.yml.
+  - --device=all
+  # Preserve private ADB keys without reading the host's Android configuration.
+  - --persist=.android
+  # Qt accessibility discovers the desktop accessibility bus.
+  - --talk-name=org.a11y.Bus
+  # The GUI's tray is how the app is restored after closing its window.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Qt 5 owns this tray name: the exec-only launcher is PID 2 in Flatpak
+  # and the GUI creates one tray item. Verified across separate launches.
+  - --own-name=org.kde.StatusNotifierItem-2-1
+  # Tray messages use the desktop notification service.
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: qtscrcpy
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 qtscrcpy-wrapper /app/bin/qtscrcpy
+      - install -Dm755 adb-wrapper /app/bin/adb
+      - install -Dm644 io.github.barry_ran.QtScrcpy.desktop /app/share/applications/io.github.barry_ran.QtScrcpy.desktop
+      - install -Dm644 io.github.barry_ran.QtScrcpy.metainfo.xml /app/share/metainfo/io.github.barry_ran.QtScrcpy.metainfo.xml
+      - install -Dm644 io.github.barry_ran.QtScrcpy.png /app/share/icons/hicolor/256x256/apps/io.github.barry_ran.QtScrcpy.png
+    sources:
+      # Extraction tools must be extra-data too: system apply_extra only sees
+      # the runtime and /app/extra. Keep this pin outside the updater's block.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: qtscrcpy.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/barry-ran/QtScrcpy/releases/download/v4.2.1/QtScrcpy-ubuntu-x64-v4.2.1.AppImage
+        sha256: bf2241273e41fae7532a7b046cbace936369f3bffc7fedbd7344bdc2fcebe485
+        size: 36583928
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: qtscrcpy-wrapper
+      - type: file
+        path: adb-wrapper
+      - type: file
+        path: io.github.barry_ran.QtScrcpy.desktop
+      - type: file
+        path: io.github.barry_ran.QtScrcpy.metainfo.xml
+      - type: file
+        path: io.github.barry_ran.QtScrcpy.png

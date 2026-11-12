@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Expose the same ADB the GUI uses for wireless pairing and diagnostics.
+exec /app/extra/qtscrcpy/usr/lib/qtscrcpy/adb "$@"

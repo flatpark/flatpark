@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.barry_ran.QtScrcpy</id>
+  <name>QtScrcpy</name>
+  <summary>Mirror and control Android devices with keyboard mapping</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <description>
+    <p>Display and control Android devices over USB or Wi-Fi through a Qt interface. QtScrcpy supports custom keyboard and mouse mappings, multiple devices, screenshots and screen recording. Android 5.0 or later with USB debugging enabled is required.</p>
+    <p>This community package runs the official upstream Linux AppImage unmodified. Its window uses X11, including XWayland on Wayland desktops. Configuration and custom keymaps are kept in the app's private data directory. Audio forwarded from Android plays through the desktop sound server.</p>
+    <p>Direct device access allows USB mirroring and also exposes other devices. Network access allows wireless connections and communication with an ADB server on localhost. ADB authorization keys are kept privately for this app. If a host ADB server is running on port 5037 with a different version, the bundled ADB client may restart it and temporarily interrupt other ADB connections.</p>
+    <p>Wireless pairing is available with <code>flatpak run --command=adb io.github.barry_ran.QtScrcpy pair ADDRESS:PORT</code>, followed by <code>flatpak run --command=adb io.github.barry_ran.QtScrcpy connect ADDRESS:PORT</code>.</p>
+    <p>Optional host file access is disabled by default:</p>
+    <ul>
+      <li>Save recordings in Videos: <code>flatpak override --user --filesystem=xdg-videos io.github.barry_ran.QtScrcpy</code>, then select that directory in QtScrcpy.</li>
+      <li>Save screenshots in Pictures: <code>flatpak override --user --filesystem=xdg-pictures io.github.barry_ran.QtScrcpy</code>, then select that directory in QtScrcpy.</li>
+      <li>Transfer files or install APKs from Downloads: <code>flatpak override --user --filesystem=xdg-download:ro io.github.barry_ran.QtScrcpy</code>.</li>
+      <li>Undo optional overrides: <code>flatpak override --user --reset io.github.barry_ran.QtScrcpy</code>.</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>QtScrcpy device controls and configuration</caption>
+      <image>https://github.com/user-attachments/assets/bce41077-00f0-4f26-940b-abc5c14da820</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.barry_ran.QtScrcpy.desktop</launchable>
+  <url type="homepage">https://github.com/barry-ran/QtScrcpy</url>
+  <url type="vcs-browser">https://github.com/barry-ran/QtScrcpy</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <provides><binary>qtscrcpy</binary><binary>adb</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="4.2.1" date="2026-09-19"/></releases>
+</component>

@@ -1,0 +1,21 @@
+id: io.github.barry_ran.QtScrcpy
+name: QtScrcpy
+summary: Mirror and control Android devices with keyboard mapping
+website: https://github.com/barry-ran/QtScrcpy
+source_url: https://github.com/barry-ran/QtScrcpy
+build:
+  manifest: io.github.barry_ran.QtScrcpy.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Utility
+  tags: [Android, Mirroring, USB, Keymapping]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Bundled ADB needs direct access to USB Android devices for mirroring.
+    # Flatpak's device grant also exposes other devices.
+    - --device=all
