@@ -1,0 +1,59 @@
+id: com.roldanjr.pomatez
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# The Electron base supplies zypak for Chromium's sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: pomatez
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display and GPU rendering, with X11 shared memory when needed.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Break bells and voice assistance.
+  - --socket=pulseaudio
+  # Break notifications and the optional close/minimize-to-tray controls.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Also clear this for zypak's child processes.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: pomatez
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pomatez-wrapper /app/bin/pomatez
+      - install -Dm644 com.roldanjr.pomatez.desktop /app/share/applications/com.roldanjr.pomatez.desktop
+      - install -Dm644 com.roldanjr.pomatez.metainfo.xml /app/share/metainfo/com.roldanjr.pomatez.metainfo.xml
+      - install -Dm644 com.roldanjr.pomatez.png /app/share/icons/hicolor/256x256/apps/com.roldanjr.pomatez.png
+    sources:
+      # Offline extractor; apply_extra can access only /usr and /app/extra.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pomatez.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/zidoro/pomatez/releases/download/v1.11.0/Pomatez-v1.11.0-linux-x86_64.AppImage
+        sha256: 3e7b7eec58e3d644aabc7adf849469f4251d60d1f33072db84902ebb86a5837a
+        size: 110859505
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pomatez-wrapper
+      - type: file
+        path: com.roldanjr.pomatez.desktop
+      - type: file
+        path: com.roldanjr.pomatez.metainfo.xml
+      - type: file
+        path: com.roldanjr.pomatez.png
