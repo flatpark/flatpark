@@ -9,12 +9,12 @@
     <name>Kovid Goyal</name>
   </developer>
   <url type="homepage">https://calibre-ebook.com/</url>
-  <url type="bugtracker">https://bugs.launchpad.net/calibre</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
   <url type="help">https://manual.calibre-ebook.com/</url>
   <url type="donation">https://calibre-ebook.com/donate</url>
   <url type="vcs-browser">https://github.com/kovidgoyal/calibre</url>
   <description>
-    <p>This is a community package of calibre, maintained independently and unaffiliated with the calibre project. It repackages the official upstream Linux binary bundle unmodified, and follows upstream releases automatically.</p>
+    <p>This is a community package of calibre, maintained independently and unaffiliated with the calibre project. It repackages the official upstream Linux binary bundle unmodified, and follows upstream releases automatically. Report problems with this package on FlatPark&apos;s tracker, not to the calibre project.</p>
     <p>calibre is a free and open-source e-book library manager. You can use it to catalog your books, fetch metadata for them automatically, convert them from and to all the various e-book formats, send them to your e-book reader devices, read the books on your computer, edit the books in a dedicated e-book editor and even make them available over the network with the built-in Content server. You can also download news and periodicals in e-book format from over a thousand different news and magazine websites.</p>
     <ul>
       <li>Library management: organise a collection of any size with custom columns, tags, saved searches and virtual libraries.</li>
