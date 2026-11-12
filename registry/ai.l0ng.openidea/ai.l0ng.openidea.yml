@@ -1,0 +1,192 @@
+id: ai.l0ng.openidea
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: openidea
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK/WebKit display and GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Git remotes, SDK/language-server downloads, databases and HTTP clients.
+  - --share=network
+  # Project trees require directory access, including sibling source files.
+  - --filesystem=xdg-documents
+  # Native debuggers need ptrace to launch and inspect sandboxed targets.
+  - --allow=devel
+  # Tauri focuses the existing instance on a second launch.
+  - --own-name=ai.l0ng.openidea.SingleInstance
+modules:
+  - name: openidea
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openidea-wrapper /app/bin/openidea
+      - install -Dm755 git-wrapper /app/bin/git
+      - ln -s /app/extra/support/uv /app/bin/uv
+      - install -Dm644 ai.l0ng.openidea.desktop /app/share/applications/ai.l0ng.openidea.desktop
+      - install -Dm644 ai.l0ng.openidea.metainfo.xml /app/share/metainfo/ai.l0ng.openidea.metainfo.xml
+      - install -Dm644 ai.l0ng.openidea.png /app/share/icons/hicolor/256x256/apps/ai.l0ng.openidea.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openidea.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/l0ng-ai/openidea/releases/download/v0.1.43/OpenIDEA_0.1.43_amd64.deb
+        sha256: d15a579b4e01b71a98e8d3fa29a90e90b4a9ed37158429854140f0368eaedfc4
+        size: 75257340
+      - type: extra-data
+        filename: openidea.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/l0ng-ai/openidea/releases/download/v0.1.43/OpenIDEA_0.1.43_arm64.deb
+        sha256: 65461c62ebea5c213c9e7b2fbef937e5253d3e7306b4a98943f71b68c5b55300
+        size: 72923214
+      # END MANAGED EXTRA-DATA
+      # Git and its HTTP libraries are not included in the Platform runtime.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: git.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/g/git/git_2.47.3-0+deb13u1_amd64.deb
+        sha256: 3e35662fd5c46add561703e54031a1d8ad9df45811927689f0a51122b13be722
+        size: 8861572
+      - type: extra-data
+        filename: libcurl3t64-gnutls.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/c/curl/libcurl3t64-gnutls_8.14.1-2+deb13u5_amd64.deb
+        sha256: 19da93544615a4c9a3d7df473f5bf8ebca99442454622e9b0460168dadf7b8ae
+        size: 384460
+      - type: extra-data
+        filename: librtmp1.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/r/rtmpdump/librtmp1_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb
+        sha256: 93baa2004cbe6c8721b9e81beed078612540aef120970b4751305c51c6697368
+        size: 58840
+      - type: extra-data
+        filename: libssh2-1t64.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libs/libssh2/libssh2-1t64_1.11.1-1+deb13u2_amd64.deb
+        sha256: dbb1024c192d4d292b7cfa902b96076cfe81b56a5eed4fb28da36e8bf543e49a
+        size: 245240
+      - type: extra-data
+        filename: libnettle8t64.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/n/nettle/libnettle8t64_3.10.1-1_amd64.deb
+        sha256: 1b03d4a9cd9c8143ba50fe6396f36937e901a317d492d179f4596862c1731cfe
+        size: 305436
+      - type: extra-data
+        filename: libhogweed6t64.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/n/nettle/libhogweed6t64_3.10.1-1_amd64.deb
+        sha256: b059ed155115ac09da295322de48ee1ed58ef5fa45edcc9e12ff0e94636ef25f
+        size: 335240
+      - type: extra-data
+        filename: libldap2.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/o/openldap/libldap2_2.6.10+dfsg-1_amd64.deb
+        sha256: 60069e4a550ca890113fa89d3001417781b18e146ec5d637d31e368dec9909bd
+        size: 193576
+      - type: extra-data
+        filename: libsasl2-2.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-9_amd64.deb
+        sha256: 66e49d7ae026811b49a0050f18b0325960a2625ffd1ff60d91b7844a815fa9d2
+        size: 57512
+      - type: extra-data
+        filename: git.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/g/git/git_2.47.3-0+deb13u1_arm64.deb
+        sha256: 8c6b1e96b226211260d7814472215a8a1ed38ee37400c421d454391c1807cb5a
+        size: 8665568
+      - type: extra-data
+        filename: libcurl3t64-gnutls.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/c/curl/libcurl3t64-gnutls_8.14.1-2+deb13u5_arm64.deb
+        sha256: e7907dba88227fa61f86e1e3ea198c770cb0a255d506f31d9564278dfba3c898
+        size: 354020
+      - type: extra-data
+        filename: librtmp1.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/r/rtmpdump/librtmp1_2.4+20151223.gitfa8646d.1-2+b5_arm64.deb
+        sha256: 20d52d20c4834158e956ae8e1d42a61d22330062052116d5422daa2d3b1d433b
+        size: 56840
+      - type: extra-data
+        filename: libssh2-1t64.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/libs/libssh2/libssh2-1t64_1.11.1-1+deb13u2_arm64.deb
+        sha256: 245565f4ce5493d67a3c54e26bc3d9cf28b1b70eeb912de7cda61af52268017d
+        size: 236268
+      - type: extra-data
+        filename: libnettle8t64.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/n/nettle/libnettle8t64_3.10.1-1_arm64.deb
+        sha256: 16107ce5a7b522da021fa8aba42d42af9c5e90ddabfcda3710aff6ea95808ee0
+        size: 310548
+      - type: extra-data
+        filename: libhogweed6t64.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/n/nettle/libhogweed6t64_3.10.1-1_arm64.deb
+        sha256: cb92d5a51c4fd6c7b7cbb62aaa60c7af830d0bea5b410fb1f47ee685e26944d1
+        size: 331628
+      - type: extra-data
+        filename: libldap2.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/o/openldap/libldap2_2.6.10+dfsg-1_arm64.deb
+        sha256: 38fae6af20d41e4b0a8ea1b96d0b81a7a5551a61595bc866c9af870eadfdf1bd
+        size: 179312
+      - type: extra-data
+        filename: libsasl2-2.deb
+        only-arches:
+          - aarch64
+        url: https://deb.debian.org/debian/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg1-9_arm64.deb
+        sha256: 6431628c62524c8397255c1c4a7c7ef63661b801f3be9a59ad41e7a2e46e6210
+        size: 55628
+      # END MANAGED DEBIAN
+      # uv lets OpenIDEA install Python language servers in private virtualenvs.
+      - type: extra-data
+        filename: uv.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/astral-sh/uv/releases/download/0.13.8/uv-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 5acfd9177cfecf0bf87578f059728215ccc884388988f55f7a65041b57387d91
+        size: 16855069
+      - type: extra-data
+        filename: uv.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/astral-sh/uv/releases/download/0.13.8/uv-aarch64-unknown-linux-gnu.tar.gz
+        sha256: 74f2f5c6024d397481db228db8fc25eed420db192243f88438c118e7e013e585
+        size: 16065638
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openidea-wrapper
+      - type: file
+        path: ai.l0ng.openidea.desktop
+      - type: file
+        path: ai.l0ng.openidea.metainfo.xml
+      - type: file
+        path: ai.l0ng.openidea.png
+      - type: file
+        path: git-wrapper
