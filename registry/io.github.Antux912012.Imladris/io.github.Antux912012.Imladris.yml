@@ -35,9 +35,9 @@ modules:
         filename: imladris.deb
         only-arches:
           - x86_64
-        url: https://github.com/Antux912012/imladris/releases/download/v0.18.0/imladris_0.18.0_amd64.deb
-        sha256: 81e7b4fda889a1a5ebc3706f5e5128aa8d95cd199a9876af6a95669f09d90c12
-        size: 1614932
+        url: https://github.com/Antux912012/imladris/releases/download/v0.20.0/imladris_0.20.0_amd64.deb
+        sha256: 211d003fad14b7976bf6172c5af1803fa6566dfac6abfc503722ac255eac332a
+        size: 1851628
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
