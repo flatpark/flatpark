@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.browseros.BrowserOS</id>
+  <launchable type="desktop-id">com.browseros.BrowserOS.desktop</launchable>
+  <name>BrowserOS neo</name>
+  <developer id="com.browseros"><name>BrowserOS Team</name></developer>
+  <summary>Chromium browser for web agents and browser automation</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <url type="homepage">https://www.browseros.com/</url>
+  <url type="vcs-browser">https://github.com/browseros-ai/BrowserOS</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>BrowserOS neo is a Chromium-based browser for web agents. It includes a local agent server and browser extensions for automating tasks in web pages.</p>
+    <p>This community package downloads the official Linux Debian release unmodified at install time. Browser updates arrive through Flatpak; the bundled agent server and extensions retain their upstream update mechanisms. Profiles and agent data are kept in the app's private storage.</p>
+    <p>Downloads are accessible directly. Other files can be selected through the desktop file chooser. Importing a native browser profile requires an optional read-only grant, for example: <code>flatpak override --user --filesystem=~/.config/google-chrome:ro com.browseros.BrowserOS</code>. Undo optional grants with: <code>flatpak override --user --reset com.browseros.BrowserOS</code>.</p>
+  </description>
+  <categories><category>Network</category><category>WebBrowser</category></categories>
+  <keywords><keyword>browser</keyword><keyword>agent</keyword><keyword>AI</keyword></keywords>
+  <releases><release version="0.52.1.1" date="2026-10-31"/></releases>
+  <content_rating type="oars-1.1"/>
+</component>

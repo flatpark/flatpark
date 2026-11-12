@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Attribute notifications and desktop integration to this Flatpak entry.
+export CHROME_DESKTOP=com.browseros.BrowserOS.desktop
+export CHROME_WRAPPER=/app/bin/browseros
+export ZYPAK_SPAWN_LATEST_ON_REEXEC=1
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+export LD_LIBRARY_PATH="/app/extra/browseros${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# The default profile is under the persisted XDG_CONFIG_HOME.
+export ZYPAK_EXPOSE_WIDEVINE_PATH="$XDG_CONFIG_HOME/browser-claw/WidevineCdm"
+exec zypak-wrapper /app/extra/browseros/browserclaw --ozone-platform-hint=auto "$@"

@@ -1,0 +1,64 @@
+id: com.browseros.BrowserOS
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# The Electron base supplies zypak for Chromium's renderer sub-sandboxes.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: browseros
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # zypak uses the Flatpak Spawn portal for child processes.
+  - --require-version=1.8.2
+  # Chromium shared memory and web/agent network connections.
+  - --share=ipc
+  - --share=network
+  # Native Wayland with X11 fallback, and GPU rendering.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Web audio, microphone and printing.
+  - --socket=pulseaudio
+  - --socket=cups
+  # Notifications and encrypted password storage.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Desktop media controls for playing tabs.
+  - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # Default download destination; other files use the chooser portal.
+  - --filesystem=xdg-download
+  # NSS certificates and the agent server's own state survive restarts.
+  - --persist=.pki
+  - --persist=.browserclaw
+modules:
+  - name: browseros
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 browseros-wrapper /app/bin/browseros
+      - install -Dm644 com.browseros.BrowserOS.desktop /app/share/applications/com.browseros.BrowserOS.desktop
+      - install -Dm644 com.browseros.BrowserOS.metainfo.xml /app/share/metainfo/com.browseros.BrowserOS.metainfo.xml
+      - install -Dm644 com.browseros.BrowserOS.png /app/share/icons/hicolor/64x64/apps/com.browseros.BrowserOS.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: browseros.deb
+        only-arches: [x86_64]
+        url: https://github.com/browseros-ai/BrowserOS/releases/download/browserclaw/v0.52.0/BrowserOS_neo_v0.52.1.1_amd64.deb
+        sha256: d5ebe332d863768afb3c63995b092f6cab0db59290ac5859cbcc47ae001e6ada
+        size: 186449362
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: browseros-wrapper
+      - type: file
+        path: com.browseros.BrowserOS.desktop
+      - type: file
+        path: com.browseros.BrowserOS.metainfo.xml
+      - type: file
+        path: com.browseros.BrowserOS.png
