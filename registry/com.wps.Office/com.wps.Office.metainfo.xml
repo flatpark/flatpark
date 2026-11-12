@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>com.wps.Office</id>
-  <name>WPS Office</name>
+  <name>WPS Office International</name>
+  <name xml:lang="zh-Hans">WPS Office 国际版</name>
   <summary>Office suite for documents, spreadsheets, presentations and PDF</summary>
   <summary xml:lang="zh-Hans">处理文档、表格、演示和 PDF 的办公套件</summary>
   <developer id="com.wps">
@@ -17,7 +18,8 @@
     <p>WPS Office combines Writer, Spreadsheets, Presentation and PDF tools in
     one suite. It opens, edits and saves Microsoft Office files (DOCX, XLSX,
     PPTX) as well as its own formats, and supports international WPS accounts,
-    cloud documents and an interface in 20 languages.</p>
+    cloud documents and an interface in 20 languages. For the mainland China
+    edition, install cn.wps.linux.</p>
     <p>The package adds a single WPS Office launcher. Documents, spreadsheets,
     presentations and PDFs all open in the combined WPS Office window.</p>
     <p>WPS Office runs on X11 (XWayland on a Wayland session). It can open and
