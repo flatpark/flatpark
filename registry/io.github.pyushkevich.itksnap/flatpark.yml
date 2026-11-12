@@ -1,0 +1,18 @@
+id: io.github.pyushkevich.itksnap
+name: ITK-SNAP
+summary: Segment anatomical structures in 3D medical images
+website: https://www.itksnap.org/
+source_url: https://github.com/pyushkevich/itksnap
+build:
+  manifest: io.github.pyushkevich.itksnap.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  tags: [Medical, Imaging, Segmentation, MRI, Qt]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

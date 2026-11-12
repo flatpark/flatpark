@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.pyushkevich.itksnap</id>
+  <name>ITK-SNAP</name>
+  <summary>Segment anatomical structures in 3D medical images</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="org.itksnap"><name>ITK-SNAP developers</name></developer>
+  <description>
+    <p>ITK-SNAP provides manual and semi-automatic segmentation of anatomical structures in three-dimensional medical images, with linked slice views and 3D visualization.</p>
+    <p>This community package installs the official upstream Linux build unmodified.</p>
+    <p>Medical images and segmentations can be opened and saved in Documents and Downloads. To use another dataset folder, grant it with <code>flatpak override --user --filesystem=/path/to/data io.github.pyushkevich.itksnap</code>. Undo custom permissions with <code>flatpak override --user --reset io.github.pyushkevich.itksnap</code>.</p>
+    <p>Optional online services require <code>flatpak override --user --share=network io.github.pyushkevich.itksnap</code>. Undo this with <code>flatpak override --user --unshare=network io.github.pyushkevich.itksnap</code>. AI segmentation through an external Python server is not included in this package.</p>
+  </description>
+  <launchable type="desktop-id">io.github.pyushkevich.itksnap.desktop</launchable>
+  <url type="homepage">https://www.itksnap.org/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.SNAP4</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="4.4.0-20250909" date="2025-09-10"/></releases>
+</component>
