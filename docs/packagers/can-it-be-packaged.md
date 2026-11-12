@@ -59,7 +59,11 @@ what it does, not by whether someone calls it AI-made
   counts as the developer's own even without the badge.
 - **The download:** find the official one, on the vendor's site or the
   project's releases. A mirror, a personal account or a third-party repack
-  doesn't qualify.
+  doesn't qualify. One exception: when the vendor's own links carry a
+  signature that expires (so they can't be pinned), a distribution's partner
+  repository that carries the vendor's file byte for byte (same sha256) under
+  a versioned URL may be used. The resolver still takes the version from the
+  vendor's page, and the manifest says why (`cn.wps.linux`).
 - **What the binary needs:** unpack it and read `readelf -d` on the main binary
   ([choosing a format](formats/README.md#choosing-the-runtime)).
 - **Upstream's tracker:** search its issues for Flatpak and Flathub. A

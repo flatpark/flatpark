@@ -1,0 +1,15 @@
+[Desktop Entry]
+Comment=Use WPS Writer to office work.
+Comment[zh_CN]=使用 WPS Office进行办公
+Exec=wps %F
+GenericName=WPS
+GenericName[zh_CN]=WPS Office
+Name=WPS Office CN
+Name[zh_CN]=WPS Office 国内版
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=Office;WordProcessor;Spreadsheet;Presentation;Qt;
+MimeType=application/wps-office.wps;application/wps-office.wpt;application/wps-office.wpso;application/wps-office.wpss;application/wps-office.doc;application/wps-office.dot;application/vnd.ms-word;application/msword;application/x-msword;application/msword-template;application/wps-office.docx;application/wps-office.dotx;application/rtf;application/vnd.ms-word.document.macroEnabled.12;application/vnd.openxmlformats-officedocument.wordprocessingml.document;x-scheme-handler/ksoqing;x-scheme-handler/ksowps;x-scheme-handler/ksowpp;x-scheme-handler/ksoet;x-scheme-handler/ksowpscloudsvr;x-scheme-handler/ksowebstartupwps;x-scheme-handler/ksowebstartupet;x-scheme-handler/ksowebstartupwpp;application/wps-office.uot3;application/wps-office.uott3;x-scheme-handler/ksodoccenter;application/wps-office.msg;application/wps-office.eml;application/wps-office.et;application/wps-office.ett;application/wps-office.ets;application/wps-office.eto;application/wps-office.xls;application/wps-office.xlt;application/vnd.ms-excel;application/msexcel;application/x-msexcel;application/wps-office.xlsx;application/wps-office.xltx;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/wps-office.uos;application/wps-office.uos3;application/wps-office.uost3;application/wps-office.dps;application/wps-office.dpt;application/wps-office.dpss;application/wps-office.dpso;application/wps-office.ppt;application/wps-office.pot;application/vnd.ms-powerpoint;application/vnd.mspowerpoint;application/mspowerpoint;application/powerpoint;application/x-mspowerpoint;application/wps-office.pptx;application/wps-office.potx;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/wps-office.uop;application/wps-office.uop3;application/wps-office.uopt3;application/pdf;application/wps-office.ofd;
+Icon=cn.wps.linux
+StartupWMClass=wpsoffice

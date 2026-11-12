@@ -1,0 +1,22 @@
+id: cn.wps.linux
+name: WPS Office CN
+summary: Office suite for documents, spreadsheets, presentations and PDF (China edition)
+website: https://linux.wps.cn/
+source_url: https://linux.wps.cn/
+build:
+  manifest: cn.wps.linux.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Office
+    - Word Processor
+    - Spreadsheet
+    - Presentation
+    - PDF
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []
