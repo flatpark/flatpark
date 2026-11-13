@@ -1,0 +1,52 @@
+id: com.rotki.app
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Rotki's official Linux tarball is an Electron app; Electron2.BaseApp supplies
+# zypak, which lets Chromium keep its internal sandbox under Flatpak.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: rotki
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Required for exchange, blockchain and price provider connections.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated Electron rendering.
+  - --device=dri
+  # Electron's AT-SPI integration exposes the UI to desktop screen readers.
+  - --talk-name=org.a11y.Bus
+  # Ensure a leaked setting from another Electron app cannot start as Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: rotki
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 rotki-wrapper /app/bin/rotki
+      - install -Dm644 com.rotki.app.desktop /app/share/applications/com.rotki.app.desktop
+      - install -Dm644 com.rotki.app.metainfo.xml /app/share/metainfo/com.rotki.app.metainfo.xml
+      - install -Dm644 com.rotki.app.png /app/share/icons/hicolor/512x512/apps/com.rotki.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: rotki.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/rotki/rotki/releases/download/v1.44.3/rotki-linux_x64-v1.44.3.tar.xz
+        sha256: 877f31050a9a3245adab39c4c3fcd56020be9eddc519da9fcfe09851e4426fc5
+        size: 166340572
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: rotki-wrapper
+      - type: file
+        path: com.rotki.app.desktop
+      - type: file
+        path: com.rotki.app.metainfo.xml
+      - type: file
+        path: com.rotki.app.png
