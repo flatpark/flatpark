@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=rotki
+Comment=Track crypto assets, balances and tax reports locally
+Exec=rotki %U
+Icon=com.rotki.app
+Terminal=false
+Categories=Office;Finance;
+StartupWMClass=Rotki
+Keywords=crypto;cryptocurrency;portfolio;accounting;tax;finance;

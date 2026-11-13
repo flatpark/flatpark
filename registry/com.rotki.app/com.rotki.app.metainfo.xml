@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.rotki.app</id>
+  <name>rotki</name>
+  <summary>Track crypto assets, balances and tax reports locally</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="com.rotki">
+    <name>Rotki Solutions GmbH</name>
+  </developer>
+  <url type="homepage">https://rotki.com/</url>
+  <url type="bugtracker">https://github.com/rotki/rotki/issues</url>
+  <url type="vcs-browser">https://github.com/rotki/rotki</url>
+  <url type="help">https://docs.rotki.com/</url>
+  <description>
+    <p>This is a community package of rotki, maintained independently. It repackages the official upstream Linux tarball unmodified.</p>
+    <p>rotki tracks cryptocurrency balances and transaction history across blockchains and exchanges, with portfolio analytics and tax accounting. Its database stays on your device.</p>
+    <p>Network access is used to sync blockchain and exchange data. The app stores its profile in Flatpak's private per-app data directory.</p>
+    <p>Updates come through Flatpak. If the app offers to install an update itself, update rotki with Flatpak instead.</p>
+  </description>
+  <launchable type="desktop-id">com.rotki.app.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Finance</category>
+  </categories>
+  <keywords>
+    <keyword>crypto</keyword>
+    <keyword>cryptocurrency</keyword>
+    <keyword>portfolio</keyword>
+    <keyword>accounting</keyword>
+    <keyword>tax</keyword>
+    <keyword>finance</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>rotki</binary>
+  </provides>
+  <releases>
+    <release version="1.44.3" date="2026-11-11" />
+  </releases>
+</component>

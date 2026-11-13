@@ -1,0 +1,24 @@
+id: com.rotki.app
+name: rotki
+summary: Track crypto assets, balances and tax reports locally
+website: https://rotki.com/
+source_url: https://github.com/rotki/rotki
+build:
+  manifest: com.rotki.app.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Finance
+  tags:
+    - Cryptocurrency
+    - Portfolio
+    - Accounting
+    - Tax
+    - Privacy
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

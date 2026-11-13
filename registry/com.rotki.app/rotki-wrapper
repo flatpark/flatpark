@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# Use zypak from Electron2.BaseApp to retain Chromium's internal sandbox.
+# Flatpak supplies updates to this installation through the FlatPark remote.
+unset ELECTRON_RUN_AS_NODE
+cd /app/extra/rotki
+exec zypak-wrapper /app/extra/rotki/rotki --ozone-platform-hint=auto "$@"
