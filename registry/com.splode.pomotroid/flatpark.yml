@@ -1,0 +1,17 @@
+id: com.splode.pomotroid
+name: Pomotroid
+summary: Configurable Pomodoro timer with themes and session statistics
+website: https://pomotroid.app/
+source_url: https://github.com/Splode/pomotroid
+build:
+  manifest: com.splode.pomotroid.yml
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Productivity
+  tags: [Pomodoro, Timer, Focus, Productivity]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

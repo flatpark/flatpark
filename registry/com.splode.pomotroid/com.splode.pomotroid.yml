@@ -1,0 +1,59 @@
+id: com.splode.pomotroid
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: pomotroid
+separate-locales: false
+build-options:
+  no-debuginfo: true
+  strip: true
+finish-args:
+  # GTK/WebKitGTK display and GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Timer alerts and ticking audio.
+  - --socket=pulseaudio
+  - --talk-name=org.freedesktop.Notifications
+  # Optional system tray; icon files must be readable by the desktop watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # No home or network grant: timer and statistics work offline.
+modules:
+  # Shared tray libraries from FlatPark's GNOME 51 prebuilt stack.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: pomotroid
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pomotroid-wrapper /app/bin/pomotroid
+      - install -Dm644 com.splode.pomotroid.desktop /app/share/applications/com.splode.pomotroid.desktop
+      - install -Dm644 com.splode.pomotroid.metainfo.xml /app/share/metainfo/com.splode.pomotroid.metainfo.xml
+      - install -Dm644 com.splode.pomotroid.png /app/share/icons/hicolor/512x512/apps/com.splode.pomotroid.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pomotroid.deb
+        only-arches: [x86_64]
+        url: https://github.com/Splode/pomotroid/releases/download/v1.7.1/Pomotroid_1.7.1_amd64.deb
+        sha256: a1b55b33b3ba1857398d30b246c6bc0ef2634ac9d697e151948b22ce887d24d4
+        size: 10105990
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pomotroid-wrapper
+      - type: file
+        path: com.splode.pomotroid.desktop
+      - type: file
+        path: com.splode.pomotroid.metainfo.xml
+      - type: file
+        path: com.splode.pomotroid.png
