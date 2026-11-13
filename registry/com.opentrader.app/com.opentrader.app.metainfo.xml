@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.opentrader.app</id>
+  <name>OpenTrader</name>
+  <summary>Desktop market charting, screening and technical analysis</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer>
+    <name>OpenTrader contributors</name>
+  </developer>
+  <url type="homepage">https://opentrader.markets/</url>
+  <url type="bugtracker">https://github.com/deepentropy/opentrader/issues</url>
+  <url type="vcs-browser">https://github.com/deepentropy/opentrader</url>
+  <description>
+    <p>OpenTrader is a desktop application for market charts and research. It includes technical indicators, screeners, backtesting, bar replay, drawing tools, alerts and scripting.</p>
+    <p>Market data is currently delayed by 15 minutes. OpenTrader is for charting and research and is not financial advice.</p>
+    <p>Community sign-in and proxy passwords are kept only for the current session unless OpenTrader can use your desktop's Secret Service. To allow storage across launches, run <code>flatpak override --user --talk-name=org.freedesktop.secrets com.opentrader.app</code>. Remove this permission with <code>flatpak override --user --no-talk-name=org.freedesktop.secrets com.opentrader.app</code>.</p>
+  </description>
+  <launchable type="desktop-id">com.opentrader.app.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>Finance</category>
+  </categories>
+  <keywords>
+    <keyword>chart</keyword>
+    <keyword>market</keyword>
+    <keyword>stocks</keyword>
+    <keyword>technical analysis</keyword>
+    <keyword>indicators</keyword>
+    <keyword>screener</keyword>
+    <keyword>backtesting</keyword>
+    <keyword>trading</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>opentrader</binary>
+  </provides>
+  <releases>
+    <release version="0.4.23" date="2026-11-13" />
+  </releases>
+</component>

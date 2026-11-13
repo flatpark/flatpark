@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run the binary from the upstream .deb unpacked by apply_extra.sh.
+exec /app/extra/opentrader "$@"

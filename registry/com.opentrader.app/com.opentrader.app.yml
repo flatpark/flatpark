@@ -1,0 +1,48 @@
+id: com.opentrader.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: opentrader
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # OpenTrader fetches market data and uses its online community and alert features.
+  - --share=network
+  # Tauri renders its desktop window with GTK and WebKitGTK.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # WebKitGTK uses the runtime's graphics stack for chart rendering.
+  - --device=dri
+modules:
+  - name: opentrader
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 opentrader-wrapper /app/bin/opentrader
+      - install -Dm644 com.opentrader.app.desktop /app/share/applications/com.opentrader.app.desktop
+      - install -Dm644 com.opentrader.app.metainfo.xml /app/share/metainfo/com.opentrader.app.metainfo.xml
+      - install -Dm644 com.opentrader.app.png /app/share/icons/hicolor/128x128/apps/com.opentrader.app.png
+    sources:
+      # The .deb is upstream's official Linux release. Its GTK and WebKitGTK dependencies
+      # are supplied by GNOME Platform 51; only its app binary is installed as extra-data.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: opentrader.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/deepentropy/opentrader/releases/download/v0.4.23/OpenTrader_linux_amd64.deb
+        sha256: 51e1079a203a1007fe449c942a59ff62281d6f0b74d3519b6e69c90276b0a8ae
+        size: 29902330
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: opentrader-wrapper
+      - type: file
+        path: com.opentrader.app.desktop
+      - type: file
+        path: com.opentrader.app.metainfo.xml
+      - type: file
+        path: com.opentrader.app.png
