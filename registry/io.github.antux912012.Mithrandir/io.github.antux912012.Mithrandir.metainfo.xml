@@ -91,6 +91,18 @@
   </branding>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="1.2.0" date="2026-11-13">
+      <description>
+        <p>Mithrandir v1.2.0 UI/UX &amp; Reliability Release:</p>
+        <ul>
+          <li>Redesigned UI around GNOME/Libadwaita HIG with NavigationSplitView, grouped sidebar sections, responsive 720sp breakpoint, and flat native surface styling</li>
+          <li>Promoted One-Click AI Triage and Interactive Assistant to the top with wrapping quick-action FlowBox chips and collapsible provider settings</li>
+          <li>Fixed Snap cache cleaner to target only .cache subdirectories while preserving Snap user configs and profiles</li>
+          <li>Added Brave and Edge coverage to Web Browser Caches and accurate freed-byte reporting for Package Manager Cache</li>
+          <li>Hardened mutex poisoning recovery, RAII Smart Boost guard, and whitespace-normalized AI SafetyGuard command checks</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.2" date="2026-11-04">
       <description>
         <p>Mithrandir v1.1.2 Release:</p>
