@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=OpenTrader
+Comment=Desktop market charting and technical analysis
+Exec=opentrader %U
+Icon=com.opentrader.app
+Terminal=false
+Categories=Office;Finance;
+StartupWMClass=opentrader
+MimeType=x-scheme-handler/opentrader;
+Keywords=chart;market;stocks;technical analysis;indicators;screener;backtesting;trading;

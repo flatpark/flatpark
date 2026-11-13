@@ -1,0 +1,27 @@
+# FlatPark catalog descriptor for OpenTrader.
+# The app id is the identifier upstream sets in src-tauri/tauri.conf.json.
+id: com.opentrader.app
+name: OpenTrader
+summary: Desktop market charting, screening and technical analysis
+website: https://opentrader.markets/
+source_url: https://github.com/deepentropy/opentrader
+build:
+  manifest: com.opentrader.app.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Finance
+  tags:
+    - Charting
+    - Stocks
+    - Technical analysis
+    - Screener
+    - Backtesting
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
+# No `packaging:` entries: apply_extra keeps the upstream binary unchanged;
+# the wrapper only launches it.
