@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Flowsurface
+Comment=Crypto market charts and order-flow analysis
+Exec=flowsurface
+Icon=io.github.flowsurface_rs.Flowsurface
+Terminal=false
+Categories=Office;Finance;
+Keywords=crypto;cryptocurrency;market;chart;order book;trading;
+StartupWMClass=com.flowsurface.flowsurface

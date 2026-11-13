@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.flowsurface_rs.Flowsurface</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Flowsurface</name>
+  <summary>Crypto market charts and order-flow analysis</summary>
+
+  <description>
+    <p>
+      Flowsurface is a native desktop charting platform for crypto markets. It
+      brings together live trades, order books and candle data from supported
+      exchanges in heatmap, candlestick, footprint, time-and-sales and depth
+      ladder views.
+    </p>
+    <p>
+      Layouts, chart presets, themes and indicators can be customized. Optional
+      historical trade backfill is available from Binance or a compatible server,
+      and trade streams can play sound effects.
+    </p>
+    <p>
+      Sound effects are optional and disabled by default. To enable audio output,
+      run <code>flatpak override --user --socket=pulseaudio io.github.flowsurface_rs.Flowsurface</code>.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.flowsurface_rs.Flowsurface.desktop</launchable>
+  <url type="homepage">https://flowsurface.com/</url>
+  <url type="bugtracker">https://github.com/flowsurface-rs/flowsurface/issues</url>
+  <url type="vcs-browser">https://github.com/flowsurface-rs/flowsurface</url>
+
+  <provides>
+    <binary>flowsurface</binary>
+  </provides>
+
+  <developer id="io.github.flowsurface_rs">
+    <name>Flowsurface contributors</name>
+  </developer>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.9.0" date="2026-10-27">
+      <description>
+        <p>
+          Added scriptable indicators, TPO and volume profile studies, a rewritten
+          candlestick chart, multi-ticker time and sales, and chart presets.
+        </p>
+      </description>
+    </release>
+  </releases>
+</component>

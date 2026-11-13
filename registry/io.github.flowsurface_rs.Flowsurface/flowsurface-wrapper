@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+# The portable release may load its resources relative to the extracted tree.
+cd /app/extra/flowsurface
+exec /app/extra/flowsurface/bin/flowsurface "$@"
