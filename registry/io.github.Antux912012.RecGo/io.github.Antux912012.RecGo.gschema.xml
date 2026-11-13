@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schemalist>
-  <schema id="io.github.antonio.RecGo" path="/io/github/antonio/RecGo/">
+  <schema id="io.github.Antux912012.RecGo" path="/io/github/Antux912012/RecGo/">
     <key name="video-codec" type="s">
       <default>'vp9'</default>
       <summary>Video codec for recording</summary>

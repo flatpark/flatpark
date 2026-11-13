@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>io.github.antonio.RecGo</id>
+  <id>io.github.Antux912012.RecGo</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>RecGo</name>
@@ -8,7 +8,7 @@
   <description>
     <p>RecGo is a GTK4/Libadwaita screen, window, and webcam recorder with live draggable webcam shapes, drop shadows, hardware encoding (VP9, H.264, H.265, AV1), and GNOME Shell integration.</p>
   </description>
-  <launchable type="desktop-id">io.github.antonio.RecGo.desktop</launchable>
+  <launchable type="desktop-id">io.github.Antux912012.RecGo.desktop</launchable>
   <developer id="io.github.antux912012">
     <name>Antonio De Gaetano</name>
   </developer>
@@ -30,6 +30,16 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.1.5" date="2026-11-13">
+      <description>
+        <p>Release v0.1.5 refreshes the visual identity and standardizes Flatpak AppStream packaging:</p>
+        <ul>
+          <li>Redesigned Application Icon: Introduces a pure-vector faceted crystal icon matching the Imladris visual family while preserving RecGo's monitor and red record emblem.</li>
+          <li>Standardized Application ID: Updates the application ID to io.github.Antux912012.RecGo across D-Bus, GSettings, desktop entry, and Flatpak metadata.</li>
+          <li>Embedded Flatpak AppStream Screenshots: Composes AppStream XML and icons inside the Flatpak bundle so screenshots and release notes appear in GNOME Software and Discover upon installation.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.4" date="2026-11-13">
       <description>
         <p>Release v0.1.4 redesigns the studio interface for GNOME/Libadwaita HIG compliance and scientist-friendly workflows:</p>

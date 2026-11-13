@@ -2,7 +2,7 @@
 Name=RecGo
 Comment=High-quality screen and webcam recorder
 Exec=recgo
-Icon=io.github.antonio.RecGo
+Icon=io.github.Antux912012.RecGo
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;AudioVideo;Recorder;

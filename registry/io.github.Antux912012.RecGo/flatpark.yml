@@ -1,10 +1,10 @@
-id: io.github.antonio.RecGo
+id: io.github.Antux912012.RecGo
 name: RecGo
 summary: Screen and webcam recorder for GNOME
 website: https://github.com/Antux912012/RecGo
 source_url: https://github.com/Antux912012/RecGo
 build:
-  manifest: io.github.antonio.RecGo.yml
+  manifest: io.github.Antux912012.RecGo.yml
   branch: stable
   mode: extra-data
   arches: [x86_64]
