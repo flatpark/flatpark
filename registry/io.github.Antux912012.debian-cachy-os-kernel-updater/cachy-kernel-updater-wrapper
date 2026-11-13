@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export PYTHONPATH="/app/lib/python3/site-packages:${PYTHONPATH:-}"
+for sp in /app/lib/python*/site-packages /app/lib64/python*/site-packages; do
+    if [[ -d "$sp" ]]; then
+        export PYTHONPATH="${sp}:${PYTHONPATH}"
+    fi
+done
+
+exec /usr/bin/python3 /app/extra/usr/share/cachy-kernel-updater/main.py "$@"
