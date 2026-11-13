@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=RecGo
+Comment=High-quality screen and webcam recorder
+Exec=recgo
+Icon=io.github.antonio.RecGo
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;AudioVideo;Recorder;
+StartupNotify=true
+X-Purism-FormFactor=Workstation;Mobile;

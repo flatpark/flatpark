@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.antonio.RecGo</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>RecGo</name>
+  <summary>Screen and webcam recorder for GNOME</summary>
+  <description>
+    <p>RecGo is a GTK4/Libadwaita screen, window, and webcam recorder with live draggable webcam shapes, drop shadows, hardware encoding (VP9, H.264, H.265, AV1), and GNOME Shell integration.</p>
+  </description>
+  <launchable type="desktop-id">io.github.antonio.RecGo.desktop</launchable>
+  <developer id="io.github.antux912012">
+    <name>Antonio De Gaetano</name>
+  </developer>
+  <url type="homepage">https://github.com/Antux912012/RecGo</url>
+  <url type="bugtracker">https://github.com/Antux912012/RecGo/issues</url>
+  <url type="vcs-browser">https://github.com/Antux912012/RecGo</url>
+  <releases>
+    <release version="0.1.3" date="2026-11-13">
+      <description>
+        <p>Release v0.1.3 fixes webcam device detection, PipeWire file descriptor leaks, window lifecycle cleanup, and Preferences UI rendering:</p>
+        <ul>
+          <li>Security and Validation: Validates V4L2 device paths and output paths before building GStreamer pipelines.</li>
+          <li>Lifecycle and Leak Fixes: Cleans up timers, preview feeds, and active recording pipelines on window close, and eliminates cloned PipeWire file descriptor leaks.</li>
+          <li>UI/UX Fixes: Fixes Pango markup escaping in Preferences, prevents duplicate custom countdown dialogs, and ellipsizes long status paths in the bottom bar.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.1.2" date="2026-11-04">
+      <description>
+        <p>Added countdown timer option before recording (3s, 5s, 10s, or custom up to 5 minutes) and preserved webcam frame and live view framing in recorded videos.</p>
+      </description>
+    </release>
+    <release version="0.1.1" date="2026-11-04">
+      <description>
+        <p>Fix crash on recording trigger by resolving PipeWire socket contention and V4L2 device conflicts.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-11-04">
+      <description>
+        <p>Initial release of RecGo with GPU acceleration, live camera preview, viewfinder OSD, and Preferences dialog.</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>
