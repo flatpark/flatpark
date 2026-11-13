@@ -61,16 +61,16 @@ modules:
         filename: kiro.deb
         only-arches:
           - x86_64
-        url: https://prod.download.desktop.kiro.dev/releases/stable/linux-x64/signed/1.4.154/deb/kiro-ide-1.4.154-stable-linux-x64.deb
-        sha256: 72c8aaa43e9fe70866486f5914c4a9db0574071ac0be75cc1217e3d3fa2493f6
-        size: 204218244
+        url: https://prod.download.desktop.kiro.dev/releases/stable/linux-x64/signed/1.4.178/deb/kiro-ide-1.4.178-stable-linux-x64.deb
+        sha256: bc374e2432898ae6f8a0141fd69893a6f01ab2a5ae79d3e2f7bb3e531f05a4fd
+        size: 204245352
       - type: extra-data
         filename: kiro.deb
         only-arches:
           - aarch64
-        url: https://prod.download.desktop.kiro.dev/releases/stable/linux-arm64/signed/1.4.154/deb/kiro-ide-1.4.154-stable-linux-arm64.deb
-        sha256: 75d39ed5b0988a41513d9462ecad60399a96552eff417c64e1c2f2649390e7a3
-        size: 195632552
+        url: https://prod.download.desktop.kiro.dev/releases/stable/linux-arm64/signed/1.4.178/deb/kiro-ide-1.4.178-stable-linux-arm64.deb
+        sha256: 8068af3ff92eb734c582b319e3bdc1efa643ec18546edddede2c24b2d316c792
+        size: 195688204
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

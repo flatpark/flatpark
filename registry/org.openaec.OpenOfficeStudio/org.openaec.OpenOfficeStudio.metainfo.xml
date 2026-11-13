@@ -60,6 +60,10 @@
     <mediatype>application/vnd.ms-access</mediatype>
   </provides>
   <releases>
+    <release version="2026.46.2" date="2026-11-13">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-office-studio/releases/tag/v2026.46.2</url>
+      <description></description>
+    </release>
     <release version="2026.46.1" date="2026-11-11">
       <url type="details">https://github.com/OpenAEC-Foundation/open-office-studio/releases/tag/v2026.46.1</url>
       <description></description>

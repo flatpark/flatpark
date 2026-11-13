@@ -74,9 +74,9 @@ modules:
         filename: ely-table.deb
         only-arches:
           - x86_64
-        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.15/ely-table_0.1.15-1_amd64.deb
-        sha256: 7737bccd8528a08984af0d4ee3536a7d8425fefe7cc44a4d3a2f7b6631a1cbd9
-        size: 167950156
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.16/ely-table_0.1.16-1_amd64.deb
+        sha256: 251e5be87802c5d339b87b97dbbe106b405082b941c7a713c3f4d1094c6be510
+        size: 166273900
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

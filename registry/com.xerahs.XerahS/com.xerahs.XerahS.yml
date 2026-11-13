@@ -60,16 +60,16 @@ modules:
         filename: xerahs.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ShareX/XerahS/releases/download/v0.33.6/XerahS-0.33.6-linux-x64.tar.gz
-        sha256: 29ed538a6592a1cb0d2287fb5fa62054f1c5984e05e1fab7fa7e79cce9456f23
-        size: 165772556
+        url: https://github.com/ShareX/XerahS/releases/download/v0.34.0/XerahS-0.34.0-linux-x64.tar.gz
+        sha256: 3aa030ce33c563c8efbf9f3d50f9b5e1977a85100175792aafc343035af90a29
+        size: 200606048
       - type: extra-data
         filename: xerahs.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/ShareX/XerahS/releases/download/v0.33.6/XerahS-0.33.6-linux-arm64.tar.gz
-        sha256: a044f1b4905c7f9dfe855f1abe12d534d6fc242990b662787b773477f5641940
-        size: 163157224
+        url: https://github.com/ShareX/XerahS/releases/download/v0.34.0/XerahS-0.34.0-linux-arm64.tar.gz
+        sha256: c1a5173adee1db63974b68b37d6813628fdd890891864aa5d065f44c004b538d
+        size: 197369417
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -44,5 +44,9 @@
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
   <url type="help">https://www.jetbrains.com/help/pycharm/</url>
   <content_rating type="oars-1.1"/>
-  <releases><release version="2026.3" date="2026-11-05"/></releases>
+  <releases>
+    <release version="2026.2.5" date="2026-11-13">
+      <url type="details">https://github.com/JetBrains/intellij-community/releases/tag/pycharm/2026.2.5</url>
+      <description></description>
+    </release><release version="2026.3" date="2026-11-05"/></releases>
 </component>
