@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.splode.pomotroid</id>
+  <name>Pomotroid</name>
+  <summary>Configurable Pomodoro timer with themes and session statistics</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.splode">
+    <name>Christopher Murphy (Splode)</name>
+  </developer>
+  <description>
+    <p>Pomotroid tracks work sessions and breaks using the Pomodoro Technique, with configurable durations, themes, sound alerts and session statistics.</p>
+    <p>This community package installs the official upstream Debian build unmodified. Tray support includes the Ayatana libraries.</p>
+    <p>To disable automatic in-app update checks, open Settings, select System, and turn off "Check for Updates Automatically". Update this package through Flatpak; the in-app setting does not disable Flatpak updates.</p>
+    <p>The optional WebSocket server and online update checks need network access, disabled by default. Enable it with <code>flatpak override --user --share=network com.splode.pomotroid</code>. Undo with <code>flatpak override --user --unshare=network com.splode.pomotroid</code>. Update the application through Flatpak.</p>
+  </description>
+  <launchable type="desktop-id">com.splode.pomotroid.desktop</launchable>
+  <url type="homepage">https://pomotroid.app/</url>
+  <url type="vcs-browser">https://github.com/Splode/pomotroid</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Splode/pomotroid/4a02ac7bff9083dc5b2cc42fa7c4683c1fc15805/.github/images/pomotroid-screens.png</image>
+      <caption>Pomotroid timer and themes</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.7.1" date="2026-05-11"/>
+  </releases>
+</component>

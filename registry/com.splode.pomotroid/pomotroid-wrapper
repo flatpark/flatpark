@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Use WebKitGTK's compositing path by default; preserve a user's override.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+# The dotted launcher name supplies GTK's window class and WebKit's bus namespace.
+exec /app/extra/pomotroid/usr/bin/com.splode.pomotroid "$@"
