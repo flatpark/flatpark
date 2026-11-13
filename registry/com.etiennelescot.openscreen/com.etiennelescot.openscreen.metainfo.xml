@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.etiennelescot.openscreen</id>
+  <launchable type="desktop-id">com.etiennelescot.openscreen.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>OpenScreen</name>
+  <summary>Screen recorder and editor for product demos</summary>
+  <developer id="com.etiennelescot">
+    <name>Etienne Lescot and OpenScreen contributors</name>
+  </developer>
+  <url type="homepage">https://getopenscreen.com</url>
+  <url type="bugtracker">https://github.com/getopenscreen/openscreen/issues</url>
+  <url type="vcs-browser">https://github.com/getopenscreen/openscreen</url>
+  <description>
+    <p>This is a community package of OpenScreen. It installs the official Linux AppImage, unpacked without changes, and follows stable upstream releases.</p>
+    <p>Record a screen or window, then turn the take into a polished product demo with zooms, cursor effects, captions, annotations, backgrounds, and MP4 or GIF export.</p>
+    <p>Screen recording uses your desktop's ScreenCast portal, which asks what to share. Recordings and projects are kept in OpenScreen's private app data; opening and saving files elsewhere uses the file chooser. Network access is used for on-device model downloads and AI providers you configure. AI provider keys are stored through your desktop's Secret Service.</p>
+    <p>On Wayland, mouse-click telemetry and click effects need read access to mouse event devices. Recording works without this optional access. To enable it, grant device access with <code>flatpak override --user --device=all com.etiennelescot.openscreen</code>. Undo the override with <code>flatpak override --user --reset com.etiennelescot.openscreen</code>.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>screen recorder</keyword>
+    <keyword>video editor</keyword>
+    <keyword>screen capture</keyword>
+    <keyword>product demo</keyword>
+    <keyword>screencast</keyword>
+  </keywords>
+  <releases>
+    <release version="2.2.2" date="2026-11-04"/>
+  </releases>
+</component>

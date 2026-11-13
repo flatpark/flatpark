@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eu
+
+app_root=/app/extra/openscreen
+[ -d "$app_root" ] || { echo "OpenScreen AppDir is missing; reinstall the app" >&2; exit 1; }
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || { echo "OpenScreen launcher name is missing; reinstall the app" >&2; exit 1; }
+
+# Mirror the environment from upstream's AppRun, but launch the binary through
+# zypak so Chromium's renderer sandbox is backed by Flatpak's sandbox.
+export APPDIR="$app_root"
+export PATH="$app_root:$app_root/usr/sbin${PATH:+:$PATH}"
+export XDG_DATA_DIRS="$app_root/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}:/usr/share/gnome:/usr/local/share:/usr/share"
+export LD_LIBRARY_PATH="$app_root/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export GSETTINGS_SCHEMA_DIR="$app_root/usr/share/glib-2.0/schemas${GSETTINGS_SCHEMA_DIR:+:$GSETTINGS_SCHEMA_DIR}"
+export TMPDIR="${XDG_RUNTIME_DIR:?}/${FLATPAK_ID:?}"
+mkdir -p "$TMPDIR"
+
+# Do not inherit launcher state that would make the vendor binary treat this
+# as an AppImage or start Electron as plain Node.
+unset APPIMAGE ELECTRON_RUN_AS_NODE
+
+# Chromium chooses Secret Service on desktops it does not recognize. Keep KDE's
+# native choice and any user-supplied --password-store setting.
+store=0
+case ":${XDG_CURRENT_DESKTOP:-}:" in
+    *:KDE:*) ;;
+    *)
+        for arg do
+            case "$arg" in
+                --password-store|--password-store=*) store=1 ;;
+            esac
+        done
+        if [ "$store" = 0 ]; then
+            set -- --password-store=gnome-libsecret "$@"
+        fi
+        ;;
+esac
+
+exec zypak-wrapper "$app_root/$launcher" --ozone-platform-hint=auto "$@"

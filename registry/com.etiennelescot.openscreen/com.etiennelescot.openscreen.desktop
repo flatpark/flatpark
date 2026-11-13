@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=OpenScreen
+GenericName=Screen Recorder and Editor
+Comment=Record your screen and polish the demo
+Icon=com.etiennelescot.openscreen
+Exec=openscreen %U
+Terminal=false
+Categories=AudioVideo;Video;Recorder;
+Keywords=screen;recording;video;editor;demo;
+StartupWMClass=Openscreen
