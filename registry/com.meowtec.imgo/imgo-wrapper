@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+# imgo is a Tauri v2 (WebKitGTK 4.1) binary staged by apply_extra at
+# /app/extra/app/bin/imgo together with its resources at /app/extra/app/lib/imgo
+# (the tree usr/bin/imgo + usr/lib/imgo/i18n from upstream's .deb, with the usr
+# root renamed). Tauri looks for resources relative to the binary's parent, so
+# the relative layout is preserved. It links only against libraries in
+# org.gnome.Platform (webkit2gtk-4.1, gtk-3, libsoup-3). Tauri stores its data
+# under the XDG data dirs, which Flatpak points into the per-app sandbox
+# storage, so no redirection or grant is needed for the app's own data.
+
+# WebKitGTK's DMABUF renderer renders a blank window under many drivers inside
+# the Flatpak sandbox; the compositing path is the reliable default here.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+exec /app/extra/app/bin/imgo "$@"
