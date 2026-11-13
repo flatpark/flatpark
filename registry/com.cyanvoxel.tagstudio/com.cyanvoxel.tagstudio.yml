@@ -1,0 +1,59 @@
+id: com.cyanvoxel.tagstudio
+# Upstream's PyInstaller directory carries Python, Qt 6 and its platform plugins.
+# The current freedesktop runtime supplies display libraries and FFmpeg/FFprobe.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: tagstudio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native Wayland with X11 fallback and shared memory for X11 rendering.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # Hardware accelerated image and media rendering.
+  - --device=dri
+  # Play audio from files in the library.
+  - --socket=pulseaudio
+  # Photo libraries include neighbouring files, metadata and thumbnail caches.
+  - --filesystem=xdg-pictures
+modules:
+  - name: tagstudio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 tagstudio-wrapper /app/bin/tagstudio
+      - install -Dm644 com.cyanvoxel.tagstudio.desktop /app/share/applications/com.cyanvoxel.tagstudio.desktop
+      - install -Dm644 com.cyanvoxel.tagstudio.metainfo.xml /app/share/metainfo/com.cyanvoxel.tagstudio.metainfo.xml
+      - install -Dm644 com.cyanvoxel.tagstudio.png /app/share/icons/hicolor/512x512/apps/com.cyanvoxel.tagstudio.png
+    sources:
+      # Supply the X11 keyboard helper alongside the bundled libxkbcommon.
+      # Keep this support pin separate from the application release resolver.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libxkbcommon-x11-0.deb
+        only-arches: [x86_64]
+        url: https://deb.debian.org/debian/pool/main/libx/libxkbcommon/libxkbcommon-x11-0_1.7.0-2_amd64.deb
+        sha256: b5cff6287d0d90b66224edfb7208709c5d35511215d87d2836919e4f7d367653
+        size: 16184
+      # END MANAGED DEBIAN
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tagstudio.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/TagStudioDev/TagStudio/releases/download/v9.6.4/tagstudio_v9.6.4_linux_x86_64.tar.gz
+        sha256: c274d5762256a4db7322c704a6753162d4e7f95a3f19cd1dadd9cbe94ef53870
+        size: 238614841
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tagstudio-wrapper
+      - type: file
+        path: com.cyanvoxel.tagstudio.desktop
+      - type: file
+        path: com.cyanvoxel.tagstudio.metainfo.xml
+      - type: file
+        path: com.cyanvoxel.tagstudio.png

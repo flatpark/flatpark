@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=TagStudio
+GenericName=Tag Management System
+Comment=Tag, find, and organize files
+Icon=com.cyanvoxel.tagstudio
+Exec=tagstudio
+Terminal=false
+Categories=Graphics;Photography;Qt;
+Keywords=files;folders;tags;photos;metadata;
+StartupWMClass=tagstudio

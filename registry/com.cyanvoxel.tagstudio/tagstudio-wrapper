@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+# Use upstream's settings option: its default uses ~/.config directly rather
+# than XDG_CONFIG_HOME. QSettings already follows the sandbox's XDG directories.
+export QT_QPA_PLATFORMTHEME="${QT_QPA_PLATFORMTHEME:-xdgdesktopportal}"
+# PyInstaller prepends its bundled libraries; supply the X11 helper it lacks
+# before consulting the runtime, without changing anything in the vendor tree.
+export LD_LIBRARY_PATH="/app/extra/support/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$(readlink -f /app/extra/tagstudio-launcher)" --settings-file "${XDG_CONFIG_HOME}/TagStudio/settings.toml" "$@"
