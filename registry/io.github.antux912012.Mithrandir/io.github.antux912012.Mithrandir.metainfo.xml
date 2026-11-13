@@ -21,6 +21,12 @@
       <li>Debounced Smart Boost: Safe one-click memory optimization and temporary file reclamation</li>
       <li>Adaptive Libadwaita Interface: Responsive layout conforming to GNOME HIG on desktop and mobile screens</li>
     </ul>
+    <p>
+      Permissions: Mithrandir manages the system it runs on, so this package does not keep it in a sandbox. It runs every action (cache cleaning, systemd services, GRUB, BTRFS snapshots, power and kernel settings, uninstalling software) on your computer through flatpak-spawn, with your normal user privileges, and asks for your password through polkit when an action needs root. It can read and write your whole home directory and the data of your other Flatpak apps in ~/.var/app, so it can clean their caches.
+    </p>
+    <p>
+      The AI assistant sends a summary of your system to the provider you choose (a cloud API, or a local model server) and can propose a shell command. When you click Execute Fix or Apply Fix, that command runs on your computer the same way, and as root after a password prompt when it uses sudo. Read a proposed command before running it.
+    </p>
   </description>
   <categories>
     <category>System</category>
