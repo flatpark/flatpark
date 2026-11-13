@@ -39,9 +39,9 @@ modules:
         filename: astroburst.deb
         only-arches:
           - x86_64
-        url: https://github.com/samuelkriegerbonini-dev/AstroBurst/releases/download/v0.8.1/AstroBurst_0.8.1_amd64.deb
-        sha256: 39dd0521f525b1088729ea9fdd4fd4b9566dc9f29e828c009b406fc9332d6231
-        size: 31744846
+        url: https://github.com/samuelkriegerbonini-dev/AstroBurst/releases/download/v0.9.0/AstroBurst_0.9.0_amd64.deb
+        sha256: 4ab9b570180d35c1951a5b4b4ea208afb0aa3251bc1353f2188fbc6355c9baa1
+        size: 32646188
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
