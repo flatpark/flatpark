@@ -18,6 +18,8 @@ finish-args:
   - --filesystem=home
   # Host execution portal for spawning host toolchains (R, Quarto, Python) via flatpak-spawn
   - --talk-name=org.freedesktop.Flatpak
+  - --env=WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1
+  - --env=WEBKIT_DISABLE_DMABUF_RENDERER=1
 modules:
   - name: imladris
     buildsystem: simple

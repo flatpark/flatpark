@@ -23,12 +23,6 @@
       <li>Model Context Protocol (MCP): Built-in MCP server integration for agentic document analysis and data retrieval</li>
     </ul>
     <p>
-      Permissions: this package can read and write your whole home directory, so notebooks and projects can live anywhere, and it can reach the network for AI providers, package repositories and Shiny apps. It can also run programs on your computer outside the sandbox through flatpak-spawn, so that notebook chunks and consoles can use the R, Python, Quarto and Julia installed on your system. Code run that way has your normal user privileges. The live preview also runs with WebKit's own web-content sandbox turned off.
-    </p>
-    <p>
-      If you only use the toolchain Imladris manages itself, or per-project environments, you can remove the host access with <code>flatpak override --user --no-talk-name=org.freedesktop.Flatpak io.github.Antux912012.Imladris</code>. Tools installed on your system will then no longer be found.
-    </p>
-    <p>
       Note: This application is independently developed and is not affiliated with or endorsed by Posit, RStudio, or Project Jupyter.
     </p>
   </description>
@@ -39,11 +33,19 @@
   <screenshots>
     <screenshot type="default">
       <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-screenshot.png</image>
-      <caption>Imladris polyglot scientific authoring workspace and notebook studio</caption>
+      <caption>Imladris 4-pane scientific workbench with redesigned Elrond AI copilot and live data inspection</caption>
+    </screenshot>
+    <screenshot>
+      <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-welcome.png</image>
+      <caption>Streamlined progressive-disclosure welcome screen with Quick Start and template expander</caption>
     </screenshot>
     <screenshot>
       <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-ai-copilot.png</image>
-      <caption>Elrond AI copilot and agent harness integration with code synthesis and live assistance</caption>
+      <caption>Elrond inline code assistance popover with instant monospace preview and replacement</caption>
+    </screenshot>
+    <screenshot>
+      <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-preferences-workspace.png</image>
+      <caption>Workspace and editor preferences with layout mode switching and toolbar customization</caption>
     </screenshot>
     <screenshot>
       <image width="1920" height="1080">https://raw.githubusercontent.com/Antux912012/imladris/main/data/screenshots/imladris-preferences-theming.png</image>
@@ -70,22 +72,60 @@
       <description></description>
     </release>
     <release version="0.23.0" date="2026-11-13">
-      <description></description>
+      <description>
+        <p>Release v0.23.0 delivers a comprehensive GNOME/Libadwaita interface overhaul, redesigned Elrond AI copilot and code assistance, new workspace customization options in Preferences, and rock-solid WebKitGTK 6.0 preview rendering:</p>
+        <ul>
+          <li>GNOME &amp; Libadwaita HIG Redesign: Streamlines the welcome view with progressive disclosure, providing high-visibility Quick Start cards (Quarto Notebook, R Script/Shiny, Open Folder) alongside a collapsible expander for specialized templates (.Rmd, .ipynb, .Rproj, .mallorn).</li>
+          <li>Zero-Chrome Distraction-Free Empty State: Automatically conceals toolbar ribbons, document tab bar, and bottom status bar on startup or when all tabs are closed, maximizing screen estate and visual clarity.</li>
+          <li>Redesigned Elrond AI Copilot: Features a new active provider status pill in the chat header, multi-context chips (Active File, Selection, Data, Last Error), formatted inline Markdown with Pango markup, and interactive code action cards (Insert at Cursor, Run in Console, Copy).</li>
+          <li>Unified Local &amp; Cloud AI Engine: Automatically routes prompts through local ElrondEngineController when available, seamlessly falling back to configured cloud providers (Gemini, Claude, OpenAI, DeepSeek, Kimi, Qwen, Ollama, LM Studio) or Antigravity harnesses.</li>
+          <li>Preview-First Inline Assistance: Re-engineers the Ctrl+Shift+E editor prompt popover with quick-action pills (Fix &amp; Clean, Add Comments, Explain, R Plot) and a live monospace preview box with one-click Replace Selection or Insert at Cursor.</li>
+          <li>Decluttered 4-Pane Workbench Dock: Replaces crowded quadrant header buttons with clean maximize and overflow popover menus for minimizing, undocking, and quadrant rearrangement.</li>
+          <li>Preferences Workspace Controls: Adds dedicated settings for 4-Pane Studio vs. Focus Mode layout, ribbon toolbar visibility, bottom status bar visibility, and default editor zoom percentage with live-updating compact zoom controls.</li>
+          <li>WebKitGTK 6.0 Preview Stability: Eliminates blank preview panes across Wayland and GTK 4.18+ through DMABUF fallback handling, GL renderer standardization, ONDEMAND GPU policy, and base URI resolution.</li>
+          <li>Performance &amp; Memory Safety: Resolves GLib.Bytes slice boundaries, asynchronous FIFO command queue deadlocks, and GObject singleton signal handler leaks.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.22.0" date="2026-11-12">
-      <description></description>
+      <description>
+        <p>Release v0.22.0 introduces hardware-accelerated rendering and a comprehensive GNOME/Libadwaita interface overhaul:</p>
+        <ul>
+          <li>Configures GTK4 GSK hardware acceleration (OpenGL NGL and Vulkan SPIR-V pipelines) via settings.ini before Display initialization with graceful CPU Cairo fallback.</li>
+          <li>Adds configurable animation and frame physics with three profiles: Alacritty Crisp (65ms zero-lag micro-transitions), PuTTY Instant (0ms zero-latency snap), and Libadwaita Smooth (180ms easing).</li>
+          <li>Introduces non-blinking steady terminal/editor cursor mode synchronizing across source editor and REPL consoles.</li>
+          <li>Implements Universal Command Palette (Ctrl+Shift+P / Ctrl+K) providing fuzzy-matched execution of workbench actions, statistical bridges, and hardware toggles.</li>
+          <li>Integrates inline code chunk execution runtime duration telemetry directly into document cards (Out [n]: ✔ ms/s).</li>
+          <li>Resolves Pango markup entities and unescaped ampersands across all preferences, popovers, and headerbars according to GNOME HIG standards.</li>
+          <li>Bundles 9 missing symbolic SVG icons directly into GResource (book-open, character-map, emblem-ok, format-text-superscript, send, software-properties, text-html, view-column, view-statistics).</li>
+          <li>Synchronizes GtkSourceView 5 syntax color schemes and dynamic styling with user-selected GNOME accent colors.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.21.0" date="2026-11-12">
-      <description></description>
+      <description>
+        <p>Release v0.21.0 introduces zero-latency, 100% offline VS Code-grade polyglot IntelliSense and intelligent bracket/quote pairing: Implements non-AI deterministic completion engine (CodeIntelliSenseEngine) with multi-paradigm symbol catalogs for R (base, stats, tidyverse, survival, DESeq2), Python (builtins, pandas, numpy, matplotlib, scipy.stats), Quarto hash-pipe (#|) cell options, YAML frontmatter directives, and LaTeX/mhchem math macros; features live buffer AST scanning for user-defined variables and functions, active REPL session object introspection, and dataframe column accessors (df$col); adds VS Code subsequence fuzzy scoring with prefix boost; integrates BracketAutoPairController for smart auto-closure of brackets (), [], {} and quotes "", '', ``, cursor overtype skip-over, and selection wrapping; provides manual completion invocation via Ctrl+Space; and includes preference toggles in SettingsManager.</p>
+      </description>
     </release>
     <release version="0.20.0" date="2026-11-12">
-      <description></description>
+      <description>
+        <p>Release v0.20.0 introduces the Elbereth Clinical Biostatistics, Power Calculation &amp; Survival Studio with critical stability and workflow improvements: Adds Elbereth popover supporting ICH E9 sample size calculations (two-sample t-test, binomial proportions, and Schoenfeld 1983 log-rank survival) with live Cairo Power Curve plotting, regulatory SAP justifications, and automated R/Python verification chunks; integrates CDISC ADSL Table 1, ADTTE survival (Kaplan-Meier + Cox PH), subgroup forest plots, and differential expression volcano plots; resolves R Markdown comma-delimited chunk header parsing ({r, echo=FALSE}) and #| eval: false execution skipping; connects REPL-generated plots to Quadrant 4 Plot Gallery; fixes inline chunk output clearing and tab-delimited (.tsv) dataset imports; auto-generates cryptographic SHA-256 GxP provenance manifests on export; and adds clinical trial SAP and RNA-Seq starter templates.</p>
+      </description>
+    </release>
+    <release version="0.19.0" date="2026-11-12">
+      <description>
+        <p>Release v0.19.0 transforms Imladris into an enterprise-grade production workbench: Introduces Taniquetil (AlphaFold DB structural biology bridge) with native Cairo pLDDT per-residue confidence track and Bio3D/PAE code generation; integrates Yavanna Bio-Entity &amp; Oligo resolver; implements cryptographic SHA-256 GxP and EU CRA provenance attestation service (imladris-provenance.lock.json); resolves multi-thread MCP server memory safety through GLib MainContext marshaling; adds asynchronous FIFO execution queues to PersistentSessionManager eliminating G_IO_ERROR_PENDING stream collisions; and delivers vectorized 1,000-row pagination with column data type profiling in DataGridViewer.</p>
+      </description>
     </release>
     <release version="0.18.0" date="2026-11-12">
-      <description></description>
+      <description>
+        <p>Release v0.18.0 introduces the Arekyer Galaxy-to-Quarto Provenance Bridge, MathChemStudio, Rproj Project scaffolding, and Jupyter Notebook parity: Implements Arekyer (Imladris.Bridges.Arekyer) connecting upstream cloud bioinformatics histories to local reproducible documents with verifiable httr2 and pandas data loaders; integrates secure credential management via libsecret-1 OS keyring with isolated subprocess memory injection; adds MathChemStudio with natural syntax for mathematical and chemical formulas with dual-target LaTeX and Markdown export; enables creation and lifecycle management of native RStudio .Rproj project files; and establishes full feature parity across Jupyter Notebook (.ipynb) source structures.</p>
+      </description>
     </release>
     <release version="0.17.0" date="2026-11-09">
-      <description></description>
+      <description>
+        <p>Release v0.17.0 introduces the native Galaxy Project API &amp; BioBlend Integration: Connects upstream bioinformatics cloud histories directly to the local workbench via asynchronous REST APIs; provides a dedicated Galaxy History Inspector in Quadrant 3 with live dataset state tracking (ok, running, queued, error); implements single-click reproducible code chunk generation into active Quarto (.qmd) and R Markdown (.Rmd) documents for R (httr) and Python (requests and pandas); adds a Libadwaita Galaxy authentication preferences dialog with instant server validation; and hardens credential storage according to GDPR Article 25 and EU Cyber Resilience Act standards.</p>
+      </description>
     </release>
     <release version="0.16.0" date="2026-11-09">
       <description>
