@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=QtScrcpy
+Comment=Mirror and control Android devices with keyboard mapping
+Exec=qtscrcpy
+Icon=io.github.barry_ran.QtScrcpy
+Terminal=false
+StartupWMClass=QtScrcpy
+Categories=Utility;RemoteAccess;Network;
+Keywords=Android;screen;mirror;USB;ADB;keymap;

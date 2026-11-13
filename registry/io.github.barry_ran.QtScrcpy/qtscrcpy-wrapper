@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# The bundled Qt 5 has xcb; its Wayland plugins lack libQt5WaylandClient.
+# A user's explicit Flatpak environment override still takes precedence.
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-xcb}"
+# Use the vendor's launcher unchanged: it locates its bundled Qt, ADB,
+# Android server and read-only defaults; mutable data uses QStandardPaths.
+exec /app/extra/qtscrcpy/AppRun "$@"
