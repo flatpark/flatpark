@@ -1,0 +1,34 @@
+id: io.github.antux912012.Mithrandir
+name: Mithrandir
+summary: System cleaner, optimizer and hardware power manager
+website: https://github.com/Antux912012/mithrandir
+source_url: https://github.com/Antux912012/mithrandir
+build:
+  manifest: io.github.antux912012.Mithrandir.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: System
+  upstream_approved: true
+  tags:
+    - System
+    - Cleaner
+    - Optimizer
+    - Power
+    - Telemetry
+    - GTK4
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --filesystem=home
+    - --filesystem=~/.var/app
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail:
+      en: "Everything the app does (cleaning, services, GRUB, snapshots, power settings) runs on your system through a host-command bridge (flatpak-spawn), outside the sandbox. Commands the AI assistant proposes run the same way when you click Execute Fix or Apply Fix, and as root after a password prompt when they use sudo."
+      zh-Hans: "应用的所有操作（清理、服务、GRUB、快照、电源设置）都通过宿主命令桥（flatpak-spawn）在你的系统上、沙箱之外运行。AI 助手建议的命令在你点击 Execute Fix 或 Apply Fix 后也这样运行；命令里带 sudo 时，输入密码后以 root 身份运行。"

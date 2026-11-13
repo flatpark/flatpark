@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.antux912012.Mithrandir</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Mithrandir</name>
+  <summary>System cleaner, optimizer and power manager</summary>
+  <description>
+    <p>
+      Mithrandir is a high-performance system maintenance suite, deep cache cleaner, and hardware power utility written in Rust with GTK4 and Libadwaita. It delivers instantaneous cleanup scans, cache pruning, hardware power management, and granular control over startup services and system processes without background resource overhead. (Independent project; not affiliated with or endorsed by CachyOS, GNOME, or Debian.)
+    </p>
+    <p>
+      Designed with a focus on safety and transparency, Mithrandir protects critical operating system paths, respects user sandboxes, and runs diagnostic telemetry off the main UI thread for stutter-free operation.
+    </p>
+    <ul>
+      <li>High-Throughput Cleaner: Multi-threaded cleanup for package caches, thumbnails, application logs, and Flatpak caches</li>
+      <li>Kernel &amp; BORE Scheduler Control: Runtime and persistent sysctl management for the BORE CPU scheduler</li>
+      <li>Hardware Power Profiles: Coordinated CPU Turbo Boost, scaling governors, EPP power profiles, and PCIe ASPM management</li>
+      <li>Pure Rust System Tray: StatusNotifierItem and DBusMenu panel integration adapting automatically to Light and Dark desktop themes</li>
+      <li>Zero-Sleep Real-Time Telemetry: Instant CPU delta calculation, dual GPU metrics, and battery health reporting</li>
+      <li>Debounced Smart Boost: Safe one-click memory optimization and temporary file reclamation</li>
+      <li>Adaptive Libadwaita Interface: Responsive layout conforming to GNOME HIG on desktop and mobile screens</li>
+    </ul>
+    <p>
+      Permissions: Mithrandir manages the system it runs on, so this package does not keep it in a sandbox. It runs every action (cache cleaning, systemd services, GRUB, BTRFS snapshots, power and kernel settings, uninstalling software) on your computer through flatpak-spawn, with your normal user privileges, and asks for your password through polkit when an action needs root. It can read and write your whole home directory and the data of your other Flatpak apps in ~/.var/app, so it can clean their caches.
+    </p>
+    <p>
+      The AI assistant sends a summary of your system to the provider you choose (a cloud API, or a local model server) and can propose a shell command. When you click Execute Fix or Apply Fix, that command runs on your computer the same way, and as root after a password prompt when it uses sudo. Read a proposed command before running it.
+    </p>
+  </description>
+  <categories>
+    <category>System</category>
+    <category>Settings</category>
+    <category>Utility</category>
+    <category>Monitor</category>
+  </categories>
+  <keywords>
+    <keyword>cleaner</keyword>
+    <keyword>optimizer</keyword>
+    <keyword>cachyos</keyword>
+    <keyword>scheduler</keyword>
+    <keyword>bore</keyword>
+    <keyword>eevdf</keyword>
+    <keyword>power</keyword>
+    <keyword>telemetry</keyword>
+    <keyword>cache</keyword>
+    <keyword>boost</keyword>
+    <keyword>hardware</keyword>
+    <keyword>system</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="1416" height="939">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/01-dashboard.png</image>
+      <caption>Mithrandir real-time hardware telemetry and one-click Smart Boost</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1416" height="939">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/02-kernel-power.png</image>
+      <caption>BORE kernel scheduler management with coordinated system power presets</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1416" height="939">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/03-cleaner.png</image>
+      <caption>Multi-category cache cleaner with strict Flatpak sandbox guardrails</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1416" height="939">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/04-uninstaller.png</image>
+      <caption>Multi-backend software uninstaller for Native, Flatpak, Snap, and Pip packages</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1416" height="939">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/05-grub.png</image>
+      <caption>GRUB bootloader kernel parameters and timeout management</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1173" height="690">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/06-ai-optimizer.png</image>
+      <caption>AI Optimizer connecting to cloud APIs, local agent sessions, and local LLM runners</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="730" height="590">https://raw.githubusercontent.com/Antux912012/mithrandir/main/data/screenshots/07-preferences.png</image>
+      <caption>Preferences dialog with GNOME 47 accent colors, hardware acceleration, and tab visibility</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/Antux912012/mithrandir</url>
+  <url type="bugtracker">https://github.com/Antux912012/mithrandir/issues</url>
+  <url type="vcs-browser">https://github.com/Antux912012/mithrandir</url>
+  <url type="contribute">https://github.com/Antux912012/mithrandir</url>
+  <url type="help">https://github.com/Antux912012/mithrandir#readme</url>
+  <developer id="io.github.antux912012">
+    <name>Antonio</name>
+  </developer>
+  <provides>
+    <binary>mithrandir</binary>
+    <id>io.github.antonio.Mithrandir</id>
+  </provides>
+  <launchable type="desktop-id">io.github.antux912012.Mithrandir.desktop</launchable>
+  <branding>
+    <color type="primary" scheme_preference="light">#2b7bdd</color>
+    <color type="primary" scheme_preference="dark">#174272</color>
+  </branding>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="1.2.0" date="2026-11-13">
+      <description>
+        <p>Mithrandir v1.2.0 UI/UX &amp; Reliability Release:</p>
+        <ul>
+          <li>Redesigned UI around GNOME/Libadwaita HIG with NavigationSplitView, grouped sidebar sections, responsive 720sp breakpoint, and flat native surface styling</li>
+          <li>Promoted One-Click AI Triage and Interactive Assistant to the top with wrapping quick-action FlowBox chips and collapsible provider settings</li>
+          <li>Fixed Snap cache cleaner to target only .cache subdirectories while preserving Snap user configs and profiles</li>
+          <li>Added Brave and Edge coverage to Web Browser Caches and accurate freed-byte reporting for Package Manager Cache</li>
+          <li>Hardened mutex poisoning recovery, RAII Smart Boost guard, and whitespace-normalized AI SafetyGuard command checks</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.2" date="2026-11-04">
+      <description>
+        <p>Mithrandir v1.1.2 Release:</p>
+        <ul>
+          <li>Removed sched-ext (SCX) scheduler management and bundled SCX packages to streamline kernel &amp; power management around BORE, CPU frequency governors, EPP, Turbo Boost, and PCIe ASPM</li>
+          <li>Updated AppStream 1.0 MetaInfo and Flatpak packaging to comply with Flathub submission standards</li>
+          <li>Reduced Flatpak and AppImage package footprint by removing embedded SCX binary archives</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.0" date="2026-11-03">
+      <description>
+        <p>Mithrandir v1.1.0 Feature Release:</p>
+        <ul>
+          <li>Integrated Check Your Hardware inspection tab covering Battery FRU/health, NVMe/SATA storage, RAM SODIMM, EDID display, and PCI network diagnostics</li>
+          <li>Added real-time GRUB configuration monitoring and backup disaster recovery</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.1" date="2026-11-02">
+      <description>
+        <p>Mithrandir v1.0.1 Maintenance &amp; Optimization Release:</p>
+        <ul>
+          <li>AI System Optimizer: real-time GNU/Linux tuning powered by NVIDIA Nemotron 3.5 Bolt E4B with DFlash speculative decoding</li>
+          <li>Codebase deduplication: unified host command execution via HostBridge across Flatpak and bare metal</li>
+          <li>Purged dormant ClamAV remnants and unused settings fields</li>
+          <li>Resolved asynchronous channel dispatch in GRUB bootloader manager</li>
+          <li>Eliminated redundant heap allocations in telemetry loops and static mutex locks</li>
+          <li>Targeted process collection reducing sysinfo overhead and memory consumption</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.0.0" date="2026-11-02">
+      <description>
+        <p>Mithrandir v1.0.0 Official Release:</p>
+        <ul>
+          <li>Unified repository rebranding to Mithrandir</li>
+          <li>Strict Flatpak sandbox cache protection preventing accidental configuration or profile deletion</li>
+          <li>Direct support for CachyOS BORE scheduler management</li>
+          <li>Mithrandir presets across system power profiles, CPU governors, EPP, and Turbo Boost</li>
+          <li>Responsive adaptive GNOME HIG interface with collapsible icon-rail sidebar</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,58 @@
+id: io.github.antux912012.Mithrandir
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: mithrandir
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=home
+  - --filesystem=~/.var/app
+  - --talk-name=org.freedesktop.Flatpak
+  - --system-talk-name=org.freedesktop.systemd1
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --system-talk-name=org.freedesktop.UPower.PowerProfiles
+  - --system-talk-name=net.hadess.PowerProfiles
+modules:
+  - name: mithrandir
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 mithrandir-wrapper /app/bin/mithrandir
+      - install -Dm644 io.github.antux912012.Mithrandir.desktop /app/share/applications/io.github.antux912012.Mithrandir.desktop
+      - install -Dm644 io.github.antux912012.Mithrandir.metainfo.xml /app/share/metainfo/io.github.antux912012.Mithrandir.metainfo.xml
+      - install -Dm644 io.github.antux912012.Mithrandir.gschema.xml /app/share/glib-2.0/schemas/io.github.antux912012.Mithrandir.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas
+      - install -Dm644 io.github.antux912012.Mithrandir.png /app/share/icons/hicolor/512x512/apps/io.github.antux912012.Mithrandir.png
+      - install -Dm644 io.github.antux912012.Mithrandir.svg /app/share/icons/hicolor/scalable/apps/io.github.antux912012.Mithrandir.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mithrandir.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Antux912012/mithrandir/releases/download/v1.2.0/mithrandir_1.2.0_amd64.deb
+        sha256: cc39f7e81d514b7f6f5627b3c26e6c027018311a421b69269b99079b5779d41d
+        size: 2674556
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: mithrandir-wrapper
+      - type: file
+        path: io.github.antux912012.Mithrandir.desktop
+      - type: file
+        path: io.github.antux912012.Mithrandir.metainfo.xml
+      - type: file
+        path: io.github.antux912012.Mithrandir.gschema.xml
+      - type: file
+        path: io.github.antux912012.Mithrandir.png
+      - type: file
+        path: io.github.antux912012.Mithrandir.svg
