@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.cyanvoxel.tagstudio</id>
+  <name>TagStudio</name>
+  <summary>Organize photos and files with tags and custom metadata</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="io.github.TagStudioDev"><name>TagStudio Contributors</name></developer>
+  <description>
+    <p>TagStudio organizes photos and other files using tags, tag inheritance and custom metadata. Search and preview your library while keeping your existing folder structure. Library metadata is stored alongside your files.</p>
+    <p>This unofficial community package downloads the official Linux release from TagStudio's GitHub releases. It is maintained by FlatPark and is not supported by upstream.</p>
+    <p>Pictures is available for photo libraries. To manage a library in another folder, grant that folder with <code>flatpak override --user --filesystem=/path/to/library com.cyanvoxel.tagstudio</code>. Undo custom permissions with <code>flatpak override --user --reset com.cyanvoxel.tagstudio</code>.</p>
+    <p>FFmpeg and FFprobe from the runtime support media thumbnails and playback. Media previews start muted; use the speaker control to enable sound. Optional ripgrep acceleration and RAR extraction tools are not included.</p>
+    <p>A separately pinned Debian X11 keyboard support library accompanies the unmodified upstream archive.</p>
+    <p>Online update checks are optional: <code>flatpak override --user --share=network com.cyanvoxel.tagstudio</code>. Undo with <code>flatpak override --user --unshare=network com.cyanvoxel.tagstudio</code>. Flatpak updates install new packaged releases.</p>
+  </description>
+  <launchable type="desktop-id">com.cyanvoxel.tagstudio.desktop</launchable>
+  <url type="homepage">https://docs.tagstud.io/</url>
+  <url type="help">https://docs.tagstud.io/usage/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="9.6.4" date="2026-10-02"/></releases>
+</component>
