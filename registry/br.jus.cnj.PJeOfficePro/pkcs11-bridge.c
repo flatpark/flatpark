@@ -9,7 +9,7 @@
  * where it and pcscd are installed, and the sandbox only sees the PKCS#11
  * calls.
  *
- * Two reasons this is a small module of its own rather than a symlink to
+ * Three reasons this is a small module of its own rather than a symlink to
  * p11-kit-client.so:
  *
  * - PJeOffice calls C_Initialize without CKF_OS_LOCKING_OK and without mutex
@@ -17,19 +17,30 @@
  *   caller supplies no mutex callbacks the standard lets the module use the
  *   operating system's locking primitives, so this sets CKF_OS_LOCKING_OK in
  *   that case and passes everything else through unchanged.
+ * - C_GetSlotList hides p11-kit's trust slots ("System Trust", "Default
+ *   Trust", model p11-kit-trust), which the host's server lists first and
+ *   which hold no private key. PJeOffice (signer4j) keeps one device per
+ *   token serial number, and the trust tokens' serial is "1": a token that
+ *   also reports "1" (SerproID's cloud certificate does) was dropped as a
+ *   duplicate of them. Assinador Serpro's bridge does the same.
  * - PJeOffice stores the canonical path of the driver it loaded in its
  *   configuration. A symlink would be saved as the runtime's versioned file
  *   name and break on the next runtime update; this file's path is its own.
  */
 #include <dlfcn.h>
 #include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 #include <p11-kit/pkcs11.h>
 
 #ifndef CLIENT_MODULE
 #error "CLIENT_MODULE must be set to the path of p11-kit-client.so"
 #endif
 
+#define TRUST_MODEL "p11-kit-trust"
+
 static CK_FUNCTION_LIST bridged;
+static CK_FUNCTION_LIST_PTR client;
 static CK_C_Initialize client_initialize;
 
 static CK_RV bridge_initialize(CK_VOID_PTR init_args)
@@ -47,11 +58,65 @@ static CK_RV bridge_initialize(CK_VOID_PTR init_args)
     return client_initialize(&args);
 }
 
+static int is_trust_token(CK_SLOT_ID slot)
+{
+    CK_TOKEN_INFO info;
+
+    if (client->C_GetTokenInfo(slot, &info) != CKR_OK)
+        return 0;
+    return memcmp(info.model, TRUST_MODEL, strlen(TRUST_MODEL)) == 0;
+}
+
+static CK_RV bridge_get_slot_list(CK_BBOOL token_present, CK_SLOT_ID_PTR slots,
+                                  CK_ULONG_PTR count)
+{
+    CK_SLOT_ID_PTR all;
+    CK_ULONG total = 0;
+    CK_ULONG visible = 0;
+    CK_RV rv;
+
+    if (count == NULL)
+        return CKR_ARGUMENTS_BAD;
+
+    rv = client->C_GetSlotList(token_present, NULL, &total);
+    if (rv != CKR_OK)
+        return rv;
+    /* No second call for an empty list: p11-kit's RPC answers it with
+     * CKR_BUFFER_TOO_SMALL. */
+    if (total == 0) {
+        *count = 0;
+        return CKR_OK;
+    }
+
+    all = calloc(total, sizeof(*all));
+    if (all == NULL)
+        return CKR_HOST_MEMORY;
+    rv = client->C_GetSlotList(token_present, all, &total);
+    if (rv != CKR_OK) {
+        free(all);
+        return rv;
+    }
+
+    for (CK_ULONG i = 0; i < total; i++) {
+        if (!is_trust_token(all[i]))
+            all[visible++] = all[i];
+    }
+
+    if (slots != NULL) {
+        if (*count < visible)
+            rv = CKR_BUFFER_TOO_SMALL;
+        else
+            memcpy(slots, all, visible * sizeof(*all));
+    }
+    *count = visible;
+    free(all);
+    return rv;
+}
+
 CK_RV C_GetFunctionList(CK_FUNCTION_LIST_PTR_PTR list)
 {
     static void *handle;
     CK_C_GetFunctionList get;
-    CK_FUNCTION_LIST_PTR client;
     CK_RV rv;
 
     if (list == NULL)
@@ -69,6 +134,7 @@ CK_RV C_GetFunctionList(CK_FUNCTION_LIST_PTR_PTR list)
         bridged = *client;
         client_initialize = client->C_Initialize;
         bridged.C_Initialize = bridge_initialize;
+        bridged.C_GetSlotList = bridge_get_slot_list;
         bridged.C_GetFunctionList = C_GetFunctionList;
     }
     *list = &bridged;
