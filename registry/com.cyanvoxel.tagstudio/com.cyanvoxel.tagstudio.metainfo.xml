@@ -14,6 +14,12 @@
     <p>A separately pinned Debian X11 keyboard support library accompanies the unmodified upstream archive.</p>
     <p>Online update checks are optional: <code>flatpak override --user --share=network com.cyanvoxel.tagstudio</code>. Undo with <code>flatpak override --user --unshare=network com.cyanvoxel.tagstudio</code>. Flatpak updates install new packaged releases.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Organize and browse files with tags</caption>
+      <image>https://raw.githubusercontent.com/TagStudioDev/TagStudio/main/docs/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.cyanvoxel.tagstudio.desktop</launchable>
   <url type="homepage">https://docs.tagstud.io/</url>
   <url type="help">https://docs.tagstud.io/usage/</url>

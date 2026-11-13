@@ -24,6 +24,16 @@
     <p>Because home access is granted, Antigravity keeps its own state under your real home directory (<code>~/.gemini</code>) rather than inside the sandboxed app data directory, so that state is left behind by <code>flatpak uninstall --delete-data</code> and has to be removed by hand.</p>
     <p>Upstream also ships a migration helper that can download and install the separate Antigravity IDE into <code>~/.local/share/antigravity-ide</code>, outside Flatpak's control. It is Google's own code, shipped unmodified here, and only runs for users migrating from an existing <code>~/.gemini/antigravity</code> install.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Coordinate parallel AI agents exploring a codebase</caption>
+      <image>https://antigravity.google/assets/image/product/subagents.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Schedule recurring tasks for AI agents</caption>
+      <image>https://antigravity.google/assets/image/product/scheduled.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.google.Antigravity.desktop</launchable>
   <categories>
     <category>Development</category>

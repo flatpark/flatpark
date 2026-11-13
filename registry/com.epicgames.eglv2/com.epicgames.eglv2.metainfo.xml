@@ -18,6 +18,16 @@
     <p>Games are installed in the Games folder in your home folder, the launcher's default, which this package can reach. To install them somewhere else, such as a second drive, grant that folder first, for example <code>flatpak override --user --filesystem=/mnt/games com.epicgames.eglv2</code>. Remove such grants with <code>flatpak override --user --reset com.epicgames.eglv2</code>.</p>
     <p>Updates come through Flatpak, not through the launcher's own updater.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browse and launch games from your library</caption>
+      <image>https://launcher.epicgames.com/speed/library-v7.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Manage game downloads and installations</caption>
+      <image>https://launcher.epicgames.com/downloads/manager-v6.webp</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.epicgames.eglv2.desktop</launchable>
   <categories>
     <category>Game</category>

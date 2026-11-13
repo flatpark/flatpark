@@ -18,6 +18,16 @@
     <p>The local database runner starts the <code>surreal</code> command-line tool, which is not part of the package. If you installed it with SurrealDB's installer, let the app see it: <code>flatpak override --user --filesystem=~/.surrealdb:ro com.surrealdb.Studio</code>. Otherwise run SurrealDB outside the app and connect to it. Remove custom grants with <code>flatpak override --user --reset com.surrealdb.Studio</code>.</p>
     <p>Updates come through Flatpak. The application's own updater may still download a new release in the background; it cannot install it inside the sandbox, so update with Flatpak instead.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Explore schemas and run queries in SurrealDB Studio</caption>
+      <image>https://cdn.surrealdb.com/w(1600)q(80)/zyqvtm0l1f1xut2mky9ipetu.auto</image>
+    </screenshot>
+    <screenshot>
+      <caption>Write and inspect database queries in the editor</caption>
+      <image>https://cdn.surrealdb.com/w(1600)q(80)/4hwmremvd091kqxbesv78tsl.auto</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.surrealdb.Studio.desktop</launchable>
   <categories>
     <category>Development</category>

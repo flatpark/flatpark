@@ -15,6 +15,12 @@
     <p>This community package downloads the official Linux Debian release unmodified at install time. Browser updates arrive through Flatpak; the bundled agent server and extensions retain their upstream update mechanisms. Profiles and agent data are kept in the app's private storage.</p>
     <p>Downloads are accessible directly. Other files can be selected through the desktop file chooser. Importing a native browser profile requires an optional read-only grant, for example: <code>flatpak override --user --filesystem=~/.config/google-chrome:ro com.browseros.BrowserOS</code>. Undo optional grants with: <code>flatpak override --user --reset com.browseros.BrowserOS</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Browse the web with the built-in AI assistant</caption>
+      <image>https://raw.githubusercontent.com/browseros-ai/BrowserOS/main/docs/images/hero-dark.png</image>
+    </screenshot>
+  </screenshots>
   <categories><category>Network</category><category>WebBrowser</category></categories>
   <keywords><keyword>browser</keyword><keyword>agent</keyword><keyword>AI</keyword></keywords>
   <releases><release version="0.52.1.1" date="2026-10-31"/></releases>

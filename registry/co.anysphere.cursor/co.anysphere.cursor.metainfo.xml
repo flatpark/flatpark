@@ -29,6 +29,12 @@
     <p>The editor shells out to developer tools that no Flatpak runtime ships. This package puts a bridge on the app's PATH that forwards those commands to the same tools on your host, so your existing Git, language toolchains and test runners — and the credentials you have already authorized there — are what run in the integrated terminal and under the agent. FlatPark does not bundle or authenticate any of them. Commands that the sandbox provides itself, including the shell and coreutils, keep running inside it.</p>
     <p>Updates come through Flatpak: this package tracks upstream's own download endpoint, so a new upstream build arrives with <code>flatpak update</code>. Cursor's built-in updater stays switched off here.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Work with coding agents alongside the source editor</caption>
+      <image>https://cursor.com/marketing-static/_next/image?url=https%3A%2F%2Fptht05hbb1ssoooe.public.blob.vercel-storage.com%2Fassets%2Fchangelog%2Fagent-tabs&amp;w=1920&amp;q=70</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories>
     <category>Development</category>

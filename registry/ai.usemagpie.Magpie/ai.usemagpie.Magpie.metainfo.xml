@@ -19,6 +19,16 @@
     <p>Commands launched by Magpie run inside the sandbox, so it cannot run agent command-line tools installed on the host or see whether an agent is running. Launch at login is not available in this package.</p>
     <p>In this Flatpak, Magpie's built-in Update button opens the upstream release page; it does not update the Flatpak. Package updates are delivered through FlatPark.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Manage agents and conversations in the main window</caption>
+      <image>https://raw.githubusercontent.com/yetone/magpie/main/site/public/img/agents-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Access conversations from the compact side panel</caption>
+      <image>https://raw.githubusercontent.com/yetone/magpie/main/site/public/img/panel-light.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">ai.usemagpie.Magpie.desktop</launchable>
   <categories>
     <category>Development</category>

@@ -16,6 +16,12 @@
     <p>Market data is currently delayed by 15 minutes. OpenTrader is for charting and research and is not financial advice.</p>
     <p>Community sign-in and proxy passwords are kept only for the current session unless OpenTrader can use your desktop's Secret Service. To allow storage across launches, run <code>flatpak override --user --talk-name=org.freedesktop.secrets com.opentrader.app</code>. Remove this permission with <code>flatpak override --user --no-talk-name=org.freedesktop.secrets com.opentrader.app</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Explore market data in the trading dashboard</caption>
+      <image>https://raw.githubusercontent.com/deepentropy/opentrader/main/docs/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.opentrader.app.desktop</launchable>
   <categories>
     <category>Office</category>
