@@ -1,0 +1,22 @@
+id: com.etiennelescot.openscreen
+name: OpenScreen
+summary: Screen recorder and editor for product demos
+website: https://getopenscreen.com
+source_url: https://github.com/getopenscreen/openscreen
+build:
+  manifest: com.etiennelescot.openscreen.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags:
+    - Screen Recorder
+    - Video Editing
+    - Product Demo
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,65 @@
+id: com.etiennelescot.openscreen
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# The Linux release is an Electron AppImage. The app image itself is fetched as
+# extra-data and unpacked at install time; the Electron base supplies zypak so
+# Chromium's renderer sandbox stays inside the Flatpak sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: openscreen
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # AI providers and on-device speech models the user chooses to download.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Hardware accelerated rendering and export; OpenScreen falls back to CPU.
+  - --device=dri
+  # Microphone and system audio use PulseAudio or PipeWire-Pulse.
+  - --socket=pulseaudio
+  # AI provider keys are stored with Electron safeStorage through Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # The recording HUD is controlled from OpenScreen's system tray item.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Electron 41 uses a PID-derived StatusNotifierItem name (PID 2 in Flatpak).
+  - --own-name=org.kde.*
+modules:
+  - name: openscreen
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openscreen-wrapper /app/bin/openscreen
+      - install -Dm644 com.etiennelescot.openscreen.desktop /app/share/applications/com.etiennelescot.openscreen.desktop
+      - install -Dm644 com.etiennelescot.openscreen.metainfo.xml /app/share/metainfo/com.etiennelescot.openscreen.metainfo.xml
+      - install -Dm644 com.etiennelescot.openscreen.png /app/share/icons/hicolor/512x512/apps/com.etiennelescot.openscreen.png
+    sources:
+      # appimage-tools is a small, fixed FlatPark support download. It stays
+      # outside the managed block because update-pins replaces that block.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openscreen.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/getopenscreen/openscreen/releases/download/v2.2.2/Openscreen-Linux-2.2.2.AppImage
+        sha256: 6439650cedf119e017ad81fb4382bddf22ae321bd11d446c8dc0de52d72ff773
+        size: 271408996
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openscreen-wrapper
+      - type: file
+        path: com.etiennelescot.openscreen.desktop
+      - type: file
+        path: com.etiennelescot.openscreen.metainfo.xml
+      - type: file
+        path: com.etiennelescot.openscreen.png
