@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ITK-SNAP
+Comment=Segment anatomical structures in 3D medical images
+Exec=itksnap %f
+Icon=io.github.pyushkevich.itksnap
+Terminal=false
+Categories=Science;MedicalSoftware;Graphics;
+StartupWMClass=ITK-SNAP

@@ -1,0 +1,68 @@
+id: io.github.pyushkevich.itksnap
+# The portable release bundles Qt 6.8 and ICU; the runtime supplies GL and X11.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: itksnap
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The bundled Qt platform plugin is xcb, including on Wayland desktops.
+  - --socket=x11
+  - --share=ipc
+  - --unset-env=QT_QPA_PLATFORM
+  # Slice views and 3D surfaces use OpenGL.
+  - --device=dri
+  # Qt's bundled file chooser accesses these dataset folders directly.
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Upstream stores its preferences here rather than in the XDG directories.
+  - --persist=.itksnap.org
+modules:
+  - name: itksnap
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 itksnap-wrapper /app/bin/itksnap
+      - install -Dm644 io.github.pyushkevich.itksnap.desktop /app/share/applications/io.github.pyushkevich.itksnap.desktop
+      - install -Dm644 io.github.pyushkevich.itksnap.metainfo.xml /app/share/metainfo/io.github.pyushkevich.itksnap.metainfo.xml
+      - install -Dm644 io.github.pyushkevich.itksnap.png /app/share/icons/hicolor/512x512/apps/io.github.pyushkevich.itksnap.png
+    sources:
+      # libssh is required at load time and absent from the portable tarball
+      # and runtime. Debian provides the shared support library unmodified.
+      # libssh also needs GSSAPI's load-time closure from the catalog stack.
+      # Keep this fixed support download outside both updater-managed blocks.
+      - type: extra-data
+        filename: krb5-gss.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/krb5-gss-v2/krb5-gss-krb5-gss-v2-fd-26.08-x86_64.tar.xz
+        sha256: 499040be2b155b7a2869cfbe472031bbe336dff887d26809fa54fc5ae318dcf8
+        size: 473004
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libssh-4.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/libs/libssh/libssh-4_0.11.5-0+deb13u1_amd64.deb
+        sha256: bc8cbc13617d1b21fa6f686f9f269a4f849f00624d5bb179785a058981701233
+        size: 211924
+      # END MANAGED DEBIAN
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: itksnap.tar.gz
+        only-arches: [x86_64]
+        url: https://downloads.sourceforge.net/project/itk-snap/itk-snap/4.4.0/itksnap-4.4.0-20250909-Linux-x86_64.tar.gz
+        sha256: 10524c143d329c197a6ce05ac112dcd5686f9c0d4b3b985c2287c02de923948c
+        size: 229324815
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: itksnap-wrapper
+      - type: file
+        path: io.github.pyushkevich.itksnap.desktop
+      - type: file
+        path: io.github.pyushkevich.itksnap.metainfo.xml
+      - type: file
+        path: io.github.pyushkevich.itksnap.png

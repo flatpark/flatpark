@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# The portable release supplies xcb only; retain an explicit user override.
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-xcb}"
+# Add the separately pinned libssh; upstream adds its own bundled Qt path.
+export LD_LIBRARY_PATH="/app/extra/support/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}:/app/extra/krb5-gss/lib"
+# Upstream's launcher locates its versioned libraries relative to itself.
+exec /app/extra/itksnap/bin/itksnap "$@"
