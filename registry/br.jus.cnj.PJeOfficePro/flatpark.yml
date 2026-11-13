@@ -25,5 +25,5 @@ policy:
 packaging:
   - kind: injected-code
     detail:
-      en: "A small PKCS#11 module, which PJeOffice Pro loads through its own PKCS11_DRIVER setting, passes A3 token calls to the host's p11-kit, so the token driver runs on the host."
-      zh-Hans: "一个小型 PKCS#11 模块，由 PJeOffice Pro 通过它自己的 PKCS11_DRIVER 设置加载，把 A3 令牌的调用转给宿主的 p11-kit，令牌驱动在宿主上运行。"
+      en: "A small PKCS#11 module, which PJeOffice Pro loads through its own PKCS11_DRIVER setting, passes A3 token calls to the host's p11-kit, so the token driver runs on the host. It hides p11-kit's trust slots, which hold no key."
+      zh-Hans: "一个小型 PKCS#11 模块，由 PJeOffice Pro 通过它自己的 PKCS11_DRIVER 设置加载，把 A3 令牌的调用转给宿主的 p11-kit，令牌驱动在宿主上运行。它会隐藏 p11-kit 的信任槽（其中没有私钥）。"
