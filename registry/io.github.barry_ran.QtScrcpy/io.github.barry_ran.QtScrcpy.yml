@@ -55,7 +55,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: qtscrcpy.AppImage
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/barry-ran/QtScrcpy/releases/download/v4.2.1/QtScrcpy-ubuntu-x64-v4.2.1.AppImage
         sha256: bf2241273e41fae7532a7b046cbace936369f3bffc7fedbd7344bdc2fcebe485
         size: 36583928

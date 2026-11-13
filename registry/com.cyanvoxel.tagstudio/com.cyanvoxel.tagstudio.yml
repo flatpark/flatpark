@@ -42,7 +42,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: tagstudio.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/TagStudioDev/TagStudio/releases/download/v9.6.4/tagstudio_v9.6.4_linux_x86_64.tar.gz
         sha256: c274d5762256a4db7322c704a6753162d4e7f95a3f19cd1dadd9cbe94ef53870
         size: 238614841

@@ -53,9 +53,9 @@ modules:
         filename: ely-tree.deb
         only-arches:
           - x86_64
-        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.15/ely-tree_0.1.15-1_amd64.deb
-        sha256: 5ea47f3411414d0af8a8a710e505e06f5cbbb2d821c8bd4b908a2b8b3c34b8ed
-        size: 27053148
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.16/ely-tree_0.1.16-1_amd64.deb
+        sha256: 69031436029c6662cf88e3e81bb64463a5704a95b821d8eb344242e9bcc9e80d
+        size: 27092174
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
