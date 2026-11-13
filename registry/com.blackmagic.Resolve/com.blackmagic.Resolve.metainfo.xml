@@ -68,6 +68,9 @@
     <binary>resolve</binary>
   </provides>
   <releases>
+    <release version="0.0.10" date="2026-11-13">
+      <description></description>
+    </release>
     <release version="0.0.9" date="2026-11-11">
       <description></description>
     </release>
