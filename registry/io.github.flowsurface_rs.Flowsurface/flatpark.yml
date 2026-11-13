@@ -1,0 +1,22 @@
+id: io.github.flowsurface_rs.Flowsurface
+name: Flowsurface
+summary: Crypto market charts, order-flow analysis and live exchange data
+website: https://flowsurface.com/
+source_url: https://github.com/flowsurface-rs/flowsurface
+build:
+  manifest: io.github.flowsurface_rs.Flowsurface.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Finance
+  upstream_approved: false
+  tags:
+    - Cryptocurrency
+    - Market Data
+    - Charting
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,53 @@
+id: io.github.flowsurface_rs.Flowsurface
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: flowsurface
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Iced/wgpu renders the market charts using the GPU.
+  - --device=dri
+  # Live exchange feeds, historical data and the indicator catalog use network access.
+  - --share=network
+  # Native Wayland with X11 available as a fallback for desktops and toolkits that need it.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+modules:
+  - name: flowsurface
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 flowsurface-wrapper /app/bin/flowsurface
+      - install -Dm644 io.github.flowsurface_rs.Flowsurface.desktop /app/share/applications/io.github.flowsurface_rs.Flowsurface.desktop
+      - install -Dm644 io.github.flowsurface_rs.Flowsurface.metainfo.xml /app/share/metainfo/io.github.flowsurface_rs.Flowsurface.metainfo.xml
+      - install -Dm644 io.github.flowsurface_rs.Flowsurface.svg /app/share/icons/hicolor/scalable/apps/io.github.flowsurface_rs.Flowsurface.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: flowsurface-linux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/flowsurface-rs/flowsurface/releases/download/v0.9.0/flowsurface-x86_64-linux.tar.gz
+        sha256: b51c8f0fbbdbd2c01f6ea4a7b2bc8e15ba25136ee05c5dcef7fd8f2145745b35
+        size: 13004405
+      - type: extra-data
+        filename: flowsurface-linux.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/flowsurface-rs/flowsurface/releases/download/v0.9.0/flowsurface-aarch64-linux.tar.gz
+        sha256: ee76dc0256cd36aae0ff3b56cc88a194865eb02d0236da1d209dcd5966b39f2e
+        size: 12237482
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: flowsurface-wrapper
+      - type: file
+        path: io.github.flowsurface_rs.Flowsurface.desktop
+      - type: file
+        path: io.github.flowsurface_rs.Flowsurface.metainfo.xml
+      - type: file
+        path: io.github.flowsurface_rs.Flowsurface.svg
