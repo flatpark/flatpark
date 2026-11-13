@@ -30,6 +30,12 @@
     </ul>
     <p>Updates come through Flatpak: this package tracks upstream's own version feed, so a new upstream build arrives with <code>flatpak update</code>.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Configure your WorkBuddy AI workspace and preferences</caption>
+      <image>https://download.codebuddy.ai/web/docs/2601b23c320920af423a274fc63da540f3e7bf6a/docs/static/aab635a8b74f11f1a120525400a31896.CEsqUVXq.png</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories>
     <category>Office</category>

@@ -26,6 +26,16 @@
     <p>Replace the path with your own, repeat the flag for more directories, and undo everything with:</p>
     <p>flatpak override --user --reset xyz.thinkinai.DeepChat</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Chat with AI models in the main conversation view</caption>
+      <image>https://raw.githubusercontent.com/ThinkInAIXYZ/deepchat/main/assets/screenshots/main-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Use the conversation view with the dark theme</caption>
+      <image>https://raw.githubusercontent.com/ThinkInAIXYZ/deepchat/main/assets/screenshots/main-dark.png</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories>
     <category>Development</category>

@@ -22,6 +22,16 @@
     </ul>
     <p>Because home access is granted, Antigravity IDE keeps its own state under your real home directory (<code>~/.gemini</code>) rather than inside the sandboxed app data directory, so that state is left behind by <code>flatpak uninstall --delete-data</code> and has to be removed by hand.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Work with the AI agent alongside your code</caption>
+      <image>https://antigravity.google/assets/image/product/agent.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Review generated artifacts and agent results</caption>
+      <image>https://antigravity.google/assets/image/product/artifacts.jpg</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.google.AntigravityIDE.desktop</launchable>
   <categories>
     <category>Development</category>

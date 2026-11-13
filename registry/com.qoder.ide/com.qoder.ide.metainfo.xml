@@ -27,6 +27,16 @@
     </ul>
     <p>Updates come through Flatpak: this package tracks upstream's own release feed, so a new upstream build arrives with <code>flatpak update</code>. Qoder's built-in updater stays switched off here.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Edit code while AI agents work on development tasks</caption>
+      <image>https://img.alicdn.com/imgextra/i2/O1CN01j7IyTtBC1kH5CGIq_!!6000000007503-2-tps-2560-1728.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Use the coding workspace and agent panel in light mode</caption>
+      <image>https://img.alicdn.com/imgextra/i4/O1CN01r9rFbus9leG5CGIq_!!6000000004519-2-tps-2560-1728.png</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories>
     <category>Development</category>

@@ -22,6 +22,16 @@
     </ul>
     <p>Updates come through Flatpak: this package tracks upstream releases, so a new Netcatty build arrives with <code>flatpak update</code>. The bundled updater cannot install anything inside the sandbox, so use your package manager instead.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Manage remote connections in the main window</caption>
+      <image>https://raw.githubusercontent.com/binaricat/Netcatty/main/docs/assets/readme/main-window.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Monitor remote systems and resource usage</caption>
+      <image>https://raw.githubusercontent.com/binaricat/Netcatty/main/docs/assets/readme/monitoring.webp</image>
+    </screenshot>
+  </screenshots>
   <content_rating type="oars-1.1"/>
   <categories>
     <category>Development</category>
