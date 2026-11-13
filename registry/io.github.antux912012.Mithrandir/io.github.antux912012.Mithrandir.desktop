@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=Mithrandir
+GenericName=System Cleaner, Optimizer and Hardware Power Manager
+Comment=Native Linux system cleaner, optimizer, CachyOS scheduler and hardware power manager
+Exec=mithrandir %U
+Icon=io.github.antux912012.Mithrandir
+Terminal=false
+Type=Application
+Categories=System;
+StartupNotify=true
+Actions=smart-boost;monitor;background;
+
+[Desktop Action smart-boost]
+Name=⚡ Smart Boost
+Exec=mithrandir --smart-boost
+
+[Desktop Action monitor]
+Name=📊 System Monitor
+Exec=mithrandir --monitor
+
+[Desktop Action background]
+Name=🛡️ Start in System Tray
+Exec=mithrandir --background

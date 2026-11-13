@@ -1,0 +1,33 @@
+id: io.github.antux912012.Mithrandir
+name: Mithrandir
+summary: System cleaner, optimizer and hardware power manager
+website: https://github.com/Antux912012/mithrandir
+source_url: https://github.com/Antux912012/mithrandir
+build:
+  manifest: io.github.antux912012.Mithrandir.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: System
+  upstream_approved: true
+  tags:
+    - System
+    - Cleaner
+    - Optimizer
+    - Power
+    - Telemetry
+    - GTK4
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --filesystem=home
+    - --filesystem=~/.var/app
+    - --talk-name=org.freedesktop.Flatpak
+  packaging:
+    - kind: host-command
+      detail:
+        en: "Mithrandir interacts with host system services, power profiles, and package managers via org.freedesktop.Flatpak and systemd D-Bus interfaces to perform hardware telemetry, cache pruning, and power profile management."

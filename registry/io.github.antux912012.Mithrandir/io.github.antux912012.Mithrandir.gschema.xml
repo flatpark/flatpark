@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="io.github.antux912012.Mithrandir">
+  <schema id="io.github.antux912012.Mithrandir" path="/io/github/antux912012/Mithrandir/">
+    <key name="window-width" type="i">
+      <default>880</default>
+      <summary>Window width</summary>
+    </key>
+    <key name="window-height" type="i">
+      <default>640</default>
+      <summary>Window height</summary>
+    </key>
+    <key name="is-maximized" type="b">
+      <default>false</default>
+      <summary>Window maximized</summary>
+    </key>
+    <key name="keep-in-background" type="b">
+      <default>true</default>
+      <summary>Whether to keep Mithrandir running in background when window is closed</summary>
+    </key>
+    <key name="show-panel-indicator" type="b">
+      <default>true</default>
+      <summary>Whether to display the Mithrandir applet in the system tray / panel</summary>
+    </key>
+    <key name="smart-boost-enabled" type="b">
+      <default>true</default>
+      <summary>Whether Smart Boost auto monitoring is enabled</summary>
+    </key>
+    <key name="smart-boost-ram-threshold" type="i">
+      <default>80</default>
+      <summary>RAM threshold percentage to trigger auto boost</summary>
+    </key>
+    <key name="smart-boost-temp-threshold-mb" type="i">
+      <default>1024</default>
+      <summary>Temporary files threshold in MB to trigger auto boost</summary>
+    </key>
+    <key name="smart-boost-interval-min" type="i">
+      <default>15</default>
+      <summary>Minimum cooldown interval in minutes between automated Smart Boost triggers</summary>
+    </key>
+    <key name="smart-boost-notify" type="b">
+      <default>true</default>
+      <summary>Whether to notify when Smart Boost triggers</summary>
+    </key>
+  </schema>
+</schemalist>
