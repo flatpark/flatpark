@@ -15,7 +15,31 @@
   <url type="homepage">https://github.com/Antux912012/RecGo</url>
   <url type="bugtracker">https://github.com/Antux912012/RecGo/issues</url>
   <url type="vcs-browser">https://github.com/Antux912012/RecGo</url>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source" width="1180" height="740">https://raw.githubusercontent.com/Antux912012/RecGo/main/data/screenshots/01-studio-main.png</image>
+      <caption>RecGo studio window with calm Libadwaita header, draggable webcam PiP, and transport controls</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1180" height="740">https://raw.githubusercontent.com/Antux912012/RecGo/main/data/screenshots/02-studio-countdown.png</image>
+      <caption>On-stage countdown overlay before recording begins</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source" width="1180" height="740">https://raw.githubusercontent.com/Antux912012/RecGo/main/data/screenshots/03-preferences-recording.png</image>
+      <caption>Preferences dialog with countdown presets, hardware video encoder selection, and GPU pipeline status</caption>
+    </screenshot>
+  </screenshots>
   <releases>
+    <release version="0.1.4" date="2026-11-13">
+      <description>
+        <p>Release v0.1.4 redesigns the studio interface for GNOME/Libadwaita HIG compliance and scientist-friendly workflows:</p>
+        <ul>
+          <li>Calm 3-Zone HeaderBar: Consolidates webcam shape and countdown into a progressive-disclosure popover and moves Preferences and About into the standard primary menu.</li>
+          <li>Expanded Preview Stage: Replaces the permanent top banner with a subtle centered empty-state guide and adds a clear Select Source transport button.</li>
+          <li>Viewfinder &amp; Preferences Polish: Fixes OSD badge contrast, updates the developer name to Antonio De Gaetano, and adds AppStream screenshots for FlatPark and software centers.</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.1.3" date="2026-11-13">
       <description>
         <p>Release v0.1.3 fixes webcam device detection, PipeWire file descriptor leaks, window lifecycle cleanup, and Preferences UI rendering:</p>

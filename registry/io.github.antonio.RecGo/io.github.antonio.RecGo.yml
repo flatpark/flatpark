@@ -35,9 +35,9 @@ modules:
         filename: recgo.deb
         only-arches:
           - x86_64
-        url: https://github.com/Antux912012/RecGo/releases/download/v0.1.3/recgo_0.1.3_amd64.deb
-        sha256: ae2b4827927b5b4cc2584818859a930d45765492324cdd3c9da9a175ebeffe92
-        size: 1633180
+        url: https://github.com/Antux912012/RecGo/releases/download/v0.1.4/recgo_0.1.4_amd64.deb
+        sha256: 64aba6f111fd7632413f3209071ef7d4773832ea1dda0cbdabbc7eff34233020
+        size: 1645808
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
