@@ -1,0 +1,20 @@
+id: ai.l0ng.openidea
+name: OpenIDEA
+summary: Native IDE with code insight, debugging, Git and a terminal
+website: https://openidea.sh
+source_url: https://github.com/l0ng-ai/openidea
+build:
+  manifest: ai.l0ng.openidea.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags: [IDE, Editor, Rust, Debugger, Git]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Native debugging is a core IDE feature and requires ptrace.
+    - --allow=devel

@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+root=/app/extra/support
+export GIT_CONFIG_GLOBAL="${GIT_CONFIG_GLOBAL:-$XDG_CONFIG_HOME/gitconfig}"
+# Scope Debian's HTTP libraries to Git; WebKit keeps the runtime's libraries.
+case "$(uname -m)" in
+  x86_64) triplet=x86_64-linux-gnu ;;
+  aarch64) triplet=aarch64-linux-gnu ;;
+  *) echo "unsupported Git architecture" >&2; exit 1 ;;
+esac
+export LD_LIBRARY_PATH="$root/usr/lib/$triplet${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export GIT_EXEC_PATH="$root/usr/lib/git-core"
+export GIT_TEMPLATE_DIR="$root/usr/share/git-core/templates"
+exec "$root/usr/bin/git" "$@"

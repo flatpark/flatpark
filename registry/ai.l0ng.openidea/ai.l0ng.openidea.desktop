@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=OpenIDEA
+Comment=Native IDE with code insight, debugging, Git and a terminal
+Exec=openidea %F
+Icon=ai.l0ng.openidea
+Terminal=false
+Categories=Development;IDE;
+StartupWMClass=Ai.l0ng.openidea
+StartupNotify=true

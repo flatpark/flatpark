@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.l0ng.openidea</id>
+  <name>OpenIDEA</name>
+  <summary>Native IDE with code insight, debugging, Git and a terminal</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="ai.l0ng"><name>OpenIDEA contributors</name></developer>
+  <url type="homepage">https://openidea.sh</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/l0ng-ai/openidea</url>
+  <description>
+    <p>This community-maintained Flatpak package runs the official OpenIDEA Linux release unmodified, with separate Git and uv support tools for development inside the sandbox.</p>
+    <p>OpenIDEA is a Rust-based IDE with an IntelliJ IDEA-style keymap, code insight, a debugger, Git integration, a terminal, and database and HTTP clients.</p>
+    <p>Projects in your Documents folder are accessible by default. Toolchains and terminals run inside the Flatpak sandbox: host-installed SDKs and host container engines are not available. Select sandbox SDKs in OpenIDEA's settings; supported SDK downloads are available through the IDE. Git and uv are supplied as separate pinned support downloads.</p>
+    <p>Native debugging is enabled through Flatpak development syscall access (including ptrace). Debug targets and toolchains run inside the sandbox.</p>
+    <p>For Python debugging, select an interpreter with pip installed. You can create one in the integrated terminal with <code>uv venv --seed .venv</code>, select <code>.venv/bin/python</code> in the Python interpreter settings, then use Install and Debug.</p>
+    <p>Optional permissions can be enabled for your workflow:</p>
+    <ul>
+      <li>Projects elsewhere: <code>flatpak override --user --filesystem=/path/to/projects ai.l0ng.openidea</code></li>
+      <li>Read host SSH keys: <code>flatpak override --user --filesystem=~/.ssh:ro ai.l0ng.openidea</code></li>
+      <li>Undo overrides: <code>flatpak override --user --reset ai.l0ng.openidea</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">ai.l0ng.openidea.desktop</launchable>
+  <categories><category>Development</category><category>IDE</category></categories>
+  <content_rating type="oars-1.1" />
+  <recommends><control>keyboard</control><control>pointing</control></recommends>
+  <provides><binary>openidea</binary></provides>
+  <releases><release version="0.1.43" date="2026-11-12" /></releases>
+</component>

@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Keep Git identity and preferences in persistent Flatpak configuration.
+export GIT_CONFIG_GLOBAL="${GIT_CONFIG_GLOBAL:-$XDG_CONFIG_HOME/gitconfig}"
+# Retain upstream's WebKit rendering choices; user overrides still apply.
+exec /app/extra/openidea/ai.l0ng.openidea "$@"
