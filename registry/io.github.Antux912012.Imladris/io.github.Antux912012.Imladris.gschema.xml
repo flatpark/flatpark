@@ -16,5 +16,10 @@
       <summary>GNOME Accent Color</summary>
       <description>Preferred GNOME accent color: 'blue', 'teal', 'green', 'yellow', 'orange', 'red', 'pink', 'purple', or 'slate'.</description>
     </key>
+    <key name="galaxy-server-url" type="s">
+      <default>'https://usegalaxy.eu'</default>
+      <summary>Galaxy Server URL</summary>
+      <description>Default remote Galaxy server endpoint for bioinformatics histories and datasets.</description>
+    </key>
   </schema>
 </schemalist>
