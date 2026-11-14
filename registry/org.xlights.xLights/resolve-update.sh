@@ -17,21 +17,34 @@ repo="xLightsSequencer/xLights"
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-# releases/latest excludes prereleases and drafts. That matters more than usual
-# here: xLights keeps a permanently-updating `nightly` prerelease at the top of
-# the releases list, so anything that just took the newest release would track
-# nightly builds instead of the ~fortnightly stable tags (2026.17, 2026.16, …).
-rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-        "https://api.github.com/repos/$repo/releases/latest")"
-
+# Walk the recent releases instead of taking releases/latest. Two reasons:
+#  - xLights keeps a permanently-updating `nightly` prerelease at the top of the
+#    list; dropping drafts/prereleases keeps us on the ~fortnightly stable tags
+#    (2026.17, 2026.16, …) instead of nightly builds.
+#  - The Linux AppImage is not guaranteed to land with the release: 2026.20 went
+#    out with only the Windows and macOS assets (flatpark#1173). Picking the
+#    newest stable release that actually carries the AppImage keeps us on the
+#    last Linux build instead of failing, and picks the new one up if it is
+#    uploaded later.
 # Tags are bare calendar versions with no `v` prefix (2026.17); ltrimstr is a
-# no-op guard in case that ever changes.
-version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
-date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-# The lone Linux asset: xLights-<version>-x86_64.AppImage. Anchoring on both the
-# arch infix and the extension keeps this off the Windows .exe/.map, the macOS
-# .zip and the .snap, which all carry the same version string.
-url="$(jq -r '.assets[] | select(.name | test("-x86_64\\.AppImage$")) | .browser_download_url' <<<"$rel")"
+# no-op guard in case that ever changes. The lone Linux asset is
+# xLights-<version>-x86_64.AppImage; anchoring on both the arch infix and the
+# extension keeps this off the Windows .exe/.map, the macOS .zip and the .snap,
+# which all carry the same version string.
+best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+        "https://api.github.com/repos/$repo/releases?per_page=30" | jq '
+  [ .[] | select((.draft or .prerelease) | not)
+        | select(.tag_name | ltrimstr("v") | test("^[0-9]+(\\.[0-9]+)*$"))
+        | { ver: (.tag_name | ltrimstr("v")),
+            date: (.published_at | .[0:10]),
+            urls: [ .assets[] | select(.name | test("-x86_64\\.AppImage$")) | .browser_download_url ] }
+        | select(.urls | length > 0) ]
+  | max_by(.ver | split(".") | map(tonumber)) // empty')"
+
+[ -n "$best" ] || { echo "failed to resolve xlights release" >&2; exit 1; }
+version="$(jq -r '.ver' <<<"$best")"
+date="$(jq -r '.date' <<<"$best")"
+url="$(jq -r '.urls[]' <<<"$best")"
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve xlights release" >&2; exit 1; }
 [ "$(wc -l <<<"$url")" -eq 1 ] || { echo "expected exactly one x86_64 AppImage asset, got:" >&2; echo "$url" >&2; exit 1; }
