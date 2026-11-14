@@ -17,11 +17,13 @@ finish-args:
   - --socket=fallback-x11
   - --socket=pulseaudio
   - --share=network
+  - --filesystem=xdg-download
   - --own-name=org.mpris.MediaPlayer2.opentubex.*
   - --talk-name=org.freedesktop.PowerManagement
   - --talk-name=org.freedesktop.ScreenSaver
   - --talk-name=org.gnome.SessionManager
   - --talk-name=org.gnome.SettingsDaemon
+  - --talk-name=org.kde.KWin
   - --unset-env=ELECTRON_RUN_AS_NODE
 modules:
   - name: opentubex
@@ -59,16 +61,16 @@ modules:
         filename: opentubex-x86_64.zip
         only-arches:
           - x86_64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.37.4-beta/opentubex-0.37.4-beta-linux-x64-portable.zip
-        sha256: 52b00503b7d84ef0d4f8fbd0eba7695079c0d56d2ab83a97eb94eb5eb3189040
-        size: 130507429
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.38.0-beta/opentubex-0.38.0-beta-linux-x64-portable.zip
+        sha256: 2a03f2530017fa3e93107edecb2916f315366d5e8dbc2a78899e52532be6ccf6
+        size: 130855294
       - type: extra-data
         filename: opentubex-aarch64.zip
         only-arches:
           - aarch64
-        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.37.4-beta/opentubex-0.37.4-beta-linux-arm64-portable.zip
-        sha256: 9d6defe42ae985b2b8e15d2076ba83700aa2bcce5bd4846f4598502a1cf381ba
-        size: 131104148
+        url: https://github.com/OpenTubeX/OpenTubeX/releases/download/v0.38.0-beta/opentubex-0.38.0-beta-linux-arm64-portable.zip
+        sha256: 0d69b585ff09124d935d94b6eba987a73e7f103c0b3d782e9aea9720abb1f8d4
+        size: 131452000
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
