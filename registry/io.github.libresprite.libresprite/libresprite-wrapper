@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+# LibreSprite remembers the Save dialog's folder in its own settings file
+# ("FileSelect" / "CurrentDirectory"). Before that file exists the dialog
+# starts in the sandbox's private view of $HOME, which the package does not
+# grant: a sprite saved there is written to an overlay that disappears when
+# the app exits. On first run, before the app starts, seed its settings file
+# with the one folder the package grants, so the dialog opens in ~/Pictures
+# and saves persist there. The app rewrites the settings file itself once the
+# user saves anywhere, so existing settings and later launches are untouched
+# (the seed only runs while the file does not exist).
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/libresprite"
+settings="$config_dir/libresprite.ini"
+if [ ! -e "$settings" ]; then
+    pictures="$(xdg-user-dir PICTURES 2>/dev/null || true)"
+    # A missing or unhelpful answer falls back to the usual Pictures path;
+    # what must not be seeded is $HOME itself, which the sandbox does not
+    # grant.
+    [ -n "$pictures" ] && [ "$pictures" != "$HOME" ] || pictures="$HOME/Pictures"
+    mkdir -p "$config_dir"
+    seed="$(mktemp "$config_dir/.flatpark-libresprite.XXXXXX")"
+    printf '[FileSelect]\nCurrentDirectory = %s/\n' "$pictures" > "$seed"
+    # Publish a complete settings file without replacing one another launch
+    # made (hard link, then check-and-remove).
+    ln "$seed" "$settings" 2>/dev/null || [ -e "$settings" ]
+    rm -f "$seed"
+fi
+
+# LibreSprite is upstream's AppImage, unpacked by apply_extra into the AppDir
+# at /app/extra/libresprite. It is a sharun build: bin/libresprite is the
+# bundled launcher, which finds the real executable in shared/bin/libresprite
+# and puts the bundle's own libraries (shared/lib, its own glibc included) in
+# the loader's path. Starting that launcher is how upstream starts the app
+# through its AppRun; we keep the AppDir whole so its layout matches what the
+# launcher resolves. Nothing is added to LD_LIBRARY_PATH here, so the bundle's
+# libraries stay inside it and the runtime's stay untouched for everything
+# else.
+exec /app/extra/libresprite/bin/libresprite "$@"

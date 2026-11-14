@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.libresprite.libresprite</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0</project_license>
+  <name>LibreSprite</name>
+  <summary>Animated sprite editor and pixel art tool</summary>
+  <description>
+    <p>LibreSprite lets you create 2D animations for videogames. From sprites, to pixel-art, retro style graphics, and whatever you like about the 8-bit (and 16-bit) era.</p>
+    <p>It offers the following features:</p>
+    <ul>
+      <li>Real-time animation previews</li>
+      <li>Onion skinning</li>
+      <li>Multiple sprites can be edited at once</li>
+      <li>Ready to use palettes, or make your own</li>
+      <li>Sprites are composed of both layers &amp; frames</li>
+      <li>Tiled drawing mode, useful to draw patterns and textures</li>
+      <li>Pixel precise tools like filled contour, polygon, shading mode, etc.</li>
+      <li>Several file types supported for your sprites and animations</li>
+    </ul>
+    <p>Notes on this Flatpak package:</p>
+    <ul>
+      <li>This is a community package: it installs the official Linux AppImage from the LibreSprite releases unmodified, and follows new releases automatically.</li>
+      <li>The application opens and saves files through its own built-in file browser, which the desktop portal cannot mediate. The package grants read-write access to your Pictures folder, and on first run points the save dialog there; files saved anywhere else are not kept after the application exits. Enable more folders with "flatpak override":</li>
+      <ul>
+        <li>Your Documents folder: <code>flatpak override --user --filesystem=xdg-documents io.github.libresprite.libresprite</code></li>
+        <li>Any other folder: <code>flatpak override --user --filesystem=/path/to/dir io.github.libresprite.libresprite</code></li>
+        <li>Undo all of these: <code>flatpak override --user --reset io.github.libresprite.libresprite</code></li>
+      </ul>
+      <li>The package carries the official AppImage only; the AppStream data and desktop entry on this page come from the packaging.</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.libresprite.libresprite.desktop</launchable>
+  <url type="homepage">https://libresprite.github.io/</url>
+  <url type="bugtracker">https://github.com/LibreSprite/LibreSprite/issues/</url>
+  <url type="vcs-browser">https://github.com/LibreSprite/LibreSprite/</url>
+  <url type="contribute">https://github.com/LibreSprite/LibreSprite/blob/master/CONTRIBUTING.md</url>
+  <developer id="io.github.libresprite">
+    <name>LibreSprite Developers</name>
+  </developer>
+  <categories>
+    <category>Graphics</category>
+  </categories>
+  <content_rating type="oars-1.1" />
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/LibreSprite/LibreSprite/master/desktop/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.3" date="2026-10-02">
+      <description></description>
+    </release>
+  </releases>
+  <provides>
+    <binary>libresprite</binary>
+  </provides>
+</component>
