@@ -1,0 +1,23 @@
+id: com.pais.handy
+name: Handy
+summary: Offline transcription for audio and video files
+website: https://handy.computer/
+source_url: https://github.com/cjpais/Handy
+build:
+  manifest: com.pais.handy.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Transcription
+    - Audio
+    - Speech to Text
+    - Offline
+    - Whisper
+    - Vulkan
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

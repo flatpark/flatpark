@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+# Keep Handy's Linux WebKitGTK renderer on the shared-memory path used by the
+# upstream Flatpak testing build; the vendor .deb is otherwise launched intact.
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# GNOME 51 lacks GTK layer shell and OpenBLAS; they are unpacked from pinned
+# Debian runtime packages next to the upstream .deb. Preserve Flatpak's paths.
+export LD_LIBRARY_PATH="/app/extra/support/usr/lib/x86_64-linux-gnu:/app/extra/support/usr/lib/x86_64-linux-gnu/openblas-pthread${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+exec /app/extra/usr/bin/handy "$@"
