@@ -92,6 +92,10 @@ Check at least:
     `flatpak override` lines in the metainfo that turn them on.
   - **Tested:** what you did with the app, and what you couldn't (an account,
     hardware, a desktop you don't run).
+  - **Screenshots:** where they come from (the upstream page, or your own test
+    run, attached to the PR). With none, why: no window of its own, or nothing
+    suitable upstream and the app couldn't be run far enough to take one
+    ([screenshots](basics.md#the-metainfo-and-the-version)).
   - **Flathub:** if the app is on Flathub, why it should be here too
     ([rules](can-it-be-packaged.md#apps-already-on-flathub)).
   - **Prior requests:** links to the Flatpak requests on the app's own tracker

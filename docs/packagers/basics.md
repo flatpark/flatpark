@@ -293,9 +293,28 @@ The rest of the metainfo:
   analytics while packaging or testing, you can mention it in the description
   (and how to turn it off, if there's a setting). Don't go looking for it;
   it's not a check, and saying nothing means only that nobody noticed.
-- **Screenshots** are `<image>` URLs pointing at upstream, never files in the
-  package. The site downloads them at build time and serves them as WebP,
-  falling back to the upstream URL if the download fails.
+- **Screenshots** are expected: an app page without one is the first thing a
+  visitor notices. Each is an `<image>` URL, never a file in the package or the
+  repository; the site downloads it at build time and serves it as WebP,
+  falling back to the URL if the download fails. Exactly one
+  `<screenshot type="default">`, each with a short `<caption>`.
+  - **Where to look:** the official website (product and download pages, the
+    docs) and the README of the upstream repository. Link the image where
+    upstream hosts it; `github.com/user-attachments/…` URLs from a README are
+    fine.
+  - **What fits:** the app as packaged. Leave out screenshots of another
+    platform's client (Windows, macOS, mobile, the web version of an app whose
+    desktop UI differs), of a visibly older version, and promotional composites
+    or feature banners rather than the window itself. A different theme or a
+    macOS window frame around the same UI is fine.
+  - **Nothing suitable upstream:** use the screenshot from your own test run
+    ([testing playbook](../reviewers/testing-playbook.md#it-starts-and-draws)),
+    taken of the app doing something real, with no account, personal data or
+    host desktop in it. Drag the PNG into the PR body and link the
+    `github.com/user-attachments/…` URL GitHub gives it.
+  - **No screenshot** only when the package has no window of its own (a
+    browser-signing helper, an extension of another app) or the app can't be
+    run far enough to show one. Say which in the PR.
 
 ### `resolve-update.sh`
 

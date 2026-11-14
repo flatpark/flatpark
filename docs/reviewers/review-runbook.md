@@ -142,6 +142,13 @@ artifact provenance tier (1/2/3).
   installed, launched and used, and what they couldn't test
   ([testing playbook](testing-playbook.md)). Missing → warn (the reviewer never
   runs it; see Phase 0).
+- **Screenshots** ([rules](../packagers/basics.md#the-metainfo-and-the-version)):
+  a new app has one `default` screenshot whose URL loads, shows this app's
+  Linux UI at a current version, and isn't a promotional composite. Open each
+  image; don't judge it from the URL or caption. Its host is upstream or a
+  `github.com/user-attachments/…` upload, never a file in the PR. None at all
+  → the PR body says why; a missing reason, or one that a look at the
+  official site or README disproves → warn.
 - **`policy:` block vs reality:** `proprietary` accurate; `dangerous_permissions`
   covers the high-risk finish-args actually used.
 - **build-commands:** read every line; flag network fetch, `curl|bash`, writes
@@ -271,6 +278,7 @@ open source · 2 = closed source · ★ = all.
 | 3.8 | Manifest | download host = official vendor domain / upstream, not submitter account | ★ | | |
 | 3.9 | Manifest | Optional caps not pre-granted: documented as `flatpak override` in metainfo; any broad grant kept in `finish-args` justified in the PR | ★ | | |
 | 3.10 | Manifest | PR body says honestly what was built, installed, launched and used, and what wasn't tested | ★ | | |
+| 3.11 | Manifest | Screenshot present (one `default`), loads, shows this app's current Linux UI, hosted upstream or as a PR attachment; or its absence justified in the PR body | ★ | | |
 | 4.1 | Runtime | No runtime fetch-and-exec of arbitrary/unpinned code (vendor self-updater to data dir, behavior unpatched = OK) | ★ | | |
 | 4.2 | Runtime | `update.command` / resolve script reviewed as code (runs on CI, repo-write) | ★ | | |
 | 4.3 | Runtime | Network endpoints noted; no broad filesystem×network combo | ★ | | |
