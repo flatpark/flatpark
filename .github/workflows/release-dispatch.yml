@@ -41,7 +41,15 @@ jobs:
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
     steps:
+      # Check out main's tip, not github.sha. For repository_dispatch, github.sha
+      # is main as it was when the event was created, so a second ping for the
+      # same release (Imladris's workflow sends two per tag) queued behind the
+      # first by `concurrency` would recompute against pre-merge main, see the
+      # same pin diff again, and open + merge a duplicate PR and publish. On the
+      # tip it sees the first run's merge and takes the "no pin changes" exit.
       - uses: actions/checkout@v7
+        with:
+          ref: main
       - uses: actions/setup-node@v6
         with:
           node-version: 24
