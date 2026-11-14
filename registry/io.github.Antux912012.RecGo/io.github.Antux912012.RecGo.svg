@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <filter id="crystal-shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f2940" flood-opacity="0.18"/>
+    </filter>
+    <filter id="rec-shadow" x="-20%" y="-20%" width="140%" height="145%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1a0608" flood-opacity="0.32"/>
+    </filter>
+    <linearGradient id="screen-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5fbff"/>
+      <stop offset="100%" stop-color="#cfeaf8"/>
+    </linearGradient>
+    <linearGradient id="bezel-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#31404e"/>
+      <stop offset="100%" stop-color="#1e2832"/>
+    </linearGradient>
+    <linearGradient id="rec-grad" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#ff3b44"/>
+      <stop offset="55%" stop-color="#e01b24"/>
+      <stop offset="100%" stop-color="#b5141c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Faceted Imladris-style Octagonal Crystal Base -->
+  <g filter="url(#crystal-shadow)">
+    <!-- Top-Left Lit Facets -->
+    <polygon points="256,36 108,106 184,186" fill="#fcfdff"/>
+    <polygon points="108,106 48,256 154,234 184,186" fill="#f5faff"/>
+    <polygon points="48,256 108,406 176,348 154,234" fill="#edf6fc"/>
+
+    <!-- Center-Top & Center Facets -->
+    <polygon points="256,36 184,186 328,186" fill="#e5f4fc"/>
+    <polygon points="184,186 154,234 176,348 336,348 358,234 328,186" fill="#eef8fe"/>
+
+    <!-- Top-Right & Right Shaded Facets -->
+    <polygon points="256,36 328,186 404,106" fill="#bce3f7"/>
+    <polygon points="404,106 328,186 358,234 464,256" fill="#a8d8f2"/>
+    <polygon points="464,256 358,234 336,348 404,406" fill="#8cc8ea"/>
+
+    <!-- Bottom Facets -->
+    <polygon points="108,406 176,348 256,420 256,476" fill="#b7e0f6"/>
+    <polygon points="176,348 336,348 256,420" fill="#cbeaf9"/>
+    <polygon points="336,348 404,406 256,476 256,420" fill="#7fc0e5"/>
+
+    <!-- Crisp subtle edge definition for light & dark themes -->
+    <polygon points="256,36 404,106 464,256 404,406 256,476 108,406 48,256 108,106"
+             fill="none" stroke="#c5e4f6" stroke-opacity="0.7" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+
+  <!-- RecGo Original Concept: Minimalist Monitor + Red Record Badge -->
+  <g transform="translate(256, 256) scale(0.93) translate(-256, -256)">
+    <!-- Monitor Stand Neck & Base -->
+    <polygon points="220,328 274,328 284,366 210,366" fill="#25303b"/>
+    <rect x="178" y="362" width="138" height="16" rx="8" fill="#1f2933"/>
+
+    <!-- Monitor Outer Bezel -->
+    <rect x="120" y="138" width="254" height="194" rx="18" fill="url(#bezel-grad)"/>
+
+    <!-- Screen Glass with Subtle Faceted Reflection -->
+    <rect x="138" y="156" width="218" height="146" rx="8" fill="url(#screen-grad)"/>
+    <polygon points="138,156 272,156 202,302 138,302" fill="#ffffff" fill-opacity="0.45"/>
+
+    <!-- Bottom Bezel Chin Detail -->
+    <rect x="138" y="312" width="218" height="6" rx="3" fill="#46596b" fill-opacity="0.7"/>
+
+    <!-- RecGo Signature Red Record Badge (Overlapping Bottom-Right) -->
+    <g filter="url(#rec-shadow)">
+      <circle cx="354" cy="322" r="82" fill="url(#rec-grad)"/>
+      <path d="M 284,280 A 82,82 0 0,1 414,266 L 354,322 Z" fill="#ffffff" fill-opacity="0.09"/>
+      <circle cx="354" cy="322" r="44" fill="none" stroke="#ffffff" stroke-width="14"/>
+    </g>
+  </g>
+</svg>

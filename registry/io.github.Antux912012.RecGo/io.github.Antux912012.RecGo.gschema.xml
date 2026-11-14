@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schemalist>
+  <schema id="io.github.Antux912012.RecGo" path="/io/github/Antux912012/RecGo/">
+    <key name="video-codec" type="s">
+      <default>'vp9'</default>
+      <summary>Video codec for recording</summary>
+      <description>The video codec used for encoding: vp8, vp9, h264, h265, or av1.</description>
+    </key>
+    <key name="container-format" type="s">
+      <default>'webm'</default>
+      <summary>Container format</summary>
+      <description>Container file format: webm, mp4, or mkv.</description>
+    </key>
+    <key name="layout-preset" type="s">
+      <default>'desktop-pip'</default>
+      <summary>Layout preset</summary>
+      <description>Recording layout preset: desktop-pip, side-by-side, screen-only, or camera-only.</description>
+    </key>
+    <key name="webcam-shape" type="s">
+      <default>'circle'</default>
+      <summary>Webcam shape</summary>
+      <description>Shape mask for webcam: rectangle, square, or circle.</description>
+    </key>
+    <key name="webcam-pos-x" type="d">
+      <default>0.82</default>
+      <summary>Webcam X position</summary>
+      <description>Normalized horizontal position of the webcam overlay (0.0 to 1.0).</description>
+    </key>
+    <key name="webcam-pos-y" type="d">
+      <default>0.78</default>
+      <summary>Webcam Y position</summary>
+      <description>Normalized vertical position of the webcam overlay (0.0 to 1.0).</description>
+    </key>
+    <key name="webcam-scale" type="d">
+      <default>0.24</default>
+      <summary>Webcam overlay scale</summary>
+      <description>Scale factor of webcam overlay relative to the screen width (0.1 to 0.5).</description>
+    </key>
+    <key name="shortcut-start-stop" type="s">
+      <default>'&lt;Control&gt;&lt;Alt&gt;&lt;Shift&gt;R'</default>
+      <summary>Start and stop shortcut</summary>
+      <description>Global keyboard shortcut to start or stop recording.</description>
+    </key>
+    <key name="shortcut-pause" type="s">
+      <default>'&lt;Control&gt;&lt;Alt&gt;&lt;Shift&gt;P'</default>
+      <summary>Pause and resume shortcut</summary>
+      <description>Global keyboard shortcut to pause or resume recording.</description>
+    </key>
+  </schema>
+</schemalist>

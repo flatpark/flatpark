@@ -1,0 +1,55 @@
+id: io.github.Antux912012.RecGo
+runtime: org.gnome.Platform
+runtime-version: "50"
+sdk: org.gnome.Sdk
+command: recgo
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=all
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-run/pipewire-0
+  - --talk-name=org.freedesktop.portal.Desktop
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: recgo
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 recgo-wrapper /app/bin/recgo
+      - install -Dm644 io.github.Antux912012.RecGo.desktop /app/share/applications/io.github.Antux912012.RecGo.desktop
+      - install -Dm644 io.github.Antux912012.RecGo.metainfo.xml /app/share/metainfo/io.github.Antux912012.RecGo.metainfo.xml
+      - install -Dm644 io.github.Antux912012.RecGo.gschema.xml /app/share/glib-2.0/schemas/io.github.Antux912012.RecGo.gschema.xml
+      - glib-compile-schemas /app/share/glib-2.0/schemas
+      - install -Dm644 io.github.Antux912012.RecGo.png /app/share/icons/hicolor/512x512/apps/io.github.Antux912012.RecGo.png
+      - install -Dm644 io.github.Antux912012.RecGo.svg /app/share/icons/hicolor/scalable/apps/io.github.Antux912012.RecGo.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: recgo.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Antux912012/RecGo/releases/download/v0.1.5/recgo_0.1.5_amd64.deb
+        sha256: a2370bbcbc8c7d906e7ea0cf12f222803eb8ddc630a90dc4d0a9d6fcec4fddc8
+        size: 1250856
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: recgo-wrapper
+      - type: file
+        path: io.github.Antux912012.RecGo.desktop
+      - type: file
+        path: io.github.Antux912012.RecGo.metainfo.xml
+      - type: file
+        path: io.github.Antux912012.RecGo.gschema.xml
+      - type: file
+        path: io.github.Antux912012.RecGo.png
+      - type: file
+        path: io.github.Antux912012.RecGo.svg

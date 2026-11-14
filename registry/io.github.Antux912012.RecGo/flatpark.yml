@@ -1,0 +1,28 @@
+id: io.github.Antux912012.RecGo
+name: RecGo
+summary: Screen and webcam recorder for GNOME
+website: https://github.com/Antux912012/RecGo
+source_url: https://github.com/Antux912012/RecGo
+build:
+  manifest: io.github.Antux912012.RecGo.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  upstream_approved: true
+  tags:
+    - Screen Recorder
+    - Webcam
+    - GNOME
+    - GTK4
+    - Rust
+    - GStreamer
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --device=all
+    - --filesystem=xdg-videos
+    - --filesystem=xdg-run/pipewire-0
