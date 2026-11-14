@@ -1,6 +1,10 @@
 #!/bin/sh
 set -eu
 
+# hf-hub defaults to $HOME/.cache instead of respecting XDG_CACHE_HOME.
+# Keep downloaded models in Flatpak's persistent, app-private data directory.
+export HF_HOME="$XDG_DATA_HOME/huggingface"
+
 # Keep Handy's Linux WebKitGTK renderer on the shared-memory path used by the
 # upstream Flatpak testing build; the vendor .deb is otherwise launched intact.
 export WEBKIT_DISABLE_DMABUF_RENDERER=1
