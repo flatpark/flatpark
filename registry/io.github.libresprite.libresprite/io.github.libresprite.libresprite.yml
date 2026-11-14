@@ -1,0 +1,69 @@
+id: io.github.libresprite.libresprite
+# The freedesktop base: LibreSprite is an SDL2 app and its AppImage is a
+# sharun bundle that carries its own glibc, SDL2 and every library it links
+# (libarchive, tinyxml2, libjpeg, libgif, libpng, libwebp, freetype, curl...),
+# so nothing of GTK or Qt is needed. GPU, X11/Wayland and xkbcommon come from
+# the runtime.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: libresprite
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # X11 (XWayland on a Wayland session) only. The bundle carries SDL2 2.30 with
+  # its own older glibc and no GL/EGL stack; on native Wayland the GL library
+  # load fails and SDL's window-recreate path then segfaults (investigated:
+  # SDL_RecreateWindow leaves a destroyed window on GL-load failure, and
+  # Wayland_DestroyWindow dereferences it). Under X11/XWayland the same failure
+  # degrades gracefully to the software renderer, so the app runs.
+  - --socket=x11
+  # X11 shared-memory pixmaps and GL
+  - --share=ipc
+  # Hardware-accelerated rendering (SDL renderer on EGL/GLX)
+  - --device=dri
+  # Sprites the user keeps in their pictures folder open and save with no
+  # extra setup. LibreSprite opens and saves files through its own built-in
+  # file browser, which the portal cannot mediate, so anything beyond
+  # ~/Pictures needs the `flatpak override` commands documented in the
+  # metainfo. A grant of the whole home was deliberately not shipped.
+  - --filesystem=xdg-pictures:create
+modules:
+  - name: libresprite
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 libresprite-wrapper /app/bin/libresprite
+      - install -Dm644 io.github.libresprite.libresprite.desktop /app/share/applications/io.github.libresprite.libresprite.desktop
+      - install -Dm644 io.github.libresprite.libresprite.metainfo.xml /app/share/metainfo/io.github.libresprite.libresprite.metainfo.xml
+      - install -Dm644 io.github.libresprite.libresprite.png /app/share/icons/hicolor/256x256/apps/io.github.libresprite.libresprite.png
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: libresprite.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/LibreSprite/LibreSprite/releases/download/v1.3/libresprite-v1.3-linux-x86_64.AppImage
+        sha256: fd90bddda8135fe00f4a9a9c8c9ebd48f9b07e8782ab269be5c9efb1a851af30
+        size: 98089464
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: libresprite-wrapper
+      - type: file
+        path: io.github.libresprite.libresprite.desktop
+      - type: file
+        path: io.github.libresprite.libresprite.metainfo.xml
+      - type: file
+        path: io.github.libresprite.libresprite.png

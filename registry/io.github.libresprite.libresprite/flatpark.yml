@@ -1,0 +1,43 @@
+# FlatPark catalog descriptor for LibreSprite.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; io.github.libresprite.libresprite.yml is the
+# Flatpak manifest it points at.
+#
+# The app id is upstream's own: the metainfo and desktop launchable in
+# LibreSprite's repository (desktop/io.github.libresprite.libresprite.metainfo.xml)
+# use io.github.libresprite.libresprite, so this package is the same
+# application rather than a rival ref. (The third-party package on Flathub
+# ships a different id, com.github.libresprite.LibreSprite.)
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: io.github.libresprite.libresprite
+name: LibreSprite
+summary: Animated sprite editor and pixel art tool
+website: https://libresprite.github.io/
+source_url: https://github.com/LibreSprite/LibreSprite
+build:
+  manifest: io.github.libresprite.libresprite.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Pixel Art
+    - Sprite Editor
+    - Animation
+    - Graphics
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
+# What the package does beyond copying the vendor's build; shown on the site
+# as the packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "On first run, the save dialog is pointed at your Pictures folder, the one folder this package grants, so sprites saved there persist. Files saved anywhere else are not kept after the application exits. Existing settings are kept."
+      zh-Hans: "首次运行时将保存对话框指向本包唯一授权的图片目录，保存在那里的文件会持久保留；保存到其他位置的文件在应用退出后不会保留。保留现有设置。"

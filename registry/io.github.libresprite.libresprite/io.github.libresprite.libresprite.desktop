@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=LibreSprite
+GenericName=Sprite Editor
+Comment=Animated sprite editor & pixel art tool
+Exec=libresprite %U
+Icon=io.github.libresprite.libresprite
+Terminal=false
+StartupNotify=false
+Categories=Graphics;2DGraphics;RasterGraphics;
+Keywords=sprite;pixel art;animation;pixel;drawing;
+# The application sets its own WM_CLASS ("libresprite"), so this is what a
+# shell has to match against to give its windows this entry's icon.
+StartupWMClass=libresprite
+MimeType=image/bmp;image/gif;image/jpeg;image/png;image/x-pcx;image/x-tga;image/vnd.microsoft.icon;video/x-flic;image/webp;image/x-aseprite;
