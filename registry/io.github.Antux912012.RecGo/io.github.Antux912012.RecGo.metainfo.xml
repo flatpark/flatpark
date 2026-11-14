@@ -30,6 +30,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="0.1.6" date="2026-11-13">
+      <description></description>
+    </release>
     <release version="0.1.5" date="2026-11-13">
       <description>
         <p>Release v0.1.5 refreshes the visual identity and standardizes Flatpak AppStream packaging:</p>

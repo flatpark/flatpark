@@ -52,6 +52,10 @@
     <mediatype>application/pdf</mediatype>
   </provides>
   <releases>
+    <release version="2026.46.3" date="2026-11-14">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.46.3</url>
+      <description></description>
+    </release>
     <release version="2026.46.2" date="2026-11-12">
       <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.46.2</url>
       <description></description>

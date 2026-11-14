@@ -37,16 +37,16 @@ modules:
         filename: openidea.deb
         only-arches:
           - x86_64
-        url: https://github.com/l0ng-ai/openidea/releases/download/v0.1.44/OpenIDEA_0.1.44_amd64.deb
-        sha256: fe65e8c004fb7d218c39d3e954179de7ad87b3e94e1b91b9c6ea1fc2c8f54c11
-        size: 80522732
+        url: https://github.com/l0ng-ai/openidea/releases/download/v0.1.45/OpenIDEA_0.1.45_amd64.deb
+        sha256: 3583af406fdd008d5c47bc555068a0d541eb9f1e131f2e527b3a5f8b2d4bc003
+        size: 81014500
       - type: extra-data
         filename: openidea.deb
         only-arches:
           - aarch64
-        url: https://github.com/l0ng-ai/openidea/releases/download/v0.1.44/OpenIDEA_0.1.44_arm64.deb
-        sha256: 27bf71c7d7549654612213d26d3d661c7bcfca7e09175d98589a73d92d4fde7a
-        size: 77927840
+        url: https://github.com/l0ng-ai/openidea/releases/download/v0.1.45/OpenIDEA_0.1.45_arm64.deb
+        sha256: e5c0a142d8b26752b765aa392e676bdfd5a8cdcb812f12d9b231edaed76d3801
+        size: 78425086
       # END MANAGED EXTRA-DATA
       # Git and its HTTP libraries are not included in the Platform runtime.
       # BEGIN MANAGED DEBIAN trixie main

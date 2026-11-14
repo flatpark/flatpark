@@ -48,6 +48,9 @@
     <mediatype>application/pdf</mediatype>
   </provides>
   <releases>
+    <release version="9.3.8-0" date="2026-11-14">
+      <description></description>
+    </release>
     <release version="9.3.6-0" date="2026-10-22">
       <description></description>
     </release>
