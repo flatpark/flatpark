@@ -1,8 +1,8 @@
 id: io.github.BenchUp3D.BenchUp
 name: BenchUp
 summary: 3D woodworking and modeling
-website: https://benchup3d.github.io/editor/
-source_url: https://github.com/BenchUp3D/editor
+website: https://benchup3d.github.io/benchup/
+source_url: https://github.com/BenchUp3D/benchup
 build:
   manifest: io.github.BenchUp3D.BenchUp.yml
   branch: stable

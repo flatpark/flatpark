@@ -8,9 +8,9 @@
   <developer id="io.github.benchup3d">
     <name>BenchUp</name>
   </developer>
-  <url type="homepage">https://benchup3d.github.io/editor/</url>
-  <url type="bugtracker">https://github.com/BenchUp3D/editor/issues</url>
-  <url type="vcs-browser">https://github.com/BenchUp3D/editor</url>
+  <url type="homepage">https://benchup3d.github.io/benchup/</url>
+  <url type="bugtracker">https://github.com/BenchUp3D/benchup/issues</url>
+  <url type="vcs-browser">https://github.com/BenchUp3D/benchup</url>
   <description>
     <p>This is a community package of BenchUp, maintained independently and unaffiliated with BenchUp. It repackages the official upstream Linux build unmodified.</p>
     <p>BenchUp is a 3D modeler for woodworking. Draw parts, join them, and keep a project in a local file. No account is required.</p>
@@ -30,11 +30,11 @@
   <screenshots>
     <screenshot type="default">
       <caption>BenchUp modeling a woodworking project</caption>
-      <image>https://raw.githubusercontent.com/BenchUp3D/editor/v0.6.7/assets/screenshots/benchup.png</image>
+      <image>https://raw.githubusercontent.com/BenchUp3D/benchup/v0.6.7/assets/screenshots/benchup.png</image>
     </screenshot>
     <screenshot>
       <caption>Joinery on a woodworking model</caption>
-      <image>https://raw.githubusercontent.com/BenchUp3D/editor/v0.6.7/assets/screenshots/wood-joinery.png</image>
+      <image>https://raw.githubusercontent.com/BenchUp3D/benchup/v0.6.7/assets/screenshots/wood-joinery.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1"/>
@@ -47,11 +47,11 @@
   </provides>
   <releases>
     <release version="0.7.1" date="2026-11-12">
-      <url type="details">https://github.com/BenchUp3D/editor/releases/tag/v0.7.1</url>
+      <url type="details">https://github.com/BenchUp3D/benchup/releases/tag/v0.7.1</url>
       <description></description>
     </release>
     <release version="0.6.8" date="2026-11-11">
-      <url type="details">https://github.com/BenchUp3D/editor/releases/tag/v0.6.8</url>
+      <url type="details">https://github.com/BenchUp3D/benchup/releases/tag/v0.6.8</url>
       <description></description>
     </release>
     <release version="0.6.7" date="2026-11-10">

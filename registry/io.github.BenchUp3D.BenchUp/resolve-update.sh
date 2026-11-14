@@ -11,7 +11,7 @@
 #     "sources": [ { "filename": "benchup.AppImage", "arch": "x86_64", "url": "..." } ] }
 set -euo pipefail
 
-repo="BenchUp3D/editor"
+repo="BenchUp3D/benchup"
 asset="io.github.BenchUp3D.BenchUp-linux-x64.AppImage"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
