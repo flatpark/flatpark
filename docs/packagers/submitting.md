@@ -94,6 +94,11 @@ Check at least:
     hardware, a desktop you don't run).
   - **Flathub:** if the app is on Flathub, why it should be here too
     ([rules](can-it-be-packaged.md#apps-already-on-flathub)).
+  - **Prior requests:** links to the Flatpak requests on the app's own tracker
+    and to earlier Flathub issues or submissions for it, found while
+    [choosing the app](finding-apps.md) and
+    [checking it can be packaged](can-it-be-packaged.md). If you found none,
+    say so.
 
 If you are the app's developer, say so in the PR; it is how the developer-approved
 shield gets added ([upstream approvals](../reference/upstream-approvals.md)).
