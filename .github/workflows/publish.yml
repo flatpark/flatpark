@@ -403,3 +403,30 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: ./scripts/ci-alert.sh resolve publish "Publishing succeeded again."
 
+
+  # Both caches above are restored by prefix (restore-keys), which only ever
+  # picks the newest entry, so every older one is dead weight — at a cache per
+  # publish they piled up to ~10 GB, the repo's whole quota, within days.
+  # Pruned in its own job because actions/cache saves in the publish job's
+  # post step; by now this run's entry exists and is the one kept. Skipped when
+  # publish fails, so a failed run never leaves the next one without a cache.
+  # The npm cache is keyed by the lockfile alone and never accumulates.
+  prune-caches:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Keep only the newest repo and screenshot cache
+        run: |
+          for prefix in flatpak-repo- flatpark-screenshots-; do
+            gh cache list --key "$prefix" --sort created_at --order desc \
+              --limit 1000 --json id,key -q '.[1:][] | "\(.id) \(.key)"' |
+            while read -r id key; do
+              echo "delete $key"
+              gh cache delete "$id"
+            done
+          done
