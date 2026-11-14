@@ -116,3 +116,4 @@ that PR link in the table — the PR itself is the evidence.
 | Imladris | `io.github.Antux912012.Imladris` | Approved by construction — submitted and maintained by its own developer ([flatpark#1112](https://github.com/flatpark/flatpark/pull/1112)) | 2026-11-09 |
 | BearWave | `de.nerdbear.bearwave` | Approved by construction — submitted and maintained by its own developer ([flatpark#1129](https://github.com/flatpark/flatpark/pull/1129)) | 2026-11-11 |
 | Mithrandir | `io.github.antux912012.Mithrandir` | Approved by construction — submitted and maintained by its own developer ([flatpark#1187](https://github.com/flatpark/flatpark/pull/1187)) | 2026-11-13 |
+| RecGo | `io.github.Antux912012.RecGo` | Approved by construction — submitted and maintained by its own developer ([flatpark#1195](https://github.com/flatpark/flatpark/pull/1195)) | 2026-11-14 |
