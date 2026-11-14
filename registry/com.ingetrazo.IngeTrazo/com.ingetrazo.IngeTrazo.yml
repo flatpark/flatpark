@@ -51,9 +51,9 @@ modules:
         filename: ingetrazo.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ingelibre/ingetrazo/releases/download/v0.6.1/IngeTrazo-0.6.1-linux-x86_64.tar.gz
-        sha256: 1ec5e88c672ec79781e0bdb4e747eb563553c446cf817d247e844abf7ea6cdfa
-        size: 162761982
+        url: https://github.com/ingelibre/ingetrazo/releases/download/v0.6.2/IngeTrazo-0.6.2-linux-x86_64.tar.gz
+        sha256: e8eb2ea738d6e2b76fd85e21d567e08cce38b66ab24805413f31662c02a4703f
+        size: 173711447
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
