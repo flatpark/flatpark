@@ -1,0 +1,73 @@
+id: io.github.Antux912012.debian-cachy-os-kernel-updater
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: cachy-kernel-updater
+separate-locales: false
+build-options:
+  no-debuginfo: true
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --talk-name=org.freedesktop.Flatpak
+  - --filesystem=home
+  - --filesystem=/boot:ro
+  - --filesystem=/sys/firmware/efi/efivars:ro
+
+modules:
+  - name: python3-requests
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} "requests" "urllib3" "certifi" "charset-normalizer" "idna" --no-build-isolation
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/7c/e4/56027c4a6b4ae70ca9de302488c5ca95ad4a39e190093d6c1a8ace08341b/requests-2.32.3-py3-none-any.whl
+        sha256: 70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6
+      - type: file
+        url: https://files.pythonhosted.org/packages/c8/19/4ec628951a74043532ca2cf5d97b7b148650b0406dc1d9b268fc4a7f5b41/urllib3-2.3.0-py3-none-any.whl
+        sha256: 16e37bc40ebd8e7c84658d76299f98a175812c70539854b5c273d1a3d441d675
+      - type: file
+        url: https://files.pythonhosted.org/packages/a5/32/8f6669fc4798494966bf446c8c4a162e0b5d893eff088af5d640a04b7cc2/certifi-2024.12.14-py3-none-any.whl
+        sha256: 1275f7a45be9464efc1173084eaa30f866fe36e3d3b8d6015246c8628b374679
+      - type: file
+        url: https://files.pythonhosted.org/packages/d5/11/2a0f982b18007180203a0c21553cb10b2bf4a0f12bd4b3f74d3d00e10bf1/charset_normalizer-3.4.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+        sha256: 5fd5de75d72f56ca72ff80be56084e180b64e36943c32f84f84a83b1704d812e
+      - type: file
+        url: https://files.pythonhosted.org/packages/76/c6/c88e154df9c4e1a2a66ccf0005a88dfb2650c1dffb6f5ce603dfbd452ce3/idna-3.10-py3-none-any.whl
+        sha256: 946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d5
+
+  - name: cachy-kernel-updater
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 cachy-kernel-updater-wrapper /app/bin/cachy-kernel-updater
+      - install -Dm644 io.github.Antux912012.debian-cachy-os-kernel-updater.desktop /app/share/applications/io.github.Antux912012.debian-cachy-os-kernel-updater.desktop
+      - install -Dm644 io.github.Antux912012.debian-cachy-os-kernel-updater.metainfo.xml /app/share/metainfo/io.github.Antux912012.debian-cachy-os-kernel-updater.metainfo.xml
+      - install -Dm644 io.github.Antux912012.debian-cachy-os-kernel-updater.svg /app/share/icons/hicolor/scalable/apps/io.github.Antux912012.debian-cachy-os-kernel-updater.svg
+      - install -Dm644 io.github.Antux912012.debian-cachy-os-kernel-updater.png /app/share/icons/hicolor/512x512/apps/io.github.Antux912012.debian-cachy-os-kernel-updater.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cachy-kernel-updater.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/Antux912012/debian-cachy-os-kernel-updater/releases/download/v1.2.0/cachy-kernel-updater_1.2.0_all.deb
+        sha256: c23055fd09fede34b8aa4704b2d20fc73b558c206b5afb1331397d7b6a81952c
+        size: 5228924
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cachy-kernel-updater-wrapper
+      - type: file
+        path: io.github.Antux912012.debian-cachy-os-kernel-updater.desktop
+      - type: file
+        path: io.github.Antux912012.debian-cachy-os-kernel-updater.metainfo.xml
+      - type: file
+        path: io.github.Antux912012.debian-cachy-os-kernel-updater.svg
+      - type: file
+        path: io.github.Antux912012.debian-cachy-os-kernel-updater.png

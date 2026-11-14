@@ -1,0 +1,31 @@
+id: io.github.Antux912012.debian-cachy-os-kernel-updater
+name: CachyOS Kernel Updater (Unofficial)
+summary: Compile, optimize, install, and UEFI Secure Boot sign CachyOS kernels on Debian & Ubuntu
+website: https://github.com/Antux912012/debian-cachy-os-kernel-updater
+source_url: https://github.com/Antux912012/debian-cachy-os-kernel-updater
+build:
+  manifest: io.github.Antux912012.debian-cachy-os-kernel-updater.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: System
+  upstream_approved: true
+  tags:
+    - Kernel
+    - CachyOS
+    - Debian
+    - Ubuntu
+    - Secure Boot
+    - Podman
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --filesystem=home
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail:
+      en: "CachyOS Kernel Updater invokes host build, container (Podman/Docker), and UEFI Secure Boot signing (pkexec, dpkg, mokutil, sbsigntool) commands via flatpak-spawn --host."

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Antux912012.debian-cachy-os-kernel-updater</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Kernel Updater for CachyOS on Debian</name>
+  <summary>Manage CachyOS kernels on Debian</summary>
+  <description>
+    <p>
+      Kernel Updater for CachyOS on Debian is an independent, unofficial GTK4 and Libadwaita utility that automates the discovery, compilation, installation, and verification of CachyOS kernels on Debian-based systems. (Not affiliated with or endorsed by the CachyOS or Debian projects.)
+    </p>
+    <p>
+      Through a guided three-step workflow, users can upgrade to performance-tuned kernels with BORE scheduler optimizations, automatic DKMS rebuilds, fallback kernel retention, and cryptographic MOK Secure Boot signing.
+    </p>
+    <ul>
+      <li>Automated Kernel Discovery: Queries upstream CachyOS releases and matches optimal CPU microarchitectures (x86-64-v3 and v4)</li>
+      <li>Guided 1-2-3 Workflow: Step-by-step verification, pre-installation checks, and automated GRUB configuration</li>
+      <li>Secure Boot Integration: Automatic Machine Owner Key (MOK) signing for proprietary modules (NVIDIA, Wi-Fi, VirtualBox)</li>
+      <li>Fallback &amp; Rollback Protection: Retains proven stable kernels to guarantee a bootable system</li>
+      <li>Containerized Build Isolation: Compiles and packages deb images inside isolated container environments</li>
+    </ul>
+  </description>
+  <branding>
+    <color type="primary" scheme_preference="light">#1a5fb4</color>
+    <color type="primary" scheme_preference="dark">#0d3a78</color>
+  </branding>
+  <launchable type="desktop-id">io.github.Antux912012.debian-cachy-os-kernel-updater.desktop</launchable>
+  <url type="homepage">https://github.com/Antux912012/debian-cachy-os-kernel-updater</url>
+  <url type="bugtracker">https://github.com/Antux912012/debian-cachy-os-kernel-updater/issues</url>
+  <url type="vcs-browser">https://github.com/Antux912012/debian-cachy-os-kernel-updater</url>
+  <developer id="io.github.antux912012">
+    <name>Antonio</name>
+  </developer>
+  <provides>
+    <binary>cachy-kernel-updater</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Update &amp; Build — System Status, Kernel Selection, and Progressive Advanced Options</caption>
+      <image type="source" width="1376" height="768">https://raw.githubusercontent.com/Antux912012/debian-cachy-os-kernel-updater/main/assets/screenshots/screenshot-1-main.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Secure Boot &amp; MOK — Firmware Status, Kernel Verification, and Key Management</caption>
+      <image type="source" width="1376" height="768">https://raw.githubusercontent.com/Antux912012/debian-cachy-os-kernel-updater/main/assets/screenshots/screenshot-2-secureboot.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Kernels &amp; Logs — Installed Kernel Management, Rollback, and Build Terminal</caption>
+      <image type="source" width="1376" height="768">https://raw.githubusercontent.com/Antux912012/debian-cachy-os-kernel-updater/main/assets/screenshots/screenshot-3-kernels.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.2.0" date="2026-11-13">
+      <description>
+        <p>Version 1.2.0 UI/UX, Kernel, Podman, and UEFI Release:</p>
+        <ul>
+          <li>Redesigned UI around a clean 3-tab Libadwaita AdwViewStack (Update &amp; Build, Secure Boot, Kernels &amp; Logs) with progressive disclosure, symbolic icons, and instant non-blocking startup</li>
+          <li>Hardened UEFI MOK password handling using 0600 temporary --pass-file passing instead of command-line arguments</li>
+          <li>Added sbverify pre-check before sbsign to prevent duplicate PE/COFF signatures, /boot free-space check, version-matched linux-headers installation, and systemd-boot fallback</li>
+          <li>Cached Podman/Docker image verification and added Debian Trixie/Sid container base detection</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.8" date="2026-11-04">
+      <description>
+        <p>Version 1.1.8 release:</p>
+        <ul>
+          <li>Removed sched-ext (SCX) userspace BPF scheduler integration and bundled SCX packages to focus on native CachyOS BORE and EEVDF kernel schedulers</li>
+          <li>Restored full DEBUG_INFO_NONE debug symbol stripping when Strip Debug Symbols is enabled, significantly reducing disk footprint and compile times</li>
+          <li>Optimized kernel configuration sanitization by batching all scripts/config flags into a single execution</li>
+          <li>Audited and refactored codebase to remove duplicated dpkg status parsing, redundant MOK helper handlers, and dormant code</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.6" date="2026-10-25">
+      <description>
+        <p>Version 1.1.6 release:</p>
+        <ul>
+          <li>Added automatic Debian vs. Ubuntu host OS detection (/run/host/etc/os-release and /etc/os-release) to dynamically select debian:bookworm-slim or ubuntu:24.04 container builders and matching kernel localversions</li>
+          <li>Aligned application display name, README, and AppStream metadata with Flathub trademark and non-affiliation policies</li>
+          <li>Updated GNOME Flatpak runtime to version 51 and added automated release-flathub.sh publisher script</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.5" date="2026-10-25">
+      <description>
+        <p>Version 1.1.5 release:</p>
+        <ul>
+          <li>Standardized canonical Flatpak and Freedesktop Application ID to io.github.Antux912012.debian-cachy-os-kernel-updater</li>
+          <li>Updated AppStream catalog, desktop entry, and icon branding under the io.github.Antux912012 namespace</li>
+          <li>Rebuilt Debian (.deb) and Flatpak (.flatpak) bundles inside the dedicated Podman container environment</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.4" date="2026-10-25">
+      <description>
+        <p>Version 1.1.4 release:</p>
+        <ul>
+          <li>Added official application screenshots and AppStream catalog metadata for GNOME Software Center, KDE Discover, and Bazaar</li>
+          <li>Updated GitHub project documentation and visual walkthrough gallery</li>
+          <li>Rebuilt Debian (.deb) and standalone Flatpak (.flatpak) packages inside isolated Podman build environment</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.3" date="2026-10-25">
+      <description>
+        <p>Version 1.1.3 release:</p>
+        <ul>
+          <li>Fixed UEFI Secure Boot detection inside Flatpak via direct kernel efivars inspection and host mokutil bridging</li>
+          <li>Added Flatpak-to-host execution bridge (flatpak-spawn --host) so dependency checks, kernel downloads, compilation, installation, MOK signing, and rollbacks work seamlessly in Flatpak</li>
+          <li>Staged sign-kernel.sh and Containerfile in shared ~/.config/cachy-kernel-updater path accessible across Flatpak and host namespaces</li>
+          <li>Switched kernel source and config downloads to streaming requests with progress reporting and batched scripts/config sanitization</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.2" date="2026-10-15">
+      <description>
+        <p>Version 1.1.2 release:</p>
+        <ul>
+          <li>Fixed missing Wi-Fi and Bluetooth drivers during kernel compilation (localmodconfig driver trimming)</li>
+          <li>Enforced comprehensive Wi-Fi, Bluetooth, and AF_ALG/crypto driver safety baselines (Intel, Realtek, Qualcomm/Atheros, MediaTek, Broadcom, BT_HIDP, BT_HCIUART, CMAC, AES, SHA)</li>
+          <li>Seeded host lsmod module list so streamline_config never drops dormant or unassociated wireless/Bluetooth controllers</li>
+          <li>Added hardware detection reporting for Wi-Fi and Bluetooth adapters</li>
+          <li>Updated APT repository and packaging metadata</li>
+        </ul>
+      </description>
+    </release>
+    <release version="1.1.1" date="2026-10-15">
+      <description>
+        <p>Version 1.1.1 release:</p>
+        <ul>
+          <li>New vibrant modern CachyOS emblem logo and cohesive teal &amp; crimson branding</li>
+          <li>Guided 1-2-3 step workflow with safe cross-system defaults</li>
+          <li>Enhanced UEFI Secure Boot signing pipeline with co-located MOK certificates</li>
+          <li>Official Debian package (.deb) and standalone Flatpak distribution</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

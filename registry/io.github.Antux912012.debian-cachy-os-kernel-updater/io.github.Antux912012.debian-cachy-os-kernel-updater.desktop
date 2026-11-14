@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Kernel Updater for CachyOS on Debian
+GenericName=Kernel Updater & Secure Boot Manager
+Comment=Check, compile, install, and manage CachyOS Linux kernels on Debian (Unofficial)
+Exec=cachy-kernel-updater
+Icon=io.github.Antux912012.debian-cachy-os-kernel-updater
+Terminal=false
+Type=Application
+Categories=System;GTK;
+StartupNotify=true
+Keywords=kernel;cachyos;debian;update;secureboot;mok;
