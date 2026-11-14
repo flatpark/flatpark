@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Handy
+Comment=Offline transcription for audio and video files
+Exec=handy %F
+Icon=com.pais.handy
+Terminal=false
+Categories=AudioVideo;Audio;Utility;
+StartupWMClass=handy
+StartupNotify=true
+MimeType=audio/mpeg;audio/x-wav;audio/flac;audio/ogg;audio/mp4;audio/aac;audio/x-aiff;audio/x-m4a;video/mp4;video/x-matroska;video/quicktime;video/webm;
+Keywords=transcribe;transcription;audio;speech;whisper;offline;

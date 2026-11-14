@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.pais.handy</id>
+  <name>Handy</name>
+  <summary>Offline transcription for audio and video files</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.pais">
+    <name>Handy contributors</name>
+  </developer>
+  <url type="homepage">https://handy.computer/</url>
+  <url type="bugtracker">https://github.com/cjpais/Handy/issues</url>
+  <url type="vcs-browser">https://github.com/cjpais/Handy</url>
+  <description>
+    <p>This is a community package of Handy, maintained independently. It installs the official upstream Linux build without changing its files.</p>
+    <p>Handy transcribes audio and video files locally using speech models you choose. The models run on your computer, and your recordings and transcripts are not sent to a transcription service. The app can also record from a microphone and transcribe speech as you go.</p>
+    <ul>
+      <li>Transcribe audio and video files into text and subtitles</li>
+      <li>Choose from Whisper and Parakeet models</li>
+      <li>Use Vulkan GPU acceleration when available, with CPU inference as a fallback</li>
+      <li>Download models on demand; they are not bundled with the app</li>
+    </ul>
+    <p>Handy downloads models when you choose them, so the first use needs network access and free disk space. Models, settings and history remain in Flatpak's private app storage.</p>
+    <p>Selected files are opened through the desktop file chooser. To access a media folder directly, grant it with <code>flatpak override --user --filesystem=/path/to/media com.pais.handy</code>. Remove custom grants with <code>flatpak override --user --reset com.pais.handy</code>.</p>
+    <p>Audio and video file transcription is the focus of this package. Microphone recording is available in Handy but is not granted microphone access by default; enable it with <code>flatpak override --user --socket=pulseaudio com.pais.handy</code>.</p>
+    <p>Global shortcuts and typing into other applications depend on the desktop session and external input tools. They are not required to transcribe files.</p>
+    <p>Install application updates through Flatpak; the built-in updater cannot replace the read-only Flatpak application.</p>
+  </description>
+  <launchable type="desktop-id">com.pais.handy.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>transcribe</keyword>
+    <keyword>transcription</keyword>
+    <keyword>audio</keyword>
+    <keyword>subtitles</keyword>
+    <keyword>whisper</keyword>
+    <keyword>parakeet</keyword>
+    <keyword>offline</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>handy</binary>
+  </provides>
+  <releases>
+    <release version="0.10.1" date="2026-11-14">
+      <description>
+        <p>Initial FlatPark package based on Handy 0.10.1.</p>
+      </description>
+    </release>
+  </releases>
+</component>
