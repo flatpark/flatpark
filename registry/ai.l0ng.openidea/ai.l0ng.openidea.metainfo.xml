@@ -28,6 +28,9 @@
   <recommends><control>keyboard</control><control>pointing</control></recommends>
   <provides><binary>openidea</binary></provides>
   <releases>
+    <release version="0.1.45" date="2026-11-14">
+      <description></description>
+    </release>
     <release version="0.1.44" date="2026-11-13">
       <description></description>
     </release><release version="0.1.43" date="2026-11-12" /></releases>

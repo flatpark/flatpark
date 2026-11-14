@@ -71,16 +71,16 @@ modules:
         filename: concat.deb
         only-arches:
           - x86_64
-        url: https://github.com/jub0t/Concat/releases/download/v0.2.10/Concat-0.2.10-linux-x86_64.deb
-        sha256: 4eed6acef7fb447f9413e0ec98e6abd4e5bdd948ef73e40896f150347dd1bb1b
-        size: 146023810
+        url: https://github.com/jub0t/Concat/releases/download/v0.2.11/Concat-0.2.11-linux-x86_64.deb
+        sha256: 38babfd7a29e3859d67c12dedab7c1ccaa851fd97baf3fe14bcaa9a729839eea
+        size: 146097074
       - type: extra-data
         filename: concat.deb
         only-arches:
           - aarch64
-        url: https://github.com/jub0t/Concat/releases/download/v0.2.10/Concat-0.2.10-linux-aarch64.deb
-        sha256: 210ae5656ec64ae7b48b79b2a6e65998def81ffca3d17facfaac275e654413b8
-        size: 133092168
+        url: https://github.com/jub0t/Concat/releases/download/v0.2.11/Concat-0.2.11-linux-aarch64.deb
+        sha256: 4295715f4f89f25f94d23e3db7ae4120c8961424c5c81e1f25d7382ecba3b558
+        size: 133157726
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
