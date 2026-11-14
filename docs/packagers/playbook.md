@@ -61,6 +61,10 @@ problems are in [common problems](solutions/README.md). In particular:
 - **Stack recipes and known problems** → [common problems](solutions/README.md),
   and the checklist for the app's stack in [by stack](solutions/by-stack.md).
 - **metainfo** → [what a package is](basics.md#the-metainfo-and-the-version).
+- **Screenshots are part of the package, not an extra.** Look on the official
+  website and the upstream README before writing the metainfo, and check what
+  you find against [what fits](basics.md#the-metainfo-and-the-version). If
+  nothing does, keep a screenshot from step 4 for the PR.
 
 ## 4. Test / verify — every run, no exceptions
 
