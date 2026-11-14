@@ -42,16 +42,16 @@ modules:
         filename: tracedraw.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tracedraw/tracedraw/releases/download/v0.45.2/tracedraw-0.45.2-linux-x86_64.tar.gz
-        sha256: 8997a5abb62e11cd560ba5048979e2a69a043026421770b29a0eb38fbdc55538
-        size: 43151581
+        url: https://github.com/tracedraw/tracedraw/releases/download/v0.46.0/tracedraw-0.46.0-linux-x86_64.tar.gz
+        sha256: 96b3f7d1ab9e2623a2e11e48afd06e0b9c05731af695955ba74f842487173d2a
+        size: 43265423
       - type: extra-data
         filename: tracedraw.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/tracedraw/tracedraw/releases/download/v0.45.2/tracedraw-0.45.2-linux-arm64.tar.gz
-        sha256: 1c2e8460bd725fa681d47f544149dd9d35b2059703cfedd997989c9832797754
-        size: 42750851
+        url: https://github.com/tracedraw/tracedraw/releases/download/v0.46.0/tracedraw-0.46.0-linux-arm64.tar.gz
+        sha256: 40f5a8a7b8e42e68c9cbb04bc24154248dab78f6d8f6eb0fae252dc50706a013
+        size: 42919178
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
