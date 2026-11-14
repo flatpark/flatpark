@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.nousresearch.hermes-light</id>
+  <name>Hermes Light</name>
+  <summary>Desktop client for a Hermes Agent running on another machine</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.nousresearch">
+    <name>Nous Research</name>
+  </developer>
+  <url type="homepage">https://hermes-agent.nousresearch.com</url>
+  <url type="bugtracker">https://github.com/tunix/homebrew-tap/issues</url>
+  <url type="help">https://github.com/tunix/homebrew-tap/issues</url>
+  <url type="vcs-browser">https://github.com/tunix/homebrew-tap</url>
+  <description>
+    <p>This is a community package of Hermes Light, maintained independently. Upstream publishes no Linux desktop packages yet, so the pinned AppImage is built from upstream's source at each release tag by the <a href="https://github.com/tunix/homebrew-tap">tunix/homebrew-tap</a> repository and repackaged here unmodified — it is not upstream's own build. Packaging problems belong on that repository's tracker, not on upstream's.</p>
+    <p>Hermes Light is the remote-only desktop client of the Hermes Agent: the Electron shell without the bundled agent runtime. There is no local Python environment, Node toolchain or repository clone — the client talks to a Hermes backend running on another machine (a server, VPS or Raspberry Pi) over the dashboard and gateway API.</p>
+    <ul>
+      <li>Point it at your backend on first launch under Settings → Gateways, or start it with the backend address preset: HERMES_DESKTOP_REMOTE_URL=http://host:9119 flatpak run com.nousresearch.hermes-light</li>
+      <li>Authentication is provisioned on the backend: hermes dashboard register there, then sign in from the client. Beyond a trusted LAN or VPN that goes through Nous Portal OAuth; on a trusted LAN or VPN, plain username and password work.</li>
+      <li>The agent itself keeps running where it is — this client never starts, stops or manages it.</li>
+    </ul>
+    <p>The app can minimize to the tray instead of quitting; the tray icon appears only after enabling that in its settings, and it shows on GNOME only with the AppIndicator extension installed.</p>
+    <p>The app ships no updater of its own on Linux; this package follows the packaging repository's releases automatically, so updating the app is the regular flatpak update.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Sound, for notification sounds and UI audio: flatpak override --user --socket=pulseaudio com.nousresearch.hermes-light</li>
+      <li>Saving files from the client without confirming a folder each time: flatpak override --user --filesystem=xdg-download com.nousresearch.hermes-light</li>
+      <li>Reading the config of a Hermes agent CLI installed on the same machine (~/.hermes, read-only — the client is remote-first and works without it): flatpak override --user --filesystem=~/.hermes:ro com.nousresearch.hermes-light</li>
+      <li>Undo all of these: flatpak override --user --reset com.nousresearch.hermes-light</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.nousresearch.hermes-light.desktop</launchable>
+  <categories>
+    <category>Development</category>
+  </categories>
+  <keywords>
+    <keyword>hermes</keyword>
+    <keyword>agent</keyword>
+    <keyword>ai</keyword>
+    <keyword>assistant</keyword>
+    <keyword>chat</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>hermes-light</binary>
+  </provides>
+  <releases>
+    <release version="0.23.1" date="2026-11-10">
+      <description><p>Built from upstream's v0.23.1 tag by the packaging repository's release automation.</p></description>
+    </release>
+    <release version="0.22.5" date="2026-11-02" />
+  </releases>
+</component>

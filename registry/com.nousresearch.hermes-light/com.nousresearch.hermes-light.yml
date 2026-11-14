@@ -1,0 +1,90 @@
+id: com.nousresearch.hermes-light
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper). The base is merged
+# into the app at build time; the payload itself is still the vendor's own
+# release, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: hermes-light
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron remote client for the Hermes Agent. Upstream publishes no Linux
+  # desktop packages (NousResearch/hermes-agent#98171); the pinned AppImage is
+  # the light variant built from upstream's source by the packaging repository
+  # named in source_url. The bundle carries Chromium, its own
+  # ffmpeg/ANGLE/SwiftShader and the app sources; the GTK3, NSS, CUPS, ATK,
+  # X11, ALSA and libatomic stacks they link come from the runtime, and the
+  # tray/notification libraries Electron bundles for older hosts (libnotify,
+  # libXtst, libXss, libgconf, appindicator) sit in the payload's usr/lib.
+  - --share=ipc
+  # The whole app is a remote client: it talks to a Hermes backend (dashboard /
+  # gateway API) running on another host over the network.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU-accelerated rendering.
+  - --device=dri
+  # Message notifications: the main process posts Electron notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon: the main process creates an Electron Tray.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Electron's safeStorage keeps the remote gateway token in the desktop
+  # keyring; the app's own fallback message names org.freedesktop.secrets, and
+  # without the grant it cannot save the token securely and offers to store it
+  # in plain text instead.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: hermes-light
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hermes-light-wrapper /app/bin/hermes-light
+      - install -Dm644 com.nousresearch.hermes-light.desktop /app/share/applications/com.nousresearch.hermes-light.desktop
+      - install -Dm644 com.nousresearch.hermes-light.metainfo.xml /app/share/metainfo/com.nousresearch.hermes-light.metainfo.xml
+      - install -Dm644 com.nousresearch.hermes-light.png /app/share/icons/hicolor/512x512/apps/com.nousresearch.hermes-light.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source rather
+      # than an archive module, because apply_extra runs in a sandbox that binds
+      # only the runtime /usr and /app/extra (scripts/check-apply-extra.sh
+      # reproduces this). Kept OUTSIDE the managed block: update-pins.mjs
+      # rebuilds that block from the resolver output and would drop anything
+      # else in it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: hermes-light.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/tunix/homebrew-tap/releases/download/hermes-desktop-v0.23.1/HermesLight-0.23.1-linux-x86_64.AppImage
+        sha256: 1c4c6b62ba7e54a31cb674db2b0bf3f1edfcdda41bd71184ee69f39dbadf7618
+        size: 144073903
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hermes-light-wrapper
+      - type: file
+        path: com.nousresearch.hermes-light.desktop
+      - type: file
+        path: com.nousresearch.hermes-light.metainfo.xml
+      - type: file
+        path: com.nousresearch.hermes-light.png
