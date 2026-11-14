@@ -18,9 +18,9 @@ modules:
         filename: remoteid.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/LLawli/RemoteID-linux/releases/download/v0.5.1/remoteid-x86_64.tar.gz
-        sha256: 33070bd7f7ce02f6d76931f87a0db4ca5260e4c659ab7571c117727a502853e7
-        size: 6548902
+        url: https://github.com/LLawli/RemoteID-linux/releases/download/v0.5.2/remoteid-x86_64.tar.gz
+        sha256: 583932b0eaa3382fb83e37e529b3711f80278c862389fafc18b7a44b068fd38c
+        size: 6546189
       # END MANAGED EXTRA-DATA
       - type: file
         path: driver.toml
