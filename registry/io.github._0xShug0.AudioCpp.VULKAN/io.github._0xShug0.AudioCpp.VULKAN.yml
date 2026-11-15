@@ -25,7 +25,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: audio.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-vulkan-portable.tar.gz
         sha256: 39be151ea211396adc6837560d00a440f8d2720b2c1e0c60778bd676335bdc06
         size: 90609676

@@ -23,7 +23,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: audio.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-cpu-portable.tar.gz
         sha256: 4e413b1d4ebfd322f56bb79d9b967034fd0948d820f99734def01635402f6e75
         size: 72971964

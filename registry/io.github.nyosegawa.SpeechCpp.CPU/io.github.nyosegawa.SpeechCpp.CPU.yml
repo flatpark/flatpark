@@ -22,7 +22,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: speech.zip
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/nyosegawa/speech.cpp/releases/download/v0.11.0/speech-0.11.0-linux-x64-cpu.zip
         sha256: 9acb8becee605c7bb190d7f56d4d9212232ec311df63735b1938cc86bc4257a1
         size: 6487592

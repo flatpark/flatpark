@@ -24,7 +24,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: speech.zip
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/nyosegawa/speech.cpp/releases/download/v0.11.0/speech-0.11.0-linux-x64-vulkan.zip
         sha256: 9c01a35a0c79d36ca29abe379029c71b0cfb950cbc9da835863f5f7d28c81ae8
         size: 32715767

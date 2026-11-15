@@ -25,7 +25,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: sd.zip
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/leejet/stable-diffusion.cpp/releases/download/master-1104-5dcfa79/sd-master-5dcfa79-bin-Linux-Ubuntu-26.04-x86_64-vulkan.zip
         sha256: b92a0759eaf524ba3b256df80d72249ce5bef68e74edf92e17fbddd541ef82d1
         size: 42338205
