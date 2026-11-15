@@ -12,6 +12,7 @@ build:
   arches: [x86_64]
 catalog:
   category: Finance
+  upstream_approved: true
   tags:
     - Charting
     - Stocks
