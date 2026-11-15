@@ -1,0 +1,43 @@
+id: com.ollama.Ollama
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: ollama
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Download models and expose the local inference API to clients.
+  - --share=network
+  # CUDA needs NVIDIA device nodes beyond DRI; declared in flatpark.yml.
+  - --device=all
+  # Upstream stores models, keys and CLI history in ~/.ollama.
+  - --persist=.ollama
+modules:
+  - name: ollama
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ollama-wrapper /app/bin/ollama
+      - install -Dm644 com.ollama.Ollama.desktop /app/share/applications/com.ollama.Ollama.desktop
+      - install -Dm644 com.ollama.Ollama.metainfo.xml /app/share/metainfo/com.ollama.Ollama.metainfo.xml
+      - install -Dm644 com.ollama.Ollama.svg /app/share/icons/hicolor/scalable/apps/com.ollama.Ollama.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ollama.tar.zst
+        only-arches: [x86_64]
+        url: https://github.com/ollama/ollama/releases/download/v0.40.16/ollama-linux-amd64.tar.zst
+        sha256: 87bfafb2acbc89b2e6a1be0a9043de6aa75fb450696f86bc426e65fc448f788d
+        size: 1545767640
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ollama-wrapper
+      - type: file
+        path: com.ollama.Ollama.desktop
+      - type: file
+        path: com.ollama.Ollama.metainfo.xml
+      - type: file
+        path: com.ollama.Ollama.svg
