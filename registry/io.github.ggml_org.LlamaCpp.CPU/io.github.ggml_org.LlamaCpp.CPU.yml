@@ -1,0 +1,47 @@
+id: io.github.ggml_org.LlamaCpp.CPU
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: llama-server
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Download models and serve the loopback HTTP API and browser interface.
+  - --share=network
+modules:
+  - name: llama
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 llama-wrapper /app/bin/llama-server
+      - ln -s llama-server /app/bin/llama
+      - ln -s llama-server /app/bin/llama-cli
+      - ln -s llama-server /app/bin/llama-bench
+      - ln -s llama-server /app/bin/llama-quantize
+      - install -Dm644 io.github.ggml_org.LlamaCpp.CPU.desktop /app/share/applications/io.github.ggml_org.LlamaCpp.CPU.desktop
+      - install -Dm644 io.github.ggml_org.LlamaCpp.CPU.metainfo.xml /app/share/metainfo/io.github.ggml_org.LlamaCpp.CPU.metainfo.xml
+      - install -Dm644 io.github.ggml_org.LlamaCpp.CPU.svg /app/share/icons/hicolor/scalable/apps/io.github.ggml_org.LlamaCpp.CPU.svg
+      - install -Dm644 branding.txt /app/share/doc/io.github.ggml_org.LlamaCpp.CPU/branding.txt
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: llama.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-x64.tar.gz
+        sha256: 0bc1f091e8916102b6d8f2cf944233a620e90a0f856c72d0ce41150c65c2e72e
+        size: 23311084
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: llama-wrapper
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.CPU.desktop
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.CPU.metainfo.xml
+      # Official branding: ggml-org/llama-brand, logo/svg/icon/icon-dark-bg.svg.
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.CPU.svg
+      - type: file
+        path: branding.txt
