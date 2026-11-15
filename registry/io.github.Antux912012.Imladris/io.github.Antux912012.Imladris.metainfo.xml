@@ -75,6 +75,9 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.26.0" date="2026-11-15">
+      <description></description>
+    </release>
     <release version="0.25.0" date="2026-11-14">
       <description>
         <p>Release v0.25.0 introduces Free-Tier AI APIs with Automatic Quota Failover, GitHub Copilot OAuth login, Positron/RStudio-style Direct Editor Writing, and comprehensive security, stability, and documentation improvements:</p>
