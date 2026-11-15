@@ -6,8 +6,11 @@ load_app "${1:?usage: gen-discovery.sh <app-id>}"
 need gpg; need base64
 export GNUPGHOME="$GNUPGHOME_DIR"
 mkdir -p "$OUT_DIR" "$REPO_DIR"
-gpgkey_b64="$(gpg --export "$KEY_EMAIL" | base64 -w0)"
-[ -n "$gpgkey_b64" ] || die "no exportable key (run gen-signing-key.sh first)"
+# The public keys of the signing keys: both during a key rotation, so a new
+# user trusts the incoming key from the start (signing_keys in lib/common.sh).
+pubkeys="$(mktemp)"; trap 'rm -f "$pubkeys"' EXIT
+export_signing_pubkeys "$pubkeys"
+gpgkey_b64="$(base64 -w0 < "$pubkeys")"
 
 repo_file="$REPO_DIR/flatpark.flatpakrepo"
 ref_file="$REPO_DIR/$APP_ID.flatpakref"

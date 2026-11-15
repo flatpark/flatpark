@@ -59,12 +59,19 @@ jobs:
           sudo apt-get install -y flatpak ostree
           curl -fsSL https://rclone.org/install.sh | sudo bash
       - name: Import signing subkey
+        # Every key here signs everything (scripts/lib/common.sh: signing_keys).
+        # During a key rotation both are set; deleting the outgoing one from the
+        # production environment ends the overlap
+        # (docs/reference/signing-key-rotation.md).
         env:
           FLATPAK_GPG_PRIVATE_KEY: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
+          FLATPAK_GPG_KEY_2026_11: ${{ secrets.FLATPAK_GPG_KEY_2026_11 }}
         run: |
           mkdir -p "$GNUPGHOME_DIR"; chmod 700 "$GNUPGHOME_DIR"
-          printf '%s\n' "$FLATPAK_GPG_PRIVATE_KEY" \
-            | GNUPGHOME="$GNUPGHOME_DIR" gpg --batch --import
+          for key in "$FLATPAK_GPG_PRIVATE_KEY" "$FLATPAK_GPG_KEY_2026_11"; do
+            [ -n "$key" ] || continue
+            printf '%s\n' "$key" | GNUPGHOME="$GNUPGHOME_DIR" gpg --batch --import
+          done
       # Start from publish's repo cache so the pull only reconciles a week of
       # changes instead of re-downloading every object (a cold pull took 39
       # minutes on 2026-10-17). Restore-only: publish saves the next one, and a

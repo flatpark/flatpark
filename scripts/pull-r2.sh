@@ -32,7 +32,10 @@ FLAGS=(--fast-list --transfers=32 --checkers=64 --stats=1m --stats-log-level=NOT
 
 mkdir -p "$repo"
 log "pull objects <- $src"
-rclone sync "$src/objects" "$repo/objects" --size-only "${FLAGS[@]}"
+rclone sync "$src/objects" "$repo/objects" --size-only --exclude "*.commitmeta" "${FLAGS[@]}"
+# *.commitmeta holds a commit's signatures and is rewritten in place when a key
+# is backfilled (see sync-r2.sh), so it is compared by content.
+rclone sync "$src/objects" "$repo/objects" --checksum --include "*.commitmeta" "${FLAGS[@]}"
 log "pull refs/summary/config <- $src"
 rclone sync "$src" "$repo" --exclude "objects/**" --checksum "${FLAGS[@]}"
 log "R2 pull complete -> $repo"

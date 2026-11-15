@@ -11,6 +11,16 @@ order: 7
   [setting up](setup.md).
 - **Signature or GPG errors:** add the remote again with the command from
   [setting up](setup.md); it carries the signing key.
+- **Updates stopped arriving, and `flatpak update` says "Nothing to do" after
+  a warning about a non-fatal fetch error:** FlatPark changed its signing key
+  while this computer wasn't updating. Import the current key (drop `--user`
+  for a system-wide install):
+
+  ```sh
+  curl -fsSL https://dl.flatpark.org/flatpark.flatpakrepo \
+    | sed -n 's/^GPGKey=//p' | base64 -d > /tmp/flatpark.gpg
+  flatpak --user remote-modify --gpg-import=/tmp/flatpark.gpg flatpark
+  ```
 - **"Wrong size" or a failed download while installing:** the app's file is
   downloaded from the developer's server at install time. If the developer
   replaced it, our pin no longer matches until it is updated, usually within a

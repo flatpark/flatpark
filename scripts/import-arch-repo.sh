@@ -23,8 +23,7 @@ export GNUPGHOME="$GNUPGHOME_DIR"
 src="${1:?usage: import-arch-repo.sh <src-repo>}"
 [ -d "$src/objects" ] || die "not an ostree repo: $src"
 [ -d "$REPO_DIR/objects" ] || die "repo dir not found: $REPO_DIR"
-fpr="$(gpg --list-keys --with-colons "$KEY_EMAIL" | awk -F: '/^fpr:/{print $10; exit}')"
-[ -n "$fpr" ] || die "no signing key (run gen-signing-key.sh)"
+signing_args sign
 
 # appstream/* and ostree-metadata are per-repo indexes, rebuilt by
 # build-update-repo from the refs; importing the source repo's would clobber them.
@@ -32,6 +31,6 @@ mapfile -t refs < <(ostree --repo="$src" refs | grep -E '^(app|runtime)/' | sort
 [ "${#refs[@]}" -gt 0 ] || die "no app or runtime refs in $src"
 for ref in "${refs[@]}"; do
     flatpak build-commit-from --src-repo="$src" --no-update-summary \
-        --gpg-sign="$fpr" --gpg-homedir="$GNUPGHOME_DIR" "$REPO_DIR" "$ref"
+        "${sign[@]}" "$REPO_DIR" "$ref"
     log "imported $ref"
 done
