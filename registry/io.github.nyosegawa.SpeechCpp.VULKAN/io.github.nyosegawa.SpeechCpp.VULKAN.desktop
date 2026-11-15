@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=speech.cpp (Vulkan)
+Comment=Local speech synthesis and recognition with Vulkan
+Exec=speech serve --open --host 127.0.0.1 --port 8091
+Icon=io.github.nyosegawa.SpeechCpp.VULKAN
+Terminal=true
+Categories=AudioVideo;Audio;
+Keywords=Speech;TTS;ASR;AI;Vulkan;

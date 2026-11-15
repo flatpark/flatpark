@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# Relative CLI output stays in persistent private app data, without host grants.
+cd "$XDG_DATA_HOME"
+exec /app/extra/speech/speech "$@"
