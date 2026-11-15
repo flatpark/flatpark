@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ggml_org.LlamaCpp.CPU</id>
+  <name>llama.cpp (CPU)</name>
+  <summary>Run local language models with the CPU</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A community package of the unmodified official llama.cpp CPU build for local language model inference, an HTTP API and a browser chat interface. Model downloads have their own licenses.</p>
+    <p>The desktop entry starts llama-server in a terminal. Open http://127.0.0.1:8080 in your browser. Models downloaded by llama.cpp stay in this app's private persistent cache. With no model argument, the server starts in router mode for cached models. Download a model first using the CLI, for example: flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.CPU -hf bartowski/SmolLM2-135M-Instruct-GGUF:Q4_K_M</p>
+    <p>Command line tools are available with flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.CPU, and similarly llama, llama-bench and llama-quantize. Pass server model and port options after flatpak run io.github.ggml_org.LlamaCpp.CPU. The CPU and Vulkan editions use different default ports and private caches.</p>
+    <p>Host model directories are optional. Grant only a directory you need: flatpak override --user --filesystem=/path/to/models:ro io.github.ggml_org.LlamaCpp.CPU. Then pass -m /path/to/models/model.gguf. To remove overrides: flatpak override --user --reset io.github.ggml_org.LlamaCpp.CPU.</p>
+    <p>Python model conversion and workflows requiring a host toolchain are not included.</p>
+  </description>
+  <launchable type="desktop-id">io.github.ggml_org.LlamaCpp.CPU.desktop</launchable>
+  <url type="homepage">https://llama.app</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/ggml-org/llama.cpp/tree/master/tools/server</url>
+  <developer id="io.github.ggml_org"><name>ggml-org</name></developer>
+  <provides><binary>llama-server</binary><binary>llama-cli</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="b12359" date="2026-11-13"/></releases>
+</component>
