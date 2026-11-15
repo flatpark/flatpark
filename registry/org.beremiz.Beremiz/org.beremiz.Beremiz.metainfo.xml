@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.beremiz.Beremiz</id>
+  <name>Beremiz</name>
+  <summary>Develop, compile and debug IEC 61131-3 PLC programs</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <developer id="org.beremiz"><name>Beremiz contributors</name></developer>
+  <description>
+    <p>Beremiz is an integrated development environment for machine automation.
+    Create PLC programs using Structured Text, Ladder Diagram, Function Block
+    Diagram and Sequential Function Chart, compile them, and debug a local or
+    remote PLC runtime.</p>
+    <p>This community package downloads a separate community source build from
+    beremiz-release. It contains unmodified Beremiz sources, MatIEC, Python
+    dependencies and a C compiler. It is independent of the official Beremiz
+    Snap package and is not endorsed by the Beremiz project.</p>
+    <p>Projects in Documents and network PLC connections are available by
+    default. BACnet, Xenomai and Inkscape/SVG HMI tooling are not included.</p>
+    <p>Project dialogs do not use the desktop file chooser portal. For projects
+    in other host folders, grant their folder with the command below.</p>
+    <p>Optional access can be enabled with these commands:</p>
+    <ul>
+      <li>Projects elsewhere: <code>flatpak override --user --filesystem=/path/to/projects org.beremiz.Beremiz</code></li>
+      <li>Serial and USB devices: <code>flatpak override --user --device=all org.beremiz.Beremiz</code></li>
+      <li>Undo overrides: <code>flatpak override --user --reset org.beremiz.Beremiz</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.beremiz.Beremiz.desktop</launchable>
+  <url type="homepage">https://beremiz.org/</url>
+  <url type="help">https://github.com/rhgKc2yp/beremiz-release/issues</url>
+  <url type="bugtracker">https://github.com/rhgKc2yp/beremiz-release/issues</url>
+  <url type="vcs-browser">https://github.com/rhgKc2yp/beremiz-release</url>
+  <categories><category>Development</category><category>IDE</category></categories>
+  <screenshots>
+    <screenshot type="default">
+      <caption>PLC programming in the Beremiz IDE</caption>
+      <image>https://beremiz.org/screenshots/Screenshot04.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.6.2-1" date="2026-11-12">
+      <url type="details">https://github.com/rhgKc2yp/beremiz-release/releases/tag/v1.6.2-1</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

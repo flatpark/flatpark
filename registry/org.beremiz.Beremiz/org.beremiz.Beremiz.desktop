@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Beremiz
+Comment=Develop IEC 61131-3 PLC programs
+Exec=beremiz %f
+Icon=org.beremiz.Beremiz
+Terminal=false
+Categories=Development;IDE;
+StartupNotify=true
+StartupWMClass=beremiz

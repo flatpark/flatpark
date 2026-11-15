@@ -1,0 +1,20 @@
+id: org.beremiz.Beremiz
+name: Beremiz
+summary: Develop, compile and debug IEC 61131-3 PLC programs
+website: https://beremiz.org/
+source_url: https://github.com/rhgKc2yp/beremiz-release
+build:
+  manifest: org.beremiz.Beremiz.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags: [PLC, IEC61131, Automation, Industrial]
+  upstream_approved: false
+  stars_repo: beremiz/beremiz
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
