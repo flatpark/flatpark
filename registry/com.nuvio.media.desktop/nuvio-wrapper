@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# Upstream's jpackage launcher finds its jars, bundled Java runtime and native
+# libraries relative to itself. Its player bridge links libmpv.so.2, which the
+# prebuilt mpv stack installs under /app/lib, on the loader's default path in
+# the sandbox. Settings and caches follow XDG_CONFIG_HOME/XDG_CACHE_HOME, which
+# Flatpak points into ~/.var/app/com.nuvio.media.desktop. The launcher name is
+# whatever apply_extra found in the official .deb.
+extra_root=/app/extra
+launcher="$(cat "$extra_root/launcher")"
+
+exec "$extra_root/nuvio/bin/$launcher" "$@"

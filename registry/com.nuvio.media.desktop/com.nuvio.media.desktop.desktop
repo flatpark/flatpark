@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Nuvio
+GenericName=Media Player
+Comment=Media library and player for movies and shows from your own sources
+Exec=nuvio %u
+Icon=com.nuvio.media.desktop
+Terminal=false
+StartupNotify=true
+StartupWMClass=com-nuvio-app-MainKt
+Categories=AudioVideo;Video;Player;
+Keywords=movies;shows;tv;player;trakt;addons;
+MimeType=x-scheme-handler/nuvio;x-scheme-handler/stremio;

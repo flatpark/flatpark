@@ -1,0 +1,25 @@
+id: com.nuvio.media.desktop
+name: Nuvio
+summary: Media library and player for movies and shows from your own sources
+website: https://nuvio.tv
+source_url: https://github.com/NuvioMedia/NuvioDesktop
+build:
+  manifest: com.nuvio.media.desktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Video
+    - Player
+    - Streaming
+    - Trakt
+    - Addons
+    - Compose
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

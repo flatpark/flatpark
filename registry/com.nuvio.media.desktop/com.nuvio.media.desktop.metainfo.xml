@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.nuvio.media.desktop</id>
+  <name>Nuvio</name>
+  <summary>Media library and player for movies and shows from your own sources</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="tv.nuvio">
+    <name>Nuvio Media</name>
+  </developer>
+  <url type="homepage">https://nuvio.tv</url>
+  <url type="bugtracker">https://github.com/NuvioMedia/NuvioDesktop/issues</url>
+  <url type="vcs-browser">https://github.com/NuvioMedia/NuvioDesktop</url>
+  <url type="donation">https://nuvio.tv/support</url>
+  <description>
+    <p>This is a community package of Nuvio Desktop, maintained independently and unaffiliated with the Nuvio project. It repackages the official upstream Linux release build unmodified, and adds libmpv from FlatPark's prebuilt stacks, which Nuvio uses for playback.</p>
+    <p>Nuvio Desktop is alpha software meant for testers: upstream warns that updates may break features, settings or stored data.</p>
+    <p>Nuvio is a media app for movies and TV shows built with Kotlin and Compose Multiplatform. It ships no content of its own: you bring your own sources through add-ons, and Nuvio turns them into a library.</p>
+    <ul>
+      <li>Browse and search titles with artwork, ratings and details.</li>
+      <li>Keep a library and watch progress, synced with Trakt and across your devices.</li>
+      <li>Play streams from your add-ons in the built-in mpv-based player, with subtitles.</li>
+      <li>Download titles for offline viewing.</li>
+    </ul>
+    <p>Permissions: this package grants display (X11), GPU, audio, network access and your Downloads folder. Settings, the sign-in session, caches and offline downloads stay inside the sandbox under <code>~/.var/app/com.nuvio.media.desktop</code>.</p>
+    <p>Updates arrive through <code>flatpak update</code>; Nuvio's own updater is off inside Flatpak.</p>
+    <p>Optional:</p>
+    <ul>
+      <li>Interface too small or too large on a HiDPI screen (Nuvio runs on XWayland and takes its scale from <code>Xft.dpi</code>): set the scale yourself, for example <code>flatpak override --user --env=JAVA_TOOL_OPTIONS=-Dsun.java2d.uiScale=2 com.nuvio.media.desktop</code></li>
+      <li>Discord rich presence: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 com.nuvio.media.desktop</code> for a native Discord client, or <code>flatpak override --user --filesystem=xdg-run/app/com.discordapp.Discord com.nuvio.media.desktop</code> for Discord installed as a Flatpak.</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.nuvio.media.desktop.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>movies</keyword>
+    <keyword>shows</keyword>
+    <keyword>tv</keyword>
+    <keyword>player</keyword>
+    <keyword>trakt</keyword>
+    <keyword>addons</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.36-alpha" date="2026-11-13">
+      <url type="details">https://github.com/NuvioMedia/NuvioDesktop/releases/tag/0.1.36-alpha</url>
+    </release>
+  </releases>
+</component>
