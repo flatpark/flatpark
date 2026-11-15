@@ -1,0 +1,18 @@
+id: io.github.nyosegawa.SpeechCpp.CPU
+name: speech.cpp (CPU)
+summary: Run local speech synthesis and recognition with CPU
+website: https://github.com/nyosegawa/speech.cpp
+source_url: https://github.com/nyosegawa/speech.cpp
+build:
+  manifest: io.github.nyosegawa.SpeechCpp.CPU.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags: [Speech, AI, TTS, ASR, CPU]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
