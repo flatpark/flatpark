@@ -27,7 +27,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: llama.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-x64.tar.gz
         sha256: 0bc1f091e8916102b6d8f2cf944233a620e90a0f856c72d0ce41150c65c2e72e
         size: 23311084

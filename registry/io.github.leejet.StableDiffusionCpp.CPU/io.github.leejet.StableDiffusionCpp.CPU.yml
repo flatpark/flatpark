@@ -23,7 +23,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: sd.zip
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/leejet/stable-diffusion.cpp/releases/download/master-1104-5dcfa79/sd-master-5dcfa79-bin-Linux-Ubuntu-26.04-x86_64.zip
         sha256: 4233a04e347238d2579771197c348659887dad06fdd1a586e330c28d5a4527ce
         size: 29248439

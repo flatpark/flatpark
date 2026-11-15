@@ -39,9 +39,9 @@ modules:
         filename: benchup.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/BenchUp3D/benchup/releases/download/v0.7.2/io.github.BenchUp3D.BenchUp-linux-x64.AppImage
-        sha256: 0193a07718e0c92fdf80aa8e8724cc06aab24a0dddf5b223d6fbf8dfaeec9d24
-        size: 32471544
+        url: https://github.com/BenchUp3D/benchup/releases/download/v0.7.3/io.github.BenchUp3D.BenchUp-linux-x64.AppImage
+        sha256: 155f4599203fb459f76dc1c067c7312d5f2151d884b5d4d317ffab479a97d093
+        size: 32496120
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
