@@ -26,7 +26,7 @@ it in (see [archive or extra-data](#archive-module-or-extra-data)).
 |---|---|---|---|---|---|---|
 | `ayatana-stack` | `ayatana-v2` | GNOME 51 | 0.1 MB | libdbusmenu, ayatana-ido, libayatana-indicator, libayatana-appindicator: the tray library Tauri's `tray-icon` loads | archive | 19 Tauri apps with a tray icon, e.g. AeroFTP, Rayburst, DBX, NyaTerm |
 | `appimage-tools` | `appimage-tools-v2` | fd 26.08 | 0.1 MB | `appimage-offset` and `unsquashfs`: open an AppImage without running it | extra-data | All 25 AppImage packages, e.g. Mark Shot, Compass |
-| `mpv-stack` | `mpv-v2` | GNOME 51 | 1.3 MB | libmpv and the `mpv` player, with libass and libplacebo | archive | SubtitleEdit, PiliPlus |
+| `mpv-stack` | `mpv-v3` | GNOME 51 | 1.5 MB | libmpv and the `mpv` player, with libass, libplacebo and libXpresent; Wayland, X11 and DRM output (`mpv-v2` has no X11 output) | archive | Nuvio; SubtitleEdit, PiliPlus still on `mpv-v2` |
 | `libxdo` | `libxdo-v2` | GNOME 51 | <0.1 MB | `libxdo.so.3` (xdotool 3.x) for X11 input automation (the enigo crate) | archive | Vibe |
 | `ffmpeg-full` | `ffmpeg-full-v3` | GNOME 51 | 13.0 MB | FFmpeg 9.0 `ffmpeg`/`ffprobe` with x264, x265, LAME, Rubber Band, libass, VAAPI, NVENC; ships those codec libraries too, so one pin is enough | extra-data | SubtitleEdit |
 | `tesseract` | `tesseract-v2` | GNOME 51 | 1.6 MB | Tesseract 5.5 OCR library and CLI; no language data | extra-data | SubtitleEdit, Stirling PDF |
