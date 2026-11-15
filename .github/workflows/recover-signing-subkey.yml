@@ -1,0 +1,61 @@
+# ONE-OFF: recover the live repo signing subkey (FLATPAK_GPG_PRIVATE_KEY) so it
+# can move into the "production" environment. Its only other copy was lost.
+# The secret is encrypted to a recovery public key whose private half never
+# leaves the owner's machine, so the artifact is useless to anyone else.
+# Delete this workflow, its run and its artifact right after use.
+name: recover-signing-subkey
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  export:
+    if: github.ref == 'refs/heads/main' && github.actor == 'jing2uo'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Encrypt the signing subkey to the recovery key
+        env:
+          SIGNING_KEY: ${{ secrets.FLATPAK_GPG_PRIVATE_KEY }}
+          RECIPIENT_FPR: BC5E52641E8165764BD17F1254C622864E84E99A
+          RECIPIENT: |
+            -----BEGIN PGP PUBLIC KEY BLOCK-----
+            
+            mQINBGr5mLkBEACv/C0JPUt7Add5fnSMYF76kyMCuizJM+MOJ46xUOnsEpf0diX8
+            jZS+06xEv6VgwS2gQA543ILnfgFaTxoqaTHAslNpHnkubCyWy89D75bDSRW2E+wk
+            X1LTnu7FlE5G9jeneNCXMXavYuTHWFLjDeK1X1VK4Xcb7/z30rLmkpwn9JXnkMax
+            2xfox2d9s0ElM38E6LhaBk6M1WiLss0Nu1aN16I1LGj+S+bYDi5Zgtxd8GF2/+ba
+            Wbal4ExfCTq5h+RHabfzxU6Bw77CCKw4rj9hpVV2PBwVPiR3ZsFyltGqUiMox06F
+            PqVlD8vTsDsiFF/fECGJdVRJ24MCnhpi4aTcxPb4jik9V0JXdLfWCFmIQ3CzDyMD
+            ZyIQaWVeQB5v0uZht2sxphIZRoRM/z7rGSjnOURa1uQh6/JjInauo0JbPT3DKRpu
+            tsUHWOobj4fHFplUKtJBT4932WizKZVGP6X2r2sW+ng220ITSeewm9E6sT/GA/Rn
+            zgoIibJY1ue092pz7pMK5YN+DnOgp23S+mfR9CfSkksitRMvEAz1zifQKfeXhe7j
+            4r+9BkLGuCGZGUQVm6FU3zMzT0cIF6NnUX77MMjI9toL5tr11xopnY7JMIbfz+8K
+            z19O6zKR6cEZunX3ibaVPTz3tUkrqs/aJKxRlmMcEgP2OnKOSzFCcj2QewARAQAB
+            tDRmbGF0cGFyayBrZXkgcmVjb3ZlcnkgKG9uZS1vZmYpIDxyZWNvdmVyeUBsb2Nh
+            bGhvc3Q+iQJUBBMBCgA+FiEEvF5SZB6BZXZL0X8SVMYihk6E6ZoFAmr5mLkCGw0F
+            CQABUYAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQVMYihk6E6ZpgaQ//RpmC
+            3PqfunsncQ+bm3osptfvBmIPhbTqBQh2oPVS/slTCkiIeSUuNne91B2am7sQ6FM7
+            NFw2IS0UBOEPriluD8fFqe2LXRvl9WTSSOE055i2B3TaO0zTSVChLhxmWlXWbTZ4
+            2/t1fImiw/onxPrMSYJFMRdDoZtn4QIcmXG4lYW+7FDnZomPdLwGZsj+oPEKfvY3
+            IxwlQnDGgOEmeuCrmqxkKol69jryv5dA5pCJcvmOD9YoS8Uuu/S4+FdbXWkHyR5f
+            OAY8BAheW0rsiVKTWff/oweEsmgmvM62V/mvozM7QdHVSJUAFndkVVnTpqS45ZmT
+            ZfgJrwcLijKIOfoPtXT5ntunnDJ+c7GldClVB4BoNLkQLMvP4E2NDOp7JOP5Y8Jq
+            oOMInD2E1qhna3Uphm4UCaqG9FJrwP6cc1TLgO42U0P3CK03P9X3xAZBTOwh3K26
+            Z+dKN4NKToqOlFEpygLyUimXmcGjSWM1ODva3tTniVQJUOZCtzgpwnKS5ONFdWHJ
+            fQfdYXdW6jhTYXOxLO1kWIKd9NeFyRbuY5cjtpnpg1uNGJGzYmS8FxcGr/SAAgVE
+            TTEsRGQM0UG/SzJGdlFLGihRFgbyrbP0cTFZNkC3u6JJV0MXaa8iSkMzSsmk63zT
+            wJOefFi9BLG5AeY0xIsdJEz1FRLLXrxObX9pylQ=
+            =YJER
+            -----END PGP PUBLIC KEY BLOCK-----
+        run: |
+          [ -n "$SIGNING_KEY" ] || { echo "::error::FLATPAK_GPG_PRIVATE_KEY is empty"; exit 1; }
+          export GNUPGHOME="$(mktemp -d)"
+          printf '%s\n' "$RECIPIENT" | gpg --batch --import
+          printf '%s\n' "$SIGNING_KEY" | gpg --batch --yes --trust-model always \
+            --recipient "$RECIPIENT_FPR" --armor --encrypt --output "$RUNNER_TEMP/subkey.asc.gpg"
+          rm -rf "$GNUPGHOME"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: recovered-subkey
+          path: ${{ runner.temp }}/subkey.asc.gpg
+          retention-days: 1
+          if-no-files-found: error
