@@ -1,0 +1,42 @@
+id: io.github._0xShug0.AudioCpp.CPU
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: audio-cpp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Serve the browser UI on localhost and download model weights.
+  - --share=network
+modules:
+  - name: audio-cpp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 audio-wrapper /app/bin/audio-cpp
+      - install -Dm755 audio-cli-wrapper /app/bin/audio-cpp-cli
+      - install -Dm644 io.github._0xShug0.AudioCpp.CPU.desktop /app/share/applications/io.github._0xShug0.AudioCpp.CPU.desktop
+      - install -Dm644 io.github._0xShug0.AudioCpp.CPU.metainfo.xml /app/share/metainfo/io.github._0xShug0.AudioCpp.CPU.metainfo.xml
+      - install -Dm644 io.github._0xShug0.AudioCpp.CPU.svg /app/share/icons/hicolor/scalable/apps/io.github._0xShug0.AudioCpp.CPU.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: audio.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-cpu-portable.tar.gz
+        sha256: 4e413b1d4ebfd322f56bb79d9b967034fd0948d820f99734def01635402f6e75
+        size: 72971964
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: audio-wrapper
+      - type: file
+        path: audio-cli-wrapper
+      - type: file
+        path: io.github._0xShug0.AudioCpp.CPU.desktop
+      - type: file
+        path: io.github._0xShug0.AudioCpp.CPU.metainfo.xml
+      - type: file
+        path: io.github._0xShug0.AudioCpp.CPU.svg

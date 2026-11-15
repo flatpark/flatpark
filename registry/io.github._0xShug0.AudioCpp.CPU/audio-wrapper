@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+export LD_LIBRARY_PATH="/app/extra/audio${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Relative output and temporary uploads remain in persistent private app data.
+cd "$XDG_DATA_HOME"
+exec /app/extra/audio/audiocpp_server --ui --ui-management --backend cpu --host 127.0.0.1 --port 8080 --models-root "$XDG_DATA_HOME/models" --voice-dir "$XDG_DATA_HOME/voices" "$@"
