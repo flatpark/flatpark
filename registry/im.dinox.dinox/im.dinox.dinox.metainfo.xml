@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>im.dinox.dinox</id>
+  <name>DinoX</name>
+  <summary>Modern XMPP chat client with OMEMO, OpenPGP, calls and optional Tor</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="im.dinox">
+    <name>DinoX Team</name>
+  </developer>
+  <url type="homepage">https://dinox.im</url>
+  <url type="bugtracker">https://git.dinox.im/dinoxim/dinox/issues</url>
+  <url type="vcs-browser">https://git.dinox.im/dinoxim/dinox</url>
+  <description>
+    <p>This is a FlatPark community package of DinoX, maintained independently. It repackages the official upstream Linux AppImage unmodified.</p>
+    <p>DinoX is a GTK 4 and libadwaita XMPP client, a fork of Dino, that focuses on private messaging and self-hosted servers. It works with servers such as ejabberd and Prosody; which features are available depends on the server.</p>
+    <ul>
+      <li>One-to-one and group chats with OMEMO and OpenPGP end-to-end encryption, reactions, message retraction and disappearing messages</li>
+      <li>Voice and video calls and group calls, voice messages and video messages</li>
+      <li>File sharing, with an inline video player in the chat</li>
+      <li>An encrypted local database that asks for a password at startup</li>
+      <li>Optional routing through the bundled Tor, with obfs4 and WebTunnel bridges</li>
+      <li>Optional modules for bots, MQTT topics and a local automation API</li>
+    </ul>
+    <p>The package is sandboxed: besides display, GPU, audio, network, desktop notifications, a tray icon and the system keyring it grants access to your devices, which is how DinoX reaches the webcam for video calls and video messages. That is a broad permission: it covers every device node, not only the camera. Files you send are picked in the file chooser. After installation the app takes about 600 MB, because the AppImage carries its own GTK 4, libadwaita, GStreamer and ffmpeg.</p>
+    <p>A few capabilities are not granted by default or can be switched off with "flatpak override":</p>
+    <ul>
+      <li>No camera access (keeps GPU rendering; video calls then send no picture): <code>flatpak override --user --nodevice=all im.dinox.dinox</code></li>
+      <li>Location sharing in a chat: <code>flatpak override --user --talk-name=org.freedesktop.GeoClue2 im.dinox.dinox</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset im.dinox.dinox</code></li>
+    </ul>
+    <p>Differences from the upstream AppImage: it is unpacked at install time and never run from a mount, so the desktop entry the AppImage would write to your home directory is not created; this package exports its own.</p>
+  </description>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+  </content_rating>
+  <launchable type="desktop-id">im.dinox.dinox.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <keywords>
+    <keyword>xmpp</keyword>
+    <keyword>jabber</keyword>
+    <keyword>omemo</keyword>
+    <keyword>openpgp</keyword>
+    <keyword>tor</keyword>
+    <keyword>chat</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>dinox</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://git.dinox.im/dinoxim/dinox/raw/branch/master/docs/assets/chat.png</image>
+      <caption>Chat with voice messages, an image and message actions</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://git.dinox.im/dinoxim/dinox/raw/branch/master/docs/assets/voise.png</image>
+      <caption>Recording a voice message</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://git.dinox.im/dinoxim/dinox/raw/branch/master/docs/assets/privt.png</image>
+      <caption>Settings of a private group chat room</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.3.8" date="2026-11-14"/>
+  </releases>
+</component>
