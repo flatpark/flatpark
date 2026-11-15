@@ -1,0 +1,18 @@
+id: io.github.leejet.StableDiffusionCpp.CPU
+name: stable-diffusion.cpp (CPU)
+summary: Generate images and video locally on the CPU
+website: https://github.com/leejet/stable-diffusion.cpp
+source_url: https://github.com/leejet/stable-diffusion.cpp
+build:
+  manifest: io.github.leejet.StableDiffusionCpp.CPU.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  tags: [AI, ImageGeneration, StableDiffusion, CPU]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
