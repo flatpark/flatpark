@@ -62,16 +62,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/pear-devs/pear-desktop/releases/download/v3.12.0/youtube-music_3.12.0_amd64.deb
-        sha256: cbf8996f565cbe01cd3a37cc9df0e52da3dcc3b889541117b512be7e4f2afde3
-        size: 110902432
+        url: https://github.com/pear-devs/pear-desktop/releases/download/v3.12.1/youtube-music_3.12.1_amd64.deb
+        sha256: be08b48dd9d43c8c468e06890dc84cce2950f93d38b4b854d5ccaf0e4127b2d6
+        size: 115439636
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/pear-devs/pear-desktop/releases/download/v3.12.0/youtube-music_3.12.0_arm64.deb
-        sha256: 02427b3e1cec7aab24dbc653b3a12a0efa77fc8e5147b13e1f012bfa5e535ce8
-        size: 104265716
+        url: https://github.com/pear-devs/pear-desktop/releases/download/v3.12.1/youtube-music_3.12.1_arm64.deb
+        sha256: 3987bad0b7c1b5aedb5f5b7965fd41cd3ea714de6ee6d6b78bd3ebe7d09f82a1
+        size: 110773588
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

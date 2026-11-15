@@ -39,16 +39,16 @@ modules:
         filename: mailcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/UCS-Care-Group/mailcraft/releases/download/v0.12.0/mailcraft-0.12.0-linux-x86_64.tar.gz
-        sha256: 7fc41da4bf5a16e4e4535e9e34fe1e2df075c43e09e95dedfa03570aac8fb692
-        size: 34668300
+        url: https://github.com/UCS-Care-Group/mailcraft/releases/download/v0.13.0/mailcraft-0.13.0-linux-x86_64.tar.gz
+        sha256: 8f4f9aea71712b964a08031d6138bc2a295a25a78614f1fffca57a69784dfc69
+        size: 36417556
       - type: extra-data
         filename: mailcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/UCS-Care-Group/mailcraft/releases/download/v0.12.0/mailcraft-0.12.0-linux-aarch64.tar.gz
-        sha256: 589c990c25f498f1cfde1d4077c60cd11d09c0e91fac3aa99ad66df2d7f17ae4
-        size: 32370225
+        url: https://github.com/UCS-Care-Group/mailcraft/releases/download/v0.13.0/mailcraft-0.13.0-linux-aarch64.tar.gz
+        sha256: 5a14c55f199b15025934f8e793307959037ce2aa8e6598e9081cefed58ecd340
+        size: 34232470
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
