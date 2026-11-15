@@ -32,7 +32,14 @@ FLAGS=(--fast-list --transfers=16 --checkers=32)
 
 log "sync objects -> $dest (immutable)"
 # Content-addressed: same name => same bytes, so --size-only is safe and fast.
-rclone copy "$repo/objects" "$dest/objects" --size-only --header-upload "$IMMUTABLE" "${FLAGS[@]}"
+# Except *.commitmeta: a commit's detached metadata holds its signatures, and
+# backfilling a new key during a rotation (publish-repo.sh) rewrites it in
+# place. It is compared by content and must revalidate, or the edge keeps
+# serving the old signatures for a year and a client that trusts only the new
+# key cannot verify commits nothing rebuilt. It goes up with the objects,
+# before the summary that names its commit.
+rclone copy "$repo/objects" "$dest/objects" --size-only --exclude "*.commitmeta" --header-upload "$IMMUTABLE" "${FLAGS[@]}"
+rclone copy "$repo/objects" "$dest/objects" --checksum --include "*.commitmeta" --header-upload "$MUTABLE" "${FLAGS[@]}"
 [ -d "$repo/deltas" ] && rclone copy "$repo/deltas" "$dest/deltas" --size-only --header-upload "$IMMUTABLE" "${FLAGS[@]}"
 
 log "sync refs/config/discovery -> $dest (revalidate)"

@@ -266,3 +266,64 @@ app_has_arch() {
     case " $APP_ARCHES " in *" $1 "*) return 0 ;; esac
     return 1
 }
+
+# ---------------------------------------------------------------------------
+# Signing keys. Everything is signed with EVERY key in $GNUPGHOME that can
+# sign right now (a signing-capable key or subkey whose secret is present),
+# not with one key picked by e-mail. Normally that is the one FlatPark key;
+# during a key rotation CI imports the outgoing and the incoming subkey and
+# every commit and summary carries both signatures, so clients that trust
+# either key keep verifying. Dropping the outgoing secret from CI ends the
+# overlap without a code change. See docs/reference/signing-key-rotation.md.
+# Callers export GNUPGHOME="$GNUPGHOME_DIR" first.
+
+# One line per signing key: "<primary fingerprint> <signing key ID>". The
+# fingerprint is what callers pass to --gpg-sign; the key ID is the one gpg
+# actually signs with for it (the newest usable signing subkey, or the primary
+# when it has none) and so the ID `ostree show` reports for its signatures,
+# which the backfill in publish-repo.sh deduplicates on. One signature per key
+# is the point, so a key with several signing subkeys is still one line.
+signing_keys() {
+    # Candidates: primaries with at least one record that can sign — its own
+    # capabilities (lowercase field 12) include s, its secret is present
+    # (field 15 "#" marks a stub, like the master CI never gets) and it is not
+    # expired, revoked or disabled. Each sec/ssb record is followed by its fpr.
+    local fpr kid
+    gpg --list-secret-keys --with-colons 2>/dev/null | awk -F: '
+        $1 == "sec" || $1 == "ssb" {
+            rec = $1
+            ok = ($12 ~ /s/ && $15 != "#" && $2 !~ /[erd]/); next }
+        $1 == "fpr" {
+            if (rec == "sec") primary = $10
+            if (ok && primary != "" && !(primary in seen)) { print primary; seen[primary] = 1 }
+            ok = 0 }' |
+    while read -r fpr; do
+        # Which key signs is gpg's choice, so ask it: sign a probe and read
+        # the issuer from the signature packet.
+        kid="$(printf 'probe' | gpg --batch --pinentry-mode loopback --passphrase "${KEY_PASSPHRASE:-}" \
+                  --local-user "$fpr" --detach-sign 2>/dev/null \
+               | gpg --list-packets 2>/dev/null | grep -oE 'keyid [0-9A-F]+' | head -1 | awk '{print $2}')"
+        [ -n "$kid" ] || { warn "key $fpr looks usable but cannot sign; skipped"; continue; }
+        printf '%s %s\n' "$fpr" "$kid"
+    done
+}
+
+# Fills the array named $1 with --gpg-sign=<fpr>... --gpg-homedir=<dir>, the
+# arguments every flatpak/ostree signing call takes. Dies without a key.
+signing_args() {
+    local -n _sa_out="$1"; local fpr _
+    _sa_out=()
+    while read -r fpr _; do _sa_out+=(--gpg-sign="$fpr"); done < <(signing_keys)
+    [ "${#_sa_out[@]}" -gt 0 ] || die "no signing key in $GNUPGHOME_DIR (run gen-signing-key.sh)"
+    _sa_out+=(--gpg-homedir="$GNUPGHOME_DIR")
+}
+
+# Writes the public keys of the signing keys to $1 (binary keyring): what the
+# summary advertises in xa.gpg-keys and the discovery files carry as GPGKey.
+export_signing_pubkeys() {
+    local fprs; fprs="$(signing_keys | awk '{print $1}')"
+    [ -n "$fprs" ] || die "no signing key in $GNUPGHOME_DIR (run gen-signing-key.sh)"
+    # shellcheck disable=SC2086  # one fingerprint per word
+    gpg --export $fprs > "$1"
+    [ -s "$1" ] || die "could not export the signing public keys"
+}

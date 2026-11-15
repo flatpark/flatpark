@@ -46,6 +46,10 @@ how (`flatpak uninstall --delete-data <app-id>`).
 - The repository is signed with one GPG key. Its long-term master key only
   certifies, and is kept out of CI and backed up offline. The key that signs
   is a subkey, and only the publishing workflow holds it.
+- The key can be replaced without breaking existing installs: for a while
+  everything is signed with both the old and the new key, and your client
+  picks up the new one on its next update. See
+  [signing key rotation](../reference/signing-key-rotation.md).
 - Pull requests, including those from forks, are built without any secret and
   signed with a throwaway key. The publishing key never touches a PR's content.
 - Your Flatpak client checks the signature on every install and update, and
