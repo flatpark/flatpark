@@ -1,0 +1,5 @@
+#!/bin/sh
+# Reproduce the AppImage runtime's APPDIR so upstream finds its bundled models.
+export APPDIR=/app/extra/video2x
+# AppRun links to the upstream CLI; its $ORIGIN RUNPATH loads bundled libraries.
+exec /app/extra/video2x/AppRun "$@"

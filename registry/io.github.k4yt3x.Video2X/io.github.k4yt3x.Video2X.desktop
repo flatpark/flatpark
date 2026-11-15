@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Video2X
+Comment=Upscale videos and interpolate frames from the command line
+Exec=video2x --help
+Icon=io.github.k4yt3x.Video2X
+Terminal=true
+Categories=AudioVideo;Video;
