@@ -17,7 +17,11 @@ const columns: { name: string; items: (string | { href: string; label: string })
   { name: 'Project', items: ['project/about', 'project/policies', 'project/trust'] },
   {
     name: 'Community',
-    items: ['project/conduct', { href: 'https://github.com/flatpark/flatpark', label: t('footer.github') }],
+    items: [
+      'project/conduct',
+      { href: 'https://github.com/flatpark/flatpark', label: t('footer.github') },
+      { href: 'https://x.com/flatparkorg', label: t('footer.x') },
+    ],
   },
   { name: 'Legal', items: ['project/legal'] },
 ];
