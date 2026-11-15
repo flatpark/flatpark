@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=speech.cpp (CPU)
+Comment=Local speech synthesis and recognition with CPU
+Exec=speech serve --open --host 127.0.0.1 --port 8090
+Icon=io.github.nyosegawa.SpeechCpp.CPU
+Terminal=true
+Categories=AudioVideo;Audio;
+Keywords=Speech;TTS;ASR;AI;CPU;

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.nyosegawa.SpeechCpp.CPU</id>
+  <name>speech.cpp (CPU)</name>
+  <summary>Run local speech synthesis and recognition with CPU</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.nyosegawa"><name>speech.cpp contributors</name></developer>
+  <description>
+    <p>Run speech synthesis, recognition, voice activity detection, diarization and enhancement locally with speech.cpp. This community package uses the unmodified official CPU Linux release.</p>
+    <p>The desktop launcher starts speech serve in a terminal and opens its page in your browser on localhost port 8090. Pick and download models there. Ctrl+C stops the server. The server also provides an OpenAI-compatible audio API.</p>
+    <p>CPU and Vulkan editions use separate model caches and ports. Models are downloaded on demand into this app's private cache and have their own licenses. The Vulkan edition needs a compatible GPU and driver.</p>
+    <p>Use the command line with flatpak run io.github.nyosegawa.SpeechCpp.CPU followed by a speech subcommand, for example models, pull or serve. Relative output files go into this app's private data directory.</p>
+    <p>To read an existing audio or model folder, use flatpak override --user --filesystem=/path/to/folder:ro io.github.nyosegawa.SpeechCpp.CPU. For direct CLI microphone capture or playback, use flatpak override --user --socket=pulseaudio io.github.nyosegawa.SpeechCpp.CPU. Browser recording and playback use your browser's permissions. Undo custom grants with flatpak override --user --reset io.github.nyosegawa.SpeechCpp.CPU.</p>
+  </description>
+  <launchable type="desktop-id">io.github.nyosegawa.SpeechCpp.CPU.desktop</launchable>
+  <url type="homepage">https://github.com/nyosegawa/speech.cpp</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/nyosegawa/speech.cpp</url>
+  <screenshots><screenshot type="default"><caption>Speech synthesis in the local browser interface</caption><image>https://raw.githubusercontent.com/nyosegawa/speech.cpp/v0.11.0/docs/images/page-speak.png</image></screenshot></screenshots>
+  <categories><category>AudioVideo</category><category>Audio</category></categories>
+  <releases><release version="0.11.0" date="2026-11-15"/></releases>
+  <content_rating type="oars-1.1"/>
+</component>
