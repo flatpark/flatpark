@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# The release launcher selects the bundled Python modules and compiler.
+exec /app/extra/beremiz/bin/beremiz "$@"
