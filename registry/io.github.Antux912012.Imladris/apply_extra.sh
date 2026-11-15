@@ -33,4 +33,9 @@ if [ -d stage/usr/share/imladris ]; then
     cp -a stage/usr/share/imladris/* share/imladris/
 fi
 
+if [ -d stage/usr/share/icons ]; then
+    mkdir -p share/icons
+    cp -a stage/usr/share/icons/* share/icons/
+fi
+
 rm -rf stage imladris.deb

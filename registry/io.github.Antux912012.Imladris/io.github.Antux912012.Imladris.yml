@@ -14,12 +14,9 @@ finish-args:
   - --device=dri
   # Network access for AI models, Shiny live server, and package installations
   - --share=network
-  # Workspace file access across user directories for data science notebooks & projects
-  - --filesystem=home
-  # Host execution portal for spawning host toolchains (R, Quarto, Python) via flatpak-spawn
-  - --talk-name=org.freedesktop.Flatpak
-  - --env=WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS=1
-  - --env=WEBKIT_DISABLE_DMABUF_RENDERER=1
+  # Workspace file access across standard user directories for data science notebooks & projects
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
 modules:
   - name: imladris
     buildsystem: simple
