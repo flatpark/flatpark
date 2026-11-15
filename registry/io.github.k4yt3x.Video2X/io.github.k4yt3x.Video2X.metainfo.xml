@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.k4yt3x.Video2X</id>
+  <name>Video2X</name>
+  <summary>Upscale videos and interpolate frames with Vulkan (command line)</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="io.github.k4yt3x"><name>K4YT3X and contributors</name></developer>
+  <description>
+    <p>Video2X is a command-line video super-resolution and frame-interpolation tool. It includes Anime4K, Real-ESRGAN, Real-CUGAN and RIFE, with Vulkan acceleration and bundled models.</p>
+    <p>This community package repackages the official Linux AppImage unmodified. It contains the command-line tool, with no graphical interface. An AVX2-capable CPU and a Vulkan-capable GPU are required.</p>
+    <p>Run it from a terminal: <code>flatpak run io.github.k4yt3x.Video2X --help</code>. Videos and Downloads are accessible for input and output. Network access is not granted.</p>
+    <p>Optional access can be enabled with these commands:</p>
+    <ul>
+      <li>Another video directory: <code>flatpak override --user --filesystem=/path/to/videos io.github.k4yt3x.Video2X</code></li>
+      <li>Network input URLs: <code>flatpak override --user --share=network io.github.k4yt3x.Video2X</code></li>
+      <li>Reset overrides: <code>flatpak override --user --reset io.github.k4yt3x.Video2X</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.k4yt3x.Video2X.desktop</launchable>
+  <url type="homepage">https://docs.video2x.org/</url>
+  <url type="help">https://docs.video2x.org/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/k4yt3x/video2x</url>
+  <categories><category>AudioVideo</category><category>Video</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="6.4.0" date="2025-01-24"/></releases>
+</component>

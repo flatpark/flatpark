@@ -1,0 +1,51 @@
+id: io.github.k4yt3x.Video2X
+# Upstream's CLI AppImage carries FFmpeg, libplacebo, ncnn and its models.
+# Its $ORIGIN RUNPATHs resolve the bundled libraries without changing the payload.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: video2x
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Vulkan compute for upscaling and interpolation.
+  - --device=dri
+  # CLI paths do not go through a file chooser portal.
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-download
+modules:
+  - name: video2x
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 video2x-wrapper /app/bin/video2x
+      - install -Dm644 io.github.k4yt3x.Video2X.desktop /app/share/applications/io.github.k4yt3x.Video2X.desktop
+      - install -Dm644 io.github.k4yt3x.Video2X.metainfo.xml /app/share/metainfo/io.github.k4yt3x.Video2X.metainfo.xml
+      - install -Dm644 io.github.k4yt3x.Video2X.png /app/share/icons/hicolor/256x256/apps/io.github.k4yt3x.Video2X.png
+    sources:
+      # Install-time extraction tools, outside the updater's managed block.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: video2x.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/k4yt3x/video2x/releases/download/6.4.0/Video2X-x86_64.AppImage
+        sha256: 8238fc38325107f0a08a140d069baee3db80c5ac7470b0a516cc683183f5f92d
+        size: 231232704
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: video2x-wrapper
+      - type: file
+        path: io.github.k4yt3x.Video2X.desktop
+      - type: file
+        path: io.github.k4yt3x.Video2X.metainfo.xml
+      - type: file
+        path: io.github.k4yt3x.Video2X.png

@@ -1,0 +1,18 @@
+id: io.github.k4yt3x.Video2X
+name: Video2X
+summary: Upscale videos and interpolate frames with Vulkan (command line)
+website: https://docs.video2x.org/
+source_url: https://github.com/k4yt3x/video2x
+build:
+  manifest: io.github.k4yt3x.Video2X.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags: [Video, Upscaling, Vulkan, CLI]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
