@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+# /app/extra/fluux/net.processone.fluux is a symlink, made by apply_extra, to
+# the Tauri (WebKitGTK) binary of upstream's tarball. The binary links only
+# libraries in org.gnome.Platform and dlopens libayatana-appindicator for the
+# tray icon; the manifest builds that library into /app/lib, which is already on
+# the runtime's search path. Flatpak points the XDG base directories at
+# ~/.var/app/net.processone.fluux, so the app's data and settings need no
+# redirection.
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the Flatpak sandbox. A value the user set
+# (flatpak override --env=WEBKIT_DISABLE_DMABUF_RENDERER=0) is kept.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER-1}"
+
+exec /app/extra/fluux/net.processone.fluux "$@"
