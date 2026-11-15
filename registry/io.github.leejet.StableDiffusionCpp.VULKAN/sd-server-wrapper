@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# The default ./models directory lives in persistent private app data.
+cd "$XDG_DATA_HOME"
+# Separate loopback defaults let both editions run together; later flags override them.
+exec /app/extra/stable-diffusion/sd-server --listen-ip 127.0.0.1 --listen-port 1235 "$@"
