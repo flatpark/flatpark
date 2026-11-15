@@ -1,0 +1,18 @@
+id: io.github.leejet.StableDiffusionCpp.VULKAN
+name: stable-diffusion.cpp (Vulkan)
+summary: Generate images and video locally with Vulkan
+website: https://github.com/leejet/stable-diffusion.cpp
+source_url: https://github.com/leejet/stable-diffusion.cpp
+build:
+  manifest: io.github.leejet.StableDiffusionCpp.VULKAN.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  tags: [AI, ImageGeneration, StableDiffusion, Vulkan]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

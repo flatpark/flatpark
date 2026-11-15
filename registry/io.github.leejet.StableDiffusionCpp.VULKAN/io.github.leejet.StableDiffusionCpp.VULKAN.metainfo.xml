@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.leejet.StableDiffusionCpp.VULKAN</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>stable-diffusion.cpp (Vulkan)</name>
+  <summary>Generate images and video locally with Vulkan</summary>
+  <developer id="io.github.leejet"><name>leejet and contributors</name></developer>
+  <description>
+    <p>Run diffusion models locally with the embedded browser interface, HTTP APIs,
+    or command-line tools. This Vulkan edition is a community package of the
+    official upstream Linux build, repackaged unmodified.</p>
+    <p>The desktop entry starts the server in a terminal. Open
+    http://127.0.0.1:1235/ in your browser and keep the terminal open.
+    Model weights are downloaded separately and follow their own licenses.</p>
+    <p>Place model files in category folders such as checkpoints, diffusion_models,
+    text_encoders and vae under ~/.var/app/io.github.leejet.StableDiffusionCpp.VULKAN/data/models/.
+    Relative CLI output is saved under ~/.var/app/io.github.leejet.StableDiffusionCpp.VULKAN/data/. Access to
+    additional model directories is optional:</p>
+    <ul>
+      <li>Read models from Downloads: flatpak override --user --filesystem=xdg-download:ro io.github.leejet.StableDiffusionCpp.VULKAN</li>
+      <li>Write output to Pictures: flatpak override --user --filesystem=xdg-pictures io.github.leejet.StableDiffusionCpp.VULKAN</li>
+      <li>Undo these grants: flatpak override --user --reset io.github.leejet.StableDiffusionCpp.VULKAN</li>
+    </ul>
+    <p>Use sd-cli through flatpak run --command=sd-cli io.github.leejet.StableDiffusionCpp.VULKAN,
+    or pass server options through flatpak run io.github.leejet.StableDiffusionCpp.VULKAN.
+    CPU and Vulkan editions have separate model directories and browser origins.</p>
+  </description>
+  <launchable type="desktop-id">io.github.leejet.StableDiffusionCpp.VULKAN.desktop</launchable>
+  <url type="homepage">https://github.com/leejet/stable-diffusion.cpp</url>
+  <url type="help">https://github.com/leejet/stable-diffusion.cpp/blob/master/examples/server/README.md</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="master-1104-5dcfa79" date="2026-11-14"/></releases>
+</component>
