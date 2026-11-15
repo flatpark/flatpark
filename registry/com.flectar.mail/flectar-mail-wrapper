@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# The vendor's binary and its PDF preview library, staged by apply_extra at
+# /app/extra/flectar-mail/{bin,lib/flectar-mail}. It keeps its mail store and
+# settings under the sandbox's XDG directories in ~/.var/app/com.flectar.mail.
+exec /app/extra/flectar-mail/bin/flectar-mail "$@"
