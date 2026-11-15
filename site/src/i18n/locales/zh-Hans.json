@@ -11,6 +11,7 @@
   "nav.search": "搜索应用",
   "nav.theme_toggle": "切换深色模式",
   "nav.github": "在 GitHub 查看源码",
+  "nav.x": "在 X 上关注 FlatPark",
 
   "search.categories": "分类",
   "search.apps": "应用",
@@ -29,6 +30,7 @@
   "footer.group.Community": "社区",
   "footer.group.Legal": "法律",
   "footer.github": "GitHub",
+  "footer.x": "X",
   "footer.legal": "FlatPark · 社区 Flatpak 源 · 所打包的应用版权归各自厂商所有",
 
   "notfound.title": "页面不存在",

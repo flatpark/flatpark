@@ -11,6 +11,7 @@
   "nav.search": "Search apps",
   "nav.theme_toggle": "Toggle dark mode",
   "nav.github": "View source on GitHub",
+  "nav.x": "FlatPark on X",
 
   "search.categories": "Categories",
   "search.apps": "Apps",
@@ -29,6 +30,7 @@
   "footer.group.Community": "Community",
   "footer.group.Legal": "Legal",
   "footer.github": "GitHub",
+  "footer.x": "X",
   "footer.legal": "FlatPark · community Flatpak hub · packaged apps remain their vendors' property",
 
   "notfound.title": "Page not found",
