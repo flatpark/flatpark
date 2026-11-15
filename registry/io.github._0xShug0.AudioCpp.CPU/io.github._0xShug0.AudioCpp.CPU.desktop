@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=audio.cpp (CPU)
+Comment=Start the audio.cpp WebUI at http://127.0.0.1:8080
+Exec=audio-cpp
+Icon=io.github._0xShug0.AudioCpp.CPU
+Terminal=true
+Categories=AudioVideo;Audio;
