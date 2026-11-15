@@ -1,0 +1,38 @@
+#!/bin/sh
+set -eu
+
+# The three binaries are upstream's own, unpacked by apply_extra into
+# /app/extra/pwsp. This wrapper is the only entry point:
+#
+#   pwsp                         the daemon and the GUI together
+#   pwsp daemon --start | --kill the daemon alone / stop it
+#   pwsp cli <arguments>         pwsp-cli, with the arguments passed through
+#   pwsp soundpad://<address>    download a sound from a soundpad:// link
+pwsp=/app/extra/pwsp
+
+case "${1:-}" in
+    "")
+        # The GUI waits for a daemon to appear; a second daemon exits at once
+        # on the lock the first one holds, so starting one is always safe.
+        "$pwsp/pwsp-daemon" &
+        exec "$pwsp/pwsp-gui"
+        ;;
+    daemon)
+        case "${2:-}" in
+            --start) exec "$pwsp/pwsp-daemon" ;;
+            --kill)  exec "$pwsp/pwsp-cli" action kill ;;
+            *) echo "usage: pwsp daemon --start | --kill" >&2; exit 2 ;;
+        esac
+        ;;
+    cli)
+        shift
+        exec "$pwsp/pwsp-cli" "$@"
+        ;;
+    soundpad://*)
+        exec "$pwsp/pwsp-gui" "$1"
+        ;;
+    *)
+        echo "usage: pwsp [daemon --start|--kill | cli <arguments> | soundpad://<address>]" >&2
+        exit 2
+        ;;
+esac

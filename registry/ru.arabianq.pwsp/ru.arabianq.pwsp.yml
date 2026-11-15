@@ -1,0 +1,69 @@
+id: ru.arabianq.pwsp
+# The freedesktop base: the payload is three Rust binaries that link only
+# libpipewire, libasound, OpenSSL and libc, all of which the runtime provides.
+# The GUI is egui on glow, with X11 and Wayland loaded at run time.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pwsp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The GUI is egui on glow: Wayland where there is one, X11 otherwise, and
+  # the GPU for rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The daemon creates the virtual microphone and links nodes in the PipeWire
+  # graph through the default socket (pw_context_connect), which only this
+  # grant provides; it is declared under policy.dangerous_permissions. Playback
+  # to the user's speakers and to the virtual microphone uses the same socket,
+  # so the PulseAudio socket is not needed.
+  - --filesystem=xdg-run/pipewire-0
+  # The folder PWSP creates and watches by default is Music/PWSP. Folders
+  # added with the file chooser need no grant.
+  - --filesystem=xdg-music
+  # `soundpad://sound/url/<address>` links hand the GUI an address to download
+  # into Music/PWSP, which is the only thing the network is used for.
+  - --share=network
+  # Not granted: --device=input, which the global hotkeys read keyboards
+  # through (evdev). Those nodes are root:input, so the hotkeys also need the
+  # user in the input group; the metainfo description gives both steps.
+modules:
+  - name: pwsp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pwsp-wrapper /app/bin/pwsp
+      - install -Dm644 ru.arabianq.pwsp.desktop /app/share/applications/ru.arabianq.pwsp.desktop
+      - install -Dm644 ru.arabianq.pwsp.metainfo.xml /app/share/metainfo/ru.arabianq.pwsp.metainfo.xml
+      - install -Dm644 ru.arabianq.pwsp.png /app/share/icons/hicolor/256x256/apps/ru.arabianq.pwsp.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pwsp.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/arabianq/pipewire-soundpad/releases/download/v1.18.0/pwsp-v1.18.0-linux-x64.zip
+        sha256: 29419960d9d7c8f16aafd44edbec6c5aecd41141b96263d662b538de00680c00
+        size: 5761015
+      - type: extra-data
+        filename: pwsp.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/arabianq/pipewire-soundpad/releases/download/v1.18.0/pwsp-v1.18.0-linux-arm64.zip
+        sha256: f0fb86168e70c90783afc84deff45fe5555a57745fc54809e039bf419a4dc995
+        size: 5223338
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pwsp-wrapper
+      - type: file
+        path: ru.arabianq.pwsp.desktop
+      - type: file
+        path: ru.arabianq.pwsp.metainfo.xml
+      - type: file
+        path: ru.arabianq.pwsp.png
