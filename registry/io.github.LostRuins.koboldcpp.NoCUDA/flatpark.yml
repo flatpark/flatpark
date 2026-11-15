@@ -1,0 +1,18 @@
+id: io.github.LostRuins.koboldcpp.NoCUDA
+name: KoboldCpp (NoCUDA)
+summary: Run local AI models with CPU and Vulkan
+website: https://github.com/LostRuins/koboldcpp
+source_url: https://github.com/LostRuins/koboldcpp
+build:
+  manifest: io.github.LostRuins.koboldcpp.NoCUDA.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Development
+  tags: [AI, LLM, Chat, CPU, Vulkan]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

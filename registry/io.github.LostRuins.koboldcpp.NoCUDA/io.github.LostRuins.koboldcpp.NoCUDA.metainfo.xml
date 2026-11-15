@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.LostRuins.koboldcpp.NoCUDA</id>
+  <name>KoboldCpp (NoCUDA)</name>
+  <summary>Run local AI models with CPU and Vulkan</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <description>
+    <p>A community package of the unmodified official KoboldCpp NoCUDA Linux build. Run local GGUF language models with a graphical launcher, a browser chat interface and an HTTP API. Model downloads have their own licenses.</p>
+    <p>Choose a model in the launcher, then open http://127.0.0.1:5002 in your browser after loading it. The CUDA and NoCUDA editions use separate ports and private data directories. This edition includes CPU and Vulkan support without the CUDA libraries. The oldpc build is not included.</p>
+    <p>Models and settings in Documents are accessible through the launcher's file chooser. Relative downloads, configurations and databases are stored in this app's private persistent data directory. Save launcher settings as a .kcpps file and load that file on the next launch.</p>
+    <p>Command-line options can be passed after flatpak run io.github.LostRuins.koboldcpp.NoCUDA. For example: --skiplauncher --model /path/to/model.gguf. The server listens on loopback by default; pass --host 0.0.0.0 to make it reachable over your network.</p>
+    <p>For another model directory, grant only the directory you need: flatpak override --user --filesystem=/path/to/models:ro io.github.LostRuins.koboldcpp.NoCUDA. For optional microphone and audio features: flatpak override --user --socket=pulseaudio io.github.LostRuins.koboldcpp.NoCUDA. Undo overrides with flatpak override --user --reset io.github.LostRuins.koboldcpp.NoCUDA. Host toolchains and host commands are not available to agent or MCP tools inside the sandbox.</p>
+  </description>
+  <launchable type="desktop-id">io.github.LostRuins.koboldcpp.NoCUDA.desktop</launchable>
+  <url type="homepage">https://github.com/LostRuins/koboldcpp</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/LostRuins/koboldcpp/wiki</url>
+  <developer id="io.github.LostRuins"><name>LostRuins</name></developer>
+  <provides><binary>koboldcpp</binary></provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>KoboldCpp browser image-generation interface</caption>
+      <image>https://raw.githubusercontent.com/LostRuins/koboldcpp/v1.124.2/media/preview5.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="1.124.2" date="2026-10-31"/></releases>
+</component>

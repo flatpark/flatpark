@@ -1,0 +1,49 @@
+id: io.github.LostRuins.koboldcpp.NoCUDA
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: koboldcpp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Download models and serve the HTTP API and browser interface.
+  - --share=network
+  # The bundled Tk launcher uses X11, including Xwayland on Wayland desktops.
+  - --share=ipc
+  - --socket=x11
+  # Vulkan inference uses the GPU render nodes.
+  - --device=dri
+  # The optional Classic FilePicker needs native paths for models and settings.
+  - --filesystem=xdg-documents
+modules:
+  - name: koboldcpp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 koboldcpp-wrapper /app/bin/koboldcpp
+      - install -Dm644 io.github.LostRuins.koboldcpp.NoCUDA.desktop /app/share/applications/io.github.LostRuins.koboldcpp.NoCUDA.desktop
+      - install -Dm644 io.github.LostRuins.koboldcpp.NoCUDA.metainfo.xml /app/share/metainfo/io.github.LostRuins.koboldcpp.NoCUDA.metainfo.xml
+      - install -Dm644 io.github.LostRuins.koboldcpp.NoCUDA.png /app/share/icons/hicolor/64x64/apps/io.github.LostRuins.koboldcpp.NoCUDA.png
+      - install -Dm644 branding.txt /app/share/doc/io.github.LostRuins.koboldcpp.NoCUDA/branding.txt
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: koboldcpp.bin
+        only-arches: [x86_64]
+        url: https://github.com/LostRuins/koboldcpp/releases/download/v1.124.2/koboldcpp-linux-x64-nocuda
+        sha256: e7bc9457030fbbc454248d801d9f6971fc4b2d3fd16e0aec71f064eed26a05f4
+        size: 107362352
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: koboldcpp-wrapper
+      - type: file
+        path: io.github.LostRuins.koboldcpp.NoCUDA.desktop
+      - type: file
+        path: io.github.LostRuins.koboldcpp.NoCUDA.metainfo.xml
+      - type: file
+        path: io.github.LostRuins.koboldcpp.NoCUDA.png
+      - type: file
+        path: branding.txt
