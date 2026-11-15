@@ -1,0 +1,42 @@
+id: io.github.leejet.StableDiffusionCpp.CPU
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: sd-server
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Serve the embedded Web UI and HTTP API on loopback.
+  - --share=network
+modules:
+  - name: stable-diffusion
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 sd-server-wrapper /app/bin/sd-server
+      - install -Dm755 sd-cli-wrapper /app/bin/sd-cli
+      - install -Dm644 io.github.leejet.StableDiffusionCpp.CPU.desktop /app/share/applications/io.github.leejet.StableDiffusionCpp.CPU.desktop
+      - install -Dm644 io.github.leejet.StableDiffusionCpp.CPU.metainfo.xml /app/share/metainfo/io.github.leejet.StableDiffusionCpp.CPU.metainfo.xml
+      - install -Dm644 io.github.leejet.StableDiffusionCpp.CPU.png /app/share/icons/hicolor/512x512/apps/io.github.leejet.StableDiffusionCpp.CPU.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: sd.zip
+        only-arches: [x86_64]
+        url: https://github.com/leejet/stable-diffusion.cpp/releases/download/master-1104-5dcfa79/sd-master-5dcfa79-bin-Linux-Ubuntu-26.04-x86_64.zip
+        sha256: 4233a04e347238d2579771197c348659887dad06fdd1a586e330c28d5a4527ce
+        size: 29248439
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: sd-server-wrapper
+      - type: file
+        path: sd-cli-wrapper
+      - type: file
+        path: io.github.leejet.StableDiffusionCpp.CPU.desktop
+      - type: file
+        path: io.github.leejet.StableDiffusionCpp.CPU.metainfo.xml
+      - type: file
+        path: io.github.leejet.StableDiffusionCpp.CPU.png

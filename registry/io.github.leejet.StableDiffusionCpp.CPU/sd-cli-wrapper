@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# Relative model paths and generated files stay in persistent private app data.
+cd "$XDG_DATA_HOME"
+exec /app/extra/stable-diffusion/sd-cli "$@"

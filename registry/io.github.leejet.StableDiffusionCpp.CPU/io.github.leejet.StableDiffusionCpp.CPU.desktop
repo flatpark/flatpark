@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=stable-diffusion.cpp (CPU)
+Comment=Start the local Web UI at http://127.0.0.1:1234
+Exec=sd-server
+Icon=io.github.leejet.StableDiffusionCpp.CPU
+Terminal=true
+Categories=Graphics;2DGraphics;
+Keywords=AI;StableDiffusion;Image;Video;CPU;
