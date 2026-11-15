@@ -1,0 +1,49 @@
+id: io.github.ggml_org.LlamaCpp.VULKAN
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: llama-server
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Download models and serve the loopback HTTP API and browser interface.
+  - --share=network
+  # Vulkan compute accesses the GPU through its render device.
+  - --device=dri
+modules:
+  - name: llama
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 llama-wrapper /app/bin/llama-server
+      - ln -s llama-server /app/bin/llama
+      - ln -s llama-server /app/bin/llama-cli
+      - ln -s llama-server /app/bin/llama-bench
+      - ln -s llama-server /app/bin/llama-quantize
+      - install -Dm644 io.github.ggml_org.LlamaCpp.VULKAN.desktop /app/share/applications/io.github.ggml_org.LlamaCpp.VULKAN.desktop
+      - install -Dm644 io.github.ggml_org.LlamaCpp.VULKAN.metainfo.xml /app/share/metainfo/io.github.ggml_org.LlamaCpp.VULKAN.metainfo.xml
+      - install -Dm644 io.github.ggml_org.LlamaCpp.VULKAN.svg /app/share/icons/hicolor/scalable/apps/io.github.ggml_org.LlamaCpp.VULKAN.svg
+      - install -Dm644 branding.txt /app/share/doc/io.github.ggml_org.LlamaCpp.VULKAN/branding.txt
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: llama.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-vulkan-x64.tar.gz
+        sha256: 19b60f00395a3f4954e46a5037695bc1d843404fc9d3124f82a612ecd8fbe9f0
+        size: 36153377
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: llama-wrapper
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.VULKAN.desktop
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.VULKAN.metainfo.xml
+      # Official branding: ggml-org/llama-brand, logo/svg/icon/icon-dark-bg.svg.
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.VULKAN.svg
+      - type: file
+        path: branding.txt
