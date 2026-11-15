@@ -1,0 +1,22 @@
+id: com.flectar.mail
+name: Flectar Mail
+summary: Native, offline-first email client
+website: https://flectar.com/mail/
+source_url: https://github.com/flectar/mail
+build:
+  manifest: com.flectar.mail.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - Email
+    - IMAP
+    - Gmail
+    - Outlook
+    - Calendar
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

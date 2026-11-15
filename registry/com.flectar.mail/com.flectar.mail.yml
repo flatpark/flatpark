@@ -1,0 +1,63 @@
+id: com.flectar.mail
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: flectar-mail
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Rust + Slint app. The binary links only libc, libgcc and libdbus and
+  # dlopens Wayland, X11, xkbcommon, fontconfig and the GPU stack (wgpu), all in
+  # the freedesktop runtime. The same grants as upstream's own Flatpak manifest
+  # (packaging/flatpak/com.flectar.mail.yml): links and the file picker go
+  # through portals, so no filesystem grant.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # IMAP/SMTP, Gmail and Microsoft Graph, CalDAV/CardDAV, OAuth sign-in.
+  - --share=network
+  # Account passwords and OAuth tokens are kept in the Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # Unread count on the dock icon: the app watches this name to resend the
+  # count when a dock (re)starts.
+  - --talk-name=com.canonical.Unity
+  # The .deb build keeps its StatusNotifierItem tray icon (upstream's own
+  # Flatpak build turns it off). It owns org.kde.StatusNotifierItem-<pid>-<n>
+  # and registers that with the watcher; a D-Bus name pattern can only end
+  # in a whole element, hence org.kde.* (as XerahS).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+modules:
+  - name: flectar-mail
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 flectar-mail-wrapper /app/bin/flectar-mail
+      - install -Dm644 com.flectar.mail.desktop /app/share/applications/com.flectar.mail.desktop
+      - install -Dm644 com.flectar.mail.metainfo.xml /app/share/metainfo/com.flectar.mail.metainfo.xml
+      - install -Dm644 com.flectar.mail.png /app/share/icons/hicolor/512x512/apps/com.flectar.mail.png
+      - install -Dm644 com.flectar.mail.svg /app/share/icons/hicolor/scalable/apps/com.flectar.mail.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: flectar-mail.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/flectar/mail/releases/download/v0.1.0-alpha.7/flectar-mail_0.1.0.alpha.7_amd64.deb
+        sha256: 2972fe6ec0de4075ae008278d6bcc0187161551b8b75883cb1a30ccf4c55f82f
+        size: 34968480
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: flectar-mail-wrapper
+      - type: file
+        path: com.flectar.mail.desktop
+      - type: file
+        path: com.flectar.mail.metainfo.xml
+      - type: file
+        path: com.flectar.mail.png
+      - type: file
+        path: com.flectar.mail.svg

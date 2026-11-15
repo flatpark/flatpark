@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Flectar Mail
+GenericName=Email Client
+Comment=Native, offline-first email client
+Exec=flectar-mail
+Icon=com.flectar.mail
+Type=Application
+Categories=Office;Email;
+Keywords=Mail;Email;IMAP;Gmail;Outlook;Calendar;
+Terminal=false
+StartupNotify=true
+StartupWMClass=com.flectar.mail

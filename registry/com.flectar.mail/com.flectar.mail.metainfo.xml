@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.flectar.mail</id>
+  <launchable type="desktop-id">com.flectar.mail.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <name>Flectar Mail</name>
+  <summary>Native, offline-first email client</summary>
+  <developer id="com.flectar">
+    <name>Flectar</name>
+  </developer>
+  <url type="homepage">https://flectar.com/mail/</url>
+  <url type="bugtracker">https://github.com/flectar/mail/issues</url>
+  <url type="vcs-browser">https://github.com/flectar/mail</url>
+  <description>
+    <p>This is a community package of Flectar Mail, maintained independently and unaffiliated with its developer. It repackages the official upstream Linux release (.deb) unmodified and follows upstream releases automatically.</p>
+    <p>Flectar Mail is a native Rust and Slint mail client with offline-first storage, Gmail and Microsoft account support, contacts, and calendars. It is built for speed: instant startup and a small memory footprint at idle.</p>
+    <p>Permissions: this package grants the display, the GPU, network access, the Secret Service (where account passwords and tokens are stored), the tray and the dock's unread-count service. Links and attachments go through the desktop portals, so the app has no access to your files beyond those you pick.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/flectar/mail/df882893dc4f20f19867f0c67382e69a2cc3d9b7/resources/screenshots/desktop-light.png</image>
+      <caption>Unified inbox and message workspace in the light theme</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/flectar/mail/df882893dc4f20f19867f0c67382e69a2cc3d9b7/resources/screenshots/desktop-dark.png</image>
+      <caption>Unified inbox and message workspace in the dark theme</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/flectar/mail/df882893dc4f20f19867f0c67382e69a2cc3d9b7/resources/screenshots/desktop-thread-light.png</image>
+      <caption>Conversation with incoming and replied messages</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+  <categories>
+    <category>Office</category>
+    <category>Email</category>
+  </categories>
+  <keywords>
+    <keyword>mail</keyword>
+    <keyword>email</keyword>
+    <keyword>imap</keyword>
+    <keyword>calendar</keyword>
+  </keywords>
+  <provides>
+    <binary>flectar-mail</binary>
+  </provides>
+  <releases>
+    <release version="0.1.0-alpha.7" date="2026-10-08" type="development">
+      <description></description>
+    </release>
+  </releases>
+</component>
