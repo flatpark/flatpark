@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=audio.cpp (Vulkan)
+Comment=Start the audio.cpp WebUI at http://127.0.0.1:8081
+Exec=audio-cpp
+Icon=io.github._0xShug0.AudioCpp.VULKAN
+Terminal=true
+Categories=AudioVideo;Audio;

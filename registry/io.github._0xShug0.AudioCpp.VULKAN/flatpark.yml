@@ -1,0 +1,18 @@
+id: io.github._0xShug0.AudioCpp.VULKAN
+name: audio.cpp (Vulkan)
+summary: Run local audio AI models with the Vulkan backend
+website: https://github.com/0xShug0/audio.cpp
+source_url: https://github.com/0xShug0/audio.cpp
+build:
+  manifest: io.github._0xShug0.AudioCpp.VULKAN.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags: [Audio, AI, TTS, ASR, Vulkan]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
