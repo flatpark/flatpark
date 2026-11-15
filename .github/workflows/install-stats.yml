@@ -20,6 +20,10 @@ permissions:
 
 jobs:
   rollup:
+    # Signing keys and Cloudflare/R2 credentials live in the "production"
+    # environment, which only main can use: a branch pushed by anyone with
+    # write access cannot read them.
+    environment: production
     runs-on: ubuntu-latest
     env:
       R2_BUCKET: ${{ vars.R2_BUCKET }}

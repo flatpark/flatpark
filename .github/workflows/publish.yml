@@ -56,6 +56,10 @@ jobs:
   # the aarch64 build below can start from the same answer. Reads R2 (the
   # .published-sha marker and whether a summary exists) but writes nothing.
   plan:
+    # Signing keys and Cloudflare/R2 credentials live in the "production"
+    # environment, which only main can use: a branch pushed by anyone with
+    # write access cannot read them.
+    environment: production
     # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了:apt-get update 全线
     # Ign,退回 archive.ubuntu.com 后拉索引时停住,publish #211 就这样零输出吊了
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
@@ -209,6 +213,10 @@ jobs:
           if-no-files-found: error
 
   publish:
+    # Signing keys and Cloudflare/R2 credentials live in the "production"
+    # environment, which only main can use: a branch pushed by anyone with
+    # write access cannot read them.
+    environment: production
     needs: [plan, build]
     # Runs even when a needed job failed, so the alert below still fires; the
     # first step after checkout turns that failure into this job's.
