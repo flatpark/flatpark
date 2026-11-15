@@ -1,0 +1,44 @@
+id: io.github._0xShug0.AudioCpp.VULKAN
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: audio-cpp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Serve the browser UI on localhost and download model weights.
+  - --share=network
+  # Vulkan compute uses the GPU render device.
+  - --device=dri
+modules:
+  - name: audio-cpp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 audio-wrapper /app/bin/audio-cpp
+      - install -Dm755 audio-cli-wrapper /app/bin/audio-cpp-cli
+      - install -Dm644 io.github._0xShug0.AudioCpp.VULKAN.desktop /app/share/applications/io.github._0xShug0.AudioCpp.VULKAN.desktop
+      - install -Dm644 io.github._0xShug0.AudioCpp.VULKAN.metainfo.xml /app/share/metainfo/io.github._0xShug0.AudioCpp.VULKAN.metainfo.xml
+      - install -Dm644 io.github._0xShug0.AudioCpp.VULKAN.svg /app/share/icons/hicolor/scalable/apps/io.github._0xShug0.AudioCpp.VULKAN.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: audio.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-vulkan-portable.tar.gz
+        sha256: 39be151ea211396adc6837560d00a440f8d2720b2c1e0c60778bd676335bdc06
+        size: 90609676
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: audio-wrapper
+      - type: file
+        path: audio-cli-wrapper
+      - type: file
+        path: io.github._0xShug0.AudioCpp.VULKAN.desktop
+      - type: file
+        path: io.github._0xShug0.AudioCpp.VULKAN.metainfo.xml
+      - type: file
+        path: io.github._0xShug0.AudioCpp.VULKAN.svg
