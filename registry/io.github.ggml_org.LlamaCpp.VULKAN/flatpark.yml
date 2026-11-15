@@ -1,0 +1,18 @@
+id: io.github.ggml_org.LlamaCpp.VULKAN
+name: llama.cpp (Vulkan)
+summary: Run local language models with Vulkan GPU acceleration
+website: https://llama.app
+source_url: https://github.com/ggml-org/llama.cpp
+build:
+  manifest: io.github.ggml_org.LlamaCpp.VULKAN.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Development
+  tags: [AI, LLM, Inference, Vulkan]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
