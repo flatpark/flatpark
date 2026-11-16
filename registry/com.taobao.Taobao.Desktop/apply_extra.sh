@@ -10,5 +10,4 @@ zstd -d --stdout "$archive" | tar --no-same-owner -xf -
 [ -x electron/electron ] || { echo "Electron binary not found" >&2; exit 1; }
 [ -f app.asar ] || { echo "app.asar not found" >&2; exit 1; }
 [ -f app.asar.unpacked/node_modules/sqlite-vec-linux-x64/vec0.so ] || { echo "sqlite-vec Linux extension not found" >&2; exit 1; }
-[ -f app.asar.unpacked/node_modules/better-sqlite3/build/Release/better_sqlite3.node ] || { echo "better-sqlite3 Linux prebuild not found" >&2; exit 1; }
 rm -f "$archive"

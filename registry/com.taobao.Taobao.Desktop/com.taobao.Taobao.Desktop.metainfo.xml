@@ -13,21 +13,14 @@
   <project_license>LicenseRef-proprietary=https://www.taobao.com/</project_license>
   <description>
     <p>This is a community package that repackages the official Taobao Desktop client from Taobao, with Linux compatibility adaptations. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
-    <p>The package is built from the official Taobao Windows client by the jiesou/taobao-linux-release build repository. It supplies the Linux Electron runtime and Linux native modules, applies the Linux compatibility patches, and stores its own profile and cookies in the Flatpak application data directory.</p>
+    <p>Taobao publishes only a Windows client. The jiesou/taobao-linux-release build repository takes the app from the official Windows installer and runs it on the official Linux Electron of the same version, with the official Linux builds of its better-sqlite3 and sqlite-vec modules in place of the Windows ones. One flag in one renderer script is changed so the window draws its own minimise, maximise and close buttons, as it does on Windows. Every other file of the client is unchanged.</p>
+    <p>Four small scripts are also loaded into the app at startup. One stands in for Taobao's security module, which exists only for Windows and macOS and cannot load on Linux. The others make the tray icon and its menu work on Linux panels, remove the extra window frame around the client's own title bar, and give the account page, which has no Linux layout, a usable style. The app keeps its profile and cookies in the Flatpak application data directory.</p>
     <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. The package needs network access for shopping, account login, messaging, payments, and order services.</p>
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://img.alicdn.com/imgextra/i3/O1CN01vakcu9DeowC4Twwq_!!6000000000054-2-tps-2208-1248.png</image>
-      <caption>分屏浏览</caption>
-    </screenshot>
-    <screenshot>
-      <image type="source">https://img.alicdn.com/imgextra/i4/O1CN019MGvo11EDEehTS4lO_!!6000000000317-2-tps-4416-2496.png</image>
-      <caption>高效沟通</caption>
-    </screenshot>
-    <screenshot>
-      <image type="source">https://img.alicdn.com/imgextra/i2/O1CN01zcTxYEf7PGK4Twwq_!!6000000004161-2-tps-2208-1248.png</image>
-      <caption>极速打开</caption>
+      <image type="source">https://github.com/user-attachments/assets/cab4cf64-1025-4118-aec3-fef8e264e7c8</image>
+      <caption>Browsing products and the product details panel on Linux</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://pc.taobao.com/</url>

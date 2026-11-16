@@ -33,8 +33,8 @@ modules:
       - type: extra-data
         filename: taobao-linux.tar.zst
         url: https://github.com/jiesou/taobao-linux-release/releases/download/taobao-3.0.1/taobao-linux-3.0.1-electron-37.2.0-x86_64.tar.zst
-        sha256: f0fe3b79591dde3c6ea76ee8348ea1e6d7645ac15a566e8629e33cc47ca29cd6
-        size: 182030780
+        sha256: 8a497c206909a0117b31313dbafac0031f6fe3eafe2ba20560b2b4547488f56c
+        size: 182220667
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
