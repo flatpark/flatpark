@@ -1,5 +1,5 @@
 ---
-description: What serves flatpark.org and dl.flatpark.org, what it costs, and the settings that have to stay as they are.
+description: What serves flatpark.org, dl.flatpark.org and test.flatpark.org, what it costs, and the settings that have to stay as they are.
 ---
 
 # Infrastructure
@@ -15,6 +15,10 @@ FlatPark runs on one Cloudflare account and GitHub Actions:
   [publish-action](../developers/publish-action.md) calls.
 - **Install counts**: a Worker on `dl.flatpark.org/delta-indexes/*`
   ([`workers/install-stats`](../../workers/install-stats/src/index.js)).
+- **test.flatpark.org**: one test repository per PR labeled `needs-testers`
+  ([testing a PR build](../users/testing.md)), in the R2 bucket
+  `flatpark-testing` behind a custom domain, signed with a separate testing
+  key. Nothing in it is meant to last.
 
 Who holds the account and how that changes is in
 [governance](../project/governance.md#infrastructure); how the repository is
@@ -53,6 +57,64 @@ keeps three months, so the daily files are the only long-term record.
 
 If counts look wrong, first check that the summary still advertises indexed
 deltas: the counting depends on exactly one delta-index request per pull.
+
+### Test repositories
+
+`pr-test-repo.yml` keeps `pr/<N>/` in `flatpark-testing` in one of three
+states, decided by `scripts/test-repo-reconcile.sh <N>` from the PR and the
+bucket alone:
+
+- **live** while PR N is open and labeled `needs-testers`: the refs of the
+  apps the PR's diff touches, taken from its own pr-checks artifact
+  (`flatpak-repo-<arch>-pr<N>`, kept 7 days), re-pulled into a clean repo and
+  signed with the testing key. `built-from` holds the head sha it was built
+  from; a push makes it stale, and the next run rebuilds it. If the
+  artifacts have expired, the pr-checks run is re-run; if it is too old to
+  re-run, the PR comment asks for a push or a manual re-run instead. Only a
+  ready build or a retire installs flatpak in the job; waiting on a run or
+  explaining why there is no build is GitHub API calls only.
+- **retired** once the PR closes or loses the label: every ref gets an
+  end-of-life message saying how to switch back, and a `retired` file holds
+  the time.
+- **purged** 14 days after that (`TEST_REPO_RETIRE_DAYS`).
+
+The triggers only speed things up. pr-checks finishing, a label change or
+close, and a dispatch each reconcile one PR; an hourly sweep plans every
+prefix and labeled PR and reconciles the ones that need it, so a missed or
+disabled trigger costs at most an hour. Each reconcile job handles one PR and
+touches only `pr/<N>/` (`concurrency: test-repo-pr-<N>`). The workflow runs
+main's code only and never checks out a PR. What it takes from the untrusted
+run is checked first: the tar's paths, links and size, and which refs it
+holds.
+
+- **Environment `testing`** (deploys from `main` only) holds
+  `FLATPAK_TESTING_GPG_KEY` (the armored secret testing key, no passphrase,
+  fingerprint `7858FD7DD9F527EC02342A9A7630ADC35A942414`; its public half is
+  [`config/flatpark-testing.pub.asc`](../../config/flatpark-testing.pub.asc)),
+  `R2_ACCOUNT_ID`, and `R2_TESTING_ACCESS_KEY_ID` /
+  `R2_TESTING_SECRET_ACCESS_KEY`, a token scoped to this bucket only. The
+  scripts import the key into a keyring of their own; the production key is
+  never in it.
+- **Cache headers**: everything under `pr/` is uploaded with
+  `Cache-Control: public, max-age=300`. These files are rewritten on every
+  push and deleted later, so the one-year `immutable` header production
+  objects get must never be used here; `scripts/sync-r2.sh` is not used
+  for this bucket.
+- **Lifecycle rule**: R2 deletes objects under `pr/` after 120 days. It is a
+  backstop for a purge that never ran, not part of the normal lifecycle.
+
+### GitHub settings that must stay
+
+- **Fork PR workflow runs need approval for all external contributors.**
+  Every external push is reviewed before pr-checks runs, so a `needs-testers`
+  label is enough to publish what pr-checks built.
+- **The Actions event policy for `pr-test-repo.yml`** (policy 14419) allows
+  exactly `pull_request_target`, `workflow_run`, `schedule` and
+  `workflow_dispatch` for that file. From 2026-12-02 GitHub disables
+  `pull_request_target` on public repositories unless a policy allows it.
+  Adding a trigger to `pr-test-repo.yml` means adding it to the policy too, or
+  runs from that trigger are blocked. Even without `pull_request_target`, the
+  hourly sweep keeps the test repositories correct.
 
 ### Cloudflare settings that must stay
 

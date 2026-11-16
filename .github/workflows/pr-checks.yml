@@ -1,7 +1,8 @@
 # Untrusted gate: runs on every PR, including forks. NO secrets are referenced
 # here, so a malicious PR can never reach the signing key or R2/Pages creds.
-# It validates, tests, builds the changed apps and uploads installable bundles;
-# the real signed build+publish happens on push to main.
+# It validates, tests, builds the changed apps and uploads the built repo, which
+# pr-test-repo.yml turns into a test repository when the PR is labeled
+# needs-testers; the real signed build+publish happens on push to main.
 name: pr-checks
 
 on:
@@ -75,6 +76,12 @@ jobs:
       - name: Install site deps
         working-directory: site
         run: npm ci || npm install --no-audit --no-fund
+      # The test-repo unit tests run real ostree and rclone (local backend)
+      # and stub flatpak, so these two are all they need beyond the image.
+      - name: Install ostree and rclone for the test-repo tests
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ostree rclone
       - name: Shell test suite (build steps self-skip without flatpak-builder)
         run: bash tests/run-tests.sh
       # Scoped to the apps this PR touches (any file, not just build inputs):
@@ -164,9 +171,11 @@ jobs:
               exit 1 ;;
           esac
 
-  # Build the changed apps to catch manifest breakage BEFORE merge, and upload an
-  # installable single-file bundle per app so the change can be test-installed
-  # (extra-data is not embedded — it's fetched on install — so bundles stay tiny).
+  # Build the changed apps to catch manifest breakage BEFORE merge, and upload
+  # the OSTree repo they were exported to (flatpak-repo-<arch>-pr<N>, 7 days).
+  # A PR labeled needs-testers gets a test repository made from it by
+  # pr-test-repo.yml: an extra-data app can only be installed by a repo pull,
+  # which is what fetches its extra-data (a .flatpak bundle cannot carry it).
   # Runs for fork PRs too: fork `pull_request` runs get NO secrets and a read-only
   # token, and the build is signed with a throwaway in-job key, so the real
   # signing key and R2/Pages creds are never exposed. Untrusted build-commands are
@@ -174,7 +183,7 @@ jobs:
   # fork run only after reviewing its manifest.
   #
   # One leg per arch, each on a native runner: x86_64 builds every changed app,
-  # aarch64 only the ones whose build.arches opt in (its bundles are what an arm
+  # aarch64 only the ones whose build.arches opt in (its repo is what an arm
   # user test-installs before the app goes live).
   build-changed:
     strategy:
@@ -285,24 +294,21 @@ jobs:
       - name: Check apply_extra against the pinned payload
         if: steps.changed.outputs.payload_ids != ''
         run: ./scripts/check-apply-extra.sh ${{ steps.changed.outputs.payload_ids }}
-      - name: Bundle changed apps into installable .flatpak files
+      # The repo build-app.sh exported (archive-z2, signed with the throwaway
+      # key above), packed the way publish.yml hands builds over. For a PR
+      # labeled needs-testers, pr-test-repo.yml re-pulls the PR's own refs out
+      # of it into a test repository signed with the testing key; nothing in
+      # this tar is trusted there (scripts/test-repo-publish.sh).
+      - name: Pack the built repo
         if: steps.changed.outputs.ids != ''
-        run: |
-          . scripts/lib/common.sh
-          load_config "$PWD"            # sets REPO_DIR=$PWD/out/repo, REGISTRY_DIR
-          mkdir -p out/bundles
-          for id in ${{ steps.changed.outputs.ids }}; do
-            load_app "$id"             # resolves APP_BRANCH the same way build-app.sh did
-            flatpak build-bundle ${APP_EXTENDS:+--runtime} \
-              --runtime-repo=https://dl.flathub.org/repo/flathub.flatpakrepo \
-              "$REPO_DIR" "out/bundles/$id.flatpak" "$id" "$APP_BRANCH"
-          done
-          ls -lah out/bundles
-      - name: Upload installable bundles
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: tar -C out -cf "flatpak-repo-$ARCH.tar" repo
+      - name: Upload the built repo
         if: steps.changed.outputs.ids != ''
         uses: actions/upload-artifact@v7
         with:
-          name: flatpak-bundles-${{ matrix.arch }}-pr${{ github.event.pull_request.number }}
-          path: out/bundles/*.flatpak
-          retention-days: 14
+          name: flatpak-repo-${{ matrix.arch }}-pr${{ github.event.pull_request.number }}
+          path: flatpak-repo-${{ matrix.arch }}.tar
+          retention-days: 7
           if-no-files-found: error

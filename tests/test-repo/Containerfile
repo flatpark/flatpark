@@ -1,0 +1,7 @@
+ARG BASE
+FROM $BASE
+# rclone: the publish scripts' uploads, against its local backend. busybox:
+# the shell and tools of the stand-in runtime apply_extra runs in.
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+      flatpak ostree gnupg python3 ca-certificates rclone jq busybox-static tar >/dev/null \
+    && rm -rf /var/lib/apt/lists/*
