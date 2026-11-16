@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Couchtunes
+GenericName=Music Player
+Comment=An Apple Music-style player for your Navidrome server
+Exec=couchtunes
+Icon=io.github.captechomar.Couchtunes
+Terminal=false
+Categories=AudioVideo;Audio;Music;Player;
+Keywords=navidrome;subsonic;music;streaming;lyrics;
+StartupWMClass=Couchtunes
