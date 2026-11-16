@@ -62,12 +62,16 @@ before the PR. Each item links to the page that explains it.
 - Runtime `org.gnome.Platform`. Keep the `.deb`'s `usr` tree whole when it has
   `usr/lib/<Name>/` ([Debian packages](../formats/deb.md#what-to-keep)).
 - Rendering: `WEBKIT_DISABLE_DMABUF_RENDERER=1`, unless the window is
-  `transparent` or the app crashes on GNOME 51, then `:-0`
+  `transparent` or the app crashes on GNOME 51, then `:-0`. Grep the app's
+  startup code for `WEBKIT_` first: an app that sets the variable itself
+  needs nothing from the wrapper
   ([WebKitGTK](rendering-and-fonts.md#webkitgtk-tauri-wails-blank-see-through-or-crashing)).
 - Name the launcher symlink after the app id, and use it as `StartupWMClass`
   ([Flow](../../../registry/io.github.aedev.flow.desktop/apply_extra.sh)).
-- Tray: the `ayatana-stack` prebuilt and `xdg-run/tray-icon:create`, only if it
-  really has a tray ([tray](desktop-integration.md#tray-icon-missing)).
+- Tray: Tauri's own `TrayIconBuilder` needs the `ayatana-stack` prebuilt and
+  `xdg-run/tray-icon:create`, only if it really has a tray; an app that draws
+  its tray with `ksni` needs neither, only the name grant
+  ([tray](desktop-integration.md#tray-icon-missing)).
 - Clipboard plugin: `--socket=x11` ([copy and paste](system-services.md#copy-and-paste)).
 - Single instance: grant `<identifier>.SingleInstance`
   ([second instance](desktop-integration.md#a-second-launch-starts-a-second-copy)).
