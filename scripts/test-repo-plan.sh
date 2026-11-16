@@ -40,6 +40,12 @@ run)
         log "PR #$prs is not open at $head (a newer push, or a forged name); nothing to do"
         json </dev/null; exit 0
     fi
+    # Only a labeled PR has a repo to keep current. One that lost the label
+    # was retired by its unlabeled event (or the sweep), not by its builds.
+    if ! tr_pr_live; then
+        log "PR #$prs is not labeled $TR_LABEL; nothing to do"
+        json </dev/null; exit 0
+    fi
     printf '%s\n' "$prs" | json ;;
 pr)
     tr_is_pr_number "${1:-}" || die "not a PR number: ${1:-}"

@@ -70,6 +70,7 @@ check "3b. remote-ls lacks the foreign app and the dependency"    '!org.evil.App
 
 echo; echo "######## label removed, then added again"
 srv unlabel >/dev/null
+check "plan: a pr-checks run on the unlabeled PR names nothing" '^\[\]$' srv plan-run
 check "reconcile retires pr/7/ (withdrawn)"          'retired pr/7 \(withdrawn\)' srv reconcile
 eold=$(srv show commit)
 check "client: update shows the withdrawn message"   'end-of-life.*PR #7 test build withdrawn: flatpak uninstall org\.flatpark\.TestApp && flatpak remote-delete flatpark-pr7' cli update
