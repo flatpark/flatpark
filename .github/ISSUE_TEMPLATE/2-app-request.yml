@@ -8,6 +8,10 @@ body:
       value: |
         A name or a link is enough; we look up the rest and reply with what we found.
         Writing in Chinese is fine too.
+
+        Want to package it yourself? Once the issue is open, comment `/claim` on it so
+        nobody else starts on the same app (`/unclaim` gives it back). See
+        [claims](https://flatpark.org/docs/reviewers/issues/#claims).
   - type: textarea
     id: app
     attributes:
