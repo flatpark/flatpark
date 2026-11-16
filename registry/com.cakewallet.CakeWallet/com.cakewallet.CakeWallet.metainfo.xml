@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.cakewallet.CakeWallet</id>
+  <name>Cake Wallet</name>
+  <summary>Non-custodial multi-currency cryptocurrency wallet</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.cakewallet">
+    <name>Cake Wallet</name>
+  </developer>
+  <url type="homepage">https://cakewallet.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/cake-tech/cake_wallet</url>
+  <description>
+    <p>Cake Wallet is a non-custodial wallet for managing and exchanging cryptocurrency. It supports Monero, Bitcoin, Ethereum, Litecoin, Bitcoin Cash, Polygon, Arbitrum, Base, Solana, Tron, Nano, Zcash, Zano and Decred, with options to use custom nodes.</p>
+    <p>This is a community package of Cake Wallet. It downloads the official Linux release from the upstream repository at install time and launches the vendor's build unmodified. A separately pinned Debian Zenity helper supplies its Linux file chooser.</p>
+    <p>Wallet files are stored in <code>~/cake_wallet</code>, matching upstream's Linux data directory. The package grants access only to that directory; backups can be saved elsewhere through the file chooser portal.</p>
+    <p>Hardware wallet access is optional. To allow the app to access USB devices, run <code>flatpak override --user --device=all com.cakewallet.CakeWallet</code>. Undo the override with <code>flatpak override --user --reset com.cakewallet.CakeWallet</code>.</p>
+  </description>
+  <!-- Screenshots intentionally omitted at the submitter's request. -->
+  <launchable type="desktop-id">com.cakewallet.CakeWallet.desktop</launchable>
+  <categories>
+    <category>Finance</category>
+  </categories>
+  <keywords>
+    <keyword>cryptocurrency</keyword>
+    <keyword>bitcoin</keyword>
+    <keyword>monero</keyword>
+    <keyword>wallet</keyword>
+    <keyword>crypto</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="money-purchasing">intense</content_attribute>
+  </content_rating>
+  <releases>
+    <release version="6.4.4" date="2026-09-20" />
+  </releases>
+</component>

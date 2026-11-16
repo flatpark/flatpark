@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Upstream's Linux guide uses this directory for wallet databases and keys.
+export CAKE_WALLET_DIR="${CAKE_WALLET_DIR:-$HOME/cake_wallet}"
+# Keep app preferences beside that data, where they persist across launches.
+export XDG_DATA_HOME="$CAKE_WALLET_DIR/preferences"
+
+# The Linux file picker finds its separately pinned helper on PATH.
+export PATH="/app/extra/tools/bin:$PATH"
+export XDG_DATA_DIRS="/app/extra/tools/share:${XDG_DATA_DIRS:-/app/share:/usr/share}"
+
+# Launch the vendor binary from the fixed path created by apply_extra.sh.
+exec /app/extra/cake_wallet/cake_wallet "$@"

@@ -1,0 +1,18 @@
+id: com.cakewallet.CakeWallet
+name: Cake Wallet
+summary: Non-custodial multi-currency cryptocurrency wallet
+website: https://cakewallet.com/
+source_url: https://github.com/cake-tech/cake_wallet
+build:
+  manifest: com.cakewallet.CakeWallet.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Finance
+  tags: [Cryptocurrency, Bitcoin, Monero, Wallet]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
