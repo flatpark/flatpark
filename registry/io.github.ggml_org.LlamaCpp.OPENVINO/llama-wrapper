@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+# Upstream honors XDG_CACHE_HOME; Flatpak makes this private and persistent.
+# Keep the server local; flags and explicit environment settings still win.
+export LLAMA_ARG_HOST="${LLAMA_ARG_HOST:-127.0.0.1}"
+export LLAMA_ARG_PORT="${LLAMA_ARG_PORT:-8084}"
+# One launcher exposes the unmodified server and the upstream command line tools.
+command="${0##*/}"
+case "$command" in
+    llama|llama-server|llama-cli|llama-bench|llama-quantize) ;;
+    *) echo "unknown llama command: $command" >&2; exit 1 ;;
+esac
+exec "/app/extra/llama/$command" "$@"

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=llama.cpp (Intel)
+GenericName=Local Language Model Server
+Comment=Serve local language models and the llama.cpp WebUI
+Exec=llama-server
+Terminal=true
+Type=Application
+Categories=Development;ConsoleOnly;
+StartupNotify=false
+Icon=io.github.ggml_org.LlamaCpp.OPENVINO
