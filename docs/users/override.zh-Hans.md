@@ -60,7 +60,6 @@ flatpak override --user --unshare=network com.snipaste.Snipaste
 ```sh
 flatpak override --user --env=GDK_SCALE=2 com.falconpdf.app
 flatpak override --user --env=UI_SCALE=2 com.schwab.thinkorswim
-flatpak override --user --env=WEBKIT_DISABLE_COMPOSITING_MODE=1 dev.aninsomniacy.rayburst
 ```
 
 **能在你的系统上执行命令的应用。**少数软件包为了某一个功能需要这项权限，页面上会标"隔离降低"并写明原因。收回后只有那个功能会停（Enpass 是浏览器扩展）：
