@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# The vendor executable locates its libraries and Flutter assets relative to
+# itself; preserve the bundle layout and let its $ORIGIN/lib RUNPATH work.
+exec /app/extra/launch "$@"

@@ -1,0 +1,52 @@
+id: dev.blastapps.blastqr
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: blastqr
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Flutter's GTK window and GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Completion-tone playback on receipt and microphone detection while sending.
+  - --socket=pulseaudio
+  # Received files and saved QR codes are stored here without a file dialog.
+  - --filesystem=xdg-documents/blastQR:create
+modules:
+  - name: blastqr
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 blastqr-wrapper /app/bin/blastqr
+      - install -Dm644 dev.blastapps.blastqr.desktop /app/share/applications/dev.blastapps.blastqr.desktop
+      - install -Dm644 dev.blastapps.blastqr.metainfo.xml /app/share/metainfo/dev.blastapps.blastqr.metainfo.xml
+      - install -Dm644 dev.blastapps.blastqr.png /app/share/icons/hicolor/512x512/apps/dev.blastapps.blastqr.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: blastqr.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/blastapps/blastqr/releases/download/v3.2.0/blastqr-v3.2.0-linux-x64.tar.gz
+        sha256: 9d5ceba60775a48e2d49c08290baeaa52cc1ab52e4eca80783660a3447b4d19a
+        size: 14285885
+      - type: extra-data
+        filename: blastqr.tar.gz
+        only-arches: [aarch64]
+        url: https://github.com/blastapps/blastqr/releases/download/v3.2.0/blastqr-v3.2.0-linux-arm64.tar.gz
+        sha256: 881f6fff1a1b23a6c50731bb02fd1f9402651114b79179ae81e97c879fe2614b
+        size: 13745938
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: blastqr-wrapper
+      - type: file
+        path: dev.blastapps.blastqr.desktop
+      - type: file
+        path: dev.blastapps.blastqr.metainfo.xml
+      - type: file
+        path: dev.blastapps.blastqr.png

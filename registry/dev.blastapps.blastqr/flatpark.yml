@@ -1,0 +1,18 @@
+id: dev.blastapps.blastqr
+name: blastQR
+summary: Transfer files offline through animated QR codes
+website: https://codeberg.org/blast/blastqr
+source_url: https://codeberg.org/blast/blastqr
+build:
+  manifest: dev.blastapps.blastqr.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Utility
+  tags: [QR, File transfer, Offline, Flutter]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
