@@ -8,7 +8,7 @@ order: 6
 ## 报告问题
 
 - **FlatPark 自身的漏洞**（构建、签名或发布流程、工作流、发布 webhook）：请通过 [GitHub 安全公告](https://github.com/flatpark/flatpark/security/advisories/new)私下报告，避免在修复前公开。
-- **会让用户面临风险的软件包或应用版本**（运行或访问了不该碰的东西，或者某个版本有恶意）：请在 [github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues) 开一个 issue，并在标题里注明是安全问题，让其他用户也能看到警告。
+- **会让用户面临风险的软件包或应用版本**（运行或访问了不该碰的东西，或者某个版本有恶意）：请用 [Security problem](https://github.com/flatpark/flatpark/issues/new?template=6-security.yml) 表单开 issue，让其他用户也能看到警告。
 
 两种都会被优先处理。
 

@@ -48,7 +48,7 @@ from, or they've said in an issue they'd like one and lack the time.
 ## For agents
 
 Any agent can run a scan; you don't need to be a maintainer. The output is one
-`[app discover]` issue per candidate (see [recording what you found](#recording-what-you-found)),
+`[App Discover]` issue per candidate (see [recording what you found](#recording-what-you-found)),
 which anyone can then pick up and package. A run takes `gh` (logged in), `curl`
 and `python3`.
 
@@ -60,7 +60,7 @@ Build the list of apps to skip, so you don't propose something already handled:
   `flatpark.yml`;
 - apps that were removed: `git log --oneline -i --grep='de-list'` names them.
   A removed app stays out unless something has changed;
-- apps already proposed: `gh issue list -R flatpark/flatpark --state all --search '"[app discover]" in:title'`.
+- apps already proposed or requested: `gh issue list -R flatpark/flatpark --state all --label app-discover` and `--label app-request`.
 
 ### GitHub popular apps
 
@@ -156,8 +156,8 @@ the app.
 
 ### Recording what you found
 
-Open one issue per app in `flatpark/flatpark`, titled `[app discover] <Name>`,
-with this body:
+Open one issue per app in `flatpark/flatpark`, titled `[App Discover] <Name>`,
+labelled `app-discover`, with this body:
 
 ```md
 Found by the app discovery scan (<YYYY-MM-DD>).
@@ -197,3 +197,27 @@ again.
 
 Then package it with the [playbook](playbook.md), or leave the issue for
 someone else to pick up.
+
+### Answering an app request
+
+An `[App Request]` issue may hold no more than a name or a link; the form
+asks for nothing else on purpose. Fill in the rest yourself:
+
+1. Find the app: the link, or a search by name. If two apps share the name,
+   ask which one, add `needs-info`, and stop there.
+2. Check it as for any candidate ([per candidate](#per-candidate),
+   [Flathub checks](#flathub-checks), [can it be packaged?](can-it-be-packaged.md)),
+   and look for an earlier request:
+   `gh issue list -R flatpark/flatpark --state all --search '<name> in:title'`.
+   A duplicate gets a link to the earlier issue and is closed as a duplicate.
+3. Comment with the body from [recording what you found](#recording-what-you-found),
+   starting with `Looked up for this request (<YYYY-MM-DD>).` instead of the
+   scan line. Anything the requester wrote (what they use it for, the
+   download, a Flathub package) goes in with credit; under **Why there is
+   demand**, the request itself counts.
+4. Don't edit the requester's text, and don't rename the issue beyond
+   `[App Request] <Name>`.
+
+An app that can't be listed gets the same table and a **Why we can't list it**
+section in place of **Next step**, linking the rule; then close the issue as
+not planned.

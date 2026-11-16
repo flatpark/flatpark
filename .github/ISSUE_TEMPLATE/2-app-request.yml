@@ -1,0 +1,29 @@
+name: App request
+description: An app you'd like to install from FlatPark.
+title: "[App Request] "
+labels: [app-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A name or a link is enough; we look up the rest and reply with what we found.
+        Writing in Chinese is fine too.
+  - type: textarea
+    id: app
+    attributes:
+      label: Which app
+      description: Its name, website, or GitHub link.
+      placeholder: https://github.com/owner/repo
+    validations:
+      required: true
+  - type: textarea
+    id: more
+    attributes:
+      label: Anything else (optional)
+      description: |
+        If you know any of these, they speed things up:
+
+        - what you'd use it for (we test that part first);
+        - where the official Linux download is (.deb, AppImage, tarball, ...);
+        - whether it is on Flathub already, and what's wrong with that package;
+        - whether you've asked its developer.

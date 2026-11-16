@@ -68,7 +68,7 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
 3. **Lend your agent.** If you have spare tokens, point your agent at
    [finding apps](docs/packagers/finding-apps.md#for-agents) and let it search
    for good apps that Flatpak users can't get yet. It files what it finds as
-   `[app discover]` issues.
+   `[App Discover]` issues.
 4. **Package an app.** New apps are very welcome. Pick one from the
    [issues](https://github.com/flatpark/flatpark/issues?q=is%3Aissue+is%3Aopen+%22%5Bapp+discover%5D%22)
    or bring your own. Open this repo in your agent (e.g. Claude Code) and ask:

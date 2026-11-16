@@ -37,9 +37,16 @@ order: 7
 
 ## Reporting a problem
 
-Open an issue at
-[github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues)
-with the app id, what you did, what happened, and the output of
-`flatpak run <app-id>` from a terminal. Say which distribution and desktop you
-use. Problems with how the app is packaged are ours to fix; we pass problems in
-the app itself on to its developer.
+Open an issue with the **App problem** form at
+[github.com/flatpark/flatpark/issues/new/choose](https://github.com/flatpark/flatpark/issues/new/choose).
+It asks for two outputs:
+
+- `rpak doctor <app-id>`: your distribution, desktop, flatpak setup,
+  overrides and the app's downloads, in one go. It changes nothing, and leaves
+  out home paths and your user name. Without [rpak](rpak.md), download it once
+  and run it from where it is; the form shows how.
+- `flatpak run <app-id>` from a terminal, with the problem reproduced: crashes
+  only show up there.
+
+Problems with how the app is packaged are ours to fix; we pass problems in the
+app itself on to its developer.

@@ -1,0 +1,10 @@
+name: Something else
+description: Anything that doesn't fit the forms above.
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What's on your mind
+      description: Write it however you like; we'll sort it out. Chinese is fine too.
+    validations:
+      required: true

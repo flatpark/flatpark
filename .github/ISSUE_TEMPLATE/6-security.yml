@@ -1,0 +1,22 @@
+name: Security problem
+description: A package or app release that puts users at risk. Handled before anything else.
+title: "[Security] "
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Reported in public on purpose, so other users are warned. Writing in Chinese is fine too.
+
+        One exception: a weakness in FlatPark's own pipeline (how it builds, signs or publishes,
+        its workflows, the release webhook) could be used against every user before it is fixed.
+        Report that one [privately](https://github.com/flatpark/flatpark/security/advisories/new) instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong
+      description: |
+        The app id and version if it's about an app, what it does that it shouldn't, and how you
+        found out. Links, logs or a VirusTotal result help.
+    validations:
+      required: true
