@@ -83,6 +83,8 @@ case "$body" in
     *"actions/runs/42"*) ;;
     *) echo "FAIL: issue body lacks the run URL"; exit 1 ;;
 esac
+# Callers pass bare titles; the script marks every bot issue with [CI].
+assert_eq "$(jq -r '.[0].title' "$CI_ALERT_TEST_STATE")" "[CI] held back: com.example.App"
 
 # Same failure tomorrow, and the day after: still one issue, no new create call.
 for _ in 1 2; do
@@ -120,7 +122,12 @@ printf -- '- com.example.C\n' \
 assert_eq "$(open_count)" "2"
 assert_eq "$(creates)" "3"
 synced="$(jq -c '[.[] | select(.state == "open" and (.body | contains("ci-alert:update-check/resolvers")))][0]' "$CI_ALERT_TEST_STATE")"
-assert_eq "$(jq -r .title <<<"$synced")" "1 resolver failed"
+assert_eq "$(jq -r .title <<<"$synced")" "[CI] 1 resolver failed"
 assert_eq "$(jq -r '.body | contains("com.example.C") and (contains("com.example.A") | not)' <<<"$synced")" "true"
+# A title that already has the prefix doesn't get a second one.
+printf -- '- com.example.D\n' \
+    | "$ROOT/scripts/ci-alert.sh" sync "update-check/resolvers" "[CI] 1 resolver failed" >/dev/null
+synced="$(jq -c '[.[] | select(.state == "open" and (.body | contains("ci-alert:update-check/resolvers")))][0]' "$CI_ALERT_TEST_STATE")"
+assert_eq "$(jq -r .title <<<"$synced")" "[CI] 1 resolver failed"
 "$ROOT/scripts/ci-alert.sh" resolve "update-check/resolvers" >/dev/null
 assert_eq "$(open_count)" "1"

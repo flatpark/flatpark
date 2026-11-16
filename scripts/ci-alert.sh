@@ -28,6 +28,16 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 need gh
 
 LABEL="ci-alert"
+# Every bot-opened issue carries this, so they read apart from human-filed
+# ones ([Bug], [App Request], ...) in the issue list. Callers pass bare titles.
+TITLE_PREFIX="[CI] "
+
+prefixed() {
+    case "$1" in
+        "$TITLE_PREFIX"*) printf '%s' "$1" ;;
+        *) printf '%s%s' "$TITLE_PREFIX" "$1" ;;
+    esac
+}
 
 run_url() {
     [ -n "${GITHUB_RUN_ID:-}" ] && [ -n "${GITHUB_REPOSITORY:-}" ] || return 0
@@ -69,7 +79,7 @@ cmd_open() {
     # repo has never created it.
     gh label create "$LABEL" --color B60205 \
         --description "Opened automatically by a failing workflow" >/dev/null 2>&1 || true
-    gh issue create --title "$title" --label "$LABEL" --body "$body" >&2
+    gh issue create --title "$(prefixed "$title")" --label "$LABEL" --body "$body" >&2
     log "ci-alert: opened for $key"
 }
 
@@ -89,7 +99,7 @@ cmd_sync() {
     url="$(run_url)"
     [ -z "$url" ] || body="$(printf '%s\n\nLatest run: %s' "$body" "$url")"
     body="$(printf '%s\n\n%s\n' "$body" "$(marker "$key")")"
-    gh issue edit "$existing" --title "$title" --body "$body" >&2
+    gh issue edit "$existing" --title "$(prefixed "$title")" --body "$body" >&2
     log "ci-alert: refreshed #$existing for $key"
 }
 
