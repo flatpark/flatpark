@@ -42,8 +42,9 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
       ISSUE: ${{ github.event.issue.number }}
+      LABEL: ${{ github.event.label.name }}
     steps:
-      - name: Point to /claim
+      - name: Thank and point to /claim
         run: |
           set -euo pipefail
           marker='<!-- claim-hint -->'
@@ -52,12 +53,17 @@ jobs:
           if gh issue view "$ISSUE" --json comments -q '.comments[].body' | grep -qF "$marker"; then
               exit 0
           fi
-          gh issue comment "$ISSUE" --body "$(cat <<EOF
-          **Packaging this app?** Comment \`/claim\` first, so nobody else starts on the same one. It assigns the issue to you; \`/unclaim\` gives it back. If it is already assigned, ask that person here before starting. ([Claims](https://flatpark.org/docs/reviewers/issues/#claims))
-
-          $marker
-          EOF
-          )" >/dev/null
+          claim='If you would like to package it yourself, comment `/claim` and the issue is assigned to you, so nobody else starts on the same app; `/unclaim` gives it back. If it is already assigned, ask that person here before starting.'
+          # A request comes from someone outside; a discover issue is one of
+          # our own scans, where a thank-you would read oddly.
+          if [ "$LABEL" = app-request ]; then
+              lead="Thanks for the request! We'll look the app up and reply here with what we find."
+          else
+              lead="This app is open for anyone to package."
+          fi
+          printf '%s %s ([Claims](https://flatpark.org/docs/reviewers/issues/#claims))\n\n%s\n' \
+              "$lead" "$claim" "$marker" > body.md
+          gh issue comment "$ISSUE" --body-file body.md >/dev/null
 
   claim:
     if: >-
