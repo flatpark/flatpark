@@ -40,11 +40,26 @@ What it is waiting for (add and remove as the issue moves):
 | `needs-info` | The reporter has to add something: an output, a step, which app | They answer |
 | `needs-testers` | Needs hardware or a setup we don't have (a GPU vendor, aarch64, a desktop) | Someone has tested |
 | `report-to-upstream` | The cause is in the app itself, not the package | Never; link the developer's issue in a comment once it is filed |
-| `help wanted` | Open for anyone to pick up | Someone takes it |
+| `help wanted` | Open for anyone to pick up | Someone takes it (`/claim` removes it) |
 
 `help wanted` says only that anyone may take it; the label beside it says what
 kind of help: `app-request` + `help wanted` is an app anyone may package,
 `community` + `help wanted` is a call for people.
+
+### Claims
+
+Commenting `/claim` on an open `app-request` or `app-discover` issue assigns it
+to the commenter, so two people don't package the same app; `/unclaim` gives
+it back. The comment must start with the command on its own line. A bot
+reacts 👍 when it worked; if someone else already holds the claim it replies
+with their name and assigns nobody. One claim per issue.
+
+When an issue first gets either label, a bot comments with a pointer to
+`/claim`, so whoever reads the issue later knows to claim before starting.
+
+A claim that has gone quiet (no PR, no answer when asked) is released by a
+maintainer: unassign the person, say why in a comment, and add `help wanted`
+back. Maintainers can still assign by hand; the command is for everyone else.
 
 Closing: `duplicate` with a link to the earlier issue; GitHub's "not planned"
 for an app that can't be listed or a proposal that was declined, with the

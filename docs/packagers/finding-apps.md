@@ -196,7 +196,8 @@ Notes, not as reasons to wait. An app you looked at and decided against
 again.
 
 Then package it with the [playbook](playbook.md), or leave the issue for
-someone else to pick up.
+someone else to pick up. Whoever packages it comments `/claim` on the issue
+first ([claims](../reviewers/issues.md#claims)).
 
 ### Answering an app request
 
