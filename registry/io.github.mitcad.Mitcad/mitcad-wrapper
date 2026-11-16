@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# Upstream's administrator switch. Any value but 0 means no update request
+# at all, including Help › Check for Updates. Set it to 0, and grant
+# network, to turn that back on.
+export MITCAD_NO_UPDATE_CHECK="${MITCAD_NO_UPDATE_CHECK:-1}"
+exec /app/extra/mitcad/AppRun "$@"
