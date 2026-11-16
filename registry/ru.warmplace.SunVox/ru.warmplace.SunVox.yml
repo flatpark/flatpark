@@ -1,0 +1,46 @@
+id: ru.warmplace.SunVox
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: sunvox
+separate-locales: false
+finish-args:
+  # SDL uses shared memory for its desktop window.
+  - --share=ipc
+  # SunVox draws its own interface and supports Wayland and X11.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Route playback and recording through the desktop audio service.
+  - --socket=pulseaudio
+  # Keep project browsing within the user's usual music workspace.
+  - --filesystem=xdg-music
+modules:
+  - name: sunvox
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 sunvox-wrapper /app/bin/sunvox
+      - install -Dm644 ru.warmplace.SunVox.desktop /app/share/applications/ru.warmplace.SunVox.desktop
+      - install -Dm644 ru.warmplace.SunVox.metainfo.xml /app/share/metainfo/ru.warmplace.SunVox.metainfo.xml
+      - install -Dm644 ru.warmplace.SunVox.png /app/share/icons/hicolor/128x128/apps/ru.warmplace.SunVox.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: sunvox.zip
+        only-arches:
+          - x86_64
+          - aarch64
+        url: https://www.warmplace.ru/soft/sunvox/sunvox-2.1.4d.zip
+        sha256: acd94ae4acd6ab60bee1f5ba117082cd2ea51f7e87871f1776d11cfd24a59880
+        size: 39592833
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: sunvox-wrapper
+      - type: file
+        path: ru.warmplace.SunVox.desktop
+      - type: file
+        path: ru.warmplace.SunVox.metainfo.xml
+      - type: file
+        path: ru.warmplace.SunVox.png
