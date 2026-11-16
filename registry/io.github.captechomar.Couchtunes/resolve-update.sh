@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
 # Update resolver for Couchtunes.
 #
-# Prints the newest release + its Linux x86_64 AppImage as JSON on stdout:
+# Prints the latest stable release + its Linux x86_64 AppImage as JSON on stdout:
 #   { "version": "2.16.7", "releaseDate": "YYYY-MM-DD",
 #     "sources": [ { "filename": "couchtunes.AppImage", "url": "..." } ] }
 # Logs go to stderr. GitHub's API carries the asset's sha256 and size, so
 # update-pins pins it without a download.
 #
-# Prereleases are tracked on purpose: upstream cuts several `vX.Y.Z-beta.N`
-# releases before each stable one, and this package ships them too, so FlatPark
-# users get betas the way upstream's own beta Flatpak channel does. That is
-# why this reads the release list rather than releases/latest, which skips
-# prereleases. The newest non-draft release by publish time wins; a beta and
-# the stable release cut from the same commit share created_at, so created_at
-# can't order them. Each release is dated by day; when a beta and its stable
-# release land the same day, Flatpak reports the version of the first <release>
-# with the newest date, which is the one update-pins prepended last.
+# Stable releases only: upstream runs its own beta channel and asked FlatPark
+# to follow stable releases (flatpark#1286). releases/latest never points at a
+# prerelease or a draft, so a `vX.Y.Z-beta.N` ping resolves to the current
+# stable release and changes nothing.
 set -euo pipefail
 
 repo="CaptechOmar/Couchtunes"
@@ -23,19 +18,16 @@ repo="CaptechOmar/Couchtunes"
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-        "https://api.github.com/repos/$repo/releases?per_page=30")"
-rel="$(jq -c '[ .[] | select(.draft | not) ] | sort_by(.published_at) | last // empty' <<<"$rels")"
-[ -n "$rel" ] || { echo "no published couchtunes release" >&2; exit 1; }
+rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+        "https://api.github.com/repos/$repo/releases/latest")"
 
-version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
+version="$(jq -r '.tag_name // empty | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-# `Couchtunes-<base version>-linux-x86_64.AppImage` (a beta's file carries the
-# version it leads up to, without -beta.N). Anchored on the full shape so a
+# `Couchtunes-<version>-linux-x86_64.AppImage`. Anchored on the full shape so a
 # zsync file or another arch is never picked.
 url="$(jq -r '.assets[] | select(.name | test("^Couchtunes-[0-9][0-9.]*-linux-x86_64\\.AppImage$")) | .browser_download_url' <<<"$rel")"
 
-# The newest release must carry the file. Falling back to an older release
+# The latest release must carry the file. Falling back to an older release
 # would look like a new version to update-pins (it only checks equality) and
 # roll users back; a release whose AppImage isn't uploaded yet is retried on
 # the next run instead.
