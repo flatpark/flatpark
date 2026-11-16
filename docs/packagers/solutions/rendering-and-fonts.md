@@ -18,11 +18,27 @@ which toolkit the app uses before copying a fix from another one.
 | Symptom | Cause | Fix |
 |---|---|---|
 | The window opens blank or white on some GPUs | WebKitGTK's DMABUF renderer fails in the sandbox with many drivers | `export WEBKIT_DISABLE_DMABUF_RENDERER=1` in the wrapper ([Tabularis](../../../registry/dev.tabularis.Tabularis/tabularis-wrapper)) |
-| On GNOME 51 a `transparent: true` window shows the desktop through it; content only flashes while scrolling | Without acceleration, WebKit on GNOME 51 doesn't paint a transparent window's background | The opposite of the above: keep acceleration on, `WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"` and the same for `WEBKIT_DISABLE_COMPOSITING_MODE` ([ArtCraft](../../../registry/ai.artcraft.app/artcraft-wrapper)) |
+| On GNOME 51 a `transparent: true` window shows the desktop through it, all of it or only the parts that haven't changed; content only flashes while scrolling | Most likely WebKitGTK 2.54's compositor, which redraws only each frame's damaged regions: a transparent window shows the desktop wherever nothing was redrawn (Rayburst's upstream traced it there). How often depends on the app and on the acceleration setting; see below | Lowers the odds, doesn't fix it: keep acceleration on, `WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"` and the same for `WEBKIT_DISABLE_COMPOSITING_MODE` ([ArtCraft](../../../registry/ai.artcraft.app/artcraft-wrapper)) |
 | On GNOME 51 an opaque window's web content dies when switching views; afterwards every start shows an empty window | The same unaccelerated path crashes `WebKitWebProcess`; the crash leaves IndexedDB in a state that kills it on every start | Same fix. To recover a user, delete `~/.var/app/<id>/data/<tauri identifier>/databases` |
 
 - Check the app's `src-tauri/tauri.conf.json` for `transparent` before choosing
-  between the first two rows.
+  between the first two rows. An opaque window takes the first row, even if a
+  similar app uses the second.
+- The transparent-window fault is intermittent, so one clean start proves
+  nothing; launch each setting several times. Measured on WebKitGTK 2.54.1
+  (GNOME 51, Intel, Hyprland), as see-through starts out of the total:
+
+  | App | Acceleration on | Off (`DMABUF=1`) |
+  |---|---|---|
+  | ArtCraft | 0/4 | 4/4 |
+  | mDNS Browser | 0/3 | 2/3 |
+  | Sigma File Manager, Cockpit Tools | 0/5 | 1/5 |
+  | Lap | 2/3 | 0/3 |
+
+  No environment variable fixes it. The app has to turn off WebKit's
+  `UseDamagingInformationForCompositing` feature through `WebKitSettings`, as
+  Rayburst does (`src-tauri/src/webkit.rs`; rayburst#650, #705), or use an
+  opaque window. Point upstream at that.
 - WebKit reads these variables by value, so `0` means "don't disable". Writing
   them as `${VAR:-0}` leaves `flatpak override --env=VAR=1` to the user.
 - To see whether the web process is alive: `cat /proc/<app pid>/task/*/children`.

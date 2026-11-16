@@ -1,5 +1,10 @@
 #!/bin/sh
 set -eu
-# Keep WebKit acceleration available on GNOME 51; users may override this.
-export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"
+# No WebKitGTK variables here. Chiri sets WEBKIT_DISABLE_DMABUF_RENDERER=1
+# itself when it is unset (src-tauri/src/app/setup.rs), to avoid an immediate
+# "Error 71: Protocol error" crash on NVIDIA's proprietary driver under Wayland.
+# Its window is opaque, so the GNOME 51 transparent-window problem does not
+# apply; tested on Intel, Hyprland, native Wayland, with the variable at 0 and
+# at 1, and both render. A user can still opt into the DMA-BUF path with
+#   flatpak override --user --env=WEBKIT_DISABLE_DMABUF_RENDERER=0 garden.chiri.Chiri
 exec /app/extra/chiri/usr/bin/garden.chiri.Chiri "$@"
