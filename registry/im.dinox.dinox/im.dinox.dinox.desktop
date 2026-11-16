@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DinoX
+GenericName=Jabber/XMPP Client
+Comment=Modern XMPP chat client
+Exec=dinox %U
+Icon=im.dinox.dinox
+Terminal=false
+StartupNotify=true
+StartupWMClass=dinox
+Categories=GTK;Network;Chat;InstantMessaging;
+Keywords=chat;talk;im;message;xmpp;jabber;omemo;openpgp;mqtt;tor;
+MimeType=x-scheme-handler/xmpp;
+X-GNOME-UsesNotifications=true

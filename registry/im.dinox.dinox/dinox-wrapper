@@ -1,0 +1,80 @@
+#!/bin/sh
+set -eu
+
+# DinoX's AppImage carries its own GTK 4, libadwaita, GLib, GStreamer, gdk-pixbuf,
+# ffmpeg, gpg and tor, and finds none of them through the system. Its AppRun
+# points every one of those at the AppDir through environment variables; this is
+# the same set, for the tree apply_extra left at /app/extra/dinox. AppRun's other
+# jobs are not repeated: it registers a desktop entry for the temporary mount it
+# runs from (this package exports its own) and repairs the accessibility bus
+# outside a Flatpak.
+export APPDIR=/app/extra/dinox
+app="$APPDIR/usr"
+
+# DinoX finds gpg, gpgconf, ffmpeg and curl through PATH. Without the bundle
+# first, it would run the runtime's copies, which then load the bundle's older
+# libgcrypt and friends through LD_LIBRARY_PATH. APPDIR is what the bundled
+# gpgconf.ctl roots GnuPG at (rootdir = ${APPDIR}/usr), so gpg starts the
+# bundled gpg-agent. APPIMAGE stays unset: DinoX's AppImage-only code paths
+# (desktop integration, dropping LD_LIBRARY_PATH for host tools) don't apply.
+export PATH="$app/bin${PATH:+:$PATH}"
+
+# Upstream's launcher puts the bundle's libraries on the path as well: the
+# plugins find libdino, SQLCipher, libnice and libomemo-c through it.
+export LD_LIBRARY_PATH="$app/lib/dinox:$app/lib/x86_64-linux-gnu:$app/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+# In-process modules have to match the bundled GLib, GTK and GStreamer.
+export GIO_MODULE_DIR="$app/lib/gio/modules"
+unset GIO_EXTRA_MODULES
+export GTK_EXE_PREFIX="$app"
+export GTK_PATH="$app/lib/gtk-4.0"
+export LIBHEIF_PLUGIN_PATH="$app/lib/libheif/plugins"
+export DINOX_CANBERRA_MODULE_DIR="$app/lib/dinox/canberra"
+export OPENSSL_MODULES="$app/lib/ossl-modules"
+export OPENSSL_ENGINES="$app/lib/engines-3"
+export GST_PLUGIN_PATH="$app/lib/gstreamer-1.0"
+export GST_PLUGIN_SYSTEM_PATH="$GST_PLUGIN_PATH"
+export GST_PLUGIN_PATH_1_0="$GST_PLUGIN_PATH"
+export GST_PLUGIN_SYSTEM_PATH_1_0="$GST_PLUGIN_PATH"
+if [ -f "$app/lib/gstreamer-1.0/gst-plugin-scanner" ]; then
+    export GST_PLUGIN_SCANNER="$app/lib/gstreamer-1.0/gst-plugin-scanner"
+    export GST_PLUGIN_SCANNER_1_0="$GST_PLUGIN_SCANNER"
+fi
+export XDG_DATA_DIRS="$app/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+export GSETTINGS_SCHEMA_DIR="$app/share/glib-2.0/schemas"
+export GDK_PIXBUF_MODULEDIR="$app/lib/gdk-pixbuf-2.0/2.10.0/loaders"
+
+# The loader cache the AppImage carries lists the loaders under /usr/lib, so
+# AppRun rebuilds it at every launch. Build it once per install instead, in the
+# app's cache folder: again when apply_extra has run since (it makes
+# /app/extra/bin at every install or update).
+pixbuf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dinox/pixbuf-loaders.cache"
+if [ ! -s "$pixbuf_cache" ] || [ /app/extra/bin -nt "$pixbuf_cache" ]; then
+    mkdir -p "${pixbuf_cache%/*}"
+    if "$app/bin/gdk-pixbuf-query-loaders" > "$pixbuf_cache.$$" 2>/dev/null && [ -s "$pixbuf_cache.$$" ]; then
+        mv -f "$pixbuf_cache.$$" "$pixbuf_cache"
+    else
+        rm -f "$pixbuf_cache.$$"
+        echo "dinox-wrapper: could not build the GdkPixbuf loader cache" >&2
+    fi
+fi
+[ -s "$pixbuf_cache" ] && export GDK_PIXBUF_MODULE_FILE="$pixbuf_cache"
+
+# DinoX's plugins, translations and the tor it starts for its optional Tor mode.
+export DINO_PLUGIN_DIR="$app/lib/x86_64-linux-gnu/dino/plugins"
+export TEXTDOMAINDIR="$app/share/locale"
+export DINOX_TOR_PATH="$app/bin/tor"
+export DINOX_LYREBIRD_PATH="$app/bin/lyrebird"
+export DINOX_TOR_DATA_DIR="$app/share/dinox/tor"
+
+# GnuTLS (the GIO TLS backend), curl and the bundled OpenSSL need a CA bundle
+# path; the runtime's is the same file AppRun looks for on a Debian host.
+if [ -f /etc/ssl/certs/ca-certificates.crt ]; then
+    export GTLS_SYSTEM_CA_FILE="${GTLS_SYSTEM_CA_FILE:-/etc/ssl/certs/ca-certificates.crt}"
+    export SSL_CERT_FILE="${SSL_CERT_FILE:-$GTLS_SYSTEM_CA_FILE}"
+    export CURL_CA_BUNDLE="${CURL_CA_BUNDLE:-$GTLS_SYSTEM_CA_FILE}"
+fi
+
+# /app/extra/bin/dinox is a symlink, made by apply_extra, to the launcher in
+# the AppDir; its name is the program name, hence the window class.
+exec /app/extra/bin/dinox "$@"

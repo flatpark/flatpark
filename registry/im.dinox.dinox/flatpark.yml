@@ -1,0 +1,29 @@
+id: im.dinox.dinox
+name: DinoX
+summary: Modern XMPP chat client with OMEMO, OpenPGP, calls and optional Tor
+website: https://dinox.im
+source_url: https://git.dinox.im/dinoxim/dinox
+build:
+  manifest: im.dinox.dinox.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - XMPP
+    - Jabber
+    - Chat
+    - OMEMO
+    - OpenPGP
+    - Tor
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Video calls and video messages: the WebRTC worker opens the webcam through
+    # /dev/video*, which no narrower --device exposes. Without the grant the
+    # sandbox has no /dev/video* and the webcam does not work in DinoX (reported
+    # by the person who tested the package). Upstream's own Flatpak sets the same
+    # grant.
+    - --device=all

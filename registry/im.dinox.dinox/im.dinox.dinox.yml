@@ -1,0 +1,72 @@
+id: im.dinox.dinox
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: dinox
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A GTK 4 / libadwaita app, native on Wayland; the AppImage carries its own
+  # GTK. fallback-x11 (with ipc) only for X11 sessions. dri for GPU rendering
+  # and video-call hardware codecs.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The webcam, for video calls and video messages. DinoX's WebRTC library
+  # (libdinox-google-webrtc.so) opens /dev/video*, and only --device=all puts
+  # those nodes in the sandbox; without it the webcam does not work. Upstream's
+  # own Flatpak grants the same. Declared in flatpark.yml. dri stays listed
+  # separately so "flatpak override --nodevice=all" turns the camera off and
+  # keeps GPU rendering.
+  - --device=all
+  # Network is the core function: XMPP over TCP/TLS, HTTP file upload and
+  # download, link previews and the optional Tor mode.
+  - --share=network
+  # Voice messages, voice and video calls, and notification sounds.
+  - --socket=pulseaudio
+  # Desktop notifications for new messages (libdino calls the bus name directly).
+  - --talk-name=org.freedesktop.Notifications
+  # System tray: DinoX publishes its own StatusNotifierItem.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Saved account passwords, over Secret Service (libsecret).
+  - --talk-name=org.freedesktop.secrets
+modules:
+  - name: dinox
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 dinox-wrapper /app/bin/dinox
+      - install -Dm644 im.dinox.dinox.desktop /app/share/applications/im.dinox.dinox.desktop
+      - install -Dm644 im.dinox.dinox.metainfo.xml /app/share/metainfo/im.dinox.dinox.metainfo.xml
+      - install -Dm644 im.dinox.dinox.svg /app/share/icons/hicolor/scalable/apps/im.dinox.dinox.svg
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output: the tools that open the AppImage without running it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: dinox.AppImage
+        only-arches:
+          - x86_64
+        url: https://git.dinox.im/dinoxim/dinox/releases/download/v2.3.8/DinoX-2.3.8-x86_64.AppImage
+        sha256: 5aad0ef7a10d1b89c7b083f00717441857f34786593e4d404ede15edf5a09453
+        size: 192121336
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dinox-wrapper
+      - type: file
+        path: im.dinox.dinox.desktop
+      - type: file
+        path: im.dinox.dinox.metainfo.xml
+      - type: file
+        path: im.dinox.dinox.svg
