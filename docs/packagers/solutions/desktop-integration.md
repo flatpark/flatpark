@@ -73,6 +73,7 @@ toolkit:
 |---|---|
 | Tauri `tray-icon` | libayatana-appindicator, which the GNOME runtime lacks: the `ayatana-stack` [prebuilt](../prebuilt.md), plus `--filesystem=xdg-run/tray-icon:create` for the icon files ([AeroFTP](../../../registry/com.aeroftp.AeroFTP/com.aeroftp.AeroFTP.yml)). Without the library, `tray-icon` panics at start. |
 | Flutter `tray_manager` / desktop tray plugin | `--own-name=org.fluttertray.*` ([Vynody](../../../registry/io.github.axel10.vynody/io.github.axel10.vynody.yml)) |
+| Rust `ksni` (without `disable_dbus_name`) | Owns `org.kde.StatusNotifierItem-2-<n>`, `<n>` counting from 1; a refused name means no tray. Grant that exact name ([Rayburst](../../../registry/dev.aninsomniacy.rayburst/dev.aninsomniacy.rayburst.yml)) |
 | Avalonia (.NET) | Owns `org.kde.StatusNotifierItem-2-0`: `--own-name=org.kde.*` ([XerahS](../../../registry/com.xerahs.XerahS/com.xerahs.XerahS.yml)) |
 | Qt 6 (Enpass 6.12), Electron 45 and later, Chromium 155 and later | Register under their unique connection name; the watcher grant alone is enough |
 | Wails v3 | Unique connection name; the watcher grant alone |

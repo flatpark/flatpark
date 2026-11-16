@@ -18,7 +18,7 @@ which toolkit the app uses before copying a fix from another one.
 | Symptom | Cause | Fix |
 |---|---|---|
 | The window opens blank or white on some GPUs | WebKitGTK's DMABUF renderer fails in the sandbox with many drivers | `export WEBKIT_DISABLE_DMABUF_RENDERER=1` in the wrapper ([Tabularis](../../../registry/dev.tabularis.Tabularis/tabularis-wrapper)) |
-| On GNOME 51 a `transparent: true` window shows the desktop through it; content only flashes while scrolling | Without acceleration, WebKit on GNOME 51 doesn't paint a transparent window's background | The opposite of the above: keep acceleration on, `WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"` and the same for `WEBKIT_DISABLE_COMPOSITING_MODE` ([Rayburst](../../../registry/dev.aninsomniacy.rayburst/rayburst-wrapper)) |
+| On GNOME 51 a `transparent: true` window shows the desktop through it; content only flashes while scrolling | Without acceleration, WebKit on GNOME 51 doesn't paint a transparent window's background | The opposite of the above: keep acceleration on, `WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-0}"` and the same for `WEBKIT_DISABLE_COMPOSITING_MODE` ([ArtCraft](../../../registry/ai.artcraft.app/artcraft-wrapper)) |
 | On GNOME 51 an opaque window's web content dies when switching views; afterwards every start shows an empty window | The same unaccelerated path crashes `WebKitWebProcess`; the crash leaves IndexedDB in a state that kills it on every start | Same fix. To recover a user, delete `~/.var/app/<id>/data/<tauri identifier>/databases` |
 
 - Check the app's `src-tauri/tauri.conf.json` for `transparent` before choosing
@@ -29,9 +29,13 @@ which toolkit the app uses before copying a fix from another one.
   Only a `WebKitNetworkProcess` left means the content process died.
 - Forcing X11 (`GDK_BACKEND=x11`) doesn't help with any of these; they are not
   Wayland problems.
-- Some apps add their own GPU guard that reads a preference and turns
-  acceleration off by default; setting both variables in the wrapper makes it
-  stand aside (Rayburst logs `external WebKitGTK rendering override`).
+- Some apps set these variables themselves before GTK starts, and then a
+  wrapper export is overwritten. Rayburst 4.1.2 removes
+  `WEBKIT_DISABLE_DMABUF_RENDERER`, forces DMA-BUF in shared-memory mode and
+  paints on the CPU unless its own "hardware rendering" setting is on
+  (`src-tauri/src/webkit.rs`). Grep the app's startup code for `WEBKIT_`
+  before adding a wrapper variable, and test with none set
+  (`flatpak run --command=<binary>`) as well.
 
 ### The interface is tiny on a HiDPI screen
 

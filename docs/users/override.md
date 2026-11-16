@@ -80,7 +80,6 @@ usually an environment variable. `--unset-env=NAME` removes one.
 ```sh
 flatpak override --user --env=GDK_SCALE=2 com.falconpdf.app
 flatpak override --user --env=UI_SCALE=2 com.schwab.thinkorswim
-flatpak override --user --env=WEBKIT_DISABLE_COMPOSITING_MODE=1 dev.aninsomniacy.rayburst
 ```
 
 **Apps that can run commands on your system.** A few packages need this for one

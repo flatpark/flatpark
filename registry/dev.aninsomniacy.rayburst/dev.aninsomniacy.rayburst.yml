@@ -25,39 +25,31 @@ finish-args:
   # location is granted per-folder through the file chooser portal, or by the
   # user with `flatpak override --filesystem=...` (documented in the metainfo).
   - --filesystem=xdg-download
-  # Download-complete notifications and the tray icon.
+  # Download-complete notifications and the tray icon. The ksni tray sends its
+  # icon as pixmap data over D-Bus, so it needs no icon directory shared with the
+  # host (the xdg-run/tray-icon grant was for Tauri's own tray-icon backend).
   - --talk-name=org.freedesktop.Notifications
   - --talk-name=org.kde.StatusNotifierWatcher
-  - --filesystem=xdg-run/tray-icon:create
   # "Open containing folder" on a finished task calls
   # org.freedesktop.FileManager1.ShowItems, which is the host's file manager and
   # not a portal, so the session bus proxy hides it without this grant and the
   # menu entry does nothing at all.
   - --talk-name=org.freedesktop.FileManager1
-  # No --own-name is needed for the tray. The libayatana-appindicator build this
-  # app dlopens registers its item with the watcher under its own unique D-Bus
-  # connection name rather than claiming a well-known
-  # org.kde.StatusNotifierItem-<pid>-<n>, so there is no name to grant and none of
-  # the PID-2 contention that the older bus-name path suffers from.
+  # Since 4.1.x the Linux tray is ksni (src-tauri/src/tray/linux.rs), not
+  # libayatana-appindicator. ksni owns org.kde.StatusNotifierItem-<pid>-<n>
+  # before it registers with the watcher, and the app spawns it without
+  # disable_dbus_name, so a refused RequestName means no tray at all
+  # ("tray:registration-failed ... ServiceUnknown" in its log). Inside the
+  # sandbox the PID is 2 and this is the app's first tray, so the name is
+  # always -2-1. Another Flatpak app holding the same name would still win the
+  # race; the real fix is upstream calling disable_dbus_name when sandboxed.
+  - --own-name=org.kde.StatusNotifierItem-2-1
   # tauri-plugin-single-instance's own well-known name sits under the app id, so
   # Flatpak already lets the app own it; it needs no grant of its own.
 modules:
-  # The Tauri tray dlopens libayatana-appindicator3.so.1 (falling back to
-  # libappindicator3.so.1) through libappindicator-sys, and the GNOME runtime
-  # ships neither, so the tray cannot work without this.
-  # Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido, libayatana-indicator,
-  # libayatana-appindicator) from https://github.com/flatpark/prebuilt, built
-  # against org.gnome.Sdk//51; the tag's manifest records the exact sources,
-  # pins and patches. One pinned archive instead of five source builds per app,
-  # and no launchpad.net downloads at build time.
-  - name: ayatana-stack
-    buildsystem: simple
-    build-commands:
-      - cp -a ./. /app/
-    sources:
-      - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
-        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  # No ayatana-stack: on Linux the app builds its tray with ksni over D-Bus
+  # (src-tauri/src/tray/linux.rs) and never reaches Tauri's TrayIconBuilder,
+  # the only thing that would dlopen libayatana-appindicator3.
   - name: rayburst
     buildsystem: simple
     build-commands:
