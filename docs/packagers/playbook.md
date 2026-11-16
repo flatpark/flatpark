@@ -41,6 +41,11 @@ checks, and how to rank by fit. Record demand and prior attempts for each
 candidate; the PR and any upstream message use them. Re-run the searches
 periodically to catch new releases and new Flathub rejections.
 
+Before packaging an app that has an `[App Request]` or `[App Discover]` issue,
+check it isn't assigned to someone else, then comment `/claim` on it
+([claims](../reviewers/issues.md#claims)). Link the issue from the PR
+(`Closes #<n>`).
+
 ## 2. Check it can be packaged
 
 [Can it be packaged?](can-it-be-packaged.md): the official download, what
