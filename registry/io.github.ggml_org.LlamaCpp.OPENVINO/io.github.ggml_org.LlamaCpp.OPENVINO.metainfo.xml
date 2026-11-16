@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ggml_org.LlamaCpp.OPENVINO</id>
+  <name>llama.cpp (Intel)</name>
+  <summary>Run local language models on Intel hardware</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A community package of the unmodified official llama.cpp OpenVINO build for local language model inference, an HTTP API and a browser chat interface. Model downloads have their own licenses.</p>
+    <p>The desktop entry starts llama-server in a terminal. Open http://127.0.0.1:8084 in your browser. Models downloaded by llama.cpp stay in this app's private persistent cache. With no model argument, the server starts in router mode for cached models. Download a model first using the CLI, for example: flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.OPENVINO -hf bartowski/Qwen_Qwen3-0.6B-GGUF:Q4_K_M -c 512</p>
+    <p>Command line tools are available with flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.OPENVINO, and similarly llama, llama-bench and llama-quantize. Include -fa 1 when using llama-bench with the OpenVINO backend. Pass server model and port options after flatpak run io.github.ggml_org.LlamaCpp.OPENVINO. The Intel edition uses its own default port (8084) and private cache.</p>
+    <p>Host model directories are optional. Grant only a directory you need: flatpak override --user --filesystem=/path/to/models:ro io.github.ggml_org.LlamaCpp.OPENVINO. Then pass -m /path/to/models/model.gguf. To remove overrides: flatpak override --user --reset io.github.ggml_org.LlamaCpp.OPENVINO.</p>
+    <p>Python model conversion and workflows requiring a host toolchain are not included.</p>
+    <p>OpenVINO selects the Intel CPU by default. List devices with flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.OPENVINO --list-devices. Model and operation support depends on the upstream OpenVINO backend; start with a small context such as -c 512.</p>
+    <p>Intel GPU and NPU inference require compatible drivers and separate hardware testing. GPU access is optional: flatpak override --user --device=dri io.github.ggml_org.LlamaCpp.OPENVINO. Select it with flatpak run --env=GGML_OPENVINO_DEVICE=GPU io.github.ggml_org.LlamaCpp.OPENVINO. NPU access additionally requires flatpak override --user --device=all io.github.ggml_org.LlamaCpp.OPENVINO, which exposes all host devices; select it with flatpak run --env=GGML_OPENVINO_DEVICE=NPU io.github.ggml_org.LlamaCpp.OPENVINO. These accelerators have not been validated in this package. Reset grants with flatpak override --user --reset io.github.ggml_org.LlamaCpp.OPENVINO.</p>
+  </description>
+  <launchable type="desktop-id">io.github.ggml_org.LlamaCpp.OPENVINO.desktop</launchable>
+  <url type="homepage">https://llama.app</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/ggml-org/llama.cpp/tree/master/tools/server</url>
+  <developer id="io.github.ggml_org"><name>ggml-org</name></developer>
+  <provides><binary>llama-server</binary><binary>llama-cli</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The built-in llama.cpp browser chat interface (upstream screenshot)</caption>
+      <image>https://github.com/user-attachments/assets/b402f972-2e32-4def-8771-8d849f08cf2e</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="b12359" date="2026-11-13"/></releases>
+</component>
