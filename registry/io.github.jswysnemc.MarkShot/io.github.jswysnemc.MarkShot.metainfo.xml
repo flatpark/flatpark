@@ -47,6 +47,11 @@
   </categories>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="0.2.1" date="2026-11-16">
+      <description>
+        <p>More delayed-capture presets in the tray menu, an optional persistent recording panel, direct arrow heads and refined arrows, shapes and shadows, and toolbar tooltips. Fixes slow selection tracking on Cinnamon X11 and image clipboard transfers on X11/Xwayland. The new launch-at-login setting is not available in the Flatpak build.</p>
+      </description>
+    </release>
     <release version="0.2.0" date="2026-11-15">
       <description>
         <p>A complete rewrite in Rust: no Qt runtime, a built-in software renderer, native Wayland, X11 and KDE backends, a new recording engine, offline PP-OCRv5 OCR and more translation providers. Now also built for aarch64.</p>
