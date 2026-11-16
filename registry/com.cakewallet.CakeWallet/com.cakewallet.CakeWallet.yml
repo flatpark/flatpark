@@ -1,0 +1,67 @@
+id: com.cakewallet.CakeWallet
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: cake_wallet
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK desktop window and GPU-backed Flutter rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Connect to cryptocurrency nodes and other online wallet services.
+  - --share=network
+  # The Flutter connectivity probe tries NetworkManager on the system bus;
+  # this unowned name mounts the bus so its connectivity fallback runs promptly.
+  - --system-talk-name=org.flatpark.Placeholder
+  # Upstream stores wallet files in ~/cake_wallet; keep that data compatible
+  # with its Linux release without granting access to the rest of the home.
+  - --filesystem=~/cake_wallet:create
+modules:
+  - name: cake-wallet
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 cake-wallet-wrapper /app/bin/cake_wallet
+      - install -Dm644 com.cakewallet.CakeWallet.desktop /app/share/applications/com.cakewallet.CakeWallet.desktop
+      - install -Dm644 com.cakewallet.CakeWallet.metainfo.xml /app/share/metainfo/com.cakewallet.CakeWallet.metainfo.xml
+      - install -Dm644 com.cakewallet.CakeWallet.png /app/share/icons/hicolor/128x128/apps/com.cakewallet.CakeWallet.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: cake-wallet.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/cake-tech/cake_wallet/releases/download/v6.4.5/Cake_Wallet_v6.4.4_Linux.tar.xz
+        sha256: c24310b8f0a111580e59f38b48cfd40f66c6e4353d7629bee38b049e56b91025
+        size: 54038480
+      # END MANAGED EXTRA-DATA
+      # The Linux file picker shells out to zenity. Fetch it at install time.
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: zenity.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/z/zenity/zenity_4.1.90-1_amd64.deb
+        sha256: ac56ebaf225e62c8413101d7ddc255eff459b683c8c6a0801da978cfa473bbbd
+        size: 73892
+      - type: extra-data
+        filename: zenity-common.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/z/zenity/zenity-common_4.1.90-1_all.deb
+        sha256: f058842a23605662eb92efc602aee198906db888ed61301e5b8f061e042f91d0
+        size: 2493456
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cake-wallet-wrapper
+      - type: file
+        path: com.cakewallet.CakeWallet.desktop
+      - type: file
+        path: com.cakewallet.CakeWallet.metainfo.xml
+      - type: file
+        path: com.cakewallet.CakeWallet.png
