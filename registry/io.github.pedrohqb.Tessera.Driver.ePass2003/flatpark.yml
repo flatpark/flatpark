@@ -1,0 +1,22 @@
+id: io.github.pedrohqb.Tessera.Driver.ePass2003
+name: ePass2003 (Feitian)
+summary: Feitian ePass2003 driver for Tessera
+website: https://www.ftsafe.com/products/PKI/Standard
+source_url: https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/ePass2003
+build:
+  manifest: io.github.pedrohqb.Tessera.Driver.ePass2003.yml
+  branch: stable
+  mode: extra-data
+  extends: io.github.pedrohqb.Tessera
+catalog:
+  category: Security
+  tags:
+    - Brazil
+    - ICP-Brasil
+    - DigitalSignature
+    - SmartCard
+update:
+  command: ./resolve-update.sh
+policy:
+  # The vendor's driver is closed source.
+  proprietary: true

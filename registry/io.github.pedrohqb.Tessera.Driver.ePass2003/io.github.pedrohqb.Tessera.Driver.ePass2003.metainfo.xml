@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>io.github.pedrohqb.Tessera.Driver.ePass2003</id>
+  <extends>io.github.pedrohqb.Tessera</extends>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>ePass2003 (Feitian)</name>
+  <summary>Driver for the ePass2003 formatted by Feitian's Windows software, for Tessera</summary>
+  <summary xml:lang="pt-BR">Driver do ePass2003 formatado pelo programa da Feitian para Windows, para o Tessera</summary>
+  <developer id="com.ftsafe">
+    <name>Feitian</name>
+  </developer>
+  <url type="homepage">https://www.ftsafe.com/products/PKI/Standard</url>
+  <url type="bugtracker">https://github.com/pedrohqb/tessera/issues</url>
+  <url type="vcs-browser">https://github.com/pedrohqb/tessera/tree/main/flatpak/extensions/ePass2003</url>
+  <description>
+    <p>Feitian's own PKCS#11 library for the ePass2003 token, as Brazilian certificate authorities deliver it (formatted by Feitian's Windows software), so browsers, PDF readers and document signers that use Tessera's tokens can sign with it. Needs Tessera 0.4.5 or later.</p>
+    <p>Feitian's library talks to the token over USB itself, not through the system's card service (pcscd). It needs two one-time steps, which Tessera's Drivers page shows with the commands to copy: letting Tessera reach the USB devices, and making pcscd leave the ePass2003 to the driver. Until both are done Tessera does not load it, since pcscd and the library talking to the token at once make it stop answering. Tessera then loads the library once and shares it with every app, and makes the RSA-PSS signatures that TLS 1.3 needs with the token's raw RSA, since the library's own fail.</p>
+    <p>This extension installs the 64-bit library of Feitian's EnterSafe Castle SDK for Linux (2014), as Soluti distributes it, downloaded at install time and checked against a pinned checksum. Only the library is taken: no install script runs. It is closed source and not made or endorsed by Tessera's author.</p>
+    <p>The driver runs inside Tessera's sandbox with Tessera's permissions and has none of its own. After installing it, use Restart Tessera in Tessera's menu.</p>
+  </description>
+  <releases>
+    <release version="20141128" date="2026-11-16"/>
+  </releases>
+</component>

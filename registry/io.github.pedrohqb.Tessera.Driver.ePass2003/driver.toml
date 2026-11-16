@@ -1,0 +1,20 @@
+# Feitian's ePass2003 library, a Tessera driver extension
+# (io.github.pedrohqb.Tessera.Driver.ePass2003). Paths are relative to this
+# folder; apply_extra.sh unpacks into extra/.
+#
+# For the ePass2003 formatted by Feitian's Windows software, as certificate
+# authorities deliver it (OpenSC reads only the ePass2003 it formats). The
+# library talks to the token over USB itself, not through pcscd: Tessera
+# needs the USB devices, and the system's pcscd must leave the token alone,
+# or both talk to it at once and it hangs (src/setup.rs).
+name = "ePass2003 (Feitian)"
+vendor = "Feitian"
+description = "ePass2003 formatted by Feitian's Windows software (as certificate authorities deliver it)"
+module = "extra/libcastle.so.1.0.0"
+usb = true
+pcscd_ignore = "Feitian ePass2003"
+
+# The library lists RSA-PSS (what TLS 1.3 signs with) but its C_SignInit
+# fails; its raw RSA is right, so Tessera makes PSS with it (src/pss.rs).
+[env]
+TESSERA_PSS_VIA_RAW = "1"
