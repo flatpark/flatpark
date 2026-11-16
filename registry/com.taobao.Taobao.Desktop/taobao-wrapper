@@ -1,3 +1,8 @@
 #!/bin/sh
 set -eu
+# Chromium writes the tray icon into $TMPDIR/<theme>/status_icon_0.png and lets
+# the panel read it back from there. Flatpak's private /tmp is invisible to the
+# host, so the icon resolves to nothing and the panel draws a placeholder. Point
+# TMPDIR at the per-app runtime dir, which both sides can see.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
 exec zypak-wrapper /app/extra/electron/electron /app/extra/app.asar "$@"
