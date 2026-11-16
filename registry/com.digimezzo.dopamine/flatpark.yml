@@ -1,7 +1,7 @@
 id: com.digimezzo.dopamine
 name: Dopamine
 summary: Elegant audio player for your local music collection
-website: https://digimezzo.github.io/site/
+website: https://digimezzo.github.io
 source_url: https://github.com/digimezzo/dopamine
 build:
   manifest: com.digimezzo.dopamine.yml
