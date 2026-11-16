@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.processone.fluux</id>
+  <name>Fluux Messenger</name>
+  <summary>A modern XMPP client for communities and organizations</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <developer id="net.processone">
+    <name>ProcessOne</name>
+  </developer>
+  <url type="homepage">https://fluux.io</url>
+  <url type="bugtracker">https://github.com/processone/fluux-messenger/issues</url>
+  <url type="help">https://github.com/processone/fluux-messenger/discussions</url>
+  <url type="vcs-browser">https://github.com/processone/fluux-messenger</url>
+  <description>
+    <p>This is a FlatPark community package of Fluux Messenger, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Fluux Messenger is an XMPP chat client made by ProcessOne, the makers of ejabberd. It connects to any XMPP server, self-hosted or public, and implements more than 50 protocol extensions.</p>
+    <ul>
+      <li>One-to-one chat with typing indicators, reactions, replies and message corrections</li>
+      <li>Group chat rooms with roles, affiliations, mentions and moderation</li>
+      <li>OpenPGP end-to-end encryption for one-to-one chats</li>
+      <li>File sharing over HTTP upload with previews</li>
+      <li>Several accounts, offline support with automatic sync, and a built-in XMPP console for debugging</li>
+      <li>Light and dark mode and a choice of themes</li>
+    </ul>
+    <p>The package is sandboxed: besides display, GPU, audio, network, desktop notifications, a tray icon, the system keyring and your Downloads folder it grants nothing. Files you send are picked in the file chooser. Saving an attachment writes to the path its save dialog returns, and the app only writes under your home directory.</p>
+    <p>An optional capability is not granted by default; enable it with "flatpak override":</p>
+    <ul>
+      <li>Pasting a screenshot from the clipboard on a Wayland session needs X11 access (the app reads the clipboard image through a library that falls back to X11): <code>flatpak override --user --socket=x11 net.processone.fluux</code></li>
+      <li>Undo it: <code>flatpak override --user --reset net.processone.fluux</code></li>
+    </ul>
+    <p>New upstream releases arrive as Flatpak updates. The app's own update check cannot replace a packaged build and is not used.</p>
+  </description>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+  <launchable type="desktop-id">net.processone.fluux.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>Chat</category>
+    <category>InstantMessaging</category>
+  </categories>
+  <keywords>
+    <keyword>xmpp</keyword>
+    <keyword>jabber</keyword>
+    <keyword>chat</keyword>
+    <keyword>messenger</keyword>
+    <keyword>muc</keyword>
+    <keyword>groupchat</keyword>
+  </keywords>
+  <recommends>
+    <display_length compare="ge">800</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>fluux-messenger</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/processone/fluux-messenger/main/screenshots/01-chat-dark.png</image>
+      <caption>One-to-one chat with replies, an image and message requests</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/processone/fluux-messenger/main/screenshots/02-group-chat-dark.png</image>
+      <caption>Group chat with the member list</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/processone/fluux-messenger/main/screenshots/08-settings-dark.png</image>
+      <caption>Appearance settings with the built-in themes</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.18.2" date="2026-11-05"/>
+  </releases>
+</component>

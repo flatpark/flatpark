@@ -1,0 +1,22 @@
+id: net.processone.fluux
+name: Fluux Messenger
+summary: A modern XMPP client for communities and organizations
+website: https://fluux.io
+source_url: https://github.com/processone/fluux-messenger
+build:
+  manifest: net.processone.fluux.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - XMPP
+    - Jabber
+    - Chat
+    - Messaging
+    - OpenPGP
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

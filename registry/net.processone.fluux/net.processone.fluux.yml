@@ -1,0 +1,73 @@
+id: net.processone.fluux
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: fluux-messenger
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri v2 / WebKitGTK XMPP client. dri for hardware-accelerated rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Network is the core function: the app speaks XMPP to the user's server
+  # directly over TCP/TLS and WebSocket, and fetches uploads and link previews.
+  - --share=network
+  # Notification sounds, played by the web view.
+  - --socket=pulseaudio
+  # Desktop notifications for new messages.
+  - --talk-name=org.freedesktop.Notifications
+  # System tray (Tauri tray-icon): the watcher, plus the directory it writes the
+  # icon files to.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # The account password is saved to the system keyring over Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # Saving an attachment: the app writes the file itself to the path its save
+  # dialog returned, and its fs plugin allows writes only under $HOME. Downloads
+  # is where the dialog starts.
+  - --filesystem=xdg-download
+modules:
+  # The tray-icon crate dlopen-s libayatana-appindicator and the GNOME runtime
+  # does not ship it. Prebuilt ayatana tray stack (libdbusmenu, ayatana-ido,
+  # libayatana-indicator, libayatana-appindicator) from
+  # https://github.com/flatpark/prebuilt, built against org.gnome.Sdk//51; the
+  # tag's manifest records the exact sources, pins and patches.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: fluux-messenger
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fluux-wrapper /app/bin/fluux-messenger
+      - install -Dm644 net.processone.fluux.desktop /app/share/applications/net.processone.fluux.desktop
+      - install -Dm644 net.processone.fluux.metainfo.xml /app/share/metainfo/net.processone.fluux.metainfo.xml
+      - install -Dm644 net.processone.fluux.png /app/share/icons/hicolor/256x256/apps/net.processone.fluux.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fluux.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/processone/fluux-messenger/releases/download/v0.18.2/Fluux-Messenger_0.18.2_Linux_x64.tar.gz
+        sha256: 8500c2a7cffcfa2fdf7b58dd08bc2ed48d3eb756399306fff0b0d6f1642f2d0c
+        size: 11731244
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fluux-wrapper
+      - type: file
+        path: net.processone.fluux.desktop
+      - type: file
+        path: net.processone.fluux.metainfo.xml
+      - type: file
+        path: net.processone.fluux.png
