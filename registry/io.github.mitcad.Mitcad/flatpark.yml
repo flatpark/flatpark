@@ -1,0 +1,22 @@
+id: io.github.mitcad.Mitcad
+name: MitCad
+summary: Parametric 3D CAD with a design history
+website: https://mitcad.org
+source_url: https://github.com/mitcad/Mitcad
+build:
+  manifest: io.github.mitcad.Mitcad.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - CAD
+    - 3D
+    - Parametric
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

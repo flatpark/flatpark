@@ -1,0 +1,47 @@
+<!-- SPDX-License-Identifier: MIT -->
+<!-- Mitcad application icon, 64 px and up: a C cut from an isometric
+     hexagon on a dark tile, with sketch construction lines. Smaller sizes:
+     mitcad-small.svg. PNG and ICO files: tools/make-icons.sh. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#25384f"/>
+      <stop offset="1" stop-color="#0c1521"/>
+    </linearGradient>
+    <linearGradient id="left" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7cbcf7"/>
+      <stop offset="1" stop-color="#4a9af0"/>
+    </linearGradient>
+    <linearGradient id="white" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfd9e4"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#tile)"/>
+  <rect x="8.75" y="8.75" width="238.5" height="238.5" rx="51.25" fill="none" stroke="#4d6782" stroke-opacity="0.55" stroke-width="1.5"/>
+  <!-- Construction lines along the outer edges, past the corners. -->
+  <g stroke="#9ccbff" stroke-opacity="0.45" stroke-width="1.2" stroke-linecap="round">
+    <line x1="143.6" y1="31" x2="36.2" y2="93"/>
+    <line x1="51.8" y1="66" x2="51.8" y2="190"/>
+    <line x1="36.2" y1="163" x2="143.6" y2="225"/>
+    <line x1="112.4" y1="225" x2="219.8" y2="163"/>
+    <line x1="112.4" y1="31" x2="219.8" y2="93"/>
+    <line x1="204.2" y1="66" x2="204.2" y2="190"/>
+    <line x1="128" y1="22" x2="128" y2="40"/>
+    <line x1="128" y1="216" x2="128" y2="234"/>
+  </g>
+  <!-- The C: five sides of a hexagonal ring (outer radius 88, inner 44). -->
+  <g stroke="#d6ebff" stroke-opacity="0.7" stroke-width="1" stroke-linejoin="round">
+    <polygon points="128,40 51.8,84 89.9,106 128,84" fill="#8cc6fa"/>
+    <polygon points="51.8,84 51.8,172 89.9,150 89.9,106" fill="url(#left)"/>
+    <polygon points="51.8,172 128,216 128,172 89.9,150" fill="#3b8bea"/>
+    <polygon points="128,216 204.2,172 166.1,150 128,172" fill="#1f6fe0"/>
+    <polygon points="128,40 204.2,84 166.1,106 128,84" fill="url(#white)"/>
+  </g>
+  <!-- Glints at three corners. -->
+  <g fill="#ffffff">
+    <path d="M128 31 l1.6 7.4 7.4 1.6 -7.4 1.6 -1.6 7.4 -1.6 -7.4 -7.4 -1.6 7.4 -1.6z" opacity="0.85"/>
+    <path d="M51.8 77 l1.2 5.8 5.8 1.2 -5.8 1.2 -1.2 5.8 -1.2 -5.8 -5.8 -1.2 5.8 -1.2z" opacity="0.6"/>
+    <path d="M204.2 165 l1.2 5.8 5.8 1.2 -5.8 1.2 -1.2 5.8 -1.2 -5.8 -5.8 -1.2 5.8 -1.2z" opacity="0.6"/>
+  </g>
+</svg>

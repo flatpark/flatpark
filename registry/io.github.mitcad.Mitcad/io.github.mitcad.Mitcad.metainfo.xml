@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.mitcad.Mitcad</id>
+  <name>MitCad</name>
+  <summary>Parametric 3D CAD with a design history</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.mitcad">
+    <name>Mitcad contributors</name>
+  </developer>
+  <url type="homepage">https://mitcad.org</url>
+  <url type="bugtracker">https://github.com/mitcad/Mitcad/issues</url>
+  <url type="vcs-browser">https://github.com/mitcad/Mitcad</url>
+  <description>
+    <p>This is a community package of MitCad, maintained independently and unaffiliated with its authors. It repackages the official upstream Linux build unmodified.</p>
+    <p>MitCad is a parametric 3D CAD program. Sketches, features and parameters stay in one history, and it imports and exports STEP, IGES, STL, OBJ, DXF and other CAD files. A design is a .mitcad file.</p>
+    <p>Sandbox: display, GPU, printing, and the Documents folder for a design passed by path. It works offline. Update checks are off; Flatpak delivers updates. Insert › Component from Web, and a manual update check, need network:</p>
+    <p><code>flatpak override --user --share=network --env=MITCAD_NO_UPDATE_CHECK=0 io.github.mitcad.Mitcad</code></p>
+  </description>
+  <launchable type="desktop-id">io.github.mitcad.Mitcad.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>cad</keyword>
+    <keyword>parametric</keyword>
+    <keyword>sketch</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A part in the 3D view</caption>
+      <image>https://raw.githubusercontent.com/mitcad/Mitcad/v0.64.0/docs/images/rib-web/rib.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Parameters of a design</caption>
+      <image>https://raw.githubusercontent.com/mitcad/Mitcad/v0.64.0/docs/images/configurations/shelf-1-parameters.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>mitcad</binary>
+    <binary>mitcad-cli</binary>
+  </provides>
+  <releases>
+    <release version="0.64.0" date="2026-11-16">
+      <description>
+        <p>Official Linux build 0.64.0.</p>
+      </description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=MitCad
+GenericName=Parametric CAD
+Comment=Parametric 3D CAD with a design history
+Exec=mitcad %F
+TryExec=mitcad
+Icon=io.github.mitcad.Mitcad
+Terminal=false
+StartupNotify=true
+Categories=Graphics;3DGraphics;Engineering;
+Keywords=CAD;3D;model;parametric;sketch;
+MimeType=application/x-mitcad;
+StartupWMClass=Mitcad
