@@ -100,5 +100,10 @@ can grow without a new rpak release. Check, in this order:
 | Installations | Where the app is installed (user or system), whether the remote it came from is configured there, a lock held by another process, little free space. |
 | `RPAK_DRY_RUN`, `RPAK_FLATPAK` | rpak set to do nothing, or pointed at itself. |
 
+`flatpak run` printing nothing doesn't mean nothing happened: many apps
+(Tauri ones among them) write their log only to a file, usually under
+`~/.var/app/<id>/data/` or `~/.var/app/<id>/.local/share/`. Find it in the
+app's source or in the package's wrapper, and ask for it by its exact path.
+
 Write down what led to the cause in the reply, so the reporter learns to read
 it too. A pattern that turns up in several reports belongs in this table.
