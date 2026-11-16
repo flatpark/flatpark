@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=KoboldCpp (CUDA)
+GenericName=Local AI Model Launcher
+Comment=Run local AI models with NVIDIA CUDA
+Exec=koboldcpp
+Terminal=false
+Type=Application
+Categories=Development;ArtificialIntelligence;
+StartupNotify=false
+StartupWMClass=Tk
+Icon=io.github.LostRuins.koboldcpp.CUDA

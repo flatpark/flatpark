@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+# Relative model downloads, saved configurations and databases must survive exit.
+mkdir -p "$XDG_DATA_HOME/koboldcpp"
+cd "$XDG_DATA_HOME/koboldcpp"
+# With wrapper defaults present, upstream needs --showgui for the full launcher.
+if [ "$#" -eq 0 ]; then
+    set -- --showgui
+fi
+# Separate edition ports and a loopback default; explicit CLI arguments win.
+exec /app/extra/koboldcpp --host 127.0.0.1 --port 5002 "$@"
