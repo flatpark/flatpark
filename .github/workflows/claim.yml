@@ -9,11 +9,18 @@
 # claim by unassigning by hand. Nothing from the repository is checked out
 # and the comment text only reaches the shell through env, so this is safe on
 # comments from anyone.
+#
+# The issue forms can't put fixed text in the issue body, and the body is the
+# reporter's to write, so the pointer for whoever reads the issue later is a
+# bot comment: posted once, when the issue first gets one of the two labels
+# (the app request form sets it; a scan sets it on its [App Discover] issue).
 name: claim
 
 on:
   issue_comment:
     types: [created]
+  issues:
+    types: [labeled]
 
 # Two /claim comments seconds apart must not both see the issue unassigned.
 concurrency:
@@ -24,8 +31,37 @@ permissions:
   issues: write
 
 jobs:
+  hint:
+    if: >-
+      github.event_name == 'issues' &&
+      github.event.issue.state == 'open' &&
+      (github.event.label.name == 'app-request' ||
+       github.event.label.name == 'app-discover')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      ISSUE: ${{ github.event.issue.number }}
+    steps:
+      - name: Point to /claim
+        run: |
+          set -euo pipefail
+          marker='<!-- claim-hint -->'
+          # Once per issue: a second label, or one removed and added back,
+          # must not post it again.
+          if gh issue view "$ISSUE" --json comments -q '.comments[].body' | grep -qF "$marker"; then
+              exit 0
+          fi
+          gh issue comment "$ISSUE" --body "$(cat <<EOF
+          **Packaging this app?** Comment \`/claim\` first, so nobody else starts on the same one. It assigns the issue to you; \`/unclaim\` gives it back. If it is already assigned, ask that person here before starting. ([Claims](https://flatpark.org/docs/reviewers/issues/#claims))
+
+          $marker
+          EOF
+          )" >/dev/null
+
   claim:
     if: >-
+      github.event_name == 'issue_comment' &&
       !github.event.issue.pull_request &&
       github.event.issue.state == 'open' &&
       github.event.comment.user.type != 'Bot' &&

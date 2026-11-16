@@ -54,6 +54,9 @@ it back. The comment must start with the command on its own line. A bot
 reacts 👍 when it worked; if someone else already holds the claim it replies
 with their name and assigns nobody. One claim per issue.
 
+When an issue first gets either label, a bot comments with a pointer to
+`/claim`, so whoever reads the issue later knows to claim before starting.
+
 A claim that has gone quiet (no PR, no answer when asked) is released by a
 maintainer: unassign the person, say why in a comment, and add `help wanted`
 back. Maintainers can still assign by hand; the command is for everyone else.
