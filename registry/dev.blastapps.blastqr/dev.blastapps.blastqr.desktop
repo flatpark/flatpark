@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=blastQR
+Comment=Send files offline through QR codes
+Exec=blastqr
+Icon=dev.blastapps.blastqr
+Terminal=false
+Categories=Utility;
+Keywords=QR;transfer;offline;air-gap;file;
+StartupWMClass=Dev.blastapps.blastqr

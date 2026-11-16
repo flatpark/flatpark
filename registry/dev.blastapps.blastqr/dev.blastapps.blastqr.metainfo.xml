@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.blastapps.blastqr</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+
+  <name>blastQR</name>
+  <summary>Send files offline through QR codes</summary>
+  <developer id="dev.blastapps">
+    <name>Blast Studio Inc.</name>
+  </developer>
+
+  <description>
+    <p>
+      blastQR transfers files completely offline. The sender shows a sequence
+      of QR codes on screen and the receiver scans them with its camera. The
+      only link between the devices is the screen and the camera, which makes
+      it useful for air-gapped computers.
+    </p>
+    <ul>
+      <li>Resilient to missed frames: any large enough set of frames rebuilds the file</li>
+      <li>Up to 8 QR codes on screen at once for higher speed</li>
+      <li>Optional password encryption</li>
+      <li>Several files at once</li>
+      <li>Plays a tone when the transfer is done, so the sender stops automatically</li>
+    </ul>
+    <p>This community package downloads the official Linux tarball at install
+      time and runs the upstream build unmodified. Transfers work offline.
+      Received files and saved QR codes are stored in Documents/blastQR.</p>
+    <p>Camera access uses the desktop Camera portal. If it cannot expose your
+      camera, enable direct camera access with
+      <code>flatpak override --user --device=all dev.blastapps.blastqr</code>.
+      This exposes all devices to the app.</p>
+    <p>To enable “Show in folder”, use
+      <code>flatpak override --user --talk-name=org.freedesktop.FileManager1 dev.blastapps.blastqr</code>.</p>
+    <p>Undo these optional permissions with
+      <code>flatpak override --user --reset dev.blastapps.blastqr</code>.</p>
+  </description>
+
+  <launchable type="desktop-id">dev.blastapps.blastqr.desktop</launchable>
+
+  <url type="homepage">https://codeberg.org/blast/blastqr</url>
+  <url type="bugtracker">https://codeberg.org/blast/blastqr/issues</url>
+  <url type="vcs-browser">https://codeberg.org/blast/blastqr</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://codeberg.org/blast/blastqr/raw/branch/main/docs/desktop.png</image>
+      <caption>Choose files to send offline</caption>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1"/>
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+
+  <releases>
+    <release version="3.2.0" date="2026-11-13"/>
+  </releases>
+</component>
