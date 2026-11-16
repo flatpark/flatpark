@@ -48,4 +48,4 @@ bash：在 `~/.bashrc` 里加 `alias flatpak=rpak` 和 `source <(rpak completion
 rpak doctor <app-id>
 ```
 
-列出发行版、桌面、flatpak 配置、override 和应用的下载地址，标出看起来不对的地方，最后给出处理办法。应用出问题时先跑它；[报告问题](troubleshooting.zh-Hans.md#报告问题)时把完整输出贴上。它不改动任何东西，也不会带上 home 路径、用户名和你打开过的文件名。不带应用 id 只检查环境；带多个就逐个检查。
+列出发行版、桌面、显卡、flatpak 配置、override，以及应用的下载地址能不能访问。它只负责收集，输出怎么解读交给看报告的人。[报告问题](troubleshooting.zh-Hans.md#报告问题)时把完整输出贴上。它不改动任何东西，也不会带上 home 路径、用户名和你打开过的文件名。不带应用 id 只收集环境信息；带多个就逐个收集。

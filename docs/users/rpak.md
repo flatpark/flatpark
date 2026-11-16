@@ -56,9 +56,9 @@ Software centres and automatic updates still call flatpak directly; run
 rpak doctor <app-id>
 ```
 
-prints your distribution, desktop, flatpak setup, overrides and the app's
-downloads, marks what looks wrong, and ends with what to do about it. Run it
-first when an app misbehaves, and paste the whole output when you
+prints your distribution, desktop, graphics cards, flatpak setup, overrides
+and whether the app's downloads can be reached. It only collects; what the
+output means is for whoever reads your report. Paste the whole output when you
 [report a problem](troubleshooting.md#reporting-a-problem). It changes nothing,
 and leaves out home paths, your user name and the names of files you opened.
-Without an app id it checks only your setup; with several, each app.
+Without an app id it covers only your setup; with several, each app.
