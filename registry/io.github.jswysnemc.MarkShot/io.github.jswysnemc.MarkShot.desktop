@@ -1,18 +1,21 @@
 [Desktop Entry]
 Type=Application
 Name=Mark Shot
-Comment=Wayland screenshot selection and annotation tool
-Comment[zh_CN]=Wayland 截图选区和标注工具
-Exec=mark-shot
+Comment=Native screenshot, annotation and recording tool
+Comment[zh_CN]=原生截图、标注与录屏工具
+# [IMAGE] opens an existing picture in the annotation editor; Flatpak's export
+# turns %f into a document-portal forward, so no filesystem grant is needed.
+Exec=mark-shot %f
 Icon=io.github.jswysnemc.MarkShot
 Terminal=false
 StartupNotify=false
 Categories=Graphics;Utility;
-Keywords=screenshot;screen capture;annotation;wayland;niri;grim;
-Keywords[zh_CN]=截图;屏幕捕获;标注;wayland;niri;grim;
-# The application sets its own desktop file name ("mark-shot"), which is also
-# the Wayland app_id and the X11 WM_CLASS of every window it opens, so this is
-# what a shell has to match against to give those windows this entry's icon.
+MimeType=image/png;image/jpeg;image/webp;
+Keywords=screenshot;screen capture;annotation;recording;wayland;niri;
+Keywords[zh_CN]=截图;屏幕捕获;标注;录屏;wayland;niri;
+# The capture overlay's Wayland app_id and the X11 WM_CLASS instance are both
+# "mark-shot"; secondary windows use mark-shot-<role> (pin, history,
+# settings, ...).
 StartupWMClass=mark-shot
 # KWin treats org.kde.KWin.ScreenShot2 as a restricted interface and only lets
 # through callers whose desktop entry declares it. This is Mark Shot's exact-
