@@ -37,9 +37,9 @@ modules:
         filename: sele.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/Chipi-Chapa-Corp/sele/releases/download/v3.32.1/sele-linux-x64.tar.gz
-        sha256: a1dcb6fea8601214c3e169d66bc46b870c0315cfbf7e238aa02590ec51a9b1af
-        size: 200438445
+        url: https://github.com/Chipi-Chapa-Corp/sele/releases/download/v3.35.0/sele-linux-x64.tar.gz
+        sha256: c7b090aef2e4ab9dd0e1854d374f32856ccbb559cfa5095f2c243bcbdaaa57ca
+        size: 201979278
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

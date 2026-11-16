@@ -29,13 +29,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: blastqr.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/blastapps/blastqr/releases/download/v3.2.0/blastqr-v3.2.0-linux-x64.tar.gz
         sha256: 9d5ceba60775a48e2d49c08290baeaa52cc1ab52e4eca80783660a3447b4d19a
         size: 14285885
       - type: extra-data
         filename: blastqr.tar.gz
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/blastapps/blastqr/releases/download/v3.2.0/blastqr-v3.2.0-linux-arm64.tar.gz
         sha256: 881f6fff1a1b23a6c50731bb02fd1f9402651114b79179ae81e97c879fe2614b
         size: 13745938

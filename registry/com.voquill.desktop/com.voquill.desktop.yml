@@ -47,9 +47,9 @@ modules:
         filename: voquill.deb
         only-arches:
           - x86_64
-        url: https://github.com/voquill/voquill/releases/download/desktop-v0.0.655/voquill-desktop_0.0.655_amd64.deb
-        sha256: 069a54f51053059e3975940b3cfef82c3d4a53ee4d88b70c0841504d07ae6200
-        size: 36331114
+        url: https://github.com/voquill/voquill/releases/download/desktop-v0.0.656/voquill-desktop_0.0.656_amd64.deb
+        sha256: bb2e915b944081725d5740e262965823e1071f5863f3bb75e82f71c17290d443
+        size: 36338610
       # END MANAGED EXTRA-DATA
       # X11 input automation and the native GTK recording indicator.
       # The shared libxdo-v2 stack lacks the xdotool CLI Voquill uses for paste;

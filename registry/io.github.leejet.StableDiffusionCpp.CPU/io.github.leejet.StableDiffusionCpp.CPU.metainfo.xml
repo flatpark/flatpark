@@ -31,5 +31,8 @@
   <url type="help">https://github.com/leejet/stable-diffusion.cpp/blob/master/examples/server/README.md</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
   <content_rating type="oars-1.1"/>
-  <releases><release version="master-1104-5dcfa79" date="2026-11-14"/></releases>
+  <releases>
+    <release version="master-1106-532d2c1" date="2026-11-16">
+      <description></description>
+    </release><release version="master-1104-5dcfa79" date="2026-11-14"/></releases>
 </component>
