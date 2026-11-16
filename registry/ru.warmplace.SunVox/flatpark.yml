@@ -1,0 +1,18 @@
+id: ru.warmplace.SunVox
+name: SunVox
+summary: Modular synthesizer and pattern-based music tracker
+website: https://www.warmplace.ru/soft/sunvox/
+source_url: https://www.warmplace.ru/soft/sunvox/
+build:
+  manifest: ru.warmplace.SunVox.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AudioVideo
+  tags: [Music, Audio, Tracker, Synthesizer]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

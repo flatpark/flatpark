@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+case "$(uname -m)" in
+  x86_64) linux_dir=linux_x86_64 ;;
+  aarch64) linux_dir=linux_arm64 ;;
+  *) echo "Unsupported SunVox architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+
+# SDL should use Flatpak's PulseAudio socket instead of trying direct ALSA access.
+SDL_AUDIODRIVER="${SDL_AUDIODRIVER:-pulseaudio}"
+export SDL_AUDIODRIVER
+
+# SunVox resolves its bundled content relative to its architecture directory.
+cd "/app/extra/sunvox/sunvox/$linux_dir"
+exec ./sunvox "$@"

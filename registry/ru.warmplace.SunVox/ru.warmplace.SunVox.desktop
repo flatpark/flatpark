@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=SunVox
+Comment=Modular synthesizer and pattern-based music tracker
+Exec=sunvox
+TryExec=sunvox
+Icon=ru.warmplace.SunVox
+Terminal=false
+Categories=AudioVideo;Audio;Midi;Sequencer;
+StartupWMClass=sunvox

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ru.warmplace.SunVox</id>
+  <name>SunVox</name>
+  <summary>Modular synthesizer and pattern-based music tracker</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.warmplace.ru/soft/sunvox/</project_license>
+  <developer id="ru.warmplace"><name>Alexander Zolotov</name></developer>
+  <description>
+    <p>SunVox is a modular synthesizer and pattern-based tracker for composing and arranging music. Build sounds from synth and effect modules, edit patterns, and export audio.</p>
+    <p>This community package downloads the official, unmodified Linux release from WarmPlace at install time. SunVox is freeware for Linux; mobile editions are not included.</p>
+    <p>The Music folder is available for projects. To use another folder, grant it with <code>flatpak override --user --filesystem=/path/to/projects ru.warmplace.SunVox</code>; remove that grant with <code>flatpak override --user --nofilesystem=/path/to/projects ru.warmplace.SunVox</code>.</p>
+    <p>MIDI hardware access is optional: <code>flatpak override --user --device=all ru.warmplace.SunVox</code>. Remove it with <code>flatpak override --user --nodevice=all ru.warmplace.SunVox</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Compose music in SunVox's pattern editor and modular synthesizer</caption>
+      <image>https://www.warmplace.ru/soft/sunvox/images/sunvox51.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ru.warmplace.SunVox.desktop</launchable>
+  <url type="homepage">https://www.warmplace.ru/soft/sunvox/</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="2.1.4d" date="2025-12-29"/>
+  </releases>
+</component>
