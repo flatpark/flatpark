@@ -28,7 +28,7 @@ modules:
       - install -Dm755 cake-wallet-wrapper /app/bin/cake_wallet
       - install -Dm644 com.cakewallet.CakeWallet.desktop /app/share/applications/com.cakewallet.CakeWallet.desktop
       - install -Dm644 com.cakewallet.CakeWallet.metainfo.xml /app/share/metainfo/com.cakewallet.CakeWallet.metainfo.xml
-      - install -Dm644 com.cakewallet.CakeWallet.png /app/share/icons/hicolor/192x192/apps/com.cakewallet.CakeWallet.png
+      - install -Dm644 com.cakewallet.CakeWallet.png /app/share/icons/hicolor/128x128/apps/com.cakewallet.CakeWallet.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
