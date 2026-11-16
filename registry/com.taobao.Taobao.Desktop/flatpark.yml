@@ -1,0 +1,19 @@
+id: com.taobao.Taobao.Desktop
+name: taobao-desktop
+summary: Taobao desktop client
+website: https://www.taobao.com
+source_url: https://github.com/jiesou/taobao-linux-release
+build:
+  manifest: com.taobao.Taobao.Desktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Network
+  tags:
+    - Shopping
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.taobao.Taobao.Desktop</id>
+  <name>淘宝</name>
+  <summary>Taobao desktop client</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Proprietary</project_license>
+  <developer_name>Taobao</developer_name>
+  <launchable type="desktop-id">com.taobao.Taobao.Desktop.desktop</launchable>
+  <url type="homepage">https://www.taobao.com</url>
+  <releases>
+    <release version="3.0.1" date="2026-11-16" />
+  </releases>
+</component>
