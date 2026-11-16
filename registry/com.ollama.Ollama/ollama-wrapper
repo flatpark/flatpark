@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# Default to the local server; explicit upstream CLI commands pass through.
+if [ "$#" -eq 0 ]; then
+    set -- serve
+fi
+# Upstream locates its bundled runtimes relative to bin/ollama.
+exec /app/extra/ollama/bin/ollama "$@"

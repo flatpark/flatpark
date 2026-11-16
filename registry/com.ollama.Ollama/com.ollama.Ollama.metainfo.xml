@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.ollama.Ollama</id>
+  <name>Ollama (CUDA)</name>
+  <summary>Run local language models with NVIDIA CUDA acceleration</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A community package of the unmodified official Ollama Linux amd64 build, including its bundled CUDA backends and CPU fallback. Run language models locally through the command line or connect clients to the HTTP API. Model downloads have their own licenses.</p>
+    <p>The desktop entry and flatpak run com.ollama.Ollama start the server in a terminal at http://127.0.0.1:11434. Keep it running and use another terminal for commands, for example: flatpak run com.ollama.Ollama run smollm2:135m. Stop the server with Ctrl+C. An existing server on that port must be stopped first, or choose another port with OLLAMA_HOST.</p>
+    <p>Models, keys and CLI history are stored privately in this app's persistent .ollama directory, separate from a native Ollama installation. A host CUDA toolkit is not needed. GPU acceleration requires a compatible NVIDIA GPU and host driver, plus the matching Flatpak NVIDIA driver extension. CUDA needs NVIDIA device nodes, so this package grants access to all devices.</p>
+    <p>This package provides the Linux CLI and API server, without a graphical chat window or a background system service. Commands that install or launch host coding tools are not supported inside the sandbox. Connect separately installed clients to the local API instead.</p>
+    <p>To import models from a host directory, grant only that directory: flatpak override --user --filesystem=/path/to/models:ro com.ollama.Ollama. To undo overrides: flatpak override --user --reset com.ollama.Ollama.</p>
+  </description>
+  <launchable type="desktop-id">com.ollama.Ollama.desktop</launchable>
+  <url type="homepage">https://ollama.com</url>
+  <url type="vcs-browser">https://github.com/ollama/ollama</url>
+  <url type="help">https://docs.ollama.com</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <developer id="com.ollama"><name>Ollama</name></developer>
+  <provides><binary>ollama</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="0.40.16" date="2026-11-09"/></releases>
+</component>

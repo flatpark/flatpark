@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Ollama (CUDA)
+GenericName=Local Language Model Server
+Comment=Serve local language models with the Ollama API
+Exec=ollama serve
+Terminal=true
+Type=Application
+Categories=Development;ConsoleOnly;
+StartupNotify=false
+Icon=com.ollama.Ollama
