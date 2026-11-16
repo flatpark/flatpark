@@ -1,0 +1,36 @@
+# ePass2003 (Feitian), a Tessera driver extension: mounted at
+# /app/lib/tessera/extensions/ePass2003 by Tessera's extension point
+# (io.github.pedrohqb.Tessera.Driver, flatpak/io.github.pedrohqb.Tessera.yml).
+# The vendor's files are downloaded at install time (extra-data) and checked
+# against these sha256 pins, then unpacked by apply_extra.sh into extra/.
+# FlatPark's registry entry builds from the same files.
+id: io.github.pedrohqb.Tessera.Driver.ePass2003
+branch: stable
+runtime: io.github.pedrohqb.Tessera
+runtime-version: stable
+sdk: org.gnome.Sdk//51
+build-extension: true
+separate-locales: false
+modules:
+  - name: epass2003
+    buildsystem: simple
+    build-commands:
+      - install -Dm644 driver.toml -t ${FLATPAK_DEST}
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      - install -Dm644 io.github.pedrohqb.Tessera.Driver.ePass2003.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: epass2003.tar.gz
+        only-arches:
+          - x86_64
+        url: https://site.solutinet.com.br/drivers/Token/ePass2003/Linux/ePass2003_Castle_20141128.tar.gz
+        sha256: 00fbb5756b1b01222fe6825ad7ca43da0b662d1f7e2d06584ea7c3c7be490a23
+        size: 9286812
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: driver.toml
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.pedrohqb.Tessera.Driver.ePass2003.metainfo.xml
