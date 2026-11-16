@@ -30,6 +30,10 @@ concurrency:
 permissions:
   issues: write
 
+# GitHub can't filter issue_comment by text, so every comment anywhere starts
+# a run; the job conditions turn the ones that aren't a command into a
+# skipped run without a runner. contains() is a cheap prefilter (it also
+# matches /unclaim); the step below decides what counts as the command.
 jobs:
   hint:
     if: >-
@@ -71,6 +75,7 @@ jobs:
       !github.event.issue.pull_request &&
       github.event.issue.state == 'open' &&
       github.event.comment.user.type != 'Bot' &&
+      contains(github.event.comment.body, '/claim') &&
       (contains(github.event.issue.labels.*.name, 'app-request') ||
        contains(github.event.issue.labels.*.name, 'app-discover'))
     runs-on: ubuntu-latest
