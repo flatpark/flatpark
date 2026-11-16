@@ -1,0 +1,29 @@
+id: io.github.captechomar.Couchtunes
+name: Couchtunes
+summary: An Apple Music-style player for your Navidrome server
+website: https://github.com/CaptechOmar/Couchtunes
+source_url: https://github.com/CaptechOmar/Couchtunes
+build:
+  manifest: io.github.captechomar.Couchtunes.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  upstream_approved: true
+  tags:
+    - Music
+    - Player
+    - Navidrome
+    - Subsonic
+    - Gamepad
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Game controllers. Chromium's Gamepad API finds them through udev and
+    # opens /dev/input/event*, and /dev/hidraw* for some controllers, which
+    # --device=input doesn't expose. The developer asked for this grant
+    # (flatpark#1286), and their own Flatpak of this app id sets the same.
+    - --device=all

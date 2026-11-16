@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.captechomar.Couchtunes</id>
+  <name>Couchtunes</name>
+  <summary>An Apple Music-style player for your Navidrome server</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.captechomar">
+    <name>Omar Ashraf</name>
+  </developer>
+  <url type="homepage">https://github.com/CaptechOmar/Couchtunes</url>
+  <url type="bugtracker">https://github.com/CaptechOmar/Couchtunes/issues</url>
+  <url type="vcs-browser">https://github.com/CaptechOmar/Couchtunes</url>
+  <description>
+    <p>This is a community package of Couchtunes. It repackages the official upstream Linux build unmodified.</p>
+    <p>Couchtunes plays the music on your own Navidrome (Subsonic / OpenSubsonic) server in a clean, big-screen layout. It is built to be driven with arrow keys, a TV remote or a game controller, and it works with a mouse and keyboard too.</p>
+    <p>Features include synced lyrics, an Up next queue, search with an on-screen keyboard, album, artist and playlist pages, light and dark themes, and keyboard and controller shortcuts.</p>
+    <p>Couchtunes is an independent project. It is not affiliated with Apple or Navidrome.</p>
+    <p>This package follows every upstream release, beta releases included, so new versions reach you as soon as they are published.</p>
+    <p>Game controllers need access to input devices, so this package is granted all devices. Couchtunes uses native Wayland when it is available; if it misbehaves on your desktop, start it on X11 instead: flatpak run --env=COUCHTUNES_X11=1 io.github.captechomar.Couchtunes</p>
+  </description>
+  <launchable type="desktop-id">io.github.captechomar.Couchtunes.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Music</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>navidrome</keyword>
+    <keyword>subsonic</keyword>
+    <keyword>music</keyword>
+    <keyword>streaming</keyword>
+    <keyword>lyrics</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>gamepad</control>
+  </supports>
+  <provides>
+    <binary>couchtunes</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Listen now: your recent, new and favorite albums</caption>
+      <image>https://raw.githubusercontent.com/CaptechOmar/Couchtunes/main/docs/screenshots/listen-now.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Browse your whole library</caption>
+      <image>https://raw.githubusercontent.com/CaptechOmar/Couchtunes/main/docs/screenshots/library-albums.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>An album with its tracks</caption>
+      <image>https://raw.githubusercontent.com/CaptechOmar/Couchtunes/main/docs/screenshots/album-view.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The full-screen player</caption>
+      <image>https://raw.githubusercontent.com/CaptechOmar/Couchtunes/main/docs/screenshots/now-playing.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Synced lyrics</caption>
+      <image>https://raw.githubusercontent.com/CaptechOmar/Couchtunes/main/docs/screenshots/lyrics.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.16.7" date="2026-11-13"/>
+  </releases>
+</component>
