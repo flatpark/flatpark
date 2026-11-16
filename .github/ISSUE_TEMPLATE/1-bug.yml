@@ -44,12 +44,12 @@ body:
       label: Output of `rpak doctor <app-id>`
       description: |
         Collects your distribution, desktop, flatpak setup, overrides and the app's downloads in one go.
-        Home paths and your user name are left out. It changes nothing on your system.
+        Home paths, your user name and the names of files you opened are left out. It changes nothing on your system.
 
         Without rpak, download it once and run it from where it is (it is one file, nothing to install):
 
         ```sh
-        curl -Lo /tmp/rpak https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-amd64   # aarch64: rpak-linux-arm64
+        curl -Lo /tmp/rpak "https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-$(uname -m)"
         chmod +x /tmp/rpak && /tmp/rpak doctor <app-id>
         ```
       render: text
