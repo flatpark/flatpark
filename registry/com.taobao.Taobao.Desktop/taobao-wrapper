@@ -1,0 +1,3 @@
+#!/bin/sh
+set -eu
+exec zypak-wrapper /app/extra/electron/electron /app/extra/app.asar "$@"

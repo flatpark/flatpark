@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=淘宝
+Comment=淘宝桌面版
+Exec=taobao %U
+Terminal=false
+Type=Application
+Icon=com.taobao.Taobao.Desktop
+Categories=Network;
+Keywords=taobao
+Keywords[zh]=淘宝
+Keywords[zh_CN]=淘宝

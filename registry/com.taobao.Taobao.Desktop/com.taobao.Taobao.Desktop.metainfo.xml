@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.taobao.Taobao.Desktop</id>
+  <name>Taobao</name>
+  <name xml:lang="zh-Hans">淘宝</name>
+  <summary>Shop Taobao from your Linux desktop</summary>
+  <summary xml:lang="zh-Hans">淘宝桌面版：在电脑上浏览、沟通和购物</summary>
+  <developer id="com.taobao">
+    <name>Taobao</name>
+  </developer>
+  <launchable type="desktop-id">com.taobao.Taobao.Desktop.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.taobao.com/</project_license>
+  <description>
+    <p>This is a community package that repackages the official Taobao Desktop client from Taobao, with Linux compatibility adaptations. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
+    <p>Taobao publishes only a Windows client. The jiesou/taobao-linux-release build repository takes the app from the official Windows installer and runs it on the official Linux Electron of the same version, with the official Linux builds of its better-sqlite3 and sqlite-vec modules in place of the Windows ones. One flag in one renderer script is changed so the window draws its own minimise, maximise and close buttons, as it does on Windows. Every other file of the client is unchanged.</p>
+    <p>Four small scripts are also loaded into the app at startup. One stands in for Taobao's security module, which exists only for Windows and macOS and cannot load on Linux. The others make the tray icon and its menu work on Linux panels, remove the extra window frame around the client's own title bar, and give the account page, which has no Linux layout, a usable style. The app keeps its profile and cookies in the Flatpak application data directory.</p>
+    <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. The package needs network access for shopping, account login, messaging, payments, and order services.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://github.com/user-attachments/assets/cab4cf64-1025-4118-aec3-fef8e264e7c8</image>
+      <caption>Browsing products and the product details panel on Linux</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://pc.taobao.com/</url>
+  <url type="bugtracker">https://github.com/jiesou/taobao-linux-release/issues</url>
+  <url type="vcs-browser">https://github.com/jiesou/taobao-linux-release</url>
+  <url type="help">https://github.com/jiesou/taobao-linux-release/issues</url>
+  <categories>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>taobao</keyword>
+    <keyword>shopping</keyword>
+    <keyword>e-commerce</keyword>
+    <keyword>online shopping</keyword>
+    <keyword>淘宝</keyword>
+    <keyword>购物</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>taobao</binary>
+  </provides>
+  <releases>
+    <release version="3.0.1" date="2026-11-16" />
+  </releases>
+</component>

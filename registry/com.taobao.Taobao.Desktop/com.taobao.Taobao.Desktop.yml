@@ -1,0 +1,56 @@
+id: com.taobao.Taobao.Desktop
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '26.08'
+command: taobao
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --socket=pulseaudio
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --env=NODE_OPTIONS=--require=/app/lib/taobao/security-shim.cjs --require=/app/lib/taobao/tray-linux.cjs --require=/app/lib/taobao/ui-linux.cjs --require=/app/lib/taobao/window-linux.cjs
+modules:
+  - name: taobao
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 taobao-wrapper /app/bin/taobao
+      - install -Dm644 com.taobao.Taobao.Desktop.desktop /app/share/applications/com.taobao.Taobao.Desktop.desktop
+      - install -Dm644 com.taobao.Taobao.Desktop.metainfo.xml /app/share/metainfo/com.taobao.Taobao.Desktop.metainfo.xml
+      - install -Dm644 com.taobao.Taobao.Desktop.png /app/share/icons/hicolor/256x256/apps/com.taobao.Taobao.Desktop.png
+      - install -Dm644 security-shim.cjs /app/lib/taobao/security-shim.cjs
+      - install -Dm644 tray-linux.cjs /app/lib/taobao/tray-linux.cjs
+      - install -Dm644 ui-linux.cjs /app/lib/taobao/ui-linux.cjs
+      - install -Dm644 window-linux.cjs /app/lib/taobao/window-linux.cjs
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: taobao-linux.tar.zst
+        url: https://github.com/jiesou/taobao-linux-release/releases/download/taobao-3.0.1/taobao-linux-3.0.1-electron-37.2.0-x86_64.tar.zst
+        sha256: 8a497c206909a0117b31313dbafac0031f6fe3eafe2ba20560b2b4547488f56c
+        size: 182220667
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: taobao-wrapper
+      - type: file
+        path: com.taobao.Taobao.Desktop.desktop
+      - type: file
+        path: com.taobao.Taobao.Desktop.metainfo.xml
+      - type: file
+        path: com.taobao.Taobao.Desktop.png
+      - type: file
+        path: security-shim.cjs
+      - type: file
+        path: tray-linux.cjs
+      - type: file
+        path: ui-linux.cjs
+      - type: file
+        path: window-linux.cjs

@@ -1,0 +1,29 @@
+id: com.taobao.Taobao.Desktop
+name: taobao-desktop
+summary: Taobao desktop client
+website: https://www.taobao.com
+source_url: https://github.com/jiesou/taobao-linux-release
+build:
+  manifest: com.taobao.Taobao.Desktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Network
+  tags:
+    - Shopping
+  stars_repo: none
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []
+packaging:
+  - kind: file-change
+    detail:
+      en: "Taobao publishes only a Windows client. The build repository takes its app.asar from the official installer, runs it on the official Linux Electron of the same version, swaps the Windows better-sqlite3 and sqlite-vec modules for their official Linux builds, and changes one flag in one renderer script so the window draws its own minimise, maximise and close buttons as it does on Windows. Every other file is unchanged."
+      zh-Hans: "淘宝只发布 Windows 客户端。构建仓库从官方安装包取出 app.asar，放到同版本的官方 Linux Electron 上运行，把 Windows 版的 better-sqlite3 和 sqlite-vec 模块换成它们的官方 Linux 构建，并改了一个渲染脚本里的一个标志，让窗口像在 Windows 上一样自己绘制最小化、最大化和关闭按钮。其余文件均未改动。"
+  - kind: injected-code
+    detail:
+      en: "Four small scripts are loaded into the app's main process through NODE_OPTIONS. One stands in for Taobao's security module, which has builds only for Windows and macOS and cannot load on Linux. The others make the tray icon and its menu work on Linux panels, remove the extra window frame Electron adds around the client's own title bar, and give the account page, which has no Linux layout, a usable style."
+      zh-Hans: "通过 NODE_OPTIONS 向应用主进程加载了四个小脚本。一个替代淘宝的安全模块——该模块只有 Windows 和 macOS 版本，在 Linux 上无法加载。其余几个让托盘图标和菜单在 Linux 面板上可用，去掉 Electron 在客户端自绘标题栏外多加的一层窗口边框，并给没有 Linux 布局的账号页面补上可用的样式。"
