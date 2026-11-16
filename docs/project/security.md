@@ -12,10 +12,9 @@ order: 6
   [GitHub's security advisories](https://github.com/flatpark/flatpark/security/advisories/new),
   so it isn't public before it is fixed.
 - **A package or app release that puts users at risk** (it runs or reaches
-  something it shouldn't, or the release is malicious): open an issue at
-  [github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues)
-  and say in the title that it is a security problem, so other users are
-  warned.
+  something it shouldn't, or the release is malicious): open an issue with the
+  [Security problem](https://github.com/flatpark/flatpark/issues/new?template=6-security.yml)
+  form, so other users are warned.
 
 Both are handled before anything else.
 

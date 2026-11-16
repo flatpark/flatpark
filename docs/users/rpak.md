@@ -13,13 +13,14 @@ aliasing `flatpak` to it, so you keep typing the commands you know:
 - **Cleaning up**: frees the installer copies Flatpak
   [keeps](cleanup.md#reclaiming-space-from-downloaded-installers) after every
   install or update; `rpak clean` frees older ones and other leftovers.
+- **Reporting problems**: `rpak doctor` collects what a bug report needs.
 - **Fully compatible**: every other flatpak command and option is passed
   through unchanged.
 
 ## Installing
 
 ```sh
-curl -Lo ~/.local/bin/rpak https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-amd64   # aarch64: rpak-linux-arm64
+curl -Lo ~/.local/bin/rpak "https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-$(uname -m)"
 chmod +x ~/.local/bin/rpak
 ```
 
@@ -48,3 +49,16 @@ For bash: `alias flatpak=rpak` and `source <(rpak completion bash)` in
 
 Software centres and automatic updates still call flatpak directly; run
 `rpak clean` now and then to free what they leave.
+
+## When something goes wrong
+
+```sh
+rpak doctor <app-id>
+```
+
+prints your distribution, desktop, flatpak setup, overrides and the app's
+downloads, marks what looks wrong, and ends with what to do about it. Run it
+first when an app misbehaves, and paste the whole output when you
+[report a problem](troubleshooting.md#reporting-a-problem). It changes nothing,
+and leaves out home paths, your user name and the names of files you opened.
+Without an app id it checks only your setup; with several, each app.

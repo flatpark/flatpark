@@ -1,0 +1,72 @@
+name: App problem
+description: An app won't install, won't start, loses data, or something in it doesn't work.
+title: "[Bug] <app-id>: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Most problems depend on your system, so this form asks for a few
+        outputs we'd otherwise have to ask for one by one. Writing in Chinese is fine too.
+
+        Before you start, [troubleshooting](https://flatpark.org/docs/users/troubleshooting/) covers the
+        common cases (missing remote, signature errors, "wrong size", lost settings).
+  - type: input
+    id: app
+    attributes:
+      label: App id
+      description: As on the app's page, e.g. `com.google.Chrome`. If it's about installing or updating in general, write `none`.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What goes wrong
+      options:
+        - Won't install or update
+        - Won't start, or crashes
+        - Settings or data are lost
+        - Its main feature doesn't work
+        - Desktop integration (tray icon, media keys, window grouping, opening files, notifications)
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you saw, and what you expected instead. Screenshots help for drawing problems.
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `rpak doctor <app-id>`
+      description: |
+        Collects your distribution, desktop, flatpak setup, overrides and the app's downloads in one go.
+        Home paths, your user name and the names of files you opened are left out. It changes nothing on your system.
+
+        Without rpak, download it once and run it from where it is (it is one file, nothing to install):
+
+        ```sh
+        curl -Lo /tmp/rpak "https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-$(uname -m)"
+        chmod +x /tmp/rpak && /tmp/rpak doctor <app-id>
+        ```
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: run
+    attributes:
+      label: Output of `flatpak run <app-id>` from a terminal
+      description: Start the app from a terminal, reproduce the problem, close it, and paste everything it printed. `rpak doctor` doesn't start the app, so crashes only show up here. For install or update problems, paste the output of the command that failed instead.
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: tried
+    attributes:
+      label: Already tried
+      options:
+        - label: "`flatpak update`, and the problem is still there"
+        - label: "Checked `flatpak override --user --show <app-id>` (and Flatseal) for changes of my own"

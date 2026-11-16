@@ -9,12 +9,13 @@ order: 2
 
 - **并发下载**：`install` 和 `update` 同时下载多个应用安装包，而不是一个接一个。
 - **清理空间**：每次安装或更新后释放 Flatpak [留下](cleanup.zh-Hans.md#回收下载的安装包占用的空间)的安装包副本；`rpak clean` 清理更早的副本和其他残余。
+- **报告问题**：`rpak doctor` 收齐报 bug 需要的信息。
 - **完全兼容**：其他 flatpak 命令和选项原样透传。
 
 ## 安装
 
 ```sh
-curl -Lo ~/.local/bin/rpak https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-amd64   # aarch64: rpak-linux-arm64
+curl -Lo ~/.local/bin/rpak "https://github.com/flatpark/rpak/releases/latest/download/rpak-linux-$(uname -m)"
 chmod +x ~/.local/bin/rpak
 ```
 
@@ -40,3 +41,11 @@ fi
 bash：在 `~/.bashrc` 里加 `alias flatpak=rpak` 和 `source <(rpak completion bash)`。fish：在 `config.fish` 里加同样的别名和 `rpak completion fish | source`。
 
 软件中心和自动更新仍直接调用 flatpak；偶尔跑一次 `rpak clean` 清掉它们留下的副本。
+
+## 出问题时
+
+```sh
+rpak doctor <app-id>
+```
+
+列出发行版、桌面、flatpak 配置、override 和应用的下载地址，标出看起来不对的地方，最后给出处理办法。应用出问题时先跑它；[报告问题](troubleshooting.zh-Hans.md#报告问题)时把完整输出贴上。它不改动任何东西，也不会带上 home 路径、用户名和你打开过的文件名。不带应用 id 只检查环境；带多个就逐个检查。

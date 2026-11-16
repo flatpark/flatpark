@@ -1,0 +1,15 @@
+name: Proposal
+description: A change to a policy, the packaging rules, the review process, or how FlatPark works.
+title: "[Proposal] "
+labels: [proposal]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you'd change
+      description: |
+        A sentence is fine to start. Writing in Chinese is fine too. If you want to go further, these help:
+        what happens now and why it's a problem, what you'd do instead, other options you considered,
+        and the page or rule it touches (a link to [the docs](https://flatpark.org/docs/)).
+    validations:
+      required: true

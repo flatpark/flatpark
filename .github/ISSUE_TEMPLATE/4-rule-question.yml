@@ -1,0 +1,15 @@
+name: Question about the rules
+description: How a rule applies to a case, or whether an app can be listed the way you have in mind.
+title: "[Question] "
+labels: [rule-question]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: |
+        Writing in Chinese is fine too. If it is about a specific app or case, a link to it helps,
+        and so does the rule you're unsure about ([listing rules](https://flatpark.org/docs/packagers/can-it-be-packaged/),
+        [policies](https://flatpark.org/docs/project/policies/)).
+    validations:
+      required: true

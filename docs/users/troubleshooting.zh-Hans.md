@@ -14,4 +14,9 @@ order: 7
 
 ## 报告问题
 
-在 [github.com/flatpark/flatpark/issues](https://github.com/flatpark/flatpark/issues) 开一个 issue，写上 app id、你做了什么、发生了什么，以及在终端运行 `flatpak run <app-id>` 的输出。说明你用的发行版和桌面环境。打包方式的问题由我们修；应用本身的问题我们会转给开发者。
+在 [github.com/flatpark/flatpark/issues/new/choose](https://github.com/flatpark/flatpark/issues/new/choose) 用 **App problem** 表单开 issue。表单要两段输出：
+
+- `rpak doctor <app-id>`：发行版、桌面、flatpak 配置、override 和应用的下载地址，一次收齐。它不改动任何东西，也不会带上 home 路径和用户名。没装 [rpak](rpak.md) 的话，下载下来直接运行一次就行，表单里有命令。
+- 在终端运行 `flatpak run <app-id>` 并复现问题时的输出：崩溃信息只有这里有。
+
+打包方式的问题由我们修；应用本身的问题我们会转给开发者。

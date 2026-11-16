@@ -1,0 +1,11 @@
+name: Website or docs
+description: Something wrong or missing on flatpark.org or in the docs.
+labels: [site]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong or missing
+      description: The page's link helps, if there is one.
+    validations:
+      required: true
