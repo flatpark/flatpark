@@ -15,12 +15,9 @@ set -eu
 # written down here, so an upstream rename fails the update check instead of
 # shipping an app that cannot start.
 #
-# Two things are made next to the tree, not inside it: a bin/dinox symlink to the
-# launcher, and a GdkPixbuf loader cache.
-# The cache the AppImage carries lists the loaders under /usr/lib, and AppRun
-# rebuilds it at every launch for the temporary mount it runs from. Here the
-# tree has one fixed path, so it is rebuilt once, here, with the AppDir's own
-# gdk-pixbuf-query-loaders, and the wrapper points GDK_PIXBUF_MODULE_FILE at it.
+# One thing is made next to the tree, not inside it: a bin/dinox symlink to the
+# launcher. Nothing from the AppImage is run here; the GdkPixbuf loader cache
+# AppRun rebuilds at every launch is built by the wrapper, inside the sandbox.
 #
 # The desktop entry, icon and AppStream metainfo are shipped by the manifest at
 # *build* time: extra-data is fetched later on the user's machine, so anything
@@ -34,7 +31,7 @@ cd "$extra_root"
 for f in dinox.AppImage appimage-tools.tar.xz; do
     [ -f "$f" ] || { echo "missing extra-data: $f" >&2; exit 1; }
 done
-rm -rf dinox bin squashfs-root appimage-tools pixbuf-loaders.cache
+rm -rf dinox bin squashfs-root appimage-tools
 
 # --no-same-owner: a system-wide install runs this as root with every capability
 # dropped, and restoring the archive's recorded uid/gid would abort the unpack.
@@ -69,10 +66,6 @@ binary="$(sed -n 's/^Exec=//p' "$desktop" | head -n 1 | sed 's/ %[A-Za-z]*$//; s
 }
 
 mv squashfs-root dinox
-app="$extra_root/dinox/usr"
-LD_LIBRARY_PATH="$app/lib" GDK_PIXBUF_MODULEDIR="$app/lib/gdk-pixbuf-2.0/2.10.0/loaders" \
-    "$app/bin/gdk-pixbuf-query-loaders" > pixbuf-loaders.cache
-[ -s pixbuf-loaders.cache ] || { echo "gdk-pixbuf-query-loaders wrote no loaders" >&2; exit 1; }
 
 # A fixed entry point for the wrapper, whatever upstream calls the launcher. The
 # name of the link is the program name the toolkit derives the window class

@@ -6,10 +6,18 @@ set -eu
 # points every one of those at the AppDir through environment variables; this is
 # the same set, for the tree apply_extra left at /app/extra/dinox. AppRun's other
 # jobs are not repeated: it registers a desktop entry for the temporary mount it
-# runs from (this package exports its own), rebuilds the GdkPixbuf loader cache
-# at every launch (apply_extra built it once, beside the tree), and repairs the
-# accessibility bus outside a Flatpak.
-app=/app/extra/dinox/usr
+# runs from (this package exports its own) and repairs the accessibility bus
+# outside a Flatpak.
+export APPDIR=/app/extra/dinox
+app="$APPDIR/usr"
+
+# DinoX finds gpg, gpgconf, ffmpeg and curl through PATH. Without the bundle
+# first, it would run the runtime's copies, which then load the bundle's older
+# libgcrypt and friends through LD_LIBRARY_PATH. APPDIR is what the bundled
+# gpgconf.ctl roots GnuPG at (rootdir = ${APPDIR}/usr), so gpg starts the
+# bundled gpg-agent. APPIMAGE stays unset: DinoX's AppImage-only code paths
+# (desktop integration, dropping LD_LIBRARY_PATH for host tools) don't apply.
+export PATH="$app/bin${PATH:+:$PATH}"
 
 # Upstream's launcher puts the bundle's libraries on the path as well: the
 # plugins find libdino, SQLCipher, libnice and libomemo-c through it.
@@ -35,7 +43,22 @@ fi
 export XDG_DATA_DIRS="$app/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
 export GSETTINGS_SCHEMA_DIR="$app/share/glib-2.0/schemas"
 export GDK_PIXBUF_MODULEDIR="$app/lib/gdk-pixbuf-2.0/2.10.0/loaders"
-export GDK_PIXBUF_MODULE_FILE=/app/extra/pixbuf-loaders.cache
+
+# The loader cache the AppImage carries lists the loaders under /usr/lib, so
+# AppRun rebuilds it at every launch. Build it once per install instead, in the
+# app's cache folder: again when apply_extra has run since (it makes
+# /app/extra/bin at every install or update).
+pixbuf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/dinox/pixbuf-loaders.cache"
+if [ ! -s "$pixbuf_cache" ] || [ /app/extra/bin -nt "$pixbuf_cache" ]; then
+    mkdir -p "${pixbuf_cache%/*}"
+    if "$app/bin/gdk-pixbuf-query-loaders" > "$pixbuf_cache.$$" 2>/dev/null && [ -s "$pixbuf_cache.$$" ]; then
+        mv -f "$pixbuf_cache.$$" "$pixbuf_cache"
+    else
+        rm -f "$pixbuf_cache.$$"
+        echo "dinox-wrapper: could not build the GdkPixbuf loader cache" >&2
+    fi
+fi
+[ -s "$pixbuf_cache" ] && export GDK_PIXBUF_MODULE_FILE="$pixbuf_cache"
 
 # DinoX's plugins, translations and the tor it starts for its optional Tor mode.
 export DINO_PLUGIN_DIR="$app/lib/x86_64-linux-gnu/dino/plugins"
