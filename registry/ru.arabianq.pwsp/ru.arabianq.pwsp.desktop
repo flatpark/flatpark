@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=PipeWire Soundpad
+GenericName=Soundpad
+Comment=Play audio files through your microphone
+Exec=pwsp %u
+Icon=ru.arabianq.pwsp
+Terminal=false
+Categories=AudioVideo;Audio;
+Keywords=soundboard;pipewire;audio;microphone;pwsp;
+MimeType=x-scheme-handler/soundpad;
+StartupWMClass=ru.arabianq.pwsp

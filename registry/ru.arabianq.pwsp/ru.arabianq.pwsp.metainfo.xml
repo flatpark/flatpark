@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ru.arabianq.pwsp</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>PipeWire Soundpad</name>
+  <summary>Play audio files through your microphone, with a GUI, a CLI and global hotkeys</summary>
+  <description>
+    <p>
+      PipeWire Soundpad (PWSP) plays audio files through your microphone, so the people
+      on a call or in a game hear them. It creates its own virtual microphone and wires
+      it up through PipeWire itself: no routing to set up by hand.
+    </p>
+    <ul>
+      <li>A virtual microphone, with separate volumes for what you hear and what is sent to it</li>
+      <li>A graphical interface, a command-line client and a background daemon</li>
+      <li>Global hotkeys to play sounds from anywhere (they need two one-time steps on your system, see the notes)</li>
+      <li>Many audio formats, including Opus, in nine interface languages</li>
+    </ul>
+    <p>
+      This is a community package of the official PWSP release. It downloads the
+      developer's zip from GitHub at install time and runs the binaries in it unmodified.
+    </p>
+    <p>Notes on this Flatpak package:</p>
+    <ul>
+      <li>Choose "PWSP Virtual Mic" as the microphone in the app you want to play sounds into.</li>
+      <li>The daemon needs access to PipeWire's own socket to create the virtual microphone and link it. That access also lets it see the other audio and video streams on the system.</li>
+      <li>Global hotkeys read key presses from your keyboards directly, which is not granted by default. They need two steps: put your user in the input group (<code>sudo usermod -aG input $USER</code>, then log out and back in) and give the app the input devices (the override below). Until both are done the hotkeys do nothing and everything else works.</li>
+      <li>Sounds are looked for in ~/Music/PWSP. Folders you add with the + button are remembered and need no extra access. A <code>soundpad://</code> link downloads its sound into ~/Music/PWSP.</li>
+      <li>Starting it with no arguments runs the daemon and the window. Closing the window leaves the daemon, and the virtual microphone, running: stop it with <code>flatpak run ru.arabianq.pwsp daemon --kill</code>. The command-line client is <code>flatpak run ru.arabianq.pwsp cli</code> followed by the usual pwsp-cli arguments.</li>
+    </ul>
+    <p>A few optional capabilities are not granted by default; enable the ones you
+       need with "flatpak override":</p>
+    <ul>
+      <li>Global hotkeys, once your user is in the input group (see the notes): <code>flatpak override --user --device=input ru.arabianq.pwsp</code></li>
+      <li>Undo it: <code>flatpak override --user --reset ru.arabianq.pwsp</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">ru.arabianq.pwsp.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Two sounds playing, with the library of a folder open</caption>
+      <image>https://raw.githubusercontent.com/arabianq/pipewire-soundpad/main/pwsp-gui/assets/screenshots/main.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Settings</caption>
+      <image>https://raw.githubusercontent.com/arabianq/pipewire-soundpad/main/pwsp-gui/assets/screenshots/settings.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Assigning global hotkeys</caption>
+      <image>https://raw.githubusercontent.com/arabianq/pipewire-soundpad/main/pwsp-gui/assets/screenshots/hotkeys.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://pwsp.arabianq.ru</url>
+  <url type="bugtracker">https://github.com/arabianq/pipewire-soundpad/issues</url>
+  <url type="vcs-browser">https://github.com/arabianq/pipewire-soundpad</url>
+  <developer id="ru.arabianq">
+    <name>arabian</name>
+  </developer>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <provides>
+    <binary>pwsp</binary>
+  </provides>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="1.18.0" date="2026-11-13">
+      <description></description>
+    </release>
+  </releases>
+</component>

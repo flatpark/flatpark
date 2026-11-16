@@ -1,0 +1,44 @@
+# FlatPark catalog descriptor for PipeWire Soundpad.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; ru.arabianq.pwsp.yml is the Flatpak manifest it
+# points at.
+#
+# The app id is upstream's own: the project publishes its own Flatpak as
+# ru.arabianq.pwsp, so this package is the same application rather than a rival
+# ref. FlatPark pins upstream's release zip instead of building from source.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: ru.arabianq.pwsp
+name: PipeWire Soundpad
+summary: Play audio files through your microphone, with a GUI, a CLI and global hotkeys
+website: https://pwsp.arabianq.ru
+source_url: https://github.com/arabianq/pipewire-soundpad
+build:
+  manifest: ru.arabianq.pwsp.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Soundboard
+    - Soundpad
+    - PipeWire
+    - Microphone
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # The daemon creates the virtual microphone and links nodes in the PipeWire
+    # graph itself: pipewire-rs `Context::connect(None)`, which opens the
+    # default socket, then `create_object` for the node and the links
+    # (pwsp-lib/src/utils/pipewire.rs). The PulseAudio socket cannot do that.
+    # The socket also lets the app see and link every other stream; see
+    # docs/packagers/permissions.md#the-pipewire-socket.
+    - --filesystem=xdg-run/pipewire-0
