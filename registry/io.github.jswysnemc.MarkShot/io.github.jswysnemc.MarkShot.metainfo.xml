@@ -2,33 +2,32 @@
 <component type="desktop-application">
   <id>io.github.jswysnemc.MarkShot</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT</project_license>
+  <project_license>MIT OR Apache-2.0</project_license>
   <name>Mark Shot</name>
-  <summary>Qt 6 screenshot selection and annotation tool for Wayland and X11</summary>
-  <summary xml:lang="zh-CN">Wayland 截图选区和标注工具</summary>
+  <summary>Native screenshot, annotation and recording tool for Wayland and X11</summary>
+  <summary xml:lang="zh-CN">原生截图、标注与录屏工具</summary>
   <description>
     <p>
       Mark Shot captures the screen instantly and opens an interactive fullscreen
       overlay for cropping and annotating the result. It was written for Wayland
-      compositors such as niri and now covers the usual X11, GNOME, KDE and
-      wlroots desktops as well.
+      compositors such as niri and covers the usual X11, GNOME, KDE and wlroots
+      desktops as well. Since 0.2.0 it is a native Rust application with its own
+      lightweight renderer.
     </p>
     <p>Features:</p>
     <ul>
-      <li>Pen, highlighter, shapes, arrows, text, numbered markers, mosaic and a resizable magnifier</li>
-      <li>Pin any crop as a frameless floating sticker you can drag, scale and rotate</li>
-      <li>Copy to the clipboard, save to disk, or upload to a configurable image host</li>
+      <li>Pen, highlighter, shapes, arrows, text, numbered markers, mosaic, blur, a ruler and a pixel magnifier with colour readout</li>
+      <li>Scrolling capture, and pinning any crop as a frameless floating sticker</li>
+      <li>Copy to the clipboard or save to disk, with a capture history</li>
       <li>Scan a QR code or barcode straight out of the selection</li>
-      <li>Record a region or a display to GIF, MP4 or MKV, with pause and resume</li>
-      <li>OCR a pinned sticker and translate the recognized text through OpenAI-compatible, Tencent, Baidu or Youdao endpoints</li>
+      <li>Record a region or a display to MP4, MKV or GIF, with system audio, microphone, pause and resume</li>
+      <li>Offline OCR (PP-OCRv5) with table export, and translation through Bilibili, OpenAI-compatible, Anthropic, Gemini, Tencent, Baidu or Youdao endpoints</li>
     </ul>
     <p>Notes on this Flatpak package:</p>
     <ul>
-      <li>Screen capture goes through the desktop portal, so your compositor may ask for permission the first time. On Plasma Wayland the KWin ScreenShot2 path is used instead.</li>
-      <li>The window is drawn through X11 (XWayland on a Wayland session), because that is the toolkit backend this build carries. It does not change how the screen is captured.</li>
-      <li>The build packaged here includes the four translation plugins; the barcode/QR and OCR plugins are separate downloads in the plugin marketplace.</li>
-      <li>Scrolling capture on GNOME Wayland needs a GNOME Shell extension that a sandboxed app cannot install for you.</li>
-      <li>Hovering a window to select it automatically asks the compositor through its own client (hyprctl, niri, ...), which is not reachable from the sandbox; drag a region instead.</li>
+      <li>Your compositor may keep its privileged capture protocols from sandboxed apps; Mark Shot then captures through the desktop portal, which may ask for permission the first time. On Plasma Wayland the KWin ScreenShot2 path is used.</li>
+      <li>The OCR runtime and models are downloaded the first time you use OCR.</li>
+      <li>Hovering a window to select it asks the compositor directly (niri or Sway IPC, a KWin script on Plasma), which is not reachable from the sandbox; drag a region instead.</li>
     </ul>
     <p>A few optional capabilities are not granted by default; enable the ones you
        need with "flatpak override":</p>
@@ -48,6 +47,16 @@
   </categories>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="0.2.1" date="2026-11-16">
+      <description>
+        <p>More delayed-capture presets in the tray menu, an optional persistent recording panel, direct arrow heads and refined arrows, shapes and shadows, and toolbar tooltips. Fixes slow selection tracking on Cinnamon X11 and image clipboard transfers on X11/Xwayland. The new launch-at-login setting is not available in the Flatpak build.</p>
+      </description>
+    </release>
+    <release version="0.2.0" date="2026-11-15">
+      <description>
+        <p>A complete rewrite in Rust: no Qt runtime, a built-in software renderer, native Wayland, X11 and KDE backends, a new recording engine, offline PP-OCRv5 OCR and more translation providers. Now also built for aarch64.</p>
+      </description>
+    </release>
     <release version="0.1.62" date="2026-11-01">
       <description></description>
     </release>

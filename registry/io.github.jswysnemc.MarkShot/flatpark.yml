@@ -13,13 +13,16 @@
 # so keep the plain two-space block style below exactly as it is.
 id: io.github.jswysnemc.MarkShot
 name: Mark Shot
-summary: Qt 6 screenshot selection and annotation tool for Wayland and X11
+summary: Native screenshot, annotation and recording tool for Wayland and X11
 website: https://github.com/jswysnemc/mark-shot
 source_url: https://github.com/jswysnemc/mark-shot
 build:
   manifest: io.github.jswysnemc.MarkShot.yml
   branch: stable
   mode: extra-data
+  arches:
+    - x86_64
+    - aarch64
 catalog:
   category: Graphics
   upstream_approved: true
@@ -28,7 +31,7 @@ catalog:
     - Annotation
     - Wayland
     - OCR
-    - Qt
+    - Recording
 update:
   command: ./resolve-update.sh
 policy:
