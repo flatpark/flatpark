@@ -183,8 +183,6 @@ Found by the app discovery scan (<YYYY-MM-DD>).
 ## Next step
 
 <Package it / Ask upstream first / Prototype X first>
-
-Packaging this? Comment `/claim` first so nobody else starts on it.
 ```
 
 Write it in English and link every claim. If there is no explicit demand, say
