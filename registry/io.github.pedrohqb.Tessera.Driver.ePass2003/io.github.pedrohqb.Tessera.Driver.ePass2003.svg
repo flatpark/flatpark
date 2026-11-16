@@ -1,13 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-  <!-- The ePass2003 driver extension: a generic USB token in Tessera's
-       patinated bronze, with a gold chip and a lit LED. Not the vendor's
-       mark: the extension's name says whose driver it is. -->
+  <!-- The ePass2003 driver extension: a generic slim USB token with a
+       swivel cover on its pin, in Tessera's colors turned around (a gold body with
+       patinated bronze trim, where SafeNet's is bronze with a gold chip),
+       so the two do not look alike. Not the vendor's mark: the
+       extension's name says whose driver it is. -->
   <defs>
     <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#4a9c8a"/><stop offset="1" stop-color="#2f7266"/>
-    </linearGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f8d775"/><stop offset="1" stop-color="#e0ac2e"/>
+    </linearGradient>
+    <linearGradient id="swivel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a9c8a"/><stop offset="1" stop-color="#2f7266"/>
     </linearGradient>
     <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#e4e9ec"/><stop offset="1" stop-color="#aab4ba"/>
@@ -15,20 +17,21 @@
   </defs>
   <g transform="rotate(-35 64 64)">
     <!-- USB plug -->
-    <rect x="86" y="49" width="30" height="30" rx="3" fill="url(#metal)" stroke="#7f8b92" stroke-width="2"/>
-    <rect x="96" y="56" width="7" height="5" rx="1" fill="#5f6b72"/>
-    <rect x="96" y="67" width="7" height="5" rx="1" fill="#5f6b72"/>
-    <!-- body, its shadow and the key-ring hole -->
-    <rect x="12" y="44" width="80" height="48" rx="18" fill="#1f4e46"/>
-    <rect x="12" y="38" width="80" height="48" rx="18" fill="url(#body)"/>
-    <circle cx="27" cy="62" r="6.5" fill="#1f4e46"/>
-    <!-- chip -->
-    <rect x="44" y="49" width="26" height="26" rx="5" fill="url(#gold)" stroke="#a9781a" stroke-width="2"/>
-    <g fill="none" stroke="#a9781a" stroke-width="1.8" stroke-linecap="round">
-      <path d="M53 49v26M61 49v26M44 58h9M44 66h9M61 58h9M61 66h9"/>
-    </g>
+    <rect x="88" y="52" width="28" height="24" rx="3" fill="url(#metal)" stroke="#7f8b92" stroke-width="2"/>
+    <rect x="97" y="58" width="7" height="4" rx="1" fill="#5f6b72"/>
+    <rect x="97" y="66" width="7" height="4" rx="1" fill="#5f6b72"/>
+    <!-- slim body and its shadow -->
+    <rect x="22" y="48" width="72" height="36" rx="10" fill="#a9781a"/>
+    <rect x="22" y="44" width="72" height="36" rx="10" fill="url(#body)"/>
+    <!-- swivel cover: a loop over the body, pinned near the key-ring end -->
+    <path d="M30 40h46a8 8 0 0 1 8 8v28a8 8 0 0 1-8 8H30" fill="none" stroke="#1f4e46" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M30 37h46a8 8 0 0 1 8 8v28a8 8 0 0 1-8 8H30" fill="none" stroke="url(#swivel)" stroke-width="7" stroke-linejoin="round"/>
+    <!-- the pin the cover turns on -->
+    <circle cx="30" cy="62" r="7" fill="#1f4e46"/>
+    <circle cx="30" cy="59" r="7" fill="url(#swivel)" stroke="#1f4e46" stroke-width="2"/>
+    <circle cx="30" cy="59" r="2.2" fill="#1f4e46"/>
     <!-- LED -->
-    <circle cx="80" cy="62" r="3.6" fill="#ffb347"/>
-    <circle cx="80" cy="62" r="6" fill="#ffb347" fill-opacity="0.3"/>
+    <circle cx="66" cy="62" r="3.6" fill="#ffffff"/>
+    <circle cx="66" cy="62" r="6.5" fill="#ffffff" fill-opacity="0.35"/>
   </g>
 </svg>
