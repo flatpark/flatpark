@@ -47,6 +47,9 @@
     <binary>taobao</binary>
   </provides>
   <releases>
+    <release version="3.0.1-2" date="2026-11-16">
+      <description></description>
+    </release>
     <release version="3.0.1" date="2026-11-16" />
   </releases>
 </component>
