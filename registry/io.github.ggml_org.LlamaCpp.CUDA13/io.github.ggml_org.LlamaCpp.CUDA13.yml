@@ -1,0 +1,55 @@
+id: io.github.ggml_org.LlamaCpp.CUDA13
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: llama-server
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Download models and serve the loopback HTTP API and browser interface.
+  - --share=network
+  # CUDA needs NVIDIA device nodes beyond DRI; declared in flatpark.yml.
+  - --device=all
+modules:
+  - name: llama
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 llama-wrapper /app/bin/llama-server
+      - ln -s llama-server /app/bin/llama
+      - ln -s llama-server /app/bin/llama-cli
+      - ln -s llama-server /app/bin/llama-bench
+      - ln -s llama-server /app/bin/llama-quantize
+      - install -Dm644 io.github.ggml_org.LlamaCpp.CUDA13.desktop /app/share/applications/io.github.ggml_org.LlamaCpp.CUDA13.desktop
+      - install -Dm644 io.github.ggml_org.LlamaCpp.CUDA13.metainfo.xml /app/share/metainfo/io.github.ggml_org.LlamaCpp.CUDA13.metainfo.xml
+      - install -Dm644 io.github.ggml_org.LlamaCpp.CUDA13.svg /app/share/icons/hicolor/scalable/apps/io.github.ggml_org.LlamaCpp.CUDA13.svg
+      - install -Dm644 branding.txt /app/share/doc/io.github.ggml_org.LlamaCpp.CUDA13/branding.txt
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: llama.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-cuda-13.5-x64.tar.gz
+        sha256: 9440f417615bed0e191acef03bff0249117d2be74335358265a6d28475a9baf0
+        size: 178419847
+      - type: extra-data
+        filename: cudart.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/cudart-llama-b12359-bin-ubuntu-cuda-13.5-x64.tar.gz
+        sha256: 976a9146bb8a487a6ea701224d7fb14b05e494ab3c8f5c1799ffc4e5805d640c
+        size: 444078822
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: llama-wrapper
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.CUDA13.desktop
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.CUDA13.metainfo.xml
+      # Official branding: ggml-org/llama-brand, logo/svg/icon/icon-dark-bg.svg.
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.CUDA13.svg
+      - type: file
+        path: branding.txt

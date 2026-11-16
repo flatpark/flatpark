@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ggml_org.LlamaCpp.CUDA13</id>
+  <name>llama.cpp (CUDA 13)</name>
+  <summary>Run local language models with NVIDIA CUDA 13 acceleration</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A community package of the unmodified official llama.cpp CUDA 13 build for local language model inference, an HTTP API and a browser chat interface. The included NVIDIA CUDA runtime libraries have their own proprietary license. Model downloads have their own licenses.</p>
+    <p>This edition requires an NVIDIA GPU and a host driver compatible with the packaged CUDA 13 runtime. Flatpak supplies the matching NVIDIA driver libraries through its GL extension. The package includes upstream's CUDA runtime libraries; a host CUDA toolkit is not required. CUDA needs access to NVIDIA device nodes, so this edition grants access to all devices.</p>
+    <p>The desktop entry starts llama-server in a terminal. Open your browser at the loopback address 127.0.0.1 on port 8082. Models downloaded by llama.cpp stay in this app's private persistent cache. With no model argument, the server starts in router mode for cached models. Download a model first using the CLI, for example: flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.CUDA13 -hf bartowski/SmolLM2-135M-Instruct-GGUF:Q4_K_M</p>
+    <p>Command line tools are available with flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.CUDA13, and similarly llama, llama-bench and llama-quantize. Pass server model and port options after flatpak run io.github.ggml_org.LlamaCpp.CUDA13. The CPU, Vulkan and CUDA 13 editions use different default ports and private caches.</p>
+    <p>Host model directories are optional. Grant only a directory you need: flatpak override --user --filesystem=/path/to/models:ro io.github.ggml_org.LlamaCpp.CUDA13. Then pass -m /path/to/models/model.gguf. To remove overrides: flatpak override --user --reset io.github.ggml_org.LlamaCpp.CUDA13.</p>
+    <p>Python model conversion and workflows requiring a host toolchain are not included.</p>
+  </description>
+  <launchable type="desktop-id">io.github.ggml_org.LlamaCpp.CUDA13.desktop</launchable>
+  <url type="homepage">https://llama.app</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/ggml-org/llama.cpp/tree/master/tools/server</url>
+  <developer id="io.github.ggml_org"><name>ggml-org</name></developer>
+  <provides><binary>llama</binary><binary>llama-server</binary><binary>llama-cli</binary><binary>llama-bench</binary><binary>llama-quantize</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="b12359" date="2026-11-13"/></releases>
+</component>
