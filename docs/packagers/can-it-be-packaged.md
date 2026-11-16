@@ -19,6 +19,9 @@ Check these before writing anything. An app can be listed when:
   asks), and if a third party packages it there, that package is missing a
   feature, has fallen behind or has stopped working
   ([below](#apps-already-on-flathub)).
+- **Its developer hasn't declined a listing.** Apps in the
+  [Declined](../reference/upstream-approvals.md#declined) table are not
+  packaged again, and their developers are not asked again.
 
 The toolkit doesn't matter (Electron and Tauri apps are welcome), the licence
 doesn't matter, and neither does how the app was written: an app is judged by
