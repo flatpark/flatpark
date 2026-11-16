@@ -1,0 +1,98 @@
+id: com.metrolist.desktop
+# The app id is upstream's own: the repository's flatpak/ directory builds
+# com.metrolist.desktop, so this package and any upstream Flatpak are the same
+# application.
+#
+# GNOME runtime: the bundled Compose WebView (wry) links WebKitGTK 4.1 and
+# GTK 3 for the sign-in windows, and the tray library links libsystemd. Every
+# other native library (Java runtime, Skiko, FFmpeg) ships inside the AppImage.
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: metrolist
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Java/Compose Desktop app with its own bundled Java runtime. Java's AWT is
+  # X11-only, and upstream's launcher keeps GDK on x11 so the embedded GTK
+  # sign-in window can be parented to the AWT window. It runs on XWayland in a
+  # Wayland session, so x11 (not fallback-x11) is granted.
+  - --share=ipc
+  - --socket=x11
+  # GPU-accelerated Compose rendering and FFmpeg's VA-API decoding.
+  - --device=dri
+  # Playback.
+  - --socket=pulseaudio
+  # YouTube Music, lyrics and artwork services.
+  - --share=network
+  # The signed-in account's credentials are kept in the desktop keyring
+  # through the Secret Service (secret-tool / dbus-send from the runtime).
+  - --talk-name=org.freedesktop.secrets
+  # Media controls: upstream registers org.mpris.MediaPlayer2.metrolist, which
+  # is outside the org.mpris.MediaPlayer2.<app-id>.* names Flatpak allows by
+  # default.
+  - --own-name=org.mpris.MediaPlayer2.metrolist
+  # Tray icon (StatusNotifierItem). The bundled tray library owns
+  # org.kde.StatusNotifierItem-<pid>-<n>; the app is process 2 in the sandbox
+  # and registers one icon, so the name is always -2-1 (seen with
+  # --log-session-bus). Without it the name is refused and no icon shows.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.StatusNotifierItem-2-1
+  # The same folders upstream's own Flatpak manifest grants: saved and
+  # exported files land in Downloads and Music.
+  - --filesystem=xdg-download:rw
+  - --filesystem=xdg-music:rw
+modules:
+  - name: metrolist
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 metrolist-wrapper /app/bin/metrolist
+      - install -Dm644 com.metrolist.desktop.desktop /app/share/applications/com.metrolist.desktop.desktop
+      - install -Dm644 com.metrolist.desktop.metainfo.xml /app/share/metainfo/com.metrolist.desktop.metainfo.xml
+      - install -Dm644 com.metrolist.desktop.png /app/share/icons/hicolor/512x512/apps/com.metrolist.desktop.png
+    sources:
+      # The AppImage is unpacked offline with appimage-offset + unsquashfs
+      # from flatpark/prebuilt; fixed pins, outside the managed block so the
+      # updater leaves them alone.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-aarch64.tar.xz
+        sha256: 96fbb5d8b79c53954bad1e2760efd34ab9267b9e6783b7c60930214e44cf7e18
+        size: 51796
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: metrolist.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/MetrolistGroup/Metrolist/releases/download/v14.0.0/metrolist-desktop-linux-x64-14.0.0.AppImage
+        sha256: 0e75981e7a805ce669290edfb5537b96a4ac8951c2c3e6a50f00ed2b7896045f
+        size: 165464568
+      - type: extra-data
+        filename: metrolist.AppImage
+        only-arches:
+          - aarch64
+        url: https://github.com/MetrolistGroup/Metrolist/releases/download/v14.0.0/metrolist-desktop-linux-arm64-14.0.0.AppImage
+        sha256: 4e73eb3fa6b8bc8d20e783bd931fcf36365a9dae836d76ed9870e1be34d0e54a
+        size: 164059656
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: metrolist-wrapper
+      - type: file
+        path: com.metrolist.desktop.desktop
+      - type: file
+        path: com.metrolist.desktop.metainfo.xml
+      - type: file
+        path: com.metrolist.desktop.png

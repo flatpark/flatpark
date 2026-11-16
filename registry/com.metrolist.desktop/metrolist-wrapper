@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+# Start the app through the AppDir's own AppRun, as upstream's Flatpak
+# packaging does. AppRun and the launcher script behind it only set
+# environment variables (rendering, malloc tuning, cursor theme, the JVM's
+# CDS cache and crash-log paths under XDG_CACHE_HOME/XDG_STATE_HOME, which
+# Flatpak points into ~/.var/app/com.metrolist.desktop) and then exec the
+# jpackage launcher. AppRun locates the tree through APPDIR, which the
+# AppImage runtime would normally set.
+APPDIR=/app/extra/metrolist
+export APPDIR
+
+exec "$APPDIR/AppRun" "$@"
