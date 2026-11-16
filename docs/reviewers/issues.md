@@ -68,9 +68,8 @@ leave the rest of the reporter's words, and never edit their text.
 
 - **App problem.** Check the form is complete: the `rpak doctor` output and the
   output of `flatpak run`. If one is missing or cut short, ask for exactly what
-  is missing and add `needs-info`. Read the Problems section of `rpak doctor`
-  first; a global override, a missing remote, a stopped portal or an
-  extra-data URL marked ✗ explains many reports on its own. Reproduce before
+  is missing and add `needs-info`. Go through the `rpak doctor` output with
+  [the list below](#reading-rpak-doctor-output) first. Reproduce before
   changing the package ([testing playbook](testing-playbook.md)); a cause in
   the app itself gets `report-to-upstream`, and a fix to the package gets a row
   in the [incident list](../reference/incidents.md).
@@ -82,3 +81,29 @@ leave the rest of the reporter's words, and never edit their text.
 - **Security problem.** Before anything else, as
   [security](../project/security.md#when-a-release-is-dangerous) describes.
 - **Something else.** Give it the label it should have had, and fix the title.
+
+### Reading `rpak doctor` output
+
+`rpak doctor` only collects; deciding what matters is done here, so this list
+can grow without a new rpak release. Check, in this order:
+
+| Look at | What it can explain |
+|---|---|
+| App section: `extra-data` lines | `HTTP 404`, or a size that differs from `pinned`: the vendor replaced or removed the file; the install or update fails with "Wrong size". Both commits are listed when an update is pending; a broken remote commit with a good installed one fails only on update. |
+| Network | A remote that doesn't answer, or a proxy in the way: installs and updates fail before any app runs. |
+| `global override` blocks | Apply to every app. A filesystem, socket or variable there explains permissions the package doesn't grant, and settings that vanish ([override](../users/override.md#where-overrides-live-and-in-what-order-they-apply)). |
+| The app's override and `permissions` | What the app really runs with. Compare with the package's `finish-args`; a removed folder means lost settings, extra `host` or `home` grants mean the test setup differs from ours. |
+| GPUs, `NVIDIA driver`, `GL extension` lines | Two GPUs (Intel or AMD next to NVIDIA) and the nvidia driver are the setup WebKitGTK and Chromium apps most often fail on. The `GL.nvidia-<version>` extension must match the driver version exactly (dots become dashes), or GL falls back to software or fails. |
+| `XDG_SESSION_TYPE`, `XDG_CURRENT_DESKTOP`, portal lines | Wayland or X11, and which portal backends run: tray icons, file choosers, screenshots and "open with" depend on them. `xdg-desktop-portal: not running` breaks all of those. |
+| `user.max_user_namespaces=0`, `unprivileged_userns_clone=0` | Flatpak can't start any app. |
+| `end-of-life` on the app's runtime | The app needs a runtime bump; EOL refs the app doesn't use are unrelated. |
+| Installations | Where the app is installed (user or system), whether the remote it came from is configured there, a lock held by another process, little free space. |
+| `RPAK_DRY_RUN`, `RPAK_FLATPAK` | rpak set to do nothing, or pointed at itself. |
+
+`flatpak run` printing nothing doesn't mean nothing happened: many apps
+(Tauri ones among them) write their log only to a file, usually under
+`~/.var/app/<id>/data/` or `~/.var/app/<id>/.local/share/`. Find it in the
+app's source or in the package's wrapper, and ask for it by its exact path.
+
+Write down what led to the cause in the reply, so the reporter learns to read
+it too. A pattern that turns up in several reports belongs in this table.
