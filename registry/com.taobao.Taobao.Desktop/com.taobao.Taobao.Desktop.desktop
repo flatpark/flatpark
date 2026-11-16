@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=淘宝
-Comment=淘宝桌面版
+Name=Taobao
+Name[zh]=淘宝
+Comment=Shop Taobao from your Linux desktop
+Comment[zh]=淘宝桌面版
 Exec=taobao %U
 Terminal=false
 Type=Application
 Icon=com.taobao.Taobao.Desktop
 Categories=Network;
-Keywords=taobao
-Keywords[zh]=淘宝
-Keywords[zh_CN]=淘宝
+Keywords=taobao;
