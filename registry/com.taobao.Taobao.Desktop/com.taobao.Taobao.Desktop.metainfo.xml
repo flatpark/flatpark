@@ -15,7 +15,7 @@
     <p>This is an unofficial community package of the Taobao desktop client. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
     <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. This package adapts the official Windows client to Linux with the Linux Electron runtime and community-maintained compatibility patches.</p>
     <p>The application needs network access for shopping, account login, messaging, payments, and order services. Its profile and cookies are stored in the Flatpak application data directory, separate from the host Taobao configuration.</p>
-    <p>淘宝桌面版是非官方社区打包版本，与淘宝或阿里巴巴集团没有隶属、授权或支持关系。应用用于浏览商品、联系卖家、管理订单和查看物流信息。</p>
+    <p xml:lang="zh-Hans">淘宝桌面版是非官方社区打包版本，与淘宝或阿里巴巴集团没有隶属、授权或支持关系。应用用于浏览商品、联系卖家、管理订单和查看物流信息。</p>
   </description>
   <screenshots>
     <screenshot type="default">
