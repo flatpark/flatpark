@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.metrolist.desktop</id>
+  <name>Metrolist</name>
+  <summary>Material Design YouTube Music client</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="com.metrolist">
+    <name>MetrolistGroup</name>
+  </developer>
+  <url type="homepage">https://metrolist.cc</url>
+  <url type="bugtracker">https://github.com/MetrolistGroup/Metrolist/issues</url>
+  <url type="vcs-browser">https://github.com/MetrolistGroup/Metrolist</url>
+  <description>
+    <p>This is a community package of Metrolist, maintained independently and unaffiliated with the Metrolist project. It repackages the official upstream Linux AppImage unmodified.</p>
+    <p>Metrolist is a YouTube Music client with a Material Design interface, built with Kotlin and Compose Multiplatform.</p>
+    <ul>
+      <li>Browse, search and play YouTube Music, with or without signing in.</li>
+      <li>Sign in to use your library, playlists and listening history.</li>
+      <li>Synced lyrics, an equalizer and background playback.</li>
+      <li>Media controls (MPRIS) and a tray icon.</li>
+    </ul>
+    <p>Permissions: this package grants display (X11), GPU, audio, network access, the desktop keyring, and your Downloads and Music folders. Settings, the sign-in session and caches stay inside the sandbox under <code>~/.var/app/com.metrolist.desktop</code>.</p>
+    <p>Optional:</p>
+    <ul>
+      <li>Interface too small or too large on a HiDPI screen (Metrolist detects the scale with desktop tools such as <code>hyprctl</code> or <code>gsettings</code>, which can't see your desktop's settings from inside the sandbox): set the scale yourself, for example <code>flatpak override --user --env=METROLIST_FORCE_SCALE=2 com.metrolist.desktop</code>. Undo it with <code>flatpak override --user --unset-env=METROLIST_FORCE_SCALE com.metrolist.desktop</code>.</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.metrolist.desktop.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>music</keyword>
+    <keyword>player</keyword>
+    <keyword>youtube</keyword>
+    <keyword>streaming</keyword>
+    <keyword>lyrics</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>metrolist</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Home with mood filters, recommendations and the player bar</caption>
+      <image>https://metrolist.cc/assets/desktop-home-thumb-qEHHghDj.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="14.0.0" date="2026-11-14">
+      <url type="details">https://github.com/MetrolistGroup/Metrolist/releases/tag/v14.0.0</url>
+    </release>
+  </releases>
+</component>

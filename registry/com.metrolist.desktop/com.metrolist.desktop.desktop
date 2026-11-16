@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Metrolist
+GenericName=Music Player
+Comment=Material Design YouTube Music client
+Exec=metrolist %u
+Icon=com.metrolist.desktop
+Terminal=false
+StartupNotify=true
+StartupWMClass=Metrolist
+Categories=AudioVideo;Audio;Player;Music;
+Keywords=music;player;youtube;streaming;
+MimeType=x-scheme-handler/metrolist;x-scheme-handler/metrolist-auth;

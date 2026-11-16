@@ -1,0 +1,39 @@
+id: com.metrolist.desktop
+name: Metrolist
+summary: Material Design YouTube Music client
+website: https://metrolist.cc
+source_url: https://github.com/MetrolistGroup/Metrolist
+build:
+  manifest: com.metrolist.desktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Music
+    - Player
+    - Streaming
+    - YouTube Music
+    - Compose
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
+upstream:
+  # Upstream's own Flatpak manifest builds from source; this package pins the
+  # official AppImage as extra-data, so module names differ on purpose. The
+  # diff keeps the permissions in step.
+  manifest: flatpak/com.metrolist.desktop.yaml
+  accept_missing_modules:
+    # Upstream compiles the app with a JDK module; the official AppImage
+    # pinned here carries its own Java runtime.
+    - openjdk
+  accept_extra_permissions:
+    # The tray icon: upstream's manifest doesn't grant the StatusNotifierItem
+    # names, and without them the bundled tray library's name is refused and
+    # no icon shows (seen with --log-session-bus).
+    - --talk-name=org.kde.StatusNotifierWatcher
+    - --own-name=org.kde.StatusNotifierItem-2-1
