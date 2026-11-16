@@ -30,7 +30,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: koboldcpp.bin
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/LostRuins/koboldcpp/releases/download/v1.124.2/koboldcpp-linux-x64-nocuda
         sha256: e7bc9457030fbbc454248d801d9f6971fc4b2d3fd16e0aec71f064eed26a05f4
         size: 107362352

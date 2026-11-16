@@ -58,16 +58,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/minbrowser/min/releases/download/v1.35.7/min-1.35.7-amd64.deb
-        sha256: 11741cb9606b68dc5f8371c335571e72726acefd5e8c327638e80e9f14ab737f
-        size: 93095934
+        url: https://github.com/minbrowser/min/releases/download/v1.35.8/min-1.35.8-amd64.deb
+        sha256: 6791ba5dc8fd434f8693d9010faaa71fdab38bf1eef472820639dea0e6d05ddb
+        size: 95309214
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/minbrowser/min/releases/download/v1.35.7/min-1.35.7-arm64.deb
-        sha256: c0e3d13cee2e4d05bffec711afc90bd7c16696e015b8d42d7221978b0995fac1
-        size: 87215898
+        url: https://github.com/minbrowser/min/releases/download/v1.35.8/min-1.35.8-arm64.deb
+        sha256: 21b88d6e4cc867c74674c40ab5362973d1dbed8d84c8419afc11b8acd5ae1928
+        size: 90486752
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

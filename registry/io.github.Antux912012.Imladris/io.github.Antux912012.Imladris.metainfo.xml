@@ -75,6 +75,9 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.26.0" date="2026-11-15">
+      <description></description>
+    </release>
     <release version="0.27.0" date="2026-11-16">
       <description></description>
     </release>

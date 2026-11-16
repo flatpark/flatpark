@@ -29,13 +29,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: llama.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-cuda-13.5-x64.tar.gz
         sha256: 9440f417615bed0e191acef03bff0249117d2be74335358265a6d28475a9baf0
         size: 178419847
       - type: extra-data
         filename: cudart.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/cudart-llama-b12359-bin-ubuntu-cuda-13.5-x64.tar.gz
         sha256: 976a9146bb8a487a6ea701224d7fb14b05e494ab3c8f5c1799ffc4e5805d640c
         size: 444078822
