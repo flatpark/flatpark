@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ggml_org.LlamaCpp.ROCM10</id>
+  <name>llama.cpp (ROCm 10)</name>
+  <summary>Run local language models with ROCm 10 GPU acceleration</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A community package of the unmodified official llama.cpp ROCm 10 build for local language model inference, an HTTP API and a browser chat interface. Model downloads have their own licenses.</p>
+    <p>The desktop entry starts llama-server in a terminal. Open http://127.0.0.1:8082 in your browser. Models downloaded by llama.cpp stay in this app's private persistent cache. With no model argument, the server starts in router mode for cached models. Download a model first using the CLI, for example: flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.ROCM10 -hf bartowski/SmolLM2-135M-Instruct-GGUF:Q4_K_M</p>
+    <p>Command line tools are available with flatpak run --command=llama-cli io.github.ggml_org.LlamaCpp.ROCM10, and similarly llama, llama-bench and llama-quantize. Pass server model and port options after flatpak run io.github.ggml_org.LlamaCpp.ROCM10. The CPU, Vulkan and ROCm 10 editions use separate private caches. This edition defaults to port 8082.</p>
+    <p>Host model directories are optional. Grant only a directory you need: flatpak override --user --filesystem=/path/to/models:ro io.github.ggml_org.LlamaCpp.ROCM10. Then pass -m /path/to/models/model.gguf. To remove overrides: flatpak override --user --reset io.github.ggml_org.LlamaCpp.ROCM10.</p>
+    <p>GPU acceleration requires a supported AMD GPU and a host kernel driver that exposes /dev/kfd. ROCm needs broad device access, which also exposes other host devices. AMD ROCm 10.0 runtime libraries and GPU kernels are downloaded separately at install time. Total downloads are approximately 6.9 GB to cover all GPU targets in this build; a host ROCm toolchain is not required.</p>
+    <p>Python model conversion and workflows requiring a host toolchain are not included.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The built-in llama.cpp browser chat interface</caption>
+      <image>https://github.com/user-attachments/assets/b402f972-2e32-4def-8771-8d849f08cf2e</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.github.ggml_org.LlamaCpp.ROCM10.desktop</launchable>
+  <url type="homepage">https://llama.app</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/ggml-org/llama.cpp/tree/master/tools/server</url>
+  <developer id="io.github.ggml_org"><name>ggml-org</name></developer>
+  <provides><binary>llama-server</binary><binary>llama-cli</binary></provides>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="b12359" date="2026-11-13"/></releases>
+</component>
