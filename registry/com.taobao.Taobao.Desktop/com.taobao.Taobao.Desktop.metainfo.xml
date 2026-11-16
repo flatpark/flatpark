@@ -13,28 +13,27 @@
   <project_license>LicenseRef-proprietary=https://www.taobao.com/</project_license>
   <description>
     <p>This is an unofficial community package of the Taobao desktop client. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
-    <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. This package adapts the official Windows client to Linux with the Linux Electron runtime and community-maintained compatibility patches.</p>
-    <p>The application needs network access for shopping, account login, messaging, payments, and order services. Its profile and cookies are stored in the Flatpak application data directory, separate from the host Taobao configuration.</p>
-    <p xml:lang="zh-Hans">淘宝桌面版是非官方社区打包版本，与淘宝或阿里巴巴集团没有隶属、授权或支持关系。应用用于浏览商品、联系卖家、管理订单和查看物流信息。</p>
+    <p>This package is built by the jiesou/taobao-linux-release build repository, not by Taobao. It adapts the official Windows client to Linux with the Linux Electron runtime and community-maintained compatibility patches.</p>
+    <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. The application needs network access for shopping, account login, messaging, payments, and order services. Its profile and cookies are stored in the Flatpak application data directory, separate from the host Taobao configuration.</p>
   </description>
   <screenshots>
     <screenshot type="default">
       <image type="source">https://img.alicdn.com/imgextra/i3/O1CN01vakcu9DeowC4Twwq_!!6000000000054-2-tps-2208-1248.png</image>
-      <caption>Taobao desktop shopping</caption>
+      <caption>分屏浏览</caption>
     </screenshot>
     <screenshot>
       <image type="source">https://img.alicdn.com/imgextra/i4/O1CN019MGvo11EDEehTS4lO_!!6000000000317-2-tps-4416-2496.png</image>
-      <caption>Browse products on a large screen</caption>
+      <caption>高效沟通</caption>
     </screenshot>
     <screenshot>
       <image type="source">https://img.alicdn.com/imgextra/i2/O1CN01zcTxYEf7PGK4Twwq_!!6000000004161-2-tps-2208-1248.png</image>
-      <caption>Taobao desktop features</caption>
+      <caption>极速打开</caption>
     </screenshot>
   </screenshots>
   <url type="homepage">https://pc.taobao.com/</url>
   <url type="bugtracker">https://github.com/jiesou/taobao-linux-release/issues</url>
   <url type="vcs-browser">https://github.com/jiesou/taobao-linux-release</url>
-  <url type="help">https://pc.taobao.com/</url>
+  <url type="help">https://github.com/jiesou/taobao-linux-release/issues</url>
   <categories>
     <category>Network</category>
   </categories>
