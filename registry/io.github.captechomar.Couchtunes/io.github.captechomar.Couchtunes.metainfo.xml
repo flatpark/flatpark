@@ -16,7 +16,7 @@
     <p>Couchtunes plays the music on your own Navidrome (Subsonic / OpenSubsonic) server in a clean, big-screen layout. It is built to be driven with arrow keys, a TV remote or a game controller, and it works with a mouse and keyboard too.</p>
     <p>Features include synced lyrics, an Up next queue, search with an on-screen keyboard, album, artist and playlist pages, light and dark themes, and keyboard and controller shortcuts.</p>
     <p>Couchtunes is an independent project. It is not affiliated with Apple or Navidrome.</p>
-    <p>This package follows every upstream release, beta releases included, so new versions reach you as soon as they are published.</p>
+    <p>This package follows stable upstream releases only. Beta releases are not included.</p>
     <p>Game controllers need access to input devices, so this package is granted all devices. Couchtunes uses native Wayland when it is available; if it misbehaves on your desktop, start it on X11 instead: flatpak run --env=COUCHTUNES_X11=1 io.github.captechomar.Couchtunes</p>
   </description>
   <launchable type="desktop-id">io.github.captechomar.Couchtunes.desktop</launchable>
