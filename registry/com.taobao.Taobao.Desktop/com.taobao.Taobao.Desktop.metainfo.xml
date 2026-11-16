@@ -12,9 +12,9 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LicenseRef-proprietary=https://www.taobao.com/</project_license>
   <description>
-    <p>This is an unofficial community package of the Taobao desktop client. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
-    <p>This package is built by the jiesou/taobao-linux-release build repository, not by Taobao. It adapts the official Windows client to Linux with the Linux Electron runtime and community-maintained compatibility patches.</p>
-    <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. The application needs network access for shopping, account login, messaging, payments, and order services. Its profile and cookies are stored in the Flatpak application data directory, separate from the host Taobao configuration.</p>
+    <p>This is a community package that repackages the official Taobao Desktop client from Taobao, with Linux compatibility adaptations. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
+    <p>The package is built from the official Taobao Windows client by the jiesou/taobao-linux-release build repository. It supplies the Linux Electron runtime and Linux native modules, applies the Linux compatibility patches, and stores its own profile and cookies in the Flatpak application data directory.</p>
+    <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. The package needs network access for shopping, account login, messaging, payments, and order services.</p>
   </description>
   <screenshots>
     <screenshot type="default">
