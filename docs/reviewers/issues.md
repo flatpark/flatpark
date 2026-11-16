@@ -75,14 +75,26 @@ reason in the last comment. `wontfix` and `invalid` aren't used.
 
 ### Titles
 
-| Form | Title |
+Every issue title starts with the prefix of its "what it is about" label,
+however the issue was opened: from a form, by a maintainer or an agent
+directly, or by a bot.
+
+| Label | Title |
 |---|---|
-| App problem | `[Bug] <app-id>: <what goes wrong>` |
-| App request | `[App Request] <Name>` |
-| Scan candidate | `[App Discover] <Name>` |
-| Proposal | `[Proposal] <what changes>` |
-| Question about the rules | `[Question] <the question>` |
-| Security problem | `[Security] <app-id or area>: <what>` |
+| `bug` | `[Bug] <app-id>: <what goes wrong>` |
+| `app-request` | `[App Request] <Name>` |
+| `app-discover` | `[App Discover] <Name>` |
+| `proposal` | `[Proposal] <what changes>` |
+| `rule-question` | `[Question] <the question>` |
+| `site` | `[Site] <page or area>: <what>` |
+| `security` | `[Security] <app-id or area>: <what>` |
+| `enhancement` | `[Enhancement] <app-id>: <what changes>` |
+| `community` | `[Community] <what>` |
+| `ci-alert` | `[CI] <workflow>: <what failed>` (set by `scripts/ci-alert.sh`) |
+
+The forms prefill the prefix, except "Something else", which gets one when it
+is sorted. When you open an issue yourself, pick the label first and take its
+prefix; status labels (`help wanted`, `needs-testers`, …) never give one.
 
 Fix the prefix and the app's spelling (its official name, its id) when sorting;
 leave the rest of the reporter's words, and never edit their text.
