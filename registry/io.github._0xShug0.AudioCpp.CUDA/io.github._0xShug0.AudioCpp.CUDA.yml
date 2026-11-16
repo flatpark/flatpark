@@ -1,0 +1,54 @@
+id: io.github._0xShug0.AudioCpp.CUDA
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: audio-cpp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Serve the browser UI on localhost and download model weights.
+  - --share=network
+  # Retain NVIDIA device access from the ComfyDesktop reference; declared in flatpark.yml.
+  - --device=all
+modules:
+  - name: audio-cpp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 audio-wrapper /app/bin/audio-cpp
+      - install -Dm644 io.github._0xShug0.AudioCpp.CUDA.desktop /app/share/applications/io.github._0xShug0.AudioCpp.CUDA.desktop
+      - install -Dm644 io.github._0xShug0.AudioCpp.CUDA.metainfo.xml /app/share/metainfo/io.github._0xShug0.AudioCpp.CUDA.metainfo.xml
+      - install -Dm644 io.github._0xShug0.AudioCpp.CUDA.svg /app/share/icons/hicolor/scalable/apps/io.github._0xShug0.AudioCpp.CUDA.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: audio.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-cuda12.8-colab.tar.gz
+        sha256: aee0c4d50f1fa7eed4daaeca791a29fddf350a0855c539c127041299293c992e
+        size: 231408582
+      - type: extra-data
+        filename: cudart.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-cudart-ubuntu-x64-cuda12.8.tar.gz
+        sha256: 732bf2f4b81760529996c076e9a255fa406a296a01c140ab290c62523e145bd0
+        size: 787011688
+      # END MANAGED EXTRA-DATA
+      # The official server links NCCL; fetch NVIDIA's CUDA 12.8 runtime directly.
+      - type: extra-data
+        filename: nccl.deb
+        only-arches: [x86_64]
+        url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/libnccl2_2.26.2-1+cuda12.8_amd64.deb
+        sha256: fa44a5a1b2554b00a9f4ee3347458d3eb72cb688208c4fc5cd7483f7d27c2ccc
+        size: 173043876
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: audio-wrapper
+      - type: file
+        path: io.github._0xShug0.AudioCpp.CUDA.desktop
+      - type: file
+        path: io.github._0xShug0.AudioCpp.CUDA.metainfo.xml
+      - type: file
+        path: io.github._0xShug0.AudioCpp.CUDA.svg
