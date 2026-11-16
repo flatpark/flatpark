@@ -8,14 +8,14 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.9",
-    "fast-xml-parser": "^5.11.1",
+    "@astrojs/sitemap": "^3.7.5",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.12",
+    "fast-xml-parser": "^5.12.1",
     "tailwindcss": "^4.3.3",
-    "yaml": "^2.9.0"
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
-    "@types/node": "^26.4.0"
+    "@types/node": "^26.6.6"
   }
 }
