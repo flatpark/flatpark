@@ -42,6 +42,13 @@ What it is waiting for (add and remove as the issue moves):
 | `report-to-upstream` | The cause is in the app itself, not the package | Never; link the developer's issue in a comment once it is filed |
 | `help wanted` | Open for anyone to pick up | Someone takes it (`/claim` removes it) |
 
+`needs-testers` on a **PR** also publishes it: once pr-checks passes, the PR
+gets a test repository at `https://test.flatpark.org/pr/<N>/` and a comment
+with the install commands ([testing a PR build](../users/testing.md)), updated
+on every push. Removing the label, or closing the PR, withdraws it: installed
+copies show an end-of-life notice with the commands to switch back, and the
+files are deleted 14 days later. Adding the label again publishes it again.
+
 `help wanted` says only that anyone may take it; the label beside it says what
 kind of help: `app-request` + `help wanted` is an app anyone may package,
 `community` + `help wanted` is a call for people.

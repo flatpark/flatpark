@@ -1,0 +1,178 @@
+# Per-PR test repositories (#585): a PR labeled needs-testers gets a signed
+# OSTree repo at https://test.flatpark.org/pr/<N>/, built from its pr-checks
+# artifacts, that testers install from; it is withdrawn (end-of-life) when the
+# PR closes or loses the label, and deleted 14 days later.
+#
+# Trusted side of an untrusted build: this runs main's code only and never
+# checks out or executes anything from a PR. What it takes from the PR's run
+# (artifact names, the repo tars) is checked in scripts/test-repo-*.sh before
+# use. Fork runs of pr-checks need maintainer approval for every external
+# contributor, so a labeled PR's artifacts come from reviewed pushes only.
+#
+# State-driven: scripts/test-repo-reconcile.sh <N> decides from PR N's state
+# and the bucket alone, so each trigger below only says *which* PR to look at,
+# and the hourly sweep catches up whatever a trigger missed. Every reconcile
+# leg handles one PR and touches only pr/<N>/, one at a time per PR.
+#
+# The repository's Actions event policy allows exactly these four events for
+# this file (docs/reference/infrastructure.md): adding a trigger here needs the
+# policy changed too, or runs of it are blocked.
+name: pr-test-repo
+
+on:
+  workflow_run:
+    workflows: [pr-checks]
+    types: [completed]
+  # Only an accelerator: the hourly sweep does the same work if this event is
+  # ever disabled. Never checks out the PR (see above).
+  pull_request_target:
+    types: [labeled, unlabeled, closed]
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: PR number to reconcile (empty = sweep every PR)
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  # Which PR an event is about. No secrets and no environment: for
+  # workflow_run the number comes from the untrusted run's artifact names and
+  # is only believed once that PR is open at the run's commit. A
+  # pull_request_target run takes GITHUB_REF from the PR's base, and the
+  # testing environment deploys from main only, so other bases are left to the
+  # sweep.
+  resolve:
+    if: >-
+      (github.event_name == 'workflow_run'
+        && github.event.workflow_run.event == 'pull_request'
+        && github.event.workflow_run.conclusion == 'success')
+      || (github.event_name == 'pull_request_target'
+        && github.event.pull_request.base.ref == github.event.repository.default_branch
+        && (github.event.action == 'closed' || github.event.label.name == 'needs-testers'))
+      || (github.event_name == 'workflow_dispatch' && inputs.pr != '')
+    # 26.04, not ubuntu-latest: see the runner note in pr-checks.yml.
+    runs-on: ubuntu-26.04
+    permissions:
+      actions: read
+      pull-requests: read
+      contents: read
+    outputs:
+      prs: ${{ steps.plan.outputs.prs }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_SHA: ${{ github.event.workflow_run.head_sha }}
+          PR_EVENT: ${{ github.event.pull_request.number }}
+          PR_INPUT: ${{ inputs.pr }}
+        run: |
+          case "$EVENT" in
+            workflow_run)        prs="$(./scripts/test-repo-plan.sh run "$RUN_ID" "$RUN_SHA")" ;;
+            pull_request_target) prs="$(./scripts/test-repo-plan.sh pr "$PR_EVENT")" ;;
+            workflow_dispatch)   prs="$(./scripts/test-repo-plan.sh pr "$PR_INPUT")" ;;
+          esac
+          echo "prs=$prs" >> "$GITHUB_OUTPUT"
+          echo "PRs to reconcile: $prs"
+
+  # The sweep: list the bucket's prefixes and the open labeled PRs, keep those
+  # whose state needs action. Reads the bucket, so it needs the environment.
+  plan:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.pr == '')
+    runs-on: ubuntu-26.04
+    environment: testing
+    concurrency:
+      group: test-repo-plan
+      cancel-in-progress: false
+    permissions:
+      pull-requests: read
+      contents: read
+    outputs:
+      prs: ${{ steps.plan.outputs.prs }}
+    env:
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_TESTING_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_TESTING_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash
+      - id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          prs="$(./scripts/test-repo-plan.sh sweep)"
+          echo "prs=$prs" >> "$GITHUB_OUTPUT"
+          echo "PRs to reconcile: $prs"
+
+  # One leg per PR, each serialized with every other job on the same PR.
+  reconcile:
+    needs: [resolve, plan]
+    if: >-
+      always()
+      && (needs.resolve.result == 'success' || needs.plan.result == 'success')
+      && (needs.resolve.outputs.prs || needs.plan.outputs.prs || '[]') != '[]'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        pr: ${{ fromJSON(needs.resolve.outputs.prs || needs.plan.outputs.prs) }}
+    name: reconcile (pr/${{ matrix.pr }})
+    concurrency:
+      group: test-repo-pr-${{ matrix.pr }}
+      cancel-in-progress: false
+    runs-on: ubuntu-26.04
+    environment: testing
+    permissions:
+      actions: write         # download pr-checks artifacts; re-run a run whose artifacts expired
+      pull-requests: write   # the test-repo comment
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR: ${{ matrix.pr }}
+      RCLONE_CONFIG_R2_TYPE: s3
+      RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_TESTING_ACCESS_KEY_ID }}
+      RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_TESTING_SECRET_ACCESS_KEY }}
+      RCLONE_CONFIG_R2_ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+      RCLONE_CONFIG_R2_ACL: private
+      RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Install rclone
+        run: curl -fsSL https://rclone.org/install.sh | sudo bash
+      - name: Decide
+        id: decide
+        run: echo "action=$(./scripts/test-repo-reconcile.sh --decide "$PR")" >> "$GITHUB_OUTPUT"
+      # Only a publish (a build is ready) or a retire builds a repo. A check
+      # (waiting on a re-run, or no build to publish) is gh only, so a PR
+      # whose newest push awaits approval or failed costs no install hourly.
+      - name: Install flatpak and ostree
+        if: steps.decide.outputs.action == 'publish' || steps.decide.outputs.action == 'retire'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak ostree
+      - name: Reconcile
+        if: steps.decide.outputs.action != 'none'
+        env:
+          FLATPAK_TESTING_GPG_KEY: ${{ secrets.FLATPAK_TESTING_GPG_KEY }}
+        run: ./scripts/test-repo-reconcile.sh "$PR"

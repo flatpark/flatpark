@@ -181,13 +181,14 @@ would use:
   that uses them. An app that only checks a command exists reports it
   available even when it can't run.
 - **Can't test it:** say exactly what and why in the PR. Hold the listing until
-  a tester or the developer confirms; don't merge on the hope it works. For
-  now a tester builds the PR's branch locally
-  ([submitting an app](../packagers/submitting.md#build)); there is no test
-  remote yet. Don't hand a tester a `.flatpak` bundle: installing an extra-data
-  app from a bundle always fails with "Extra data missing in detached
-  metadata", because only a repository pull fetches extra-data. That is why
-  the `pr-test-bundles` workflow is disabled.
+  a tester or the developer confirms; don't merge on the hope it works. Add
+  the `needs-testers` label to the PR: once pr-checks passes, the PR gets a
+  test repository at `https://test.flatpark.org/pr/<N>/` and a comment with
+  the install commands ([testing a PR build](../users/testing.md)). The label
+  only finds testers; the listing is still held until one confirms in the PR.
+  Don't hand a tester a `.flatpak` bundle: installing an extra-data app from a
+  bundle always fails with "Extra data missing in detached metadata", because
+  only a repository pull fetches extra-data.
 
 ### What CI does and doesn't
 

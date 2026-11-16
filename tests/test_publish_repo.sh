@@ -3,6 +3,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/tests/lib/assert.sh"
 command -v ostree >/dev/null || { echo "test_publish_repo: SKIP (no ostree)"; exit 0; }
+command -v flatpak >/dev/null || { echo "test_publish_repo: SKIP (no flatpak)"; exit 0; }
 tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
 env_common=(OUT_DIR="$tmp/out" GNUPGHOME_DIR="$tmp/gnupg")
 
