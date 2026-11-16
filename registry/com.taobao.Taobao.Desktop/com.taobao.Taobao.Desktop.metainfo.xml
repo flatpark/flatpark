@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>com.taobao.Taobao.Desktop</id>
-  <name>淘宝</name>
-  <summary>Taobao desktop client</summary>
-  <metadata_license>CC0-1.0</metadata_license>
-  <project_license>Proprietary</project_license>
-  <developer_name>Taobao</developer_name>
+  <name>Taobao</name>
+  <name xml:lang="zh-Hans">淘宝</name>
+  <summary>Shop Taobao from your Linux desktop</summary>
+  <summary xml:lang="zh-Hans">淘宝桌面版：在电脑上浏览、沟通和购物</summary>
+  <developer id="com.taobao">
+    <name>Taobao</name>
+  </developer>
   <launchable type="desktop-id">com.taobao.Taobao.Desktop.desktop</launchable>
-  <url type="homepage">https://www.taobao.com</url>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.taobao.com/</project_license>
+  <description>
+    <p>This is an unofficial community package of the Taobao desktop client. It is not verified by, affiliated with, or supported by Taobao or Alibaba Group.</p>
+    <p>Taobao is an online shopping client for browsing products, communicating with sellers, managing orders, and following delivery updates. This package adapts the official Windows client to Linux with the Linux Electron runtime and community-maintained compatibility patches.</p>
+    <p>The application needs network access for shopping, account login, messaging, payments, and order services. Its profile and cookies are stored in the Flatpak application data directory, separate from the host Taobao configuration.</p>
+    <p>淘宝桌面版是非官方社区打包版本，与淘宝或阿里巴巴集团没有隶属、授权或支持关系。应用用于浏览商品、联系卖家、管理订单和查看物流信息。</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://img.alicdn.com/imgextra/i3/O1CN01vakcu9DeowC4Twwq_!!6000000000054-2-tps-2208-1248.png</image>
+      <caption>Taobao desktop shopping</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://img.alicdn.com/imgextra/i4/O1CN019MGvo11EDEehTS4lO_!!6000000000317-2-tps-4416-2496.png</image>
+      <caption>Browse products on a large screen</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://img.alicdn.com/imgextra/i2/O1CN01zcTxYEf7PGK4Twwq_!!6000000004161-2-tps-2208-1248.png</image>
+      <caption>Taobao desktop features</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://pc.taobao.com/</url>
+  <url type="bugtracker">https://github.com/jiesou/taobao-linux-release/issues</url>
+  <url type="vcs-browser">https://github.com/jiesou/taobao-linux-release</url>
+  <url type="help">https://pc.taobao.com/</url>
+  <categories>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>taobao</keyword>
+    <keyword>shopping</keyword>
+    <keyword>e-commerce</keyword>
+    <keyword>online shopping</keyword>
+    <keyword>淘宝</keyword>
+    <keyword>购物</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>taobao</binary>
+  </provides>
   <releases>
     <release version="3.0.1" date="2026-11-16" />
   </releases>
