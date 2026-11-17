@@ -40,6 +40,9 @@ shaped to keep it small:
   `delist-prune` (Saturday 02:00 UTC, or run by hand), which also prunes old
   summaries.
 
+R2 reads grow with users instead, and are kept off R2 by the edge cache
+(see the cache rules under [Cloudflare settings](#cloudflare-settings-that-must-stay)).
+
 To see what an app takes up, use the **Download Size** of
 `flatpak remote-info flatpark <ref>`. `flatpak remote-ls` folds the extra-data
 payload into its size column, so it overstates. Summing every ref still
@@ -136,6 +139,26 @@ holds.
 - **The one WAF rate-limit rule** guards `delta-indexes/` per IP (60 requests
   per 10 s), so the counts can't be inflated from a single address. They can
   still be from many; that is accepted.
+- **Two cache rules on `dl.flatpark.org`.** Cloudflare caches no OSTree file
+  by default: `.filez`, `.dirtree`, `summary.idx` are not on its extension
+  list, so without these rules every pull request is an R2 read, billed per
+  request past 10 M a month (it passed that in November 2026 at ~650 k a day).
+  - `flatpark cache`: `/objects/`, `/deltas/`, `/summaries/`, and
+    `/summary.idx`, `/summary`, `/summary.sig`, `/config`. Eligible for cache,
+    edge TTL **from the origin's Cache-Control**, which `scripts/sync-r2.sh`
+    sets: a year for content-addressed objects, `s-maxage=60` for the mutable
+    files. The free plan can't set an edge TTL under 2 h in a rule, far too
+    long for `summary.idx`, so the short TTL has to come from the header.
+    After changing the headers in `sync-r2.sh`, run publish by hand with
+    **rewrite_headers**, or files whose bytes don't change (`config`, old
+    commits' `.commitmeta`) keep the old header.
+  - `flatpark 404`: `/delta-indexes/`, edge TTL 2 h, 404 cached 2 h. The repo
+    builds no static deltas, so every delta-index request is a 404. The
+    install-stats Worker runs before the cache, so caching these doesn't
+    affect counting.
+
+  Check with `curl -sI` twice: `cf-cache-status: HIT` on an object and a
+  delta-index, `HIT` with `age` under 60 on `summary.idx`.
 
 ### Known gaps
 

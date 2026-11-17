@@ -44,6 +44,10 @@ on:
         description: Sign every published commit with each signing key it lacks (once, when a key rotation starts)
         type: boolean
         default: false
+      rewrite_headers:
+        description: Re-upload every mutable R2 file so it carries the current Cache-Control (once, after sync-r2.sh changes MUTABLE)
+        type: boolean
+        default: false
 
 # Serialize: never let two publishes race on the repo.
 concurrency:
@@ -369,6 +373,8 @@ jobs:
 
       - name: Sync repo to R2 (objects first, summary last)
         if: needs.plan.outputs.scope != 'site'
+        env:
+          REWRITE_HEADERS: ${{ github.event_name == 'workflow_dispatch' && inputs.rewrite_headers && '1' || '' }}
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/sync-r2.sh
 
       - name: Deploy site to Cloudflare Pages (atomic)
