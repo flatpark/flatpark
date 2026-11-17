@@ -19,5 +19,11 @@
   <developer id="io.github.ggml_org"><name>ggml-org</name></developer>
   <provides><binary>llama-server</binary><binary>llama-cli</binary></provides>
   <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The built-in llama.cpp browser chat interface (upstream screenshot)</caption>
+      <image>https://github.com/user-attachments/assets/b402f972-2e32-4def-8771-8d849f08cf2e</image>
+    </screenshot>
+  </screenshots>
   <releases><release version="b12359" date="2026-11-13"/></releases>
 </component>
