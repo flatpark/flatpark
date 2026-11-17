@@ -6,7 +6,11 @@ set -eu
 # check: Flatpak updates the app, and upstream's notice would point at the
 # portable download instead. Downloaded engines still show "update available"
 # on the Engines page. Keep existing settings untouched.
-settings_dir="${FILEE_DATA_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/Filee}"
+# Filee 2.5's portable marker would store data beside the apphost, which is
+# read-only in Flatpak. Use the existing per-app settings path to preserve
+# profiles from earlier releases, unless the user chose another data directory.
+export FILEE_DATA_DIR="${FILEE_DATA_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/Filee}"
+settings_dir="$FILEE_DATA_DIR"
 settings="$settings_dir/settings.json"
 if [ ! -e "$settings" ]; then
     mkdir -p "$settings_dir"
