@@ -18,6 +18,12 @@
     <p>Network access is used to sync blockchain and exchange data. The app stores its profile in Flatpak's private per-app data directory.</p>
     <p>Updates come through Flatpak. If the app offers to install an update itself, update rotki with Flatpak instead.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://rotki.com/img/screenshots/1-sc-dashboard.webp</image>
+      <caption>Portfolio dashboard with balances and net worth history</caption>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.rotki.app.desktop</launchable>
   <categories>
     <category>Office</category>

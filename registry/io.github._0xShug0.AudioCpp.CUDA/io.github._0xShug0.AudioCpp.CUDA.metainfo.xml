@@ -12,6 +12,12 @@
     <p>This package includes the native model manager in the server. Workflows requiring Python conversion or additional host tools are unavailable. CPU, Vulkan and CUDA editions use separate model stores and ports. This edition requires a compatible NVIDIA GPU and driver; Flatpak supplies the matching driver extension.</p>
     <p>The upstream CUDA Linux archive contains the server only; the standalone CLI is not included. To access an existing models folder, grant it with flatpak override --user --filesystem=/path/to/models:ro io.github._0xShug0.AudioCpp.CUDA. Undo custom grants with flatpak override --user --reset io.github._0xShug0.AudioCpp.CUDA.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/0xShug0/audio.cpp/main/assets/figure/voice_chat_demo.png</image>
+      <caption>Voice chat with local audio models in the audio.cpp WebUI</caption>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">io.github._0xShug0.AudioCpp.CUDA.desktop</launchable>
   <url type="homepage">https://github.com/0xShug0/audio.cpp</url>
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
