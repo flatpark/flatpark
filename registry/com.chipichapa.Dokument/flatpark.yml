@@ -10,6 +10,7 @@ build:
   arches: [x86_64]
 catalog:
   category: Office
+  upstream_approved: true
   tags: [PDF, Documents, Scanning, GNOME]
 update:
   command: ./resolve-update.sh
