@@ -161,9 +161,9 @@ modules:
         filename: tessera.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/pedrohqb/tessera/releases/download/v0.4.7/tessera-x86_64.tar.gz
-        sha256: 92ba7c55d9eef83751d7c0d8615a5fbf89080de8dfdce73d3049fd8c76c026c3
-        size: 3701758
+        url: https://github.com/pedrohqb/tessera/releases/download/v0.4.8/tessera-x86_64.tar.gz
+        sha256: 40715d9dcbdc730811e7cc65a0b53204f300023cb27fb58cfc839a20e4aec02b
+        size: 3706250
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
