@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Update resolver for Rayburst.
 #
-# Prints the current version + the Linux x86_64 .deb as JSON on stdout:
+# Prints the current version + the Linux x86_64 AppImage as JSON on stdout:
 #   { "version": "4.0.1", "releaseDate": "YYYY-MM-DD",
-#     "sources": [ { "filename": "rayburst.deb", "url": "..." } ] }
+#     "sources": [ { "filename": "rayburst.AppImage", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
@@ -24,17 +24,18 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at' <<<"$rel" | cut -c1-10)"
-# Match the asset by its exact name. Each release also carries the arm64 .deb,
-# both .rpm builds, the AppImages, the macOS/Windows bundles and a detached .sig
-# for most of them, and a loose suffix match would let sort order decide.
+# Match the asset by its exact name. Each release also carries the aarch64
+# AppImage, the .deb and .rpm builds, the macOS/Windows bundles and a detached
+# .AppImage.sig beside each AppImage, and a loose suffix match would let sort
+# order decide.
 url="$(jq -r --arg v "$version" \
-  '.assets[] | select(.name == ("Rayburst_" + $v + "_amd64.deb")) | .browser_download_url' <<<"$rel")"
+  '.assets[] | select(.name == ("Rayburst_" + $v + "_amd64.AppImage")) | .browser_download_url' <<<"$rel")"
 
 if [ -z "$version" ] || [ -z "$url" ]; then
-    echo "failed to resolve a Rayburst_*_amd64.deb for $version" >&2
+    echo "failed to resolve a Rayburst_*_amd64.AppImage for $version" >&2
     exit 1
 fi
 echo "resolved rayburst $version ($date): $url" >&2
 
 jq -n --arg v "$version" --arg d "$date" --arg u "$url" \
-  '{version:$v, releaseDate:$d, sources:[{filename:"rayburst.deb", url:$u}]}'
+  '{version:$v, releaseDate:$d, sources:[{filename:"rayburst.AppImage", url:$u}]}'

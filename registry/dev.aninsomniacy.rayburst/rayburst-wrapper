@@ -1,45 +1,56 @@
 #!/bin/sh
 set -eu
 
-# Rayburst is a Tauri v2 (WebKitGTK) app staged by apply_extra to
-# /app/extra/rayburst. The GUI binary links only against libraries in
-# org.gnome.Platform (webkit2gtk-4.1, gtk-3, libsoup-3, cairo, dbus, glib); its
-# Linux tray is ksni, which speaks D-Bus itself and loads no indicator library.
-# Its Aria2 Next
-# engine sidecar sits next to it in bin/, and Tauri resolves the resource tree
-# the engine reads (the peer blocklist, the GeoIP database, the ED2K bootstrap
-# caches) as <exe_dir>/../lib/Rayburst, which apply_extra staged as a sibling.
+# Rayburst is a Tauri v2 (WebKitGTK) app, unpacked by apply_extra from
+# upstream's AppImage into /app/extra/rayburst, the linuxdeploy AppDir kept
+# whole. This starts it the way the AppImage itself does, through the AppDir's
+# AppRun, so the app runs on the GTK 3 and WebKitGTK 4.1 it bundles rather
+# than on anything from the runtime (why: the comment at the top of the
+# manifest). What AppRun does, in order:
 #
-# Flatpak redirects the XDG base dirs, so the task database, the settings and the
-# engine's session state stay inside the sandbox.
+#   AppRun          (bash) sources apprun-hooks/linuxdeploy-plugin-gtk.sh, which
+#                   points GTK_PATH, GTK_DATA_PREFIX, GIO_MODULE_DIR,
+#                   GSETTINGS_SCHEMA_DIR, GDK_PIXBUF_MODULE_FILE and
+#                   XDG_DATA_DIRS into the AppDir and sets GTK_THEME to
+#                   Adwaita, light or dark from the portal's color-scheme.
+#                   It reads that with dbus-send, then gsettings; both are in
+#                   the runtime, and if either fails the hook falls back to
+#                   light (`|| printf ''`), so a failure is harmless.
+#   AppRun.wrapped  (ELF) puts the AppDir's usr/lib on LD_LIBRARY_PATH and
+#                   usr/bin on PATH, changes into usr/ and runs the Exec= of the
+#                   AppDir's desktop entry. Changing into usr/ is load-bearing:
+#                   the bundled libwebkit2gtk looks for WebKitWebProcess and
+#                   WebKitNetworkProcess at ././/lib/x86_64-linux-gnu/webkit2gtk-4.1,
+#                   relative to the working directory.
+#
+# Starting usr/bin/rayburst directly would load the bundled libraries through
+# its $ORIGIN/../lib RUNPATH, but without the hook's variables GTK and GIO
+# would look for their modules, schemas and pixbuf loaders in the runtime's
+# paths, and without the cd WebKit's helpers would not be found.
+#
+# The engine sidecar (usr/bin/aria2-next) and the resource tree it reads
+# (usr/lib/Rayburst) are where AppRun expects them. Flatpak redirects the XDG
+# base dirs, so the task database, the settings and the engine's session state
+# stay inside the sandbox.
 
-# No WebKitGTK rendering variables here, unlike most Tauri packages. Since
-# 4.1.2 the app sets them itself before GTK starts (src-tauri/src/webkit.rs):
-# it removes WEBKIT_DISABLE_DMABUF_RENDERER, forces the DMA-BUF renderer in
-# shared-memory mode, and paints on the CPU unless the in-app "hardware
-# rendering" preference is on, so anything exported here is overwritten. The
-# one variable it leaves alone is WEBKIT_DISABLE_COMPOSITING_MODE, and that
-# must stay unset: the window is `transparent: true` and, on
-# org.gnome.Platform//51, turning compositing off leaves it fully see-through
-# onto the desktop. Measured with 4.1.2 on GNOME 51 (2026-11-10 runtime),
-# native Wayland:
-#
-#   nothing set (the app decides)       renders
-#   DISABLE_DMABUF=1                    renders (the app removes it)
-#   DISABLE_COMPOSITING_MODE=1          transparent, whatever DMABUF is
-#
-# Earlier releases had a gpu_guard that re-exec'd itself and needed both
-# variables pre-set to 0; that code is gone.
+# No WebKitGTK rendering variables here. The app sets them itself before GTK
+# starts (src-tauri/src/webkit.rs): it removes WEBKIT_DISABLE_DMABUF_RENDERER,
+# forces the DMA-BUF renderer in shared-memory mode and paints on the CPU
+# unless its own "hardware rendering" preference is on, so anything exported
+# here is overwritten. It leaves WEBKIT_DISABLE_COMPOSITING_MODE alone; that
+# stays unset too, because the window is `transparent: true` and turning
+# compositing off has left it see-through before (on the GNOME 51 runtime's
+# WebKitGTK). These now act on the WebKitGTK inside the AppImage, which is the
+# one upstream's own AppImage users run.
 
 # No LD_PRELOAD getpid shim here, unlike com.getupnote.UpNote, even though the
 # ksni tray does claim org.kde.StatusNotifierItem-<getpid()>-1 (granted as -2-1
 # in the manifest). The shim would leak into the aria2-next engine this process
 # spawns, and getpid shims have broken other apps here (docs/reference/
 # incidents.md); the PID-2 contention is the smaller risk until upstream skips
-# the well-known name in a sandbox.
+# the well-known name in a sandbox. Every step from here to the app is an exec,
+# so the app keeps the PID this wrapper started with.
 
-# apply_extra recorded the launcher name from the .deb's own desktop entry, so a
-# rename upstream cannot leave this wrapper pointing at a binary that is gone.
-launcher="$(cat /app/extra/rayburst/.launcher)"
-
-exec "/app/extra/rayburst/bin/$launcher" "$@"
+# AppRun is the AppImage format's fixed entry point; the launcher's own name
+# comes from the AppDir's desktop entry, which apply_extra checked.
+exec /app/extra/rayburst/AppRun "$@"
