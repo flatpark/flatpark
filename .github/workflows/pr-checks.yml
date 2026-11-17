@@ -180,7 +180,8 @@ jobs:
   # token, and the build is signed with a throwaway in-job key, so the real
   # signing key and R2/Pages creds are never exposed. Untrusted build-commands are
   # gated by GitHub's "require approval for fork PR workflows" setting — approve a
-  # fork run only after reviewing its manifest.
+  # fork run (in the UI, or /approve-ci from approve-ci.yml) only after the checks
+  # in docs/reviewers/triage.md.
   #
   # One leg per arch, each on a native runner: x86_64 builds every changed app,
   # aarch64 only the ones whose build.arches opt in (its repo is what an arm
