@@ -19,8 +19,8 @@ modules:
       - install -Dm755 sevenzip-terminal /app/bin/sevenzip-terminal
       - install -Dm644 io.github.ip7z.SevenZip.desktop /app/share/applications/io.github.ip7z.SevenZip.desktop
       - install -Dm644 io.github.ip7z.SevenZip.metainfo.xml /app/share/metainfo/io.github.ip7z.SevenZip.metainfo.xml
-      # Official upstream FM.ico, converted to PNG without changing the artwork.
-      - install -Dm644 io.github.ip7z.SevenZip.png /app/share/icons/hicolor/48x48/apps/io.github.ip7z.SevenZip.png
+      # Official upstream FM.ico, converted to PNG and resized for AppStream.
+      - install -Dm644 io.github.ip7z.SevenZip.png /app/share/icons/hicolor/128x128/apps/io.github.ip7z.SevenZip.png
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
