@@ -1,0 +1,63 @@
+id: com.chipichapa.Dokument
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: dokument
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # SANE accesses USB scanners directly; declared in policy.dangerous_permissions.
+  - --device=all
+  - --share=network
+  - --system-talk-name=org.freedesktop.Avahi
+  - --env=SANE_CONFIG_DIR=/app/etc/sane.d
+modules:
+  - name: dokument
+    buildsystem: simple
+    build-commands:
+      - "install -Dm755 apply_extra.sh /app/bin/apply_extra"
+      - "install -Dm755 dokument-wrapper /app/bin/dokument"
+      - "install -Dm644 com.chipichapa.Dokument.desktop /app/share/applications/com.chipichapa.Dokument.desktop"
+      - "install -Dm644 com.chipichapa.Dokument.metainfo.xml /app/share/metainfo/com.chipichapa.Dokument.metainfo.xml"
+      - "install -Dm644 com.chipichapa.Dokument.svg /app/share/icons/hicolor/scalable/apps/com.chipichapa.Dokument.svg"
+      - "install -Dm644 com.chipichapa.Dokument-symbolic.svg /app/share/icons/hicolor/symbolic/apps/com.chipichapa.Dokument-symbolic.svg"
+      - "install -d /app/etc /app/share/glib-2.0"
+      - "ln -s /app/extra/dokument/lib /app/lib"
+      - "ln -s /app/extra/dokument/libexec /app/libexec"
+      - "ln -s /app/extra/dokument/etc/sane.d /app/etc/sane.d"
+      - "ln -s /app/extra/dokument/share/locale /app/share/locale"
+      - "ln -s /app/extra/dokument/share/runtime /app/share/runtime"
+      - "ln -s /app/extra/dokument/share/poppler /app/share/poppler"
+      - "ln -s /app/extra/dokument/share/djvu /app/share/djvu"
+      - "ln -s /app/extra/dokument/share/sane /app/share/sane"
+      - "ln -s /app/extra/dokument/share/help /app/share/help"
+      - "ln -s /app/extra/dokument/share/papers /app/share/papers"
+      - "ln -s /app/extra/dokument/share/glib-2.0/schemas /app/share/glib-2.0/schemas"
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: dokument.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/Chipi-Chapa-Corp/papers/releases/download/v0.1.0/dokument-linux-x86_64.tar.gz
+        sha256: 11feb1b05c005f9a7ad1ba73d915db2f6f2df4f4809144f03ce89a9fdb079d96
+        size: 25031563
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: dokument-wrapper
+      - type: file
+        path: resolve-update.sh
+      - type: file
+        path: com.chipichapa.Dokument.desktop
+      - type: file
+        path: com.chipichapa.Dokument.metainfo.xml
+      - type: file
+        path: com.chipichapa.Dokument.svg
+      - type: file
+        path: com.chipichapa.Dokument-symbolic.svg
