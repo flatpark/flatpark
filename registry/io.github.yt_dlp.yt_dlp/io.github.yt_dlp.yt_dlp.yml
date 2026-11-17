@@ -1,0 +1,67 @@
+id: io.github.yt_dlp.yt_dlp
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: yt-dlp
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Fetch media and metadata from the requested websites.
+  - --share=network
+  # The wrapper defaults to Downloads so output survives sandbox exit.
+  - --filesystem=xdg-download
+modules:
+  - name: yt-dlp
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 yt-dlp-wrapper /app/bin/yt-dlp
+      - install -Dm755 yt-dlp-desktop /app/bin/yt-dlp-desktop
+      - install -Dm644 io.github.yt_dlp.yt_dlp.desktop /app/share/applications/io.github.yt_dlp.yt_dlp.desktop
+      - install -Dm644 io.github.yt_dlp.yt_dlp.metainfo.xml /app/share/metainfo/io.github.yt_dlp.yt_dlp.metainfo.xml
+      - install -Dm644 io.github.yt_dlp.yt_dlp.svg /app/share/icons/hicolor/scalable/apps/io.github.yt_dlp.yt_dlp.svg
+    sources:
+      # Deno is a support tool, pinned separately from yt-dlp release updates.
+      - type: extra-data
+        filename: deno.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/denoland/deno/releases/download/v2.9.8/deno-x86_64-unknown-linux-gnu.zip
+        sha256: e890975bc2549807bbcc0b584ffafda72cc7c93349dd99c80483dd784f6c4609
+        size: 41963064
+      - type: extra-data
+        filename: deno.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/denoland/deno/releases/download/v2.9.8/deno-aarch64-unknown-linux-gnu.zip
+        sha256: d49596c20b9788cf8f5d8ddf644103d4bde56ed239753f0bdb92ba9361d51905
+        size: 40120596
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: yt-dlp.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp_linux.zip
+        sha256: f34053415136e55073dd64ba5326d161ecc23ce0e98c081d8752867b37809450
+        size: 41236547
+      - type: extra-data
+        filename: yt-dlp.zip
+        only-arches:
+          - aarch64
+        url: https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp_linux_aarch64.zip
+        sha256: 74708e707e8fa8177c8347e58152337edf320149cd7b225defd453f7cde47822
+        size: 40835009
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: yt-dlp-wrapper
+      - type: file
+        path: yt-dlp-desktop
+      - type: file
+        path: io.github.yt_dlp.yt_dlp.desktop
+      - type: file
+        path: io.github.yt_dlp.yt_dlp.metainfo.xml
+      - type: file
+        path: io.github.yt_dlp.yt_dlp.svg

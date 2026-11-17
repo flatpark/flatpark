@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=yt-dlp
+GenericName=Media Downloader
+Comment=Download audio and video from the command line
+Exec=yt-dlp-desktop
+Terminal=true
+Type=Application
+Categories=AudioVideo;Network;ConsoleOnly;
+StartupNotify=false
+Icon=io.github.yt_dlp.yt_dlp

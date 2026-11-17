@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+<!-- Community packaging icon: a terminal prompt and download arrow. -->
+<rect x="4" y="4" width="120" height="120" rx="24" fill="#202b3c"/>
+<path d="m25 35 17 14-17 14m27 0h19" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M89 43v43m-16-14 16 16 16-16M35 99h66" fill="none" stroke="#68d6ad" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
