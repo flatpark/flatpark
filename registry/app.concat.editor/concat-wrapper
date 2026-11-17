@@ -20,6 +20,6 @@ set -eu
 # fonts to that fallback chain; it points at the Noto Sans CJK face apply_extra
 # stages. (Slint 1.17 reads SLINT_DEFAULT_FONT as a single font *file*, so a
 # directory has to go here.) A user-set value wins.
-export SLINT_FONT_PATH="${SLINT_FONT_PATH:-/app/extra/fonts}"
+export SLINT_FONT_PATH="${SLINT_FONT_PATH:-/app/extra/noto-fonts/share/fonts}"
 
 exec /app/extra/concat/concat "$@"

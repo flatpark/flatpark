@@ -5,21 +5,23 @@ set -eu
 # Longbridge as a .deb holding a single self-contained application binary.
 # Flatpak-exported metadata (desktop entry, icon, AppStream) is installed by the
 # manifest at build time; extra-data stages the proprietary app binary and the
-# two Noto faces into /app/extra.
+# noto-fonts prebuilt stack (its two Noto faces) into /app/extra.
 
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
 [ -f longbridge.deb ] || { echo "missing extra-data: longbridge.deb" >&2; exit 1; }
 
-# The app's whole font set. /app/share/fonts/fonts.conf — which the wrapper
-# points FONTCONFIG_FILE at — declares this directory and nothing else, so a
-# missing face here means a tofu UI rather than a fallback.
-rm -rf fonts
-mkdir fonts
+# The app's whole font set, from the noto-fonts prebuilt stack.
+# /app/share/fonts/fonts.conf — which the wrapper points FONTCONFIG_FILE at —
+# declares /app/extra/noto-fonts/share/fonts and nothing else, so a missing face
+# there means a tofu UI rather than a fallback.
+[ -f noto-fonts.tar.xz ] || { echo "missing extra-data: noto-fonts.tar.xz" >&2; exit 1; }
+rm -rf noto-fonts
+bsdtar --no-same-owner -xf noto-fonts.tar.xz
+rm -f noto-fonts.tar.xz
 for face in NotoSans-Regular.ttf NotoSansCJK-Regular.ttc; do
-    [ -f "$face" ] || { echo "missing extra-data: $face" >&2; exit 1; }
-    mv "$face" fonts/
+    [ -s "noto-fonts/share/fonts/$face" ] || { echo "$face not found in noto-fonts.tar.xz" >&2; exit 1; }
 done
 
 rm -rf stage longbridge

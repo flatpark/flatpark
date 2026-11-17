@@ -82,8 +82,13 @@ toolkits that read font directories themselves don't.
 | Slint up to 1.16 | Two font databases: the app's fontdb (as above) and Slint's own, which scans only `/usr/share/fonts` and `~/.fonts` | Both: the `fonts.conf` above, and `SLINT_DEFAULT_FONT=<directory with a CJK font>` ([meatshell](../../../registry/io.github.yituorou.meatshell/meatshell-wrapper)) |
 | Slint 1.17 and later | Uses real fontconfig, but its fallback chain needs a directory | `SLINT_FONT_PATH=<directory>`; `SLINT_DEFAULT_FONT` now takes a single file and silently ignores a directory |
 
-- If a CJK font must ship with the package, pin it as extra-data; it is tens of
-  megabytes.
+- If a CJK font must ship with the package, pin the `noto-fonts`
+  [prebuilt stack](../prebuilt.md) as extra-data, never a font CDN (a jsDelivr
+  pin went 404 and broke every app using it, [#1316](https://github.com/flatpark/flatpark/issues/1316)). `apply_extra.sh` unpacks
+  it with `bsdtar --no-same-owner -xf noto-fonts.tar.xz`, and `fonts.conf` or
+  the Slint variable names `/app/extra/noto-fonts/share/fonts`
+  ([FluxDown](../../../registry/com.fluxdown.app/apply_extra.sh)). A face it
+  lacks is added to the stack under a new tag.
 - Override `FONTCONFIG_FILE` unconditionally: a user's own value is exactly what
   breaks it. Offer an app-specific escape (`NAVOP_FONTCONFIG_FILE`).
 - `fc-list` inside the sandbox listing the font proves nothing for these
