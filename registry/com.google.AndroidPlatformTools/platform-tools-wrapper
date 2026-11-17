@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+# Each installed command runs the corresponding unmodified vendor binary.
+# Its own RUNPATH finds the bundled lib64; leave the caller's working directory.
+tool="${0##*/}"
+case "$tool" in
+    adb|fastboot|etc1tool|hprof-conv|make_f2fs|make_f2fs_casefold|mke2fs|sqlite3)
+        exec "/app/extra/platform-tools/$tool" "$@" ;;
+    *) echo "unknown platform tool: $tool" >&2; exit 1 ;;
+esac

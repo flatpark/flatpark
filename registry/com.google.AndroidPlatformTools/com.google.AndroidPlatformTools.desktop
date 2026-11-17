@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Android SDK Platform Tools
+Comment=Debug Android devices with adb and fastboot
+Exec=platform-tools-terminal
+Icon=com.google.AndroidPlatformTools
+Terminal=true
+Categories=Development;ConsoleOnly;
