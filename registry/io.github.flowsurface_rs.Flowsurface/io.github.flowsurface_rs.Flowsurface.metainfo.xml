@@ -24,6 +24,13 @@
     </p>
   </description>
 
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/flowsurface-rs/flowsurface/main/assets/screenshot.png</image>
+      <caption>Market charts, order-flow heatmap, and trading activity</caption>
+    </screenshot>
+  </screenshots>
+
   <launchable type="desktop-id">io.github.flowsurface_rs.Flowsurface.desktop</launchable>
   <url type="homepage">https://flowsurface.com/</url>
   <url type="bugtracker">https://github.com/flowsurface-rs/flowsurface/issues</url>

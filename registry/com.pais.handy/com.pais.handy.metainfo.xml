@@ -26,6 +26,12 @@
     <p>Global shortcuts and typing into other applications depend on the desktop session and external input tools. They are not required to transcribe files.</p>
     <p>Install application updates through Flatpak; the built-in updater cannot replace the read-only Flatpak application.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://handy.computer/docs/handy-models.png</image>
+      <caption>Browse and select local transcription models</caption>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">com.pais.handy.desktop</launchable>
   <categories>
     <category>AudioVideo</category>
