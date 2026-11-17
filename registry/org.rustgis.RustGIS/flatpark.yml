@@ -1,0 +1,25 @@
+id: org.rustgis.RustGIS
+name: RustGIS
+summary: Fast, free and open-source GIS in pure Rust
+website: https://rustgis.app/
+source_url: https://github.com/opengeos/RustGIS
+build:
+  manifest: org.rustgis.RustGIS.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Science
+  tags:
+    - Geography
+    - GIS
+    - Maps
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # GIS data is spread over several files: a shapefile is .shp with .dbf,
+    # .shx and .prj beside it, and a saved .rgis project names its layers by
+    # path. A file-chooser grant covers only the one file picked.
+    - --filesystem=home

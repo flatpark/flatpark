@@ -1,0 +1,69 @@
+id: org.rustgis.RustGIS
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: rustgis
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# A pure-Rust egui/wgpu app: the binary links only glibc and libgcc_s, and
+# dlopens Wayland, X11, xkbcommon, EGL, Vulkan and libdbus, all in the
+# freedesktop runtime. Nothing is bundled or built. The app id is the window
+# class upstream's own desktop entry declares (StartupWMClass).
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # wgpu draws the map on the GPU.
+  - --device=dri
+  # Basemaps, web data, the plugin registry, the AI Assistant (cloud providers,
+  # or a local Ollama / OpenAI-compatible server) and Help > Check for Updates,
+  # which only runs when the user asks.
+  - --share=network
+  # AI Assistant keys are remembered in the Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # Shapefiles are several files side by side, and a project names its layers
+  # by path; see policy.dangerous_permissions in flatpark.yml.
+  - --filesystem=home
+modules:
+  - name: rustgis
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 rustgis-wrapper /app/bin/rustgis
+      - install -Dm755 rustgis-cli-wrapper /app/bin/rustgis-cli
+      - install -Dm644 org.rustgis.RustGIS.desktop /app/share/applications/org.rustgis.RustGIS.desktop
+      - install -Dm644 org.rustgis.RustGIS.metainfo.xml /app/share/metainfo/org.rustgis.RustGIS.metainfo.xml
+      - install -Dm644 org.rustgis.RustGIS.mime.xml /app/share/mime/packages/org.rustgis.RustGIS.xml
+      - install -Dm644 org.rustgis.RustGIS.png /app/share/icons/hicolor/512x512/apps/org.rustgis.RustGIS.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: rustgis.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/opengeos/RustGIS/releases/download/v0.7.0/RustGIS-0.7.0-linux-x86_64.tar.gz
+        sha256: 8330b3fa8f1d817818d03d41d4d5653e7c2367954d0ab2262c8d88d36f6b7e98
+        size: 80000334
+      - type: extra-data
+        filename: rustgis.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/opengeos/RustGIS/releases/download/v0.7.0/RustGIS-0.7.0-linux-aarch64.tar.gz
+        sha256: 5ce62779f1ba7cc8227de8d201ecaf384643b566ffa267776fdad1effc270bd1
+        size: 79892715
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: rustgis-wrapper
+      - type: file
+        path: rustgis-cli-wrapper
+      - type: file
+        path: org.rustgis.RustGIS.desktop
+      - type: file
+        path: org.rustgis.RustGIS.metainfo.xml
+      - type: file
+        path: org.rustgis.RustGIS.mime.xml
+      - type: file
+        path: org.rustgis.RustGIS.png

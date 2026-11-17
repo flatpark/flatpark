@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.rustgis.RustGIS</id>
+  <name>RustGIS</name>
+  <summary>Fast, free and open-source GIS in pure Rust</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="org.opengeos">
+    <name>Open Geospatial Solutions</name>
+  </developer>
+  <url type="homepage">https://rustgis.app/</url>
+  <url type="bugtracker">https://github.com/opengeos/RustGIS/issues</url>
+  <url type="vcs-browser">https://github.com/opengeos/RustGIS</url>
+  <url type="help">https://rustgis.app/user-guide/</url>
+  <description>
+    <p>This is a community package of RustGIS, maintained independently and unaffiliated with its developers. It repackages the official upstream Linux build unmodified.</p>
+    <p>RustGIS is a desktop GIS written in Rust and drawn on the GPU. It opens vector and raster data such as GeoJSON, shapefiles, GeoPackage and GeoTIFF, styles and labels layers, runs geoprocessing tools, builds print layouts and saves everything as a project.</p>
+    <p>Web Data finds public satellite imagery and services, plugins add basemaps and more from the plugin registry, and an optional AI Assistant drives RustGIS commands through a provider you choose, including a local Ollama server.</p>
+    <p>Sandbox: display, GPU, network for basemaps, web data, plugins and the assistant, the Secret Service for remembered assistant keys, and the home folder, so a shapefile's companion files and a project's layers are found beside the file you open. Handing tasks to coding agents installed on the host is not available in the sandbox.</p>
+    <p>Known issue: RustGIS looks for Chinese, Japanese and Korean fonts at fixed system paths, which the sandbox replaces with the runtime's own fonts, so a Chinese, Japanese or Korean interface shows boxes. To use the English interface, run <code>flatpak override --user --env=RUSTGIS_LANGUAGE=en org.rustgis.RustGIS</code>.</p>
+    <p>The command-line tool is <code>flatpak run --command=rustgis-cli org.rustgis.RustGIS --help</code>.</p>
+  </description>
+  <launchable type="desktop-id">org.rustgis.RustGIS.desktop</launchable>
+  <categories>
+    <category>Science</category>
+    <category>Geography</category>
+  </categories>
+  <keywords>
+    <keyword>GIS</keyword>
+    <keyword>map</keyword>
+    <keyword>geospatial</keyword>
+    <keyword>GeoJSON</keyword>
+    <keyword>shapefile</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A world map with layers, legends and the ribbon</caption>
+      <image>https://assets.rustgis.app/images/hero.webp</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>rustgis</binary>
+    <binary>rustgis-cli</binary>
+    <mediatype>application/x-rustgis-project</mediatype>
+  </provides>
+  <releases>
+    <release version="0.7.0" date="2026-11-16">
+      <url type="details">https://github.com/opengeos/RustGIS/releases/tag/v0.7.0</url>
+      <description></description>
+    </release>
+  </releases>
+</component>
