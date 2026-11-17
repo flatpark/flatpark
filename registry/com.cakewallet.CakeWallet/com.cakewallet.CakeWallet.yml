@@ -33,8 +33,9 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: cake-wallet.tar.xz
-        only-arches: [x86_64]
-        url: https://github.com/cake-tech/cake_wallet/releases/download/v6.4.5/Cake_Wallet_v6.4.4_Linux.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/cake-tech/cake_wallet/releases/download/v6.5.4/Cake_Wallet_v6.4.4_Linux.tar.xz
         sha256: c24310b8f0a111580e59f38b48cfd40f66c6e4353d7629bee38b049e56b91025
         size: 54038480
       # END MANAGED EXTRA-DATA

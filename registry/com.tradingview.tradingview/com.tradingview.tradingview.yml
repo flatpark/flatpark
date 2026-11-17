@@ -42,9 +42,9 @@ modules:
         filename: tradingview.deb
         only-arches:
           - x86_64
-        url: https://tvd-packages.tradingview.com/ubuntu/stable/pool/multiverse/t/tradingview/jammy/tradingview-3.5.0-1_amd64.deb
-        sha256: 0e4fca319c63c77cf92d1ca1fad96380707bf6a464b88956e880f7554693607d
-        size: 132897210
+        url: https://tvd-packages.tradingview.com/ubuntu/stable/pool/multiverse/t/tradingview/jammy/tradingview-3.5.1-1_amd64.deb
+        sha256: 2ade65f490a4b635715275efec72c64304a15154b4ee5843f7ddb3b3c8bb63d7
+        size: 139373424
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

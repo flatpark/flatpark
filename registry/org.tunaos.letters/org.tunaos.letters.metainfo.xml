@@ -26,6 +26,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.1.51" date="2026-11-17">
+      <description></description>
+    </release>
     <release version="2.1.0" date="2026-07-27">
       <description>
         <p>Crash fixes: reentrant state access that could close the app while opening files or editing.</p>
