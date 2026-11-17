@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+# Desktop terminals close when their command exits. Keep an explicit URL prompt
+# between downloads; leave the normal yt-dlp command-line entry unchanged.
+printf 'yt-dlp\nPaste a media URL to download it. Downloads go to your Downloads folder.\n'
+printf 'For advanced options, run: flatpak run io.github.yt_dlp.yt_dlp --help\n\n'
+while :; do
+    printf 'Media URL (Enter to close): '
+    IFS= read -r url || break
+    [ -n "$url" ] || break
+    # Pass input literally as one positional argument, never as shell code.
+    if /app/bin/yt-dlp -- "$url"; then
+        printf '\nDownload finished.\n\n'
+    else
+        printf '\nDownload failed. Check the message above and try another URL.\n\n'
+    fi
+done

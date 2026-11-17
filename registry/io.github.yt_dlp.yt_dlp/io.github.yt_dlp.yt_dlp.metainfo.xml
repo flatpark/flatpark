@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.yt_dlp.yt_dlp</id>
+  <name>yt-dlp</name>
+  <summary>Download audio and video from the command line</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.yt_dlp"><name>yt-dlp contributors</name></developer>
+  <url type="homepage">https://github.com/yt-dlp/yt-dlp</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/yt-dlp/yt-dlp</url>
+  <description>
+    <p>This unofficial community package downloads the official yt-dlp Linux ZIP unmodified at install time. yt-dlp is a command-line audio and video downloader supporting many websites. Download only content you are permitted to download and follow the relevant service terms.</p>
+    <p>Run <code>flatpak run io.github.yt_dlp.yt_dlp URL</code> in a terminal. Downloads go to your Downloads directory by default; use --paths to choose another permitted directory. The application menu entry opens a terminal that prompts for a media URL and stays open after each download. Press Enter at the empty prompt to close it.</p>
+    <p>FFmpeg and ffprobe from the runtime support merging and post-processing. A pinned official Deno runtime runs the EJS components bundled with yt-dlp for YouTube support. Remote components are disabled by upstream's default.</p>
+    <p>Update with <code>flatpak update io.github.yt_dlp.yt_dlp</code>. The official ZIP build disables self-updating; this launcher also passes --no-update and disables Deno update notifications. The -U and --update-to options cannot replace this build. FlatPark automatically tracks new stable yt-dlp releases.</p>
+    <p>Only network access and your Downloads directory are granted. Host browser profiles, keyrings and host commands are not accessible by default. Configurations and cache use this app's private XDG directories.</p>
+    <ul>
+      <li>Allow saving to Videos: <code>flatpak override --user --filesystem=xdg-videos io.github.yt_dlp.yt_dlp</code>, then select it with --paths.</li>
+      <li>For exported cookies, put a writable copy in Downloads and pass its path with --cookies. yt-dlp saves cookies back to this file.</li>
+      <li>Undo these permissions: <code>flatpak override --user --reset io.github.yt_dlp.yt_dlp</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.yt_dlp.yt_dlp.desktop</launchable>
+  <categories><category>AudioVideo</category><category>Network</category></categories>
+  <keywords><keyword>yt-dlp</keyword><keyword>download</keyword><keyword>terminal</keyword></keywords>
+  <content_rating type="oars-1.1"/>
+  <requires><control>keyboard</control></requires>
+  <provides><binary>yt-dlp</binary></provides>
+  <releases><release version="2026.10.26" date="2026-10-26"/></releases>
+</component>

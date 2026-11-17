@@ -1,0 +1,18 @@
+id: io.github.yt_dlp.yt_dlp
+name: yt-dlp
+summary: Download audio and video from the command line
+website: https://github.com/yt-dlp/yt-dlp
+source_url: https://github.com/yt-dlp/yt-dlp
+build:
+  manifest: io.github.yt_dlp.yt_dlp.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AudioVideo
+  tags: [Downloader, Video, Audio, Terminal]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
