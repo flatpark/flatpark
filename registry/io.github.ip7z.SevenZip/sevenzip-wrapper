@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Forward arguments and streams without changing the sandbox's working directory.
+exec /app/extra/sevenzip/7zz "$@"

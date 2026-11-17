@@ -1,0 +1,52 @@
+id: io.github.ip7z.SevenZip
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: 7zz
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Console archives need read/write access to the default download folder.
+  # Other archive folders are opt-in overrides documented in the metainfo.
+  - --filesystem=xdg-download
+modules:
+  - name: sevenzip
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 sevenzip-wrapper /app/bin/7zz
+      - install -Dm755 sevenzip-terminal /app/bin/sevenzip-terminal
+      - install -Dm644 io.github.ip7z.SevenZip.desktop /app/share/applications/io.github.ip7z.SevenZip.desktop
+      - install -Dm644 io.github.ip7z.SevenZip.metainfo.xml /app/share/metainfo/io.github.ip7z.SevenZip.metainfo.xml
+      # Official upstream FM.ico, converted to PNG and resized for AppStream.
+      - install -Dm644 io.github.ip7z.SevenZip.png /app/share/icons/hicolor/128x128/apps/io.github.ip7z.SevenZip.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: sevenzip.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/ip7z/7zip/releases/download/26.06/7z2606-linux-x64.tar.xz
+        sha256: 2b539cf067b2ad48e1baa5093dbaa8818b73542d1222a0ffde9dc5f2922ea62e
+        size: 1575552
+      - type: extra-data
+        filename: sevenzip.tar.xz
+        only-arches:
+          - aarch64
+        url: https://github.com/ip7z/7zip/releases/download/26.06/7z2606-linux-arm64.tar.xz
+        sha256: edcc408aacce77da5223728f2eceb5e9f6dc713b8a9df934ad21e2a7f7560627
+        size: 1326668
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: sevenzip-wrapper
+      - type: file
+        path: sevenzip-terminal
+      - type: file
+        path: io.github.ip7z.SevenZip.desktop
+      - type: file
+        path: io.github.ip7z.SevenZip.metainfo.xml
+      - type: file
+        path: io.github.ip7z.SevenZip.png
