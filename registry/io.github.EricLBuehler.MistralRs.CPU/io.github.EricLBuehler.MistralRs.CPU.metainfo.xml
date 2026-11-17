@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.EricLBuehler.MistralRs.CPU</id>
+  <name>mistral.rs (CPU)</name>
+  <summary>Run local language models with the CPU</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.EricLBuehler"><name>Eric Buehler and contributors</name></developer>
+  <description>
+    <p>A community package of the unmodified official mistral.rs CPU Linux build for local language model inference, an OpenAI-compatible API and a browser chat interface. Model weights have their own licenses.</p>
+    <p>The desktop entry starts a server in a terminal and downloads HuggingFaceTB/SmolLM2-135M-Instruct on first use. Open http://127.0.0.1:1234/ui in your browser. Stop the server with Ctrl+C. Models, credentials and CLI state use private persistent app storage. CPU and CUDA editions use separate caches and default ports.</p>
+    <p>Pass explicit CLI arguments after flatpak run io.github.EricLBuehler.MistralRs.CPU, for example: serve --host 127.0.0.1 --port 1234 -m Qwen/Qwen3-4B. Interactive and one-shot inference use the run subcommand. Explicit serve commands should include --host 127.0.0.1 to keep the API local.</p>
+    <p>This edition uses CPU inference and does not need GPU access.</p>
+    <p>Host model folders are optional: flatpak override --user --filesystem=/path/to/models:ro io.github.EricLBuehler.MistralRs.CPU. Then pass the model path with -f. Remove overrides with flatpak override --user --reset io.github.EricLBuehler.MistralRs.CPU.</p>
+    <p>Host toolchains, Python packages and external command tools are not included. Agent workflows that require host tools or nested sandboxing are outside this package's supported features.</p>
+  </description>
+  <launchable type="desktop-id">io.github.EricLBuehler.MistralRs.CPU.desktop</launchable>
+  <url type="homepage">https://mistralrs.dev</url>
+  <url type="help">https://docs.mistralrs.dev</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/EricLBuehler/mistral.rs</url>
+  <provides><binary>mistralrs</binary></provides>
+  <categories><category>Development</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="0.9.5" date="2026-10-19"/></releases>
+</component>

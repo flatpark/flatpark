@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+# Keep downloaded models, credentials and CLI state in persistent private storage.
+# Use the same cache path for model loading and the upstream cache/login commands.
+export HF_HOME="${HF_HOME:-$HOME/.cache/huggingface}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$XDG_DATA_HOME/state}"
+# Relative output paths stay in the app's persistent data directory.
+cd "$XDG_DATA_HOME"
+# The desktop entry starts a small model and the browser UI on loopback only.
+# Explicit CLI arguments are passed through unchanged.
+if [ "$#" -eq 0 ]; then
+    set -- serve --host 127.0.0.1 --port 1234 -m HuggingFaceTB/SmolLM2-135M-Instruct
+fi
+exec /app/extra/mistralrs/mistralrs "$@"
