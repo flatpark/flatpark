@@ -67,9 +67,9 @@ modules:
         filename: nuvio.deb
         only-arches:
           - x86_64
-        url: https://github.com/NuvioMedia/NuvioDesktop/releases/download/0.1.36-alpha/Nuvio-Linux-x86_64-0.1.36-alpha.deb
-        sha256: ccc0537b9c94f44d36a13c3d510b65a487d47731a83f22d8dc98a072f9591bf2
-        size: 139629684
+        url: https://github.com/NuvioMedia/NuvioDesktop/releases/download/0.1.37-alpha/Nuvio-Linux-x86_64-0.1.37-alpha.deb
+        sha256: 72bf0c43635735277fa351cbaaddbf575a0f2cdfd9a25cb8bd8ff847568a1afb
+        size: 140047064
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

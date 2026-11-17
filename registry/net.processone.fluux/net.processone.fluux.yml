@@ -57,9 +57,9 @@ modules:
         filename: fluux.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/processone/fluux-messenger/releases/download/v0.18.2/Fluux-Messenger_0.18.2_Linux_x64.tar.gz
-        sha256: 8500c2a7cffcfa2fdf7b58dd08bc2ed48d3eb756399306fff0b0d6f1642f2d0c
-        size: 11731244
+        url: https://github.com/processone/fluux-messenger/releases/download/v0.18.3/Fluux-Messenger_0.18.3_Linux_x64.tar.gz
+        sha256: 75a170df587189b8d45a2ceade92366fd0e7630f32fee9846cedb015d0a0435a
+        size: 11755597
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

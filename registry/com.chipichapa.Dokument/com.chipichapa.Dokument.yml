@@ -42,7 +42,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: dokument.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/Chipi-Chapa-Corp/papers/releases/download/v0.1.0/dokument-linux-x86_64.tar.gz
         sha256: 11feb1b05c005f9a7ad1ba73d915db2f6f2df4f4809144f03ce89a9fdb079d96
         size: 25031563
