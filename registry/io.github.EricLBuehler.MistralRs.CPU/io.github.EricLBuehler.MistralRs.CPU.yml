@@ -24,7 +24,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: mistralrs.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/EricLBuehler/mistral.rs/releases/download/v0.9.5/mistralrs-cpu-x86_64-unknown-linux-gnu.tar.gz
         sha256: 9b542da90b6541abd599ff275e3246fa6e144885bdcd67d1f0aefdba1729f7b5
         size: 36346799

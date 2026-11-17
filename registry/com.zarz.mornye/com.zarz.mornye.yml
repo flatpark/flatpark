@@ -66,9 +66,9 @@ modules:
         filename: mornye.deb
         only-arches:
           - x86_64
-        url: https://github.com/mornyeapp/Mornye-Desktop/releases/download/v5.3.1/Mornye-v5.3.1-linux-amd64.deb
-        sha256: 7a5a00237e9a26fd2011499760f72172c6c6fc4328c4347b5ae4b2d058ce5f5d
-        size: 129981016
+        url: https://github.com/mornyeapp/Mornye-Desktop/releases/download/v5.4.0/Mornye-v5.4.0-linux-amd64.deb
+        sha256: b605f8eac520225beade755bfe4ea5c734e5558c2c41a1e9aed240f92aab8b69
+        size: 131840988
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

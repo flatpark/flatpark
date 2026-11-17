@@ -48,10 +48,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: openscreen.AppImage
-        only-arches: [x86_64]
-        url: https://github.com/getopenscreen/openscreen/releases/download/v2.2.2/Openscreen-Linux-2.2.2.AppImage
-        sha256: 6439650cedf119e017ad81fb4382bddf22ae321bd11d446c8dc0de52d72ff773
-        size: 271408996
+        only-arches:
+          - x86_64
+        url: https://github.com/getopenscreen/openscreen/releases/download/v2.3.0/Openscreen-Linux-2.3.0.AppImage
+        sha256: 8bc894f406122a058ae4d749d009b54abe8848486f830b849fe4b247d8290841
+        size: 272069580
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

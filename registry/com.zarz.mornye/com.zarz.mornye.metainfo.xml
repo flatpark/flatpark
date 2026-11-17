@@ -70,6 +70,10 @@
     <binary>mornye</binary>
   </provides>
   <releases>
+    <release version="5.4.0" date="2026-11-17">
+      <url type="details">https://github.com/mornyeapp/Mornye-Desktop/releases/tag/v5.4.0</url>
+      <description></description>
+    </release>
     <release version="5.3.1" date="2026-11-05">
       <url type="details">https://github.com/mornyeapp/Mornye-Desktop/releases/tag/v5.3.1</url>
       <description></description>
