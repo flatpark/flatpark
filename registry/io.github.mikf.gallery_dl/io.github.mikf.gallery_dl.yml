@@ -1,0 +1,44 @@
+id: io.github.mikf.gallery_dl
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: gallery-dl
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Fetch galleries from supported websites.
+  - --share=network
+  # Save downloaded media to Downloads.
+  - --filesystem=xdg-download
+modules:
+  - name: gallery-dl
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gallery-dl-wrapper /app/bin/gallery-dl
+      - install -Dm755 gallery-dl-desktop /app/bin/gallery-dl-desktop
+      - install -Dm644 io.github.mikf.gallery_dl.desktop /app/share/applications/io.github.mikf.gallery_dl.desktop
+      - install -Dm644 io.github.mikf.gallery_dl.metainfo.xml /app/share/metainfo/io.github.mikf.gallery_dl.metainfo.xml
+      - install -Dm644 io.github.mikf.gallery_dl.svg /app/share/icons/hicolor/scalable/apps/io.github.mikf.gallery_dl.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gallery-dl.bin
+        only-arches: [x86_64]
+        url: https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.20/gallery-dl.bin
+        sha256: 51c0c680a3998cb9d0187fb16bf19d36d0a420bfcd570e80bb383fc42295f000
+        size: 24163656
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gallery-dl-wrapper
+      - type: file
+        path: gallery-dl-desktop
+      - type: file
+        path: io.github.mikf.gallery_dl.desktop
+      - type: file
+        path: io.github.mikf.gallery_dl.metainfo.xml
+      - type: file
+        path: io.github.mikf.gallery_dl.svg

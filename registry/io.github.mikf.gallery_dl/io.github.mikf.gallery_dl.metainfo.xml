@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.mikf.gallery_dl</id>
+  <name>gallery-dl</name>
+  <summary>Download image galleries from supported websites</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-only</project_license>
+  <developer id="io.github.mikf"><name>Mike Fährmann and contributors</name></developer>
+  <description>
+    <p>gallery-dl is a command-line program for downloading image galleries and collections from supported websites. It provides configuration options, authentication and filename formatting.</p>
+    <p>This community package repackages the official Linux binary unmodified. Run it in a terminal with <code>flatpak run io.github.mikf.gallery_dl --help</code>. The application menu opens a terminal that prompts for gallery URLs and saves downloads to your Downloads folder. Press Enter at an empty prompt to close it. From the command line, Downloads is accessible and relative paths use the app's private directory.</p>
+    <p>To access another folder, run <code>flatpak override --user --filesystem=/path/to/folder io.github.mikf.gallery_dl</code>. Reset custom permissions with <code>flatpak override --user --reset io.github.mikf.gallery_dl</code>. The runtime provides ffmpeg; optional tools such as yt-dlp are not included.</p>
+  </description>
+  <launchable type="desktop-id">io.github.mikf.gallery_dl.desktop</launchable>
+  <url type="homepage">https://github.com/mikf/gallery-dl</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://codeberg.org/mikf/gallery-dl</url>
+  <categories><category>Network</category><category>FileTransfer</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="1.32.20" date="2026-11-14"/></releases>
+</component>
