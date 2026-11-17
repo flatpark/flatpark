@@ -106,12 +106,18 @@ holds.
 ### GitHub settings that must stay
 
 - **Fork PR workflow runs need approval for all external contributors.**
-  Every external push is reviewed before pr-checks runs, so a `needs-testers`
-  label is enough to publish what pr-checks built. Maintainers approve in the
-  UI; the `triage` team (triage role on this repository) approves with
-  `/approve-ci`, which `approve-ci.yml` turns into an API call. That workflow
-  decides who may use it from the commenter's role on the repository, so
-  giving someone the triage role lets them approve CI.
+  GitHub counts everyone outside the flatpark organization as external.
+  Maintainers and the `triage` team are organization members, so pr-checks
+  runs on their own PRs, fork or not, without approval: a team member's push
+  is trusted the way their approval of someone else's push is. Every push from
+  outside the organization is looked at before pr-checks runs, so a
+  `needs-testers` label is enough to publish what pr-checks built.
+  Maintainers approve held runs in the UI; the `triage` team (triage role on
+  this repository) approves them with `/approve-ci`, which `approve-ci.yml`
+  turns into an API call. That workflow decides who may use it from the
+  commenter's role on the repository, so giving someone the triage role lets
+  them approve CI, and adding them to the organization lets their own PRs run
+  unheld.
 - **The Actions event policy for `pr-test-repo.yml`** (policy 14419) allows
   exactly `pull_request_target`, `workflow_run`, `schedule` and
   `workflow_dispatch` for that file. From 2026-12-02 GitHub disables

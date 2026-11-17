@@ -15,9 +15,9 @@ letting the PR know how it went.
 
 The rest of the role is there to make that work easier:
 
-- `/approve-ci` lets an outside contributor's CI run without waiting for a
-  maintainer to be around, so when CI finds a problem, the contributor can fix
-  it right away.
+- `/approve-ci` lets the CI of a contributor outside the organization run
+  without waiting for a maintainer to be around, so when CI finds a problem,
+  the contributor can fix it right away.
 - The `needs-testers` label opens a test build for a PR.
 - Labels in general help keep issues and PRs sorted.
 
@@ -103,16 +103,21 @@ and reported.
 
 ## Approving CI
 
-GitHub holds the checks of every push from an outside contributor until
-someone approves them. Commenting `/approve-ci` on the PR, alone on the
-comment's first line, starts the runs held for its newest push. Each new push
-is held again, so it needs its own `/approve-ci`.
+GitHub holds the checks of every push from someone outside the flatpark
+organization until someone approves them. Commenting `/approve-ci` on the PR,
+alone on the comment's first line, starts the runs held for its newest push.
+Each new push is held again, so it needs its own `/approve-ci`.
+
+Maintainers and triage members are in the organization, so the checks on your
+own PRs start by themselves. `/approve-ci` is only needed on PRs from people
+outside the organization.
 
 The bot answers with a reaction:
 
 - 🚀 the runs were approved and are starting.
-- 😕 with a reply saying why: nothing was waiting, the command came from
-  someone outside the team, or GitHub refused.
+- 😕 with a reply saying why: nothing was waiting (as on a team member's PR,
+  or one already approved), the command came from someone outside the team,
+  or GitHub refused.
 
 Only runs that existed when you commented get approved. If the contributor
 pushed again after you looked, that push stays held, and the bot asks you to
@@ -197,7 +202,7 @@ can't confirm both points, it's better not to add the label yet; a note in
 the PR about what's missing helps the contributor.
 
 The test repository follows the PR: every push that passes CI updates it.
-Since pushes still need `/approve-ci`, the build testers get is always one
-someone on the team has looked at. If the PR later changes in a way you can't
+Since pushes from outside the organization still need `/approve-ci`, the
+build testers get is always one someone on the team has looked at or pushed. If the PR later changes in a way you can't
 vouch for, removing the label withdraws the build: installed copies get an
 end-of-life notice, and the files are deleted 14 days later.
