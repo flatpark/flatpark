@@ -39,7 +39,8 @@ these commands to install for everyone on the computer. `flatpak update` then
 picks up new pushes to the PR.
 
 Tell the PR what you tested and what happened: that is what the app is waiting
-for.
+for. What to try and a short report to copy are in
+[testing a PR build](../reviewers/triage.md#testing-a-pr-build).
 
 ## Switching back
 

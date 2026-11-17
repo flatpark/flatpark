@@ -28,7 +28,7 @@ flatpak install --user --reinstall flatpark-pr<N> <app-id>
 
 设置留在原处（`~/.var/app/<app-id>/`）。去掉 `--user` 就是给整台电脑装。之后 `flatpak update` 会拿到 PR 的新推送。
 
-在 PR 里说你测了什么、结果如何：应用等的就是这个。
+在 PR 里说你测了什么、结果如何：应用等的就是这个。该试哪些、可以照抄的简短报告，见[测试 PR 构建](../reviewers/triage.md#testing-a-pr-build)。
 
 ## 切回去
 
