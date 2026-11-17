@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-rustgis-project">
+    <comment>RustGIS project</comment>
+    <sub-class-of type="application/json"/>
+    <glob pattern="*.rgis"/>
+    <glob pattern="*.rgisx"/>
+  </mime-type>
+</mime-info>

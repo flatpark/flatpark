@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=RustGIS
+GenericName=Geographic Information System
+Comment=Make maps and analyse spatial data
+Exec=rustgis %F
+TryExec=rustgis
+Icon=org.rustgis.RustGIS
+Terminal=false
+StartupNotify=true
+Categories=Science;Geography;
+MimeType=application/x-rustgis-project;application/geo+json;
+StartupWMClass=org.rustgis.RustGIS
+Keywords=GIS;map;geospatial;GeoJSON;shapefile;
