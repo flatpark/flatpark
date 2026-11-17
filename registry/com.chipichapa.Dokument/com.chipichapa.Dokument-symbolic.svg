@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <path fill="#2e3436" fill-rule="evenodd" d="M6 0H12A2 2 0 0 1 14 2V10H12V2H6ZM4 2H9A2 2 0 0 1 11 4V11H14A2 2 0 0 1 16 13V14A2 2 0 0 1 14 16H2A2 2 0 0 1 0 14V13A2 2 0 0 1 2 11V4A2 2 0 0 1 4 2ZM4 4V11H9V4ZM2 13V14H14V13Z"/>
+  <path fill="#2e3436" d="M5 5H8V6H5ZM5 7H8V8H5ZM5 9H7V10H5Z"/>
+</svg>

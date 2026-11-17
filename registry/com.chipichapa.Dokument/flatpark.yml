@@ -1,0 +1,20 @@
+id: com.chipichapa.Dokument
+name: Dokument
+summary: Read, annotate and scan documents with tabs
+website: https://github.com/Chipi-Chapa-Corp/papers
+source_url: https://github.com/Chipi-Chapa-Corp/papers
+build:
+  manifest: com.chipichapa.Dokument.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Office
+  upstream_approved: true
+  tags: [PDF, Documents, Scanning, GNOME]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --device=all

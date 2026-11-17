@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="paper" x1="24" y1="18" x2="90" y2="104" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f6f5f0"/>
+    </linearGradient>
+    <linearGradient id="heading" x1="36" y1="32" x2="84" y2="47" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff7165"/>
+      <stop offset="1" stop-color="#ed333b"/>
+    </linearGradient>
+    <linearGradient id="front" x1="8" y1="110" x2="120" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3d3846"/>
+      <stop offset="0.1" stop-color="#504b59"/>
+      <stop offset="0.9" stop-color="#504b59"/>
+      <stop offset="1" stop-color="#3d3846"/>
+    </linearGradient>
+  </defs>
+  <!-- The base is a shallow scanner, with visible front and top surfaces. -->
+  <path d="M17 85H111L120 103V110A10 10 0 0 1 110 120H18A10 10 0 0 1 8 110V103Z" fill="#241f31"/>
+  <path d="M17 83H111L120 101V106A8 8 0 0 1 112 114H16A8 8 0 0 1 8 106V101Z" fill="#77767b"/>
+  <path d="M23 87H105L113 102H15Z" fill="#263d42"/>
+  <!-- Two sheets, with their thickness expressed by the paper edges. -->
+  <rect x="35" y="8" width="70" height="95" rx="9" fill="#c0bfbc"/>
+  <rect x="33" y="8" width="70" height="93" rx="9" fill="#deddda"/>
+  <rect x="25" y="18" width="76" height="86" rx="9" fill="#c0bfbc"/>
+  <rect x="23" y="16" width="76" height="88" rx="9" fill="url(#paper)"/>
+  <rect x="35" y="30" width="52" height="17" rx="3" fill="url(#heading)"/>
+  <g fill="#5e5c64">
+    <rect x="36" y="57" width="49" height="4" rx="2"/>
+    <rect x="36" y="67" width="49" height="4" rx="2"/>
+    <rect x="36" y="77" width="49" height="4" rx="2"/>
+    <rect x="36" y="87" width="32" height="4" rx="2"/>
+  </g>
+  <!-- The capture glass sits in the scanner slot, not over the document. -->
+  <path d="M23 99H105L108 103H20Z" fill="#57e3c2"/>
+  <path d="M23 99H105L106 100H22Z" fill="#b4ffdf"/>
+  <path d="M8 102Q12 106 19 106H109Q116 106 120 102V108A9 9 0 0 1 111 117H17A9 9 0 0 1 8 108Z" fill="url(#front)"/>
+  <rect x="58" y="109" width="12" height="4" rx="2" fill="#2ec8ac"/>
+</svg>
