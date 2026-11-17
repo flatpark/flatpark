@@ -11,16 +11,16 @@ set -eu
 # (drivers, themes, translations and the MCP server are all built into it).
 # Keep only that binary, at the stable path the wrapper execs: /app/extra/dbflux.
 #
-# The CJK font fetched next to it is moved into /app/extra/fonts, which the
-# app's fonts.conf lists, so CJK text and the Simplified Chinese and Korean UI
+# The CJK font fetched next to it comes as the noto-fonts prebuilt stack and is
+# unpacked into /app/extra/noto-fonts, whose share/fonts the app's fonts.conf
+# lists, so CJK text and the Simplified Chinese and Korean UI
 # translations render instead of tofu.
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
 [ -f app.deb ] || { echo "missing extra-data: app.deb" >&2; exit 1; }
-[ -f NotoSansCJK-Regular.ttc ] || { echo "missing extra-data: NotoSansCJK-Regular.ttc" >&2; exit 1; }
 
-rm -rf stage dbflux fonts
+rm -rf stage dbflux
 mkdir stage
 # --no-same-owner is required because a system-wide apply_extra runs as root with
 # every capability dropped and cannot restore archive ownership.
@@ -29,5 +29,11 @@ bsdtar -xOf app.deb 'data.tar*' | bsdtar --no-same-owner -xf - -C stage
 mv stage/usr/bin/dbflux dbflux
 rm -rf stage app.deb
 
-mkdir fonts
-mv NotoSansCJK-Regular.ttc fonts/NotoSansCJK-Regular.ttc
+# The bundled Noto faces come as the noto-fonts prebuilt stack (extra-data
+# too). Unpacking it leaves them in /app/extra/noto-fonts/share/fonts, the
+# directory fonts.conf lists.
+[ -f noto-fonts.tar.xz ] || { echo "missing extra-data: noto-fonts.tar.xz" >&2; exit 1; }
+rm -rf noto-fonts
+bsdtar --no-same-owner -xf noto-fonts.tar.xz
+rm -f noto-fonts.tar.xz
+[ -s noto-fonts/share/fonts/NotoSansCJK-Regular.ttc ] || { echo "NotoSansCJK-Regular.ttc not found in noto-fonts.tar.xz" >&2; exit 1; }

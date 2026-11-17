@@ -25,28 +25,21 @@ modules:
       - install -Dm644 fonts.conf /app/share/fonts/fonts.conf
       - install -Dm644 com.longbridge.Longbridge.desktop /app/share/applications/com.longbridge.Longbridge.desktop
     sources:
-      # The app's entire font set: fonts.conf points fontconfig at /app/extra/fonts
-      # and nowhere else, so the CJK face has to be here or the UI renders as tofu.
-      # Extra-data rather than a build module — NotoSansCJK is 19.5 MB, and as a
-      # build module it put 16 MB into FlatPark's repository for a file jsDelivr
-      # already serves. Same tag-pinned URLs and sha256 as before.
+      # The app's entire font set: fonts.conf points fontconfig at
+      # /app/extra/noto-fonts/share/fonts and nowhere else, so Noto Sans and the
+      # CJK face have to be there or the UI renders as tofu. Both come from the
+      # noto-fonts stack in flatpark/prebuilt (docs/packagers/prebuilt.md), as
+      # extra-data rather than a build module — as a build module the CJK face
+      # put 16 MB into FlatPark's repository. They used to be pinned from
+      # jsDelivr, which went 404 for the CJK face (#1316).
       #
       # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
       # that block from the resolver's sources and would drop anything else in it.
       - type: extra-data
-        filename: NotoSans-Regular.ttf
-        only-arches:
-          - x86_64
-        url: https://cdn.jsdelivr.net/gh/notofonts/notofonts.github.io@noto-monthly-release-2026.05.01/fonts/NotoSans/hinted/ttf/NotoSans-Regular.ttf
-        sha256: 478c558ea716033cd60c03438f628dfa75694dcf6b5f6d505a2f05fd2b4f3823
-        size: 621572
-      - type: extra-data
-        filename: NotoSansCJK-Regular.ttc
-        only-arches:
-          - x86_64
-        url: https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@Sans2.004/Sans/OTC/NotoSansCJK-Regular.ttc
-        sha256: b76b0433203017ca80401b2ee0dd69350349871c4b19d504c34dbdd80541690a
-        size: 19484784
+        filename: noto-fonts.tar.xz
+        url: https://github.com/flatpark/prebuilt/releases/download/noto-fonts-v1/noto-fonts-noto-fonts-v1-noarch.tar.xz
+        sha256: b736ac362d9fad5c53f7d29aa3a868c53c610319a2aff5ece295449e53700259
+        size: 11197404
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: longbridge.deb

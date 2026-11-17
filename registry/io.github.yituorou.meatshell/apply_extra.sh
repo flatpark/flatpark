@@ -34,7 +34,11 @@ chmod +x meatshell
 rm -rf stage meatshell.tar.gz
 [ -x meatshell ] || { echo "meatshell binary missing after stage" >&2; exit 1; }
 
-# The bundled Noto Sans CJK face (extra-data too) only has to be moved into the
+# The bundled Noto faces come as the noto-fonts prebuilt stack (extra-data
+# too). Unpacking it leaves them in /app/extra/noto-fonts/share/fonts, the
 # directory /app/etc/fonts/fonts.conf points the font database at.
-mkdir -p fonts
-mv NotoSansCJK-Regular.ttc fonts/NotoSansCJK-Regular.ttc
+[ -f noto-fonts.tar.xz ] || { echo "missing extra-data: noto-fonts.tar.xz" >&2; exit 1; }
+rm -rf noto-fonts
+bsdtar --no-same-owner -xf noto-fonts.tar.xz
+rm -f noto-fonts.tar.xz
+[ -s noto-fonts/share/fonts/NotoSansCJK-Regular.ttc ] || { echo "NotoSansCJK-Regular.ttc not found in noto-fonts.tar.xz" >&2; exit 1; }

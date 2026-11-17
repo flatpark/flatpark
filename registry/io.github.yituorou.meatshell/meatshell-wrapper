@@ -40,7 +40,7 @@ export FONTCONFIG_FILE="${MEATSHELL_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
 #    every CJK character still renders as a tofu box. SLINT_DEFAULT_FONT is
 #    Slint's own knob for loading a font directory, which is how the bundled
 #    face reaches the renderer. A user-set value wins.
-export SLINT_DEFAULT_FONT="${SLINT_DEFAULT_FONT:-/app/extra/fonts}"
+export SLINT_DEFAULT_FONT="${SLINT_DEFAULT_FONT:-/app/extra/noto-fonts/share/fonts}"
 
 # Turn the in-app update check off by default. Flatpak owns updates here, so
 # the check can only ever nag about a release the user is not meant to install

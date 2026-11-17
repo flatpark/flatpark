@@ -19,7 +19,7 @@ an app.
 
 ## The stacks
 
-As of 2026-11-05. Sizes are the compressed archive. "Mode" is how packages pull
+As of 2026-11-17. Sizes are the compressed archive. "Mode" is how packages pull
 it in (see [archive or extra-data](#archive-module-or-extra-data)).
 
 | Stack | Release | Built on | Size | What it is | Mode | Used by |
@@ -40,6 +40,7 @@ it in (see [archive or extra-data](#archive-module-or-extra-data)).
 | `wemeet-screenshare-hook` | `wemeet-screenshare-hook-v2` | fd 26.08 | 0.1 MB | libportal and the XWayland screen-share hook | archive | WeMeet |
 | `openssl-1.1-compat` | `openssl-1.1-compat-v2` | fd 26.08 | 1.3 MB | `libssl.so.1.1` and `libcrypto.so.1.1` for payloads that predate OpenSSL 3. **1.1.1 is end-of-life**: a last resort | extra-data | Tonghuashun (THS) |
 | `krb5-gss` | `krb5-gss-v2` | fd 26.08 | 0.5 MB | `libgssapi_krb5.so.2` and its load-time closure, for a bundled Qt built with GSSAPI | extra-data | IBKR Desktop, the three Ely Office apps |
+| `noto-fonts` | `noto-fonts-v1` | any (`noarch`) | 11.2 MB | Noto Sans CJK Regular (`.ttc`, SC/TC/HK/JP/KR) and Noto Sans Regular, byte-identical to upstream, in `share/fonts` | extra-data | Apps whose toolkit builds its own font database (GPUI, Slint): Navop, FluxDown, Zedis, DBFlux, NyaTerm, MeatShell, Concat, Longbridge |
 
 Each stack's manifest in `flatpark/prebuilt` says in its header why it exists,
 what is left out and what to watch for. Read it before pinning the stack.
@@ -139,6 +140,10 @@ An archive is built against one SDK, and its file name says which:
 app's runtime: GNOME 51 and freedesktop 26.08 share a base, and so do KDE 6.11
 and freedesktop 25.08. Never pin an archive built for an older base to dodge a
 rebuild.
+
+A stack with no machine code (`noto-fonts`) is cut once as `noarch`: one
+archive, `<stack>-<tag>-noarch.tar.xz`, pinned without `only-arches` by apps
+on any runtime, and not re-cut when the runtime moves.
 
 When the catalog moves to a new runtime major, every stack is re-cut for it:
 
