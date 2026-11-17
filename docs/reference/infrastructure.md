@@ -149,6 +149,10 @@ holds.
     sets: a year for content-addressed objects, `s-maxage=60` for the mutable
     files. The free plan can't set an edge TTL under 2 h in a rule, far too
     long for `summary.idx`, so the short TTL has to come from the header.
+    Browser TTL must be **Respect origin TTL**: left at the zone setting,
+    Cloudflare raises a cached response's `max-age=0` to the zone's 4 h, and a
+    caching proxy between a user and the edge could then hold `summary.idx`
+    that long.
     After changing the headers in `sync-r2.sh`, run publish by hand with
     **rewrite_headers**, or files whose bytes don't change (`config`, old
     commits' `.commitmeta`) keep the old header.
