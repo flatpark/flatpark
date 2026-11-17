@@ -14,9 +14,12 @@ and the infrastructure ask for more.
 
 - **Maintainers** can merge. They keep the catalog, the infrastructure and the
   rules. Today there is one, the project's owner (@jing2uo).
-- **Triage** members help get new apps tested before they reach users: they
-  let outside contributors' CI run, open test builds and sort issues and PRs
-  with labels. They don't merge. What they check is in [triage](../reviewers/triage.md).
+- **Triage** members install PR builds from their test repositories and try,
+  in a real setup, what is holding a PR back: the hardware or setup an agent
+  can't check. To support
+  that, they let outside contributors' CI run without waiting for a
+  maintainer, open test builds and sort issues and PRs with labels. They don't
+  merge. How they work is in [triage](../reviewers/triage.md).
 - **Contributors** are everyone else who takes part: packaging apps, testing
   them, reporting problems, improving the docs.
 - **Developers** of listed apps have the final word on their own app: whether
