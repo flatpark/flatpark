@@ -1,0 +1,18 @@
+id: io.github.EricLBuehler.MistralRs.CPU
+name: mistral.rs (CPU)
+summary: Run local language models with the CPU
+website: https://mistralrs.dev
+source_url: https://github.com/EricLBuehler/mistral.rs
+build:
+  manifest: io.github.EricLBuehler.MistralRs.CPU.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Development
+  tags: [AI, LLM, Inference, CPU]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

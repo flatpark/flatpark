@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=mistral.rs (CPU)
+Comment=Run the mistral.rs API and browser UI on localhost
+Exec=mistralrs
+Icon=io.github.EricLBuehler.MistralRs.CPU
+Terminal=true
+Categories=Development;ConsoleOnly;
+StartupNotify=false
