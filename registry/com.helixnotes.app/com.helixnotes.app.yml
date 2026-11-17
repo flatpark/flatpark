@@ -68,9 +68,9 @@ modules:
         filename: helixnotes.deb
         only-arches:
           - x86_64
-        url: https://download.helixnotes.com/releases/v1.3.7/HelixNotes_1.3.7_amd64.deb
-        sha256: 03c8cb8cfb9a5d03a4e03794ba3c303d8bee6c65567b1e3e3152c6e55b51e29a
-        size: 16759520
+        url: https://download.helixnotes.com/releases/v1.3.8/HelixNotes_1.3.8_amd64.deb
+        sha256: 834a55240b6aac52ffd9f36737ceff289678d74b67f91bd999dce57b786915a2
+        size: 18699922
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

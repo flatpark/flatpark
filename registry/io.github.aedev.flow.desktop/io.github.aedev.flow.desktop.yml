@@ -39,16 +39,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta3/Flow_0.1.0-beta3_linux_amd64.deb
-        sha256: 9590693b8c4862a0e55ec2d71a56b3685b8b27fc2cafcbd2cee7b2c64660dfcc
-        size: 17673362
+        url: https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta4/Flow_0.1.0-beta4_linux_amd64.deb
+        sha256: 8e939c2c247f48b24b94df106cafc8f0cdb91cd78bfa53636fbafcb0bb46f261
+        size: 22524106
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta3/Flow_0.1.0-beta3_linux_arm64.deb
-        sha256: 8b50812b8b5102aefe0670cb0731dc4695e2823e92528cb36778e89caa059568
-        size: 16813186
+        url: https://github.com/Flow-Tube/Flow-Desktop/releases/download/v0.1.0-beta4/Flow_0.1.0-beta4_linux_arm64.deb
+        sha256: 3763eb4b599a2a4bd25a69d1873c90ce6901cfdf5150d0aca60f64a5476afc7f
+        size: 21405536
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

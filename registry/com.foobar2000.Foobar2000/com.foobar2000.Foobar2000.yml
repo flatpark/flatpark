@@ -48,9 +48,9 @@ modules:
         filename: foobar2000-setup.exe
         only-arches:
           - x86_64
-        url: https://www.foobar2000.org/downloads/foobar2000-x64_v2.26.2.exe
-        sha256: ffa739f87d9c374cb030426a2ab4bfb37959d0dbb892fdc742654c14d127f795
-        size: 7954936
+        url: https://www.foobar2000.org/downloads/foobar2000-x64_v2.26.3.exe
+        sha256: b8a92891013d3af81ee7b51393e85e963dc099e7e4958f8cf392bfa252425183
+        size: 7989144
       # END MANAGED EXTRA-DATA
       # cellar's static CLI (github.com/jing2uo/cellar), the launcher shared by
       # FlatPark's Wine packages. Pinned by hand, outside the managed block.
