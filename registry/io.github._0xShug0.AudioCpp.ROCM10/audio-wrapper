@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+export LD_LIBRARY_PATH="/app/extra/rocm/_rocm_sdk_libraries/lib:/app/extra/rocm/_rocm_sdk_core/lib:/app/extra/audio${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Keep relative output in persistent private app data.
+cd "$XDG_DATA_HOME"
+exec /app/extra/audio/audiocpp_server "$@" --ui --ui-management --backend hip --host 127.0.0.1 --port 8083 --models-root "$XDG_DATA_HOME/models" --voice-dir "$XDG_DATA_HOME/voices"
