@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.google.AndroidPlatformTools</id>
+  <name>Android SDK Platform Tools</name>
+  <summary>Debug Android devices with adb and fastboot</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://developer.android.com/studio/terms</project_license>
+  <developer id="com.google"><name>Google</name></developer>
+  <url type="homepage">https://developer.android.com/tools/releases/platform-tools</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>Android SDK Platform Tools provides adb for communicating with Android devices and fastboot for bootloader operations. This unofficial community package downloads Google's official Linux ZIP at install time and runs its tools unmodified. The SDK terms and the included open-source notices apply. FlatPark follows stable releases from Google's SDK repository.</p>
+    <p>Run <code>flatpak run com.google.AndroidPlatformTools devices -l</code> in a terminal. Select another tool with <code>flatpak run --command=fastboot com.google.AndroidPlatformTools devices</code>. The menu entry opens an interactive terminal with the tools available on PATH. This package is not a host Android SDK installation and does not provide an emulator or host udev rules.</p>
+    <p>USB access and network access are granted for device communication. Enable USB debugging and authorize the computer on the phone. The host must already allow your user to access the USB device. The broad device permission also exposes other devices. Downloads is writable for APKs, transfers and images; other host files are private by default.</p>
+    <p>ADB keys persist in the app's private .android directory. ADB normally uses port 5037 and can share an existing host server. To use a separate server, pass <code>-P 15037</code> to every adb command, including start-server and kill-server. ADB servers started here stop when the sandbox is killed; their keys remain.</p>
+    <p>Wireless debugging uses <code>flatpak run com.google.AndroidPlatformTools pair ADDRESS:PAIRING_PORT</code> followed by <code>flatpak run com.google.AndroidPlatformTools connect ADDRESS:DEBUG_PORT</code>. Use explicit addresses if automatic discovery is unavailable. Fastboot flashing and bootloader unlocking can erase device data; follow the instructions for your device.</p>
+    <ul>
+      <li>Allow working with files in Documents: <code>flatpak override --user --filesystem=xdg-documents com.google.AndroidPlatformTools</code></li>
+      <li>Undo optional permissions: <code>flatpak override --user --reset com.google.AndroidPlatformTools</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.google.AndroidPlatformTools.desktop</launchable>
+  <categories><category>Development</category></categories>
+  <keywords><keyword>adb</keyword><keyword>fastboot</keyword><keyword>Android</keyword></keywords>
+  <content_rating type="oars-1.1"/>
+  <requires><control>keyboard</control></requires>
+  <provides><binary>adb</binary><binary>fastboot</binary><binary>sqlite3</binary></provides>
+  <!-- Date first packaged here; upstream publishes only "July 2026" for 37.0.1. -->
+  <releases><release version="37.0.1" date="2026-11-17"/></releases>
+</component>

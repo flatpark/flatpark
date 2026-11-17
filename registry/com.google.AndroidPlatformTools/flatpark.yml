@@ -1,0 +1,20 @@
+id: com.google.AndroidPlatformTools
+name: Android SDK Platform Tools
+summary: Debug Android devices with adb and fastboot
+website: https://developer.android.com/tools/releases/platform-tools
+source_url: https://developer.android.com/tools/releases/platform-tools
+build:
+  manifest: com.google.AndroidPlatformTools.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Development
+  tags: [Android, ADB, Fastboot, USB, Terminal]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    # ADB and fastboot need direct USB device access; this exposes other devices too.
+    - --device=all
