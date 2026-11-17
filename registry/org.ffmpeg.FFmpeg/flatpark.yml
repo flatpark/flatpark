@@ -1,0 +1,19 @@
+id: org.ffmpeg.FFmpeg
+name: FFmpeg
+summary: Convert and inspect audio and video from the command line
+website: https://ffmpeg.org/
+source_url: https://github.com/flatpark/prebuilt
+build:
+  manifest: org.ffmpeg.FFmpeg.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags: [Video, Audio, Conversion, Terminal]
+  stars_repo: FFmpeg/FFmpeg
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.ffmpeg.FFmpeg</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>FFmpeg</name>
+  <summary>Convert and inspect audio and video from the command line</summary>
+  <url type="homepage">https://ffmpeg.org/</url>
+  <url type="vcs-browser">https://github.com/flatpark/prebuilt</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>FFmpeg converts, records and streams audio and video. This community package uses FlatPark's ffmpeg-full build, including ffmpeg and ffprobe.</p>
+    <p>The application menu opens a terminal in Downloads. Run ffmpeg or ffprobe there; type exit to close it. From an existing terminal, use <code>flatpak run org.ffmpeg.FFmpeg</code> for ffmpeg or <code>flatpak run --command=ffprobe org.ffmpeg.FFmpeg</code> for ffprobe.</p>
+    <p>The sandbox can access Downloads and the network. To access Videos, run <code>flatpak override --user --filesystem=xdg-videos org.ffmpeg.FFmpeg</code>. Undo overrides with <code>flatpak override --user --reset org.ffmpeg.FFmpeg</code>.</p>
+  </description>
+  <launchable type="desktop-id">org.ffmpeg.FFmpeg.desktop</launchable>
+  <categories><category>AudioVideo</category><category>AudioVideoEditing</category></categories>
+  <content_rating type="oars-1.1"/>
+  <requires><control>keyboard</control></requires>
+  <releases><release version="ffmpeg-full-v3" date="2026-10-22"/></releases>
+</component>
