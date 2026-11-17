@@ -1,6 +1,6 @@
 #!/bin/sh
 # Feitian's ePass2003 library (EnterSafe Castle SDK for Linux, 2014-11-28),
-# for the ePass2003 formatted by Feitian's Windows software.
+# for the ePass2003 formatted by Feitian's software.
 #
 # Runs offline at install time, in the extension's extra/ folder, after
 # Flatpak has downloaded the archive and checked its sha256. The archive is
