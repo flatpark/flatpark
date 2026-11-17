@@ -42,7 +42,8 @@ What it is waiting for (add and remove as the issue moves):
 | `report-to-upstream` | The cause is in the app itself, not the package | Never; link the developer's issue in a comment once it is filed |
 | `help wanted` | Open for anyone to pick up | Someone takes it (`/claim` removes it) |
 
-`needs-testers` on a **PR** also publishes it: once pr-checks passes, the PR
+`needs-testers` on a **PR** also publishes it (check it first, as in
+[opening a test build](triage.md#opening-a-test-build)): once pr-checks passes, the PR
 gets a test repository at `https://test.flatpark.org/pr/<N>/` and a comment
 with the install commands ([testing a PR build](../users/testing.md)), updated
 on every push. Removing the label, or closing the PR, withdraws it: installed

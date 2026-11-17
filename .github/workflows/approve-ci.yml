@@ -1,0 +1,117 @@
+# `/approve-ci` on a pull request: approves the pr-checks runs GitHub is
+# holding for the PR's newest push, so the triage team can let an outside
+# contributor's CI run without write access (docs/reviewers/triage.md).
+#
+# GitHub holds every push from an external contributor until someone approves
+# it (docs/reference/infrastructure.md). Approving in the UI needs write
+# access; this does the same with the workflow's token, for anyone whose role
+# on the repository is triage or higher.
+#
+# Only runs that existed when the comment was posted are approved. A push that
+# lands after the comment is one the commenter never saw, so it is left held
+# and the reply asks for a new look. Every push needs its own /approve-ci.
+#
+# Nothing from the repository or the PR is checked out, and the comment text
+# only reaches the shell through env, so this is safe on comments from anyone.
+# No environment, so no secrets: the approve call is all the token can do here
+# beyond commenting.
+name: approve-ci
+
+on:
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: approve-ci-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+permissions:
+  actions: write          # approve the held runs
+  pull-requests: write    # react and reply on the PR
+
+# GitHub can't filter issue_comment by text, so every comment starts a run;
+# the job condition turns the ones that aren't the command into a skipped run
+# without a runner. The step below decides what counts as the command.
+jobs:
+  approve:
+    if: >-
+      github.event.issue.pull_request &&
+      github.event.issue.state == 'open' &&
+      github.event.comment.user.type != 'Bot' &&
+      contains(github.event.comment.body, '/approve-ci')
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      PR: ${{ github.event.issue.number }}
+      COMMENT_ID: ${{ github.event.comment.id }}
+      COMMENTED_AT: ${{ github.event.comment.created_at }}
+      ACTOR: ${{ github.event.comment.user.login }}
+      BODY: ${{ github.event.comment.body }}
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - name: Handle /approve-ci
+        run: |
+          set -euo pipefail
+          # The command is the comment's first line on its own; "/approve-ci"
+          # in the middle of a sentence is someone talking about it.
+          cmd="$(printf '%s\n' "$BODY" | head -n1 | tr -d '\r' | tr '[:upper:]' '[:lower:]' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+          [ "$cmd" = /approve-ci ] || exit 0
+
+          react() {
+              gh api -X POST "repos/$GH_REPO/issues/comments/$COMMENT_ID/reactions" \
+                  -f content="$1" >/dev/null
+          }
+          reply() { gh pr comment "$PR" --body "$1" >/dev/null; }
+          guide='[approving CI](https://flatpark.org/docs/reviewers/triage/#approving-ci)'
+
+          # The team gives the triage role; maintainers have write or more.
+          role="$(gh api "repos/$GH_REPO/collaborators/$ACTOR/permission" -q .role_name 2>/dev/null || echo none)"
+          case "$role" in
+              triage|write|maintain|admin) ;;
+              *)
+                  reply "@$ACTOR \`/approve-ci\` is for the triage team and maintainers. One of them will look at this PR and approve its checks ($guide)."
+                  react confused
+                  exit 0 ;;
+          esac
+
+          read -r head base < <(gh pr view "$PR" --json headRefOid,baseRefName -q '"\(.headRefOid) \(.baseRefName)"')
+          if [ "$base" != "$DEFAULT_BRANCH" ]; then
+              reply "@$ACTOR This PR targets \`$base\`, not \`$DEFAULT_BRANCH\`; a maintainer handles its checks."
+              react confused
+              exit 0
+          fi
+
+          # Runs held for the head commit. A run's created_at is when its push
+          # arrived, which the PR author can't fake (commit dates they can).
+          runs="$(gh api "repos/$GH_REPO/actions/runs?event=pull_request&head_sha=$head&status=action_required&per_page=100" \
+              -q '.workflow_runs[] | "\(.id) \(.created_at) \(.name)"')"
+          if [ -z "$runs" ]; then
+              reply "@$ACTOR Nothing is waiting for approval on the newest commit (\`${head:0:7}\`): its checks have already run or were approved."
+              react confused
+              exit 0
+          fi
+
+          approved=0 newer=0 refused=0
+          while read -r id created name; do
+              # ISO-8601 UTC timestamps compare correctly as strings.
+              if [[ "$created" > "$COMMENTED_AT" ]]; then
+                  newer=$((newer + 1)); continue
+              fi
+              if gh api -X POST "repos/$GH_REPO/actions/runs/$id/approve" >/dev/null; then
+                  echo "approved $name (run $id)"
+                  approved=$((approved + 1))
+              else
+                  refused=$((refused + 1))
+              fi
+          done <<< "$runs"
+
+          if [ "$refused" -gt 0 ]; then
+              reply "@$ACTOR GitHub refused to approve $refused run(s) on \`${head:0:7}\`. A maintainer will approve them by hand."
+              react confused
+          elif [ "$newer" -gt 0 ] && [ "$approved" -eq 0 ]; then
+              reply "@$ACTOR A new push (\`${head:0:7}\`) arrived after your comment, so it wasn't approved. Look at the new changes and comment \`/approve-ci\` again."
+              react confused
+          else
+              react rocket
+          fi

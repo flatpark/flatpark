@@ -26,6 +26,7 @@ the details below it. The same files are rendered at
   for a runtime upgrade or a prebuilt re-cut, [batch changes](reviewers/batch-changes.md).
 - Reviewing a PR: follow the [review runbook](reviewers/review-runbook.md).
 - Sorting a new issue, and what each label means: [issues and labels](reviewers/issues.md).
+- Approving a PR's CI or opening its test build (the triage team): [triage](reviewers/triage.md).
 - A fix for a listed app: add a row to the [incident list](reference/incidents.md).
 - After a run: [cleaning up](packagers/cleanup.md).
 - How decisions are made: [principles](project/principles.md) and

@@ -14,6 +14,9 @@ and the infrastructure ask for more.
 
 - **Maintainers** can merge. They keep the catalog, the infrastructure and the
   rules. Today there is one, the project's owner (@jing2uo).
+- **Triage** members help get new apps tested before they reach users: they
+  let outside contributors' CI run, open test builds and sort issues and PRs
+  with labels. They don't merge. What they check is in [triage](../reviewers/triage.md).
 - **Contributors** are everyone else who takes part: packaging apps, testing
   them, reporting problems, improving the docs.
 - **Developers** of listed apps have the final word on their own app: whether
@@ -24,6 +27,7 @@ and the infrastructure ask for more.
 | Change | What it needs |
 |---|---|
 | A new version from upstream | Nothing from a person: CI merges it once the new file unpacks |
+| Letting an outside contributor's CI run, opening a PR's test build | One triage member or maintainer, after the checks in [triage](../reviewers/triage.md) |
 | A new listing, a change to a package, a batch change, a removal | The PR says what was tested and what wasn't ([testing playbook](../reviewers/testing-playbook.md)), and one maintainer merges it |
 | A developer's request about their own app | Applied as asked, in its own PR |
 | [Principles](principles.md), the security floor, signing, infrastructure | A second maintainer's agreement, once there is more than one |
@@ -36,6 +40,9 @@ and the infrastructure ask for more.
   [listing policies](policies.md#de-listing).
 
 ## Becoming a maintainer
+
+Triage members are invited by the maintainers from contributors who already
+test and report apps, and can leave whenever they like.
 
 Contributors whose packages and reviews have held up over time are invited by
 the existing maintainers. A maintainer who steps back loses merge rights and

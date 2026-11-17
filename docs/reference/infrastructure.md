@@ -107,7 +107,11 @@ holds.
 
 - **Fork PR workflow runs need approval for all external contributors.**
   Every external push is reviewed before pr-checks runs, so a `needs-testers`
-  label is enough to publish what pr-checks built.
+  label is enough to publish what pr-checks built. Maintainers approve in the
+  UI; the `triage` team (triage role on this repository) approves with
+  `/approve-ci`, which `approve-ci.yml` turns into an API call. That workflow
+  decides who may use it from the commenter's role on the repository, so
+  giving someone the triage role lets them approve CI.
 - **The Actions event policy for `pr-test-repo.yml`** (policy 14419) allows
   exactly `pull_request_target`, `workflow_run`, `schedule` and
   `workflow_dispatch` for that file. From 2026-12-02 GitHub disables
