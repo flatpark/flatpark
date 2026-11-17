@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ip7z.SevenZip</id>
+  <name>7-Zip</name>
+  <summary>Compress and extract archives from the command line</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-2.1-or-later AND BSD-3-Clause AND BSD-2-Clause AND LicenseRef-unRAR</project_license>
+  <developer id="io.github.ip7z"><name>Igor Pavlov</name></developer>
+  <url type="homepage">https://www.7-zip.org/</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/ip7z/7zip</url>
+  <description>
+    <p>7-Zip for Linux is a console tool for compressing and extracting archives. It creates 7z and ZIP archives, reads many archive formats, and supports password-protected archives, archive integrity tests and file checksums. This package provides the Linux console version, with no graphical file manager.</p>
+    <p>This unofficial community package downloads the official x64 or arm64 Linux tarball at install time and runs its 7zz binary unmodified. The upstream manual and license notices remain in the installed archive tree. The included unRAR code may not be used to develop a RAR-compatible archiver.</p>
+    <p>Run <code>flatpak run io.github.ip7z.SevenZip -h</code> for help. For example, create an archive with <code>flatpak run io.github.ip7z.SevenZip a /absolute/path/in/Downloads/archive.7z /absolute/path/in/Downloads/input</code>. List it with the l command, test it with t, and extract it with x and an explicit -o output directory. The application menu entry opens a terminal shell with 7zz on PATH.</p>
+    <p>Downloads is writable by default. Use absolute paths for host input files, archives and extraction destinations, since an inaccessible current directory cannot be preserved inside the sandbox. Files elsewhere need an explicit folder grant. Network, display, device and host-command access are not granted.</p>
+    <ul>
+      <li>Allow archives in Documents: <code>flatpak override --user --filesystem=xdg-documents io.github.ip7z.SevenZip</code></li>
+      <li>Allow a different archive folder: <code>flatpak override --user --filesystem=/absolute/archive/folder io.github.ip7z.SevenZip</code></li>
+      <li>Undo optional permissions: <code>flatpak override --user --reset io.github.ip7z.SevenZip</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.ip7z.SevenZip.desktop</launchable>
+  <categories><category>Utility</category><category>Archiving</category></categories>
+  <keywords><keyword>7zz</keyword><keyword>7z</keyword><keyword>ZIP</keyword><keyword>compression</keyword></keywords>
+  <content_rating type="oars-1.1"/>
+  <requires><control>keyboard</control></requires>
+  <provides><binary>7zz</binary></provides>
+  <releases><release version="26.06" date="2026-11-07"/></releases>
+</component>

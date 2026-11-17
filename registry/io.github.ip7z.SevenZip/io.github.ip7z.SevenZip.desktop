@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=7-Zip
+GenericName=Console Archive Tool
+Comment=Compress and extract archives from the command line
+Exec=sevenzip-terminal
+Terminal=true
+Type=Application
+Categories=Utility;Archiving;Compression;ConsoleOnly;
+StartupNotify=false
+Icon=io.github.ip7z.SevenZip

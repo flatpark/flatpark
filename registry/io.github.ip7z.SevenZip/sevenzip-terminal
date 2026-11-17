@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# Keep the terminal open with the packaged command on PATH for menu launches.
+printf '%s\n' '7-Zip for Linux — console version' \
+  'Use 7zz to compress, list, test and extract archives; 7zz -h shows help.' \
+  'Downloads is accessible. Grant other folders with flatpak override.' \
+  'Use absolute paths for host files. Type exit to close this terminal.'
+exec /bin/sh -i

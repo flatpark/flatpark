@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+# Preserve arguments, stdin, exit status and working directory for CLI use.
+exec /app/extra/sevenzip/7zz "$@"
