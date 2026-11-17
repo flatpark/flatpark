@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ImageMagick
+GenericName=Image Processing Console
+Comment=Create, convert and edit images from the command line
+Exec=imagemagick-terminal
+Icon=org.imagemagick.ImageMagick
+Type=Application
+Categories=Graphics;2DGraphics;RasterGraphics;ConsoleOnly;
+Terminal=true
+StartupNotify=false
