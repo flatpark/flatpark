@@ -19,8 +19,8 @@
     <p>This is meant for immutable systems such as Fedora Silverblue, Kinoite, Bluefin, Aurora and Bazzite, where installing a vendor's driver package on the host is hard or impossible.</p>
     <ul>
       <li>Shows the card readers, the inserted tokens and their certificates</li>
-      <li>OpenSC built in, for Feitian ePass2003, PIV cards and YubiKeys, OpenPGP cards and the many others OpenSC supports</li>
-      <li>The vendors' drivers are extensions, each downloaded from its vendor at install time and checked against pinned checksums; others can publish theirs the same way</li>
+      <li>OpenSC built in, for the Feitian ePass2003 in the free format (formatted by OpenSC), PIV cards and YubiKeys, OpenPGP cards and the many others OpenSC supports</li>
+      <li>The vendors' drivers are extensions, installed for the token at hand: SafeSign IC (GD Burti), SafeNet Authentication Client, ePass2003 (Feitian) and SerproID, each downloaded from its vendor at install time and checked against pinned checksums; others can publish theirs the same way</li>
       <li>Says which driver a connected token needs, with its page in the app store and the command that installs it</li>
       <li>Opens the drivers' tools, such as SafeSign's Token Administration and the SerproID app</li>
       <li>Sets up Firefox, Chromium, Google Chrome, Microsoft Edge, Brave, Thunderbird, Evolution, LibreOffice, Papers, Okular, JSignPdf and Master PDF Editor to use the tokens, and shows the command that lets them reach Tessera</li>
