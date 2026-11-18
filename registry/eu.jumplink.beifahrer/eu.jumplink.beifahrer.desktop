@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Beifahrer
+Comment=Browser bridge for AI agents, under a per-site policy you control
+Exec=beifahrer
+Icon=eu.jumplink.beifahrer
+Terminal=false
+Type=Application
+Categories=Development;Utility;
+Keywords=Browser;AI;MCP;Agent;Automation;
+StartupNotify=true
+StartupWMClass=eu.jumplink.beifahrer

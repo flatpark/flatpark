@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Pascal Garber -->
+<component type="desktop-application">
+  <id>eu.jumplink.beifahrer</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <name>Beifahrer</name>
+  <summary>Browser bridge for AI agents, under a per-site policy you control</summary>
+  <description>
+    <p>Beifahrer lets an AI agent work in your own browser, with your own sessions and the tab you are looking at, instead of in a separate automated one.</p>
+    <p>This window shows which agent sessions run and which browsers hang on them, the snippet that registers Beifahrer with your coding agent, and the pairing token to paste into each browser.</p>
+    <p>Its setup assistant edits your agent's config only after a diff, a backup and your confirmation. Every site is covered by a policy you set in the browser, and the window can neither change it nor pause the agent.</p>
+  </description>
+  <developer id="eu.jumplink">
+    <name translate="no">Pascal Garber</name>
+    <email>pascal@jumplink.eu</email>
+  </developer>
+  <launchable type="desktop-id">eu.jumplink.beifahrer.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/JumpLink/beifahrer/main/docs/images/desktop-light.png</image>
+      <caption>The window lists agent sessions and the browsers connected to them</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/JumpLink/beifahrer/main/docs/images/popup-light.png</image>
+      <caption>The toolbar popup shows the policy for the current site</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/JumpLink/beifahrer/main/docs/images/options-light.png</image>
+      <caption>Per-site policy in the settings</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/JumpLink/beifahrer/main/docs/images/confirm-light.png</image>
+      <caption>Confirmation before an action the policy does not pre-approve</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://jumplink.eu/beifahrer/</url>
+  <url type="bugtracker">https://github.com/JumpLink/beifahrer/issues</url>
+  <url type="vcs-browser">https://github.com/JumpLink/beifahrer</url>
+  <content_rating type="oars-1.1" />
+  <categories>
+    <category>Development</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>Browser</keyword>
+    <keyword>AI</keyword>
+    <keyword>MCP</keyword>
+    <keyword>Agent</keyword>
+    <keyword>Automation</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#d9c2f0</color>
+    <color type="primary" scheme_preference="dark">#613583</color>
+  </branding>
+  <provides>
+    <binary>beifahrer</binary>
+  </provides>
+  <releases>
+    <release version="0.1.32" date="2026-11-14" />
+  </releases>
+</component>
