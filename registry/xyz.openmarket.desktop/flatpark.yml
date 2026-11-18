@@ -1,0 +1,21 @@
+id: xyz.openmarket.desktop
+name: OpenMarket
+summary: Charts, indicators, orders and an agent for many markets in one window
+website: https://openmarket.xyz/
+source_url: https://openmarket.xyz/download
+build:
+  manifest: xyz.openmarket.desktop.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags:
+    - Trading
+    - Markets
+    - Charts
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=OpenMarket
+Comment=Charts, indicators, orders and an agent for many markets in one window
+Exec=openmarket %U
+Icon=xyz.openmarket.desktop
+Terminal=false
+StartupWMClass=openmarket
+MimeType=x-scheme-handler/openmarket;
+Categories=Finance;Office;
+Keywords=trading;markets;charts;stocks;crypto;futures;options;forex;

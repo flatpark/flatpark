@@ -1,0 +1,79 @@
+id: xyz.openmarket.desktop
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: layer in the Electron base app, which ships zypak. zypak
+# redirects Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an
+# internal sandbox (the wrapper runs it via zypak-wrapper). The id is the one
+# the app sets for itself (app.setAppUserModelId). The payload is the vendor's
+# AppImage, fetched as extra-data.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: openmarket
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) desktop shell for the OpenMarket chart. The AppDir
+  # carries Chromium and its own ffmpeg/SwiftShader; the GTK3, NSS, CUPS, ATK,
+  # X11, ALSA, udev and dbus stacks it links come from the runtime (checked
+  # against the binary's NEEDED set, 0 missing).
+  - --share=ipc
+  # The chart, market data, orders and sign-in are all served by openmarket.xyz.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # The app asks before using the microphone (voice input to its agent) and
+  # plays sound from the chart page.
+  - --socket=pulseaudio
+  # The app saves downloads straight into the Downloads folder without a file
+  # dialog (Electron's downloads path), so that folder has to be writable.
+  - --filesystem=xdg-download
+  # Desktop notifications, which the app grants the chart page.
+  - --talk-name=org.freedesktop.Notifications
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned zygote children, which the wrapper's own `unset` cannot
+  # reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: openmarket
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openmarket-wrapper /app/bin/openmarket
+      - install -Dm644 xyz.openmarket.desktop.desktop /app/share/applications/xyz.openmarket.desktop.desktop
+      - install -Dm644 xyz.openmarket.desktop.metainfo.xml /app/share/metainfo/xyz.openmarket.desktop.metainfo.xml
+      - install -Dm644 xyz.openmarket.desktop.png /app/share/icons/hicolor/512x512/apps/xyz.openmarket.desktop.png
+    sources:
+      # The offline AppImage extractor (appimage-offset + unsquashfs) from
+      # https://github.com/flatpark/prebuilt. A second extra-data source because
+      # apply_extra runs in a sandbox that binds only the runtime /usr and
+      # /app/extra. Kept OUTSIDE the managed block, which the updater rebuilds
+      # from the resolver output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.AppImage
+        only-arches:
+          - x86_64
+        url: https://assets.openmarket.xyz/desktop/stable/OpenMarket-0.1.10-linux-x86_64.AppImage
+        sha256: 5fc2ae02e2178a7d90819f03cb647c43541236cdce0e05c43f547f76d2efe045
+        size: 125769665
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openmarket-wrapper
+      - type: file
+        path: xyz.openmarket.desktop.desktop
+      - type: file
+        path: xyz.openmarket.desktop.metainfo.xml
+      - type: file
+        path: xyz.openmarket.desktop.png
