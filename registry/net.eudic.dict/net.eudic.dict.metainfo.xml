@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.eudic.dict</id>
+  <name>Eudic</name>
+  <name xml:lang="zh-CN">欧路词典</name>
+  <summary>Authoritative English dictionary software</summary>
+  <summary xml:lang="zh-CN">权威的英语词典软件</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://dict.eudic.net/home/mobileUserLicense</project_license>
+  <developer id="com.qianyan">
+    <name>Shanghai Qianyan Network Technology Co., Ltd.</name>
+    <name xml:lang="zh-CN">上海倩言网络科技有限公司</name>
+  </developer>
+  <description>
+    <p>Packager's notes:</p>
+    <p xml:lang="zh-CN">打包者注：</p>
+    <ul>
+      <li>This community-provided package is not verified by, affiliated with, or supported by Shanghai Qianyan Network Technology Co., Ltd.</li>
+      <li xml:lang="zh-CN">此社区提供的软件包未经上海倩言网络科技有限公司验证，与其没有关联，也不由其提供支持。</li>
+      <li>At the time of packaging, this version uses a newer official deb than the existing Flathub community package.</li>
+      <li xml:lang="zh-CN">打包时，此版本使用的官方 deb 比现有 Flathub 社区包更新。</li>
+      <li>The interface is primarily in Chinese; some content remains in Chinese when English is selected.</li>
+      <li xml:lang="zh-CN">软件界面以中文为主；选择英语后，部分内容仍显示为中文。</li>
+      <li>This package uses the official Debian package. In a new profile, automatic updates in the app are disabled; update using Flatpak and leave the app's automatic update disabled.</li>
+      <li xml:lang="zh-CN">此软件包使用官方 deb 包。新用户首次启动时默认关闭应用内自动更新；请使用 Flatpak 更新，并保持应用内自动更新关闭。</li>
+      <li>If the interface is too small with fractional scaling, adjust QT_SCALE_FACTOR and restart the app. For example: flatpak override --user --env=QT_SCALE_FACTOR=1.1 net.eudic.dict</li>
+      <li xml:lang="zh-CN">如果开启分数缩放后界面过小，可以调整 QT_SCALE_FACTOR 并重启应用。例如：flatpak override --user --env=QT_SCALE_FACTOR=1.1 net.eudic.dict</li>
+    </ul>
+    <p>For more details, visit the official website of Shanghai Qianyan Network Technology Co., Ltd. and read its user service agreement (Chinese only).</p>
+    <p xml:lang="zh-CN">更多详情请访问上海倩言网络科技有限公司官网并阅读其用户服务协议（仅中文）。</p>
+    <p>Software easy to use offline dictionary</p>
+    <p xml:lang="zh-CN">易于使用的离线词典。</p>
+    <p>The Eudict is an essential reference software for English learners. It starts quickly, has a full range of features, is ad-free, and provides an uninterrupted experience. With a massive expandable vocabulary library and customizable editing, it supports translations in multiple languages, including Chinese, English, Japanese, French, German, and more. Covering all aspects of language learning, it includes learning, translation, note-taking, and exam preparation. With features like voice translation, photo translation, and one-click access, the app offers convenient operations. In addition to word lookups, translations, note-taking, and vocabulary building, it also introduces AI features such as theme writing and error correction, revolutionizing your English learning experience.</p>
+    <p xml:lang="zh-CN">欧路词典是英语学习者的必备参考软件。启动快，功能全，无广告，免打扰；海量扩展词库，自定义编辑；支持中文、英语、日语、法语、德语等多语种翻译。学习、翻译、笔记、考试，全面覆盖语言学习的所有场景。语音翻译，拍照翻译，一键获取，操作便捷。不仅能够查词、翻译、笔记、背单词，更引入了主题写作、批改纠错等 AI 功能。</p>
+    <p xml:lang="zh-CN">【产品简介】海量词汇：内置常用英汉词条 30 万个，专业词条 40 万个，海量例句库 178 万条。拍照翻译：摄像头取词、拍照查词功能，即拍即查，阅读文献好帮手。单词复习：自定义学习目标，多种图表，帮你更好回顾自己的学习。在线搜索：基于海量数据的云端词典，生僻词、例句、图片查询一网打尽。纯正发音：美音、英音自由选择，自定发音语速、小语种发音应有尽有。文件阅读：词典中即可阅读文件，支持单词长按查询，即点即译。</p>
+    <p xml:lang="zh-CN">【强大词库】权威词库：英汉、汉英词典、英英词典、同义词、反义词词典，权威详实。编辑词库：提供电脑端词库编辑器，支持自制扩充词库；朗文、牛津，权威词库尽情添加。扩充词库：通过网络下载各语种的扩充词库，支持 Mdict、灵格斯、Babylon 等多种词典格式，覆盖医学、经济、工程、计算机等十余个领域。</p>
+    <p xml:lang="zh-CN">【实用工具】高亮标记：重点词添加标记，云端同步，随时查阅。笔记同步：生词本、笔记、历史记录功能，支持同步。语音输入：英语整句翻译发音功能，支持语音输入。跨软件取词：使用其他软件时，长按即可查词，自动显示释义。</p>
+    <p xml:lang="zh-CN">【AI 功能】AI 翻译：精准自然的 AI 翻译，超越各大翻译引擎。批改纠错：输入或粘贴文本后，检查拼写、语法、标点等错误。主题写作：给定主题，将您的想法转化为文字。短句扩写：根据选中内容自动扩写。文章润色：文本一键润色、优化表达。</p>
+  </description>
+  <url type="homepage">https://www.eudic.net/</url>
+  <url type="help">https://www.eudic.net/v4/en/home/support</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <launchable type="desktop-id">net.eudic.dict.desktop</launchable>
+  <categories><category>Education</category><category>Dictionary</category></categories>
+  <content_rating type="oars-1.1" />
+  <!-- The upstream release date is unknown; this is the local pin date. -->
+  <releases><release version="26.9.1" date="2026-11-18" /></releases>
+</component>

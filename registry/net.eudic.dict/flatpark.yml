@@ -1,0 +1,25 @@
+id: net.eudic.dict
+name: Eudic
+summary: Dictionary and language learning application
+website: https://www.eudic.net/
+source_url: https://www.eudic.net/v4/en/app/download
+build:
+  manifest: net.eudic.dict.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Education
+  tags:
+    - Dictionary
+    - Languages
+    - Learning
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "On first launch, the app's automatic update setting is disabled so updates can be managed through Flatpak. Existing settings are kept."
+      zh-Hans: "首次启动时默认关闭应用内自动更新，通过 Flatpak 管理更新；已有设置会保留。"

@@ -1,0 +1,53 @@
+app-id: net.eudic.dict
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: eudic-wrapper
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Online lookup, account sync and downloads.
+  - --share=network
+  # The bundled Qt 5 build supplies the X11 platform plugin only.
+  - --socket=x11
+  - --socket=pulseaudio
+  - --device=dri
+  # Preserve user-installed fonts and cursor themes for the X11 client.
+  - --filesystem=xdg-data/fonts:ro
+  - --filesystem=xdg-data/icons:ro
+  # Qt 5 registers this status notifier name in its PID namespace.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.StatusNotifierItem-2-1
+modules:
+  - name: eudic
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 eudic-wrapper /app/bin/eudic-wrapper
+      - install -Dm644 net.eudic.dict.desktop /app/share/applications/net.eudic.dict.desktop
+      - install -Dm644 net.eudic.dict.metainfo.xml /app/share/metainfo/net.eudic.dict.metainfo.xml
+      - install -Dm644 net.eudic.dict.png /app/share/icons/hicolor/256x256/apps/net.eudic.dict.png
+      - install -Dm644 fonts.conf /app/etc/eudic/fonts.conf
+    sources:
+      # The vendor replaces this unversioned file; pin refresh is needed on updates.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: eudic.deb
+        only-arches: [x86_64]
+        url: https://www.eudic.net/download/eudic.deb
+        sha256: dd1faab01940cbf8a019a6d813e2ef1f0b50df65ebacdc96939a4d9f0b4d2892
+        size: 264276708
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: eudic-wrapper
+      - type: file
+        path: net.eudic.dict.desktop
+      - type: file
+        path: net.eudic.dict.metainfo.xml
+      - type: file
+        path: net.eudic.dict.png
+      - type: file
+        path: fonts.conf
