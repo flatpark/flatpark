@@ -27,7 +27,8 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: ffmpeg-full.tar.xz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v3/ffmpeg-full-ffmpeg-full-v3-gnome-51-x86_64.tar.xz
         sha256: 3ae0b24a8d7e134ca034e9f0eb0a6efbfc7e467fd90bf967a750fd3872055e28
         size: 13655872

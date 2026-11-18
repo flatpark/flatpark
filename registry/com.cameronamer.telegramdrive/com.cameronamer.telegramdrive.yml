@@ -61,9 +61,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/caamer20/Telegram-Drive/releases/download/v4.1.6/Telegram.Drive_4.1.6_amd64.deb
-        sha256: c1853ae8352cc4a42268a2d4f7df4ae783913c27dc5070762553572e65307c37
-        size: 24836580
+        url: https://github.com/caamer20/Telegram-Drive/releases/download/v4.1.7/Telegram.Drive_4.1.7_amd64.deb
+        sha256: 05072c8827bc6783a026a114c587adec7a38b13a2e0832c777c398c59508021d
+        size: 24954620
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

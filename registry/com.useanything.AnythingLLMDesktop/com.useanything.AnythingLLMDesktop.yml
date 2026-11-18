@@ -53,9 +53,9 @@ modules:
         filename: anythingllm.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/Mintplex-Labs/anything-llm/releases/download/v1.19.0/AnythingLLMDesktop.AppImage
-        sha256: 8b407abafa281e5f2b58af04399011784894a5a0414fb58eb32062dad6cc8ef2
-        size: 905441828
+        url: https://github.com/Mintplex-Labs/anything-llm/releases/download/v1.20.0/AnythingLLMDesktop.AppImage
+        sha256: bf101b602c590eae0a96e96c3fac609763565f4ad39f860434ed50ce2480daad
+        size: 951055817
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

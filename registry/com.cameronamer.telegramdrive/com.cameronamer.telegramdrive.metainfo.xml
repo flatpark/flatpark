@@ -67,6 +67,9 @@
     <binary>telegram-drive</binary>
   </provides>
   <releases>
+    <release version="4.1.7" date="2026-11-17">
+      <description></description>
+    </release>
     <release version="4.1.6" date="2026-11-15">
       <description></description>
     </release>
