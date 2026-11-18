@@ -54,9 +54,9 @@ modules:
         filename: horizon-launcher.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/horizon-rust/horizon/releases/download/launcher%400.2.70/horizon-launcher-linux-x86_64.tar.gz
-        sha256: 1eecf8027fa0783e0ab0da8879dd6a92be2dbacddeb5a085a7f8f6b5a2aa1d85
-        size: 34128322
+        url: https://github.com/horizon-rust/horizon/releases/download/launcher%400.2.73/horizon-launcher-linux-x86_64.tar.gz
+        sha256: d7aef6eb58eb131d698c18afa2fbdf4690a366b376f50d90ec30e1544cf9c089
+        size: 34146682
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

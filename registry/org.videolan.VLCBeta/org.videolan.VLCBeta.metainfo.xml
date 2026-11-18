@@ -22,6 +22,10 @@
   <categories><category>AudioVideo</category><category>Player</category></categories>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="4.0.0-dev-39767-gc13b3f29cd-r5-qt3d7ce1c6d4d40059" date="2026-11-18">
+      <url type="details">https://github.com/jing2uo/vlc-nightly-release/releases/tag/4.0.0-dev-39767-gc13b3f29cd-r5-qt3d7ce1c6d4d40059</url>
+      <description></description>
+    </release>
     <release version="4.0.0-dev-39767-gc13b3f29cd-r5-qtb595b14c2379f917" date="2026-11-16">
       <url type="details">https://github.com/jing2uo/vlc-nightly-release/releases/tag/4.0.0-dev-39767-gc13b3f29cd-r5-qtb595b14c2379f917</url>
       <description></description>
