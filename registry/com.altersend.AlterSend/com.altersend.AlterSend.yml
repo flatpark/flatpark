@@ -72,9 +72,9 @@ modules:
         filename: altersend.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/denislupookov/altersend/releases/download/v2.0.0/AlterSend-x86_64.AppImage
-        sha256: 74cb05a1cac649767c09537aa457467914c0a47a6fc214915b78c0e91a7a3dda
-        size: 197013508
+        url: https://github.com/denislupookov/altersend/releases/download/v2.1.0/AlterSend-x86_64.AppImage
+        sha256: 697863b20b41c270519a59bb09947b5ce6ae0a0b9d583681206cc9a755956d8a
+        size: 198522133
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

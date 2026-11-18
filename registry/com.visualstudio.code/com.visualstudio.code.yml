@@ -82,16 +82,16 @@ modules:
         filename: code.deb
         only-arches:
           - x86_64
-        url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/69047191fc427f2f92828279aae1d90d8eeda7ab/code_1.146.0-1794340865_amd64.deb
-        sha256: f83565f7f11a60b256807fe2216da8405f9728f193754959695242eecd148992
-        size: 291523322
+        url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/8a14f0cc1b08d531eb83255ea3764ae22aa932b5/code_1.147.0-1794903003_amd64.deb
+        sha256: 749efcdf5008a8323d76773b836199cdecf708fdb993f0f0544d9475176837ab
+        size: 294878630
       - type: extra-data
         filename: code.deb
         only-arches:
           - aarch64
-        url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/69047191fc427f2f92828279aae1d90d8eeda7ab/code_1.146.0-1794340783_arm64.deb
-        sha256: ae7c714ee9c80bd98323e53cdf211d3c9249a83f34d78b8fd6cfbc143ba2424f
-        size: 262905366
+        url: https://vscode.download.prss.microsoft.com/dbazure/download/stable/8a14f0cc1b08d531eb83255ea3764ae22aa932b5/code_1.147.0-1794902973_arm64.deb
+        sha256: 13b65c06a51f573db750878fa671cd89701b5f628e73d5309b7b0c2884814101
+        size: 266619874
       # END MANAGED EXTRA-DATA
       # host-spawn, upstream's static release binary. Pinned by hand: bump
       # the tag, sha256 and size together.
