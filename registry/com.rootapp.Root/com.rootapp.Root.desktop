@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Root
+GenericName=Community Chat
+Comment=Chat, voice and video for communities
+Exec=root %U
+Icon=com.rootapp.Root
+Terminal=false
+StartupNotify=true
+Categories=Network;Chat;InstantMessaging;
+Keywords=chat;voice;video;community;server;
+StartupWMClass=Root

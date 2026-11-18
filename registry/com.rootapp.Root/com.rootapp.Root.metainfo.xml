@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.rootapp.Root</id>
+  <name>Root</name>
+  <summary>Chat, voice and video for communities</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.rootapp.com/terms-of-use</project_license>
+  <developer id="com.rootapp">
+    <name>Root</name>
+  </developer>
+  <url type="homepage">https://www.rootapp.com/</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>This is a community package of Root, maintained independently and unaffiliated with Root. It repackages the official upstream Linux build unmodified.</p>
+    <p>Root is a home for online communities: text channels, voice and video calls, screen sharing and direct messages, with apps from the Root App Store running inside a community.</p>
+    <p>Sandbox: network, X11 display and GPU, audio, notifications and the tray icon. Files are attached and saved through the file chooser. Root's window runs through X11 (XWayland on a Wayland desktop). The in-app updater is not available in this package; updates come through FlatPark.</p>
+    <p>Root's embedded browser runs without its own Chromium sandbox, which cannot start inside Flatpak; the Flatpak sandbox still applies.</p>
+    <p>The camera is not granted by default. For video calls, enable it with: flatpak override --user --device=all com.rootapp.Root (undo with flatpak override --user --reset com.rootapp.Root).</p>
+  </description>
+  <launchable type="desktop-id">com.rootapp.Root.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>Chat</category>
+    <category>InstantMessaging</category>
+  </categories>
+  <keywords>
+    <keyword>chat</keyword>
+    <keyword>voice</keyword>
+    <keyword>video</keyword>
+    <keyword>community</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <releases>
+    <release version="0.9.164" date="2026-11-17">
+      <description>
+        <p>Official Linux build 0.9.164.</p>
+      </description>
+    </release>
+  </releases>
+</component>
