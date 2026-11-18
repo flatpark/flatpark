@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+# Like yt-dlp's desktop launcher, keep a prompt open between operations.
+printf '%s\n' 'ImageMagick' \
+  'Enter absolute paths to convert an image. Pictures is accessible by default.' \
+  'For advanced options, run: flatpak run org.imagemagick.ImageMagick -help' \
+  ''
+while :; do
+    printf 'Input image (Enter to close): '
+    IFS= read -r input || break
+    [ -n "$input" ] || break
+    printf 'Output image (Enter to cancel): '
+    IFS= read -r output || break
+    [ -n "$output" ] || { printf '\n'; continue; }
+    # Quote each path as one argument; never interpret input as shell code.
+    if /app/bin/magick -- "$input" "$output"; then
+        printf '\nImage saved.\n\n'
+    else
+        printf '\nConversion failed. Check the message above and try again.\n\n'
+    fi
+done

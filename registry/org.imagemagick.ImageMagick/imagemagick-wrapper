@@ -1,0 +1,4 @@
+#!/bin/sh
+# Locate the portable build's configuration and resources within its tree.
+export MAGICK_HOME=/app/extra/imagemagick
+exec "$MAGICK_HOME/bin/magick" "$@"

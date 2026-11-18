@@ -1,0 +1,42 @@
+id: org.imagemagick.ImageMagick
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: magick
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # ImageMagick operates directly on image files, without a file chooser portal.
+  - --filesystem=xdg-pictures
+modules:
+  - name: imagemagick
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 imagemagick-wrapper /app/bin/magick
+      - install -Dm755 imagemagick-terminal /app/bin/imagemagick-terminal
+      - install -Dm644 org.imagemagick.ImageMagick.desktop /app/share/applications/org.imagemagick.ImageMagick.desktop
+      - install -Dm644 org.imagemagick.ImageMagick.metainfo.xml /app/share/metainfo/org.imagemagick.ImageMagick.metainfo.xml
+      - install -Dm644 org.imagemagick.ImageMagick.png /app/share/icons/hicolor/128x128/apps/org.imagemagick.ImageMagick.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: imagemagick.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-36/ImageMagick-7.1.2-36-portable-Q16-HDRI-linux-x64.tar.xz
+        sha256: 72c8dd0268f824f621e1628737b79d8e80bc63a5d46a69950dabb13c5de80c91
+        size: 12869884
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: imagemagick-wrapper
+      - type: file
+        path: imagemagick-terminal
+      - type: file
+        path: org.imagemagick.ImageMagick.desktop
+      - type: file
+        path: org.imagemagick.ImageMagick.metainfo.xml
+      - type: file
+        path: org.imagemagick.ImageMagick.png

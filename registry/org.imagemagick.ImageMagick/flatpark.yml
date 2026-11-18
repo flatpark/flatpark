@@ -1,0 +1,18 @@
+id: org.imagemagick.ImageMagick
+name: ImageMagick
+summary: Create, convert and edit images from the command line
+website: https://imagemagick.org
+source_url: https://github.com/ImageMagick/ImageMagick
+build:
+  manifest: org.imagemagick.ImageMagick.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  tags:
+    - Image Processing
+    - Command Line
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.imagemagick.ImageMagick</id>
+  <name>ImageMagick</name>
+  <summary>Create, convert and edit images from the command line</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>ImageMagick</project_license>
+  <developer_name>ImageMagick Studio LLC</developer_name>
+  <description>
+    <p>ImageMagick creates, converts and edits images in many formats. Use its command-line tools for image processing and automation. This portable build has no X11 display or animate support.</p>
+    <p>This community package repackages the official upstream build unmodified. Run commands with <code>flatpak run org.imagemagick.ImageMagick</code>. The application menu opens a terminal that prompts for input and output image paths and remains open between conversions; press Enter at the input prompt to close it. Files in Pictures are available by default; use absolute paths for image files.</p>
+    <p>For files elsewhere in your home directory, enable access with <code>flatpak override --user --filesystem=home org.imagemagick.ImageMagick</code>. Undo overrides with <code>flatpak override --user --reset org.imagemagick.ImageMagick</code>.</p>
+  </description>
+  <url type="homepage">https://imagemagick.org/</url>
+  <url type="bugtracker">https://github.com/ImageMagick/ImageMagick/issues</url>
+  <launchable type="desktop-id">org.imagemagick.ImageMagick.desktop</launchable>
+  <releases><release version="7.1.2-36" date="2026-11-16"/></releases>
+  <content_rating type="oars-1.1"/>
+  <requires><control>keyboard</control></requires>
+  <provides><binary>magick</binary></provides>
+</component>
