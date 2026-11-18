@@ -1,0 +1,48 @@
+id: org.ffmpeg.FFmpeg
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: ffmpeg
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # FFmpeg supports network input and output protocols.
+  - --share=network
+  - --device=dri
+  # Read and write media in Downloads from both terminal entry points.
+  - --filesystem=xdg-download
+modules:
+  - name: ffmpeg
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ffmpeg-wrapper /app/bin/ffmpeg
+      - install -Dm755 ffprobe-wrapper /app/bin/ffprobe
+      - install -Dm755 ffmpeg-desktop /app/bin/ffmpeg-desktop
+      - install -Dm644 org.ffmpeg.FFmpeg.desktop /app/share/applications/org.ffmpeg.FFmpeg.desktop
+      - install -Dm644 org.ffmpeg.FFmpeg.metainfo.xml /app/share/metainfo/org.ffmpeg.FFmpeg.metainfo.xml
+      - install -Dm644 org.ffmpeg.FFmpeg.svg /app/share/icons/hicolor/scalable/apps/org.ffmpeg.FFmpeg.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ffmpeg-full.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/ffmpeg-full-v3/ffmpeg-full-ffmpeg-full-v3-gnome-51-x86_64.tar.xz
+        sha256: 3ae0b24a8d7e134ca034e9f0eb0a6efbfc7e467fd90bf967a750fd3872055e28
+        size: 13655872
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ffmpeg-wrapper
+      - type: file
+        path: ffprobe-wrapper
+      - type: file
+        path: ffmpeg-desktop
+      - type: file
+        path: org.ffmpeg.FFmpeg.desktop
+      - type: file
+        path: org.ffmpeg.FFmpeg.metainfo.xml
+      - type: file
+        path: org.ffmpeg.FFmpeg.svg

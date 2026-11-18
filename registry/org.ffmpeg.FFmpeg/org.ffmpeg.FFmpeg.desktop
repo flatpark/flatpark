@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=FFmpeg
+GenericName=Media Converter
+Comment=Convert and inspect audio and video from the command line
+Exec=ffmpeg-desktop
+Terminal=true
+Type=Application
+Categories=AudioVideo;AudioVideoEditing;ConsoleOnly;
+StartupNotify=false
+Icon=org.ffmpeg.FFmpeg

@@ -1,0 +1,4 @@
+#!/bin/sh
+printf '%s\n' 'FFmpeg terminal' 'Run ffmpeg or ffprobe with your options. Files in Downloads are accessible.' 'Type exit or press Ctrl+D to close.' ''
+cd "$(xdg-user-dir DOWNLOAD)" || exit 1
+exec /bin/sh -i
