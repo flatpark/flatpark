@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=tastytrade Desktop 2.0
+Comment=Trading platform for stocks, options, and futures
+Exec=tastytrade %U
+Icon=com.tastytrade.Tastytrade
+Terminal=false
+Type=Application
+StartupWMClass=tastytrade
+Categories=Finance;
+MimeType=x-scheme-handler/tastytrade-desktop;
