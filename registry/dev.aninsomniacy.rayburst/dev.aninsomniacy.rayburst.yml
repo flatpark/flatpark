@@ -1,7 +1,21 @@
 id: dev.aninsomniacy.rayburst
-runtime: org.gnome.Platform
-runtime-version: "51"
-sdk: org.gnome.Sdk
+# The freedesktop base, because the app runs on the GTK 3 / WebKitGTK 4.1 stack
+# its AppImage carries, not on a runtime's. On org.gnome.Platform//51, whose
+# WebKitGTK is 2.54.1, the app's transparent window was drawn only where a
+# frame had changed on some KWin desktops and see-through everywhere else
+# (flatpark#1262), while the AppImage on the same machine drew normally. The
+# AppImage is linuxdeploy-built and brings glib, GTK 3, libsoup 3, WebKitGTK
+# and WebKit's helper processes from its build machine; from the runtime it
+# takes only libc, X11/Wayland, fontconfig/freetype and the GPU drivers.
+#
+# The cost: the WebKitGTK version is whatever upstream's build machine has
+# (Ubuntu 22.04's, older than the GNOME runtime's) and its security fixes
+# arrive only with upstream releases, not with runtime updates. Once the GNOME
+# runtime's WebKitGTK draws this window correctly on those desktops, go back
+# to the .deb on org.gnome.Platform (git history has that package).
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
 command: rayburst
 separate-locales: false
 build-options:
@@ -9,11 +23,17 @@ build-options:
 finish-args:
   # Tauri v2 / WebKitGTK 4.1 (GTK 3) front end driving a bundled aria2-derived
   # engine, Aria2 Next.
+  #
+  # Native Wayland with X11 as the fallback, not --socket=x11. The AppImage's
+  # linuxdeploy GTK hook (apprun-hooks/linuxdeploy-plugin-gtk.sh) leaves its
+  # `export GDK_BACKEND=x11` line commented out, and its bundled GTK 3 has the
+  # Wayland backend, so the app opens a Wayland window like the GNOME-runtime
+  # build did; X11 is only needed where there is no Wayland session.
   - --share=ipc
   - --socket=wayland
   - --socket=fallback-x11
-  # dri for hardware-accelerated WebKit rendering. The app has its own GPU guard
-  # that falls back to software compositing when it cannot get hardware paths.
+  # The app decides between GPU and CPU painting itself (its "hardware
+  # rendering" setting); dri lets the GPU path work.
   - --device=dri
   # The downloads themselves, the engine's BitTorrent/DHT/ED2K traffic, and the
   # loopback listeners the engine's RPC and the Extension API bind. Flatpak does
@@ -47,9 +67,9 @@ finish-args:
   # tauri-plugin-single-instance's own well-known name sits under the app id, so
   # Flatpak already lets the app own it; it needs no grant of its own.
 modules:
-  # No ayatana-stack: on Linux the app builds its tray with ksni over D-Bus
-  # (src-tauri/src/tray/linux.rs) and never reaches Tauri's TrayIconBuilder,
-  # the only thing that would dlopen libayatana-appindicator3.
+  # The tray is ksni over D-Bus (src-tauri/src/tray/linux.rs); the AppImage
+  # also carries libayatana-appindicator3 for Tauri's TrayIconBuilder, which
+  # the app does not use on Linux, so nothing tray-related is added here.
   - name: rayburst
     buildsystem: simple
     build-commands:
@@ -59,14 +79,26 @@ modules:
       - install -Dm644 dev.aninsomniacy.rayburst.metainfo.xml /app/share/metainfo/dev.aninsomniacy.rayburst.metainfo.xml
       - install -Dm644 dev.aninsomniacy.rayburst.png /app/share/icons/hicolor/256x256/apps/dev.aninsomniacy.rayburst.png
     sources:
-      # BEGIN MANAGED EXTRA-DATA
+      # appimage-offset and unsquashfs for apply_extra, which unpacks the
+      # AppImage without running it. Extra-data rather than a module in /app:
+      # a system-wide install runs apply_extra with only the runtime's /usr
+      # and /app/extra visible. Kept outside the managed block, which
+      # update-pins rebuilds from the resolver's output.
       - type: extra-data
-        filename: rayburst.deb
+        filename: appimage-tools.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.1.2/Rayburst_4.1.2_amd64.deb
-        sha256: e70a4cb655bfa7972ff4ea8488f527264c678e33987e886fdadac708a0f1f9e5
-        size: 28763466
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: rayburst.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.1.2/Rayburst_4.1.2_amd64.AppImage
+        sha256: 84f3cc8797ec03119f7049b50ee151dcba74c55d21f26496f63d6b781fb4a52d
+        size: 104290808
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
