@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.tastytrade.Tastytrade</id>
+  <launchable type="desktop-id">com.tastytrade.Tastytrade.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://assets.tastyworks.com/production/documents/broker_end_user_license_agreement.pdf</project_license>
+  <name>tastytrade Desktop 2.0</name>
+  <summary>Trading platform for stocks, options, and futures</summary>
+  <developer id="com.tastytrade">
+    <name>tastytrade</name>
+  </developer>
+  <url type="homepage">https://tastytrade.com/desktop-platform/</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>This community package is maintained independently of tastytrade. It installs the vendor's unmodified desktop application from its official Linux download.</p>
+    <p>tastytrade Desktop 2.0 is a trading platform for viewing markets, managing an account, and trading stocks, options and futures. A tastytrade account is required to sign in.</p>
+    <p>Sound is optional and disabled by default. Enable it with <code>flatpak override --user --socket=pulseaudio com.tastytrade.Tastytrade</code>. Disable it again with <code>flatpak override --user --nosocket=pulseaudio com.tastytrade.Tastytrade</code>.</p>
+    <p>To allow notifications, run <code>flatpak override --user --talk-name=org.freedesktop.Notifications com.tastytrade.Tastytrade</code>. To disable direct notification access again, run <code>flatpak override --user --no-talk-name=org.freedesktop.Notifications com.tastytrade.Tastytrade</code>.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Finance</category>
+  </categories>
+  <releases>
+    <release version="0.76.0" date="2026-11-17"/>
+  </releases>
+</component>

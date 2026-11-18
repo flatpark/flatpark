@@ -1,0 +1,18 @@
+id: com.tastytrade.Tastytrade
+name: tastytrade Desktop 2.0
+summary: Trading platform for stocks, options, and futures
+website: https://tastytrade.com/desktop-platform/
+source_url: https://tastytrade.com/desktop-platform/
+build:
+  manifest: com.tastytrade.Tastytrade.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Office
+  tags: [Finance, Trading, Stocks, Options]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

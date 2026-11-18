@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# Avoid inheriting an Electron development environment.
+unset ELECTRON_RUN_AS_NODE
+launcher=$(cat /app/extra/launcher)
+# Run Electron with its Chromium sandbox integrated into Flatpak.
+exec zypak-wrapper "/app/extra/app/$launcher" --ozone-platform-hint=auto "$@"
