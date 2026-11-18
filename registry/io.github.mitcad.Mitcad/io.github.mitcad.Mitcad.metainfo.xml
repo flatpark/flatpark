@@ -47,6 +47,10 @@
     <binary>mitcad-cli</binary>
   </provides>
   <releases>
+    <release version="0.66.0" date="2026-11-18">
+      <url type="details">https://github.com/mitcad/Mitcad/releases/tag/v0.66.0</url>
+      <description></description>
+    </release>
     <release version="0.65.0" date="2026-11-17">
       <url type="details">https://github.com/mitcad/Mitcad/releases/tag/v0.65.0</url>
       <description></description>
