@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=gallery-dl
+Comment=Download image galleries from supported websites
+Exec=gallery-dl-desktop
+Icon=io.github.mikf.gallery_dl
+Terminal=true
+Categories=Network;FileTransfer;ConsoleOnly;
+StartupNotify=false

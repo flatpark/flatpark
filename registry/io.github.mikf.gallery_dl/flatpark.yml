@@ -1,0 +1,18 @@
+id: io.github.mikf.gallery_dl
+name: gallery-dl
+summary: Download image galleries from supported websites
+website: https://github.com/mikf/gallery-dl
+source_url: https://github.com/mikf/gallery-dl
+build:
+  manifest: io.github.mikf.gallery_dl.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Network
+  tags: [Downloader, Images]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# Keep the terminal open between downloads; pass each URL as one argument.
+printf 'gallery-dl\nPaste a gallery URL to download it into your Downloads folder.\n'
+printf 'For advanced options, run: flatpak run io.github.mikf.gallery_dl --help\n\n'
+while :; do
+    printf 'Gallery URL (Enter to close): '
+    IFS= read -r url || break
+    [ -n "$url" ] || break
+    if /app/bin/gallery-dl --destination "$(xdg-user-dir DOWNLOAD)" -- "$url"; then
+        printf '\nDownload finished.\n\n'
+    else
+        printf '\nDownload failed. Check the message above and try another URL.\n\n'
+    fi
+done
