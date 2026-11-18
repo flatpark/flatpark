@@ -1,0 +1,34 @@
+id: io.github.ergolyam.Drosophila
+name: Drosophila
+summary: Graphical interface for Yggdrasil-ng
+website: https://github.com/ergolyam/Drosophila
+source_url: https://github.com/ergolyam/Drosophila
+build:
+  manifest: io.github.ergolyam.Drosophila.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Network
+  upstream_approved: true
+  tags:
+    - Yggdrasil
+    - VPN
+    - Proxy
+    - GTK
+    - Rust
+    - Open source
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  # TUN mode starts Drosophila's own worker on the host through
+  # flatpak-spawn --host + pkexec, as in upstream's own Flatpak manifest; the
+  # developer named this grant when asking for the listing (flatpark#1351).
+  dangerous_permissions:
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail:
+      en: "In TUN mode, Drosophila starts its own binary on the host through flatpak-spawn and PolicyKit (pkexec), limited to CAP_NET_ADMIN, to create the network interface. The flatpak-spawn permission allows arbitrary host commands."
+      zh-Hans: "TUN 模式下，Drosophila 通过 flatpak-spawn 和 PolicyKit（pkexec）在宿主机上启动它自己的程序（仅保留 CAP_NET_ADMIN）来创建网卡。flatpak-spawn 权限允许执行任意宿主机命令。"

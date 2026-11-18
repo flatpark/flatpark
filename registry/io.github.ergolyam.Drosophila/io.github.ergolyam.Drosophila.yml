@@ -1,0 +1,68 @@
+# Drosophila - a GTK 4 / libadwaita front end for an embedded Yggdrasil-ng
+# node, the official Linux glibc release binary repackaged unmodified as
+# extra-data.
+#
+# Upstream publishes one standalone executable per arch per release (no
+# archive). It links only GTK 4, libadwaita, GLib and glibc, all in
+# org.gnome.Platform//51, so nothing else is shipped.
+id: io.github.ergolyam.Drosophila
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: drosophila
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # The embedded Yggdrasil-ng node connects to peers and serves its local
+  # HTTP/SOCKS5 proxy.
+  - --share=network
+  # TUN mode (the app's default): Drosophila starts its own binary on the host
+  # as a privileged worker, `flatpak-spawn --host pkexec <runtime ld.so>
+  # --library-path <app and runtime lib dirs> <app-path>/bin/drosophila`,
+  # restricted to CAP_NET_ADMIN, which creates the host TUN interface. As in
+  # upstream's own Flatpak manifest; the developer pointed it out when asking
+  # for the listing (flatpark#1351).
+  - --talk-name=org.freedesktop.Flatpak
+modules:
+  - name: drosophila
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      # The TUN worker path is <app-path>/bin/drosophila on the host, resolved
+      # from /.flatpak-info, and is run through the runtime's ld.so, so it has
+      # to be the ELF binary itself, not a shell wrapper. A relative symlink
+      # into extra/ resolves both inside the sandbox (/app/extra) and on the
+      # host (<app-path>/extra, where Flatpak deploys extra-data).
+      - ln -s ../extra/drosophila/drosophila /app/bin/drosophila
+      - install -Dm644 io.github.ergolyam.Drosophila.desktop /app/share/applications/io.github.ergolyam.Drosophila.desktop
+      - install -Dm644 io.github.ergolyam.Drosophila.metainfo.xml /app/share/metainfo/io.github.ergolyam.Drosophila.metainfo.xml
+      - install -Dm644 io.github.ergolyam.Drosophila.svg /app/share/icons/hicolor/scalable/apps/io.github.ergolyam.Drosophila.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: drosophila
+        only-arches:
+          - x86_64
+        url: https://github.com/ergolyam/Drosophila/releases/download/v2.2.1/Drosophila-v2.2.1-linux-glibc-x86_64
+        sha256: 21d3e110b6dacc494c5fe8913acf19f293976a4768328d47d86d78f59296926d
+        size: 10597120
+      - type: extra-data
+        filename: drosophila
+        only-arches:
+          - aarch64
+        url: https://github.com/ergolyam/Drosophila/releases/download/v2.2.1/Drosophila-v2.2.1-linux-glibc-aarch64
+        sha256: 87c1c73a668e4c085196e0a9a4bcf1f33fd033345c0133890469843e61bf9868
+        size: 9452608
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: io.github.ergolyam.Drosophila.desktop
+      - type: file
+        path: io.github.ergolyam.Drosophila.metainfo.xml
+      - type: file
+        path: io.github.ergolyam.Drosophila.svg
