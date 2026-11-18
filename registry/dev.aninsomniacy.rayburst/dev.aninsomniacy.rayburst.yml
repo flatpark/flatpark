@@ -55,15 +55,11 @@ finish-args:
   # not a portal, so the session bus proxy hides it without this grant and the
   # menu entry does nothing at all.
   - --talk-name=org.freedesktop.FileManager1
-  # Since 4.1.x the Linux tray is ksni (src-tauri/src/tray/linux.rs), not
-  # libayatana-appindicator. ksni owns org.kde.StatusNotifierItem-<pid>-<n>
-  # before it registers with the watcher, and the app spawns it without
-  # disable_dbus_name, so a refused RequestName means no tray at all
-  # ("tray:registration-failed ... ServiceUnknown" in its log). Inside the
-  # sandbox the PID is 2 and this is the app's first tray, so the name is
-  # always -2-1. Another Flatpak app holding the same name would still win the
-  # race; the real fix is upstream calling disable_dbus_name when sandboxed.
-  - --own-name=org.kde.StatusNotifierItem-2-1
+  # The tray is ksni (src-tauri/src/tray/linux.rs). Since 4.1.3-beta.1 it
+  # registers with the watcher under the connection's unique name when
+  # sandboxed (disable_dbus_name, AnInsomniacy/rayburst#825), so it needs no
+  # --own-name grant; before that it owned org.kde.StatusNotifierItem-2-1
+  # inside the sandbox and failed with ServiceUnknown without the grant.
   # tauri-plugin-single-instance's own well-known name sits under the app id, so
   # Flatpak already lets the app own it; it needs no grant of its own.
 modules:
@@ -96,9 +92,9 @@ modules:
         filename: rayburst.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.1.2/Rayburst_4.1.2_amd64.AppImage
-        sha256: 84f3cc8797ec03119f7049b50ee151dcba74c55d21f26496f63d6b781fb4a52d
-        size: 104290808
+        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.1.3-beta.1/Rayburst_4.1.3-beta.1_amd64.AppImage
+        sha256: 9b3197b12c164a294540f7216e5b3e667bf596e5b155b7b39f78f56070eeea64
+        size: 104327672
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
