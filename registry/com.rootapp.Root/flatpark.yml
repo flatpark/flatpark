@@ -1,0 +1,28 @@
+id: com.rootapp.Root
+name: Root
+summary: Chat, voice and video for communities
+website: https://www.rootapp.com/
+source_url: https://www.rootapp.com/download
+build:
+  manifest: com.rootapp.Root.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Network
+  upstream_approved: false
+  tags:
+    - Chat
+    - VoiceChat
+    - Community
+    - Messaging
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []
+packaging:
+  - kind: sandbox-off
+    detail:
+      en: "Root's embedded Chromium (DotNetBrowser) runs without its own sandbox: it needs user namespaces, which Flatpak does not allow, and Root itself retries with the sandbox off. The Flatpak sandbox still applies."
+      zh-Hans: "Root 内置的 Chromium（DotNetBrowser）不带自身沙箱运行：它需要用户命名空间，而 Flatpak 不允许，Root 自己会改为关闭沙箱重试。Flatpak 沙箱仍然有效。"

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Root's in-app Velopack updater only acts on an AppImage it can replace: it
+# reads $APPIMAGE, which is unset here, since FlatPark runs the unpacked tree.
+# Updates come through flatpak update.
+exec /app/extra/root/usr/bin/Root "$@"
