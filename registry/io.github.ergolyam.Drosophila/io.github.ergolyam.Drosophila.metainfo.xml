@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ergolyam.Drosophila</id>
+  <name>Drosophila</name>
+  <summary>Graphical interface for Yggdrasil-ng</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.ergolyam">
+    <name>ergolyam</name>
+  </developer>
+  <url type="homepage">https://github.com/ergolyam/Drosophila</url>
+  <url type="bugtracker">https://github.com/ergolyam/Drosophila/issues</url>
+  <url type="vcs-browser">https://github.com/ergolyam/Drosophila</url>
+  <description>
+    <p>This is a community package of Drosophila, maintained independently and published with the permission of its developer. It repackages the official upstream Linux release unmodified and follows upstream releases automatically.</p>
+    <p>Drosophila is a desktop application for running, configuring and monitoring an embedded Yggdrasil-ng node, written in Rust with GTK 4 and libadwaita.</p>
+    <ul>
+      <li>Run and monitor an embedded Yggdrasil-ng node.</li>
+      <li>Manage peers and the private key.</li>
+      <li>See the node's IPv6 address, subnet and peer status.</li>
+      <li>Connect through a TUN interface or a local HTTP/SOCKS5 proxy.</li>
+    </ul>
+    <p>Permissions: TUN mode starts Drosophila's own binary on the host through flatpak-spawn and PolicyKit (pkexec), limited to CAP_NET_ADMIN, so the host needs pkexec and a PolicyKit agent. The flatpak-spawn permission allows the app to run any host command.</p>
+    <p>The System Proxy mode does not change the host's proxy settings in this package: the sandbox has no access to the desktop's dconf settings. Use TUN or Proxy mode instead.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+  </categories>
+  <keywords>
+    <keyword>yggdrasil</keyword>
+    <keyword>overlay</keyword>
+    <keyword>vpn</keyword>
+    <keyword>socks</keyword>
+  </keywords>
+  <provides>
+    <binary>drosophila</binary>
+  </provides>
+  <launchable type="desktop-id">io.github.ergolyam.Drosophila.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/ergolyam/Drosophila/v2.2.1/xdg/main.png</image>
+      <caption>Node status and peers</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/ergolyam/Drosophila/v2.2.1/xdg/settings.png</image>
+      <caption>Settings</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.2.1" date="2026-11-07">
+      <description></description>
+    </release>
+  </releases>
+</component>

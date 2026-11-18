@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Drosophila
+Comment=Graphical interface for the Yggdrasil network
+Icon=io.github.ergolyam.Drosophila
+Type=Application
+Exec=drosophila
+Categories=Network;GTK;Utility;
+Keywords=yggdrasil;network;overlay;vpn;socks;gtk;
+Terminal=false

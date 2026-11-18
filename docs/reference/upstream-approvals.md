@@ -120,6 +120,7 @@ that PR link in the table — the PR itself is the evidence.
 | OpenTrader | `com.opentrader.app` | [deepentropy/opentrader#336 (comment)](https://github.com/deepentropy/opentrader/issues/336#issuecomment-6882680631) — deepentropy, OpenTrader's author and repo owner: "You're welcome to keep the listing"; the README lists FlatPark under Linux as a community-maintained install option, not officially supported, and asks that sandbox problems be reported upstream | 2026-11-15 |
 | Couchtunes | `io.github.captechomar.Couchtunes` | Requested by its developer, who asked for the listing: [flatpark#1286](https://github.com/flatpark/flatpark/issues/1286) — "I'm the developer, and I'm happy for it to be listed on FlatPark" | 2026-11-16 |
 | Dokument | `com.chipichapa.Dokument` | Approved by construction — submitted and maintained by its own developer ([flatpark#1310](https://github.com/flatpark/flatpark/pull/1310)) | 2026-11-17 |
+| Drosophila | `io.github.ergolyam.Drosophila` | Requested by its developer, who asked for the listing: [flatpark#1351](https://github.com/flatpark/flatpark/issues/1351) — "I'm the upstream developer of Drosophila … I explicitly approve the packaging and distribution of Drosophila through FlatPark"; they noted the package needs `--talk-name=org.freedesktop.Flatpak` for its TUN worker | 2026-11-17 |
 
 ## Declined
 
