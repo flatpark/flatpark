@@ -9,6 +9,13 @@ library_path = [
     "extra/gdbm/usr/lib/x86_64-linux-gnu",
 ]
 
+# SafeSign looks for its registry in $HOME/.safesign before /usr/share/safesign,
+# which the sandbox does not have. apply_extra.sh writes one there whose paths
+# point into this folder (jcdata.kit, which the older GD Burti needs to sign).
+# Only the driver's process gets this HOME; Token Administration does not.
+[env]
+HOME = "./extra/home"
+
 [[tools]]
 name = "Token Administration"
 exec = ["extra/tokenadmin"]
