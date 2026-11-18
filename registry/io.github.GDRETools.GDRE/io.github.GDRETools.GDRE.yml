@@ -1,0 +1,60 @@
+id: io.github.GDRETools.GDRE
+# Godot RE Tools is a standalone Godot application: the binary links only libc,
+# libm and its own NativeAOT helper, and brings its engine, toolkit and scripts
+# in the .pck. The freedesktop runtime provides what it leaves to the host
+# (display, GL/Vulkan, fonts and audio).
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: gdre
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Godot renders through GL/Vulkan and starts on Wayland or X11.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # The app's own file dialog browses the sandbox filesystem directly, and
+  # recovery writes the recovered project beside the input. Downloads holds
+  # the archives it opens; Documents holds projects and recovered output. The
+  # rest of the home directory stays opt-in (documented in the metainfo).
+  - --filesystem=xdg-download
+  - --filesystem=xdg-documents
+  # At startup the app asks GitHub for its latest release and reports the
+  # result in its status bar; without this it shows "Error: failed to check for
+  # latest version" on every launch. That check is the only network use.
+  - --share=network
+  # The resource preview plays audio streams and shows their waveform; sound
+  # goes through PulseAudio, as on the host.
+  - --socket=pulseaudio
+modules:
+  - name: gdre
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gdre-wrapper /app/bin/gdre
+      - install -Dm644 io.github.GDRETools.GDRE.desktop /app/share/applications/io.github.GDRETools.GDRE.desktop
+      - install -Dm644 io.github.GDRETools.GDRE.metainfo.xml /app/share/metainfo/io.github.GDRETools.GDRE.metainfo.xml
+      - install -Dm644 io.github.GDRETools.GDRE.svg /app/share/icons/hicolor/scalable/apps/io.github.GDRETools.GDRE.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: gdre_tools.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/GDRETools/gdsdecomp/releases/download/v2.7.4/GDRE_tools-v2.7.4-linux.zip
+        sha256: 3dc4f1244dda62e41e0c952ac00a69e60e07f3b0d5a211164806bf9d41a54758
+        size: 35295754
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gdre-wrapper
+      - type: file
+        path: io.github.GDRETools.GDRE.desktop
+      - type: file
+        path: io.github.GDRETools.GDRE.metainfo.xml
+      - type: file
+        path: io.github.GDRETools.GDRE.svg

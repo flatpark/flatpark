@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.GDRETools.GDRE</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Godot RE Tools</name>
+  <summary>Recover Godot projects, extract PCK archives and decompile GDScript</summary>
+
+  <description>
+    <p>
+      Godot RE Tools recovers a Godot project from a game's PCK archive, APK or
+      embedded executable: it extracts the files, decompiles the GDScript and
+      rebuilds the project directory, including imported resources converted
+      back to their source formats. It supports projects made with Godot 2.x,
+      3.x and 4.x.
+    </p>
+    <p>
+      It also extracts and creates PCK archives, batch-decompiles and compiles
+      GDScript bytecode, and converts resources between their text and binary
+      forms. The same operations are available from the command line with
+      <code>--headless</code>.
+    </p>
+    <p>
+      This is a community package: it installs the official Linux build from
+      upstream's releases unmodified and follows new releases automatically.
+    </p>
+    <p>
+      This package grants access to your Downloads and Documents folders only;
+      the rest of your home directory is not shared with the app. The app's own
+      file dialog browses the sandbox, so it opens project archives
+      from those folders and writes recovered projects beside them. To use a
+      folder elsewhere, add it:
+      <code>flatpak override --user --filesystem=/path/to/games io.github.GDRETools.GDRE</code>,
+      or grant the whole home directory:
+      <code>flatpak override --user --filesystem=home io.github.GDRETools.GDRE</code>.
+      Undo it with
+      <code>flatpak override --user --reset io.github.GDRETools.GDRE</code>.
+      The app's default output location is the Desktop, which is not granted;
+      choose a folder under Downloads or Documents with Select before
+      extracting, or add
+      <code>flatpak override --user --filesystem=xdg-desktop io.github.GDRETools.GDRE</code>.
+    </p>
+  </description>
+
+  <developer id="io.github.gdretools">
+    <name>GDRETools</name>
+  </developer>
+
+  <launchable type="desktop-id">io.github.GDRETools.GDRE.desktop</launchable>
+  <url type="homepage">https://github.com/GDRETools/gdsdecomp</url>
+  <url type="bugtracker">https://github.com/GDRETools/gdsdecomp/issues</url>
+  <url type="vcs-browser">https://github.com/GDRETools/gdsdecomp</url>
+
+  <provides>
+    <binary>gdre</binary>
+  </provides>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="2.7.4" date="2026-10-11">
+      <description>
+        <p>Fixes encrypted projects not opening, C# assemblies loaded from a PCK, a crash when exporting animation_library resources, and log spam after scene export.</p>
+      </description>
+    </release>
+  </releases>
+</component>

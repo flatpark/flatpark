@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Godot RE Tools
+GenericName=Godot Project Recovery
+Comment=Recover Godot projects, extract PCK archives and decompile GDScript
+Exec=gdre %F
+Icon=io.github.GDRETools.GDRE
+Terminal=false
+Categories=Development;
+Keywords=godot;gdscript;pck;decompiler;reverse;engineering;game;
+StartupWMClass=Godot RE Tools

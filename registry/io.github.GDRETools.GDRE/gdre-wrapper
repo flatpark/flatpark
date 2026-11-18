@@ -1,0 +1,6 @@
+#!/bin/sh
+# The release is a self-contained Godot application: the engine and all of the
+# app's scripts are in gdre_tools.pck beside the binary, and the binary finds
+# its NativeAOT helper through the $ORIGIN RUNPATH upstream set. No environment
+# variables or flags are needed, so this only starts it.
+exec /app/extra/gdre/gdre_tools.x86_64 "$@"

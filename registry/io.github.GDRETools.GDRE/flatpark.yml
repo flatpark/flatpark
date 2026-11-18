@@ -1,0 +1,20 @@
+id: io.github.GDRETools.GDRE
+name: Godot RE Tools
+summary: Recover Godot projects, extract PCK archives and decompile GDScript
+website: https://github.com/GDRETools/gdsdecomp
+source_url: https://github.com/GDRETools/gdsdecomp
+build:
+  manifest: io.github.GDRETools.GDRE.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Development
+  tags:
+    - Godot
+    - GDScript
+    - Decompiler
+    - Game Development
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
