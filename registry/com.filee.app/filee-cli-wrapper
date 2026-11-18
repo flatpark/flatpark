@@ -1,3 +1,6 @@
 #!/bin/sh
 set -eu
+# Match the desktop launcher's writable profile; the portable app directory
+# under /app/extra is read-only. Honour an explicit override if supplied.
+export FILEE_DATA_DIR="${FILEE_DATA_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/Filee}"
 exec /app/extra/filee/filee-cli "$@"
