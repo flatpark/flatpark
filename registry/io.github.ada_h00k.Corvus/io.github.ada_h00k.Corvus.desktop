@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Corvus
+GenericName=Messenger
+Comment=Desktop client for Signal
+Exec=corvus
+Icon=io.github.ada_h00k.Corvus
+Terminal=false
+Categories=Network;InstantMessaging;Qt;
+Keywords=signal;messenger;chat;
+StartupWMClass=corvus

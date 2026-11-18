@@ -1,0 +1,55 @@
+id: io.github.ada_h00k.Corvus
+runtime: org.kde.Platform
+runtime-version: "6.11"
+sdk: org.kde.Sdk
+command: corvus
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Signal servers (corvus-cli talks to them directly).
+  - --share=network
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Voice messages and video playback.
+  - --socket=pulseaudio
+  # Notification sounds are played with pw-play, which needs the default
+  # PipeWire socket (declared in flatpark.yml). Same grant as upstream's Flatpak.
+  - --filesystem=xdg-run/pipewire-0:ro
+  # New-message notifications and the tray icon.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # The key of the encrypted chat history is kept in the system keyring
+  # (qtkeychain via libsecret); a passphrase is the alternative.
+  - --talk-name=org.freedesktop.secrets
+modules:
+  - name: corvus
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 corvus-wrapper /app/bin/corvus
+      - install -Dm644 io.github.ada_h00k.Corvus.desktop /app/share/applications/io.github.ada_h00k.Corvus.desktop
+      - install -Dm644 io.github.ada_h00k.Corvus.metainfo.xml /app/share/metainfo/io.github.ada_h00k.Corvus.metainfo.xml
+      - install -Dm644 io.github.ada_h00k.Corvus.svg /app/share/icons/hicolor/scalable/apps/io.github.ada_h00k.Corvus.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: corvus.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/ada-h00k/Corvus/releases/download/v1.3.2/corvus-linux-x86_64-flatpark.tar.gz
+        sha256: 41a9a1a0c99e482cfc142c035f9d53abfe6b71dbe7c4598553193af06fd315fe
+        size: 136153197
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: corvus-wrapper
+      - type: file
+        path: io.github.ada_h00k.Corvus.desktop
+      - type: file
+        path: io.github.ada_h00k.Corvus.metainfo.xml
+      - type: file
+        path: io.github.ada_h00k.Corvus.svg
