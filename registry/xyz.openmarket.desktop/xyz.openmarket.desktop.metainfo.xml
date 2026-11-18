@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>xyz.openmarket.desktop</id>
+  <name>OpenMarket</name>
+  <summary>Charts, indicators, orders and an agent for many markets in one window</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer id="xyz.openmarket">
+    <name>OpenMarket</name>
+  </developer>
+  <url type="homepage">https://openmarket.xyz/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="contact">https://discord.gg/openmarket</url>
+  <description>
+    <p>This is a community package of OpenMarket for desktop, maintained independently. It repackages the official Linux AppImage unmodified, and is not affiliated with or supported by OpenMarket.</p>
+    <p>OpenMarket puts stocks, crypto, futures, options, forex and prediction markets on one live chart: candles, indicators, drawings, orders and an agent, layered in one window. The desktop app is in beta and needs an OpenMarket account.</p>
+    <p>Sign-in opens in your web browser and returns to the app when it is done.</p>
+    <p>Downloads are saved to your Downloads folder. The package has no other access to your files.</p>
+    <p>Updates come through Flatpak; the application's own update check does nothing in this package.</p>
+  </description>
+  <launchable type="desktop-id">xyz.openmarket.desktop.desktop</launchable>
+  <categories>
+    <category>Finance</category>
+  </categories>
+  <keywords>
+    <keyword>trading</keyword>
+    <keyword>markets</keyword>
+    <keyword>charts</keyword>
+    <keyword>stocks</keyword>
+    <keyword>crypto</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>openmarket</binary>
+  </provides>
+  <releases>
+    <release version="0.1.10" date="2026-11-07" />
+  </releases>
+</component>
