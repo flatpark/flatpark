@@ -26,5 +26,5 @@ policy:
 packaging:
   - kind: file-change
     detail:
-      en: "Token Administration runs through a small launcher that puts the driver's own libraries on the library path. GDBM, which the SafeSign library needs and the runtime lacks, comes from Ubuntu 24.04's packages. The package's /etc folder and install scripts are not used."
-      zh-Hans: "Token Administration 通过一个小启动脚本运行，把驱动自带的库加入库路径。SafeSign 库需要而运行时没有的 GDBM 取自 Ubuntu 24.04 的软件包。软件包的 /etc 目录和安装脚本不使用。"
+      en: "Token Administration runs through a small launcher that puts the driver's own libraries on the library path. GDBM, which the SafeSign library needs and the runtime lacks, comes from Ubuntu 24.04's packages. The package's /etc folder and install scripts are not used. A copy of SafeSign's registry file, with its paths pointing into the extension, is written at install time, so the driver finds its data files inside the sandbox; the vendor's file is left unchanged."
+      zh-Hans: "Token Administration 通过一个小启动脚本运行，把驱动自带的库加入库路径。SafeSign 库需要而运行时没有的 GDBM 取自 Ubuntu 24.04 的软件包。软件包的 /etc 目录和安装脚本不使用。安装时会生成一份 SafeSign 注册表文件的副本，其中的路径指向扩展内部，使驱动能在沙盒内找到其数据文件；厂商的原文件保持不变。"

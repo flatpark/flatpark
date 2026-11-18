@@ -32,6 +32,25 @@ lib=$(find usr -name 'libaetpkss.so*' \( -type f -o -type l \) | sort | head -n1
 [ -n "$lib" ] || { log "libaetpkss.so not found in the package"; exit 1; }
 ln -sf "$lib" libaetpkss.so
 
+# SafeSign's registry names its data files by where the package installs
+# them (/usr/share/safesign), which does not exist in Tessera's sandbox.
+# Without jcdata.kit the older GD Burti (StarSign Crypto USB Token, ATR
+# ...SCE60-CC081...) lists its certificates and takes the PIN, and then
+# every signature fails with CKR_DEVICE_ERROR; the StarSign CUT S does not
+# need the file. SafeSign reads $HOME/.safesign/registry before the system's
+# one, so a copy with the paths pointing here goes to home/, which
+# driver.toml sets as the driver's HOME. The vendor's file is left as it is.
+reg=usr/share/safesign/registry
+mkdir -p home/.safesign
+if [ -f "$reg" ] &&
+    sed "s|/usr/share/safesign/|$final/usr/share/safesign/|g" "$reg" > home/.safesign/registry &&
+    grep -q "$final/usr/share/safesign/jcdata.kit" home/.safesign/registry; then
+    :
+else
+    rm -f home/.safesign/registry
+    log "no registry with jcdata.kit in the package; older GD Burti tokens may not sign"
+fi
+
 # GDBM for libaetpkss.so, which the runtime lacks (the AUR package depends
 # on gdbm), from Ubuntu 24.04.
 for g in gdbm.deb gdbm-compat.deb; do
