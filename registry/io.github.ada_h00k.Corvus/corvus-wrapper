@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# Upstream's Flatpak build installs corvus, corvus-cli and qrencode in /app/bin
+# and qtkeychain in /app/lib; here they are under /app/extra/corvus. corvus
+# looks up corvus-cli on PATH.
+export PATH="/app/extra/corvus/bin:$PATH"
+export LD_LIBRARY_PATH="/app/extra/corvus/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec /app/extra/corvus/bin/corvus "$@"
