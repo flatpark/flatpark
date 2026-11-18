@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read the version and total size from the official rolling Debian download.
+# Read the version, total size and Last-Modified date from the official rolling Debian download.
 # The range is intentionally bounded; a changed archive layout fails closed.
 set -euo pipefail
 
@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 import tarfile
+from email.utils import parsedate_to_datetime
 
 URL = "https://www.eudic.net/download/eudic.deb"
 LIMIT = 200001
@@ -18,13 +19,13 @@ def resolve():
     response = subprocess.run(
         ["curl", "-fsSL", "--max-time", "30", "--max-filesize", str(LIMIT),
          "-H", "Accept-Encoding: identity", "-r", f"0-{LIMIT - 1}",
-         "-w", "\n%{http_code} %header{content-range}\n", URL],
+         "-w", "\n%{http_code} %header{content-range}\t%header{last-modified}\n", URL],
         stdout=subprocess.PIPE, check=True,
     ).stdout
     if len(response) <= LIMIT or response[LIMIT:LIMIT + 1] != b"\n":
         raise ValueError("invalid response length")
     data = response[:LIMIT]
-    metadata = response[LIMIT + 1:].decode("ascii").strip()
+    metadata, _, modified = response[LIMIT + 1:].decode("ascii").strip().partition("\t")
     match = re.fullmatch(r"206 bytes 0-(\d+)/(\d+)", metadata)
     if not match:
         raise ValueError("server did not return the requested byte range")
@@ -73,7 +74,13 @@ def resolve():
         raise ValueError("unexpected Debian package or architecture")
     if not re.fullmatch(r"[0-9][A-Za-z0-9.+:~\-]*", version):
         raise ValueError("invalid or missing Debian version")
-    return {"version": version, "sources": [{"filename": "eudic.deb", "url": URL, "size": total}]}
+    result = {"version": version, "sources": [{"filename": "eudic.deb", "url": URL, "size": total}]}
+    # Upstream publishes no release date; the rolling file's Last-Modified is the closest.
+    try:
+        result["releaseDate"] = parsedate_to_datetime(modified).date().isoformat()
+    except (TypeError, ValueError):
+        pass
+    return result
 
 try:
     print(json.dumps(resolve(), ensure_ascii=True))

@@ -11,12 +11,13 @@ finish-args:
   - --share=network
   # The bundled Qt 5 build supplies the X11 platform plugin only.
   - --socket=x11
+  # Only the xcb platform plugin ships; a host QT_QPA_PLATFORM=wayland would
+  # make Qt abort, so drop the inherited value and let the wrapper default it.
+  - --unset-env=QT_QPA_PLATFORM
   - --socket=pulseaudio
   - --device=dri
-  # Preserve user-installed fonts and cursor themes for the X11 client.
-  - --filesystem=xdg-data/fonts:ro
-  - --filesystem=xdg-data/icons:ro
-  # Qt 5 registers this status notifier name in its PID namespace.
+  # Qt 5 owns org.kde.StatusNotifierItem-<pid>-<n>. The wrapper execs eudic,
+  # so it is PID 2 in the sandbox; a wrapper step that forks would break the tray.
   - --talk-name=org.kde.StatusNotifierWatcher
   - --own-name=org.kde.StatusNotifierItem-2-1
 modules:
@@ -28,7 +29,6 @@ modules:
       - install -Dm644 net.eudic.dict.desktop /app/share/applications/net.eudic.dict.desktop
       - install -Dm644 net.eudic.dict.metainfo.xml /app/share/metainfo/net.eudic.dict.metainfo.xml
       - install -Dm644 net.eudic.dict.png /app/share/icons/hicolor/256x256/apps/net.eudic.dict.png
-      - install -Dm644 fonts.conf /app/etc/eudic/fonts.conf
     sources:
       # The vendor replaces this unversioned file; pin refresh is needed on updates.
       # BEGIN MANAGED EXTRA-DATA
@@ -49,5 +49,3 @@ modules:
         path: net.eudic.dict.metainfo.xml
       - type: file
         path: net.eudic.dict.png
-      - type: file
-        path: fonts.conf

@@ -7,5 +7,5 @@ Comment[zh_CN]=词典与语言学习
 Exec=eudic-wrapper %F
 Icon=net.eudic.dict
 Terminal=false
-Categories=Education;Utility;Dictionary;TextTools;
+Categories=Education;Dictionary;
 StartupNotify=true
