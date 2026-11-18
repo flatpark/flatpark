@@ -23,10 +23,10 @@
       <li>Every menu item, tool and panel can be driven by AI agents over a JSON control channel</li>
     </ul>
     <p>The headless command runner and MCP server is included: <code>flatpak run --command=vectorcraft-cli ai.storyteller.vectorcraft --help</code></p>
-    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, and the Pictures folder. Files anywhere else are opened and saved through the system file chooser. No network access is granted.</p>
+    <p>Permissions: this package uses the same sandbox as upstream's own Flatpak manifest: display (Wayland, with X11 as a fallback), the GPU device, the Pictures folder, and printing through the host's CUPS. Saved printer settings in ~/.cups are read, not written. Files anywhere else are opened and saved through the system file chooser. No network access is granted, so a print server named by address in ~/.cups is not reachable until the network override below is set.</p>
     <p>Optional overrides:</p>
     <ul>
-      <li>Let agents on the host reach the <code>--control</code> automation server: <code>flatpak override --user --share=network ai.storyteller.vectorcraft</code></li>
+      <li>Let agents on the host reach the <code>--control</code> automation server, or print through a CUPS server on the network: <code>flatpak override --user --share=network ai.storyteller.vectorcraft</code></li>
       <li>Open files by path anywhere in your home folder (command line, Open Recent): <code>flatpak override --user --filesystem=home ai.storyteller.vectorcraft</code></li>
     </ul>
   </description>
