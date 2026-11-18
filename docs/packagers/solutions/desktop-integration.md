@@ -140,3 +140,19 @@ directories they write to, `--nofilesystem=xdg-data/applications` and
 launch at login is a feature the sandbox can't offer that way. A Wine prefix's
 installer can also drop shortcuts on the host's desktop unless the prefix's
 desktop folder is redirected inside the sandbox.
+
+### Links in the app's own scheme don't open it
+
+An app that registers its URL scheme at run time writes its own desktop entry
+with the `MimeType=` line; the desktop file it ships may not have one at all.
+In the sandbox that entry lands in `~/.var/app/<id>/data/applications`, which
+the host never reads, so `myapp://` links open nothing and nothing logs an
+error. Declare the scheme in the package's desktop file,
+`MimeType=x-scheme-handler/<scheme>;` with `%u` or `%U` in `Exec=`. Find it in
+upstream's docs, links on its site, or the binary
+(`strings -el <binary> | grep -i x-scheme-handler`, a `…UriSchemeRegistrar`
+class; `-el` because .NET stores strings as UTF-16). Test with
+`xdg-mime query default x-scheme-handler/<scheme>` and `xdg-open`, once with
+the app closed and once with it running; the second launch should hand the
+link over and exit ([Root](../../../registry/com.rootapp.Root/com.rootapp.Root.desktop),
+flatpark#1354).

@@ -147,6 +147,9 @@ before the PR. Each item links to the page that explains it.
 - Never delete a file listed in `<App>.deps.json`, even an unused native
   library: the host checks every entry at start and aborts if one is missing.
 - Avalonia tray: `--own-name=org.kde.*` ([tray](desktop-integration.md#tray-icon-missing)).
+- URL scheme: an app that registers it at run time (Root) needs it declared in
+  the package's desktop file
+  ([scheme links](desktop-integration.md#links-in-the-apps-own-scheme-dont-open-it)).
 
 ### Java
 
