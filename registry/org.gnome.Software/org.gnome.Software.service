@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.gnome.Software
+Exec=/app/bin/gnome-software --gapplication-service
+SystemdService=gnome-software.service

@@ -1,0 +1,42 @@
+id: org.gnome.Software
+name: Software
+summary: Install and update apps, an unofficial fork of GNOME Software
+website: https://gitlab.gnome.org/user_c1a5830a/gnome-software-next
+source_url: https://gitlab.gnome.org/user_c1a5830a/gnome-software-next
+build:
+  manifest: org.gnome.Software.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: System
+  upstream_approved: true
+  tags:
+    - Software Center
+    - Updates
+    - Flatpak
+    - PackageKit
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  # A software manager for the host: installing and updating Flatpak apps,
+  # the distribution's packages and firmware is its main feature. Each of
+  # these goes through the service that owns it, which asks through polkit
+  # before system-wide changes.
+  dangerous_permissions:
+    - --filesystem=/var/lib/flatpak
+    - --talk-name=org.freedesktop.Flatpak
+    - --system-talk-name=org.freedesktop.Flatpak.SystemHelper
+    - --system-talk-name=org.freedesktop.PackageKit
+    - --system-talk-name=org.rpm.dnf.v0
+    - --system-talk-name=org.projectatomic.rpmostree1
+    - --system-talk-name=org.freedesktop.fwupd
+    - --filesystem=~/.var/app
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "Software itself runs some commands on your system through flatpak-spawn, as part of managing it: it launches the apps you open from it (flatpak run, gio launch, snap run), queries rpm-ostree and fedora-third-party, mounts Flatpak downloads with the host's fusermount, and stops the system's own Software when it takes over checking for updates. The package adds no commands of its own; its launcher only sets the paths of the build."

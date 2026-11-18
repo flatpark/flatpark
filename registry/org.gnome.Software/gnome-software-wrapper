@@ -1,0 +1,10 @@
+#!/bin/sh
+# The build is made for /app/extra/gnome-software-next (its plugins, schemas
+# and translations have that path compiled in); its bundled libraries
+# (flatpak, ostree, fwupd, appstream, PackageKit) and helpers (bwrap,
+# xdg-dbus-proxy, fusermount) come from there.
+P=/app/extra/gnome-software-next
+export LD_LIBRARY_PATH=$P/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+export PATH=$P/bin:$PATH
+export XDG_DATA_DIRS=$P/share:${XDG_DATA_DIRS:-/app/share:/usr/share}
+exec $P/bin/gnome-software "$@"

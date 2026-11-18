@@ -1,0 +1,126 @@
+id: org.gnome.Software
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: gnome-software
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A software manager for the host: everything below is its main feature.
+  # The build bundles its own flatpak, ostree, fwupd, appstream and
+  # PackageKit libraries; the rest comes from org.gnome.Platform 51, which
+  # it is built against.
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Settings: the user's dconf, so the settings are shared with the host's
+  # Software (update preferences, repositories) and survive a switch.
+  - --filesystem=xdg-run/dconf
+  - --filesystem=~/.config/dconf:ro
+  - --talk-name=ca.desrt.dconf
+  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
+  # Flatpak apps: the system and user installations, through libflatpak and
+  # the system helper (polkit asks before system-wide changes). The data of
+  # an app is removed with it on request (~/.var/app). /var/tmp holds the
+  # downloads the system helper deploys.
+  - --filesystem=/var/lib/flatpak
+  - --filesystem=xdg-data/flatpak
+  - --filesystem=/var/tmp
+  - --filesystem=~/.var/app
+  - --env=FLATPAK_SYSTEM_DIR=/var/lib/flatpak
+  - --env=FLATPAK_BINARY=/usr/bin/flatpak
+  - --system-talk-name=org.freedesktop.Flatpak.SystemHelper
+  - --talk-name=org.freedesktop.Flatpak
+  - --talk-name=org.flatpak.Authenticator.*
+  # libflatpak tells from the loaded kernel modules (nvidia, i915) whether
+  # the GL and VA-API driver extensions are in use; without it, it removes
+  # them as unused and installs them again on the next update.
+  - --filesystem=/sys/module:ro
+  # The distribution's packages, updates and firmware: its package manager's
+  # daemon on the system bus (PackageKit, dnf5, rpm-ostree), fwupd, and the
+  # host's own catalogue and configuration to show them (AppStream data,
+  # os-release, repository files, GSettings overrides of the distribution).
+  - --filesystem=host-os:ro
+  - --filesystem=host-etc:ro
+  - --filesystem=/var/lib/swcatalog:ro
+  - --filesystem=/var/cache/swcatalog:ro
+  - --filesystem=/var/lib/app-info:ro
+  - --filesystem=/var/cache/app-info:ro
+  - --filesystem=/var/lib/apt/lists:ro
+  - --filesystem=/var/lib/PackageKit:ro
+  - --system-talk-name=org.freedesktop.PackageKit
+  - --system-talk-name=org.rpm.dnf.v0
+  - --system-talk-name=org.rpm.announce
+  - --system-talk-name=org.projectatomic.rpmostree1
+  - --system-talk-name=org.freedesktop.fwupd
+  # Other apps ask Software to install a package or codec through the
+  # PackageKit session interface, which it provides, as the host's Software
+  # does.
+  - --own-name=org.freedesktop.PackageKit
+  # Snap packages on Ubuntu, through snapd.
+  - --filesystem=/run/snapd.socket
+  - --filesystem=~/snap:ro
+  - --filesystem=~/.snap:ro
+  # polkit, the language of the system, power and session state for
+  # updates: not on battery, restart and shut down to install them; the
+  # accounts service, as for the host's Software.
+  - --system-talk-name=org.freedesktop.Accounts
+  - --system-talk-name=org.freedesktop.PolicyKit1
+  - --system-talk-name=org.freedesktop.login1
+  - --system-talk-name=org.freedesktop.UPower
+  - --system-talk-name=org.freedesktop.locale1
+  - --talk-name=org.gnome.SessionManager
+  # the user unit of the background service below
+  - --talk-name=org.freedesktop.systemd1
+  # Web apps, installed and launched through Epiphany.
+  - --talk-name=org.gnome.Epiphany.WebAppProvider
+  - --talk-name=org.gtk.vfs.*
+  # Checking for updates in the background: Software adds itself to the
+  # session (a systemd user unit and an autostart entry) when the user turns
+  # it on, as the host's Software does.
+  - --filesystem=xdg-config/systemd/user:create
+  - --filesystem=xdg-config/autostart:create
+  # The icons the host's Software downloaded, which the distribution's
+  # catalogue names by their path there.
+  - --filesystem=~/.cache/gnome-software:ro
+modules:
+  - name: gnome-software-next
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 gnome-software-wrapper /app/bin/gnome-software
+      - install -Dm644 org.gnome.Software.desktop -t /app/share/applications
+      - install -Dm644 org.gnome.Software.metainfo.xml -t /app/share/metainfo
+      - install -Dm644 org.gnome.Software.service -t /app/share/dbus-1/services
+      - install -Dm644 org.gnome.Software-search-provider.ini -t /app/share/gnome-shell/search-providers
+      - install -Dm644 org.gnome.Software.svg -t /app/share/icons/hicolor/scalable/apps
+      - install -Dm644 org.gnome.Software-symbolic.svg -t /app/share/icons/hicolor/symbolic/apps
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.tar.xz
+        only-arches:
+          - x86_64
+        url: https://gitlab.gnome.org/api/v4/projects/user_c1a5830a%2Fgnome-software-next/packages/generic/gnome-software-next/51.1.822.g4587eab25/gnome-software-next-51.1.822.g4587eab25-x86_64.tar.xz
+        sha256: 072635a80cbada6f83f8a2dd5b1188235b490b2eebc82e167ebaba8bb40a8446
+        size: 8726280
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: gnome-software-wrapper
+      - type: file
+        path: org.gnome.Software.desktop
+      - type: file
+        path: org.gnome.Software.metainfo.xml
+      - type: file
+        path: org.gnome.Software.service
+      - type: file
+        path: org.gnome.Software-search-provider.ini
+      - type: file
+        path: org.gnome.Software.svg
+      - type: file
+        path: org.gnome.Software-symbolic.svg
