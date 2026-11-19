@@ -26,6 +26,12 @@
       details and search, and it checks for updates in the background once
       you turn that on. Your settings are shared with the system's Software.
     </p>
+    <p>
+      Background updates replace the system's Software service with a user
+      unit, ~/.config/systemd/user/gnome-software.service, which stays after
+      the app is uninstalled and then starts the system's Software again. To
+      go back, delete that file and run systemctl --user daemon-reload.
+    </p>
   </description>
   <launchable type="desktop-id">org.gnome.Software.desktop</launchable>
   <provides>
