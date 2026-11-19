@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# The official tarball is staged by apply_extra at /app/extra/openmeters.
+# Nothing else is needed here: Flatpak provides the display and PipeWire
+# sockets, and the runtime provides every shared library the binary links.
+exec /app/extra/openmeters/bin/openmeters "$@"
