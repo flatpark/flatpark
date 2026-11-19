@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+# Hypersomnia's AppDir is unpacked by apply_extra into /app/extra/hypersomnia.
+# The game reads its content relative to the working directory, which the
+# AppImage's AppRun also sets to usr/share/hypersomnia, so keep that directory
+# and hand the original one to --calling-cwd for relative command-line paths.
+#
+# AppRun also passes --appimage-path, which turns on the game's self-updater.
+# An updated AppImage cannot be written back into this read-only tree, so the
+# package leaves that flag out, disables the update check with
+# --no-update-on-launch, and updates arrive as Flatpak updates instead.
+calling_cwd="$(pwd)"
+cd /app/extra/hypersomnia/usr/share/hypersomnia
+
+exec /app/extra/hypersomnia/usr/bin/Hypersomnia \
+    --calling-cwd "$calling_cwd" \
+    --appdata-dir "${XDG_CONFIG_HOME:-$HOME/.config}/Hypersomnia" \
+    --no-update-on-launch \
+    "$@"

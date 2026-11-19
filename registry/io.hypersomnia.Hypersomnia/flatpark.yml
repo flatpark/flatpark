@@ -1,0 +1,38 @@
+# FlatPark catalog descriptor for Hypersomnia.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; io.hypersomnia.Hypersomnia.yml is the Flatpak
+# manifest it points at.
+#
+# The app id is upstream's own: cmake/linux_install.cmake installs the desktop
+# entry, icon and metainfo as io.hypersomnia.Hypersomnia, so this package is
+# the same application rather than a rival ref.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: io.hypersomnia.Hypersomnia
+name: Hypersomnia
+summary: Community-driven multiplayer top-down shooter
+website: https://hypersomnia.io/
+source_url: https://github.com/TeamHypersomnia/Hypersomnia
+build:
+  manifest: io.hypersomnia.Hypersomnia.yml
+  branch: stable
+  mode: extra-data
+  arches:
+    - x86_64
+catalog:
+  category: Game
+  upstream_approved: false
+  tags:
+    - Multiplayer
+    - Shooter
+    - Top-down
+    - Pixel Art
+    - Map Editor
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

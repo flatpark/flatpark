@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Hypersomnia
+GenericName=Top-down shooter
+Comment=Community-driven multiplayer top-down shooter
+Exec=hypersomnia
+Icon=io.hypersomnia.Hypersomnia
+Terminal=false
+Categories=Game;
+Keywords=shooter;multiplayer;top-down;pixel;arena;editor;
+StartupNotify=false
+StartupWMClass=Hypersomnia
+PrefersNonDefaultGPU=true
