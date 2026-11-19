@@ -1,0 +1,75 @@
+id: io.github.bramble_apps.Keydeck
+# The freedesktop base, as upstream's own Flatpak bundle uses: Keydeck is a
+# Rust app drawn with egui and wgpu on winit, and needs neither GTK nor Qt.
+# The binary links only glibc and libgcc_s; libwayland, X11, xkbcommon and the
+# Vulkan/GL loaders are opened from the runtime at run time.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: keydeck
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The permissions upstream's own Flatpak bundle is built with
+# (keynote-linux/tools/suite/flatpak.sh and .github/workflows/build.yml in
+# bramble-apps/bramble-office), plus a persisted ~/.local/share/keydeck.
+finish-args:
+  # Display: Wayland, with X11 when there is no Wayland session.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu renders on the GPU.
+  - --device=dri
+  # Sound: slide audio and video soundtracks play, and Record Slideshow
+  # records narration through PipeWire's pw-record over the PulseAudio socket.
+  - --socket=pulseaudio
+  # Web videos (Insert > Web Video): the page's title and poster, and
+  # Help > Update Video Support, which downloads yt-dlp into the app's data.
+  - --share=network
+  # Help > Update Video Support puts yt-dlp and Deno in ~/.local/share/keydeck/bin,
+  # outside the XDG data directory Flatpak redirects; web videos play with
+  # them. Without this they land in the sandbox's temporary home and are gone
+  # at the next start. --persist keeps the folder under ~/.var/app/<id>.
+  - --persist=.local/share/keydeck
+  # Files: no filesystem grant, as upstream ships it. Open, Save and Insert go
+  # through the file-chooser portal, and a file opened from the file manager
+  # is handed over through the document portal.
+modules:
+  - name: keydeck
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 keydeck-wrapper /app/bin/keydeck
+      - install -Dm644 io.github.bramble_apps.Keydeck.desktop /app/share/applications/io.github.bramble_apps.Keydeck.desktop
+      - install -Dm644 io.github.bramble_apps.Keydeck.metainfo.xml /app/share/metainfo/io.github.bramble_apps.Keydeck.metainfo.xml
+      - install -Dm644 io.github.bramble_apps.Keydeck.png /app/share/icons/hicolor/512x512/apps/io.github.bramble_apps.Keydeck.png
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: keydeck.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/bramble-apps/bramble-office/releases/download/v0.5.2/Keydeck-x86_64.AppImage
+        sha256: 9cc7172e8554720c56e7e83dedfeec22e2949fa8f4ff4c72a8461a22f3d32478
+        size: 99588600
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: keydeck-wrapper
+      - type: file
+        path: io.github.bramble_apps.Keydeck.desktop
+      - type: file
+        path: io.github.bramble_apps.Keydeck.metainfo.xml
+      - type: file
+        path: io.github.bramble_apps.Keydeck.png
