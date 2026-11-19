@@ -1,0 +1,53 @@
+id: io.github.httpsworldview.OpenMeters
+# Upstream publishes one relocatable Linux tarball for x86_64, built on
+# Ubuntu 24.04. Its binary links only glibc, libgcc_s and libpipewire; Wayland,
+# X11, xkbcommon, Vulkan/EGL and the Mesa stack are in the 26.08 runtime.
+# Nothing is built here: this module installs the launcher, desktop entry,
+# icon and AppStream data, while the tarball arrives as extra-data.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: openmeters
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # wgpu draws every visual on the GPU.
+  - --device=dri
+  # OpenMeters is a native PipeWire client. It calls pw_context_connect(),
+  # which opens $XDG_RUNTIME_DIR/pipewire-0, so the session socket has to be
+  # inside the sandbox before it can meter any application or device. The
+  # grant and its scope are declared in policy.dangerous_permissions.
+  - --filesystem=xdg-run/pipewire-0
+modules:
+  - name: openmeters
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openmeters-wrapper /app/bin/openmeters
+      - install -Dm644 io.github.httpsworldview.OpenMeters.desktop /app/share/applications/io.github.httpsworldview.OpenMeters.desktop
+      - install -Dm644 io.github.httpsworldview.OpenMeters.metainfo.xml /app/share/metainfo/io.github.httpsworldview.OpenMeters.metainfo.xml
+      - install -Dm644 io.github.httpsworldview.OpenMeters.svg /app/share/icons/hicolor/scalable/apps/io.github.httpsworldview.OpenMeters.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openmeters.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/httpsworldview/openmeters/releases/download/v1.18.0/openmeters-1.18.0-x86_64-linux-gnu.tar.xz
+        sha256: 1227e8324037c2aa4ea5919b8f26f15edd54cf78b3f5d73a71589c4a9255b6e5
+        size: 4368564
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openmeters-wrapper
+      - type: file
+        path: io.github.httpsworldview.OpenMeters.desktop
+      - type: file
+        path: io.github.httpsworldview.OpenMeters.metainfo.xml
+      - type: file
+        path: io.github.httpsworldview.OpenMeters.svg

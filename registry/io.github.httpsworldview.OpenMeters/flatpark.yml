@@ -1,0 +1,28 @@
+id: io.github.httpsworldview.OpenMeters
+name: OpenMeters
+summary: Fast and professional audio metering for Linux
+website: https://github.com/httpsworldview/openmeters
+source_url: https://github.com/httpsworldview/openmeters
+build:
+  manifest: io.github.httpsworldview.OpenMeters.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: AudioVideo
+  tags:
+    - Audio
+    - Metering
+    - PipeWire
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # OpenMeters is a native PipeWire client: it connects to the session's
+    # pipewire-0 socket to read every application and device stream it can
+    # meter. The grant is the whole core feature, not an optional extra; it
+    # also opens every audio stream, and other clients' media such as cameras
+    # and screen-share streams, to the sandbox
+    # (docs/packagers/permissions.md#the-pipewire-socket).
+    - --filesystem=xdg-run/pipewire-0

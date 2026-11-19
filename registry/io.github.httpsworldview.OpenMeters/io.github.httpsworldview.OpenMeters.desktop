@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=OpenMeters
+GenericName=Audio Meter
+Comment=Real-time loudness, spectrum and waveform metering for PipeWire
+Exec=openmeters
+TryExec=openmeters
+Icon=io.github.httpsworldview.OpenMeters
+Terminal=false
+StartupNotify=true
+Categories=AudioVideo;Audio;
+Keywords=audio;meter;pipewire;spectrum;loudness;oscilloscope;waveform;stereo;
+StartupWMClass=openmeters-ui

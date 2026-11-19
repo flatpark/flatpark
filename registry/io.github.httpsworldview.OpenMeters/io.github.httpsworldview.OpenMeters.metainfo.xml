@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.httpsworldview.OpenMeters</id>
+  <name>OpenMeters</name>
+  <summary>Fast and professional audio metering for Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.httpsworldview">
+    <name>httpsworldview</name>
+  </developer>
+  <url type="homepage">https://github.com/httpsworldview/openmeters</url>
+  <url type="bugtracker">https://github.com/httpsworldview/openmeters/issues</url>
+  <url type="vcs-browser">https://github.com/httpsworldview/openmeters</url>
+  <url type="help">https://github.com/httpsworldview/openmeters#readme</url>
+  <description>
+    <p>This is a community package of OpenMeters, maintained independently and unaffiliated with its developers. It repackages the official upstream Linux release build unmodified.</p>
+    <p>OpenMeters is an audio metering and visualisation application for Linux. It captures audio through PipeWire and shows, in real time, what the signal is doing: loudness in LUFS and true peak, a spectrogram with time-frequency reassignment, a spectrum analyser, an oscilloscope with a stable waveform trigger, a stereometer and a scrolling waveform.</p>
+    <p>Each visual has its own settings and can be rearranged, paused, or popped out into a separate window. It can meter a single application or a whole device, and on Wayland compositors that support layer-shell it can run as a bar along the edge of a monitor. Themes and settings are saved as editable JSON files.</p>
+    <p>Sandbox: display sockets, GPU rendering, and direct access to the session's PipeWire socket. OpenMeters uses a native PipeWire connection for its core metering feature, so this package grants <code>--filesystem=xdg-run/pipewire-0</code>.</p>
++   <p>Privacy: this grant exposes the session's entire PipeWire graph, including other applications' audio and potentially camera and screen-sharing streams, without the usual portal permission prompts. The app can also connect streams. The package does not grant general network or host filesystem access. Settings and themes remain in the app's own configuration directory.</p>
+  </description>
+  <launchable type="desktop-id">io.github.httpsworldview.OpenMeters.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <keywords>
+    <keyword>audio</keyword>
+    <keyword>meter</keyword>
+    <keyword>pipewire</keyword>
+    <keyword>spectrum</keyword>
+    <keyword>loudness</keyword>
+    <keyword>oscilloscope</keyword>
+    <keyword>waveform</keyword>
+    <keyword>stereo</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>openmeters</binary>
+  </provides>
+  <releases>
+    <release version="1.18.0" date="2026-11-14">
+      <url type="details">https://github.com/httpsworldview/openmeters/releases/tag/v1.18.0</url>
+    </release>
+  </releases>
+</component>
