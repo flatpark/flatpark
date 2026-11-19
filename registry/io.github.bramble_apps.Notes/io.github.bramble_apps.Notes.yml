@@ -1,0 +1,98 @@
+id: io.github.bramble_apps.Notes
+# The freedesktop base, as upstream's own Flatpak bundle uses: Bramble Notes is a
+# Rust app drawn with egui and wgpu on winit, and needs neither GTK nor Qt.
+# The binary links only glibc and libgcc_s; libwayland, X11, xkbcommon and the
+# Vulkan/GL loaders are opened from the runtime at run time.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: bramble-notes
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The permissions upstream's own Flatpak bundle is built with
+# (keynote-linux/tools/suite/flatpak.sh and .github/workflows/build.yml in
+# bramble-apps/bramble-office), plus
+# Avahi and a read-only ~/.cups for printing, less net.reactivated.Fprint:
+# fingerprint unlock runs the host's fprintd-list and fprintd-verify, which
+# the sandbox doesn't have, so the option stays greyed out either way.
+finish-args:
+  # Display: Wayland, with X11 when there is no Wayland session.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu renders on the GPU.
+  - --device=dri
+  # Sound: audio attachments play, and Edit > Record Audio reads the
+  # microphone (rodio over ALSA, which the runtime routes to PulseAudio).
+  - --socket=pulseaudio
+  # Sync through the user's own WebDAV storage (Nextcloud, Koofr...).
+  - --share=network
+  # Printing. File > Print lists printers with lpstat and sends the job with
+  # lp. The runtime has libcups but not those tools, and without the CUPS
+  # socket the printer list stays empty; the cups-client module below ships
+  # them. Avahi is how lpstat finds driverless printers. ~/.cups is read-only:
+  # the default printer, saved options and a ServerName.
+  - --socket=cups
+  - --system-talk-name=org.freedesktop.Avahi
+  - --filesystem=~/.cups:ro
+  # Files: no filesystem grant, as upstream ships it. Open, Save and Insert go
+  # through the file-chooser portal, and a file opened from the file manager
+  # is handed over through the document portal.
+modules:
+  # CUPS client tools for File > Print: lp, lpstat and lpoptions, from
+  # FlatPark's prebuilt cups-client stack (CUPS 2.4.20, libcups linked
+  # statically, with a wrapper that finds the CUPS socket Flatpak mounted).
+  # apply_extra unpacks it to /app/extra/cups-client; the links below put the
+  # tools on PATH and dangle until then. Extra-data, not built here: a
+  # dependency is never compiled in an app's manifest (docs/packagers/prebuilt.md).
+  - name: cups-client
+    buildsystem: simple
+    build-commands:
+      - for tool in lp lpoptions lpstat; do install -d /app/bin; ln -s "/app/extra/cups-client/bin/$tool" "/app/bin/$tool"; done
+    sources:
+      - type: extra-data
+        filename: cups-client.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/cups-client-v1/cups-client-cups-client-v1-fd-26.08-x86_64.tar.xz
+        sha256: a96f57051ab61c98c73d99fed4dbe05a040fb2d1dbd353e1241d79b3aefea851
+        size: 266076
+  - name: bramble-notes
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 bramble-notes-wrapper /app/bin/bramble-notes
+      - install -Dm644 io.github.bramble_apps.Notes.desktop /app/share/applications/io.github.bramble_apps.Notes.desktop
+      - install -Dm644 io.github.bramble_apps.Notes.metainfo.xml /app/share/metainfo/io.github.bramble_apps.Notes.metainfo.xml
+      - install -Dm644 io.github.bramble_apps.Notes.png /app/share/icons/hicolor/512x512/apps/io.github.bramble_apps.Notes.png
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: bramble-notes.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/bramble-apps/bramble-office/releases/download/v0.5.2/Bramble-Notes-x86_64.AppImage
+        sha256: 66698d12d321108d63f2c519d9e1545bfefce26aecb2a5ef346664637e2a63b7
+        size: 44886520
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: bramble-notes-wrapper
+      - type: file
+        path: io.github.bramble_apps.Notes.desktop
+      - type: file
+        path: io.github.bramble_apps.Notes.metainfo.xml
+      - type: file
+        path: io.github.bramble_apps.Notes.png

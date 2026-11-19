@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Bramble Notes
+Comment=Write notes, checklists and tables
+Exec=bramble-notes
+Icon=io.github.bramble_apps.Notes
+Terminal=false
+Categories=Office;
+Keywords=notes;notepad;checklist;todo;sync;webdav;
+StartupWMClass=io.github.bramble_apps.Notes
