@@ -1,12 +1,12 @@
 #!/bin/sh
 set -eu
 
-# NyaTerm Preview (the 2.0 GPUI rewrite) is a native window, nyaterm, with three
-# helpers it starts from its own directory: nyaterm-rdp-helper,
-# nyaterm-vnc-helper and nyaterm-mcp. apply_extra stages them together at
-# /app/extra/nyaterm-preview. Hosts, keys, settings and the single-instance lock
-# live in ~/.nyaterm-preview, which the home grant covers, so the data is the
-# same as with the upstream .deb.
+# NyaTerm 2.x is a native GPUI window, nyaterm, with helpers it starts from its
+# own directory: nyaterm-rdp-helper, nyaterm-vnc-helper, nyaterm-mcp and
+# nyaterm-android-helper. apply_extra stages them together at
+# /app/extra/nyaterm. Hosts, keys, settings and the single-instance lock live
+# in ~/.nyaterm, which the home grant covers, so the data is the same as with
+# the upstream .deb.
 
 # The window draws text with cosmic-text/fontdb, which parses one fontconfig
 # file by itself and reads only its <dir> elements, so neither the host fonts
@@ -18,7 +18,7 @@ set -eu
 # This deliberately replaces a FONTCONFIG_FILE the user may have set for all
 # apps: keeping theirs is what leaves the CJK face unreachable. To go back to
 # your own configuration, and lose the bundled fallback with it:
-#   flatpak override --user --env=NYATERM_FONTCONFIG_FILE=/path/to/fonts.conf com.kang.nyaterm.preview
+#   flatpak override --user --env=NYATERM_FONTCONFIG_FILE=/path/to/fonts.conf com.kang.nyaterm
 export FONTCONFIG_FILE="${NYATERM_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
 
 # Local terminal tabs run $SHELL, which inside the sandbox would be the
@@ -27,4 +27,4 @@ export FONTCONFIG_FILE="${NYATERM_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
 # still runs inside the sandbox.
 export SHELL=/app/bin/nyaterm-host-shell
 
-exec /app/extra/nyaterm-preview/nyaterm "$@"
+exec /app/extra/nyaterm/nyaterm "$@"

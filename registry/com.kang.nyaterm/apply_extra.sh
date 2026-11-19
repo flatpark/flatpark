@@ -1,17 +1,20 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time inside org.gnome.Platform. The upstream preview
-# .deb is a plain FHS tree whose payload lives under /opt/nyaterm-preview:
+# Runs offline at install time inside org.gnome.Platform. The upstream .deb
+# (x86_64 or arm64, same layout) is a plain FHS tree whose payload lives under
+# /opt/nyaterm:
 #
-#   /opt/nyaterm-preview/nyaterm             the GPUI window
-#   /opt/nyaterm-preview/nyaterm-rdp-helper  RDP session process
-#   /opt/nyaterm-preview/nyaterm-vnc-helper  VNC session process
-#   /opt/nyaterm-preview/nyaterm-mcp         MCP server for AI clients
+#   /opt/nyaterm/nyaterm                  the GPUI window
+#   /opt/nyaterm/nyaterm-rdp-helper       RDP session process
+#   /opt/nyaterm/nyaterm-vnc-helper       VNC session process
+#   /opt/nyaterm/nyaterm-mcp              MCP server for AI clients
+#   /opt/nyaterm/nyaterm-android-helper   Android screen sessions, with the
+#                                         adb/ and android-libs/ it loads
 #
-# Stage that whole tree at a stable path, /app/extra/nyaterm-preview. Keeping
-# the programs side by side is load-bearing: the window starts the helpers from
-# its own directory.
+# Stage that whole tree at a stable path, /app/extra/nyaterm. Keeping the
+# programs side by side is load-bearing: the window starts the helpers from its
+# own directory.
 #
 # The desktop file, icon and AppStream metainfo are shipped by the manifest at
 # *build* time - extra-data is fetched later on the user's machine, so anything
@@ -22,7 +25,7 @@ cd "$extra_root"
 
 [ -f nyaterm.deb ] || { echo "missing extra-data: nyaterm.deb" >&2; exit 1; }
 
-rm -rf stage nyaterm-preview
+rm -rf stage nyaterm
 mkdir stage
 # The Platform runtime has no ar/dpkg, but bsdtar (libarchive) reads the .deb
 # ar container directly; pipe its data member into a second bsdtar to unpack the
@@ -33,10 +36,10 @@ mkdir stage
 bsdtar -xOf nyaterm.deb 'data.tar*' | bsdtar --no-same-owner -xf - -C stage
 
 for exe in nyaterm nyaterm-rdp-helper nyaterm-vnc-helper; do
-  [ -x "stage/opt/nyaterm-preview/$exe" ] || { echo "$exe not found in .deb (opt/nyaterm-preview)" >&2; exit 1; }
+  [ -x "stage/opt/nyaterm/$exe" ] || { echo "$exe not found in .deb (opt/nyaterm)" >&2; exit 1; }
 done
 
-mv stage/opt/nyaterm-preview nyaterm-preview
+mv stage/opt/nyaterm nyaterm
 rm -rf stage nyaterm.deb
 
 # The bundled Noto faces come as the noto-fonts prebuilt stack (extra-data
