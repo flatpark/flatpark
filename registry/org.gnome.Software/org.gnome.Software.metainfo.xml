@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2013-2016 Richard Hughes <richard@hughsie.com> -->
+<component type="desktop-application">
+  <id>org.gnome.Software</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <name>Software</name>
+  <summary>Install and update apps</summary>
+  <description>
+    <p>
+      An unofficial and experimental fork of GNOME Software, the app store of
+      the GNOME desktop. It is not made or supported by the GNOME Software
+      developers or the GNOME project; please report problems to the fork.
+      The fork's changes were developed with the help of generative AI.
+    </p>
+    <p>
+      Like GNOME Software, it lets you find and install Flatpak apps, the
+      packages of your distribution (through PackageKit, dnf5 or rpm-ostree)
+      and snaps, keeps them and your firmware up to date, and manages your
+      software repositories. The fork has a new core: every page shows the
+      same state and progress of an app, and lists update in place instead
+      of being reloaded.
+    </p>
+    <p>
+      It replaces the Software of your system: the desktop opens it for app
+      details and search, and it checks for updates in the background once
+      you turn that on. Your settings are shared with the system's Software.
+    </p>
+    <p>
+      Background updates replace the system's Software service with a user
+      unit, ~/.config/systemd/user/gnome-software.service, which stays after
+      the app is uninstalled and then starts the system's Software again. To
+      go back, delete that file and run systemctl --user daemon-reload.
+    </p>
+  </description>
+  <launchable type="desktop-id">org.gnome.Software.desktop</launchable>
+  <provides>
+    <id>org.gnome.Software.desktop</id>
+  </provides>
+  <url type="homepage">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next</url>
+  <url type="vcs-browser">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next</url>
+  <developer id="org.gnome.gitlab.user_c1a5830a">
+    <name>gnome-software-next</name>
+  </developer>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://gitlab.gnome.org/GNOME/gnome-software/raw/HEAD/data/metainfo/ss-overview.png</image>
+      <caption>The explore page</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://gitlab.gnome.org/GNOME/gnome-software/raw/HEAD/data/metainfo/ss-details.png</image>
+      <caption>The details of an app</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://gitlab.gnome.org/GNOME/gnome-software/raw/HEAD/data/metainfo/ss-installed.png</image>
+      <caption>Installed apps</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://gitlab.gnome.org/GNOME/gnome-software/raw/HEAD/data/metainfo/ss-updates.png</image>
+      <caption>Updates</caption>
+    </screenshot>
+  </screenshots>
+  <categories>
+    <category>System</category>
+    <category>PackageManager</category>
+  </categories>
+  <content_rating type="oars-1.1"/>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>touch</control>
+  </supports>
+  <releases>
+    <release version="51.1.822.g4587eab25" date="2026-11-18">
+      <description></description>
+    </release>
+  </releases>
+</component>

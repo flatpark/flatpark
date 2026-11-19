@@ -1,0 +1,46 @@
+id: org.gnome.Software
+name: Software
+summary: Install and update apps, an unofficial fork of GNOME Software
+website: https://gitlab.gnome.org/user_c1a5830a/gnome-software-next
+source_url: https://gitlab.gnome.org/user_c1a5830a/gnome-software-next
+build:
+  manifest: org.gnome.Software.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: System
+  upstream_approved: true
+  tags:
+    - Software Center
+    - Updates
+    - Flatpak
+    - PackageKit
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  # A software manager for the host: installing and updating Flatpak apps,
+  # the distribution's packages and firmware is its main feature. Each of
+  # these goes through the service that owns it, which asks through polkit
+  # before system-wide changes.
+  dangerous_permissions:
+    - --filesystem=/var/lib/flatpak
+    - --talk-name=org.freedesktop.Flatpak
+    - --system-talk-name=org.freedesktop.Flatpak.SystemHelper
+    - --system-talk-name=org.freedesktop.PackageKit
+    - --system-talk-name=org.rpm.dnf.v0
+    - --system-talk-name=org.projectatomic.rpmostree1
+    - --system-talk-name=org.freedesktop.fwupd
+    - --filesystem=~/.var/app
+    # The session's systemd manager: Software starts and stops the user unit
+    # of its background service. It can start any user unit.
+    - --talk-name=org.freedesktop.systemd1
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: host-command
+    detail:
+      en: "Software itself runs some commands on your system through flatpak-spawn, as part of managing it: it launches the apps you open from it (flatpak run, gio launch, snap run), queries rpm-ostree and fedora-third-party, mounts Flatpak downloads with the host's fusermount, and stops the system's own Software when it takes over checking for updates. Two small helpers of its build run outside the sandbox from the app's files: one passes the FUSE mount of a Flatpak download back to Software, the other relays rpm-ostree's transaction socket. Turning on background updates writes ~/.config/systemd/user/gnome-software.service (and, before GNOME 49, an autostart entry), which takes the place of the system's own Software service; it stays after you uninstall the app, then starts the system's Software again. To undo it, delete that file and run systemctl --user daemon-reload. The package adds no commands of its own; its launcher only sets the paths of the build."
+      zh-Hans: "Software 本身会通过 flatpak-spawn 在你的系统上运行一些命令，这是管理系统软件的一部分：启动你从它打开的应用（flatpak run、gio launch、snap run），查询 rpm-ostree 和 fedora-third-party，用宿主的 fusermount 挂载 Flatpak 下载，并在接管后台检查更新时停掉系统自带的 Software。它的构建里有两个小助手程序会从应用文件中在沙盒外运行：一个把 Flatpak 下载的 FUSE 挂载传回给 Software，另一个转发 rpm-ostree 的事务 socket。开启后台更新会写入 ~/.config/systemd/user/gnome-software.service（GNOME 49 之前还会写一个自启动项），取代系统自带的 Software 服务；卸载应用后这个文件仍会保留，届时它会重新启动系统自带的 Software。要撤销，删除该文件并运行 systemctl --user daemon-reload。打包本身不添加任何命令，启动脚本只设置构建的路径。"
