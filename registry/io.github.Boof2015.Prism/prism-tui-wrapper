@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# prism-tui, the terminal interface shipped in the same tarball: a native
+# binary linking only libpulse and the C++ runtime, both in the runtime.
+# Run it with: flatpak run --command=prism-tui io.github.Boof2015.Prism
+exec /app/extra/prism/resources/tui/prism-tui "$@"

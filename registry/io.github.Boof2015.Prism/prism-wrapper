@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+# Prism is an Electron app staged by apply_extra to /app/extra/prism. Run it
+# through zypak-wrapper (from org.electronjs.Electron2.BaseApp), which redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps its
+# internal sandbox rather than running with --no-sandbox.
+#
+# --ozone-platform=x11: Prism is a frameless floating rack whose top bar and
+# controls show while the pointer is over the window. It decides that from
+# screen.getCursorScreenPoint() against the window's bounds, and moves and
+# restores its own geometry; on native Wayland a client knows neither its
+# global position nor a reliable pointer position, so the bar toggles on and
+# off with the pointer still (measured on Hyprland). The app itself switches
+# these features off when it detects Wayland and only fully supports them on
+# X11, so run it through XWayland. The app reads this same switch from argv
+# to decide which display server it is on.
+
+# A value leaked from the launching environment (a terminal inside VS Code or
+# another Electron app) would start the binary as plain Node.
+unset ELECTRON_RUN_AS_NODE
+
+# Chromium writes the tray icon to a file in $TMPDIR and hands the desktop its
+# path; the sandbox's /tmp is private, so point TMPDIR at the per-app runtime
+# dir, which is the same path inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
+# The package grants only X11. A user who grants the Wayland socket with
+# `flatpak override --socket=wayland` gets WAYLAND_DISPLAY in the sandbox and
+# a native Wayland window instead (the metainfo says what that costs).
+platform=x11
+[ -n "${WAYLAND_DISPLAY:-}" ] && platform=wayland
+
+exec zypak-wrapper /app/extra/prism/prism --ozone-platform="$platform" "$@"

@@ -1,0 +1,22 @@
+id: io.github.Boof2015.Prism
+name: Prism
+summary: Real-time audio analysis and metering
+website: https://astramusic.dev/prism/
+source_url: https://github.com/Boof2015/prism
+build:
+  manifest: io.github.Boof2015.Prism.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags:
+    - Spectrum Analyzer
+    - Oscilloscope
+    - Loudness Meter
+    - Visualizer
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

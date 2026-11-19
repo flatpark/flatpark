@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Boof2015.Prism</id>
+  <launchable type="desktop-id">io.github.Boof2015.Prism.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Prism</name>
+  <summary>Real-time audio analysis and metering</summary>
+  <developer id="io.github.Boof2015">
+    <name>Boof2015</name>
+  </developer>
+  <url type="homepage">https://astramusic.dev/prism/</url>
+  <url type="bugtracker">https://github.com/Boof2015/prism/issues</url>
+  <url type="vcs-browser">https://github.com/Boof2015/prism</url>
+  <description>
+    <p>This is a community package of Prism, maintained independently and unaffiliated with the Prism project. It repackages the official upstream Linux tarball unmodified, unpacked at install time, and follows upstream releases automatically.</p>
+    <p>Prism is an audio analyzer and meter rack. It captures what your system is playing, or a microphone or interface input, and shows it on a rack of real-time scopes you can resize, rearrange, pop out into their own windows and save as profiles.</p>
+    <ul>
+      <li>Spectrum analyzer, oscilloscope, vectorscope, waterfall and spectrogram</li>
+      <li>VU meter with stereo correlation, and an ITU-R BS.1770 loudness meter (LUFS and true peak)</li>
+      <li>Scrolling waveform, measurement overlays and channel routing</li>
+      <li>Rolling capture: keep the last seconds of audio and export them as WAV</li>
+      <li>Themes, and profiles saved as .prsm files</li>
+    </ul>
+    <p>The terminal interface is included: <code>flatpak run --command=prism-tui io.github.Boof2015.Prism</code>.</p>
+    <p>Profiles, themes and captures are kept in the "Prism Profiles", "Prism Themes" and "Prism Captures" folders in your Documents folder. Open at login doesn't work from the sandbox, and the VST3 and CLAP plugins are not installed into your DAW; use upstream's own packages for those.</p>
+    <p>Prism runs as an X11 window (through XWayland on a Wayland desktop): its rack shows its controls while the pointer is over it and positions its own windows, which needs window and pointer coordinates that native Wayland doesn't give an app.</p>
+    <p>Optional changes, not made by default; apply them with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Now Playing track information from Spotify or TIDAL (MPRIS): <code>flatpak override --user --talk-name=org.mpris.MediaPlayer2.* io.github.Boof2015.Prism</code></li>
+      <li>Run as a native Wayland window: <code>flatpak override --user --socket=wayland io.github.Boof2015.Prism</code>. The display may misbehave: on Hyprland the rack's top bar and controls flicker on and off, and the window can't remember its position.</li>
+      <li>Undo these: <code>flatpak override --user --reset io.github.Boof2015.Prism</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Boof2015/prism/main/assets/prism-readme-screenshot.png</image>
+      <caption>The scope rack</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://astramusic.dev/prism/assets/prism-v03-settings.png</image>
+      <caption>Scope settings</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <keywords>
+    <keyword>spectrum</keyword>
+    <keyword>analyzer</keyword>
+    <keyword>oscilloscope</keyword>
+    <keyword>loudness</keyword>
+    <keyword>meter</keyword>
+  </keywords>
+  <releases>
+    <release version="0.4.0-beta" date="2026-09-18">
+      <description></description>
+    </release>
+  </releases>
+</component>

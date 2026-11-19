@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Prism
+Comment=Real-time audio analysis and metering
+Exec=prism %F
+Icon=io.github.Boof2015.Prism
+Terminal=false
+Categories=AudioVideo;Audio;
+Keywords=spectrum;analyzer;oscilloscope;vectorscope;spectrogram;loudness;LUFS;meter;visualizer;
+StartupNotify=true
+StartupWMClass=prism
