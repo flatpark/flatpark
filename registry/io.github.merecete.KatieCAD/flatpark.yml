@@ -1,0 +1,22 @@
+id: io.github.merecete.KatieCAD
+name: KatieCAD
+summary: 2D/3D CAD for electrical engineering
+website: https://merecete.org/katiecad/
+source_url: https://github.com/Merecete/KatieCAD
+build:
+  manifest: io.github.merecete.KatieCAD.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - CAD
+    - Electrical
+    - Schematic
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

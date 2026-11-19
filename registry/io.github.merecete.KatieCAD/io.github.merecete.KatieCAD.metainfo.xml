@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.merecete.KatieCAD</id>
+  <name>KatieCAD</name>
+  <summary>2D/3D CAD for electrical engineering</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+  <developer id="io.github.merecete">
+    <name>Merecete</name>
+  </developer>
+  <url type="homepage">https://merecete.org/katiecad/</url>
+  <url type="bugtracker">https://github.com/Merecete/KatieCAD/issues</url>
+  <url type="vcs-browser">https://github.com/Merecete/KatieCAD</url>
+  <description>
+    <p>This is a community package of KatieCAD, maintained independently and unaffiliated with Merecete. It repackages the official upstream Linux build unmodified.</p>
+    <p>KatieCAD draws electrical schematics for switchgear, distribution boards and building installation. It wires devices, keeps cross references, and builds the device list, terminal plan and cable plan. A project is a .katieprj file.</p>
+    <p>Sandbox: display and the Documents folder for a project passed by path. It works offline.</p>
+  </description>
+  <launchable type="desktop-id">io.github.merecete.KatieCAD.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>CAD</keyword>
+    <keyword>electrical</keyword>
+    <keyword>schematic</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A distribution-board schematic</caption>
+      <image>https://raw.githubusercontent.com/Merecete/KatieCAD/v1.1.8/Screenshots/Screenshot1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A drawing with dimensions</caption>
+      <image>https://raw.githubusercontent.com/Merecete/KatieCAD/v1.1.8/Screenshots/Screenshot2.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>katiecad</binary>
+  </provides>
+  <releases>
+    <release version="1.1.8" date="2026-11-18">
+      <description>
+        <p>Official Linux build 1.1.8.</p>
+      </description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-katiecad-project">
+    <comment>KatieCAD project</comment>
+    <sub-class-of type="application/json"/>
+    <generic-icon name="io.github.merecete.KatieCAD"/>
+    <glob pattern="*.katieprj"/>
+  </mime-type>
+  <mime-type type="application/x-katiecad">
+    <comment>KatieCAD sheet</comment>
+    <sub-class-of type="application/json"/>
+    <generic-icon name="io.github.merecete.KatieCAD"/>
+    <glob pattern="*.cadjson"/>
+  </mime-type>
+</mime-info>
