@@ -29,9 +29,9 @@ modules:
         filename: app.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/JumpLink/beifahrer/releases/download/v0.1.32/beifahrer-0.1.32-linux-x86_64-flatpak.tar.gz
-        sha256: c35b649a676de3800fe14c8ea22c618a6806f52658d3b35dad970603361d8fea
-        size: 578543
+        url: https://github.com/JumpLink/beifahrer/releases/download/v0.1.33/beifahrer-0.1.33-linux-x86_64-flatpak.tar.gz
+        sha256: 8a9d05420cef14af6f4a663b4bd028fa5bf540ba1dd6d71e6c7972785c21ea6d
+        size: 598762
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
