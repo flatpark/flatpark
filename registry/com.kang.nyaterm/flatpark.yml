@@ -1,12 +1,13 @@
-id: com.kang.nyaterm.preview
-name: NyaTerm Preview
+id: com.kang.nyaterm
+name: NyaTerm
 summary: Remote terminal workspace for SSH, SFTP, serial, RDP and VNC
 website: https://nyaterm.app
 source_url: https://github.com/nyakang/nyaterm
 build:
-  manifest: com.kang.nyaterm.preview.yml
+  manifest: com.kang.nyaterm.yml
   branch: stable
   mode: extra-data
+  arches: [x86_64, aarch64]
 catalog:
   category: Network
   upstream_approved: true

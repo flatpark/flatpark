@@ -1,12 +1,12 @@
 [Desktop Entry]
-Name=NyaTerm Preview
+Name=NyaTerm
 GenericName=Remote Terminal
 Comment=SSH, SFTP, Telnet, serial, RDP and VNC client
-Exec=nyaterm-preview %U
-Icon=com.kang.nyaterm.preview
+Exec=nyaterm %U
+Icon=com.kang.nyaterm
 Type=Application
 Categories=Network;RemoteAccess;TerminalEmulator;
-MimeType=x-scheme-handler/nyaterm-preview;
+MimeType=x-scheme-handler/nyaterm;x-scheme-handler/ssh;x-scheme-handler/telnet;
 Keywords=ssh;sftp;telnet;serial;rdp;vnc;terminal;
-StartupWMClass=nyaterm-preview
+StartupWMClass=nyaterm
 StartupNotify=true

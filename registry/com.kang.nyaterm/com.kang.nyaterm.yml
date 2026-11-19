@@ -1,15 +1,15 @@
-id: com.kang.nyaterm.preview
+id: com.kang.nyaterm
 runtime: org.gnome.Platform
 runtime-version: "51"
 sdk: org.gnome.Sdk
-command: nyaterm-preview
+command: nyaterm
 separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # NyaTerm Preview is upstream's 2.0 rewrite on GPUI: a native Rust window
-  # (Vulkan/GL through wgpu, Wayland or X11) plus RDP and VNC helper processes,
-  # all from the same .deb. The window links only gtk-3, dbus, xcb and
+  # NyaTerm 2.x is a native Rust window on GPUI (Vulkan/GL through wgpu,
+  # Wayland or X11) plus RDP, VNC, MCP and Android helper processes, all from
+  # the same .deb. The window links only gtk-3, dbus, xcb and
   # xkbcommon from the GNOME runtime and dlopen-s the rest.
   - --share=ipc
   # SSH, SFTP, Telnet, RDP and VNC sessions, the AI providers and cloud sync.
@@ -41,7 +41,7 @@ finish-args:
   - --socket=ssh-auth
   # ~/.ssh (keys, config import), the local side of SFTP transfers and the
   # file browser, and the app's own data: hosts, settings, the vault and the
-  # single-instance lock all live in ~/.nyaterm-preview, a path upstream
+  # single-instance lock all live in ~/.nyaterm, a path upstream
   # hardcodes off $HOME, which Flatpak does not redirect.
   - --filesystem=home
   # Local terminal tabs: the wrapper points $SHELL at nyaterm-host-shell, which
@@ -60,19 +60,26 @@ modules:
       - cp -a ./. /app/
     sources:
       - type: archive
-        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
-        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v3/ayatana-stack-ayatana-v3-gnome-51-x86_64.tar.xz
+        sha256: 21b02738793af6cd8d3355a1c5008697096b3000c9d2a4d7dfdbc43375a70056
+      - type: archive
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v3/ayatana-stack-ayatana-v3-gnome-51-aarch64.tar.xz
+        sha256: b9f9cb632dc4456dd3711059df72e4fc92b30f59b688e411ab7c6df9a2bb7c27
 
-  - name: nyaterm-preview
+  - name: nyaterm
     buildsystem: simple
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
-      - install -Dm755 nyaterm-preview-wrapper /app/bin/nyaterm-preview
+      - install -Dm755 nyaterm-wrapper /app/bin/nyaterm
       - install -Dm755 nyaterm-host-shell /app/bin/nyaterm-host-shell
       - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
-      - install -Dm644 com.kang.nyaterm.preview.desktop /app/share/applications/com.kang.nyaterm.preview.desktop
-      - install -Dm644 com.kang.nyaterm.preview.metainfo.xml /app/share/metainfo/com.kang.nyaterm.preview.metainfo.xml
-      - install -Dm644 com.kang.nyaterm.preview.png /app/share/icons/hicolor/256x256/apps/com.kang.nyaterm.preview.png
+      - install -Dm644 com.kang.nyaterm.desktop /app/share/applications/com.kang.nyaterm.desktop
+      - install -Dm644 com.kang.nyaterm.metainfo.xml /app/share/metainfo/com.kang.nyaterm.metainfo.xml
+      - install -Dm644 com.kang.nyaterm.png /app/share/icons/hicolor/256x256/apps/com.kang.nyaterm.png
     sources:
       # The UI is translated into Chinese, Japanese and Korean, and terminals
       # routinely show CJK text, which neither the GNOME runtime nor a typical
@@ -95,21 +102,28 @@ modules:
         filename: nyaterm.deb
         only-arches:
           - x86_64
-        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.0-preview.9/NyaTerm_2.0.0-preview.9_linux_x64.deb
-        sha256: ff4e3c8e07d85c85be4b6d918c396621fa233cb8e5933f23dc141fa129b1fb19
-        size: 48115214
+        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.6/NyaTerm_2.0.6_linux_x64.deb
+        sha256: 34fa22e0fdf02f3be21a40badc1feed14a46380b7b16f1dd72473096ea9228fd
+        size: 66837502
+      - type: extra-data
+        filename: nyaterm.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.6/NyaTerm_2.0.6_linux_arm64.deb
+        sha256: 17f41d0dd237262260ff831604d6e0cf35cabfc7f3756727ee3f2e47394590e1
+        size: 70875166
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
       - type: file
-        path: nyaterm-preview-wrapper
+        path: nyaterm-wrapper
       - type: file
         path: nyaterm-host-shell
       - type: file
         path: fonts.conf
       - type: file
-        path: com.kang.nyaterm.preview.desktop
+        path: com.kang.nyaterm.desktop
       - type: file
-        path: com.kang.nyaterm.preview.metainfo.xml
+        path: com.kang.nyaterm.metainfo.xml
       - type: file
-        path: com.kang.nyaterm.preview.png
+        path: com.kang.nyaterm.png
