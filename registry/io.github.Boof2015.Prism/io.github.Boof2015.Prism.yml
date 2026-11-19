@@ -1,0 +1,87 @@
+id: io.github.Boof2015.Prism
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: the Electron base app ships zypak, which redirects Chromium's
+# SUID sandbox onto the Flatpak sandbox so the app keeps its internal sandbox
+# (the wrapper runs it via zypak-wrapper) instead of --no-sandbox.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: prism
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) UI. The tarball bundles Chromium, ffmpeg and ANGLE; the
+  # GTK3, NSS, CUPS, ATK and X11 stacks it links come from the runtime.
+  - --share=ipc
+  # X11 only (the wrapper passes --ozone-platform=x11): the rack's hover
+  # controls and self-positioning need global window and pointer coordinates,
+  # which native Wayland doesn't give a client. --socket=x11, not
+  # fallback-x11, which would withhold X11 on a Wayland session. Native
+  # Wayland is an override documented in the metainfo; the wrapper follows
+  # whether the Wayland socket is present.
+  - --socket=x11
+  - --device=dri
+  # Network: the manual "check for updates" button reads the GitHub releases
+  # API, and Prism Bridge (the DAW plugin) streams audio to the app over a TCP
+  # listener on 127.0.0.1:51789, which needs the host's network namespace.
+  - --share=network
+  # Audio capture, the core feature. The native DSP addon (visualizer_dsp.node)
+  # and prism-tui link libpulse and record the default sink's monitor source;
+  # device inputs go through Chromium's getUserMedia, also over PulseAudio. On
+  # PipeWire desktops both go through pipewire-pulse; the PipeWire socket
+  # itself is not needed.
+  - --socket=pulseaudio
+  # Profiles, themes and rolling-capture exports are written without a file
+  # dialog to ~/Documents/Prism Profiles, Prism Themes and Prism Captures
+  # (app.getPath("documents")). Grant exactly those folders, not all of
+  # Documents, so they persist and are shared with a native install.
+  - --filesystem=xdg-documents/Prism Profiles:create
+  - --filesystem=xdg-documents/Prism Themes:create
+  - --filesystem=xdg-documents/Prism Captures:create
+  # Tray icon (Electron 40 registers under its unique bus name; the watcher
+  # grant is all it needs).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Secure secret storage (Electron safeStorage) for the Now Playing providers'
+  # tokens goes through the Secret Service.
+  - --talk-name=org.freedesktop.secrets
+  # Strip a leaked ELECTRON_RUN_AS_NODE so the binary and zypak's spawned
+  # child/zygote processes always start as the GUI app, not as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately NOT granted (documented as an override in the metainfo):
+  #   --talk-name=org.mpris.MediaPlayer2.*  -> the Now Playing panel reading
+  #     track information from Spotify/TIDAL over MPRIS (it runs `gdbus`, which
+  #     the runtime ships, against the session bus).
+modules:
+  - name: prism
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 prism-wrapper /app/bin/prism
+      - install -Dm755 prism-tui-wrapper /app/bin/prism-tui
+      - install -Dm644 io.github.Boof2015.Prism.desktop /app/share/applications/io.github.Boof2015.Prism.desktop
+      - install -Dm644 io.github.Boof2015.Prism.metainfo.xml /app/share/metainfo/io.github.Boof2015.Prism.metainfo.xml
+      - install -Dm644 io.github.Boof2015.Prism.png /app/share/icons/hicolor/512x512/apps/io.github.Boof2015.Prism.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: prism.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/Boof2015/prism/releases/download/v0.4.0-beta/prism-0.4.0-beta.tar.gz
+        sha256: cc9dc6630fe37f68bb05c54cdf4d5af4c6538a1b38ad42b00220a419df0cba92
+        size: 165262007
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: prism-wrapper
+      - type: file
+        path: prism-tui-wrapper
+      - type: file
+        path: io.github.Boof2015.Prism.desktop
+      - type: file
+        path: io.github.Boof2015.Prism.metainfo.xml
+      - type: file
+        path: io.github.Boof2015.Prism.png
