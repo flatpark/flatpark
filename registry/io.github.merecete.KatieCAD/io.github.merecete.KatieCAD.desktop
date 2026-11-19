@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=KatieCAD
+GenericName=Electrical CAD
+Comment=2D/3D CAD for electrical engineering
+Exec=katiecad %F
+TryExec=katiecad
+Icon=io.github.merecete.KatieCAD
+Terminal=false
+StartupNotify=true
+Categories=Graphics;Engineering;Electronics;
+Keywords=CAD;electrical;schematic;switchgear;DXF;
+MimeType=application/x-katiecad-project;application/x-katiecad;
+StartupWMClass=Tk
