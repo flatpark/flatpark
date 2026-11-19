@@ -1,0 +1,97 @@
+id: io.github.bramble_apps.Values
+# The freedesktop base, as upstream's own Flatpak bundle uses: Values is a
+# Rust app drawn with egui and wgpu on winit, and needs neither GTK nor Qt.
+# The binary links only glibc and libgcc_s; libwayland, X11, xkbcommon and the
+# Vulkan/GL loaders are opened from the runtime at run time.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: values
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The permissions upstream's own Flatpak bundle is built with
+# (keynote-linux/tools/suite/flatpak.sh and .github/workflows/build.yml in
+# bramble-apps/bramble-office), plus
+# Avahi and a read-only ~/.cups for printing.
+finish-args:
+  # Display: Wayland, with X11 when there is no Wayland session.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # X11 shared memory (MIT-SHM) for the X11 fallback.
+  - --share=ipc
+  # wgpu renders on the GPU.
+  - --device=dri
+  # Sound: audio and video on a sheet play, and Record Audio records
+  # through PipeWire's pw-record over the PulseAudio socket.
+  - --socket=pulseaudio
+  # Stock quotes for the STOCK functions, from Yahoo Finance, and the title
+  # and poster of a web video placed on a sheet.
+  - --share=network
+  # Printing. File > Print lists printers with lpstat and sends the job with
+  # lp. The runtime has libcups but not those tools, and without the CUPS
+  # socket the printer list stays empty; the cups-client module below ships
+  # them. Avahi is how lpstat finds driverless printers. ~/.cups is read-only:
+  # the default printer, saved options and a ServerName.
+  - --socket=cups
+  - --system-talk-name=org.freedesktop.Avahi
+  - --filesystem=~/.cups:ro
+  # Files: no filesystem grant, as upstream ships it. Open, Save and Insert go
+  # through the file-chooser portal, and a file opened from the file manager
+  # is handed over through the document portal.
+modules:
+  # CUPS client tools for File > Print: lp, lpstat and lpoptions, from
+  # FlatPark's prebuilt cups-client stack (CUPS 2.4.20, libcups linked
+  # statically, with a wrapper that finds the CUPS socket Flatpak mounted).
+  # apply_extra unpacks it to /app/extra/cups-client; the links below put the
+  # tools on PATH and dangle until then. Extra-data, not built here: a
+  # dependency is never compiled in an app's manifest (docs/packagers/prebuilt.md).
+  - name: cups-client
+    buildsystem: simple
+    build-commands:
+      - for tool in lp lpoptions lpstat; do install -d /app/bin; ln -s "/app/extra/cups-client/bin/$tool" "/app/bin/$tool"; done
+    sources:
+      - type: extra-data
+        filename: cups-client.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/cups-client-v1/cups-client-cups-client-v1-fd-26.08-x86_64.tar.xz
+        sha256: a96f57051ab61c98c73d99fed4dbe05a040fb2d1dbd353e1241d79b3aefea851
+        size: 266076
+  - name: values
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 values-wrapper /app/bin/values
+      - install -Dm644 io.github.bramble_apps.Values.desktop /app/share/applications/io.github.bramble_apps.Values.desktop
+      - install -Dm644 io.github.bramble_apps.Values.metainfo.xml /app/share/metainfo/io.github.bramble_apps.Values.metainfo.xml
+      - install -Dm644 io.github.bramble_apps.Values.png /app/share/icons/hicolor/512x512/apps/io.github.bramble_apps.Values.png
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v3/appimage-tools-appimage-tools-v3-fd-26.08-x86_64.tar.xz
+        sha256: 2ad7847e871c2f7f24506ecf202ea971ab684aaa457e2f6a594f6bfac96f1297
+        size: 57508
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: values.AppImage
+        only-arches:
+          - x86_64
+        url: https://github.com/bramble-apps/bramble-office/releases/download/v0.5.2/Values-x86_64.AppImage
+        sha256: 2b8a54861f1fd792433e548c10714ebeae578f1dd2a7d8fe4471af80eb4f5964
+        size: 46643704
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: values-wrapper
+      - type: file
+        path: io.github.bramble_apps.Values.desktop
+      - type: file
+        path: io.github.bramble_apps.Values.metainfo.xml
+      - type: file
+        path: io.github.bramble_apps.Values.png

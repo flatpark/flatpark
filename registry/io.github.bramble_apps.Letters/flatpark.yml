@@ -1,0 +1,21 @@
+id: io.github.bramble_apps.Letters
+name: Letters
+summary: Write documents and lay out pages; opens and saves Pages files
+website: https://bramble-apps.github.io/
+source_url: https://github.com/bramble-apps/bramble-office
+build:
+  manifest: io.github.bramble_apps.Letters.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  tags:
+    - WordProcessor
+    - Pages
+    - Word
+    - Rust
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

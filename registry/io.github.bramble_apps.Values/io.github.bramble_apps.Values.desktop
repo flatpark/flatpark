@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Values
+Comment=Work with spreadsheets
+Exec=values %f
+Icon=io.github.bramble_apps.Values
+Terminal=false
+Categories=Office;Spreadsheet;
+Keywords=spreadsheet;numbers;excel;xlsx;csv;table;chart;
+StartupWMClass=io.github.bramble_apps.Values
+MimeType=application/x-iwork-numbers-sffnumbers;application/vnd.apple.numbers;text/csv;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;

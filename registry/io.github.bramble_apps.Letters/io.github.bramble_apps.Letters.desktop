@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Letters
+Comment=Write documents and lay out pages
+Exec=letters %f
+Icon=io.github.bramble_apps.Letters
+Terminal=false
+Categories=Office;WordProcessor;
+Keywords=word;document;writer;pages;docx;layout;
+StartupWMClass=io.github.bramble_apps.Letters
+MimeType=application/x-iwork-pages-sffpages;application/vnd.apple.pages;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/rtf;text/markdown;text/plain;

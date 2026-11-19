@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Keydeck
+Comment=Make and play presentations
+Exec=keydeck %f
+Icon=io.github.bramble_apps.Keydeck
+Terminal=false
+Categories=Office;Presentation;
+Keywords=slides;presentation;keynote;powerpoint;pptx;
+StartupWMClass=io.github.bramble_apps.Keydeck
+MimeType=application/x-iwork-keynote-sffkey;application/vnd.apple.keynote;application/vnd.openxmlformats-officedocument.presentationml.presentation;
