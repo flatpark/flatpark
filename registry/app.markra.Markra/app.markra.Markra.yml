@@ -36,16 +36,16 @@ modules:
         filename: markra.deb
         only-arches:
           - x86_64
-        url: https://github.com/markrahq/markra/releases/download/v2.14.7/Markra_2.14.7_linux_x64.deb
-        sha256: 546e317f191d51daa9c0db19c530bbb1ddb84926fdd69b5d5371f59380c5330c
-        size: 16052066
+        url: https://github.com/markrahq/markra/releases/download/v2.14.8/Markra_2.14.8_linux_x64.deb
+        sha256: 473a22b7bd274c92df191084a4a315b7eb7a5c2da04e165656c89620a050aca3
+        size: 16051956
       - type: extra-data
         filename: markra.deb
         only-arches:
           - aarch64
-        url: https://github.com/markrahq/markra/releases/download/v2.14.7/Markra_2.14.7_linux_arm64.deb
-        sha256: 9375f09b815b93310fc43d8d44a2b1fc9fdb241a68ac7c0f49c9f7733e7fec09
-        size: 16248812
+        url: https://github.com/markrahq/markra/releases/download/v2.14.8/Markra_2.14.8_linux_arm64.deb
+        sha256: f1d981c546e7298b862eb58f9f80c6eac74240afb88944b61b75cc27ed6b01c9
+        size: 16245678
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
