@@ -9,6 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
+  interface: cli
   category: Development
   tags: [Android, ADB, Fastboot, USB, Terminal]
 update:
@@ -16,5 +17,9 @@ update:
 policy:
   proprietary: true
   dangerous_permissions:
+    # A command-line tool takes files as paths in its arguments, with no file
+    # chooser; a working directory outside the grant is silently replaced by
+    # the sandbox's empty home (docs/packagers/solutions/command-line-tools.md).
+    - --filesystem=home
     # ADB and fastboot need direct USB device access; this exposes other devices too.
     - --device=all

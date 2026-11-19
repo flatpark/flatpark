@@ -11,8 +11,8 @@
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
   <description>
     <p>FFmpeg converts, records and streams audio and video. This community package uses FlatPark's ffmpeg-full build, including ffmpeg and ffprobe.</p>
-    <p>The application menu opens a terminal in Downloads. Run ffmpeg or ffprobe there; type exit to close it. From an existing terminal, use <code>flatpak run org.ffmpeg.FFmpeg</code> for ffmpeg or <code>flatpak run --command=ffprobe org.ffmpeg.FFmpeg</code> for ffprobe.</p>
-    <p>The sandbox can access Downloads and the network. To access Videos, run <code>flatpak override --user --filesystem=xdg-videos org.ffmpeg.FFmpeg</code>. Undo overrides with <code>flatpak override --user --reset org.ffmpeg.FFmpeg</code>.</p>
+    <p>The application menu opens a terminal in your home folder. Run ffmpeg or ffprobe there; type exit to close it. From an existing terminal, use <code>flatpak run org.ffmpeg.FFmpeg</code> for ffmpeg or <code>flatpak run --command=ffprobe org.ffmpeg.FFmpeg</code> for ffprobe.</p>
+    <p>The sandbox can access your home folder and the network, so relative paths work from any directory in it. External drives are not included: run <code>flatpak override --user --filesystem=/run/media org.ffmpeg.FFmpeg</code> to add them. Undo overrides with <code>flatpak override --user --reset org.ffmpeg.FFmpeg</code>.</p>
   </description>
   <launchable type="desktop-id">org.ffmpeg.FFmpeg.desktop</launchable>
   <categories><category>AudioVideo</category><category>AudioVideoEditing</category></categories>

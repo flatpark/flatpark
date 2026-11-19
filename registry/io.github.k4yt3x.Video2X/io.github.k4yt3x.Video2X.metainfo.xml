@@ -9,10 +9,10 @@
   <description>
     <p>Video2X is a command-line video super-resolution and frame-interpolation tool. It includes Anime4K, Real-ESRGAN, Real-CUGAN and RIFE, with Vulkan acceleration and bundled models.</p>
     <p>This community package repackages the official Linux AppImage unmodified. It contains the command-line tool, with no graphical interface. An AVX2-capable CPU and a Vulkan-capable GPU are required.</p>
-    <p>Run it from a terminal: <code>flatpak run io.github.k4yt3x.Video2X --help</code>. Videos and Downloads are accessible for input and output. Network access is not granted.</p>
+    <p>Run it from a terminal: <code>flatpak run io.github.k4yt3x.Video2X --help</code>. Files in your home folder are accessible for input and output. Network access is not granted.</p>
     <p>Optional access can be enabled with these commands:</p>
     <ul>
-      <li>Another video directory: <code>flatpak override --user --filesystem=/path/to/videos io.github.k4yt3x.Video2X</code></li>
+      <li>External drives: <code>flatpak override --user --filesystem=/run/media io.github.k4yt3x.Video2X</code></li>
       <li>Network input URLs: <code>flatpak override --user --share=network io.github.k4yt3x.Video2X</code></li>
       <li>Reset overrides: <code>flatpak override --user --reset io.github.k4yt3x.Video2X</code></li>
     </ul>

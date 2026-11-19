@@ -67,6 +67,7 @@ build:
   manifest: io.flatpark.TestOne.yml
 catalog:
   category: Utility
+  interface: cli
 website: https://example.org/
 maintainer:
   github: testuser
@@ -82,7 +83,8 @@ requires:
     name: Wine
 EOF
 
-# A launcher that opens in a terminal marks the app as a command-line tool.
+# catalog.interface: cli marks the app as a command-line tool (its launcher opens
+# in a terminal; the descriptor audit holds the two together).
 cat > "$app/io.flatpark.TestOne.desktop" <<'EOF'
 [Desktop Entry]
 Type=Application
@@ -132,6 +134,7 @@ assert_contains "$out" "\"key\": \"socket.wayland\""
 assert_contains "$out" "\"key\": \"device.dri\""
 assert_contains "$out" "\"section\": \"utilities\""
 assert_contains "$out" "\"cli\": true"
+assert_contains "$out" "\"webUi\": false"
 # listing date: the commit that first added the app dir, independent of the
 # release date that drives "updated" (2026-01-01 here)
 assert_ok node -e "
@@ -155,6 +158,13 @@ assert_contains "$out" "\"name\": \"Wine\""
 
 # flatpark.yml-derived maintainer
 assert_contains "$out" "\"github\": \"testuser\""
+# catalog.interface: web — a terminal launcher that serves a browser page is marked Web UI,
+# not cli — the .desktop alone can't tell a local server from a CLI tool.
+sed -i 's/^  interface: cli$/  interface: web/' "$app/flatpark.yml"
+REGISTRY_DIR="$registry" DATA_DIR="$data" "$ROOT/scripts/gen-apps-json.sh" >/dev/null
+FLATPARK_DATA_DIR="$data" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1
+assert_contains "$out" "\"webUi\": true"
+assert_contains "$out" "\"cli\": false"
 # enrichment must strip the private source-path fields
 if grep -q "_manifest\|_srcDir" "$out"; then echo "FAIL: enriched file still has _ fields"; exit 1; fi
 assert_ok node -e "JSON.parse(require('fs').readFileSync('$out','utf8'))"

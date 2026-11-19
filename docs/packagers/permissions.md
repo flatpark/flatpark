@@ -12,7 +12,9 @@ description, so each user decides. Permissions show on every app's page.
 
 - **Files:** grant the directory the app works in by default (`xdg-pictures`
   for a screenshot tool, `xdg-music` for a player), not `home`. Files opened
-  through the file chooser need no grant at all. Check where the app saves
+  through the file chooser need no grant at all. A command-line tool is the
+  exception: it is given files by path, with no file chooser, so it gets
+  `home` ([command-line tools](solutions/command-line-tools.md)). Check where the app saves
   *without* a dialog, too: a quick-save or export default (one screenshot tool
   writes to `~/Desktop`) needs that directory, or the file lands in the sandbox and is
   lost.

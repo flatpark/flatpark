@@ -82,6 +82,7 @@ catalog:
   tags: [Example, Demo]
   upstream_approved: true     # only with a row in upstream-approvals.md
   stars_repo: owner/name      # only when source_url is not upstream's repo; or none
+  interface: cli              # gui (default) | cli | web; required for Terminal=true
 requires:                     # other Flatpak apps it runs with, if any
   - remote: flathub
     ref: org.winehq.Wine//stable-26.08
@@ -109,8 +110,13 @@ packaging:                    # anything beyond a plain launch
   audit rejects anything the site has no section for; the full list is the
   map in `scripts/catalog-sections.mjs`. Flathub's "Productivity" is its label
   for `Office`, and mail clients are `Office` too. Whether an app is a
-  command-line tool isn't a category: the site marks it from `Terminal=true`
-  in the `.desktop` file, and its category stays what the tool is for.
+  command-line tool isn't a category: its category stays what the tool is for.
+- `catalog.interface` says how the app is used: `gui` (the default, leave it
+  out), `cli` for a command-line tool, `web` for a local server used through
+  the page it serves in a browser (llama.cpp). It is required when the
+  `.desktop` has `Terminal=true`, which looks the same for `cli` and `web`. The
+  site shows a `CLI` or `Web UI` chip. Packaging either, file access included, is in
+  [command-line tools and web UIs](solutions/command-line-tools.md).
 - `catalog.upstream_approved` is the blue shield. CI fails it without a matching
   row in [upstream approvals](../reference/upstream-approvals.md).
 - `catalog.stars_repo` says which GitHub repository's stars the site shows

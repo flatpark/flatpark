@@ -1,6 +1,6 @@
 ---
 description: A checklist per stack (Electron, Chromium browsers, Tauri, Wails, GPUI, Slint, Flutter, Qt, .NET, Java, Wine) of what to set and what to test.
-order: 5
+order: 6
 ---
 
 # By stack

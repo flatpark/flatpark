@@ -11,9 +11,9 @@ build-options:
 finish-args:
   # Vulkan compute for upscaling and interpolation.
   - --device=dri
-  # CLI paths do not go through a file chooser portal.
-  - --filesystem=xdg-videos
-  - --filesystem=xdg-download
+  # Command-line paths don't go through a file chooser portal: the whole home
+  # folder, so the working directory and relative paths work.
+  - --filesystem=home
 modules:
   - name: video2x
     buildsystem: simple

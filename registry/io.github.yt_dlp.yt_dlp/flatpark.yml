@@ -9,10 +9,15 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
+  interface: cli
   category: AudioVideo
   tags: [Downloader, Video, Audio, Terminal]
 update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
-  dangerous_permissions: []
+  dangerous_permissions:
+    # A command-line tool takes files as paths in its arguments, with no file
+    # chooser; a working directory outside the grant is silently replaced by
+    # the sandbox's empty home (docs/packagers/solutions/command-line-tools.md).
+    - --filesystem=home

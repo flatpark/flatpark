@@ -7,9 +7,9 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # Console archives need read/write access to the default download folder.
-  # Other archive folders are opt-in overrides documented in the metainfo.
-  - --filesystem=xdg-download
+  # Command-line paths don't go through a file chooser portal: the whole home
+  # folder, so the working directory and relative paths work.
+  - --filesystem=home
 modules:
   - name: sevenzip
     buildsystem: simple

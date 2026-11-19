@@ -3,5 +3,5 @@ set -eu
 # The menu entry opens a terminal session with the vendor tools on PATH.
 printf '%s\n' 'Android SDK Platform Tools' \
     'Commands: adb, fastboot, sqlite3, etc1tool, hprof-conv, make_f2fs, make_f2fs_casefold, mke2fs' \
-    'Downloads is available for APKs, transfers and images. Type exit to close.'
+    'Files in your home folder are accessible. Type exit to close.'
 exec /bin/bash --noprofile --norc -i
