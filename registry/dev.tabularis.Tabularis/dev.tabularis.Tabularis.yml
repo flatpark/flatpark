@@ -35,9 +35,9 @@ modules:
         filename: tabularis.deb
         only-arches:
           - x86_64
-        url: https://github.com/TabularisDB/tabularis/releases/download/v0.33.0/tabularis_0.33.0_amd64.deb
-        sha256: 83b37d2f680bb4d53bd801f6f0e43e1e3a51fbb1bba8d1bac9a792ee95c6f630
-        size: 30560076
+        url: https://github.com/TabularisDB/tabularis/releases/download/v0.33.1/tabularis_0.33.1_amd64.deb
+        sha256: bcea705d85f531f76c03317ea4575d63b163c1ccd2553061adf08686c36a80b6
+        size: 30542068
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
