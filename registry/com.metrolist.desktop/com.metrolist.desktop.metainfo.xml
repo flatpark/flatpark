@@ -54,6 +54,10 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="14.0.1" date="2026-11-19">
+      <url type="details">https://github.com/MetrolistGroup/Metrolist/releases/tag/v14.0.1</url>
+      <description></description>
+    </release>
     <release version="14.0.0" date="2026-11-14">
       <url type="details">https://github.com/MetrolistGroup/Metrolist/releases/tag/v14.0.0</url>
     </release>
