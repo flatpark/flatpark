@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+# Letters is one binary in the AppDir apply_extra staged at /app/extra/letters.
+# It is started directly, without the AppImage's AppRun: AppRun only adds
+# usr/lib, a few X11 and xkbcommon libraries the runtime already has, to
+# LD_LIBRARY_PATH. Upstream's own Flatpak runs the bare binary on this runtime.
+# Settings and data go to the XDG directories Flatpak redirects under
+# ~/.var/app/io.github.bramble_apps.Letters.
+
+# Upstream's switch for the in-app update check. Updates come from FlatPark
+# through flatpak update; the app's own Flatpak update path needs
+# flatpak-spawn --host, which this package does not grant.
+export BRAMBLE_NO_UPDATE_CHECK=1
+
+exec /app/extra/letters/usr/bin/letters "$@"

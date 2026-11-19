@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.bramble_apps.Letters</id>
+  <name>Letters</name>
+  <summary>Write documents and lay out pages</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="io.github.bramble_apps">
+    <name>Bramble Office</name>
+  </developer>
+  <description>
+    <p>This is a community package of Letters, maintained independently and unaffiliated with the Bramble Office project. It repackages the official upstream Linux release (the AppImage) unmodified. Updates come through Flatpak, so the app's own update check is turned off.</p>
+    <p>Letters is a word processor and page layout app. It opens and saves Pages files, and opens and saves Word documents, RTF and Markdown.</p>
+    <p>Write with styles, lists, tables, charts, footnotes and tracked changes, or lay out flyers, newsletters and posters from templates with text boxes, shapes and pictures.</p>
+    <p>Permissions: display (Wayland, with X11 as a fallback); the GPU device; sound, for audio and video in documents and Record Audio; network access, for web video posters; and the system print service (saved printer settings in ~/.cups are read, not written). There is no access to your files: Open, Save and Insert go through the system file chooser, and a file opened from the file manager is passed in by it.</p>
+    <p>Features that run a program the Flatpak runtime doesn't include are unavailable: Equations (they need pdflatex and pdftoppm) and playing web videos (they need yt-dlp).</p>
+  </description>
+  <launchable type="desktop-id">io.github.bramble_apps.Letters.desktop</launchable>
+  <url type="homepage">https://bramble-apps.github.io</url>
+  <url type="bugtracker">https://github.com/bramble-apps/bramble-office/issues</url>
+  <url type="vcs-browser">https://github.com/bramble-apps/bramble-office</url>
+  <url type="donation">https://www.paypal.com/donate/?hosted_button_id=5EP8EM86U9P7Q</url>
+  <branding>
+    <color type="primary" scheme_preference="light">#f6f5f4</color>
+    <color type="primary" scheme_preference="dark">#3d3846</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://bramble-apps.github.io/screenshots/letters-2.jpg</image>
+      <caption>Styles, pictures and pull quotes</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://bramble-apps.github.io/screenshots/letters-1.jpg</image>
+      <caption>A newsletter laid out with pictures and columns</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <releases>
+    <release version="0.5.2" date="2026-11-17">
+      <description></description>
+    </release>
+  </releases>
+</component>
