@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
-  category: Development
+  category: AI
   tags: [AI, LLM, Chat, CPU, Vulkan]
 update:
   command: ./resolve-update.sh

@@ -121,6 +121,9 @@
 
   "appcard.updated": "updated {label}",
   "appcard.approved": "Published with the developer's approval",
+  "appcard.cli": "Command line",
+  "appcard.cli.title": "A command-line tool: it runs in a terminal and has no window",
+  "detail.cli.title": "A command-line tool with no window: run it in a terminal with flatpak run {id}",
 
   "panel.details": "Details",
   "panel.permissions": "Permissions",

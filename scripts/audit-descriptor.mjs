@@ -13,6 +13,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readManifestHead } from './read-extension-points.mjs';
+import { SECTION_MAP } from './catalog-sections.mjs';
 
 const file = process.argv[2];
 if (!file) {
@@ -53,6 +54,7 @@ let updateAuto = null;
 let proprietary = null;
 let upstreamSeen = false;
 let starsRepo = null;
+let category = null;
 let upstreamManifest = '';
 let upstreamList = null;
 const dangerousPerms = [];
@@ -95,6 +97,7 @@ const UPSTREAM_LISTS = {
     if (section === 'build' && k === 'manifest') manifestName = unquote(v);
     else if (section === 'build' && k === 'extends') extendsId = unquote(v);
     else if (section === 'catalog' && k === 'stars_repo') starsRepo = unquote(v);
+    else if (section === 'catalog' && k === 'category') category = unquote(v);
     else if (section === 'update' && k === 'command') updateCommand = unquote(v);
     else if (section === 'update' && k === 'auto') updateAuto = unquote(v);
     else if (section === 'policy') {
@@ -152,6 +155,13 @@ if (starsRepo !== null && starsRepo !== 'none' && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9
       (gh[1].toLowerCase() === 'flathub' || /[-_.](release|releases|flatpak|build|builds|packaging)$/i.test(gh[2]))) {
     warn(`source_url ${gh[1]}/${gh[2]} looks like a build/packaging repo: set catalog.stars_repo to upstream's owner/name, or none (docs/packagers/basics.md)`);
   }
+}
+
+// catalog.category picks the site section. A value outside the map (Flathub's
+// "Productivity" label, a plural "Utilities") silently lands in Utilities.
+if (category !== null && !Object.hasOwn(SECTION_MAP, category)) {
+  const hint = category === 'Productivity' ? ' (Flathub shows Office as "Productivity"; use Office)' : '';
+  fail(`catalog.category ${category} is not one the site knows${hint}; use one of: ${Object.keys(SECTION_MAP).join(', ')} (docs/packagers/basics.md)`);
 }
 
 // The catalog card and the app page render registry/<id>/<id>.svg|png, copied

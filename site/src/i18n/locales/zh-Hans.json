@@ -121,6 +121,9 @@
 
   "appcard.updated": "{label}已更新",
   "appcard.approved": "经开发者同意发布",
+  "appcard.cli": "命令行",
+  "appcard.cli.title": "命令行工具：在终端里运行，没有图形窗口",
+  "detail.cli.title": "命令行工具，没有图形窗口：在终端里用 flatpak run {id} 运行",
 
   "panel.details": "详情",
   "panel.permissions": "权限",

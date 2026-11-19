@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
-  category: Network
+  category: Office
   tags:
     - Email
     - GTK

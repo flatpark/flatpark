@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
-  category: Productivity
+  category: AI
   tags: [AI, LLM, Documents, Chat, Electron]
 update:
   command: ./resolve-update.sh

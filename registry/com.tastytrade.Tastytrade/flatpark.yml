@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
-  category: Office
+  category: Finance
   tags: [Finance, Trading, Stocks, Options]
 update:
   command: ./resolve-update.sh

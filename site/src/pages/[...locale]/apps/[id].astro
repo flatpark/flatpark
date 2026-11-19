@@ -232,6 +232,7 @@ const StarsTag = starsLink ? 'a' : 'span';
             <span class="chip">{app.category}</span>
           )
         }
+        {app.cli ? <span class="chip" title={t('detail.cli.title', { id: app.id })}>{t('appcard.cli')}</span> : null}
         {app.license ? <span class="chip">{app.license.label}</span> : null}
         {
           latest ? (
