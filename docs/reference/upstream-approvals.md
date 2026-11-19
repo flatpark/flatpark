@@ -123,6 +123,7 @@ that PR link in the table — the PR itself is the evidence.
 | Drosophila | `io.github.ergolyam.Drosophila` | Requested by its developer, who asked for the listing: [flatpark#1351](https://github.com/flatpark/flatpark/issues/1351) — "I'm the upstream developer of Drosophila … I explicitly approve the packaging and distribution of Drosophila through FlatPark"; they noted the package needs `--talk-name=org.freedesktop.Flatpak` for its TUN worker | 2026-11-17 |
 | Software (gnome-software-next) | `org.gnome.Software` | Submitted and maintained by the fork's own developer ([flatpark#1376](https://github.com/flatpark/flatpark/pull/1376)), after asking in [flatpark#1345](https://github.com/flatpark/flatpark/issues/1345); the fork's CI builds the FlatPark download itself ([`4587eab25`](https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/commit/4587eab25c02d87c1ad9928acd897d6c7735ea35), *Merge wip/flatpark-tarball*) | 2026-11-19 |
 | Beifahrer | `eu.jumplink.beifahrer` | Approved by construction — submitted and maintained by its own developer ([flatpark#1364](https://github.com/flatpark/flatpark/pull/1364)) | 2026-11-18 |
+| Corvus | `io.github.ada_h00k.Corvus` | Requested by its developer, who asked for the listing and publishes the archive we pin: [flatpark#1361](https://github.com/flatpark/flatpark/issues/1361); asked for the badge in [flatpark#1361 (comment)](https://github.com/flatpark/flatpark/issues/1361#issuecomment-7008376622) — "It would be nice if the Developer-approved badge were added" | 2026-11-19 |
 
 ## Declined
 

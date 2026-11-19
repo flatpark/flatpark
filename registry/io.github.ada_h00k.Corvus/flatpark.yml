@@ -10,6 +10,7 @@ build:
   arches: [x86_64]
 catalog:
   category: Network
+  upstream_approved: true
   tags: [Signal, Messenger, Chat, Qt]
 update:
   command: ./resolve-update.sh
@@ -24,11 +25,8 @@ upstream:
     - qtkeychain
     - libqrencode
     - protobuf
+    - hunspell
+    - hunspell-dictionaries
     - corvus-cli
 policy:
   proprietary: false
-  dangerous_permissions:
-    # Notification sounds: Corvus plays them with pw-play when it is on PATH,
-    # and the KDE runtime has it; pw-play connects to the default PipeWire
-    # socket and fails without it. Upstream grants the same in its own Flatpak.
-    - --filesystem=xdg-run/pipewire-0:ro
