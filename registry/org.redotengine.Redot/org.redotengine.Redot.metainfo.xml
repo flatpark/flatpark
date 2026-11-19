@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.redotengine.Redot</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Redot Engine</name>
+  <summary>Multi-platform 2D and 3D game engine with a feature-rich editor</summary>
+
+  <description>
+    <p>
+      Redot is a community fork of the Godot engine: a feature-packed,
+      multi-platform 2D and 3D game engine with an integrated editor, scripted
+      in GDScript. It provides a large set of common tools, so you can focus on
+      making your game without reinventing the wheel.
+    </p>
+    <p>
+      Redot is free and open source under the MIT license. No royalties, no
+      strings attached: your game is yours, down to the last line of engine code.
+    </p>
+    <p>
+      This is a community package: it installs the official Linux editor build
+      from upstream's releases unmodified and follows new releases
+      automatically. It is the standard build; the .NET (C#) build needs a .NET
+      SDK and is not packaged.
+    </p>
+    <p>
+      The editor can read and write your home directory, where it keeps
+      projects by default. Gamepads for testing a running game are not shared
+      by default; enable them with
+      <code>flatpak override --user --device=all org.redotengine.Redot</code>
+      and undo it with
+      <code>flatpak override --user --reset org.redotengine.Redot</code>.
+    </p>
+  </description>
+
+  <developer id="org.redotengine">
+    <name>The Redot Engine Community</name>
+  </developer>
+
+  <launchable type="desktop-id">org.redotengine.Redot.desktop</launchable>
+  <url type="homepage">https://www.redotengine.org/</url>
+  <url type="bugtracker">https://github.com/Redot-Engine/redot-engine/issues</url>
+  <url type="help">https://docs.redotengine.org/</url>
+  <url type="faq">https://docs.redotengine.org/about/faq</url>
+  <url type="donation">https://ko-fi.com/redotengine</url>
+  <url type="vcs-browser">https://github.com/Redot-Engine/redot-engine</url>
+
+  <provides>
+    <binary>redot</binary>
+    <mediatype>application/x-godot-project</mediatype>
+  </provides>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>A 3D project open in the Redot Engine editor</caption>
+      <image>https://www.redotengine.org/redotEditor.jpg</image>
+    </screenshot>
+  </screenshots>
+
+  <categories>
+    <category>Development</category>
+    <category>IDE</category>
+  </categories>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="26.3" date="2026-10-15"/>
+  </releases>
+</component>
