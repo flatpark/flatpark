@@ -4,22 +4,35 @@
   <id>org.gnome.Software</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0-or-later</project_license>
-  <name>Software</name>
-  <summary>Install and update apps</summary>
+  <name>Software Next</name>
+  <summary>A faster GNOME Software, with full-screen screenshots (unofficial fork)</summary>
   <description>
     <p>
-      An unofficial and experimental fork of GNOME Software, the app store of
-      the GNOME desktop. It is not made or supported by the GNOME Software
-      developers or the GNOME project; please report problems to the fork.
-      The fork's changes were developed with the help of generative AI.
+      Software Next is an unofficial, experimental fork of GNOME Software that
+      puts speed first. It finds, installs and updates the same software as
+      GNOME Software (Flatpak apps, your distribution's packages through
+      PackageKit, dnf5 or rpm-ostree, snaps and firmware), but its pages open
+      almost at once.
     </p>
+    <p>Why use it instead of GNOME Software:</p>
+    <ul>
+      <li>Pages open much faster. In the fork's measurements the overview shows
+        its apps in about 0.6 s instead of 3 s, a category's apps and icons
+        appear in a fraction of a second instead of several seconds, and an
+        app's details page is ready right away instead of after 2–3 s.</li>
+      <li>Search results appear as you type, in about 0.15 s.</li>
+      <li>Screenshots open full screen. Click a screenshot to see it over the
+        whole window, zoom in on the details and move to the previous or next
+        one.</li>
+      <li>It stays smooth. Long category lists scroll without stutter, and
+        swiping back from a details page lands where you came from.</li>
+      <li>It is consistent. Every page shows the same state and progress of an
+        app, and lists update in place instead of reloading.</li>
+    </ul>
     <p>
-      Like GNOME Software, it lets you find and install Flatpak apps, the
-      packages of your distribution (through PackageKit, dnf5 or rpm-ostree)
-      and snaps, keeps them and your firmware up to date, and manages your
-      software repositories. The fork has a new core: every page shows the
-      same state and progress of an app, and lists update in place instead
-      of being reloaded.
+      It is not made or supported by the GNOME Software developers or the
+      GNOME project, and its changes were developed with the help of
+      generative AI. Please report problems to the fork.
     </p>
     <p>
       It replaces the Software of your system: the desktop opens it for app

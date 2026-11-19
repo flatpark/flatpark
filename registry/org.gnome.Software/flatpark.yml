@@ -1,6 +1,6 @@
 id: org.gnome.Software
-name: Software
-summary: Install and update apps, an unofficial fork of GNOME Software
+name: Software Next
+summary: A faster GNOME Software, with full-screen screenshots (unofficial fork)
 website: https://gitlab.gnome.org/user_c1a5830a/gnome-software-next
 source_url: https://gitlab.gnome.org/user_c1a5830a/gnome-software-next
 build:
