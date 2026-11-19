@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
-  category: Productivity
+  category: Office
   tags: [Tasks, CalDAV, Todo, Nextcloud]
 update:
   command: ./resolve-update.sh

@@ -50,7 +50,7 @@ source_url: https://github.com/example/test-one
 build:
   manifest: io.flatpark.TestOne.yml
 catalog:
-  category: Utilities
+  category: Utility
 EOF
 cat > "$two_dir/flatpark.yml" <<'EOF'
 id: io.flatpark.TestTwo

@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
-  category: Productivity
+  category: Office
   tags: [Markdown, Notes, Knowledge Base, RSS, Books]
 update:
   command: ./resolve-update.sh

@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
-  category: Productivity
+  category: Office
   tags: [Project Management, Gantt, Scheduling, Resources]
 update:
   command: ./resolve-update.sh

@@ -78,6 +78,7 @@ const updatedLabel = ago(app.updated);
     <p class="line-clamp-2 text-sm text-muted">{app.summary}</p>
     <div class="mt-2 flex flex-wrap items-center gap-2">
       <span class="chip chip-mode">{sectionText}</span>
+      {app.cli && <span class="chip" title={t('appcard.cli.title')}>{t('appcard.cli')}</span>}
       {updatedLabel && <span class="text-xs text-muted">{t('appcard.updated', { label: updatedLabel })}</span>}
     </div>
   </div>

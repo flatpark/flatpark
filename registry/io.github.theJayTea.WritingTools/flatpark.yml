@@ -11,7 +11,7 @@ build:
 catalog:
   # source_url is the build repo; stars count upstream's
   stars_repo: theJayTea/WritingTools
-  category: Productivity
+  category: Office
   upstream_approved: false
   tags: [Writing, AI, Proofreading, X11]
 update:

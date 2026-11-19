@@ -78,7 +78,7 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]   # default: [x86_64]
 catalog:
-  category: Productivity
+  category: Office
   tags: [Example, Demo]
   upstream_approved: true     # only with a row in upstream-approvals.md
   stars_repo: owner/name      # only when source_url is not upstream's repo; or none
@@ -102,6 +102,15 @@ packaging:                    # anything beyond a plain launch
   the manifest pins it. Each extra-data source then carries its own
   `only-arches`. The simplest shape gives both payloads the same `filename`, so
   `apply_extra.sh` unpacks one name on either arch.
+- `catalog.category` picks the app's section on the site. Use a freedesktop
+  main category (`AudioVideo`, `Development`, `Education`, `Game`, `Graphics`,
+  `Network`, `Office`, `Science`, `System`, `Utility`), `Finance`, or
+  FlatPark's own `AI` for AI clients, agents and local model runners. The
+  audit rejects anything the site has no section for; the full list is the
+  map in `scripts/catalog-sections.mjs`. Flathub's "Productivity" is its label
+  for `Office`, and mail clients are `Office` too. Whether an app is a
+  command-line tool isn't a category: the site marks it from `Terminal=true`
+  in the `.desktop` file, and its category stays what the tool is for.
 - `catalog.upstream_approved` is the blue shield. CI fails it without a matching
   row in [upstream approvals](../reference/upstream-approvals.md).
 - `catalog.stars_repo` says which GitHub repository's stars the site shows

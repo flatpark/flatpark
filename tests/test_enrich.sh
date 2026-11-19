@@ -66,7 +66,7 @@ summary: First test app
 build:
   manifest: io.flatpark.TestOne.yml
 catalog:
-  category: Utilities
+  category: Utility
 website: https://example.org/
 maintainer:
   github: testuser
@@ -80,6 +80,15 @@ requires:
   - remote: flathub
     ref: org.winehq.Wine//stable-26.08
     name: Wine
+EOF
+
+# A launcher that opens in a terminal marks the app as a command-line tool.
+cat > "$app/io.flatpark.TestOne.desktop" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Test One
+Exec=test-one
+Terminal=true
 EOF
 
 # The listing date ("Recently added" sort) is read out of git, so the fixture
@@ -122,6 +131,7 @@ assert_contains "$out" "\"key\": \"share.network\""
 assert_contains "$out" "\"key\": \"socket.wayland\""
 assert_contains "$out" "\"key\": \"device.dri\""
 assert_contains "$out" "\"section\": \"utilities\""
+assert_contains "$out" "\"cli\": true"
 # listing date: the commit that first added the app dir, independent of the
 # release date that drives "updated" (2026-01-01 here)
 assert_ok node -e "

@@ -48,7 +48,7 @@ jobs:
           shopt -s nullglob
           base="$(git rev-parse HEAD^1)"
           strict_all=0
-          git diff --quiet "$base" HEAD -- scripts/audit-descriptor.mjs scripts/read-descriptor.mjs || strict_all=1
+          git diff --quiet "$base" HEAD -- scripts/audit-descriptor.mjs scripts/read-descriptor.mjs scripts/catalog-sections.mjs || strict_all=1
           changed=" $(./scripts/changed-apps.sh --any-change "$base" HEAD | tr '\n' ' ') "
           rc=0
           log="$(mktemp)"

@@ -12,7 +12,7 @@ build:
   branch: stable
   mode: extra-data
 catalog:
-  category: Network
+  category: Office
   upstream_approved: true
   tags:
     - Email

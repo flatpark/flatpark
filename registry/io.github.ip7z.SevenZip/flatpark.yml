@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64, aarch64]
 catalog:
-  category: Utilities
+  category: Utility
   tags: [Archives, Compression, Extraction, 7z, Terminal]
 update:
   command: ./resolve-update.sh

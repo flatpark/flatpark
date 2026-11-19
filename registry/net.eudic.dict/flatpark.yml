@@ -8,7 +8,7 @@ build:
   branch: stable
   mode: extra-data
 catalog:
-  category: Education
+  category: Office
   tags:
     - Dictionary
     - Languages

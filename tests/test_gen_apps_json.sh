@@ -18,7 +18,7 @@ summary: First test app
 build:
   manifest: test-one.yml
 catalog:
-  category: Utilities
+  category: Utility
   tags:
     - Local
     - Test

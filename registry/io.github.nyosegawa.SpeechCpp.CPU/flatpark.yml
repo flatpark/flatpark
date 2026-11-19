@@ -9,7 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
-  category: AudioVideo
+  category: AI
   tags: [Speech, AI, TTS, ASR, CPU]
 update:
   command: ./resolve-update.sh

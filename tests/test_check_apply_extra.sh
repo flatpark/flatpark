@@ -45,7 +45,7 @@ build:
   branch: stable
   mode: extra-data
 catalog:
-  category: Utilities
+  category: Utility
 EOF
 
 cat >"$app/$id.yml" <<EOF

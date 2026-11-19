@@ -8,7 +8,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
-  category: Productivity
+  category: Office
   tags: [Pomodoro, Timer, Focus, Productivity]
 update:
   command: ./resolve-update.sh
