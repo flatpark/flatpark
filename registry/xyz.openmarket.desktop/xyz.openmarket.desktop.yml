@@ -63,9 +63,9 @@ modules:
         filename: app.AppImage
         only-arches:
           - x86_64
-        url: https://assets.openmarket.xyz/desktop/stable/OpenMarket-0.1.10-linux-x86_64.AppImage
-        sha256: 5fc2ae02e2178a7d90819f03cb647c43541236cdce0e05c43f547f76d2efe045
-        size: 125769665
+        url: https://assets.openmarket.xyz/desktop/stable/OpenMarket-0.1.11-linux-x86_64.AppImage
+        sha256: dff9c247663ba21f318eda2ac6efe3c7120ca3473698ed513c8f52926afcd8c5
+        size: 125769622
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

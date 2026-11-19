@@ -42,9 +42,9 @@ modules:
         filename: dockit.deb
         only-arches:
           - x86_64
-        url: https://github.com/geek-fun/dockit/releases/download/v2.0.2/DocKit_2.0.2_amd64.deb
-        sha256: fdb1d6fb8759f484d7f0a5672fdfbf7e64391b13bec3ca91a00c600857d18364
-        size: 30514130
+        url: https://github.com/geek-fun/dockit/releases/download/v2.0.3/DocKit_2.0.3_amd64.deb
+        sha256: a79be2a12df072308cadb2954b6d2aab7815b4dd94ab6390abf53d11a775f386
+        size: 30891896
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

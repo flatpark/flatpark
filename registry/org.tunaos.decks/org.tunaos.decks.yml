@@ -30,9 +30,9 @@ modules:
         filename: decks.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.54/decks-x86_64.tar.gz
-        sha256: ee7fef59eb1e376b85b03aad56382c33d7909fe4227d42f5f435049057fd4f86
-        size: 3681522
+        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.62/decks-x86_64.tar.gz
+        sha256: 25904ed67dd342514b413f5571f295cce3d2356403c0a6dfe2e07fccaa25ae6f
+        size: 3681491
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

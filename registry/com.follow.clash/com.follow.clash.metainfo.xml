@@ -44,6 +44,9 @@
     <binary>flclash</binary>
   </provides>
   <releases>
+    <release version="0.9.4" date="2026-11-19">
+      <description></description>
+    </release>
     <release version="0.9.3" date="2026-11-04">
       <description></description>
     </release>

@@ -68,6 +68,9 @@
   <content_rating type="oars-1.1"/>
 
   <releases>
+    <release version="0.28.6" date="2026-11-19">
+      <description></description>
+    </release>
     <release version="0.28.5" date="2026-11-17">
       <description></description>
     </release>

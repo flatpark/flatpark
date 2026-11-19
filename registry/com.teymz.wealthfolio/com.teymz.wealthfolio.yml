@@ -37,16 +37,16 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/wealthfolio/wealthfolio/releases/download/v3.13.0/Wealthfolio_3.13.0_amd64.deb
-        sha256: 76466108b1ba46ee3bb8a9c3f316adb64ce4cf801b3a1d05b3c1d365a4a488db
-        size: 70863144
+        url: https://github.com/wealthfolio/wealthfolio/releases/download/v3.13.1/Wealthfolio_3.13.1_amd64.deb
+        sha256: a788724c67ee97375f39ce35bced7ef91aa5883c9d607806af9d2445757a7858
+        size: 71102646
       - type: extra-data
         filename: app.deb
         only-arches:
           - aarch64
-        url: https://github.com/wealthfolio/wealthfolio/releases/download/v3.13.0/Wealthfolio_3.13.0_arm64.deb
-        sha256: 257f46ea17ef3d4615f46323d5cce9b60786cfab41daa10d60a0888ba461b411
-        size: 72762670
+        url: https://github.com/wealthfolio/wealthfolio/releases/download/v3.13.1/Wealthfolio_3.13.1_arm64.deb
+        sha256: bc41e3b1bbab018e051756b0d649378cecfc6cd2277f80c4f162e06be810c866
+        size: 72880756
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

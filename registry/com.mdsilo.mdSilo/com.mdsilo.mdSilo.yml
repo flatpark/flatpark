@@ -45,9 +45,9 @@ modules:
         filename: mdsilo.deb
         only-arches:
           - x86_64
-        url: https://github.com/mdSilo/mdSilo-app/releases/download/mdsilo-v0.8.0/mdsilo_0.8.0_amd64.deb
-        sha256: a8e7b51e3ce8d4a446a5e13144ea61f88420660c717467efc148da9648a87c54
-        size: 18107196
+        url: https://github.com/mdSilo/mdSilo-app/releases/download/mdsilo-v0.8.1/mdsilo_0.8.1_amd64.deb
+        sha256: 7e85dbbbbda45702243e270de3e89617c7169b2f1333c0c61db9d17ea1a87c8f
+        size: 18610064
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
