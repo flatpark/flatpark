@@ -3,7 +3,7 @@ set -eu
 
 # Like yt-dlp's desktop launcher, keep a prompt open between operations.
 printf '%s\n' 'ImageMagick' \
-  'Enter absolute paths to convert an image. Pictures is accessible by default.' \
+  'Enter image paths to convert one. Files in your home folder are accessible.' \
   'For advanced options, run: flatpak run org.imagemagick.ImageMagick -help' \
   ''
 while :; do

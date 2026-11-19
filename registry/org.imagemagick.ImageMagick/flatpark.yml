@@ -8,6 +8,7 @@ build:
   branch: stable
   mode: extra-data
 catalog:
+  interface: cli
   category: Graphics
   tags:
     - Image Processing
@@ -16,3 +17,8 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
+  dangerous_permissions:
+    # A command-line tool takes files as paths in its arguments, with no file
+    # chooser; a working directory outside the grant is silently replaced by
+    # the sandbox's empty home (docs/packagers/solutions/command-line-tools.md).
+    - --filesystem=home

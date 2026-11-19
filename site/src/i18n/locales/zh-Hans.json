@@ -121,9 +121,12 @@
 
   "appcard.updated": "{label}已更新",
   "appcard.approved": "经开发者同意发布",
-  "appcard.cli": "命令行",
+  "appcard.cli": "CLI",
   "appcard.cli.title": "命令行工具：在终端里运行，没有图形窗口",
   "detail.cli.title": "命令行工具，没有图形窗口：在终端里用 flatpak run {id} 运行",
+  "appcard.webui": "Web UI",
+  "appcard.webui.title": "在浏览器里使用：启动器在终端里运行本地服务，再打开它的网页",
+  "detail.webui.title": "在浏览器里使用：启动器在终端里运行本地服务，保持终端开着，在浏览器里打开它提供的页面",
 
   "panel.details": "详情",
   "panel.permissions": "权限",

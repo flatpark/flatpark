@@ -8,8 +8,8 @@
   <developer id="io.github.mikf"><name>Mike Fährmann and contributors</name></developer>
   <description>
     <p>gallery-dl is a command-line program for downloading image galleries and collections from supported websites. It provides configuration options, authentication and filename formatting.</p>
-    <p>This community package repackages the official Linux binary unmodified. Run it in a terminal with <code>flatpak run io.github.mikf.gallery_dl --help</code>. The application menu opens a terminal that prompts for gallery URLs and saves downloads to your Downloads folder. Press Enter at an empty prompt to close it. From the command line, Downloads is accessible and relative paths use the app's private directory.</p>
-    <p>To access another folder, run <code>flatpak override --user --filesystem=/path/to/folder io.github.mikf.gallery_dl</code>. Reset custom permissions with <code>flatpak override --user --reset io.github.mikf.gallery_dl</code>. The runtime provides ffmpeg; optional tools such as yt-dlp are not included.</p>
+    <p>This community package repackages the official Linux binary unmodified. Run it in a terminal with <code>flatpak run io.github.mikf.gallery_dl --help</code>. The application menu opens a terminal that prompts for gallery URLs and saves downloads to your Downloads folder. Press Enter at an empty prompt to close it. From the command line, your home folder is accessible and downloads go under the current directory, as with upstream gallery-dl.</p>
+    <p>External drives are not included: run <code>flatpak override --user --filesystem=/run/media io.github.mikf.gallery_dl</code> to add them. Reset custom permissions with <code>flatpak override --user --reset io.github.mikf.gallery_dl</code>. The runtime provides ffmpeg; optional tools such as yt-dlp are not included.</p>
   </description>
   <launchable type="desktop-id">io.github.mikf.gallery_dl.desktop</launchable>
   <url type="homepage">https://github.com/mikf/gallery-dl</url>

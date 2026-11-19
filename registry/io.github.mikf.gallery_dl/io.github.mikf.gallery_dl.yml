@@ -9,8 +9,9 @@ build-options:
 finish-args:
   # Fetch galleries from supported websites.
   - --share=network
-  # Save downloaded media to Downloads.
-  - --filesystem=xdg-download
+  # Downloads land under the working directory, as upstream does: the whole
+  # home folder, so it is the real one. The menu launcher saves to Downloads.
+  - --filesystem=home
 modules:
   - name: gallery-dl
     buildsystem: simple

@@ -91,6 +91,30 @@ sed -i 's|  stars_repo: none|  stars_repo: https://github.com/upstream/app|' "$s
 if $AUDIT "$st/flatpark.yml" >/dev/null 2>&1; then echo "FAIL: malformed stars_repo accepted"; exit 1; fi
 rm -rf "$st"
 
+# catalog.interface: gui (default) | cli | web. A Terminal=true launcher must
+# say cli or web, cli needs Terminal=true, and nothing else is a value.
+ti="$(mktemp -d)"
+cp "$F/good/flatpark.yml" "$F/good/manifest.yml" "$F/good/com.example.App.svg" "$ti/"
+printf '[Desktop Entry]\nType=Application\nName=Example\nExec=app\nTerminal=true\n' > "$ti/com.example.App.desktop"
+out="$($AUDIT "$ti/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "1"
+printf '%s' "$out" | grep -qF "set catalog.interface" || { echo "FAIL: Terminal=true without catalog.interface not reported"; exit 1; }
+printf 'catalog:\n  interface: gui\n' >> "$ti/flatpark.yml"
+if $AUDIT "$ti/flatpark.yml" >/dev/null 2>&1; then echo "FAIL: interface: gui with Terminal=true accepted"; exit 1; fi
+sed -i 's|  interface: gui|  interface: cli|' "$ti/flatpark.yml"
+$AUDIT "$ti/flatpark.yml" >/dev/null 2>&1 || { echo "FAIL: interface: cli with Terminal=true rejected"; exit 1; }
+sed -i 's|  interface: cli|  interface: web|' "$ti/flatpark.yml"
+$AUDIT "$ti/flatpark.yml" >/dev/null 2>&1 || { echo "FAIL: interface: web with Terminal=true rejected"; exit 1; }
+sed -i 's|  interface: web|  interface: cmd|' "$ti/flatpark.yml"
+if $AUDIT "$ti/flatpark.yml" >/dev/null 2>&1; then echo "FAIL: interface: cmd accepted"; exit 1; fi
+sed -i 's|  interface: cmd|  interface: cli|; s|^Terminal=true$|Terminal=false|' "$ti/flatpark.yml" "$ti/com.example.App.desktop"
+out="$($AUDIT "$ti/flatpark.yml" 2>&1)"; rc=$?
+assert_eq "$rc" "1"
+printf '%s' "$out" | grep -qF "needs Terminal=true" || { echo "FAIL: interface: cli without Terminal=true not reported"; exit 1; }
+sed -i 's|  interface: cli|  interface: gui|' "$ti/flatpark.yml"
+$AUDIT "$ti/flatpark.yml" >/dev/null 2>&1 || { echo "FAIL: interface: gui rejected"; exit 1; }
+rm -rf "$ti"
+
 # Regression: every shipping registry app must pass (no hard fail)
 for d in "$ROOT"/registry/*/flatpark.yml; do
   $AUDIT "$d" >/dev/null 2>&1 || { echo "FAIL: audit hard-failed on shipping app $d"; $AUDIT "$d"; exit 1; }

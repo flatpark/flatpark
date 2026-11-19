@@ -55,6 +55,7 @@ let proprietary = null;
 let upstreamSeen = false;
 let starsRepo = null;
 let category = null;
+let iface = null; // catalog.interface: gui (default) | cli | web
 let upstreamManifest = '';
 let upstreamList = null;
 const dangerousPerms = [];
@@ -98,6 +99,7 @@ const UPSTREAM_LISTS = {
     else if (section === 'build' && k === 'extends') extendsId = unquote(v);
     else if (section === 'catalog' && k === 'stars_repo') starsRepo = unquote(v);
     else if (section === 'catalog' && k === 'category') category = unquote(v);
+    else if (section === 'catalog' && k === 'interface') iface = unquote(v);
     else if (section === 'update' && k === 'command') updateCommand = unquote(v);
     else if (section === 'update' && k === 'auto') updateAuto = unquote(v);
     else if (section === 'policy') {
@@ -162,6 +164,26 @@ if (starsRepo !== null && starsRepo !== 'none' && !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9
 if (category !== null && !Object.hasOwn(SECTION_MAP, category)) {
   const hint = category === 'Productivity' ? ' (Flathub shows Office as "Productivity"; use Office)' : '';
   fail(`catalog.category ${category} is not one the site knows${hint}; use one of: ${Object.keys(SECTION_MAP).join(', ')} (docs/packagers/basics.md)`);
+}
+
+// catalog.interface says how the app is used, and the site shows it as the
+// "CLI" or "Web UI" chip: gui (the default, a window), cli (typed at in a
+// terminal) or web (a local server used through its browser page). The
+// .desktop's Terminal=true can't tell cli from web, so a terminal launcher must
+// say which; cli, or gui, against the launcher is a mistake either way.
+// (docs/packagers/basics.md, docs/packagers/solutions/command-line-tools.md)
+if (iface !== null && !['gui', 'cli', 'web'].includes(iface)) {
+  fail(`catalog.interface must be gui, cli or web, got: ${iface}`);
+}
+if (appId) {
+  const desktop = join(dirname(file), `${appId}.desktop`);
+  const terminal = existsSync(desktop) && /^Terminal\s*=\s*true\s*$/im.test(readFileSync(desktop, 'utf8'));
+  if (terminal && (iface === null || iface === 'gui')) {
+    fail(`${appId}.desktop has Terminal=true: set catalog.interface to cli (a command-line tool) or web (a local server used in the browser)`);
+  }
+  if (iface === 'cli' && !terminal) {
+    fail(`catalog.interface: cli needs Terminal=true in ${appId}.desktop`);
+  }
 }
 
 // The catalog card and the app page render registry/<id>/<id>.svg|png, copied

@@ -8,8 +8,8 @@
   <developer_name>ImageMagick Studio LLC</developer_name>
   <description>
     <p>ImageMagick creates, converts and edits images in many formats. Use its command-line tools for image processing and automation. This portable build has no X11 display or animate support.</p>
-    <p>This community package repackages the official upstream build unmodified. Run commands with <code>flatpak run org.imagemagick.ImageMagick</code>. The application menu opens a terminal that prompts for input and output image paths and remains open between conversions; press Enter at the input prompt to close it. Files in Pictures are available by default; use absolute paths for image files.</p>
-    <p>For files elsewhere in your home directory, enable access with <code>flatpak override --user --filesystem=home org.imagemagick.ImageMagick</code>. Undo overrides with <code>flatpak override --user --reset org.imagemagick.ImageMagick</code>.</p>
+    <p>This community package repackages the official upstream build unmodified. Run commands with <code>flatpak run org.imagemagick.ImageMagick</code>. The application menu opens a terminal that prompts for input and output image paths and remains open between conversions; press Enter at the input prompt to close it. Files in your home folder are accessible; paths may be relative to your home folder or absolute.</p>
+    <p>External drives are not included: run <code>flatpak override --user --filesystem=/run/media org.imagemagick.ImageMagick</code> to add them. Undo overrides with <code>flatpak override --user --reset org.imagemagick.ImageMagick</code>.</p>
   </description>
   <url type="homepage">https://imagemagick.org/</url>
   <url type="bugtracker">https://github.com/ImageMagick/ImageMagick/issues</url>

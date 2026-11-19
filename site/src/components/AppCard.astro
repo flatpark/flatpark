@@ -79,6 +79,7 @@ const updatedLabel = ago(app.updated);
     <div class="mt-2 flex flex-wrap items-center gap-2">
       <span class="chip chip-mode">{sectionText}</span>
       {app.cli && <span class="chip" title={t('appcard.cli.title')}>{t('appcard.cli')}</span>}
+      {app.webUi && <span class="chip" title={t('appcard.webui.title')}>{t('appcard.webui')}</span>}
       {updatedLabel && <span class="text-xs text-muted">{t('appcard.updated', { label: updatedLabel })}</span>}
     </div>
   </div>

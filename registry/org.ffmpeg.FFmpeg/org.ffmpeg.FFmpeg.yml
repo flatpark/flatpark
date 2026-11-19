@@ -10,8 +10,9 @@ finish-args:
   # FFmpeg supports network input and output protocols.
   - --share=network
   - --device=dri
-  # Read and write media in Downloads from both terminal entry points.
-  - --filesystem=xdg-download
+  # Command-line paths don't go through a file chooser portal: the whole home
+  # folder, so the working directory and relative paths work.
+  - --filesystem=home
 modules:
   - name: ffmpeg
     buildsystem: simple

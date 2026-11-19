@@ -14,16 +14,13 @@ import { starsRepoOf, fetchStars } from '../src/lib/stars.mjs';
 import { sectionFor } from '../../scripts/catalog-sections.mjs';
 
 
-// A command-line tool is one whose launcher opens in a terminal. That is a
-// property of how the app runs, not what it is for, so it is a flag beside the
-// section rather than a section of its own: FFmpeg stays in Audio & Video and
-// still says it has no window. Read from the registry's own .desktop file, so
-// a new CLI package is marked without anyone having to remember to.
-function isTerminalApp(srcDir, id) {
-  const p = join(srcDir || '', `${id}.desktop`);
-  if (!srcDir || !existsSync(p)) return false;
-  return /^Terminal\s*=\s*true\s*$/im.test(readFileSync(p, 'utf8'));
-}
+// How a terminal launcher is used is a property of how the app runs, not what
+// it is for, so it is a flag beside the section rather than a section of its
+// own: FFmpeg stays in Audio & Video and still says it has no window.
+// catalog.interface in flatpark.yml says it outright: `gui` (the default),
+// `cli` for a command-line tool, `web` for a local server used through its
+// browser page (llama.cpp). The .desktop's Terminal=true is the same for the
+// last two, so the descriptor audit makes every terminal launcher pick one.
 
 // Last time we touched this app's package, for the "Recently updated" sort.
 // Git commit time of the registry dir is universal (no upstream fetch); fall
@@ -629,7 +626,8 @@ async function enrichOne(file) {
   out.runtimeVersion = '';
   out.command = '';
   out.proprietary = false;
-  out.cli = isTerminalApp(srcDir, base.id);
+  out.cli = false;
+  out.webUi = false;
   out.maintainer = null;
   out.permissions = [];
   let supportDerived = [];
@@ -714,6 +712,8 @@ async function enrichOne(file) {
       if (fy.policy?.proprietary) out.proprietary = true;
       if (fy.build?.mode) out.buildMode = fy.build.mode;
       out.upstreamApproved = !!fy.catalog?.upstream_approved; // upstream developer consented to this listing
+      out.cli = fy.catalog?.interface === 'cli';
+      out.webUi = fy.catalog?.interface === 'web';
       packagingDeclared = fy.packaging;
       out.requires = requiresOf(fy);
     }

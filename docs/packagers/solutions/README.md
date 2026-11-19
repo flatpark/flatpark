@@ -19,6 +19,8 @@ Start from the symptom:
   saved passwords, keyrings, screen capture, accessibility.
 - [Nested sandboxes and updaters](sandboxes-and-updaters.md): an app's own
   sandbox, an in-app updater, apps that manage the host.
+- [Command-line tools and web UIs](command-line-tools.md): a package with no
+  window, files passed by path not found or lost, a local server's page.
 - [By stack](by-stack.md): a checklist for Electron, Chromium browsers, Tauri,
   Wails, GPUI, Slint, Flutter, Qt, .NET, Java and Wine apps.
 

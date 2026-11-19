@@ -3,7 +3,6 @@ set -eu
 # Deno runs the EJS scripts bundled in upstream's ZIP; no remote code is needed.
 export PATH="/app/extra/deno:$PATH"
 export DENO_NO_UPDATE_CHECK=1
-# Use the granted Downloads directory even when launched from a private home.
 # The onedir build cannot replace itself; explicit -U can still check releases.
 # --no-update also suppresses routine checks and the 90-day age warning.
-exec /app/extra/yt-dlp/launcher --no-update --paths "$(xdg-user-dir DOWNLOAD)" "$@"
+exec /app/extra/yt-dlp/launcher --no-update "$@"

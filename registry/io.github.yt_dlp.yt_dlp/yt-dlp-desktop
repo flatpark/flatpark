@@ -10,7 +10,7 @@ while :; do
     IFS= read -r url || break
     [ -n "$url" ] || break
     # Pass input literally as one positional argument, never as shell code.
-    if /app/bin/yt-dlp -- "$url"; then
+    if /app/bin/yt-dlp --paths "$(xdg-user-dir DOWNLOAD)" -- "$url"; then
         printf '\nDownload finished.\n\n'
     else
         printf '\nDownload failed. Check the message above and try another URL.\n\n'

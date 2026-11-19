@@ -9,6 +9,7 @@ build:
   mode: extra-data
   arches: [x86_64]
 catalog:
+  interface: web
   category: AI
   tags: [Audio, AI, TTS, ASR, CPU]
 update:

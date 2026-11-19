@@ -11,10 +11,10 @@ finish-args:
   - --share=network
   # Direct USB access for ADB and fastboot, declared in flatpark.yml.
   - --device=all
-  # Preserve this package's own device authorization keys across restarts.
-  - --persist=.android
-  # APKs, images and device transfers; other folders are opt-in.
-  - --filesystem=xdg-download
+  # APKs, images and device transfers are passed by path: the whole home
+  # folder. ADB keys then live in the real ~/.android, shared with a host adb
+  # (--persist is ignored once home is granted).
+  - --filesystem=home
 modules:
   - name: platform-tools
     buildsystem: simple
