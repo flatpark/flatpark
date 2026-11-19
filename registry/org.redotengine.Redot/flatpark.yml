@@ -1,0 +1,25 @@
+id: org.redotengine.Redot
+name: Redot Engine
+summary: Multi-platform 2D and 3D game engine with a feature-rich editor
+website: https://www.redotengine.org/
+source_url: https://github.com/Redot-Engine/redot-engine
+build:
+  manifest: org.redotengine.Redot.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Development
+  tags:
+    - Game Engine
+    - Game Development
+    - GDScript
+    - Godot
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Projects are folders the editor opens directly, and its default project
+    # location is $HOME; see the manifest.
+    - --filesystem=home

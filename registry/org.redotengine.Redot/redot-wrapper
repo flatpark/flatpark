@@ -1,0 +1,5 @@
+#!/bin/sh
+# The release is a single self-contained binary that links only glibc; the
+# engine, editor and its resources are built in. No environment variables or
+# flags are needed, so this only starts it.
+exec /app/extra/redot/redot "$@"
