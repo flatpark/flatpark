@@ -55,6 +55,9 @@
     <mediatype>x-scheme-handler/antigravity</mediatype>
   </provides>
   <releases>
+    <release version="2.33.0" date="2026-11-17">
+      <description></description>
+    </release>
     <release version="2.32.2" date="2026-11-16">
       <description></description>
     </release>

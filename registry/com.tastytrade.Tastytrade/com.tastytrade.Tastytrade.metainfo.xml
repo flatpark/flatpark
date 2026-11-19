@@ -23,6 +23,9 @@
     <category>Finance</category>
   </categories>
   <releases>
+    <release version="0.77.0" date="2026-11-18">
+      <description></description>
+    </release>
     <release version="0.76.0" date="2026-11-17"/>
   </releases>
 </component>

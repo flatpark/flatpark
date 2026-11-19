@@ -46,6 +46,10 @@
     <binary>sculptforge-cli</binary>
   </provides>
   <releases>
+    <release version="0.13.8" date="2026-11-18">
+      <url type="details">https://github.com/islandmed/SculptForge/releases/tag/v0.13.8</url>
+      <description></description>
+    </release>
     <release version="0.13.7" date="2026-11-18">
       <url type="details">https://github.com/islandmed/SculptForge/releases/tag/v0.13.7</url>
       <description></description>
