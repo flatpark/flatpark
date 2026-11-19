@@ -68,16 +68,16 @@ modules:
         filename: brave-origin-amd64.zip
         only-arches:
           - x86_64
-        url: https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-origin-1.99.57-linux-amd64.zip
-        sha256: d59a4b6368d6b6e48c086b984c3b26287c850a580d4907128ead545f3428b65b
-        size: 193364812
+        url: https://github.com/brave/brave-browser/releases/download/v1.100.58/brave-origin-1.100.58-linux-amd64.zip
+        sha256: c10bb3951e03b430263024f35ae4356fe092e93cf7e5df54162b8982992baba2
+        size: 200805504
       - type: extra-data
         filename: brave-origin-arm64.zip
         only-arches:
           - aarch64
-        url: https://github.com/brave/brave-browser/releases/download/v1.99.57/brave-origin-1.99.57-linux-arm64.zip
-        sha256: ac6c445db7f254b4e24344ba91536384586cc740328afc4b37c6381b6afcc28b
-        size: 193714509
+        url: https://github.com/brave/brave-browser/releases/download/v1.100.58/brave-origin-1.100.58-linux-arm64.zip
+        sha256: 44af9de4370c0a34b2898d577bbf34318b56aa66047ce8760f1f6505751a5940
+        size: 197796012
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

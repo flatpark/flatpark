@@ -34,6 +34,9 @@
   <content_rating type="oars-1.1" />
   <provides><binary>voquill</binary></provides>
   <releases>
+    <release version="0.0.657" date="2026-11-18">
+      <description></description>
+    </release>
     <release version="0.0.656" date="2026-11-16">
       <description></description>
     </release>
