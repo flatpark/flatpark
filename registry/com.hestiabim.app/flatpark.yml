@@ -1,0 +1,22 @@
+id: com.hestiabim.app
+name: Hestia
+summary: BIM for residential architecture
+website: https://www.hestiabim.com/
+source_url: https://github.com/engdennylsonsantos-cloud/Hestia
+build:
+  manifest: com.hestiabim.app.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - BIM
+    - Architecture
+    - CAD
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

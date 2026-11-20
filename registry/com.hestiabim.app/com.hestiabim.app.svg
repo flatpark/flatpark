@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="24 24 464 464" role="img" aria-labelledby="titulo">
+  <title id="titulo">Hestia — Ícone</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF9364"/>
+      <stop offset="1" stop-color="#D94F26"/>
+    </linearGradient>
+    <linearGradient id="frente" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F8EAD8"/>
+      <stop offset="1" stop-color="#EAD3B4"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="76" y="76" width="400" height="400" rx="88" fill="#6E2412"/>
+  <rect x="36" y="36" width="400" height="400" rx="88" fill="url(#tile)"/>
+  <rect x="40" y="40" width="392" height="392" rx="84" fill="none" stroke="#FFE6D5" stroke-opacity=".22" stroke-width="3"/>
+
+  <g>
+    <path d="M152 132H216V224H272V132H336V356H272V284H216V356H152Z" fill="#6E2412" opacity=".35" transform="translate(8 8)"/>
+    <path d="M144 124H208V216H264V124H328V348H264V276H208V348H144Z" fill="url(#frente)"/>
+  </g>
+</svg>

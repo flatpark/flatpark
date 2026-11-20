@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.hestiabim.app</id>
+  <name>Hestia</name>
+  <summary>BIM for residential architecture</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="com.hestiabim">
+    <name>Hestia</name>
+  </developer>
+  <url type="homepage">https://www.hestiabim.com/</url>
+  <url type="bugtracker">https://github.com/engdennylsonsantos-cloud/Hestia/issues</url>
+  <url type="vcs-browser">https://github.com/engdennylsonsantos-cloud/Hestia</url>
+  <description>
+    <p>This is a community package of Hestia, maintained independently and unaffiliated with its authors. It repackages the official upstream Linux build unmodified.</p>
+    <p>Hestia is a BIM editor for houses: floor plan, section and 3D view of one model, with IFC and DXF. A project is a folder that holds projeto.hestia.json.</p>
+    <p>Sandbox: display and the GPU for the 3D view, network for the material catalog and the IBM Plex fonts, and the Documents folder for a library stored there. A library in another folder needs flatpak override --user --filesystem=/that/folder com.hestiabim.app. The opening update check stays quiet when it cannot reach GitHub. Installing an update from inside the app does not replace this package; updates come from flatpak update.</p>
+  </description>
+  <launchable type="desktop-id">com.hestiabim.app.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>BIM</keyword>
+    <keyword>architecture</keyword>
+    <keyword>IFC</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A floor plan</caption>
+      <image>https://raw.githubusercontent.com/engdennylsonsantos-cloud/Hestia/v0.2.6/docs/img/planta-baixa.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A 3D view of a house</caption>
+      <image>https://raw.githubusercontent.com/engdennylsonsantos-cloud/Hestia/v0.2.6/docs/img/3d-perspectiva.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>hestia-desktop</binary>
+  </provides>
+  <releases>
+    <release version="0.2.6" date="2026-11-20">
+      <description>
+        <p>Official Linux build 0.2.6.</p>
+      </description>
+    </release>
+  </releases>
+</component>
