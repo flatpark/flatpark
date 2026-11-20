@@ -38,6 +38,12 @@ under a generic icon and the launcher looking idle.
   ([Flow](../../../registry/io.github.aedev.flow.desktop/apply_extra.sh)).
 - **Apps with a compiled GApplication id** use that id (a Flutter template's
   `com.example.<app>`); keep `StartupWMClass` equal to it.
+- **winit apps (Rust: wgpu, egui, Bevy)** that never call `with_name` get the
+  binary name as X11 `WM_CLASS` and **no** Wayland `app_id` at all; nothing in
+  the environment sets it. Set `StartupWMClass` to the binary name for X11.
+  GNOME and KDE still match the window through the sandbox's `.flatpak-info`;
+  wlroots and Hyprland show it ungrouped until upstream sets a name
+  ([Fable Flight](../../../registry/io.github.Rolandjg.FableFlight/io.github.Rolandjg.FableFlight.desktop)).
 
 ### Media controls (MPRIS) missing
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Rolandjg.FableFlight</id>
+  <name>Fable Flight</name>
+  <summary>Open-world flight simulator with real weather and live air traffic</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.rolandjg">
+    <name>Rolandjg</name>
+  </developer>
+  <url type="homepage">https://github.com/Rolandjg/fableflight</url>
+  <url type="bugtracker">https://github.com/Rolandjg/fableflight/issues</url>
+  <url type="vcs-browser">https://github.com/Rolandjg/fableflight</url>
+  <description>
+    <p>This is a community package of Fable Flight, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Fable Flight is an open-world flight simulator written in Rust. Fly over the whole planet with real METAR weather, live ADS-B air traffic and a satellite or road minimap, alone or in multiplayer.</p>
+    <ul>
+      <li>Aircraft from a Cessna 172RG and Robin DR400 to a Boeing 747, F/A-18, F-22, Concorde and SR-71, plus downloadable FlightGear aircraft</li>
+      <li>Fuel, mass and balance, electrical failures, clickable cockpits, radio navigation and autopilot</li>
+      <li>Remappable keyboard, joystick, throttle and pedals</li>
+      <li>An optional arcade mode with boosts, missiles and in-flight respawns</li>
+      <li>An optional AI copilot over the Model Context Protocol</li>
+    </ul>
+    <p>The package is sandboxed: it can reach the network, the GPU, sound, game controllers and its own data directory, and nothing else. Settings, key bindings, downloaded aircraft and caches live in ~/.var/app/io.github.Rolandjg.FableFlight.</p>
+    <p>The AI-copilot bridge is included. Point your MCP client at <code>flatpak run --command=fableflight-mcp io.github.Rolandjg.FableFlight</code> instead of the path to <code>fableflight-mcp</code>, for example <code>claude mcp add fableflight -- flatpak run --command=fableflight-mcp io.github.Rolandjg.FableFlight</code>.</p>
+  </description>
+  <launchable type="desktop-id">io.github.Rolandjg.FableFlight.desktop</launchable>
+  <categories>
+    <category>Game</category>
+    <category>Simulation</category>
+  </categories>
+  <keywords>
+    <keyword>flight</keyword>
+    <keyword>simulator</keyword>
+    <keyword>aircraft</keyword>
+    <keyword>plane</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">mild</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <supports>
+    <control>gamepad</control>
+  </supports>
+  <provides>
+    <binary>fableflight</binary>
+  </provides>
+  <screenshots>
+    <!-- Upstream publishes no screenshot (its README has only a video); taken from a test run of 1.0.1. -->
+    <screenshot type="default">
+      <caption>A Cessna 172RG over San Francisco Bay, near SFO</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.Rolandjg.FableFlight/screenshots/c172-san-francisco.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.1" date="2026-11-18">
+      <description></description>
+    </release>
+  </releases>
+</component>
