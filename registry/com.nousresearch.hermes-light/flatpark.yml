@@ -2,7 +2,7 @@ id: com.nousresearch.hermes-light
 name: Hermes Light
 summary: Desktop client for a Hermes Agent running on another machine
 website: https://hermes-agent.nousresearch.com
-source_url: https://github.com/tunix/homebrew-tap
+source_url: https://github.com/tunix/hermes-desktop-light
 build:
   manifest: com.nousresearch.hermes-light.yml
   branch: stable

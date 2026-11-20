@@ -2,9 +2,10 @@
 # Update resolver for Hermes Light.
 #
 # Upstream (NousResearch/hermes-agent) publishes no Linux desktop packages
-# (#98171); tunix/homebrew-tap builds the light variant from each upstream tag
-# and publishes it as a hermes-desktop-v<version> release. Prints that build as
-# JSON on stdout:
+# (issue #98171); tunix/hermes-desktop-light builds the light variant from
+# each upstream tag
+# and publishes it as a hermes-desktop-v<version> release. Prints that build
+# as JSON on stdout:
 #   { "version": "0.22.5", "releaseDate": "YYYY-MM-DD",
 #     "sources": [ { "filename": "hermes-light.AppImage", "url": "..." } ] }
 # Logs go to stderr. No hashing, no manifest rewriting — FlatPark downloads the
@@ -12,13 +13,13 @@
 # compared against the latest <release> in the AppStream metainfo.
 set -euo pipefail
 
-repo="tunix/homebrew-tap"
+repo="tunix/hermes-desktop-light"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-# The tap hosts releases for several packages; only the hermes-desktop-v* tags
-# carry the Hermes Light artifact. A catch-up run can publish an older version
+# This repository exists only to publish these releases, but a catch-up run
+# can publish an older version
 # after a newer one is already out, so the newest is chosen by version, not by
 # the releases API's publish-date order.
 rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \

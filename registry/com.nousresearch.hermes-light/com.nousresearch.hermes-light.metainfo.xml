@@ -9,11 +9,11 @@
     <name>Nous Research</name>
   </developer>
   <url type="homepage">https://hermes-agent.nousresearch.com</url>
-  <url type="bugtracker">https://github.com/tunix/homebrew-tap/issues</url>
-  <url type="help">https://github.com/tunix/homebrew-tap/issues</url>
-  <url type="vcs-browser">https://github.com/tunix/homebrew-tap</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/tunix/hermes-desktop-light</url>
   <description>
-    <p>This is a community package of Hermes Light, maintained independently. Upstream publishes no Linux desktop packages yet, so the pinned AppImage is built from upstream's source at each release tag by the <a href="https://github.com/tunix/homebrew-tap">tunix/homebrew-tap</a> repository and repackaged here unmodified — it is not upstream's own build. Packaging problems belong on that repository's tracker, not on upstream's.</p>
+    <p>This is a community package of Hermes Light, maintained independently. Upstream publishes no Linux desktop packages yet, so the pinned AppImage is built from upstream's source at each release tag by the <a href="https://github.com/tunix/hermes-desktop-light">tunix/hermes-desktop-light</a> repository and repackaged here unmodified — it is not upstream's own build. Packaging problems belong on the <a href="https://github.com/flatpark/flatpark/issues">FlatPark issue tracker</a>, not on upstream's.</p>
     <p>Hermes Light is the remote-only desktop client of the Hermes Agent: the Electron shell without the bundled agent runtime. There is no local Python environment, Node toolchain or repository clone — the client talks to a Hermes backend running on another machine (a server, VPS or Raspberry Pi) over the dashboard and gateway API.</p>
     <ul>
       <li>Point it at your backend on first launch under Settings → Gateways, or start it with the backend address preset: HERMES_DESKTOP_REMOTE_URL=http://host:9119 flatpak run com.nousresearch.hermes-light</li>
