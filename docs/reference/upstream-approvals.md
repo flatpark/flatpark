@@ -125,6 +125,7 @@ that PR link in the table — the PR itself is the evidence.
 | Beifahrer | `eu.jumplink.beifahrer` | Approved by construction — submitted and maintained by its own developer ([flatpark#1364](https://github.com/flatpark/flatpark/pull/1364)) | 2026-11-18 |
 | Corvus | `io.github.ada_h00k.Corvus` | Requested by its developer, who asked for the listing and publishes the archive we pin: [flatpark#1361](https://github.com/flatpark/flatpark/issues/1361); asked for the badge in [flatpark#1361 (comment)](https://github.com/flatpark/flatpark/issues/1361#issuecomment-7008376622) — "It would be nice if the Developer-approved badge were added" | 2026-11-19 |
 | Dailies | `io.github.tim_van_oudheusden.Dailies` | Approved by construction — submitted and maintained by its own developer ([flatpark#1397](https://github.com/flatpark/flatpark/pull/1397)) | 2026-11-19 |
+| Steuererklärung | `eu.jumplink.Steuererklaerung` | Approved by construction — submitted and maintained by its own developer ([flatpark#1425](https://github.com/flatpark/flatpark/pull/1425)) | 2026-11 |
 
 ## Declined
 
