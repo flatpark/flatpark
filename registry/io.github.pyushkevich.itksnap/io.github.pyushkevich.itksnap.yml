@@ -51,10 +51,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: itksnap.tar.gz
-        only-arches: [x86_64]
-        url: https://downloads.sourceforge.net/project/itk-snap/itk-snap/4.4.0/itksnap-4.4.0-20250909-Linux-x86_64.tar.gz
-        sha256: 10524c143d329c197a6ce05ac112dcd5686f9c0d4b3b985c2287c02de923948c
-        size: 229324815
+        only-arches:
+          - x86_64
+        url: https://downloads.sourceforge.net/project/itk-snap/itk-snap/4.6.0/itksnap-4.6.0-linux-x64.tar.gz
+        sha256: 6b8951fba774fb7ad991f8859c64942dd427d508e48cd659529f5fc2e35d68a3
+        size: 222460879
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

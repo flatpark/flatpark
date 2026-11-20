@@ -80,16 +80,16 @@ modules:
         filename: chatgpt.deb
         only-arches:
           - x86_64
-        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1111.71704_amd64.deb
-        sha256: 01eef7c77c835f7e1afb92ba1c29178a4c19d6c66573bdd3b86520e2abf806a4
-        size: 568039850
+        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1117.31558_amd64.deb
+        sha256: 6c07206314f78bc1be51144599e01d27808a51f78e5d78c3deb1c680f7043c03
+        size: 534422870
       - type: extra-data
         filename: chatgpt.deb
         only-arches:
           - aarch64
-        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1111.71704_arm64.deb
-        sha256: f0550dee1f99127d357ad760aef739c557d49bd67728d2f105d00a7a4780f740
-        size: 553280718
+        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1117.31558_arm64.deb
+        sha256: 81670501c6b7d784ef2b9a62b32da031e81a0eac0f50ebd933d0a9956d7bec77
+        size: 519481554
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

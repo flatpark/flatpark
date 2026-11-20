@@ -29,9 +29,9 @@ modules:
         filename: tables.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.63/tables-x86_64.tar.gz
-        sha256: 473d2402c48db0170c082e8042d11a279b976c852e465ee1cbb4a97d27a005b9
-        size: 25577908
+        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.68/tables-x86_64.tar.gz
+        sha256: cb8c4a1ea32c4a781bb6e6efc1b17c927a2410ca44343ca21ddf5e70650208ad
+        size: 25580507
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

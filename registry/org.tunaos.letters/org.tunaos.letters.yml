@@ -30,9 +30,9 @@ modules:
         filename: letters.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.63/letters-x86_64.tar.gz
-        sha256: ee1b27d4fae341eadece91a2c4711d221a40a4cae6b79adb00000880c89b99ec
-        size: 63878257
+        url: https://github.com/tuna-os/gtk-office-suite/releases/download/v2.1.68/letters-x86_64.tar.gz
+        sha256: 107a8509c52923d554922b03189c9268e4333036c3daf96bc4d2ccff8725b39e
+        size: 63838757
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
