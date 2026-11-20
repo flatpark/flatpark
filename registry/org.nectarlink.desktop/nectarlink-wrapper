@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# NectarLink is upstream's portable tarball, unpacked by apply_extra into
+# /app/extra/nectarlink. The executable finds its bundled Qt through an
+# $ORIGIN RUNPATH and its plugins and QML modules through the qt.conf next to
+# it. The one addition is the krb5-gss prebuilt for libQt6Network's
+# libgssapi_krb5.so.2 (see the manifest), appended LAST so it never shadows
+# the bundle's or the runtime's own libraries, here or in the helpers the app
+# starts (pactl, gst-launch-1.0, ffmpeg, xdg-open).
+#
+# Settings, pairing keys and the single-instance lock live under
+# ~/.var/app/org.nectarlink.desktop/data/Nectarlink via XDG_DATA_HOME.
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}/app/extra/krb5-gss/lib"
+exec /app/extra/nectarlink/nectarlink-desktop "$@"

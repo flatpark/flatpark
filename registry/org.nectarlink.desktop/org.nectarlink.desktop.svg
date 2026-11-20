@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512">
+  <rect x="4" y="4" width="92" height="92" rx="22" fill="#2C1600"/>
+  <circle cx="50.0" cy="50.0" r="40.00" fill="#2C1600"/>
+  <circle cx="50.0" cy="50.0" r="38.52" fill="#2C1600"/>
+  <circle cx="50.0" cy="50.0" r="37.04" fill="#2D1700"/>
+  <circle cx="50.0" cy="50.0" r="35.57" fill="#2F1800"/>
+  <circle cx="50.0" cy="50.0" r="34.09" fill="#311900"/>
+  <circle cx="50.0" cy="50.0" r="32.61" fill="#331B00"/>
+  <circle cx="50.0" cy="50.0" r="31.13" fill="#361C00"/>
+  <circle cx="50.0" cy="50.0" r="29.65" fill="#3A1E00"/>
+  <circle cx="50.0" cy="50.0" r="28.17" fill="#3D2100"/>
+  <circle cx="50.0" cy="50.0" r="26.70" fill="#412300"/>
+  <circle cx="50.0" cy="50.0" r="25.22" fill="#452500"/>
+  <circle cx="50.0" cy="50.0" r="23.74" fill="#492800"/>
+  <circle cx="50.0" cy="50.0" r="22.26" fill="#4C2A00"/>
+  <circle cx="50.0" cy="50.0" r="20.78" fill="#502D00"/>
+  <circle cx="50.0" cy="50.0" r="19.30" fill="#542F00"/>
+  <circle cx="50.0" cy="50.0" r="17.83" fill="#583100"/>
+  <circle cx="50.0" cy="50.0" r="16.35" fill="#5B3400"/>
+  <circle cx="50.0" cy="50.0" r="14.87" fill="#5F3600"/>
+  <circle cx="50.0" cy="50.0" r="13.39" fill="#623700"/>
+  <circle cx="50.0" cy="50.0" r="11.91" fill="#643900"/>
+  <circle cx="50.0" cy="50.0" r="10.43" fill="#663A00"/>
+  <circle cx="50.0" cy="50.0" r="8.96" fill="#683B00"/>
+  <circle cx="50.0" cy="50.0" r="7.48" fill="#693C00"/>
+  <circle cx="50.0" cy="50.0" r="6.00" fill="#693C00"/>
+  <path d="M 26 5 H 74 A 21 21 0 0 1 95 26 V 38 C 72 24, 28 24, 5 38 V 26 A 21 21 0 0 1 26 5 Z" fill="#FFF8F3" fill-opacity="0.04"/>
+  <rect x="4.75" y="4.75" width="90.5" height="90.5" rx="21.25" fill="none" stroke="#FFB95F" stroke-opacity="0.34" stroke-width="1.5"/>
+  <path d="M 22.7 5.2 H 77.3" stroke="#FFF8F3" stroke-opacity="0.38" stroke-width="1.2" stroke-linecap="round"/>
+  <g transform="rotate(-25 50 50)"><path d="M 41.5 42.5 C 26 24, 13.5 31, 13.5 50 C 13.5 69, 26 76, 41.5 57.5" fill="none" stroke="#FFF8F3" stroke-width="10.4" stroke-linecap="round"/><path d="M 37 38 C 24.5 26.5, 16 33, 16 47" fill="none" stroke="#FFFFFF" stroke-width="2.0" stroke-linecap="round" stroke-opacity="0.68"/><path d="M 58.5 42.5 C 74 24, 86.5 31, 86.5 50 C 86.5 69, 74 76, 58.5 57.5" fill="none" stroke="#FFDDB8" stroke-width="10.4" stroke-linecap="round"/><circle cx="50" cy="50" r="8.2" fill="#FFB95F"/><circle cx="48.0" cy="48.0" r="3.2" fill="#FFF8F3" fill-opacity="0.84"/></g>
+</svg>

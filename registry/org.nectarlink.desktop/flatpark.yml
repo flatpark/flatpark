@@ -1,0 +1,33 @@
+# FlatPark catalog descriptor for NectarLink.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; org.nectarlink.desktop.yml is the Flatpak
+# manifest it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: org.nectarlink.desktop
+name: NectarLink
+summary: Your Android phone and your PC, working as one
+website: https://github.com/thtbee/nectarlink
+source_url: https://github.com/thtbee/nectarlink
+build:
+  manifest: org.nectarlink.desktop.yml
+  branch: stable
+  mode: extra-data
+  arches:
+    - x86_64
+catalog:
+  category: Network
+  tags:
+    - Android
+    - Phone
+    - Clipboard
+    - File Transfer
+    - Screen Mirroring
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
