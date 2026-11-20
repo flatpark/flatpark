@@ -22,7 +22,6 @@
 collections:
   - slug: artcraft
     name: ArtCraft
-    carousel: true
     upstream: https://getartcraft.com/apps
     summary:
       en: >-
