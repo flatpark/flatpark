@@ -10,7 +10,7 @@ build:
   arches: [x86_64]
 catalog:
   category: Office
-  upstream_approved: false
+  upstream_approved: true
   tags:
     - Tax
     - Accounting
