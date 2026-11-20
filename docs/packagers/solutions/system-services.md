@@ -30,6 +30,14 @@ This is not compositor-specific; the same build behaves the same everywhere.
 
 - **Secret Service** (`org.freedesktop.secrets`, served by GNOME Keyring or
   KWallet) is how sandboxed apps store secrets: `--talk-name=org.freedesktop.secrets`.
+  It isn't scoped to the app: GNOME Keyring gives any client every item in an
+  unlocked collection, so the app page marks the grant (and
+  `org.kde.kwalletd5`/`6`) with a warning. Keep it when the app saves logins:
+  without it, Electron and libsecret fall back to plain text on disk, which is
+  worse. An app that stores secrets through the Secret portal
+  (`org.freedesktop.portal.Secret`, libsecret's file backend) needs no grant and
+  gets a store of its own; when it saves and reloads a login without the grant
+  (`flatpak run --no-talk-name=org.freedesktop.secrets <app-id>`), drop it.
 - **Electron and Chromium on an unrecognised desktop** (Hyprland, Sway, …):
   `safeStorage` picks its backend from `XDG_CURRENT_DESKTOP`, falls back to
   plain text, and reports "Encryption is not available", so saving a password
