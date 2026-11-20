@@ -1,0 +1,70 @@
+id: io.github.Rolandjg.FableFlight
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: fableflight
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The simulator is a winit/wgpu application rendering through Vulkan: it
+  # needs the GPU and the display sockets. ipc covers the X11 fallback path.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Engine, wind and cockpit sound (rodio over libasound, which the runtime
+  # routes to the PulseAudio/PipeWire-pulse socket).
+  - --socket=pulseaudio
+  # Joysticks, throttles and pedals: gilrs reads them through evdev and
+  # libudev.
+  - --device=input
+  # The world comes from the network: METAR weather, ADS-B traffic, map tiles,
+  # FlightGear aircraft downloads and multiplayer. The AI-copilot bridge also
+  # reaches the game on 127.0.0.1:42761, which works because the sandbox shares
+  # the host's network namespace.
+  - --share=network
+  # No filesystem grants. Settings, bindings, downloaded aircraft and caches go
+  # under $XDG_CONFIG_HOME, $XDG_DATA_HOME and $XDG_CACHE_HOME (/fablegame),
+  # which Flatpak points into ~/.var/app/io.github.Rolandjg.FableFlight.
+modules:
+  - name: fableflight
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 fableflight-wrapper /app/bin/fableflight
+      - install -Dm755 fableflight-mcp-wrapper /app/bin/fableflight-mcp
+      - install -Dm644 io.github.Rolandjg.FableFlight.desktop /app/share/applications/io.github.Rolandjg.FableFlight.desktop
+      - install -Dm644 io.github.Rolandjg.FableFlight.metainfo.xml /app/share/metainfo/io.github.Rolandjg.FableFlight.metainfo.xml
+      # Upstream ships no icon; this one is FlatPark's own (an aircraft over a
+      # sky gradient), drawn for the package.
+      - install -Dm644 io.github.Rolandjg.FableFlight.svg /app/share/icons/hicolor/scalable/apps/io.github.Rolandjg.FableFlight.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: fableflight.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/Rolandjg/fableflight/releases/download/v1.0.1/fableflight-v1.0.1-linux-x86_64.tar.gz
+        sha256: bfcf6eb7ae406e4eafd99b7ae6ed59fd3c6608052763faa65900f7f15cbe34b9
+        size: 58336430
+      - type: extra-data
+        filename: fableflight.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/Rolandjg/fableflight/releases/download/v1.0.1/fableflight-v1.0.1-linux-arm64.tar.gz
+        sha256: 6fcc01b0413bfb0f93084f64d1c61725d027808667748bf4914d225016d85f94
+        size: 57561502
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: fableflight-wrapper
+      - type: file
+        path: fableflight-mcp-wrapper
+      - type: file
+        path: io.github.Rolandjg.FableFlight.desktop
+      - type: file
+        path: io.github.Rolandjg.FableFlight.metainfo.xml
+      - type: file
+        path: io.github.Rolandjg.FableFlight.svg

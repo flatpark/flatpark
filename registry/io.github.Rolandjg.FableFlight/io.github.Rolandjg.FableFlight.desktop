@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Fable Flight
+GenericName=Flight simulator
+Comment=Fly an open world with real weather and live air traffic
+Exec=fableflight
+Icon=io.github.Rolandjg.FableFlight
+Terminal=false
+StartupNotify=true
+StartupWMClass=fablegame
+Categories=Game;Simulation;
+Keywords=flight;simulator;aircraft;plane;airport;

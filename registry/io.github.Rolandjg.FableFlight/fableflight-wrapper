@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# Fable Flight is one self-contained binary (assets built in) staged by
+# apply_extra at /app/extra/fableflight/fablegame. It links libasound, libudev
+# and glibc from org.freedesktop.Platform and dlopens Vulkan and the
+# Wayland/X11 client libraries. Settings, key bindings, downloaded aircraft and
+# caches go under $XDG_CONFIG_HOME, $XDG_DATA_HOME and $XDG_CACHE_HOME, which
+# Flatpak points at ~/.var/app/io.github.Rolandjg.FableFlight.
+exec /app/extra/fableflight/fablegame "$@"

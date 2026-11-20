@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- FlatPark's own icon for Fable Flight (upstream ships none): a jet over a sky gradient. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c4f9c"/>
+      <stop offset="0.65" stop-color="#4a90d9"/>
+      <stop offset="1" stop-color="#f2b36b"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="24" fill="url(#sky)"/>
+  <g transform="translate(64 60) rotate(-35)">
+    <path fill="#ffffff" d="M0 -40 C4 -40 6 -34 6 -26 L6 -8 L40 10 L40 18 L6 8 L6 26 L16 34 L16 40 L0 36 L-16 40 L-16 34 L-6 26 L-6 8 L-40 18 L-40 10 L-6 -8 L-6 -26 C-6 -34 -4 -40 0 -40 Z"/>
+  </g>
+</svg>
