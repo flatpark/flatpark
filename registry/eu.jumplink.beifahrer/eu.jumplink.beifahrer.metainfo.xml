@@ -57,6 +57,9 @@
     <binary>beifahrer</binary>
   </provides>
   <releases>
+    <release version="0.1.35" date="2026-11-20">
+      <description></description>
+    </release>
     <release version="0.1.34" date="2026-11-19">
       <description></description>
     </release>
