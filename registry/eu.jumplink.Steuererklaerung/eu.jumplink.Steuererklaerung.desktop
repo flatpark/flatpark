@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name[de]=Steuererklärung
+Name=Steuererklärung
+Comment[de]=Steuern und Buchhaltung
+Comment=Taxes and bookkeeping
+Exec=steuererklaerung
+Icon=eu.jumplink.Steuererklaerung
+Terminal=false
+Type=Application
+Categories=Office;Finance;
+Keywords=Tax;Accounting;ELSTER;EÜR;VAT;Invoice;
+StartupNotify=true
+StartupWMClass=eu.jumplink.Steuererklaerung

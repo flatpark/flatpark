@@ -1,0 +1,25 @@
+id: eu.jumplink.Steuererklaerung
+name: "Steuererklärung"
+summary: Taxes and bookkeeping
+website: https://jumplink.eu/steuererklaerung/
+source_url: https://github.com/JumpLink/steuererklaerung
+build:
+  manifest: eu.jumplink.Steuererklaerung.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Tax
+    - Accounting
+    - ELSTER
+    - "EÜR"
+    - VAT
+    - Invoice
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
