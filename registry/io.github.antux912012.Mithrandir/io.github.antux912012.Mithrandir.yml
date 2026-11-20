@@ -38,9 +38,9 @@ modules:
         filename: mithrandir.deb
         only-arches:
           - x86_64
-        url: https://github.com/Antux912012/mithrandir/releases/download/v1.3.1/mithrandir_1.3.1_amd64.deb
-        sha256: d10a0b649a789a04580c5e456eca0757db4244bb907f187d3845fefa5224cc9b
-        size: 2698104
+        url: https://github.com/Antux912012/mithrandir/releases/download/v1.3.2/mithrandir_1.3.2_amd64.deb
+        sha256: f169810ad25bff559d4908f9688ab2c2d9094eeb91bacf23ae8033d542656705
+        size: 2791552
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
