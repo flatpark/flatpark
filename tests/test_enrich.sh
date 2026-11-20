@@ -48,7 +48,7 @@ cat > "$app/io.flatpark.TestOne.metainfo.xml" <<'EOF'
     <p>一个用于 FlatPark 的测试应用。</p>
     <ul><li>特性 alpha</li></ul>
   </description>
-  <screenshots><screenshot type="default"><caption>Main</caption><caption xml:lang="zh-Hans">主界面</caption><image>https://example.org/shot.png</image></screenshot></screenshots>
+  <screenshots><screenshot type="default"><caption>Main</caption><caption xml:lang="zh-Hans">主界面</caption><image>https://example.org/shot.png</image></screenshot><screenshot><caption>Own</caption><image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.flatpark.TestOne/own.png</image></screenshot><screenshot><caption>Gone</caption><image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.flatpark.TestOne/gone.png</image></screenshot></screenshots>
   <releases>
     <release version="1.0" date="2026-01-01">
       <description><p>First release.</p><ul><li>Fixed beta</li><li xml:lang="zh-Hans">修复 beta</li></ul></description>
@@ -95,6 +95,10 @@ EOF
 
 # The listing date ("Recently added" sort) is read out of git, so the fixture
 # registry has to be a real repo for that field to be exercised at all.
+# A screenshot committed next to the metainfo (a 1x1 PNG): enrich reads it
+# from the checkout, since its main URL 404s until the PR merges.
+printf '%s' iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg== \
+    | base64 -d > "$app/own.png"
 git -C "$registry" init -q
 git -C "$registry" add -A
 git -C "$registry" -c user.name=test -c user.email=test@example.org -c commit.gpgsign=false \
@@ -126,6 +130,11 @@ assert_contains "$out" "\"text\": \"Optional cap: \""
 assert_contains "$out" "\"version\": \"1.0\""
 assert_contains "$out" "\"label\": \"MIT\""
 assert_contains "$out" "https://example.org/shot.png"
+assert_contains "$out" "\"registryFile\": \"registry/io.flatpark.TestOne/own.png\""
+assert_contains "$out" "\"url\": \"/screenshots/io.flatpark.TestOne-1-"
+ls "$data"/screenshots/io.flatpark.TestOne-1-*.webp >/dev/null || { echo "FAIL: registry screenshot not cached"; exit 1; }
+assert_contains "$out" "\"registryFile\": \"registry/io.flatpark.TestOne/gone.png\""
+assert_contains "$out" "\"missing\": true"
 # Permissions and sections are emitted as stable keys next to their English
 # text: the site translates the key and falls back to the text, so both have
 # to survive. A label without its key would silently pin the panel to English.

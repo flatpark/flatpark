@@ -81,7 +81,15 @@ function collect() {
     const add = (type, url) => {
       if (typeof url === 'string' && /^https?:\/\//.test(url)) urls.push({ app: app.id, type, url });
     };
-    for (const s of app.screenshots || []) add('screenshot', s.remoteUrl || s.url);
+    for (const s of app.screenshots || []) {
+      // A screenshot committed in the registry is linked on main, where it only
+      // appears once its PR merges; enrich already looked for the file itself.
+      if (s.registryFile) {
+        urls.push({ app: app.id, type: 'screenshot', url: s.registryFile, local: true, missing: !!s.missing });
+        continue;
+      }
+      add('screenshot', s.remoteUrl || s.url);
+    }
     add('website', app.website);
     for (const [k, v] of Object.entries(app.urls || {})) add(`url:${k}`, v);
     if (app.license?.url) add('license', app.license.url);
@@ -169,6 +177,10 @@ async function probe(entry) {
 }
 
 async function check(entry) {
+  if (entry.local) {
+    const { missing, ...rest } = entry;
+    return { ...rest, status: missing ? 'not in the registry' : 'in the registry', ok: !missing };
+  }
   let res = await probe(entry);
   for (let i = 1; i <= RETRIES && !res.ok && NET_ERRORS.has(res.error); i++) {
     await sleep(500 * 2 ** (i - 1));

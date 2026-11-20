@@ -35,6 +35,13 @@
       <li>Save screenshots outside ~/Pictures and ~/Downloads: <code>flatpak override --user --filesystem=/path/to/dir io.github.jswysnemc.MarkShot</code></li>
     </ul>
   </description>
+  <screenshots>
+    <!-- Upstream publishes no screenshot; taken from a test run of 0.2.3. -->
+    <screenshot type="default">
+      <caption>The editor over a selected region, with the annotation and action toolbars</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.jswysnemc.MarkShot/screenshots/editor.png</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">io.github.jswysnemc.MarkShot.desktop</launchable>
   <url type="homepage">https://github.com/jswysnemc/mark-shot</url>
   <url type="bugtracker">https://github.com/jswysnemc/mark-shot/issues</url>

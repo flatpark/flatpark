@@ -127,4 +127,23 @@ set -e
 [ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 on a drifted and a deleted pin, got $rc"; exit 1; }
 printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); const b=d.results.filter(r=>!r.ok&&r.type==="extra-data"); if(d.broken!==2||b.length!==2){console.error(JSON.stringify(d.results));process.exit(1)}'
 kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
+
+# A screenshot committed in the registry is never fetched (its main URL 404s
+# until the PR merges): enrich's finding decides it, present or missing.
+local_data="$tmp/local"; mkdir -p "$local_data/apps"
+cat > "$local_data/apps/io.flatpark.Shot.json" <<'EOF'
+{ "id": "io.flatpark.Shot", "name": "Shot", "website": "", "urls": {}, "sourceUrl": "", "screenshots": [
+  { "url": "/screenshots/io.flatpark.Shot-0-abc.webp", "registryFile": "registry/io.flatpark.Shot/editor.png" } ] }
+EOF
+assert_ok env FLATPARK_DATA_DIR="$local_data" node "$ROOT/site/tools/check-links.mjs"
+cat > "$local_data/apps/io.flatpark.Shot.json" <<'EOF'
+{ "id": "io.flatpark.Shot", "name": "Shot", "website": "", "urls": {}, "sourceUrl": "", "screenshots": [
+  { "url": "https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.flatpark.Shot/gone.png", "registryFile": "registry/io.flatpark.Shot/gone.png", "missing": true } ] }
+EOF
+set +e
+out="$(FLATPARK_DATA_DIR="$local_data" node "$ROOT/site/tools/check-links.mjs" --json)"
+rc=$?
+set -e
+[ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 on a registry screenshot that is missing, got $rc"; exit 1; }
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==1||d.results[0].url!=="registry/io.flatpark.Shot/gone.png"){console.error(JSON.stringify(d.results));process.exit(1)}'
 echo "test_check_links: PASS"
