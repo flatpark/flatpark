@@ -47,16 +47,16 @@ modules:
         filename: drosophila
         only-arches:
           - x86_64
-        url: https://github.com/ergolyam/Drosophila/releases/download/v2.2.1/Drosophila-v2.2.1-linux-glibc-x86_64
-        sha256: 21d3e110b6dacc494c5fe8913acf19f293976a4768328d47d86d78f59296926d
-        size: 10597120
+        url: https://github.com/ergolyam/Drosophila/releases/download/v2.3.0/Drosophila-v2.3.0-linux-glibc-x86_64
+        sha256: 79cae9432e2ee274e2bc2c4329d714f7668368a80a320942f17fd45e4e2c3dc7
+        size: 10614848
       - type: extra-data
         filename: drosophila
         only-arches:
           - aarch64
-        url: https://github.com/ergolyam/Drosophila/releases/download/v2.2.1/Drosophila-v2.2.1-linux-glibc-aarch64
-        sha256: 87c1c73a668e4c085196e0a9a4bcf1f33fd033345c0133890469843e61bf9868
-        size: 9452608
+        url: https://github.com/ergolyam/Drosophila/releases/download/v2.3.0/Drosophila-v2.3.0-linux-glibc-aarch64
+        sha256: f302cc19c511133fd0342d7aad503c29b6e2ead1d712accb3fd42af4a80eeb3a
+        size: 9518072
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

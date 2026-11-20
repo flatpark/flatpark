@@ -79,16 +79,16 @@ modules:
         filename: hylki.deb
         only-arches:
           - x86_64
-        url: https://github.com/hyprlab/hylki/releases/download/v1.48.4/hylki_1.48.4-1_amd64.deb
-        sha256: 98a22e13bacaba9bde1d4f76d0b4a3be016b3ce80f5d9d473bbeac7fbfb5e8a1
-        size: 13932652
+        url: https://github.com/hyprlab/hylki/releases/download/v1.49.0/hylki_1.49.0-1_amd64.deb
+        sha256: f41aceb304b9e63ee74145727f4fb4cb0c9311ac922e6b5423201254b720c84c
+        size: 14165568
       - type: extra-data
         filename: hylki.deb
         only-arches:
           - aarch64
-        url: https://github.com/hyprlab/hylki/releases/download/v1.48.4/hylki_1.48.4-1_arm64.deb
-        sha256: 0de3ee446faad76d8829a79ada29686dc87d9629cb2d4d13a9874156b96746a1
-        size: 12534524
+        url: https://github.com/hyprlab/hylki/releases/download/v1.49.0/hylki_1.49.0-1_arm64.deb
+        sha256: 76f9b95b0f92f29d1b6ef4dd886d134f0b6a1151c26e5e1ee44f2e28d949a6b5
+        size: 12751632
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
