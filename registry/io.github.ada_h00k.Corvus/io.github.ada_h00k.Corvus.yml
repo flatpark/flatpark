@@ -15,8 +15,7 @@ finish-args:
   - --device=dri
   # Voice messages and video playback.
   - --socket=pulseaudio
-  # New-message notifications and the tray icon.
-  - --talk-name=org.freedesktop.Notifications
+  # The tray icon.
   - --talk-name=org.kde.StatusNotifierWatcher
 modules:
   - name: corvus
