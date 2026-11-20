@@ -1,0 +1,83 @@
+id: com.misterdownloadmanager.MisterDownloadManager
+# Self-contained Rust program with its own GPU-drawn toolkit: it links only
+# libc, libm and libgcc_s, and dlopen-s Wayland, X11/xcb, xkbcommon, EGL/GL,
+# Vulkan and libdbus, all of which the freedesktop runtime has. No GTK or Qt.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: misterdownloadmanager
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # x11, not fallback-x11. Upstream opens its window through XWayland whenever
+  # it is there, so menus and drop-downs open where MDM puts them (Wayland
+  # lets no client place its own popups; upstream #50);
+  # MDM_WAYLAND=1 keeps it on Wayland. The clipboard watch behind "offer to
+  # download links copied to the clipboard" (on by default) also needs X11:
+  # arboard tries Wayland's data-control protocol first, which Flatpak's
+  # Wayland socket filters, then falls back to the X11 clipboard.
+  # fallback-x11 withholds X11 on a Wayland session and leaves both broken.
+  - --socket=x11
+  # The window renders on the GPU through the runtime's Mesa.
+  - --device=dri
+  # The downloads themselves (HTTP/FTP, BitTorrent, DHT), and the single-
+  # instance command channel on 127.0.0.1 that a second launch and
+  # misterdownloadmanager-cli use.
+  - --share=network
+  # Default save folder. Any other folder is picked through the file-chooser
+  # portal, or granted with `flatpak override --filesystem=...` (documented in
+  # the metainfo).
+  - --filesystem=xdg-download
+  # The window's accessibility goes through AccessKit's AT-SPI adapter, which
+  # asks org.a11y.Bus where the accessibility bus is.
+  - --talk-name=org.a11y.Bus
+  # Tray icon ("hide to the notification area"), through ksni, registered
+  # under its unique connection name (no StatusNotifierItem name is owned).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # "Open folder" / "Show in folder" asks the file manager to select the file.
+  - --talk-name=org.freedesktop.FileManager1
+  # Saved site logins are kept in the Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Keeps the computer awake while downloads run, with a logind sleep/idle
+  # inhibitor (Options); logind lets the active session take one.
+  - --system-talk-name=org.freedesktop.login1
+  # Deliberately withheld:
+  #   --filesystem=home / =host -> not needed; list and settings live under the
+  #                                redirected XDG dirs, other save folders go
+  #                                through the portal or an explicit override.
+  #   browser Native Messaging  -> a host browser cannot start
+  #                                misterdownloadmanager-nmhost inside the
+  #                                sandbox, and wiring it would mean writing
+  #                                into the browsers' own folders.
+modules:
+  - name: misterdownloadmanager
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 misterdownloadmanager-wrapper /app/bin/misterdownloadmanager
+      - install -Dm644 com.misterdownloadmanager.MisterDownloadManager.desktop /app/share/applications/com.misterdownloadmanager.MisterDownloadManager.desktop
+      - install -Dm644 com.misterdownloadmanager.MisterDownloadManager.metainfo.xml /app/share/metainfo/com.misterdownloadmanager.MisterDownloadManager.metainfo.xml
+      - install -Dm644 com.misterdownloadmanager.MisterDownloadManager.png /app/share/icons/hicolor/256x256/apps/com.misterdownloadmanager.MisterDownloadManager.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: mdm.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/anefzaoui/misterdownloadmanager/releases/download/v0.5.2/MisterDownloadManager-0.5.2-linux-x86_64.tar.gz
+        sha256: 3327ebd6b5565186c3e1286bbfdc85ffc95fa681cc2a57a51b0bc07ff42a009f
+        size: 21355554
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: misterdownloadmanager-wrapper
+      - type: file
+        path: com.misterdownloadmanager.MisterDownloadManager.desktop
+      - type: file
+        path: com.misterdownloadmanager.MisterDownloadManager.metainfo.xml
+      - type: file
+        path: com.misterdownloadmanager.MisterDownloadManager.png

@@ -1,0 +1,21 @@
+id: com.misterdownloadmanager.MisterDownloadManager
+name: Mister Download Manager
+summary: Multi-connection download manager with BitTorrent, written in Rust
+website: https://misterdownloadmanager.com
+source_url: https://github.com/anefzaoui/misterdownloadmanager
+build:
+  manifest: com.misterdownloadmanager.MisterDownloadManager.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags:
+    - Download
+    - FileTransfer
+    - BitTorrent
+    - IDM
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
