@@ -309,10 +309,10 @@ The rest of the metainfo:
   (and how to turn it off, if there's a setting). Don't go looking for it;
   it's not a check, and saying nothing means only that nobody noticed.
 - **Screenshots** are expected: an app page without one is the first thing a
-  visitor notices. Each is an `<image>` URL, never a file in the package or the
-  repository; the site downloads it at build time and serves it as WebP,
-  falling back to the URL if the download fails. Exactly one
-  `<screenshot type="default">`, each with a short `<caption>`.
+  visitor notices. Each is an `<image>` URL, never a file in the package; the
+  site downloads it at build time and serves it as WebP, falling back to the
+  URL if the download fails. Exactly one `<screenshot type="default">`, each
+  with a short `<caption>`.
   - **Where to look:** the official website (product and download pages, the
     docs) and the README of the upstream repository. Link the image where
     upstream hosts it; `github.com/user-attachments/…` URLs from a README are
@@ -325,8 +325,24 @@ The rest of the metainfo:
   - **Nothing suitable upstream:** use the screenshot from your own test run
     ([testing playbook](../reviewers/testing-playbook.md#it-starts-and-draws)),
     taken of the app doing something real, with no account, personal data or
-    host desktop in it. Drag the PNG into the PR body and link the
-    `github.com/user-attachments/…` URL GitHub gives it.
+    host desktop in it: crop away panels, docks and other windows. Commit it
+    as `registry/<id>/screenshots/<name>.png` (not in the manifest's sources)
+    and link it on `main`, with a comment saying where it came from:
+
+    ```xml
+    <!-- Upstream publishes no screenshot; taken from a test run of 1.2.0. -->
+    <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/<id>/screenshots/editor.png</image>
+    ```
+
+    The URL answers only once the PR merges. Until then the site build reads
+    the file from the checkout and the link check confirms it exists, so the
+    PR preview and checks work as with any other screenshot.
+  - **An app whose window is an overlay** (a screenshot or colour-picker tool
+    that grabs the whole screen): it holds the keyboard while open, and its
+    own capture can't take itself. Start a capture from
+    outside with a delay, e.g. `(sleep 20; grim shot.png) &` on wlroots or
+    Hyprland, then bring the overlay up. Annotate a public image (the app's
+    README, say) rather than your own desktop, and crop the rest.
   - **No screenshot** only when the package has no window of its own (a
     browser-signing helper, an extension of another app) or the app can't be
     run far enough to show one. Say which in the PR.

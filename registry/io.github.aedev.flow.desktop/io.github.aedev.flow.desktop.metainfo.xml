@@ -8,6 +8,7 @@
   <developer id="io.github.aedev">
     <name>A-EDev</name>
   </developer>
+  <url type="homepage">https://flow-tube.org/</url>
   <url type="bugtracker">https://github.com/Flow-Tube/Flow-Desktop/issues</url>
   <url type="vcs-browser">https://github.com/Flow-Tube/Flow-Desktop</url>
   <description>
@@ -22,6 +23,28 @@
     <p>The package has network access to stream, can play audio and show notifications, and has no filesystem grant: your data stays in the application's private per-app directory, and imports and exports go through the file chooser portal. Video is decoded through the GStreamer plugins of the Flatpak runtime and its codecs extension.</p>
     <p>Upstream currently publishes beta releases, which this package follows until a stable release replaces them. Updates come through Flatpak; if the application offers to install an update itself, ignore it and update with Flatpak instead.</p>
   </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The home feed with recommendations and Continue Watching</caption>
+      <image>https://flow-tube.org/screenshots/desktop/Home.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>The video player with related videos</caption>
+      <image>https://flow-tube.org/screenshots/desktop/Watch.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Music mode with mood filters, Quick Picks and On Repeat</caption>
+      <image>https://flow-tube.org/screenshots/desktop/Music.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>The full-screen music player</caption>
+      <image>https://flow-tube.org/screenshots/desktop/MusicPlayer.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>The FlowNeuro Control Center for the local recommendation engine</caption>
+      <image>https://flow-tube.org/screenshots/desktop/ControlCenter.webp</image>
+    </screenshot>
+  </screenshots>
   <launchable type="desktop-id">io.github.aedev.flow.desktop.desktop</launchable>
   <categories>
     <category>AudioVideo</category>

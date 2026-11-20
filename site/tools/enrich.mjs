@@ -181,22 +181,51 @@ const keptShots = new Set();
 // different screenshot the name changes and we re-pull automatically — a bare
 // `${id}-${i}` key silently served the stale shot forever. On any fetch/decode
 // failure we keep the original remote URL (best-effort, never fatal).
-async function cacheScreenshots(id, shots) {
+//
+// A screenshot the packager took themselves is committed next to the metainfo
+// and linked on main (registryShotPrefix). Read it from the checkout instead:
+// the URL 404s until the PR merges, and the file is right here anyway. Its
+// bytes go into the cache name, so a replaced file under the same name is
+// re-encoded. `registryFile` tells check-links to look for the file, not fetch.
+const registryShotPrefix = 'https://raw.githubusercontent.com/flatpark/flatpark/main/registry/';
+function registryShot(id, srcDir, url) {
+  if (!srcDir || !url.startsWith(`${registryShotPrefix}${id}/`)) return null;
+  const rel = url.slice(registryShotPrefix.length);
+  const file = join(srcDir, rel.slice(id.length + 1));
+  return { rel, bytes: existsSync(file) ? readFileSync(file) : null };
+}
+
+async function cacheScreenshots(id, shots, srcDir) {
   if (!shots.length) return shots;
   mkdirSync(shotsDir, { recursive: true });
   const out = [];
   for (let i = 0; i < shots.length; i += 1) {
-    const s = shots[i];
-    const h = createHash('sha1').update(s.url).digest('hex').slice(0, 10);
+    let s = shots[i];
+    const reg = registryShot(id, srcDir, s.url);
+    if (reg) {
+      s = { ...s, registryFile: `registry/${reg.rel}`, ...(reg.bytes ? {} : { missing: true }) };
+      if (!reg.bytes) {
+        console.warn(`[enrich] ${id}: screenshot ${i}: ${s.registryFile} is not in the registry`);
+        out.push(s);
+        continue;
+      }
+    }
+    const hash = createHash('sha1').update(s.url);
+    if (reg) hash.update(reg.bytes);
+    const h = hash.digest('hex').slice(0, 10);
     const name = `${id}-${i}-${h}.webp`;
     const dest = join(shotsDir, name);
     const localUrl = `/screenshots/${name}`;
     keptShots.add(name);
     if (existsSync(dest)) { out.push({ ...s, url: localUrl }); continue; }
     try {
-      const res = await fetch(s.url, { signal: AbortSignal.timeout(20000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      await sharp(Buffer.from(await res.arrayBuffer()))
+      let bytes = reg?.bytes;
+      if (!bytes) {
+        const res = await fetch(s.url, { signal: AbortSignal.timeout(20000) });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        bytes = Buffer.from(await res.arrayBuffer());
+      }
+      await sharp(bytes)
         .resize({ width: 1280, withoutEnlargement: true })
         .webp({ quality: 78 })
         .toFile(dest);
@@ -776,7 +805,7 @@ async function enrichOne(file) {
   }
   out.installCmd = installWith(base.installCmd, [out]);
 
-  out.screenshots = await cacheScreenshots(out.id, out.screenshots);
+  out.screenshots = await cacheScreenshots(out.id, out.screenshots, srcDir);
 
   if (!out.website) out.website = out.urls.homepage || '';
   if (out.license?.label === 'Proprietary') out.proprietary = true;

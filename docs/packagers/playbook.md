@@ -69,7 +69,8 @@ problems are in [common problems](solutions/README.md). In particular:
 - **Screenshots are part of the package, not an extra.** Look on the official
   website and the upstream README before writing the metainfo, and check what
   you find against [what fits](basics.md#the-metainfo-and-the-version). If
-  nothing does, keep a screenshot from step 4 for the PR.
+  nothing does, keep a screenshot from step 4 and commit it in the app's
+  registry directory.
 
 ## 4. Test / verify — every run, no exceptions
 

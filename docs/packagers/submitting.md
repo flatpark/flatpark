@@ -93,8 +93,9 @@ Check at least:
   - **Tested:** what you did with the app, and what you couldn't (an account,
     hardware, a desktop you don't run).
   - **Screenshots:** where they come from (the upstream page, or your own test
-    run, attached to the PR). With none, why: no window of its own, or nothing
-    suitable upstream and the app couldn't be run far enough to take one
+    run, committed under `registry/<id>/screenshots/`). With none, why: no
+    window of its own, or nothing suitable upstream and the app couldn't be
+    run far enough to take one
     ([screenshots](basics.md#the-metainfo-and-the-version)).
   - **Flathub:** if the app is on Flathub, why it should be here too
     ([rules](can-it-be-packaged.md#apps-already-on-flathub)).
