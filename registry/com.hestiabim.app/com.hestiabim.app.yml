@@ -1,0 +1,56 @@
+id: com.hestiabim.app
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: hestia-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# The official .deb links WebKitGTK 4.1, GTK 3 and libsoup 3. The GNOME 51
+# runtime provides them. The 3D view is WebGL in that web view, so it needs
+# the GPU. The material images are not in the release; the app downloads the
+# catalog. IBM Plex is loaded from Google Fonts.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --share=network
+  # The library is a folder the user picks. Documents stays reachable when
+  # that folder lives there and the app opens the remembered path itself.
+  - --filesystem=xdg-documents
+modules:
+  - name: hestia
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hestia-wrapper /app/bin/hestia-desktop
+      - install -Dm644 com.hestiabim.app.desktop /app/share/applications/com.hestiabim.app.desktop
+      - install -Dm644 com.hestiabim.app.metainfo.xml /app/share/metainfo/com.hestiabim.app.metainfo.xml
+      - install -Dm644 com.hestiabim.app.mime.xml /app/share/mime/packages/com.hestiabim.app.xml
+      - install -Dm644 com.hestiabim.app.svg /app/share/icons/hicolor/scalable/apps/com.hestiabim.app.svg
+      - install -Dm644 com.hestiabim.app.png /app/share/icons/hicolor/512x512/apps/com.hestiabim.app.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: hestia.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/engdennylsonsantos-cloud/Hestia/releases/download/v0.2.6/Hestia_0.2.6_amd64.deb
+        sha256: 7f75c798fe1b72bbb67f6b2deb9690d233da5a80ff740745cea97317e150381a
+        size: 9447452
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hestia-wrapper
+      - type: file
+        path: com.hestiabim.app.desktop
+      - type: file
+        path: com.hestiabim.app.metainfo.xml
+      - type: file
+        path: com.hestiabim.app.mime.xml
+      - type: file
+        path: com.hestiabim.app.svg
+      - type: file
+        path: com.hestiabim.app.png

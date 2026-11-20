@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Hestia
+GenericName=BIM
+Comment=BIM for residential architecture
+Exec=hestia-desktop %F
+TryExec=hestia-desktop
+Icon=com.hestiabim.app
+Terminal=false
+StartupNotify=true
+Categories=Graphics;Engineering;3DGraphics;
+Keywords=BIM;architecture;IFC;DXF;CAD;
+MimeType=application/x-hestia-project;
+StartupWMClass=Hestia-desktop

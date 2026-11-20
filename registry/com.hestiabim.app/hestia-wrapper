@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# WebKit's DMABUF renderer can leave the window blank on some drivers.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/usr/bin/hestia-desktop "$@"
