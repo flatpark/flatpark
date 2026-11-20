@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Point gettext at the message catalogues compiled from the release tarball in
+# apply_extra, unless the caller explicitly overrode ZAPTIDE_LOCALEDIR.
+export ZAPTIDE_LOCALEDIR="${ZAPTIDE_LOCALEDIR:-/app/extra/share/locale}"
+
+# GTK4 on X11 takes WM_CLASS from argv[0] (g_get_prgname); pass the Flatpak ID
+# so X11 window grouping matches StartupWMClass=dev.luminusos.ZapTide.
+exec -a dev.luminusos.ZapTide /app/extra/zaptide/zaptide "$@"

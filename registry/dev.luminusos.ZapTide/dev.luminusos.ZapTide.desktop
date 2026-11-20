@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=ZapTide
+GenericName=WhatsApp Client
+Comment=A native WhatsApp client
+Exec=zaptide
+Icon=dev.luminusos.ZapTide
+Terminal=false
+Categories=Network;InstantMessaging;Chat;
+Keywords=whatsapp;chat;messaging;
+StartupWMClass=dev.luminusos.ZapTide

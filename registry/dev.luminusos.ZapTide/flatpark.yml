@@ -1,0 +1,29 @@
+id: dev.luminusos.ZapTide
+name: ZapTide
+summary: Native WhatsApp client built with Rust, GTK4 and libadwaita
+website: https://luminusos.org/zaptide/
+source_url: https://github.com/luminusOS/zaptide
+build:
+  manifest: dev.luminusos.ZapTide.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Network
+  tags:
+    - WhatsApp
+    - Chat
+    - Messaging
+    - InstantMessaging
+    - GTK
+    - Rust
+update:
+  command: ./resolve-update.sh
+upstream:
+  # Upstream builds its own release Flatpak from the same Linux tarballs we pin.
+  # Keep finish-args and modules in step (and catch the planned 1.0.0 rename to
+  # org.luminusos.ZapTide).
+  manifest: packaging/flatpak/dev.luminusos.ZapTide.bundle.yml
+policy:
+  proprietary: false
+  dangerous_permissions: []
