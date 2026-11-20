@@ -40,16 +40,16 @@ modules:
         filename: constructcraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/francisreboucas/constructcraft/releases/download/v0.12.0/constructcraft-v0.12.0-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 3c0d3130e61e2494a9b7da1a79f7255a25d4ae68bd6046649a31659f486eff45
-        size: 45319602
+        url: https://github.com/francisreboucas/constructcraft/releases/download/v0.13.0/constructcraft-v0.13.0-x86_64-unknown-linux-gnu.tar.gz
+        sha256: f7bb576d044a97350cf456b8f4198ab94985c4b63c665568420ffcb7b52dd1b0
+        size: 48433790
       - type: extra-data
         filename: constructcraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/francisreboucas/constructcraft/releases/download/v0.12.0/constructcraft-v0.12.0-aarch64-unknown-linux-gnu.tar.gz
-        sha256: 9c289c2218e56f85d04437fc5c9d8a936e5801db4186a45eba52264bd55a1b27
-        size: 42442999
+        url: https://github.com/francisreboucas/constructcraft/releases/download/v0.13.0/constructcraft-v0.13.0-aarch64-unknown-linux-gnu.tar.gz
+        sha256: 84cbaa8dec3ada7796abc66e724f0ec3b86898285f477455c57241517b70f95d
+        size: 45313463
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

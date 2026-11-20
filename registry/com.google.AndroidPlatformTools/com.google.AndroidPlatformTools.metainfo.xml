@@ -27,5 +27,8 @@
   <requires><control>keyboard</control></requires>
   <provides><binary>adb</binary><binary>fastboot</binary><binary>sqlite3</binary></provides>
   <!-- Date first packaged here; upstream publishes only "July 2026" for 37.0.1. -->
-  <releases><release version="37.0.1" date="2026-11-17"/></releases>
+  <releases>
+    <release version="37.0.3" date="2026-11-20">
+      <description></description>
+    </release><release version="37.0.1" date="2026-11-17"/></releases>
 </component>

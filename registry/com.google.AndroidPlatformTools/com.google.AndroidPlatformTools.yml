@@ -33,9 +33,9 @@ modules:
         filename: platform-tools.zip
         only-arches:
           - x86_64
-        url: https://dl.google.com/android/repository/platform-tools_r37.0.1-linux.zip
-        sha256: d230f13842f60f782a8645f9c813f8f845bf36089ea7289f28c48f17979313f1
-        size: 9054187
+        url: https://dl.google.com/android/repository/platform-tools_r37.0.3-linux.zip
+        sha256: 214548146cadb2ca3508143d8a1d4be4c59de5bb837253e3ede89ed74cf450d1
+        size: 9571024
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
