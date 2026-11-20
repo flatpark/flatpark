@@ -11,13 +11,12 @@ print(max(v,key=lambda x:tuple(map(int,x.split(".")))))
 ')"
 curl -fsSL --retry 3 "https://sourceforge.net/projects/itk-snap/rss?path=/itk-snap/$version" |
 python3 -c '
-import sys,re,json,xml.etree.ElementTree as E,email.utils
-v=sys.argv[1]; r=E.fromstring(sys.stdin.read()); candidates=[]
-for i in r.findall("./channel/item"):
- name=i.findtext("title","").rsplit("/",1)[-1]
- m=re.fullmatch(r"itksnap-"+re.escape(v)+r"-(\d{8})-Linux-x86_64\.tar\.gz",name)
- if m: candidates.append((m[1],name,i.findtext("pubDate")))
-if not candidates: raise SystemExit("no stable Linux x86_64 tarball")
-build,name,date=max(candidates)
-print(json.dumps({"version":v+"-"+build,"releaseDate":email.utils.parsedate_to_datetime(date).date().isoformat(),"sources":[{"filename":"itksnap.tar.gz","url":"https://downloads.sourceforge.net/project/itk-snap/itk-snap/"+v+"/"+name}]}))
+import sys,json,xml.etree.ElementTree as E,email.utils
+v=sys.argv[1]; r=E.fromstring(sys.stdin.read())
+# Since 4.6.0 the portable build is itksnap-<version>-linux-x64.tar.gz (no
+# build date). x86_64 only: the libssh/krb5-gss support pins are x86_64.
+name="itksnap-"+v+"-linux-x64.tar.gz"
+dates=[i.findtext("pubDate") for i in r.findall("./channel/item") if i.findtext("title","").rsplit("/",1)[-1]==name]
+if len(dates)!=1: raise SystemExit("expected exactly one stable Linux x64 tarball")
+print(json.dumps({"version":v,"releaseDate":email.utils.parsedate_to_datetime(dates[0]).date().isoformat(),"sources":[{"filename":"itksnap.tar.gz","url":"https://downloads.sourceforge.net/project/itk-snap/itk-snap/"+v+"/"+name}]}))
 ' "$version"
