@@ -17,5 +17,9 @@
   <url type="vcs-browser">https://github.com/nab138/iloader</url>
   <screenshots><screenshot type="default"><image>https://github.com/user-attachments/assets/93cd135d-6d89-46ee-9b9f-12c596806911</image></screenshot></screenshots>
   <content_rating type="oars-1.1"/>
-  <releases><release version="2.4.1" date="2026-10-28"/></releases>
+  <releases>
+    <release version="2.4.2" date="2026-11-20">
+      <url type="details">https://github.com/nab138/iloader/releases/tag/v2.4.2</url>
+      <description></description>
+    </release><release version="2.4.1" date="2026-10-28"/></releases>
 </component>

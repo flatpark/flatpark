@@ -52,8 +52,8 @@ modules:
         only-arches:
           - x86_64
         url: https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_x86_64.deb
-        sha256: a0db8caeee8d1e6cfe0aa5ce58710270f8d74a90ff4920f53a3fc22aa0956fe9
-        size: 231861976
+        sha256: d5b21c6e21186a58b2c2fd41712a4ef90f9452735931a6b8500e85c5b0913b0b
+        size: 231889724
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -87,6 +87,9 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="51.1.838.gb52079a57" date="2026-11-20">
+      <description></description>
+    </release>
     <release version="51.1.822.g4587eab25" date="2026-11-18">
       <description></description>
     </release>

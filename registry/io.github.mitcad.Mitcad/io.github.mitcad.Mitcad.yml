@@ -52,9 +52,9 @@ modules:
         filename: mitcad.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/mitcad/Mitcad/releases/download/v0.67.0/Mitcad-0.67.0-x86_64.AppImage
-        sha256: 50d94f6e67fef339ad184009bfb4ce4ee4e6328af5fa8dd5aa368434212f4409
-        size: 284498424
+        url: https://github.com/mitcad/Mitcad/releases/download/v0.68.0/Mitcad-0.68.0-x86_64.AppImage
+        sha256: 4671944955057db8d6815820945773041833b43d05bce7aaab36fa73c871a31e
+        size: 284645880
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
