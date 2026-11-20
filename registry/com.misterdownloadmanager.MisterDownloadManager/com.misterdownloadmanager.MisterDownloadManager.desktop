@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Mister Download Manager
+GenericName=Download Manager
+Comment=Multi-connection download manager with BitTorrent
+Exec=misterdownloadmanager %U
+Icon=com.misterdownloadmanager.MisterDownloadManager
+Terminal=false
+Categories=Network;FileTransfer;
+MimeType=x-scheme-handler/magnet;application/x-bittorrent;
+Keywords=download;manager;idm;torrent;magnet;
+StartupWMClass=misterdownloadmanager
+StartupNotify=true

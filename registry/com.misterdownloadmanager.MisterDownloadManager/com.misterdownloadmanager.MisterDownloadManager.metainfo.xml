@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.misterdownloadmanager.MisterDownloadManager</id>
+  <name>Mister Download Manager</name>
+  <summary>Multi-connection download manager with BitTorrent, written in Rust</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="com.misterdownloadmanager">
+    <name>Ahmed Nefzaoui</name>
+  </developer>
+  <url type="homepage">https://misterdownloadmanager.com</url>
+  <url type="bugtracker">https://github.com/anefzaoui/misterdownloadmanager/issues</url>
+  <url type="vcs-browser">https://github.com/anefzaoui/misterdownloadmanager</url>
+  <description>
+    <p>This is a community package of Mister Download Manager, maintained independently and unaffiliated with the Mister Download Manager project. It repackages the official upstream Linux build (the <code>.tar.gz</code> release) unmodified.</p>
+    <p>Mister Download Manager (MDM) is a download manager written from scratch in Rust, with a classic download-manager window, queues and a scheduler. It splits each download over several connections, resumes interrupted transfers, and keeps its list across restarts.</p>
+    <ul>
+      <li>HTTP, HTTPS and FTP downloads over multiple connections, with speed limits and queues.</li>
+      <li>BitTorrent and magnet links.</li>
+      <li>Link grabber, checksum verification and archive extraction.</li>
+      <li>Several themes, light and dark, and many interface languages.</li>
+    </ul>
+    <p>Browser integration: the browser extension's Native Messaging connection is not available under Flatpak, because a host browser cannot start MDM's helper program inside the sandbox. Add downloads with Add URL, or by opening magnet links and .torrent files.</p>
+    <p>Permissions: this package keeps a tight sandbox by default: display, GPU, network, a tray icon and your Downloads folder. Saving to any other folder goes through the desktop's file chooser. To grant a folder permanently, run <code>flatpak override --user --filesystem=~/Media com.misterdownloadmanager.MisterDownloadManager</code>, substituting your own path; <code>--filesystem=home</code> grants the whole home directory.</p>
+    <p>The in-app updater and the "start with the session" setting do not apply here: updates arrive through Flatpak, and the autostart entry the app writes stays inside the sandbox.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+  </categories>
+  <keywords>
+    <keyword>download</keyword>
+    <keyword>manager</keyword>
+    <keyword>idm</keyword>
+    <keyword>bittorrent</keyword>
+    <keyword>magnet</keyword>
+  </keywords>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>misterdownloadmanager</binary>
+  </provides>
+  <launchable type="desktop-id">com.misterdownloadmanager.MisterDownloadManager.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The download list</caption>
+      <image>https://raw.githubusercontent.com/anefzaoui/misterdownloadmanager/main/docs/images/main-linux.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>A download in progress, over several connections</caption>
+      <image>https://raw.githubusercontent.com/anefzaoui/misterdownloadmanager/main/docs/images/progress-linux.webp</image>
+    </screenshot>
+    <screenshot>
+      <caption>Options</caption>
+      <image>https://raw.githubusercontent.com/anefzaoui/misterdownloadmanager/main/docs/images/options-linux.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.5.2" date="2026-11-09">
+      <url>https://github.com/anefzaoui/misterdownloadmanager/releases/tag/v0.5.2</url>
+    </release>
+  </releases>
+</component>
