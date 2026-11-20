@@ -515,6 +515,42 @@ const NON_PERMISSION_FLAGS = new Set([
   'require-version', 'env', 'extra-languages', 'cwd', 'metadata', 'sdk', 'command', 'runtime', 'version',
 ]);
 
+// Bus names that serve the host keyring. GNOME Keyring hands any client every
+// item in an unlocked collection, other apps' included; KWallet's ACLs go by
+// application name, which a sandboxed app picks itself. The Secret portal
+// (org.freedesktop.portal.Secret) is the per-app alternative and needs no grant.
+const SECRET_SERVICE_NAMES = new Set([
+  'org.freedesktop.secrets', 'org.gnome.keyring',
+  'org.kde.kwalletd', 'org.kde.kwalletd5', 'org.kde.kwalletd6',
+]);
+
+// Home-relative places that hold private keys, saved passwords or login
+// sessions. A grant on one of them, or on anything inside it, can read them;
+// :ro doesn't help, since reading is the risk. ~/.var/app is other Flatpak
+// apps' data (`home` doesn't include it), browser profiles among it.
+const SECRET_PATHS = [
+  '.ssh', '.gnupg', '.password-store', '.pki', '.netrc', '.git-credentials',
+  '.aws', '.kube', '.docker', '.config/gh',
+  '.mozilla', '.config/mozilla', '.thunderbird', '.config/thunderbird', '.local/share/pki',
+  '.config/google-chrome', '.config/chromium',
+  '.config/BraveSoftware', '.config/microsoft-edge', '.config/vivaldi', '.config/opera',
+  '.local/share/keyrings', '.local/share/kwalletd',
+  '.var/app',
+];
+
+function homeRelative(path) {
+  const p = path.replace(/\/+$/, '');
+  for (const [prefix, to] of [['~/', ''], ['home/', ''], ['xdg-config/', '.config/'], ['xdg-data/', '.local/share/']]) {
+    if (p.startsWith(prefix)) return to + p.slice(prefix.length);
+  }
+  return null;
+}
+
+function isSecretPath(path) {
+  const rel = homeRelative(path);
+  return rel !== null && SECRET_PATHS.some((s) => rel === s || rel.startsWith(s + '/'));
+}
+
 function describePermission(arg) {
   const eq = arg.indexOf('=');
   const flag = (eq === -1 ? arg : arg.slice(0, eq)).replace(/^--/, '');
@@ -545,9 +581,10 @@ function describePermission(arg) {
         pipewire: ['socket.pipewire', 'Audio/video (PipeWire)', 'info', 'Devices'],
         'session-bus': ['socket.session_bus', 'Full session bus access', 'warning', 'Services'],
         'system-bus': ['socket.system_bus', 'Full system bus access', 'warning', 'Services'],
-        'ssh-auth': ['socket.ssh_auth', 'SSH agent', 'info', 'System'],
+        // The agents don't hand out the keys, but sign and log in with them.
+        'ssh-auth': ['socket.ssh_auth', 'SSH agent', 'caution', 'System', 'Can log in with the keys loaded in your SSH agent'],
         cups: ['socket.cups', 'Printing (CUPS)', 'info', 'System'],
-        'gpg-agent': ['socket.gpg_agent', 'GPG agent', 'info', 'System'],
+        'gpg-agent': ['socket.gpg_agent', 'GPG agent', 'caution', 'System', 'Can sign and decrypt with your GPG keys through the agent'],
       };
       const m = map[value];
       return m ? base(m[0], m[1], m[2], m[3], m[4]) : base('socket.other', `Socket: ${value}`, 'info', 'System');
@@ -583,6 +620,13 @@ function describePermission(arg) {
       // :ro doesn't restrict a socket, so the PipeWire grant takes no qualifier.
       if (m && m[0] === 'filesystem.pipewire') return base(m[0], m[1], m[2], m[3], m[4]);
       if (m) return { ...base(m[0], m[1] + (readOnly ? ' (read-only)' : ''), m[2], m[3]), readOnly };
+      // The gpg-agent's socket directory is the same grant as --socket=gpg-agent.
+      if (v === 'xdg-run/gnupg') {
+        return base('socket.gpg_agent', 'GPG agent', 'caution', 'System', 'Can sign and decrypt with your GPG keys through the agent');
+      }
+      if (isSecretPath(v)) {
+        return base('filesystem.secrets', `Files: ${value}`, 'warning', 'Filesystem', 'Holds private keys, saved passwords or login sessions');
+      }
       return base('filesystem.other', `Files: ${value}`, 'caution', 'Filesystem');
     }
     case 'talk-name':
@@ -592,6 +636,10 @@ function describePermission(arg) {
       // gets.
       if (value === 'org.freedesktop.Flatpak' || value.startsWith('org.freedesktop.Flatpak.')) {
         return base('talk_name.flatpak', `Talk to ${value}`, 'caution', 'Services', 'Can run commands on the host via flatpak-spawn');
+      }
+      if (SECRET_SERVICE_NAMES.has(value)) {
+        return base('talk_name.secrets', `Talk to ${value}`, 'warning', 'Services',
+          'Can read the host keyring; most keyrings also expose other apps\' saved passwords while unlocked');
       }
       return base('talk_name', `Talk to ${value}`, 'info', 'Services');
     case 'system-talk-name':
