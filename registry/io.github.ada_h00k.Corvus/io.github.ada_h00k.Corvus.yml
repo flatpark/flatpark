@@ -15,12 +15,8 @@ finish-args:
   - --device=dri
   # Voice messages and video playback.
   - --socket=pulseaudio
-  # New-message notifications and the tray icon.
-  - --talk-name=org.freedesktop.Notifications
+  # The tray icon.
   - --talk-name=org.kde.StatusNotifierWatcher
-  # The key of the encrypted chat history is kept in the system keyring
-  # (qtkeychain via libsecret); a passphrase is the alternative.
-  - --talk-name=org.freedesktop.secrets
 modules:
   - name: corvus
     buildsystem: simple
