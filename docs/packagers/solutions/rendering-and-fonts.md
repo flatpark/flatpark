@@ -33,7 +33,7 @@ which toolkit the app uses before copying a fix from another one.
   | ArtCraft | 0/4 | 4/4 |
   | mDNS Browser | 0/3 | 2/3 |
   | Sigma File Manager, Cockpit Tools | 0/5 | 1/5 |
-  | Lap | 2/3 | 0/3 |
+  | Lap 0.3.3 (opaque on Linux since 0.4.1) | 2/3 | 0/3 |
 
   No environment variable fixes it. The app has to turn off WebKit's
   `UseDamagingInformationForCompositing` feature through `WebKitSettings`, as
