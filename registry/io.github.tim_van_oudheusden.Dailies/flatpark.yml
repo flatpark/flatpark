@@ -1,0 +1,24 @@
+id: io.github.tim_van_oudheusden.Dailies
+name: Dailies
+summary: Play your daily guessing games
+website: https://github.com/Tim-van-Oudheusden/Dailies
+source_url: https://github.com/Tim-van-Oudheusden/Dailies
+build:
+  manifest: io.github.tim_van_oudheusden.Dailies.yml
+  branch: stable
+  mode: extra-data
+  # The payload holds no compiled code, so the same release asset is pinned
+  # for both arches.
+  arches: [x86_64, aarch64]
+catalog:
+  category: Game
+  tags:
+    - Puzzle
+    - Wordle
+    - GTK
+  upstream_approved: true
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

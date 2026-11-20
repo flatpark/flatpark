@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.tim_van_oudheusden.Dailies</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Dailies</name>
+  <name xml:lang="nl">Dailies</name>
+  <summary>Play your daily guessing games</summary>
+  <summary xml:lang="nl">Speel uw dagelijkse raadspellen</summary>
+  <description>
+    <p>
+      Dailies gathers daily guessing games like Wordle, Connections and Worldle in one window, sorted into ten
+      categories from words and logic to music, movies and geography. Popular and Trending shelves, refreshed every
+      week, show which games are popular right now and which are on the rise. Star the games you play every day to keep
+      them together in Favorites.
+    </p>
+    <p xml:lang="nl">Dailies verzamelt dagelijkse raadspellen zoals Wordle, Connections en Worldle in één venster, verdeeld over tien categorieën, van woorden en logica tot muziek, films en aardrijkskunde. De planken Populair en In opkomst, die elke week worden vernieuwd, tonen welke spellen nu populair zijn en welke in opkomst zijn. Geef de spellen die u elke dag speelt een ster om ze bij elkaar te houden in Favorieten.</p>
+    <p>
+      Games open in a built-in browser that keeps your streaks between sessions, or in your default web browser if you
+      prefer. Dailies needs no account and collects no data: your favorites stay on your device, and the app only
+      downloads the game list, this week's shelves and the games' icons from GitHub, and the game pages you open.
+    </p>
+    <p xml:lang="nl">Spellen openen in een ingebouwde browser die uw reeksen tussen sessies bewaart, of desgewenst in uw standaardwebbrowser. Dailies heeft geen account nodig en verzamelt geen gegevens: uw favorieten blijven op uw apparaat, en de app downloadt alleen de spellijst, de planken van deze week en de spelpictogrammen van GitHub, en de spelpagina's die u opent.</p>
+    <p>
+      This package is maintained by Dailies' developer. It installs Dailies' official release build from its GitHub
+      releases, unmodified.
+    </p>
+    <p xml:lang="nl">Dit pakket wordt onderhouden door de ontwikkelaar van Dailies. Het installeert de officiële release van Dailies uit de GitHub-releases, ongewijzigd.</p>
+    <p>
+      One optional capability is not granted by default. The Custom command open mode runs a command of your choice,
+      such as a particular browser, outside the sandbox, which needs host access. Grant it yourself with "flatpak
+      override", knowing it is a sandbox escape:
+    </p>
+    <p xml:lang="nl">Eén optionele mogelijkheid is standaard niet toegekend. De openmodus Aangepaste opdracht voert een opdracht naar keuze uit, zoals een bepaalde browser, buiten de sandbox, en heeft daarvoor hosttoegang nodig. U kent die zelf toe met "flatpak override", in de wetenschap dat het een uitweg uit de sandbox is:</p>
+    <ul>
+      <li>Custom command: <code>flatpak override --user --talk-name=org.freedesktop.Flatpak io.github.tim_van_oudheusden.Dailies</code></li>
+      <li xml:lang="nl">Aangepaste opdracht: <code>flatpak override --user --talk-name=org.freedesktop.Flatpak io.github.tim_van_oudheusden.Dailies</code></li>
+      <li>Undo it: <code>flatpak override --user --reset io.github.tim_van_oudheusden.Dailies</code></li>
+      <li xml:lang="nl">Ongedaan maken: <code>flatpak override --user --reset io.github.tim_van_oudheusden.Dailies</code></li>
+    </ul>
+  </description>
+  <developer id="io.github.tim_van_oudheusden">
+    <name translate="no">Tim van Oudheusden</name>
+  </developer>
+  <launchable type="desktop-id">io.github.tim_van_oudheusden.Dailies.desktop</launchable>
+  <translation type="gettext">dailies</translation>
+  <url type="homepage">https://github.com/Tim-van-Oudheusden/Dailies</url>
+  <url type="bugtracker">https://github.com/Tim-van-Oudheusden/Dailies/issues</url>
+  <url type="vcs-browser">https://github.com/Tim-van-Oudheusden/Dailies</url>
+  <url type="contribute">https://github.com/Tim-van-Oudheusden/Dailies/blob/main/CONTRIBUTING.md</url>
+  <!-- Blue 1 and Blue 5 from the GNOME palette, a lighter and a darker version of the icon's Blue 4 tiles. -->
+  <branding>
+    <color type="primary" scheme_preference="light">#99c1f1</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <!--
+    Dailies itself has no ads, purchases, chat or accounts, but the built-in browser shows the games' own websites and
+    lets the user navigate from there, so the rating covers what the catalog's sites expose: banner ads, paid
+    subscriptions (NYT Spelling Bee, GeoGuessr), LinkedIn's messaging next to its games, and ad networks that receive
+    unique identifiers from the game pages.
+  -->
+  <content_rating type="oars-1.1">
+    <content_attribute id="money-advertising">moderate</content_attribute>
+    <content_attribute id="money-purchasing">intense</content_attribute>
+    <content_attribute id="social-chat">moderate</content_attribute>
+    <content_attribute id="social-info">intense</content_attribute>
+  </content_rating>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Tim-van-Oudheusden/Dailies/v0.3.2/data/screenshots/1.png</image>
+      <caption>Your favorite daily games together in one place</caption>
+      <caption xml:lang="nl">Uw favoriete dagelijkse spellen bij elkaar op één plek</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Tim-van-Oudheusden/Dailies/v0.3.2/data/screenshots/2.png</image>
+      <caption>The games that are popular this week</caption>
+      <caption xml:lang="nl">De spellen die deze week populair zijn</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Tim-van-Oudheusden/Dailies/v0.3.2/data/screenshots/3.png</image>
+      <caption>Playing a game in the built-in browser</caption>
+      <caption xml:lang="nl">Een spel spelen in de ingebouwde browser</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/Tim-van-Oudheusden/Dailies/v0.3.2/data/screenshots/4.png</image>
+      <caption>Word games in the dark style</caption>
+      <caption xml:lang="nl">Woordspellen in de donkere stijl</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.3.3" date="2026-11-18">
+      <description></description>
+    </release>
+  </releases>
+</component>

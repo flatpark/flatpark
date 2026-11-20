@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# The release tree, unpacked by apply_extra, is built for /app/extra/dailies.
+# Its launcher already knows its code, UI resources and locale paths, and runs
+# on the runtime's python3. What the runtime cannot find by itself is the
+# app's settings schema, compiled in the tree.
+tree=/app/extra/dailies
+export GSETTINGS_SCHEMA_DIR="$tree/share/glib-2.0/schemas"
+exec "$tree/bin/dailies" "$@"
