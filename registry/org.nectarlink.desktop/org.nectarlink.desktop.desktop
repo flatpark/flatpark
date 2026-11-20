@@ -1,0 +1,41 @@
+[Desktop Entry]
+Type=Application
+Version=1.5
+Name=NectarLink
+GenericName=Phone Link
+Comment=Connect your Android phone and Linux PC over LAN
+Comment[zh_CN]=通过局域网连接你的 Android 手机和 Linux 电脑
+# %U: nectarlink:// pairing links and the tel:, sms:, mms: and geo: handlers
+# upstream's own desktop entry declares; a second launch hands them to the
+# running instance over its socket in ~/.var/app.
+Exec=nectarlink-desktop %U
+Icon=org.nectarlink.desktop
+Terminal=false
+Categories=Network;FileTransfer;Telephony;
+Keywords=android;phone;sync;clipboard;notifications;files;mirror;sms;calls;
+StartupNotify=true
+# Measured: the window's Wayland app_id is nectarlink-desktop (Qt's default,
+# the executable name), not the "nectarlink" upstream's entry declares.
+StartupWMClass=nectarlink-desktop
+MimeType=x-scheme-handler/nectarlink;x-scheme-handler/tel;x-scheme-handler/sms;x-scheme-handler/smsto;x-scheme-handler/mms;x-scheme-handler/mmsto;x-scheme-handler/geo;
+Actions=send-files;send-clipboard;find-phone;take-photo;open-timeline;
+
+[Desktop Action send-files]
+Name=Send files to phone
+Exec=nectarlink-desktop --task send-files
+
+[Desktop Action send-clipboard]
+Name=Send clipboard to phone
+Exec=nectarlink-desktop --task send-clipboard
+
+[Desktop Action find-phone]
+Name=Find my phone
+Exec=nectarlink-desktop --task find-phone
+
+[Desktop Action take-photo]
+Name=Take photo with phone
+Exec=nectarlink-desktop --task take-photo
+
+[Desktop Action open-timeline]
+Name=Open Timeline
+Exec=nectarlink-desktop --task open-timeline

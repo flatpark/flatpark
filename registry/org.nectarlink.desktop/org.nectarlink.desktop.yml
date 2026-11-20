@@ -1,0 +1,110 @@
+id: org.nectarlink.desktop
+# The app id is upstream's own: the tarball's AppStream file is
+# org.nectarlink.desktop.metainfo.xml with <id>org.nectarlink.desktop</id>.
+#
+# Upstream's portable tarball is a Rust app with a Qt 6 Quick UI that carries
+# its own Qt 6.12 (and ICU) under lib/, plugins/ and qml/, found through an
+# $ORIGIN RUNPATH and a qt.conf. What it leaves to the system - glibc, libGL /
+# EGL, Wayland, xcb and its util libraries, xkbcommon, fontconfig, freetype,
+# glib, dbus, zlib, zstd, brotli - and what it dlopens for video
+# (libavcodec / libavutil 62/60 for H.264, the codecs-extra extension) or
+# spawns (pactl, pacat, gst-launch-1.0, ffmpeg, xdg-open) are all in
+# org.freedesktop.Platform 26.08, except libgssapi_krb5.so.2 (below). Nothing
+# is built here; the only module installs our launcher, desktop entry, icon and
+# AppStream data.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: nectarlink-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Qt ships both the wayland and xcb platform plugins and picks one from the
+  # session.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Qt Quick rendering, and decoding the phone's mirrored screen.
+  - --device=dri
+  # The phone's sound on the PC, phone-as-speaker and the voice recorder
+  # (pactl / pacat / gst-launch-1.0 against the PulseAudio or PipeWire-pulse
+  # server).
+  - --socket=pulseaudio
+  # The whole app is a LAN link to the phone: mDNS discovery on UDP 5353, its
+  # own encrypted QUIC connection on a UDP port it picks once and remembers,
+  # and LocalSend on 53317, in the host's network namespace. Upstream's
+  # install.sh adds ufw / firewalld rules; a Flatpak can't, so a host firewall
+  # that blocks local traffic stays the user's to open.
+  - --share=network
+  # Files from the phone land in ~/Downloads/Nectarlink, Photo backup and
+  # screenshots of the mirrored phone in ~/Pictures(/NectarLink), voice
+  # recordings in ~/Documents/Nectarlink Recordings - all written without a
+  # dialog, so these three are granted rather than left in the sandbox. Synced
+  # folders and other targets picked in a dialog go through the portal. NOT a
+  # home grant: browsing more of the PC from the phone is an opt-in override
+  # documented in the metainfo.
+  - --filesystem=xdg-download
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  # Phone notifications, calls and messages shown on the PC.
+  - --talk-name=org.freedesktop.Notifications
+  # Qt's tray icon (StatusNotifierItem, registered under the unique name).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # "Show in folder" for received files.
+  - --talk-name=org.freedesktop.FileManager1
+  # The phone's now-playing media as an MPRIS player on the PC, so the
+  # desktop's media keys and widgets control it.
+  - --own-name=org.mpris.MediaPlayer2.nectarlink
+  # Deliberately NOT granted (each one is an override in the metainfo):
+  # --device=all (/dev/uinput for phone-as-keyboard/mouse on X11, the
+  # v4l2loopback node for phone-as-webcam), Bluetooth (org.bluez and
+  # --allow=bluetooth, for calls audio and the BLE wake beacon) and
+  # org.freedesktop.login1 (lock / sleep the PC from the phone). Pointer and
+  # keyboard input on Wayland use the RemoteDesktop portal and need nothing.
+modules:
+  - name: nectarlink
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 nectarlink-wrapper /app/bin/nectarlink-desktop
+      - install -Dm644 org.nectarlink.desktop.desktop /app/share/applications/org.nectarlink.desktop.desktop
+      - install -Dm644 org.nectarlink.desktop.metainfo.xml /app/share/metainfo/org.nectarlink.desktop.metainfo.xml
+      - install -Dm644 org.nectarlink.desktop.svg /app/share/icons/hicolor/scalable/apps/org.nectarlink.desktop.svg
+    sources:
+      # The bundled libQt6Network carries a hard DT_NEEDED on
+      # libgssapi_krb5.so.2 (the only reference in the payload), and
+      # org.freedesktop.Platform 26.08 ships no krb5, so without it the loader
+      # fails before main(). It is a link-time dependency; nothing here uses
+      # Kerberos. The krb5-gss stack from https://github.com/flatpark/prebuilt
+      # holds only that library's load-time closure; nectarlink-wrapper puts
+      # its lib/ LAST on LD_LIBRARY_PATH.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: krb5-gss.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/krb5-gss-v2/krb5-gss-krb5-gss-v2-fd-26.08-x86_64.tar.xz
+        sha256: 499040be2b155b7a2869cfbe472031bbe336dff887d26809fa54fc5ae318dcf8
+        size: 473004
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: nectarlink.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/thtbee/nectarlink/releases/download/v0.1.5/Nectarlink-0.1.5-linux-x86_64.tar.gz
+        sha256: 2df6432710de457f7dfad293f2e45c4698b19b0952e9af5cd426625e12ddc8a1
+        size: 69538605
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: nectarlink-wrapper
+      - type: file
+        path: org.nectarlink.desktop.desktop
+      - type: file
+        path: org.nectarlink.desktop.metainfo.xml
+      - type: file
+        path: org.nectarlink.desktop.svg

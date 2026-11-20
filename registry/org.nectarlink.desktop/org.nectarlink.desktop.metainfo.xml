@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.nectarlink.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later AND MPL-2.0</project_license>
+  <name>NectarLink</name>
+  <summary>Your Android phone and your PC, working as one</summary>
+  <summary xml:lang="zh-CN">让你的 Android 手机和电脑协同工作</summary>
+  <description>
+    <p>
+      NectarLink links your Android phone and your PC over the local network,
+      end-to-end encrypted, with no account and no cloud. It needs the
+      NectarLink app on the phone; pair them by scanning a QR code, by
+      comparing a 6-digit code, or over USB.
+    </p>
+    <ul>
+      <li>Phone notifications on the PC, with replies, actions and a copy button for one-time codes</li>
+      <li>SMS, MMS and chat-app messages in one inbox; see, answer and place calls through the phone</li>
+      <li>Clipboard sync both ways, with optional encrypted history</li>
+      <li>Files and folders both ways at Wi-Fi speed, synced folders, and compatibility with LocalSend devices</li>
+      <li>The phone's photos on the PC, and Photo backup into ~/Pictures/NectarLink</li>
+      <li>Screen mirroring with the phone's sound, phone apps in their own windows, and typing on the phone with the PC keyboard</li>
+      <li>Use the phone as a touchpad, keyboard, presentation remote or button deck for the PC</li>
+    </ul>
+    <p>
+      This is a community package: it installs upstream's official portable
+      Linux build, unmodified, and follows upstream's stable releases.
+    </p>
+    <p>Notes on this Flatpak package:</p>
+    <ul>
+      <li>Received files go to ~/Downloads/Nectarlink, Photo backup and screenshots to ~/Pictures, voice recordings to ~/Documents. Other folders can be picked in the file dialog.</li>
+      <li>The PC and the phone have to reach each other on the local network: mDNS on UDP 5353, NectarLink's own UDP port and, for LocalSend, 53317. Upstream's installer adds firewall rules for these; a Flatpak can't, so if your firewall blocks local traffic, allow it yourself.</li>
+      <li>Updates come through Flatpak; the app's own updater stays off.</li>
+      <li>Not available in the sandbox: launch at login, the file manager's "Send to" entry, and browsing the phone's storage in the file manager (it needs FUSE on the host).</li>
+    </ul>
+    <p>A few optional capabilities are not granted by default; enable the ones you
+       need with "flatpak override":</p>
+    <ul>
+      <li>Phone as a webcam (needs the v4l2loopback driver loaded on the host) and phone as keyboard and mouse through /dev/uinput: <code>flatpak override --user --device=all org.nectarlink.desktop</code></li>
+      <li>Bluetooth features (calls audio, waking the PC): <code>flatpak override --user --allow=bluetooth --system-talk-name=org.bluez org.nectarlink.desktop</code></li>
+      <li>Lock and sleep the PC from the phone: <code>flatpak override --user --system-talk-name=org.freedesktop.login1 org.nectarlink.desktop</code></li>
+      <li>Let the phone browse your whole home folder: <code>flatpak override --user --filesystem=home org.nectarlink.desktop</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset org.nectarlink.desktop</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Home with the phone's status, media, notifications and quick actions</caption>
+      <image>https://raw.githubusercontent.com/thtbee/nectarlink/main/docs/screenshots/desktop-bloom-home.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Messages: SMS and chat apps in one inbox</caption>
+      <image>https://raw.githubusercontent.com/thtbee/nectarlink/main/docs/screenshots/desktop-messages.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Screen mirroring beside the main window</caption>
+      <image>https://raw.githubusercontent.com/thtbee/nectarlink/main/docs/screenshots/desktop-mirroring.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Pairing a phone</caption>
+      <image>https://raw.githubusercontent.com/thtbee/nectarlink/main/docs/screenshots/desktop-pairing.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">org.nectarlink.desktop.desktop</launchable>
+  <url type="homepage">https://github.com/thtbee/nectarlink</url>
+  <url type="bugtracker">https://github.com/thtbee/nectarlink/issues</url>
+  <url type="vcs-browser">https://github.com/thtbee/nectarlink</url>
+  <url type="help">https://github.com/thtbee/nectarlink/blob/main/docs/guide/README.md</url>
+  <developer id="io.github.thtbee">
+    <name>thtbee</name>
+  </developer>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+    <category>Telephony</category>
+  </categories>
+  <provides>
+    <binary>nectarlink-desktop</binary>
+  </provides>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.1.5" date="2026-11-05">
+      <description></description>
+    </release>
+  </releases>
+</component>
