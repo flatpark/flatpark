@@ -9,8 +9,8 @@
 # config/collections.yml lead the carousel ahead of these and do not count
 # toward the 3-5.
 featured:
-  - is.folo.Folo
-  - com.dbxio.dbx
-  - com.heidisql.HeidiSQL
-  - app.geolibre.GeoLibre
-  - com.aeroftp.AeroFTP
+  - org.gnome.Software
+  - com.opentrader.app
+  - io.github.jswysnemc.MarkShot
+  - dev.aninsomniacy.rayburst
+  - io.github.aedev.flow.desktop
