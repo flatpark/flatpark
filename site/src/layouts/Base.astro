@@ -74,6 +74,8 @@ const searchMeta = {
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="theme-color" content="#3584e4" />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/atom+xml" title={t('feed.new')} href="/feed.xml" />
+    <link rel="alternate" type="application/atom+xml" title={t('feed.updates')} href="/updates.xml" />
     {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
     <link rel="preload" href="/fonts/inter-latin-variable.woff2" as="font" type="font/woff2" crossorigin />

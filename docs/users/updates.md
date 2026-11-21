@@ -22,6 +22,21 @@ of the release; no one has to approve each one.
 What you download on update is the developer's own new release: Flatpak fetches
 it from their servers and unpacks it on your computer, as it did on install.
 
+## Following new apps and releases
+
+The site publishes two Atom feeds; add either to your feed reader:
+
+- [flatpark.org/feed.xml](https://flatpark.org/feed.xml): apps as they are
+  newly listed, newest first.
+- [flatpark.org/updates.xml](https://flatpark.org/updates.xml): new versions
+  of the listed apps, with the developer's release notes when they publish
+  them.
+
+Both are rebuilt with the site on every publish. A release appears in
+`updates.xml` from the date in the app's own release list, which may be a
+little before FlatPark has re-pinned it; `flatpak update` is the source of
+truth for what you can install now.
+
 ## Runtimes move together
 
 Every app uses the current version of its runtime (the shared base that

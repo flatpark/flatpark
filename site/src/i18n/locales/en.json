@@ -31,6 +31,9 @@
   "footer.group.Legal": "Legal",
   "footer.github": "GitHub",
   "footer.x": "X",
+  "footer.feed": "Atom feed",
+  "feed.new": "FlatPark: new apps",
+  "feed.updates": "FlatPark: app updates",
   "footer.legal": "FlatPark · community Flatpak hub · packaged apps remain their vendors' property",
 
   "notfound.title": "Page not found",

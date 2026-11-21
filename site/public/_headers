@@ -16,3 +16,12 @@
 # a stale one would hide apps added by the last publish.
 /search-index.json
   Cache-Control: public, max-age=300, must-revalidate
+
+# Atom feeds: readers poll them, and a stale one only delays an announcement.
+/feed.xml
+  Cache-Control: public, max-age=900, must-revalidate
+  Content-Type: application/atom+xml; charset=utf-8
+
+/updates.xml
+  Cache-Control: public, max-age=900, must-revalidate
+  Content-Type: application/atom+xml; charset=utf-8

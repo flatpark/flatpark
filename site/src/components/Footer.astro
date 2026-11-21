@@ -9,7 +9,9 @@ const t = useTranslations(lang);
 // carries by their path under docs/, and takes the titles from the pages
 // themselves, so a translated page brings its own label. A path that isn't
 // published (yet) is skipped rather than linked dead.
-const columns: { name: string; items: (string | { href: string; label: string })[] }[] = [
+// `global` links are one file for every locale (the feeds), so they keep
+// their bare path instead of taking the locale prefix.
+const columns: { name: string; items: (string | { href: string; label: string; global?: boolean })[] }[] = [
   {
     name: 'Docs',
     items: ['README', 'users/setup', 'users/troubleshooting', 'packagers/submitting'],
@@ -21,6 +23,7 @@ const columns: { name: string; items: (string | { href: string; label: string })
       'project/conduct',
       { href: 'https://github.com/flatpark/flatpark', label: t('footer.github') },
       { href: 'https://x.com/flatparkorg', label: t('footer.x') },
+      { href: '/feed.xml', label: t('footer.feed'), global: true },
     ],
   },
   { name: 'Legal', items: ['project/legal'] },
@@ -31,7 +34,7 @@ const groups = columns.map((c) => ({
   name: c.name,
   items: c.items.flatMap((it) => {
     if (typeof it !== 'string') {
-      return [{ href: it.href.startsWith('/') ? localizePath(it.href, lang) : it.href, label: it.label }];
+      return [{ href: it.href.startsWith('/') && !it.global ? localizePath(it.href, lang) : it.href, label: it.label }];
     }
     const doc = docs.get(it);
     if (!doc) return [];

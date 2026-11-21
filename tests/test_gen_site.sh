@@ -85,6 +85,18 @@ cat > "$tmp/stars.json" <<'EOF'
 EOF
 env -u GH_TOKEN -u GITHUB_TOKEN FLATPARK_DATA_DIR="$data" FLATPARK_STATS_URL="$tmp/totals.json" \
     FLATPARK_STARS_FILE="$tmp/stars.json" node "$ROOT/site/tools/enrich.mjs" >/dev/null 2>&1 || true
+# The fixture registry is no git checkout, so enrich found no listing dates;
+# give TestOne one, plus a past and a future release, for the Atom feeds.
+node -e '
+const fs = require("fs"), f = process.argv[1];
+const a = JSON.parse(fs.readFileSync(f, "utf8"));
+a.added = "2026-10-02T12:00:00+00:00";
+a.releases = [
+  { version: "9.9", date: "2999-01-01", url: "", notes: [] },
+  { version: "1.2", date: "2026-10-05", url: "https://example.com/1.2", notes: [{ type: "p", runs: [{ text: "Fixed <bugs>" }] }] },
+];
+fs.writeFileSync(f, JSON.stringify(a));
+' "$data/apps/io.flatpark.TestOne.json"
 # One collection over both fixtures, plus an unknown id that must be skipped.
 cat > "$tmp/collections.yml" <<'EOF'
 collections:
@@ -249,6 +261,28 @@ assert_contains "$detail" "data-search-meta"
 assert_file "$site_out/search-index.json"
 assert_contains "$site_out/search-index.json" '"id":"io.flatpark.TestOne"'
 assert_contains "$site_out/search-index.json" '"section":"utilities"'
+
+# Atom feeds: new listings and upstream releases, linked from every page's
+# head; markup in upstream text is escaped, and a future release is left out.
+assert_contains "$index" 'type="application/atom+xml"'
+assert_contains "$index" 'href="/feed.xml"'
+assert_file "$site_out/feed.xml"
+assert_contains "$site_out/feed.xml" '<feed xmlns="http://www.w3.org/2005/Atom">'
+assert_contains "$site_out/feed.xml" '<title>Test One</title>'
+assert_contains "$site_out/feed.xml" '<published>2026-10-02T12:00:00Z</published>'
+assert_contains "$site_out/feed.xml" '/apps/io.flatpark.TestOne/</id>'
+assert_file "$site_out/updates.xml"
+assert_contains "$site_out/updates.xml" '<title>Test One 1.2</title>'
+assert_contains "$site_out/updates.xml" 'Fixed &amp;lt;bugs&amp;gt;'
+if grep -q 'Test One 9.9' "$site_out/updates.xml"; then
+    echo "FAIL: a future-dated release reached updates.xml"; exit 1
+fi
+for f in feed.xml updates.xml; do
+    ( cd "$ROOT/site" && node -e '
+const v = require("fast-xml-parser").XMLValidator.validate(require("fs").readFileSync(process.argv[1], "utf8"));
+if (v !== true) { console.error("FAIL: invalid XML", process.argv[1], JSON.stringify(v)); process.exit(1); }
+' "$site_out/$f" )
+done
 
 # Collections: a page per collection (both locales), members in config order
 # with unknown ids dropped, one install-all line, the homepage carousel slide, and the
