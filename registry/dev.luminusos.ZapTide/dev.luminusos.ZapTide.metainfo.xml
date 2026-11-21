@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>dev.luminusos.ZapTide</id>
+  <name>ZapTide</name>
+  <summary>Native WhatsApp client built with Rust, GTK4 and libadwaita</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="dev.luminusos">
+    <name>LuminusOS</name>
+  </developer>
+  <url type="homepage">https://luminusos.org/zaptide/</url>
+  <url type="help">https://github.com/luminusOS/zaptide/blob/main/docs/user-guide.md</url>
+  <url type="bugtracker">https://github.com/luminusOS/zaptide/issues</url>
+  <url type="vcs-browser">https://github.com/luminusOS/zaptide</url>
+  <description>
+    <p>This is a community package of ZapTide, maintained independently and unaffiliated with the LuminusOS project. It repackages the official upstream Linux release build unmodified.</p>
+    <p>ZapTide is a native WhatsApp companion for Linux, written in Rust with GTK4 and libadwaita without a browser engine. Link your phone to read and send messages from a local, encrypted archive.</p>
+    <ul>
+      <li>Messages, voice notes, polls, emoji, GIFs, animated stickers, reactions and attachments.</li>
+      <li>Multiple WhatsApp accounts with separate history, settings and a sidebar switcher.</li>
+      <li>Local archive search, starred messages, quoted replies, link previews and synced read status.</li>
+      <li>Desktop notifications, background operation, system tray support, and light, dark and custom themes.</li>
+      <li>Experimental one-to-one voice and video calls using the desktop camera portal.</li>
+    </ul>
+    <p>ZapTide is an independent project, not affiliated with WhatsApp or Meta, and requires an active WhatsApp account on a phone to link to.</p>
+    <p>Permissions: this package grants Wayland/X11 display, GPU rendering, PulseAudio/PipeWire sound, network access, Secret Service access for archive key storage/handover, StatusNotifier tray access, and persistent state storage. Attachments, notifications, background status and video-call cameras use XDG desktop portals, so no host filesystem or direct device access is granted.</p>
+    <p>Optional overrides:</p>
+    <ul>
+      <li>Drag and drop files from file managers that pass host paths instead of using the FileTransfer portal (such as Thunar on X11): <code>flatpak override --user --filesystem=xdg-download:ro --filesystem=xdg-pictures:ro dev.luminusos.ZapTide</code></li>
+      <li>Disable the system tray icon from outside the app: <code>flatpak override --user --no-talk-name=org.kde.StatusNotifierWatcher dev.luminusos.ZapTide</code></li>
+      <li>Undo overrides: <code>flatpak override --user --reset dev.luminusos.ZapTide</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Chats and a sample conversation</caption>
+      <image>https://raw.githubusercontent.com/luminusOS/zaptide/main/packaging/screenshots/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">dev.luminusos.ZapTide.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <keywords>
+    <keyword>whatsapp</keyword>
+    <keyword>chat</keyword>
+    <keyword>messaging</keyword>
+    <keyword>gtk</keyword>
+    <keyword>libadwaita</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">760</display_length>
+    <internet>always</internet>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <provides>
+    <binary>zaptide</binary>
+  </provides>
+  <releases>
+    <release version="0.9.0" date="2026-11-17">
+      <url type="details">https://github.com/luminusOS/zaptide/releases/tag/v0.9.0</url>
+      <description>
+        <p>Polls can be quizzes that reveal the answer after voting, the sticker picker keeps saved stickers and previews animated stickers, channel names are kept, and selected message text can be copied.</p>
+      </description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,74 @@
+id: dev.luminusos.ZapTide
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: zaptide
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Native GTK4/libadwaita client: Wayland first with X11 fallback, IPC and GPU.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # Voice notes, audio attachments, call audio and ringing (PulseAudio / PipeWire).
+  - --socket=pulseaudio
+  # WhatsApp Web protocol connection and media downloads.
+  - --share=network
+  # Archive encryption key: inside Flatpak oo7 uses the Secret portal file
+  # keyring, and falls back to Secret Service on desktops without a Secret
+  # portal or when bridging keys for the planned org.luminusos.ZapTide rename.
+  - --talk-name=org.freedesktop.secrets
+  # System tray icon (StatusNotifierItem). ZapTide enables ksni's
+  # disable_dbus_name inside Flatpak, so it registers under its unique bus name
+  # and only needs to talk to the watcher.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Older Flatpak versions leave XDG_STATE_HOME unset; keep the fallback state
+  # directory (session, history, logs and credential markers) durable.
+  - --persist=.local/state
+  # Deliberately not granted:
+  #   --filesystem=home / =host -> attachments go through the file-chooser portal
+  #   --device=all              -> video calls use the XDG Camera portal
+modules:
+  - name: zaptide
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 zaptide-wrapper /app/bin/zaptide
+      - install -Dm644 dev.luminusos.ZapTide.desktop /app/share/applications/dev.luminusos.ZapTide.desktop
+      - install -Dm644 dev.luminusos.ZapTide.metainfo.xml /app/share/metainfo/dev.luminusos.ZapTide.metainfo.xml
+      - install -Dm644 dev.luminusos.ZapTide.svg /app/share/icons/hicolor/scalable/apps/dev.luminusos.ZapTide.svg
+      - install -Dm644 dev.luminusos.ZapTide-symbolic.svg /app/share/icons/hicolor/symbolic/apps/dev.luminusos.ZapTide-symbolic.svg
+      - install -Dm644 dev.luminusos.ZapTide-unread-symbolic.svg /app/share/icons/hicolor/symbolic/apps/dev.luminusos.ZapTide-unread-symbolic.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: zaptide.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/luminusOS/zaptide/releases/download/v0.9.0/zaptide-v0.9.0-x86_64-linux-gnu.tar.gz
+        sha256: dad383920de05aafe13d2a930dbb167cd2134bd3ae2dbfbd9747349d01db324b
+        size: 17057064
+      - type: extra-data
+        filename: zaptide.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/luminusOS/zaptide/releases/download/v0.9.0/zaptide-v0.9.0-aarch64-linux-gnu.tar.gz
+        sha256: b3d904156fa43608b8942d88679b8d782bcce11d807683d16e7a6358187bf61d
+        size: 16964900
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: zaptide-wrapper
+      - type: file
+        path: dev.luminusos.ZapTide.desktop
+      - type: file
+        path: dev.luminusos.ZapTide.metainfo.xml
+      - type: file
+        path: dev.luminusos.ZapTide.svg
+      - type: file
+        path: dev.luminusos.ZapTide-symbolic.svg
+      - type: file
+        path: dev.luminusos.ZapTide-unread-symbolic.svg
