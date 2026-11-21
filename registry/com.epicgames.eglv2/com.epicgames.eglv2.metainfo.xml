@@ -50,6 +50,9 @@
     <binary>epic-games-launcher</binary>
   </provides>
   <releases>
+    <release version="0.120.0" date="2026-11-21">
+      <description></description>
+    </release>
     <release version="0.118.0" date="2026-11-19">
       <description></description>
     </release>

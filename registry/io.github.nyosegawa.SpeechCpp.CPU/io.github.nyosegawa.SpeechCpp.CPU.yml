@@ -24,9 +24,9 @@ modules:
         filename: speech.zip
         only-arches:
           - x86_64
-        url: https://github.com/nyosegawa/speech.cpp/releases/download/v0.11.0/speech-0.11.0-linux-x64-cpu.zip
-        sha256: 9acb8becee605c7bb190d7f56d4d9212232ec311df63735b1938cc86bc4257a1
-        size: 6487592
+        url: https://github.com/nyosegawa/speech.cpp/releases/download/v0.11.1/speech-0.11.1-linux-x64-cpu.zip
+        sha256: 6ee3cda355b6ac8a60dc9ed5c5e5f6eb5946b266821f741c1690c6759f331fb6
+        size: 6487892
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

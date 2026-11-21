@@ -38,16 +38,16 @@ modules:
         filename: vlc.tar.zst
         only-arches:
           - x86_64
-        url: https://github.com/jing2uo/vlc-nightly-release/releases/download/4.0.0-dev-39767-gc13b3f29cd-r5-qt3d7ce1c6d4d40059/vlc-4.0.0-dev-39767-gc13b3f29cd-r5-qt3d7ce1c6d4d40059-x86_64.tar.zst
-        sha256: b9cdaff0d5cf2ea0b415581b5499e437d79a163dd67cddf7a866f002a3427970
-        size: 47182570
+        url: https://github.com/jing2uo/vlc-nightly-release/releases/download/4.0.0-dev-39848-g7f0d5b9562-r6-qt3d7ce1c6d4d40059/vlc-4.0.0-dev-39848-g7f0d5b9562-r6-qt3d7ce1c6d4d40059-x86_64.tar.zst
+        sha256: 4d7c039b80063808e77e03b08ea716943321b6430d92b5743f873bcfc0f9b216
+        size: 47244514
       - type: extra-data
         filename: vlc.tar.zst
         only-arches:
           - aarch64
-        url: https://github.com/jing2uo/vlc-nightly-release/releases/download/4.0.0-dev-39767-gc13b3f29cd-r5-qt3d7ce1c6d4d40059/vlc-4.0.0-dev-39767-gc13b3f29cd-r5-qt3d7ce1c6d4d40059-aarch64.tar.zst
-        sha256: 33a4b8d7fda1ee65e60d1bef959c14bfb2c3d570628d3b9d47a6f21740862db3
-        size: 45925949
+        url: https://github.com/jing2uo/vlc-nightly-release/releases/download/4.0.0-dev-39848-g7f0d5b9562-r6-qt3d7ce1c6d4d40059/vlc-4.0.0-dev-39848-g7f0d5b9562-r6-qt3d7ce1c6d4d40059-aarch64.tar.zst
+        sha256: 17034450d7a076a3427c521df54063ff7af7751d80413be814cb24432513f994
+        size: 45996199
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
