@@ -17,6 +17,10 @@ extension whose parent comes from Flathub, isn't supported yet.
 - **It runs with all of the parent's permissions.** An extension has none of its
   own: it runs inside the parent's sandbox, and its page says so. Read what the
   parent can reach before you package one.
+- **It is not listed as an app.** The site files it under Extensions: it stays
+  out of the home grid, All and the category counts, and shows up on its
+  parent's page, in the collections that name it, and under Extensions on the
+  browse page. `catalog.category` has no effect on where it is listed.
 - **The payload is extra-data.** The ref holds only small files, and the program
   comes from upstream at install time, as for an app. This is what keeps an
   extension cheap to host, so nothing compiled or downloaded at build time goes

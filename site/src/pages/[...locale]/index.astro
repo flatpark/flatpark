@@ -4,7 +4,7 @@ import Topbar from '../../components/Topbar.astro';
 import Featured from '../../components/Featured.astro';
 import CollectionRow from '../../components/CollectionRow.astro';
 import AppCard from '../../components/AppCard.astro';
-import { loadApps, loadCatalog } from '../../lib/data.mjs';
+import { isExtension, loadApps, loadCatalog } from '../../lib/data.mjs';
 import { loadCollections } from '../../lib/collections.mjs';
 import { localeOnlyPaths } from '../../i18n/paths.mjs';
 import { getLangFromUrl, localizePath, useTranslations } from '../../i18n';
@@ -16,8 +16,11 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const { repo } = loadCatalog();
-const apps = loadApps();
-const collections = loadCollections(apps);
+const allApps = loadApps();
+// Collections and the carousel name extensions like any member; the grid, the
+// tabs and the counts are of apps, so the rest of the page leaves them out.
+const collections = loadCollections(allApps);
+const apps = allApps.filter((a) => !isExtension(a));
 // Five rows, like the card grid; each "show more" press reveals as many
 // again (the fold is in Base.astro); /collections/ is still a click away.
 const HOME_COLLECTIONS = 5;
@@ -105,7 +108,7 @@ const approvedCount = apps.filter((a) => a.upstreamApproved).length;
             <a href={localizePath('/docs/users/rpak/', lang)} class="inline-flex h-11 items-center rounded-full bg-ink px-6 text-sm font-semibold text-canvas shadow-sm transition hover:opacity-85">{t('home.hero.rpak')}</a>
           </div>
         </div>
-        <Featured apps={apps} />
+        <Featured apps={allApps} />
       </div>
     </section>
 

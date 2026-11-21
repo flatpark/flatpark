@@ -189,6 +189,8 @@ if [ -d "$ROOT/site/node_modules/yaml" ]; then
     out="$data/apps/$E.json"
     assert_contains "$out" '"label": "Network access"'
     assert_contains "$out" "\"id\": \"$P\""
+    # Filed under its own section, which the app lists leave out.
+    assert_contains "$out" '"section": "extensions"'
     grep -q "\"installCmd\": \"flatpak install flatpark $P $E\"," "$out" \
         || { echo "FAIL: not one command for the parent and the extension: $(grep installCmd "$out")"; exit 1; }
     assert_contains "$out" "\"remote\": \"flatpark\""
