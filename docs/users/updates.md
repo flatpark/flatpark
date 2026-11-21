@@ -29,8 +29,7 @@ The site publishes two Atom feeds; add either to your feed reader:
 - [flatpark.org/feed.xml](https://flatpark.org/feed.xml): apps as they are
   newly listed, newest first.
 - [flatpark.org/updates.xml](https://flatpark.org/updates.xml): new versions
-  of the listed apps, with the developer's release notes when they publish
-  them.
+  of the listed apps, each titled with the app's name and version.
 
 Both are rebuilt with the site on every publish. A release appears in
 `updates.xml` from the date in the app's own release list, which may be a

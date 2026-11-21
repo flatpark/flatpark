@@ -55,11 +55,11 @@ export function screenshotHtml(app, origin) {
   return `<p><img src="${src}" alt="${alt}" style="max-width:100%;height:auto"></p>`;
 }
 
-// The entry body: a table (readers strip style but keep tables) with the icon
-// beside the summary and the install line below both, then the entry's own
-// part (screenshot and description for a listing, notes for a release).
-// Readers render it as HTML, so it goes in escaped as type="html".
-export function appHtml(app, origin, extra = '') {
+// The entry body, the same in both feeds: a table (readers strip style but keep
+// tables) with the icon beside the summary and the install line below both,
+// then the first screenshot and the description. Readers render it as HTML, so
+// it goes in escaped as type="html".
+export function appHtml(app, origin) {
   const summary = esc(app.summary);
   const install = esc(app.installCmd);
   const head = app.icon
@@ -71,7 +71,7 @@ export function appHtml(app, origin, extra = '') {
       (install ? `<tr><td colspan="2">${install}</td></tr>` : '') +
       '</table>'
     : (summary ? `<p>${summary}</p>` : '') + (install ? `<p>${install}</p>` : '');
-  return head + extra;
+  return head + screenshotHtml(app, origin) + blocksHtml(app.description);
 }
 
 export function renderAtom({ title, subtitle, selfUrl, altUrl, origin, entries }) {
@@ -129,15 +129,13 @@ export function newAppEntries(apps, origin, limit = 50) {
       author: app.developer || '',
       categories: [app.section || app.category].filter(Boolean),
       summary: app.summary || '',
-      html: appHtml(app, origin, screenshotHtml(app, origin) + blocksHtml(app.description)),
+      html: appHtml(app, origin),
     }));
 }
 
 // Upstream releases, newest first, a few per app so one fast-shipping app
 // can't push everyone else out. Release dates past the build time are
 // upstream typos or pre-announcements, not something that has shipped.
-// No screenshots here: a release rarely changes how an app looks, and the same
-// images in every entry would be the reader downloading them over and over.
 export function releaseEntries(apps, origin, { limit = 100, perApp = 3, now = Date.now() } = {}) {
   const cutoff = toRfc3339(new Date(now).toISOString());
   const rows = [];
@@ -153,21 +151,15 @@ export function releaseEntries(apps, origin, { limit = 100, perApp = 3, now = Da
   return rows
     .sort((x, y) => y.date.localeCompare(x.date) || x.app.name.localeCompare(y.app.name))
     .slice(0, limit)
-    .map(({ app, r, date }) => {
-      const extra = [
-        blocksHtml(r.notes),
-        r.url ? `<p><a href="${esc(r.url)}">Release notes</a></p>` : '',
-      ].join('');
-      return {
-        id: `${origin}/apps/${app.id}/#release-${encodeURIComponent(r.version)}`,
-        title: `${app.name} ${r.version}`,
-        link: `${origin}/apps/${app.id}/`,
-        published: date,
-        updated: date,
-        author: app.developer || '',
-        categories: [app.section || app.category].filter(Boolean),
-        summary: app.summary || '',
-        html: appHtml(app, origin, extra),
-      };
-    });
+    .map(({ app, r, date }) => ({
+      id: `${origin}/apps/${app.id}/#release-${encodeURIComponent(r.version)}`,
+      title: `${app.name} ${r.version}`,
+      link: `${origin}/apps/${app.id}/`,
+      published: date,
+      updated: date,
+      author: app.developer || '',
+      categories: [app.section || app.category].filter(Boolean),
+      summary: app.summary || '',
+      html: appHtml(app, origin),
+    }));
 }

@@ -22,7 +22,7 @@ FlatPark 盯着每个应用的官方发布。很多开发者一发版就会通�
 网站发布两个 Atom 订阅源，可以加到你的阅读器里：
 
 - [flatpark.org/feed.xml](https://flatpark.org/feed.xml)：新上架的应用，最新的在前。
-- [flatpark.org/updates.xml](https://flatpark.org/updates.xml)：已上架应用的新版本，开发者提供发布说明时一并附上。
+- [flatpark.org/updates.xml](https://flatpark.org/updates.xml)：已上架应用的新版本，标题为应用名称加版本号。
 
 两个订阅源都随每次发布和网站一起重建。`updates.xml` 里的版本按应用自己的发布列表中的日期出现，可能比 FlatPark 重新固定它稍早一点；现在能装什么，以 `flatpak update` 为准。
 
