@@ -43,25 +43,21 @@ export function blocksHtml(blocks = []) {
     .join('');
 }
 
-// Screenshots as the page shows them: enrich.mjs has rewritten each url to the
+// The app's first screenshot, AppStream's default, which upstream picks to show
+// the app best; the page has the rest. enrich.mjs has rewritten its url to the
 // copy published under /screenshots/, or left upstream's absolute url when the
-// fetch failed. Feed readers have no base URL, so both become absolute. The
-// first few are enough to show what the app looks like; the page has the rest.
-export function screenshotsHtml(app, origin, max = 3) {
-  return (app.screenshots || [])
-    .filter((s) => s?.url)
-    .slice(0, max)
-    .map((s) => {
-      const src = esc(new URL(s.url, origin + '/').href);
-      const alt = esc(s.caption || app.name);
-      const caption = s.caption ? `<br><small>${esc(s.caption)}</small>` : '';
-      return `<p><img src="${src}" alt="${alt}" style="max-width:100%;height:auto">${caption}</p>`;
-    })
-    .join('');
+// fetch failed. Feed readers have no base URL, so both become absolute.
+export function screenshotHtml(app, origin) {
+  const shot = (app.screenshots || []).find((s) => s?.url);
+  if (!shot) return '';
+  const src = esc(new URL(shot.url, origin + '/').href);
+  const alt = esc(shot.caption || app.name);
+  const caption = shot.caption ? `<br><small>${esc(shot.caption)}</small>` : '';
+  return `<p><img src="${src}" alt="${alt}" style="max-width:100%;height:auto">${caption}</p>`;
 }
 
 // The entry body: icon with the summary beside it (a table, since readers strip
-// style but keep tables), the entry's own part (screenshots and description for
+// style but keep tables), the entry's own part (screenshot and description for
 // a listing, notes for a release) and the install line. Readers render it as
 // HTML, so it goes in escaped as type="html".
 export function appHtml(app, origin, extra = '') {
@@ -136,7 +132,7 @@ export function newAppEntries(apps, origin, limit = 50) {
       author: app.developer || '',
       categories: [app.section || app.category].filter(Boolean),
       summary: app.summary || '',
-      html: appHtml(app, origin, screenshotsHtml(app, origin) + blocksHtml(app.description)),
+      html: appHtml(app, origin, screenshotHtml(app, origin) + blocksHtml(app.description)),
     }));
 }
 

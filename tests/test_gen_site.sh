@@ -94,8 +94,6 @@ a.added = "2026-10-02T12:00:00+00:00";
 a.screenshots = [
   { url: "/screenshots/io.flatpark.TestOne-main.webp", caption: "Main <window>" },
   { url: "https://example.com/shot2.png", caption: "" },
-  { url: "/screenshots/c.webp", caption: "" },
-  { url: "/screenshots/d.webp", caption: "" },
 ];
 a.releases = [
   { version: "9.9", date: "2999-01-01", url: "", notes: [] },
@@ -277,15 +275,13 @@ assert_contains "$site_out/feed.xml" '<feed xmlns="http://www.w3.org/2005/Atom">
 assert_contains "$site_out/feed.xml" '<title>Test One</title>'
 assert_contains "$site_out/feed.xml" '<published>2026-10-02T12:00:00Z</published>'
 assert_contains "$site_out/feed.xml" '/apps/io.flatpark.TestOne/</id>'
-# The summary sits beside the icon; screenshots follow, made absolute (readers
-# have no base URL).
+# The summary sits beside the icon; the first screenshot follows, made absolute
+# (readers have no base URL).
 assert_contains "$site_out/feed.xml" 'io.flatpark.TestOne.svg&quot; alt=&quot;&quot; width=&quot;64&quot; height=&quot;64&quot;&gt;&lt;/td&gt;&lt;td valign=&quot;middle&quot;&gt;First test app&lt;/td&gt;'
 assert_contains "$site_out/feed.xml" 'First test app&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;img src=&quot;https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp&quot; alt=&quot;Main &amp;lt;window&amp;gt;&quot;'
-assert_contains "$site_out/feed.xml" 'src=&quot;https://example.com/shot2.png&quot;'
-# At most three per listing, and none on releases.
-assert_contains "$site_out/feed.xml" 'screenshots/c.webp'
-if grep -q 'screenshots/d.webp' "$site_out/feed.xml"; then
-    echo "FAIL: feed.xml carries more than three screenshots"; exit 1
+# Only the first per listing, and none on releases.
+if grep -q 'shot2.png' "$site_out/feed.xml"; then
+    echo "FAIL: feed.xml carries more than one screenshot"; exit 1
 fi
 if grep -q '/screenshots/' "$site_out/updates.xml"; then
     echo "FAIL: updates.xml carries screenshots"; exit 1
