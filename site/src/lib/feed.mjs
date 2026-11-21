@@ -52,29 +52,26 @@ export function screenshotHtml(app, origin) {
   if (!shot) return '';
   const src = esc(new URL(shot.url, origin + '/').href);
   const alt = esc(shot.caption || app.name);
-  const caption = shot.caption ? `<br><small>${esc(shot.caption)}</small>` : '';
-  return `<p><img src="${src}" alt="${alt}" style="max-width:100%;height:auto">${caption}</p>`;
+  return `<p><img src="${src}" alt="${alt}" style="max-width:100%;height:auto"></p>`;
 }
 
-// The entry body: icon with the summary beside it (a table, since readers strip
-// style but keep tables), the entry's own part (screenshot and description for
-// a listing, notes for a release) and the install line. Readers render it as
-// HTML, so it goes in escaped as type="html".
+// The entry body: a table (readers strip style but keep tables) with the icon
+// beside the summary and the install line below both, then the entry's own
+// part (screenshot and description for a listing, notes for a release).
+// Readers render it as HTML, so it goes in escaped as type="html".
 export function appHtml(app, origin, extra = '') {
   const summary = esc(app.summary);
+  const install = esc(app.installCmd);
   const head = app.icon
-    ? '<table><tr>' +
+    ? '<table>' +
+      '<tr>' +
       `<td><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></td>` +
       `<td valign="middle">${summary}</td>` +
-      '</tr></table>'
-    : summary
-      ? `<p>${summary}</p>`
-      : '';
-  return [
-    head,
-    extra,
-    app.installCmd ? `<pre><code>${esc(app.installCmd)}</code></pre>` : '',
-  ].join('');
+      '</tr>' +
+      (install ? `<tr><td colspan="2">${install}</td></tr>` : '') +
+      '</table>'
+    : (summary ? `<p>${summary}</p>` : '') + (install ? `<p>${install}</p>` : '');
+  return head + extra;
 }
 
 export function renderAtom({ title, subtitle, selfUrl, altUrl, origin, entries }) {
