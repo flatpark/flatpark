@@ -3,6 +3,7 @@ import Base from '../../../layouts/Base.astro';
 import Topbar from '../../../components/Topbar.astro';
 import Screenshots from '../../../components/Screenshots.astro';
 import InfoPanel from '../../../components/InfoPanel.astro';
+import AppCard from '../../../components/AppCard.astro';
 import ProseBlocks from '../../../components/ProseBlocks.astro';
 import { loadApps, loadCatalog } from '../../../lib/data.mjs';
 import { collectionsOf } from '../../../lib/collections.mjs';
@@ -16,11 +17,20 @@ export function getStaticPaths() {
   // App data itself is locale-independent for now — only the chrome around it
   // is translated — so every locale gets the same entries.
   return pathsForLocales(() =>
-    apps.map((app) => ({ params: { id: app.id }, props: { app, repo, collections: collectionsOf(apps, app.id) } })),
+    apps.map((app) => ({
+      params: { id: app.id },
+      props: {
+        app,
+        repo,
+        collections: collectionsOf(apps, app.id),
+        // The lists leave extensions out, so their parent's page is where they are found.
+        extensions: apps.filter((a) => a.parent?.id === app.id),
+      },
+    })),
   );
 }
 
-const { app, repo, collections } = Astro.props;
+const { app, repo, collections, extensions } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const fallback = (app.name.match(/[A-Za-z0-9]/g) ?? []).slice(0, 2).join('').toUpperCase();
@@ -311,6 +321,18 @@ const StarsTag = starsLink ? 'a' : 'span';
                     {hasNotes ? t('detail.release_notes.full') : t('detail.release_notes')} &rarr;
                   </a>
                 )}
+              </div>
+            </div>
+          )
+        }
+
+        {
+          extensions.length > 0 && (
+            <div id="extensions">
+              <h2 class="text-lg font-bold">{t('detail.extensions')}</h2>
+              <p class="mt-1 text-sm text-muted">{t('detail.extensions.body', { name: app.name })}</p>
+              <div class="mt-3 grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-3">
+                {extensions.map((ext) => <AppCard app={ext} />)}
               </div>
             </div>
           )

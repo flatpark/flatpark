@@ -810,8 +810,10 @@ async function enrichOne(file) {
   if (!out.website) out.website = out.urls.homepage || '';
   if (out.license?.label === 'Proprietary') out.proprietary = true;
 
-  // Catalog facets for sort + filter (homepage / browse page).
-  out.section = sectionFor(out.category);
+  // Catalog facets for sort + filter (homepage / browse page). An extension
+  // is not an app of its own: it files under the `extensions` section, which
+  // the lists leave out unless it is asked for, and its parent's page lists it.
+  out.section = out.parent ? 'extensions' : sectionFor(out.category);
   out.upstreamApproved = out.upstreamApproved || false;
   // Editor's pick and the shield are independent axes: a pick needs no
   // approval, an approval earns no pick.

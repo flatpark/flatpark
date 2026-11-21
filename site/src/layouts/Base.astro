@@ -203,8 +203,10 @@ const searchMeta = {
       function apply() {
         const shown = [];
         for (const card of cards) {
+          // No section picked means every app, which leaves the extensions
+          // out: they are only listed under their own entry.
           const show =
-            (!activeSection || card.dataset.section === activeSection) &&
+            (activeSection ? card.dataset.section === activeSection : card.dataset.section !== 'extensions') &&
             (!approvedOnly || card.dataset.approved === '1') &&
             inWindow(card);
           card.hidden = !show;
