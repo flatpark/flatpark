@@ -20,5 +20,8 @@
   <developer id="com.ollama"><name>Ollama</name></developer>
   <provides><binary>ollama</binary></provides>
   <content_rating type="oars-1.1"/>
-  <releases><release version="0.40.16" date="2026-11-09"/></releases>
+  <releases>
+    <release version="0.40.17" date="2026-11-10">
+      <description></description>
+    </release><release version="0.40.16" date="2026-11-09"/></releases>
 </component>

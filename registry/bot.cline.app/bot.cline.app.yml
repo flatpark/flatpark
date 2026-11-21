@@ -52,9 +52,9 @@ modules:
         filename: cline.deb
         only-arches:
           - x86_64
-        url: https://github.com/cline/cline/releases/download/desktop-v0.0.49/Cline_0.0.49_amd64.deb
-        sha256: 3e2c1f824fbdceaf67a8c01404e58218f8534f952318d1689807824b9ca2e2f6
-        size: 190886360
+        url: https://github.com/cline/cline/releases/download/desktop-v0.0.50/Cline_0.0.50_amd64.deb
+        sha256: 69a11abba98a8bde64c5a6f01b231e1dd6b1e211bbba0a7458deaaccc0ef3d32
+        size: 192972542
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
