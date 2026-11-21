@@ -1,0 +1,202 @@
+id: io.github.ggml_org.LlamaCpp.ROCM10
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: llama-server
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Download models and serve the loopback HTTP API and browser interface.
+  - --share=network
+  # ROCm compute needs /dev/kfd as well as /dev/dri; DRI alone omits KFD.
+  # Flatpak exposes KFD only through the broad device grant, declared in flatpark.yml.
+  - --device=all
+modules:
+  - name: llama
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 llama-wrapper /app/bin/llama-server
+      - ln -s llama-server /app/bin/llama
+      - ln -s llama-server /app/bin/llama-cli
+      - ln -s llama-server /app/bin/llama-bench
+      - ln -s llama-server /app/bin/llama-quantize
+      - install -Dm644 io.github.ggml_org.LlamaCpp.ROCM10.desktop /app/share/applications/io.github.ggml_org.LlamaCpp.ROCM10.desktop
+      - install -Dm644 io.github.ggml_org.LlamaCpp.ROCM10.metainfo.xml /app/share/metainfo/io.github.ggml_org.LlamaCpp.ROCM10.metainfo.xml
+      - install -Dm644 io.github.ggml_org.LlamaCpp.ROCM10.svg /app/share/icons/hicolor/scalable/apps/io.github.ggml_org.LlamaCpp.ROCM10.svg
+      - install -Dm644 branding.txt /app/share/doc/io.github.ggml_org.LlamaCpp.ROCM10/branding.txt
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: llama.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-rocm-10.0-x64.tar.gz
+        sha256: 2d934c367e613ec67a5f78dffa450ee30bc3a6024f559b70c207896ee4bc9108
+        size: 270816049
+      # END MANAGED EXTRA-DATA
+      # AMD ROCm 10.0.0 runtime, matching upstream release CI.
+      # Fixed outside the managed block; include kernels for all 23 upstream GPU targets.
+      - type: extra-data
+        filename: rocm-core.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-core/rocm_sdk_core-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 3bf4a72d11aa2a4ee1e90572c73630f937d38c1b7af4dda45b483b54655138a7
+        size: 414668671
+      - type: extra-data
+        filename: rocm-libraries.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-libraries/rocm_sdk_libraries-10.0.0-py3-none-linux_x86_64.whl
+        sha256: bbe83a550cb8ceeb306abf6d57df6617857a1b19384549526db2ec81a4374e57
+        size: 143349785
+      - type: extra-data
+        filename: rocm-gfx908.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx908/rocm_sdk_device_gfx908-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 35fff75186b81ff46499522928abb4d46efe53cbe20b8e53c40941f28c62c7ec
+        size: 303798571
+      - type: extra-data
+        filename: rocm-gfx90a.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx90a/rocm_sdk_device_gfx90a-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 8bb0e955378aae4e7962ddd55661782e9e2843101b3c15dd6f9a0c7568d4b0bb
+        size: 471290620
+      - type: extra-data
+        filename: rocm-gfx942.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx942/rocm_sdk_device_gfx942-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 636f4e4c3110e4e1ccc9eacb08ef39e08f635ba9472ead2b000bedd76bfea8bd
+        size: 1608140394
+      - type: extra-data
+        filename: rocm-gfx950.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx950/rocm_sdk_device_gfx950-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 01604bedb4acec867e7bbc18c4580ed15aa056fc6b151d976746a43305a8a09e
+        size: 703892423
+      - type: extra-data
+        filename: rocm-gfx1010.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1010/rocm_sdk_device_gfx1010-10.0.0-py3-none-linux_x86_64.whl
+        sha256: d79dae603d40bd9301c896d848ca022e7ed02c860c23041af69d0b86c92cc029
+        size: 64068105
+      - type: extra-data
+        filename: rocm-gfx1011.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1011/rocm_sdk_device_gfx1011-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 923d74f1912938defda23c8ddadd175b0ffc0cabb6082c3121f03bfad1d16ff3
+        size: 63719296
+      - type: extra-data
+        filename: rocm-gfx1012.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1012/rocm_sdk_device_gfx1012-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 93de1ca0efd82ef3bdf9143596b0d6a0ee3dbc7dd41fac0afc88d2d405b4c924
+        size: 63719897
+      - type: extra-data
+        filename: rocm-gfx1030.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1030/rocm_sdk_device_gfx1030-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 493cf38e23d970afab6e21df09a68ce678a5d28a8107d7fd2841c90a557369f6
+        size: 481324000
+      - type: extra-data
+        filename: rocm-gfx1031.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1031/rocm_sdk_device_gfx1031-10.0.0-py3-none-linux_x86_64.whl
+        sha256: d6b1ac96507c4e79828cf447b14e25f797a14bb4e3d1b1681789323d9a0b05ea
+        size: 68743195
+      - type: extra-data
+        filename: rocm-gfx1032.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1032/rocm_sdk_device_gfx1032-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 5606f831643a31426090590c6bab375f391051b55aed21195c2196051aa3eb97
+        size: 68747989
+      - type: extra-data
+        filename: rocm-gfx1033.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1033/rocm_sdk_device_gfx1033-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 7fb7d4b80f1de69056deb8f6384d0e2d65257600f53df37cae90f2bbece9faed
+        size: 68750897
+      - type: extra-data
+        filename: rocm-gfx1034.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1034/rocm_sdk_device_gfx1034-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 96d7368e12256f7d2ea2291f7e426a57e2ce2e27da3e6ace838a597173d1355c
+        size: 68741053
+      - type: extra-data
+        filename: rocm-gfx1035.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1035/rocm_sdk_device_gfx1035-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 516598b1aace5f2b5b551f54efd134313b3cddd126203dd648a87a0bf19d7da3
+        size: 68741817
+      - type: extra-data
+        filename: rocm-gfx1036.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1036/rocm_sdk_device_gfx1036-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 8de22ec33d8dd9564be9555672187cd0748954c42b9f13036050c1c111d232d2
+        size: 68741942
+      - type: extra-data
+        filename: rocm-gfx1100.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1100/rocm_sdk_device_gfx1100-10.0.0-py3-none-linux_x86_64.whl
+        sha256: d44af24724dd1a104a973a8dbc2eb514c1a0c155ac2cf5bf38cc9ab5846f8f29
+        size: 227892228
+      - type: extra-data
+        filename: rocm-gfx1101.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1101/rocm_sdk_device_gfx1101-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 3e5c648e0b0291863536732bc3e90198903b2a4907e2806d1b41e8fb4f9d4a2d
+        size: 221272364
+      - type: extra-data
+        filename: rocm-gfx1102.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1102/rocm_sdk_device_gfx1102-10.0.0-py3-none-linux_x86_64.whl
+        sha256: dbfc6d85cd64c625555084714302467d8a46a98c05bba9f62f91b49e178af901
+        size: 220134635
+      - type: extra-data
+        filename: rocm-gfx1103.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1103/rocm_sdk_device_gfx1103-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 45aca48e24b79f4e3a9a17759839658417fefbb15134a7e51c3e7d5acd2e8f28
+        size: 55632931
+      - type: extra-data
+        filename: rocm-gfx1150.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1150/rocm_sdk_device_gfx1150-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 64aaa7e396bb89372eba17293e63a66f8fc0a3ff9bf1d86dc6d1eb8b57bd03e9
+        size: 149232466
+      - type: extra-data
+        filename: rocm-gfx1151.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1151/rocm_sdk_device_gfx1151-10.0.0-py3-none-linux_x86_64.whl
+        sha256: ec705df531e523777a5cd47b2dfadb2272935927c46c122effb11fcdcedb73d0
+        size: 173730308
+      - type: extra-data
+        filename: rocm-gfx1152.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1152/rocm_sdk_device_gfx1152-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 0cd4ac7751be934d01e20bf9077e57282b805b733c37c6b51305d1b0ca3be4e0
+        size: 149060993
+      - type: extra-data
+        filename: rocm-gfx1200.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1200/rocm_sdk_device_gfx1200-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 3b638ed38afa08cc700c8853a7f1390e0e37175cc926fc0ecb743c1d772dc26d
+        size: 403651626
+      - type: extra-data
+        filename: rocm-gfx1201.whl
+        only-arches: [x86_64]
+        url: https://stable.repo.amd.com/rocm/whl-next/rocm-sdk-device-gfx1201/rocm_sdk_device_gfx1201-10.0.0-py3-none-linux_x86_64.whl
+        sha256: 81856692c18e5d6ccce486193d0f4a54b368d2e84ff5a0811b644f6f788ed4b2
+        size: 343803456
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: llama-wrapper
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.ROCM10.desktop
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.ROCM10.metainfo.xml
+      # Official branding: ggml-org/llama-brand, logo/svg/icon/icon-dark-bg.svg.
+      - type: file
+        path: io.github.ggml_org.LlamaCpp.ROCM10.svg
+      - type: file
+        path: branding.txt
