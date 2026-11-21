@@ -23,6 +23,9 @@
   <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
   <url type="vcs-browser">https://github.com/0xShug0/audio.cpp</url>
   <categories><category>AudioVideo</category><category>Audio</category></categories>
-  <releases><release version="0.9.5" date="2026-11-14"/></releases>
+  <releases>
+    <release version="0.9.6" date="2026-11-21">
+      <description></description>
+    </release><release version="0.9.5" date="2026-11-14"/></releases>
   <content_rating type="oars-1.1"/>
 </component>

@@ -27,9 +27,9 @@ modules:
         filename: audio.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-vulkan-portable.tar.gz
-        sha256: 39be151ea211396adc6837560d00a440f8d2720b2c1e0c60778bd676335bdc06
-        size: 90609676
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.6/audio-v0.9.6-bin-ubuntu-x64-vulkan-portable.tar.gz
+        sha256: 9effac5d30a24b86a5de9a9ec37a5b2db77695590cb96ae5e6a580f5588be361
+        size: 93520711
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

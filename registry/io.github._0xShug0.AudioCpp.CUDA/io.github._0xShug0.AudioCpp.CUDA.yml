@@ -26,16 +26,16 @@ modules:
         filename: audio.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-bin-ubuntu-x64-cuda12.8-colab.tar.gz
-        sha256: aee0c4d50f1fa7eed4daaeca791a29fddf350a0855c539c127041299293c992e
-        size: 231408582
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.6/audio-v0.9.6-bin-ubuntu-x64-cuda12.8-colab.tar.gz
+        sha256: 0cd6629b4e328a21bcf4a2359fe7ed615e1dc562073d01c8723c45cb7b724ffe
+        size: 232585375
       - type: extra-data
         filename: cudart.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.5/audio-v0.9.5-cudart-ubuntu-x64-cuda12.8.tar.gz
-        sha256: 732bf2f4b81760529996c076e9a255fa406a296a01c140ab290c62523e145bd0
-        size: 787011688
+        url: https://github.com/0xShug0/audio.cpp/releases/download/v0.9.6/audio-v0.9.6-cudart-ubuntu-x64-cuda12.8.tar.gz
+        sha256: 5a1ce16249114ef8d15ba3871fe5c7e1935354f21577e8a01de1a2286c026320
+        size: 787013494
       # END MANAGED EXTRA-DATA
       # The official server links NCCL; fetch NVIDIA's CUDA 12.8 runtime directly.
       - type: extra-data
