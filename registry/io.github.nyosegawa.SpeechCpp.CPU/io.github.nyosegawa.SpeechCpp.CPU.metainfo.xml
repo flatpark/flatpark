@@ -20,6 +20,9 @@
   <screenshots><screenshot type="default"><caption>Speech synthesis in the local browser interface</caption><image>https://raw.githubusercontent.com/nyosegawa/speech.cpp/v0.11.0/docs/images/page-speak.png</image></screenshot></screenshots>
   <categories><category>AudioVideo</category><category>Audio</category></categories>
   <releases>
+    <release version="0.11.2" date="2026-11-21">
+      <description></description>
+    </release>
     <release version="0.11.1" date="2026-11-20">
       <description></description>
     </release><release version="0.11.0" date="2026-11-15"/></releases>
