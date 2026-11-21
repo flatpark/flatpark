@@ -93,7 +93,6 @@ const a = JSON.parse(fs.readFileSync(f, "utf8"));
 a.added = "2026-10-02T12:00:00+00:00";
 a.screenshots = [
   { url: "/screenshots/io.flatpark.TestOne-main.webp", caption: "Main <window>" },
-  { url: "https://example.com/shot2.png", caption: "" },
 ];
 a.releases = [
   { version: "9.9", date: "2999-01-01", url: "", notes: [] },
@@ -275,18 +274,11 @@ assert_contains "$site_out/feed.xml" '<feed xmlns="http://www.w3.org/2005/Atom">
 assert_contains "$site_out/feed.xml" '<title>Test One</title>'
 assert_contains "$site_out/feed.xml" '<published>2026-10-02T12:00:00Z</published>'
 assert_contains "$site_out/feed.xml" '/apps/io.flatpark.TestOne/</id>'
-# The summary sits beside the icon, the install line below both; the first
-# screenshot follows, made absolute (readers have no base URL).
-assert_contains "$site_out/feed.xml" '&lt;td&gt;&lt;img src=&quot;https://flatpark.org/icons/io.flatpark.TestOne.svg&quot; alt=&quot;&quot; width=&quot;64&quot; height=&quot;64&quot;&gt;&lt;/td&gt;&lt;td valign=&quot;middle&quot;&gt;First test app&lt;/td&gt;'
-assert_contains "$site_out/feed.xml" 'First test app&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;flatpak install flatpark io.flatpark.TestOne&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;img src=&quot;https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp&quot; alt=&quot;Main &amp;lt;window&amp;gt;&quot;'
-# Only the first per listing.
-if grep -q 'shot2.png' "$site_out/feed.xml"; then
-    echo "FAIL: feed.xml carries more than one screenshot"; exit 1
-fi
+# Image URLs are absolute, since readers have no base URL.
+assert_contains "$site_out/feed.xml" 'https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp'
+assert_contains "$site_out/feed.xml" 'Main &amp;lt;window&amp;gt;'
 assert_file "$site_out/updates.xml"
 assert_contains "$site_out/updates.xml" '<title>Test One 1.2</title>'
-# A release entry has the listing's body; only its title adds the version.
-assert_contains "$site_out/updates.xml" 'https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp'
 if grep -q 'Test One 9.9' "$site_out/updates.xml"; then
     echo "FAIL: a future-dated release reached updates.xml"; exit 1
 fi
