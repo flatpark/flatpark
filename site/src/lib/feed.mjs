@@ -60,16 +60,22 @@ export function screenshotsHtml(app, origin, max = 3) {
     .join('');
 }
 
-// The entry body: icon, summary, the entry's own part (screenshots and
-// description for a listing, notes for a release) and the install line.
-// Readers render it as HTML, so it goes in escaped as type="html".
+// The entry body: icon with the summary beside it (a table, since readers strip
+// style but keep tables), the entry's own part (screenshots and description for
+// a listing, notes for a release) and the install line. Readers render it as
+// HTML, so it goes in escaped as type="html".
 export function appHtml(app, origin, extra = '') {
-  const icon = app.icon
-    ? `<p><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></p>`
-    : '';
+  const summary = esc(app.summary);
+  const head = app.icon
+    ? '<table><tr>' +
+      `<td><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></td>` +
+      `<td valign="middle">${summary}</td>` +
+      '</tr></table>'
+    : summary
+      ? `<p>${summary}</p>`
+      : '';
   return [
-    icon,
-    app.summary ? `<p>${esc(app.summary)}</p>` : '',
+    head,
     extra,
     app.installCmd ? `<pre><code>${esc(app.installCmd)}</code></pre>` : '',
   ].join('');

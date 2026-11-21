@@ -277,8 +277,10 @@ assert_contains "$site_out/feed.xml" '<feed xmlns="http://www.w3.org/2005/Atom">
 assert_contains "$site_out/feed.xml" '<title>Test One</title>'
 assert_contains "$site_out/feed.xml" '<published>2026-10-02T12:00:00Z</published>'
 assert_contains "$site_out/feed.xml" '/apps/io.flatpark.TestOne/</id>'
-# Screenshots follow the summary, made absolute (readers have no base URL).
-assert_contains "$site_out/feed.xml" 'First test app&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp&quot; alt=&quot;Main &amp;lt;window&amp;gt;&quot;'
+# The summary sits beside the icon; screenshots follow, made absolute (readers
+# have no base URL).
+assert_contains "$site_out/feed.xml" 'io.flatpark.TestOne.svg&quot; alt=&quot;&quot; width=&quot;64&quot; height=&quot;64&quot;&gt;&lt;/td&gt;&lt;td valign=&quot;middle&quot;&gt;First test app&lt;/td&gt;'
+assert_contains "$site_out/feed.xml" 'First test app&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;img src=&quot;https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp&quot; alt=&quot;Main &amp;lt;window&amp;gt;&quot;'
 assert_contains "$site_out/feed.xml" 'src=&quot;https://example.com/shot2.png&quot;'
 # At most three per listing, and none on releases.
 assert_contains "$site_out/feed.xml" 'screenshots/c.webp'
