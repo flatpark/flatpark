@@ -1,12 +1,12 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time inside org.freedesktop.Platform. Three pinned
+# Runs offline at install time inside org.gnome.Platform. Three pinned
 # extra-data files arrive alongside this script in /app/extra:
 #
-#   resolve-flatpak.tar.gz  the installer/launcher, a self-contained PyInstaller
-#                           tree (Python + PySide6) built by the resolve-flatpak
-#                           project — the app that fetches and installs Resolve
+#   resolve-flatpak.tar.gz  the installer/launcher Python sources built by the
+#                           resolve-flatpak project — the app that fetches and
+#                           installs Resolve
 #   appimage-tools.tar.xz   flatpark/prebuilt's appimage-tools, for unsquashfs
 #   libglu1-mesa.deb        libGLU.so.1, which the runtime does not ship
 #
@@ -25,7 +25,7 @@ done
 # every capability dropped, so restoring an archive's recorded owner fails and
 # aborts the unpack even though every member extracted fine.
 
-# 1. The installer/launcher bundle -> /app/extra/resolve-app.
+# 1. The installer/launcher sources -> /app/extra/resolve-app.
 rm -rf resolve-app .resolve-unpack
 mkdir .resolve-unpack
 bsdtar --no-same-owner -xzf resolve-flatpak.tar.gz -C .resolve-unpack
@@ -33,7 +33,7 @@ top="$(find .resolve-unpack -maxdepth 1 -mindepth 1 -type d | head -n 1)"
 [ -n "$top" ] || { echo "resolve bundle has no top directory" >&2; exit 1; }
 mv "$top" resolve-app
 rm -rf .resolve-unpack
-[ -x resolve-app/resolve-flatpak ] || { echo "resolve launcher missing after unpack" >&2; exit 1; }
+[ -f resolve-app/installer/main.py ] || { echo "resolve installer missing after unpack" >&2; exit 1; }
 
 # 2. appimage-tools -> /app/extra/appimage-tools (unsquashfs).
 rm -rf appimage-tools

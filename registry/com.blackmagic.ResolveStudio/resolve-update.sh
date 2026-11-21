@@ -11,7 +11,7 @@
 # the latest <release> in the AppStream metainfo.
 #
 # This tracks the resolve-flatpak project's releases, NOT Blackmagic's: the
-# package's extra-data payload is the self-contained installer/launcher bundle
+# package's extra-data payload is the installer/launcher source bundle
 # built by that project, and the installer fetches DaVinci Resolve itself at
 # first launch. appimage-tools.tar.xz and libglu1-mesa.deb are pinned by hand
 # outside the managed block in the manifest.
