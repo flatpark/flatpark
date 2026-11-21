@@ -1,6 +1,6 @@
 // Atom feed of newly listed apps, newest first. See lib/feed.mjs.
 import type { APIContext } from 'astro';
-import { loadApps, loadCatalog } from '../lib/data.mjs';
+import { isExtension, loadApps, loadCatalog } from '../lib/data.mjs';
 import { atomResponse, newAppEntries, renderAtom, siteOrigin } from '../lib/feed.mjs';
 
 export function GET({ site }: APIContext) {
@@ -13,7 +13,7 @@ export function GET({ site }: APIContext) {
       selfUrl: `${origin}/feed.xml`,
       altUrl: `${origin}/apps/`,
       origin,
-      entries: newAppEntries(loadApps(), origin),
+      entries: newAppEntries(loadApps().filter((a) => !isExtension(a)), origin),
     }),
   );
 }
