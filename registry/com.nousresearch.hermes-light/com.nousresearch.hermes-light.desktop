@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Hermes Light
+Comment=Native desktop shell for Hermes Agent
+Exec=hermes-light %U
+Icon=com.nousresearch.hermes-light
+Terminal=false
+Categories=Development;
+StartupWMClass=com.nousresearch.hermes-light
+MimeType=x-scheme-handler/hermes;
+Keywords=hermes;agent;ai;assistant;chat;
