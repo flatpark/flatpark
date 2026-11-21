@@ -163,18 +163,23 @@ const StarsTag = starsLink ? 'a' : 'span';
             {app.proprietary ? <span class="ml-2 chip">{t('detail.proprietary')}</span> : null}
           </p>
           <p class="mt-2 max-w-2xl text-muted">{app.summary}</p>
-          {app.parent && (
-            <a
-              href={localizePath(`/apps/${app.parent.id}/`, lang)}
-              class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
-            >{t('detail.extension', { name: app.parent.name })} &rarr;</a>
+          {/* One link per line: an extension can have both a parent and a collection. */}
+          {(app.parent || collections.length > 0) && (
+            <div class="mt-2 flex flex-col items-start gap-1">
+              {app.parent && (
+                <a
+                  href={localizePath(`/apps/${app.parent.id}/`, lang)}
+                  class="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
+                >{t('detail.extension', { name: app.parent.name })} &rarr;</a>
+              )}
+              {collections.map((c) => (
+                <a
+                  href={localizePath(`/collections/${c.slug}/`, lang)}
+                  class="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
+                >{t('collection.member', { name: c.name, count: c.apps.length })} &rarr;</a>
+              ))}
+            </div>
           )}
-          {collections.map((c) => (
-            <a
-              href={localizePath(`/collections/${c.slug}/`, lang)}
-              class="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
-            >{t('collection.member', { name: c.name, count: c.apps.length })} &rarr;</a>
-          ))}
         </div>
         <div class="flex shrink-0 flex-col items-start gap-2 sm:items-end">
           <div class="relative inline-flex" data-install>

@@ -154,6 +154,7 @@ const searchMeta = {
       const grid = document.querySelector('[data-grid]');
       const empty = document.querySelector('[data-empty]');
       let activeSection = '';
+      const browsePage = !!document.querySelector('[data-section-filter]');
       // Home page tabs are scopes, not orders: Approved keeps the blue-shield
       // cards, New and Updated keep the cards whose date falls inside the tab's
       // window. The window is measured against the reader's clock rather than
@@ -203,10 +204,13 @@ const searchMeta = {
       function apply() {
         const shown = [];
         for (const card of cards) {
-          // No section picked means every app, which leaves the extensions
-          // out: they are only listed under their own entry.
+          // On the browse page, no section picked means every app, which
+          // leaves the extensions out: they are listed under their own entry.
+          // Every other page with cards (a parent's, a collection) shows them.
           const show =
-            (activeSection ? card.dataset.section === activeSection : card.dataset.section !== 'extensions') &&
+            (activeSection
+              ? card.dataset.section === activeSection
+              : !(browsePage && card.dataset.section === 'extensions')) &&
             (!approvedOnly || card.dataset.approved === '1') &&
             inWindow(card);
           card.hidden = !show;
