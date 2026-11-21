@@ -56,21 +56,20 @@ export function screenshotHtml(app, origin) {
 }
 
 // The entry body, the same in both feeds: a table (readers strip style but keep
-// tables) with the icon beside the summary and the install line below both,
+// tables) with the icon, if any, beside the summary and the install line below,
 // then the first screenshot and the description. Readers render it as HTML, so
 // it goes in escaped as type="html".
 export function appHtml(app, origin) {
   const summary = esc(app.summary);
   const install = esc(app.installCmd);
-  const head = app.icon
-    ? '<table>' +
-      '<tr>' +
-      `<td><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></td>` +
-      `<td valign="middle">${summary}</td>` +
-      '</tr>' +
-      (install ? `<tr><td colspan="2">${install}</td></tr>` : '') +
-      '</table>'
-    : (summary ? `<p>${summary}</p>` : '') + (install ? `<p>${install}</p>` : '');
+  const icon = app.icon
+    ? `<td><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></td>`
+    : '';
+  const rows = [
+    icon || summary ? `<tr>${icon}<td valign="middle">${summary}</td></tr>` : '',
+    install ? `<tr><td${icon ? ' colspan="2"' : ''}>${install}</td></tr>` : '',
+  ].join('');
+  const head = rows ? `<table>${rows}</table>` : '';
   return head + screenshotHtml(app, origin) + blocksHtml(app.description);
 }
 
