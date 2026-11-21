@@ -61,8 +61,8 @@ export function screenshotsHtml(app, origin, max = 3) {
 }
 
 // The entry body: icon, summary, the entry's own part (screenshots and
-// description for a listing, notes for a release), install line and a link to
-// the app page. Readers render it as HTML, so it goes in escaped as type="html".
+// description for a listing, notes for a release) and the install line.
+// Readers render it as HTML, so it goes in escaped as type="html".
 export function appHtml(app, origin, extra = '') {
   const icon = app.icon
     ? `<p><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></p>`
@@ -72,7 +72,6 @@ export function appHtml(app, origin, extra = '') {
     app.summary ? `<p>${esc(app.summary)}</p>` : '',
     extra,
     app.installCmd ? `<pre><code>${esc(app.installCmd)}</code></pre>` : '',
-    `<p><a href="${esc(`${origin}/apps/${app.id}/`)}">${esc(app.name)} on FlatPark</a></p>`,
   ].join('');
 }
 
