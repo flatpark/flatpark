@@ -91,6 +91,12 @@ node -e '
 const fs = require("fs"), f = process.argv[1];
 const a = JSON.parse(fs.readFileSync(f, "utf8"));
 a.added = "2026-10-02T12:00:00+00:00";
+a.screenshots = [
+  { url: "/screenshots/io.flatpark.TestOne-main.webp", caption: "Main <window>" },
+  { url: "https://example.com/shot2.png", caption: "" },
+  { url: "/screenshots/c.webp", caption: "" },
+  { url: "/screenshots/d.webp", caption: "" },
+];
 a.releases = [
   { version: "9.9", date: "2999-01-01", url: "", notes: [] },
   { version: "1.2", date: "2026-10-05", url: "https://example.com/1.2", notes: [{ type: "p", runs: [{ text: "Fixed <bugs>" }] }] },
@@ -271,6 +277,17 @@ assert_contains "$site_out/feed.xml" '<feed xmlns="http://www.w3.org/2005/Atom">
 assert_contains "$site_out/feed.xml" '<title>Test One</title>'
 assert_contains "$site_out/feed.xml" '<published>2026-10-02T12:00:00Z</published>'
 assert_contains "$site_out/feed.xml" '/apps/io.flatpark.TestOne/</id>'
+# Screenshots follow the summary, made absolute (readers have no base URL).
+assert_contains "$site_out/feed.xml" 'First test app&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;https://flatpark.org/screenshots/io.flatpark.TestOne-main.webp&quot; alt=&quot;Main &amp;lt;window&amp;gt;&quot;'
+assert_contains "$site_out/feed.xml" 'src=&quot;https://example.com/shot2.png&quot;'
+# At most three per listing, and none on releases.
+assert_contains "$site_out/feed.xml" 'screenshots/c.webp'
+if grep -q 'screenshots/d.webp' "$site_out/feed.xml"; then
+    echo "FAIL: feed.xml carries more than three screenshots"; exit 1
+fi
+if grep -q '/screenshots/' "$site_out/updates.xml"; then
+    echo "FAIL: updates.xml carries screenshots"; exit 1
+fi
 assert_file "$site_out/updates.xml"
 assert_contains "$site_out/updates.xml" '<title>Test One 1.2</title>'
 assert_contains "$site_out/updates.xml" 'Fixed &amp;lt;bugs&amp;gt;'

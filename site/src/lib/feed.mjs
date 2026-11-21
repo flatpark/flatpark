@@ -43,8 +43,26 @@ export function blocksHtml(blocks = []) {
     .join('');
 }
 
-// The entry body: icon, summary, install line and a link to the app page.
-// Readers render it as HTML, so it goes in escaped as type="html".
+// Screenshots as the page shows them: enrich.mjs has rewritten each url to the
+// copy published under /screenshots/, or left upstream's absolute url when the
+// fetch failed. Feed readers have no base URL, so both become absolute. The
+// first few are enough to show what the app looks like; the page has the rest.
+export function screenshotsHtml(app, origin, max = 3) {
+  return (app.screenshots || [])
+    .filter((s) => s?.url)
+    .slice(0, max)
+    .map((s) => {
+      const src = esc(new URL(s.url, origin + '/').href);
+      const alt = esc(s.caption || app.name);
+      const caption = s.caption ? `<br><small>${esc(s.caption)}</small>` : '';
+      return `<p><img src="${src}" alt="${alt}" style="max-width:100%;height:auto">${caption}</p>`;
+    })
+    .join('');
+}
+
+// The entry body: icon, summary, the entry's own part (screenshots and
+// description for a listing, notes for a release), install line and a link to
+// the app page. Readers render it as HTML, so it goes in escaped as type="html".
 export function appHtml(app, origin, extra = '') {
   const icon = app.icon
     ? `<p><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></p>`
@@ -113,13 +131,15 @@ export function newAppEntries(apps, origin, limit = 50) {
       author: app.developer || '',
       categories: [app.section || app.category].filter(Boolean),
       summary: app.summary || '',
-      html: appHtml(app, origin, blocksHtml(app.description)),
+      html: appHtml(app, origin, screenshotsHtml(app, origin) + blocksHtml(app.description)),
     }));
 }
 
 // Upstream releases, newest first, a few per app so one fast-shipping app
 // can't push everyone else out. Release dates past the build time are
 // upstream typos or pre-announcements, not something that has shipped.
+// No screenshots here: a release rarely changes how an app looks, and the same
+// images in every entry would be the reader downloading them over and over.
 export function releaseEntries(apps, origin, { limit = 100, perApp = 3, now = Date.now() } = {}) {
   const cutoff = toRfc3339(new Date(now).toISOString());
   const rows = [];
