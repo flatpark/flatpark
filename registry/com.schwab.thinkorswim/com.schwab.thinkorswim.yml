@@ -43,8 +43,8 @@ modules:
         only-arches:
           - x86_64
         url: https://tosmediaserver.schwab.com/installer/InstFiles/thinkorswim_installer.sh
-        sha256: 09ec441cc294d1f55ff61bb6a8dee535679b823d2054556e984bce378fa678da
-        size: 25319273
+        sha256: 1f3ec431f1b0eb3ef33230be33cae69ecc0b37c8dad025038c777452367dba56
+        size: 25319189
       - type: extra-data
         filename: zulu-jre.tar.gz
         only-arches:

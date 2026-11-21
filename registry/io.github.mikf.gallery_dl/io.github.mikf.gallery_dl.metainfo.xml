@@ -17,5 +17,8 @@
   <url type="vcs-browser">https://codeberg.org/mikf/gallery-dl</url>
   <categories><category>Network</category><category>FileTransfer</category></categories>
   <content_rating type="oars-1.1"/>
-  <releases><release version="1.32.20" date="2026-11-14"/></releases>
+  <releases>
+    <release version="1.32.21" date="2026-11-21">
+      <description></description>
+    </release><release version="1.32.20" date="2026-11-14"/></releases>
 </component>

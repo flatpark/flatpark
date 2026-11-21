@@ -26,10 +26,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: gallery-dl.bin
-        only-arches: [x86_64]
-        url: https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.20/gallery-dl.bin
-        sha256: 51c0c680a3998cb9d0187fb16bf19d36d0a420bfcd570e80bb383fc42295f000
-        size: 24163656
+        only-arches:
+          - x86_64
+        url: https://codeberg.org/mikf/gallery-dl/releases/download/v1.32.21/gallery-dl.bin
+        sha256: a0adde5c659a621218ab3d5e41e7b8c5d1578827cc2765436aa2767488a8b180
+        size: 24169520
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
