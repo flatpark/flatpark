@@ -1,0 +1,19 @@
+id: io.github._0xShug0.AudioCpp.ROCM10
+name: audio.cpp (ROCm 10)
+summary: Run local audio AI models with the ROCm 10 backend
+website: https://github.com/0xShug0/audio.cpp
+source_url: https://github.com/0xShug0/audio.cpp
+build:
+  manifest: io.github._0xShug0.AudioCpp.ROCM10.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  tags: [Audio, AI, TTS, ASR, ROCm, AMD]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --device=all
