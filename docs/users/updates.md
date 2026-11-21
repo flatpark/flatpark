@@ -30,3 +30,5 @@ whole catalog moves to it at once and is tested together, so you never keep an
 old runtime on disk for one app that stayed behind. After such a move,
 `flatpak update` downloads the new runtime once, and
 `flatpak uninstall --unused` removes the old one ([cleaning up](cleanup.md)).
+Apps from other remotes may stay behind on an old runtime; rpak can
+[run them on the new one](rpak.md#running-an-app-on-a-newer-runtime-experimental).
