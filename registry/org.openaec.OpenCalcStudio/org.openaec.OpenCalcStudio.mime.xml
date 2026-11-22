@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The two file types upstream registers (tauri.conf.json fileAssociations).
+     The .deb lists them in its desktop entry but ships no shared-mime-info
+     definition, so without this the desktop cannot map the extensions. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-ifccalc">
+    <comment>Open Calc Studio estimate</comment>
+    <sub-class-of type="application/json"/>
+    <glob pattern="*.ifcCalc"/>
+  </mime-type>
+  <mime-type type="application/x-wpcalc">
+    <comment>WpCalc estimate</comment>
+    <glob pattern="*.calc"/>
+  </mime-type>
+</mime-info>
