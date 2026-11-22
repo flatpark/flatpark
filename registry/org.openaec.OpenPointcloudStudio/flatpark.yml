@@ -1,0 +1,28 @@
+id: org.openaec.OpenPointcloudStudio
+name: Open Pointcloud Studio
+summary: View, measure, edit and export laser scans and point clouds
+website: https://open-aec.com/open-pointcloud-studio/
+source_url: https://github.com/OpenAEC-Foundation/open-pointcloud-studio
+build:
+  manifest: org.openaec.OpenPointcloudStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Point Cloud
+    - Laser Scan
+    - LiDAR
+    - CAD
+    - Mesh
+# The app id is upstream's own (its desktop file, metainfo and window
+# application_id). Each release also ships the source of Open CAD Studio and
+# SDK libraries; only the app's portable tarballs are packaged, and they carry
+# the Open CAD Studio binary the app uses to show its exported drawings.
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
