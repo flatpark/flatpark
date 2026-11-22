@@ -1,0 +1,83 @@
+id: org.openaec.Open3DViewer
+# Open BIM Suite (until 2026.45 "Open 3D Viewer Studio") is not a Tauri app:
+# it is one Rust binary drawn with iced and wgpu. It links only libc, libm and
+# libgcc_s and opens the GPU (Vulkan, EGL), Wayland, X11 and xkbcommon
+# libraries at run time, all of which the freedesktop runtime has; it needs
+# neither GTK nor WebKitGTK, so not the GNOME runtime.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: open-3d-viewer
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # winit's Wayland backend, with X11 for sessions without Wayland. Copy and
+  # paste goes through iced's window_clipboard (smithay-clipboard on
+  # Wayland), so nothing needs X11 on a Wayland session.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # wgpu renders the 3D view on the GPU (Vulkan, or OpenGL through EGL).
+  - --device=dri
+  # Features that fetch from the internet when used: the OpenStreetMap tiles
+  # under a georeferenced model (src/app/origin_map.rs), the GIS tab's parcels,
+  # buildings, soundings and borings (src/app/gis.rs, src/app/geo.rs), the
+  # Library's online libraries (src/app/online.rs), bSDD class lookups and BCF
+  # API issue servers (src/collab/), and the feedback form. It also lets the
+  # MCP server, run as a second `flatpak run --command=open-3d-viewer-mcp`,
+  # reach the viewer's control port on 127.0.0.1 (src/remote.rs); without the
+  # host network each instance has a loopback of its own. The viewer has no
+  # updater of its own: update notices come only from the OpenAEC Installer's
+  # status file, which does not exist in the sandbox.
+  - --share=network
+  # Files are opened and saved through the file chooser portal (rfd), and
+  # settings go to $XDG_CONFIG_HOME/OpenAEC/Open BIM Suite, so no filesystem
+  # grant. Not available in the sandbox: "Render" and the video of "Build
+  # film", which run a Blender found on the host's PATH, /usr/share or /opt
+  # (src/build_film.rs); the metainfo says so.
+modules:
+  - name: open-3d-viewer
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-3d-viewer-wrapper /app/bin/open-3d-viewer
+      # The MCP server that lets an AI agent drive the running viewer; started
+      # by the agent as `flatpak run --command=open-3d-viewer-mcp <id>`.
+      - ln -s /app/extra/open-3d-viewer/open-3d-viewer-mcp /app/bin/open-3d-viewer-mcp
+      - install -Dm644 org.openaec.Open3DViewer.desktop /app/share/applications/org.openaec.Open3DViewer.desktop
+      - install -Dm644 org.openaec.Open3DViewer.metainfo.xml /app/share/metainfo/org.openaec.Open3DViewer.metainfo.xml
+      - install -Dm644 org.openaec.Open3DViewer.png /app/share/icons/hicolor/512x512/apps/org.openaec.Open3DViewer.png
+      # Upstream's shared-mime-info file (Rhino .3dm and .samjson, which
+      # shared-mime-info lacks). Flatpak exports a MIME package only under the
+      # app id.
+      - install -Dm644 org.openaec.Open3DViewer.mime.xml /app/share/mime/packages/org.openaec.Open3DViewer.xml
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-3d-viewer.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-bim-suite/releases/download/v2026.47.5/open-3d-viewer_2026.47.5_linux-x64.tar.gz
+        sha256: 6232512b79ca7ad7914cb4299cfa95a74583e21cb9d3c77600f16b533e818ffa
+        size: 44149558
+      - type: extra-data
+        filename: open-3d-viewer.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/OpenAEC-Foundation/open-bim-suite/releases/download/v2026.47.5/open-3d-viewer_2026.47.5_linux-arm64.tar.gz
+        sha256: 91d6927e8db56f3121cb3379e413b62dba9462780edfc2276145bb75e6479046
+        size: 40525572
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-3d-viewer-wrapper
+      - type: file
+        path: org.openaec.Open3DViewer.desktop
+      - type: file
+        path: org.openaec.Open3DViewer.metainfo.xml
+      - type: file
+        path: org.openaec.Open3DViewer.png
+      - type: file
+        path: org.openaec.Open3DViewer.mime.xml
