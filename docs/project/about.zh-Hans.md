@@ -5,15 +5,16 @@ order: 1
 
 # 关于 FlatPark
 
-**在 Linux 上装应用，本该很简单。**
-
-让每个开发者都能把应用直接交到 Linux 用户手里，让每个用户想用的应用都能在 FlatPark 找到。
-
-## FlatPark 是什么
-
 FlatPark 是一个社区 Flatpak remote，收录提供官方 Linux 下载的应用：在稳定、公开的发布 URL 上提供安装程序、`.deb`、tarball 或 AppImage。FlatPark 用校验和与文件大小固定这份下载，把它包装成 Flatpak（[extra-data](trust.md)）并签名。你安装应用时，Flatpak 直接从开发者的服务器下载文件。FlatPark 不从源码构建应用，也不托管应用文件。
 
 有些应用由开发者自己发布。更多的应用是社区因为用户需要而打包的：厂商只在自己官网放一个安装包，从没考虑过 Flatpak。无论哪种，文件都是厂商自己发布的那一份，上游发版后通常几分钟内就能更新。
+
+## 宗旨
+
+**在 Linux 上装应用，本该很简单。**
+
+- 让每个开发者都能把应用直接交到 Linux 用户手里。
+- 让每个用户想用的应用都能在 FlatPark 找到。
 
 ## 我们相信什么
 
