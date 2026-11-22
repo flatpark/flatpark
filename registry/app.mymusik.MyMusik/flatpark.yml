@@ -1,0 +1,24 @@
+id: app.mymusik.MyMusik
+name: MyMusik
+summary: Play and organize your own music collection
+website: https://mymusik.app/en/
+source_url: https://mymusik.app/en/download/
+build:
+  manifest: app.mymusik.MyMusik.yml
+  branch: stable
+  mode: extra-data
+  arches:
+    - x86_64
+catalog:
+  category: AudioVideo
+  upstream_approved: true
+  tags:
+    - Music
+    - Player
+    - Library
+    - Playlists
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []
