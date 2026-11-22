@@ -128,6 +128,47 @@ set -e
 printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); const b=d.results.filter(r=>!r.ok&&r.type==="extra-data"); if(d.broken!==2||b.length!==2){console.error(JSON.stringify(d.results));process.exit(1)}'
 kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
 
+# A host that gates its issue tracker (gitlab.gnome.org answers automated
+# clients 404 or 406 there): waived only on /-/issues, only for 404 and 406,
+# and never for a screenshot. A local server plays the host.
+cat > "$tmp/gated-server.mjs" <<'EOF2'
+import { createServer } from 'node:http';
+const srv = createServer((req, res) => {
+  res.writeHead(req.url.startsWith('/gone/') ? 410 : 404);
+  res.end();
+});
+srv.listen(0, '127.0.0.1', () => console.log(srv.address().port));
+EOF2
+: > "$tmp/port"
+node "$tmp/gated-server.mjs" > "$tmp/port" &
+srv_pid=$!
+for _ in $(seq 50); do [ -s "$tmp/port" ] && break; sleep 0.1; done
+port="$(cat "$tmp/port")"
+[ -n "$port" ] || { echo "FAIL: gated server did not report a port"; exit 1; }
+gated="$tmp/gated"; mkdir -p "$gated/apps"
+cat > "$gated/apps/io.flatpark.Gated.json" <<EOF2
+{ "id": "io.flatpark.Gated", "name": "Gated", "screenshots": [], "website": "", "urls": { "bugtracker": "http://127.0.0.1:$port/owner/project/-/issues" }, "sourceUrl": "" }
+EOF2
+out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_BOT_GATED_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==0||d.warned!==1){console.error(JSON.stringify(d.results));process.exit(1)}'
+# Not on the list -> the 404 is a broken link.
+set +e
+FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 node "$ROOT/site/tools/check-links.mjs" >/dev/null 2>&1
+rc=$?
+set -e
+[ "$rc" -eq 1 ] || { echo "FAIL: a 404 from a host not on the gated list should be broken, got $rc"; exit 1; }
+# Another path, another status, or a screenshot on a gated host -> broken.
+cat > "$gated/apps/io.flatpark.Gated.json" <<EOF2
+{ "id": "io.flatpark.Gated", "name": "Gated", "screenshots": [{ "url": "http://127.0.0.1:$port/owner/project/-/issues" }], "website": "http://127.0.0.1:$port/owner/project/missing", "urls": { "bugtracker": "http://127.0.0.1:$port/gone/-/issues" }, "sourceUrl": "" }
+EOF2
+set +e
+out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_BOT_GATED_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
+rc=$?
+set -e
+[ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 for a gated host's other path, status and screenshot, got $rc"; exit 1; }
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==3||d.warned!==0){console.error(JSON.stringify(d.results));process.exit(1)}'
+kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
+
 # A screenshot committed in the registry is never fetched (its main URL 404s
 # until the PR merges): enrich's finding decides it, present or missing.
 local_data="$tmp/local"; mkdir -p "$local_data/apps"

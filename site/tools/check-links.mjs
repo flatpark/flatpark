@@ -63,6 +63,29 @@ const SOFT_OK_HOSTS = new Set([
   ...(process.env.LINK_CHECK_SOFT_OK_HOSTS || '').split(',').filter(Boolean),
 ]);
 
+// Hosts that answer automated clients with an HTTP error on pages a browser
+// opens fine. gitlab.gnome.org gates its issue trackers: a non-browser client
+// gets a 404, one with a browser User-Agent a 406, while the same URL opens in
+// a browser. Waived only for that status, on the issue tracker paths, and
+// never for screenshots, which our pages hotlink (#1376).
+// LINK_CHECK_BOT_GATED_HOSTS adds hosts with the same rule (used by the tests).
+const BOT_GATED = [
+  { host: 'gitlab.gnome.org', statuses: [404, 406], path: /\/-\/issues\/?$/ },
+  ...(process.env.LINK_CHECK_BOT_GATED_HOSTS || '').split(',').filter(Boolean)
+    .map((host) => ({ host, statuses: [404, 406], path: /\/-\/issues\/?$/ })),
+];
+
+function botGated(entry, status) {
+  if (entry.type === 'screenshot') return false;
+  let url;
+  try {
+    url = new URL(entry.url);
+  } catch {
+    return false;
+  }
+  return BOT_GATED.some((g) => g.host === url.hostname && g.statuses.includes(status) && g.path.test(url.pathname));
+}
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function hostOf(url) {
@@ -165,6 +188,10 @@ async function probe(entry) {
     if (res.status === 403 && entry.type !== 'screenshot') {
       try { await res.body?.cancel(); } catch {}
       return { ...entry, status: 403, ok: true, warn: true };
+    }
+    if (botGated(entry, res.status)) {
+      try { await res.body?.cancel(); } catch {}
+      return { ...entry, status: res.status, ok: true, warn: true };
     }
     const out = { ...entry, status: res.status, ok: res.ok };
     try { await res.body?.cancel(); } catch {}
