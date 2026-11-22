@@ -295,3 +295,17 @@ collections:
           - io.github.HakanSeven12.OpenCadStudio
           - org.openaec.OpenPdfStudio
           - org.openaec.OpenOfficeStudio
+  - slug: jumplink
+    name: JumpLink
+    upstream: https://jumplink.eu
+    summary:
+      en: >-
+        Desktop apps by Pascal Garber (JumpLink), packaged by their developer:
+        Beifahrer, a browser bridge for AI agents under a per-site policy you
+        control, and Steuererklärung, an app for taxes and bookkeeping.
+    groups:
+      - title:
+          en: Apps
+        apps:
+          - eu.jumplink.beifahrer
+          - eu.jumplink.Steuererklaerung
