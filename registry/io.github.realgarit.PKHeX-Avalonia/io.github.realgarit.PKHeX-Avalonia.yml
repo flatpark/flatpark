@@ -38,9 +38,9 @@ modules:
         filename: pkhex-avalonia.zip
         only-arches:
           - x86_64
-        url: https://github.com/realgarit/PKHeX-Avalonia/releases/download/v1.101.3/PKHeX-Avalonia-linux-x64.zip
-        sha256: f1620cce25df4c76922a004c9a961addb66a9600eea62ce4bdd2d01134af96da
-        size: 71797750
+        url: https://github.com/realgarit/PKHeX-Avalonia/releases/download/v1.101.4/PKHeX-Avalonia-linux-x64.zip
+        sha256: e63404302195f771f30185145e186e13d8afd4bab77a71907f89e62cb0efca0e
+        size: 71797271
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
