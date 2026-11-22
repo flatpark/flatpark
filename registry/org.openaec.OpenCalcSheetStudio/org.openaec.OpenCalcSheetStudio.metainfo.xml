@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.OpenCalcSheetStudio</id>
+  <name>Open CalcSheet Studio</name>
+  <summary>Write structural calculations that show every formula</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-3.0-only</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-calcsheet-studio/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio</url>
+  <description>
+    <p>This is a community package of Open CalcSheet Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open CalcSheet Studio is a desktop app for structural engineers. A calculation is written as text, line by line, and the app works it out with units in readable formulas, so every result shows its formula, numbers and units. Ready-made modules cover Eurocode checks such as timber joist floors, beams and pile caps.</p>
+    <p>Besides calculation sheets, a project can hold spreadsheets, formula canvases, node graphs, drawing sheets, Jupyter and Marimo notebooks, Markdown and PDF files, and all of them end up in one report. Projects can be exported to IFC and IFCX, and a built-in MCP bridge lets an AI assistant work with the open project.</p>
+    <p>Upstream marks the app as under active development; results marked "to be checked" need an engineer's judgment.</p>
+    <p>Sandbox: display, GPU, network and printing. Network fetches the weights and module libraries and map tiles for the location picker, and serves the optional ERPNext connection, the feedback form and the MCP bridge for an AI client on this computer. The report is printed or saved as PDF through the print dialog. Files are opened and saved through the file chooser. Updates come through FlatPark.</p>
+    <p>Optional, not granted by default:</p>
+    <ul>
+      <li>Keep the ERPNext API secret in the system keyring: <code>flatpak override --user --talk-name=org.freedesktop.secrets org.openaec.OpenCalcSheetStudio</code></li>
+      <li>Undo: <code>flatpak override --user --reset org.openaec.OpenCalcSheetStudio</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.openaec.OpenCalcSheetStudio.desktop</launchable>
+  <categories>
+    <category>Science</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>structural</keyword>
+    <keyword>calculation</keyword>
+    <keyword>Eurocode</keyword>
+    <keyword>engineering</keyword>
+    <keyword>constructie</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A timber joist floor with drawings, a live unity check and the worked-out sheet</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/Open-CalcSheet-Studio/v2026.47.3/docs/images/readme/hero.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The print preview of the report with cover, contents and calculation pages</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/Open-CalcSheet-Studio/v2026.47.3/docs/images/readme/report.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A spreadsheet sheet with a bar schedule</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/Open-CalcSheet-Studio/v2026.47.3/docs/images/readme/spreadsheet.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>open-calcsheet-studio</binary>
+  </provides>
+  <releases>
+    <release version="2026.47.3" date="2026-11-21">
+      <url type="details">https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/releases/tag/v2026.47.3</url>
+      <description>
+        <p>Official Linux build 2026.47.3.</p>
+      </description>
+    </release>
+  </releases>
+</component>
