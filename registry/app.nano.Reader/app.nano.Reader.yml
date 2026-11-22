@@ -1,0 +1,54 @@
+id: app.nano.Reader
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: nano-reader
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Extension repositories, manga sources and optional tracking services.
+  - --share=network
+  # GPUI display and GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --talk-name=org.a11y.Bus
+modules:
+  - name: nano
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 nano-wrapper /app/bin/nano-reader
+      - install -Dm644 fonts.conf /app/etc/nano/fonts.conf
+      - install -Dm644 app.nano.Reader.desktop /app/share/applications/app.nano.Reader.desktop
+      - install -Dm644 app.nano.Reader.metainfo.xml /app/share/metainfo/app.nano.Reader.metainfo.xml
+      - install -Dm644 app.nano.Reader.svg /app/share/icons/hicolor/scalable/apps/app.nano.Reader.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: nano.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/SELECT-stupidity-FROM-discord/NanoYomi/releases/download/v0.2.1/nano-linux-x64.tar.gz
+        sha256: edc6eed520d21dc7d86c2170eae2ded41bd31f105f0cff1b8c39ac7bacb18036
+        size: 63125946
+      - type: extra-data
+        filename: nano.tar.gz
+        only-arches: [aarch64]
+        url: https://github.com/SELECT-stupidity-FROM-discord/NanoYomi/releases/download/v0.2.1/nano-linux-arm64.tar.gz
+        sha256: 87819a6f48da05a55a31f24e3ab288bccf3fa56f8986e37956bb443ee7130104
+        size: 63124937
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: nano-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: app.nano.Reader.desktop
+      - type: file
+        path: app.nano.Reader.metainfo.xml
+      - type: file
+        path: app.nano.Reader.svg
