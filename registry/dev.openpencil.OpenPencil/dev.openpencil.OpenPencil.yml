@@ -48,9 +48,9 @@ modules:
         filename: openpencil.deb
         only-arches:
           - x86_64
-        url: https://github.com/open-pencil/open-pencil/releases/download/v0.16.0/OpenPencil_0.16.0_amd64.deb
-        sha256: 451e90efd4607f528ff5e705dfc6f6193eaeef222c33aa69ebfbd863d170bd73
-        size: 18833038
+        url: https://github.com/open-pencil/open-pencil/releases/download/v0.17.0/OpenPencil_0.17.0_amd64.deb
+        sha256: 7eec51b1dc495195ab4c2a783784deb597d05c8d74cd464af3ad306b44c85c8d
+        size: 22466244
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
