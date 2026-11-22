@@ -278,15 +278,19 @@ collections:
       en: >-
         Open-source tools for architecture, engineering and construction from
         the OpenAEC Foundation and its community, built to exchange models in
-        the open IFCX format. FlatPark carries three of them so far: Open CAD
-        Studio, a DWG/DXF CAD application by Hakan
-        Seven, Open PDF Studio, a PDF editor for drawings, and Open Office
-        Studio, an office suite.
+        the open IFCX format. FlatPark carries eight of them so far: Open CAD
+        Studio, a DWG/DXF CAD application by Hakan Seven, Open BIM Suite for
+        viewing building models, Open Pointcloud Studio for laser scans, Open
+        Planner Studio for construction schedules, Open CalcSheet Studio for
+        structural calculations, and Open PDF Studio, Open Paint Studio and
+        Open Office Studio for drawings, images and documents.
       zh-Hans: >-
         OpenAEC 基金会及其社区出品的一套开源建筑、工程与施工（AEC）工具，各工具之间用开放的
-        IFCX 格式交换模型。FlatPark 目前收录了其中三个：Hakan Seven
-        开发的 DWG/DXF 制图软件 Open CAD Studio、面向图纸的 PDF 编辑器 Open PDF Studio，以及办公套件
-        Open Office Studio。
+        IFCX 格式交换模型。FlatPark 目前收录了其中八个：Hakan Seven
+        开发的 DWG/DXF 制图软件 Open CAD Studio、建筑模型查看器 Open BIM Suite、激光扫描点云工具
+        Open Pointcloud Studio、施工进度计划 Open Planner Studio、结构计算书 Open CalcSheet
+        Studio，以及面向图纸、图片和文档的 Open PDF Studio、Open Paint Studio 和办公套件 Open
+        Office Studio。
     groups:
       - title:
           en: Drawings and documents
@@ -294,7 +298,20 @@ collections:
         apps:
           - io.github.HakanSeven12.OpenCadStudio
           - org.openaec.OpenPdfStudio
+          - org.openaec.OpenPaintStudio
           - org.openaec.OpenOfficeStudio
+      - title:
+          en: Models and scans
+          zh-Hans: 模型与扫描
+        apps:
+          - org.openaec.Open3DViewer
+          - org.openaec.OpenPointcloudStudio
+      - title:
+          en: Planning and calculation
+          zh-Hans: 计划与计算
+        apps:
+          - org.openaec.planner
+          - org.openaec.OpenCalcSheetStudio
   - slug: jumplink
     name: JumpLink
     upstream: https://jumplink.eu
