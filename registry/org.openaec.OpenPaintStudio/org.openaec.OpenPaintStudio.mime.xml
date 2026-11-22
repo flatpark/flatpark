@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- From the .deb's usr/share/mime/packages/openaec-paint-studio.xml (v2026.45.1),
+     unchanged. Flatpak exports a MIME package only under the app id. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-ifcx">
+    <comment>IFCX document</comment><sub-class-of type="application/json"/>
+    <glob pattern="*.ifcx"/><glob pattern="*.IFCX"/>
+  </mime-type>
+  <mime-type type="application/x-ifcxb">
+    <comment>Binary IFCX document</comment>
+    <glob pattern="*.ifcxb"/><glob pattern="*.IFCXB"/>
+  </mime-type>
+</mime-info>

@@ -1,0 +1,16 @@
+[Desktop Entry]
+# From the .deb's "OpenAEC Paint Studio.desktop" (v2026.45.1); Exec gains %F
+# (the app opens files passed as paths), Name follows open-aec.com, and Icon
+# and StartupWMClass are changed for the app id.
+Type=Application
+Name=Open Paint Studio
+GenericName=Image Editor
+Comment=Drawing tools in the OpenAEC style
+Keywords=paint;draw;image;editor;annotate;vector;
+Exec=openaec-paint-studio %F
+TryExec=openaec-paint-studio
+StartupWMClass=org.openaec.OpenPaintStudio
+Icon=org.openaec.OpenPaintStudio
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;
+MimeType=image/png;image/jpeg;image/webp;image/gif;image/bmp;image/tiff;image/svg+xml;image/avif;image/heic;image/heif;image/vnd.microsoft.icon;image/vnd.adobe.photoshop;image/x-tga;image/jp2;image/jxl;image/x-exr;image/x-adobe-dng;application/x-ifcx;application/x-ifcxb;
