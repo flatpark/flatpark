@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Hex
+Comment=Local voice dictation
+Exec=hex
+Icon=io.github.anomalyco.Hex
+Terminal=false
+Categories=Utility;Accessibility;
+StartupWMClass=anomaly.hex

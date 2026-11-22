@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.anomalyco.Hex</id>
+  <name>Hex</name>
+  <summary>Local voice dictation for your desktop</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="ly.anoma"><name>Anomaly</name></developer>
+  <description>
+    <p>Hex transcribes speech on your device and pastes it into the application you are using. Choose a speech model to download on first use, then dictate with a keyboard shortcut.</p>
+    <p>This community package uses the unmodified official Hex release in X11 mode.</p>
+    <p>Use an X11 desktop session for shortcuts and dictation across applications. On a Wayland desktop, Xwayland limits shortcuts and paste to X11 applications. Launch at login through the desktop portal is unavailable.</p>
+    <p>The x86-64 build requires an AVX2-capable processor.</p>
+  </description>
+  <url type="homepage">https://anoma.ly/hex/</url>
+  <url type="vcs-browser">https://github.com/anomalyco/hex</url>
+  <url type="bugtracker">https://github.com/anomalyco/hex/issues</url>
+  <launchable type="desktop-id">io.github.anomalyco.Hex.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A dictated sentence in History</caption>
+      <!-- Captured from the FlatPark test installation of Hex 3.4.0. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.anomalyco.Hex/screenshots/history.png</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="3.4.0" date="2026-11-11"/></releases>
+</component>
