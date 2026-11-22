@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=LocalSR
+GenericName=Image Upscaler
+Comment=Upscale, denoise and restore photos and videos on your computer
+Exec=localsr %F
+TryExec=localsr
+Icon=com.localsr.desktop.next
+Terminal=false
+StartupNotify=true
+Categories=Graphics;Photography;
+Keywords=upscale;upscaler;super-resolution;denoise;restore;enhance;photo;video;AI;
+MimeType=image/png;image/jpeg;image/webp;image/bmp;image/tiff;image/gif;image/avif;image/jp2;image/x-adobe-dng;image/x-canon-cr2;image/x-canon-cr3;image/x-nikon-nef;image/x-nikon-nrw;image/x-sony-arw;image/x-fuji-raf;image/x-olympus-orf;image/x-panasonic-rw2;image/x-pentax-pef;image/x-samsung-srw;video/mp4;video/quicktime;video/x-m4v;video/x-msvideo;video/x-matroska;video/webm;video/mpeg;video/mp2t;video/x-ms-wmv;video/x-ms-asf;video/x-flv;video/3gpp;video/3gpp2;video/ogg;
+StartupWMClass=localsr-next

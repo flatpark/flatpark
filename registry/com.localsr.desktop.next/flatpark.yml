@@ -1,0 +1,23 @@
+id: com.localsr.desktop.next
+name: LocalSR
+summary: Upscale, denoise and restore photos and videos on your computer
+website: https://herrei.github.io/localsr/
+source_url: https://github.com/HerRei/local-upscale
+build:
+  manifest: com.localsr.desktop.next.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - Upscaling
+    - Photo
+    - Video
+    - AI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.localsr.desktop.next</id>
+  <name>LocalSR</name>
+  <summary>Upscale, denoise and restore photos and videos on your computer</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.herrei">
+    <name>Hermes Reisner</name>
+  </developer>
+  <url type="homepage">https://herrei.github.io/localsr/</url>
+  <url type="bugtracker">https://github.com/HerRei/local-upscale/issues</url>
+  <url type="vcs-browser">https://github.com/HerRei/local-upscale</url>
+  <url type="help">https://herrei.github.io/localsr/guide/</url>
+  <description>
+    <p>This is a community package of LocalSR, maintained independently and unaffiliated with its developer. It repackages the official upstream Linux CPU AppImage unmodified.</p>
+    <p>LocalSR upscales photos, cleans up noise, blur and JPEG artifacts, and enhances video frame by frame. Pick Quick or Best, then compare the result with the original using a slider. Whole folders and queues can be processed, and a setup can be saved as a recipe. Models run on this computer and are downloaded when you choose them; no account is required.</p>
+    <p>This is the CPU build. The CUDA and ROCm builds upstream publishes are not part of this package. H.264, HEVC and AAC videos need an FFmpeg the app can find, which the sandbox does not provide.</p>
+    <p>Sandbox: display, GPU rendering, and network for model downloads. Results are saved to the Desktop folder, the app's default, until you pick another output folder; photos and videos open through the file chooser or Open With. Models and settings stay in the app's data folder. Updates come through FlatPark, not the in-app updater.</p>
+  </description>
+  <launchable type="desktop-id">com.localsr.desktop.next.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>Photography</category>
+  </categories>
+  <keywords>
+    <keyword>upscale</keyword>
+    <keyword>super-resolution</keyword>
+    <keyword>denoise</keyword>
+    <keyword>restore</keyword>
+    <keyword>photo</keyword>
+    <keyword>video</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>An upscaled photo compared with the original</caption>
+      <!-- Upstream's screenshot is the macOS window; taken from a test run of
+           0.5.0-beta on Linux, with upstream's own sample photo. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/com.localsr.desktop.next/screenshots/compare.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <supports>
+    <internet>first-run</internet>
+  </supports>
+  <releases>
+    <release version="0.5.0-beta" date="2026-11-20" type="development">
+      <description>
+        <p>Official Linux CPU build 0.5.0-beta.</p>
+      </description>
+    </release>
+  </releases>
+</component>
