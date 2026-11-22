@@ -26,13 +26,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: bloom.rpm
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/oatbiscuit/bloom/releases/download/v1.1.0/bloom-1.1.0-1.fc45.x86_64.rpm
         sha256: eb6f3a99d91f4d3013e691ca70bad1ab87f31d2c4b7aa0a02c954808d2d9504d
         size: 57694
       - type: extra-data
         filename: bloom.rpm
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/oatbiscuit/bloom/releases/download/v1.1.0/bloom-1.1.0-1.fc45.aarch64.rpm
         sha256: 22877bc1ed8bcadbca09eeb656d115f9e2aa67cef26d76f2ab4bdecef3b95719
         size: 56849
