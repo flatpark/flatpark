@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the sandbox. Override with WEBKIT_DISABLE_DMABUF_RENDERER=0 to use it.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+# Upstream's AppRun: linuxdeploy's GTK hook points GTK at the bundled copy,
+# then starts the app with the bundle's libraries.
+exec /app/extra/localsr/AppRun "$@"
