@@ -1,0 +1,19 @@
+[Desktop Entry]
+# From the .deb's "Open CalcSheet Studio.desktop" (v2026.47.3). Exec, TryExec,
+# Icon and StartupWMClass are set for the app id, with %F (the app opens a
+# .ifccalculation, .cpd or .cpdz file passed on the command line). The .deb's
+# MimeType=application/json is left out: it would offer the app for every JSON
+# file. GenericName, Categories and Keywords are added.
+Type=Application
+Name=Open CalcSheet Studio
+GenericName=Structural calculations
+GenericName[nl]=Constructieve berekeningen
+Comment=Lightweight calculation text app for Eurocode verifications
+Comment[nl]=Rekenbladen voor Eurocode-toetsingen
+Keywords=structural;calculation;Eurocode;engineering;beam;timber;steel;concrete;constructie;berekening;
+Exec=open-calcsheet-studio %F
+TryExec=open-calcsheet-studio
+StartupWMClass=org.openaec.OpenCalcSheetStudio
+Icon=org.openaec.OpenCalcSheetStudio
+Terminal=false
+Categories=Science;Engineering;

@@ -1,0 +1,24 @@
+id: org.openaec.OpenCalcSheetStudio
+name: Open CalcSheet Studio
+summary: Write structural calculations that show every formula
+website: https://open-aec.com/open-calcsheet-studio/
+source_url: https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio
+build:
+  manifest: org.openaec.OpenCalcSheetStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  upstream_approved: false
+  tags:
+    - Engineering
+    - Eurocode
+    - Construction
+    - IFC
+    - MCP
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

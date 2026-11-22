@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the sandbox. The window is opaque ("transparent": false) and the app sets no
+# WEBKIT_ variable of its own. Override with WEBKIT_DISABLE_DMABUF_RENDERER=0.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+exec /app/extra/calcsheet/usr/bin/org.openaec.OpenCalcSheetStudio "$@"
