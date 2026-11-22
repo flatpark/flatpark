@@ -1,0 +1,19 @@
+id: io.github.oatbiscuit.bloom
+name: Bloom
+summary: Private menstrual cycle tracker for GNOME
+website: https://github.com/oatbiscuit/bloom
+source_url: https://github.com/oatbiscuit/bloom
+build:
+  manifest: io.github.oatbiscuit.bloom.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Science
+  upstream_approved: true
+  tags: [Health, Calendar, Privacy]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -128,7 +128,7 @@ that PR link in the table — the PR itself is the evidence.
 | Steuererklärung | `eu.jumplink.Steuererklaerung` | Approved by construction — submitted and maintained by its own developer ([flatpark#1425](https://github.com/flatpark/flatpark/pull/1425)) | 2026-11 |
 | Metrolist | `com.metrolist.desktop` | [MetrolistGroup/Metrolist#4723 (comment)](https://github.com/MetrolistGroup/Metrolist/issues/4723#issuecomment-7080340667) — nyxiereal, a MetrolistGroup member and the repo's top contributor, answered the blue-shield ask with "you can do that, i approve!"; upstream already lists FlatPark in its README. Listing requested in [flatpark#1267](https://github.com/flatpark/flatpark/issues/1267) | 2026-11-22 |
 | MyMusik | `app.mymusik.MyMusik` | [flatpark#1434](https://github.com/flatpark/flatpark/issues/1434) | 2026-11-20 |
-
+| Bloom | `io.github.oatbiscuit.bloom` | [Developer's FlatPark request](https://github.com/flatpark/flatpark/issues/1456) | 2026-11-21 |
 
 ## Declined
 
