@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.shadstoneofficial.BobWallet</id>
+  <name>Bob LearnHNS</name>
+  <summary>Manage Handshake wallets, names and auctions</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="org.bobwallet"><name>Bob LearnHNS contributors</name></developer>
+  <url type="homepage">https://bobwallet.org/</url>
+  <url type="bugtracker">https://github.com/shadstoneofficial/bob-wallet/issues</url>
+  <url type="vcs-browser">https://github.com/shadstoneofficial/bob-wallet</url>
+  <description>
+    <p>This community package is maintained independently and repackages the official Linux build unmodified.</p>
+    <p>Bob LearnHNS is a desktop wallet for Handshake. Manage HNS, bid on names, manage DNS records and use the built-in node or SPV mode.</p>
+    <p>To use a Ledger hardware wallet, grant the app access to connected devices with flatpak override --user --device=all io.github.shadstoneofficial.BobWallet. This override grants access to other devices as well as the Ledger.</p>
+    <p>To undo the optional permission: flatpak override --user --reset io.github.shadstoneofficial.BobWallet</p>
+  </description>
+  <launchable type="desktop-id">io.github.shadstoneofficial.BobWallet.desktop</launchable>
+  <categories><category>Office</category><category>Finance</category></categories>
+  <content_rating type="oars-1.1" />
+  <screenshots>
+    <screenshot type="default">
+      <caption>Synchronizing the Handshake node</caption>
+      <!-- Captured from the locally installed Flatpak of Bob LearnHNS 2.3.21. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.shadstoneofficial.BobWallet/screenshots/synchronizing.png</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="2.3.21" date="2026-11-06" /></releases>
+</component>
