@@ -1,15 +1,29 @@
-# Yet another Flatpak hub
+# Installing apps on Linux should be easy.
 
-FlatPark is a community Flatpak remote for Linux desktop apps that ship an
-official download: a `.deb`, a tarball or an AppImage at a stable release URL.
-Every app is the developer's own release, fetched from their servers at install
-time and run in a sandbox. FlatPark doesn't build apps from source.
+Every developer can put their app straight into the hands of Linux users.
+Every app a user wants can be found on FlatPark.
 
-The goal is a remote that runs efficiently and is easy to take part in. Speed
-matters most: apps often land minutes after an upstream release, and a fix
-reaches users just as fast. Packaging, review, publishing and upgrades are
-built to be driven by AI agents. See [About FlatPark](docs/project/about.md) and
-the [principles](docs/project/principles.md).
+FlatPark is a community Flatpak remote. Each app is the developer's official
+release, downloaded from their servers at install time and run in a sandbox,
+usually within minutes of upstream shipping it.
+
+## What we believe
+
+- **Plenty of software is a good thing.** AI has made software easier to write
+  than ever, and the Linux desktop has more apps than it has ever had.
+- **Publishing is the developer's right.** Shipping an app should need nobody's
+  permission, any more than putting up a web page does.
+- **The apps users need should be installable.** When a vendor only ships
+  through its own site, the community packages it for users, from the vendor's
+  official release.
+- **Choosing is the user's right.** A store's job is to lay out the facts, not
+  to decide for its users.
+- **A store's power is for service, not gatekeeping.** Recommendation and
+  traffic should make things easier and help good apps be seen, never become a
+  tool for holding others down.
+
+See [About FlatPark](docs/project/about.md) and the
+[principles](docs/project/principles.md).
 
 ## Install
 
@@ -23,8 +37,9 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
 
 ## For developers
 
-- **AI is welcome.** An app is judged by what it does and how it's packaged,
-  not by whether it was written with AI. You can also let your agent do the
+- **No gatekeeper.** If it's your official release, it's safe and it works in
+  the sandbox, it can be listed: no matter how many users it has, how old it
+  is, or how it was written, AI included. You can also let your agent do the
   packaging: open this repo in it and ask it to publish your app.
 - **The full Flatpak experience.** Your users install and update your app like
   any other Flatpak, in a sandbox, with the permissions listed on its page. It
@@ -41,6 +56,12 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
 
 ## For users
 
+- **The apps you need, as a Flatpak.** Many apps you rely on, like trading and
+  banking clients, only ship an installer from the vendor's own site. FlatPark
+  packages them for you from that official download, so they install and
+  update like any other Flatpak. Missing one?
+  [Open an issue](https://github.com/flatpark/flatpark/issues), or package it
+  yourself and open a PR.
 - **If you trust the app, you can trust FlatPark.** Our goal is to get you the
   developer's official release, exactly as published. Each download is pinned
   by checksum and size, and comes straight from the developer's servers; the
@@ -50,12 +71,9 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
   [security](docs/project/security.md).
 - **Kept up to date.** Every app's releases are checked twice a day, and new
   versions are published automatically once they unpack cleanly.
-- **The current runtime.** When a new freedesktop, GNOME or KDE runtime comes
+- **The latest runtime.** When a new freedesktop, GNOME or KDE runtime comes
   out, every app on it moves to it promptly and is tested, so no FlatPark app
   keeps an old runtime on your disk.
-- **Missing an app?** If an app you want has no Flatpak,
-  [open an issue](https://github.com/flatpark/flatpark/issues) and we'll look
-  into it. Or package it yourself and open a PR.
 
 ## Contributing
 

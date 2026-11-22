@@ -37,5 +37,3 @@ the details below it. The same files are rendered at
   preferably one whose upstream uses publish-action, so the example isn't
   de-listed from under the page. A pattern no approved app has may cite the
   app that has it.
-- `specs/` holds the plans being worked through, one step at a time; it isn't
-  published on the site.
