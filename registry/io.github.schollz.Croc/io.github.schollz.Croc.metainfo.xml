@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.schollz.Croc</id>
+  <name>croc</name>
+  <summary>Send files securely between computers</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.schollz"><name>Zack Scholl and contributors</name></developer>
+  <description>
+    <p>croc is a command-line tool for sending files and folders between computers. It supports end-to-end encryption, transfer resumption, and direct connections with relay fallback.</p>
+    <p>This community package uses the official Linux release. Run <code>flatpak run io.github.schollz.Croc send FILE</code> to send, or <code>flatpak run io.github.schollz.Croc</code> to enter a receive code. The application menu opens a terminal where you can use the croc command. Update this package through Flatpak. The upstream updater helper is included as <code>flatpak run --command=croc-update io.github.schollz.Croc</code>; it cannot replace the read-only Flatpak installation.</p>
+    <p>Files in your home directory are accessible. External drives are not included: enable them with <code>flatpak override --user --filesystem=/run/media io.github.schollz.Croc</code> or <code>flatpak override --user --filesystem=/mnt io.github.schollz.Croc</code>. Reset custom permissions with <code>flatpak override --user --reset io.github.schollz.Croc</code>. The sandbox has its own private /tmp.</p>
+  </description>
+  <launchable type="desktop-id">io.github.schollz.Croc.desktop</launchable>
+  <url type="homepage">https://github.com/schollz/croc</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/schollz/croc</url>
+  <categories><category>Network</category><category>FileTransfer</category></categories>
+  <content_rating type="oars-1.1"/>
+  <releases><release version="11.6.6" date="2026-11-21"/></releases>
+</component>
