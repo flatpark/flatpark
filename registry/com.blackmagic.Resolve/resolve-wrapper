@@ -1,11 +1,12 @@
 #!/bin/sh
 set -eu
 
-# apply_extra stages the bundled installer/launcher at /app/extra/resolve-app,
-# unsquashfs at /app/extra/appimage-tools/bin, and libGLU.so.1 under
-# /app/extra/libglu. The installer resolves Blackmagic's DaVinci Resolve download
-# and unpacks it into the app's data directory; the bundled binary then launches
-# the installed Resolve.
+# apply_extra stages the installer/launcher sources, vendored Python dependencies
+# and libcrypt.so.1 at /app/extra/resolve-app, unsquashfs at
+# /app/extra/appimage-tools/bin, and libGLU.so.1 under /app/extra/libglu. The
+# installer resolves Blackmagic's DaVinci Resolve download and unpacks it into
+# the app's data directory; the runtime's Python then launches the installed
+# Resolve.
 
 # unsquashfs — the installer uses it to unpack the SquashFS inside Blackmagic's
 # .run payload.
@@ -14,11 +15,16 @@ export PATH
 
 # Resolve links libGLU.so.1 (the runtime does not ship it) and libcrypt.so.1
 # (the runtime's libcrypt.so.2 lacks the GLIBC_2.2.5 version libaprutil binds;
-# the bundle ships the glibc-ABI libcrypt.so.1 in libcrypt/). Keep these LAST:
+# the tarball ships the glibc-ABI libcrypt.so.1 in libcrypt/). Keep these LAST:
 # the launcher prepends Resolve's own libs to LD_LIBRARY_PATH, so the vendor's
 # copies always win.
 LD_LIBRARY_PATH="/app/extra/resolve-app/libcrypt:/app/extra/libglu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export LD_LIBRARY_PATH
+
+# The installer's Python dependencies (requests and friends) are vendored in
+# the extra-data tarball.
+PYTHONPATH="/app/extra/resolve-app/vendor${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONPATH
 
 # Keep the multi-GB download and its extraction scratch inside the app's own data
 # directory instead of the user's Downloads folder.
@@ -29,7 +35,7 @@ export RESOLVE_DOWNLOAD_DIR
 export RESOLVE_STUDIO=0
 
 root=/app/extra/resolve-app
-[ -x "$root/resolve-flatpak" ] || { echo "resolve: bundle missing after install" >&2; exit 1; }
+[ -f "$root/installer/main.py" ] || { echo "resolve: bundle missing after install" >&2; exit 1; }
 
 cd "${HOME:-/}" 2>/dev/null || cd /
-exec "$root/resolve-flatpak" "$@"
+exec /usr/bin/python3 "$root/installer/main.py" "$@"
