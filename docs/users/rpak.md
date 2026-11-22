@@ -29,6 +29,13 @@ chmod +x ~/.local/bin/rpak
 
 Or with [mise](https://mise.jdx.dev/): `mise use -g github:flatpark/rpak`.
 
+To update it later, run `rpak self-update`: it downloads the latest release,
+checks it against the release's checksums and replaces the binary where it
+is (use `sudo` if that is `/usr/local/bin`). `rpak self-update --check`
+only tells you whether there is a newer release, and `rpak doctor` shows it
+too. If a package manager or a tool manager such as mise installed rpak,
+update it with that.
+
 ## Alias and completion
 
 For zsh, add this to `~/.zshrc` after `compinit`:

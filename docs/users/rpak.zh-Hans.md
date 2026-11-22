@@ -22,6 +22,8 @@ chmod +x ~/.local/bin/rpak
 
 或者用 [mise](https://mise.jdx.dev/)：`mise use -g github:flatpark/rpak`。
 
+以后要更新，运行 `rpak self-update` 即可：它下载最新版本，对照发布的校验和核对无误后，原地替换二进制（如果装在 `/usr/local/bin`，需要加 `sudo`）。`rpak self-update --check` 只检查有没有新版本，`rpak doctor` 里也能看到。如果 rpak 是用包管理器或 mise 这类工具管理器装的，请用它们来更新。
+
 ## 别名和补全
 
 zsh 把下面这段加到 `~/.zshrc` 的 `compinit` 之后：
