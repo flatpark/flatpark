@@ -1,0 +1,17 @@
+id: io.github.ltc_electrum.ElectrumLTC
+name: Electrum-LTC
+summary: Lightweight Litecoin wallet
+website: https://ltc-electrum.github.io/
+source_url: https://github.com/ltc-electrum/electrum-ltc
+build:
+  manifest: io.github.ltc_electrum.ElectrumLTC.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags: [Litecoin, Wallet]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
