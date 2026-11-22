@@ -65,7 +65,7 @@ packaged and delivered. [Trust & safety](trust.md) has the details.
 
 ## For agents
 
-- **Secrets live only in trusted workflows:** `publish.yml`, `delist-prune.yml`
+- **Secrets live only in trusted workflows:** `publish.yml`, `cleanup.yml`
   and `install-stats.yml`, which run on `main`. `pr-checks.yml` has none.
 - **A PR that touches `.github/`, `scripts/` or `config/`, or the resolver of an
   app that already exists,** is flagged by `pr-checks` and needs a maintainer;
@@ -75,6 +75,6 @@ packaged and delivered. [Trust & safety](trust.md) has the details.
   ([publish-action](../developers/publish-action.md)).
 - **Pulling a release:** delete `registry/<id>/` (or revert the pin to the last
   safe version) in a PR and merge it; publishing removes the app from the
-  catalog. Run `delist-prune` by hand (Actions → delist-prune → Run workflow)
+  catalog. Run `cleanup` by hand (Actions → cleanup → Run workflow)
   instead of waiting for Saturday to drop its refs from the repository. Then
   open the public write-up.

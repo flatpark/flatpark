@@ -3,7 +3,7 @@
 # the caller can delete the same paths from R2 (see sync-r2.sh RECLAIM_REFS).
 #
 # Why this exists: sync-r2.sh uploads refs with `rclone copy`, which never
-# deletes, so a ref that delist-prune removed locally survives in R2. Once
+# deletes, so a ref that the cleanup workflow removed locally survives in R2. Once
 # prune reclaims that commit's objects, the leftover ref file is a dangling
 # pointer — and publish's R2 reconcile syncs it straight back into the local
 # repo, where the next summary regeneration (flatpak build-export does one on

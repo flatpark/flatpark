@@ -60,7 +60,7 @@ function gitAdded(srcDir) {
 // A shallow checkout reports every app as added by the single grafted commit,
 // so gitAdded() above hands back one identical timestamp for the whole catalog
 // and "Recently added" silently degenerates into registry scan order (i.e.
-// alphabetical). That shipped once from delist-prune's default-depth checkout.
+// alphabetical). That shipped once from delist-prune's (now cleanup.yml) default-depth checkout.
 // Any workflow that builds the site needs fetch-depth: 0; refuse to build
 // rather than publish a wrong order. FLATPARK_ALLOW_SHALLOW=1 opts out for a
 // local shallow clone that does not care about listing dates.

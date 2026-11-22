@@ -114,7 +114,7 @@ the app itself we pass on to you, with what we found.
   download) is applied as asked, in its own PR, declaring what needs declaring
   ([permissions](../packagers/permissions.md#when-the-developer-has-asked)).
 - **Removal on request:** delete `registry/<id>/` in a PR that links the
-  request. Publishing drops the app from the catalog; the weekly `delist-prune`
+  request. Publishing drops the app from the catalog; the weekly `cleanup`
   removes its refs from the repository. Installed copies keep working until
   users uninstall them.
 - **The badge** is served from `site/public/badges/get-it-on-flatpark.svg`.
