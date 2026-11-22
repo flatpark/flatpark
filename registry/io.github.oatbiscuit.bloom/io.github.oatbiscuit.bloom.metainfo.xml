@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 oatbiscuit -->
+<component type="desktop-application">
+  <id>io.github.oatbiscuit.bloom</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Bloom</name>
+  <summary>Bloom is a private and native cycle tracker</summary>
+  <developer id="io.github.oatbiscuit">
+    <name>oatbiscuit</name>
+  </developer>
+  <description>
+    <p>Bloom is a private and native cycle tracker. It helps you understand your body's patterns by predicting upcoming periods and ovulation days without ever sending your data to the cloud.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Predict upcoming periods and ovulation days using a rolling median of your last 6 cycles.</li>
+      <li>Log basal body temperature, cervical mucus, and ovulation test (OPK) results.</li>
+      <li>Keep track of physical symptoms and daily notes.</li>
+      <li>View personalised insights, including your average cycle length and regularity.</li>
+      <li>All data is stored locally on your device using SQLite. No accounts, no clouds, no tracking.</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.oatbiscuit.bloom.desktop</launchable>
+  <provides>
+    <id>bloom.desktop</id>
+  </provides>
+  <categories>
+    <category>Science</category>
+    <category>MedicalSoftware</category>
+  </categories>
+  <keywords>
+    <keyword>period</keyword>
+    <keyword>menstruation</keyword>
+    <keyword>health</keyword>
+    <keyword>tracker</keyword>
+    <keyword>cycle</keyword>
+  </keywords>
+  <icon>io.github.oatbiscuit.bloom</icon>
+  <branding>
+    <color type="primary" scheme_preference="light">#9141ac</color>
+    <color type="primary" scheme_preference="dark">#813d9c</color>
+  </branding>
+  <content_rating type="oars-1.1"/>
+  <url type="bugtracker">https://github.com/oatbiscuit/bloom/issues</url>
+  <url type="homepage">https://github.com/oatbiscuit/bloom</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/oatbiscuit/bloom/main/data/screenshots/calendar.png</image>
+      <caption>Track your cycle with the calendar</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/oatbiscuit/bloom/main/data/screenshots/dialog.png</image>
+      <caption>Log detailed symptoms and body signs</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/oatbiscuit/bloom/main/data/screenshots/insights.png</image>
+      <caption>View insights and cycle regularity</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/oatbiscuit/bloom/main/data/screenshots/notes.png</image>
+      <caption>View and search your daily notes</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.1.0" date="2026-11-21">
+      <description translate="no">
+        <ul>
+          <li>Add an empty state for notes tab.</li>
+          <li>You can now filter notes by date.</li>
+          <li>Clicking on a note now takes you to the calendar view and shows the day dialog.</li>
+          <li>You can now undo from the displayed toast, after editing a day.</li>
+          <li>Notifications can be configured to display at a time a user chooses.</li>
+          <li>Recorded ovulations (via OPK) are now displayed on the insights heatmap.</li>
+          <li>Added shortcuts and a shortcuts dialog.</li>
+          <li>Set up infrastructure for translations.</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>

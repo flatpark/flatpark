@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+export XDG_DATA_DIRS="/app/extra/usr/share:/app/share:/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}"
+exec /app/extra/usr/bin/bloom "$@"
