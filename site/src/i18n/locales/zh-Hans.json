@@ -31,6 +31,9 @@
   "footer.group.Legal": "法律",
   "footer.github": "GitHub",
   "footer.x": "X",
+  "footer.feed": "Atom 订阅",
+  "feed.new": "FlatPark：新上架应用",
+  "feed.updates": "FlatPark：应用更新",
   "footer.legal": "FlatPark · 社区 Flatpak 源 · 所打包的应用版权归各自厂商所有",
 
   "notfound.title": "页面不存在",
