@@ -1,0 +1,91 @@
+id: io.github.juddisjudd.bawkseek
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: bawkseek
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # bawkseek is a native GPUI application: it links only libc, libasound, xcb
+  # and xkbcommon, and loads Vulkan, OpenGL, Wayland and X11 at run time, all
+  # of which the freedesktop runtime provides. It renders through Vulkan (with
+  # OpenGL fallback), so it needs the GPU device and display sockets.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # GPUI implements accessibility through AccessKit's AT-SPI adapter, which
+  # asks org.a11y.Bus where the accessibility bus lives. Without this name a
+  # screen reader never sees the application.
+  - --talk-name=org.a11y.Bus
+  # Core function: connecting to the Soulseek network, listening for peer
+  # connections (TCP port 2234 by default), transferring files and requesting
+  # UPnP port mapping from the local router.
+  - --share=network
+  # Built-in audio player: bawkseek plays music via rodio/ALSA, which the
+  # freedesktop runtime routes to the PulseAudio socket by default.
+  - --socket=pulseaudio
+  # Desktop notifications for new private messages, finished albums and
+  # wishlist matches (sent over org.freedesktop.Notifications via notify-rust).
+  - --talk-name=org.freedesktop.Notifications
+  # "Remember me" stores the Soulseek password in the desktop keyring through
+  # Secret Service (GNOME Keyring / KWallet).
+  - --talk-name=org.freedesktop.secrets
+  # Default download destination (~/Downloads/bawkseek) and local music
+  # collection (~/Music) for sharing, uploading and library playback. Settings,
+  # chat history, wishlist, library cache and cover thumbnails live under
+  # $XDG_CONFIG_HOME/bawkseek inside ~/.var/app/io.github.juddisjudd.bawkseek.
+  # Additional folders can be chosen via the file chooser portal or granted
+  # with `flatpak override` as documented in the metainfo.
+  - --filesystem=xdg-download
+  - --filesystem=xdg-music
+modules:
+  - name: bawkseek
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 bawkseek-wrapper /app/bin/bawkseek
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 io.github.juddisjudd.bawkseek.desktop /app/share/applications/io.github.juddisjudd.bawkseek.desktop
+      - install -Dm644 io.github.juddisjudd.bawkseek.metainfo.xml /app/share/metainfo/io.github.juddisjudd.bawkseek.metainfo.xml
+      - install -Dm644 io.github.juddisjudd.bawkseek.png /app/share/icons/hicolor/256x256/apps/io.github.juddisjudd.bawkseek.png
+    sources:
+      # bawkseek embeds IBM Plex Mono/Sans for Latin UI text, while Soulseek
+      # search results, chat rooms and music tags often contain CJK and other
+      # non-Latin scripts. Neither the freedesktop runtime nor a typical
+      # non-CJK host ships Noto Sans CJK, so GPUI would draw missing glyphs as
+      # tofu. The face comes from the noto-fonts stack in flatpark/prebuilt
+      # (docs/packagers/prebuilt.md), as extra-data so its 11 MB stay out of
+      # FlatPark's repository; apply_extra unpacks it to /app/extra/noto-fonts
+      # and fonts.conf adds its share/fonts.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in
+      # it.
+      - type: extra-data
+        filename: noto-fonts.tar.xz
+        url: https://github.com/flatpark/prebuilt/releases/download/noto-fonts-v1/noto-fonts-noto-fonts-v1-noarch.tar.xz
+        sha256: b736ac362d9fad5c53f7d29aa3a868c53c610319a2aff5ece295449e53700259
+        size: 11197404
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: bawkseek.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/juddisjudd/bawkseek/releases/download/v0.1.3/bawkseek-v0.1.3-linux-x64.tar.gz
+        sha256: ffaae72936839805eb4acf884d8ecc04d68bf663dabeb700ee2323976e1e00e9
+        size: 18845870
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: bawkseek-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: io.github.juddisjudd.bawkseek.desktop
+      - type: file
+        path: io.github.juddisjudd.bawkseek.metainfo.xml
+      - type: file
+        path: io.github.juddisjudd.bawkseek.png

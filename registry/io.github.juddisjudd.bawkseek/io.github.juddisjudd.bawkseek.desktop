@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=bawkseek
+Comment=Soulseek client and audio player
+Exec=bawkseek
+Icon=io.github.juddisjudd.bawkseek
+Terminal=false
+StartupNotify=true
+StartupWMClass=bawkseek
+Categories=Network;FileTransfer;P2P;
+Keywords=soulseek;slsk;p2p;music;audio;player;

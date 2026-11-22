@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.juddisjudd.bawkseek</id>
+  <name>bawkseek</name>
+  <summary>Soulseek client and audio player</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="io.github.juddisjudd">
+    <name>juddisjudd</name>
+  </developer>
+  <url type="homepage">https://github.com/juddisjudd/bawkseek</url>
+  <url type="bugtracker">https://github.com/juddisjudd/bawkseek/issues</url>
+  <url type="vcs-browser">https://github.com/juddisjudd/bawkseek</url>
+  <description>
+    <p>This is a community package of bawkseek, maintained independently. It repackages the official upstream Linux tarball unmodified.</p>
+    <p>bawkseek is a native Soulseek desktop client and audio player written in Rust with GPUI Kit. Search shared folders across the Soulseek network, download whole albums or single tracks, share your own collection, chat in rooms or private messages, and play your music in the built-in library player.</p>
+    <ul>
+      <li>Live search grouped by folder with color-coded audio formats, bitrate and quality filters, and an automatic wishlist.</li>
+      <li>Album and file transfers with pause, resume, speed limits, upload sharing and automatic UPnP port forwarding.</li>
+      <li>Built-in music library and audio player supporting MP3, FLAC, M4A/AAC, ALAC, OGG Vorbis, WAV and AIFF.</li>
+      <li>Public and private chat rooms, direct messages, buddy lists, user browsing, recommendations and 30+ color themes.</li>
+    </ul>
+    <p>Permissions: this package grants network access (including peer listening port 2234 and UPnP), audio playback, desktop notifications, Secret Service keyring access for "remember me", your Downloads folder (for <code>~/Downloads/bawkseek</code>), and your Music folder for sharing and library playback. Settings, chat history, wishlist and library caches stay in the application's per-app directory, and Noto Sans CJK is bundled so non-Latin artist and track names render on any host. Updates arrive through Flatpak rather than the AppImage self-updater.</p>
+    <p>Optional capabilities are not granted by default; enable the ones you need with <code>flatpak override</code>:</p>
+    <ul>
+      <li>Share or download to another folder permanently: <code>flatpak override --user --filesystem=/path/to/music io.github.juddisjudd.bawkseek</code></li>
+      <li>Use OpenGL instead of Vulkan if the window opens blank on a virtual or unsupported GPU: <code>flatpak override --user --env=VK_ICD_FILENAMES=/dev/null io.github.juddisjudd.bawkseek</code></li>
+      <li>Undo all custom overrides: <code>flatpak override --user --reset io.github.juddisjudd.bawkseek</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.juddisjudd.bawkseek.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+    <category>P2P</category>
+    <category>AudioVideo</category>
+    <category>Player</category>
+  </categories>
+  <keywords>
+    <keyword>soulseek</keyword>
+    <keyword>slsk</keyword>
+    <keyword>p2p</keyword>
+    <keyword>music</keyword>
+    <keyword>audio</keyword>
+    <keyword>player</keyword>
+  </keywords>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>bawkseek</binary>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Album library with cover art and the built-in player bar</caption>
+      <image>https://raw.githubusercontent.com/juddisjudd/bawkseek/main/docs/screenshots/library.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Search results grouped by folder with format and quality filters</caption>
+      <image>https://raw.githubusercontent.com/juddisjudd/bawkseek/main/docs/screenshots/search.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Album view with track list and playback controls</caption>
+      <image>https://raw.githubusercontent.com/juddisjudd/bawkseek/main/docs/screenshots/album.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Appearance settings with built-in theme presets</caption>
+      <image>https://raw.githubusercontent.com/juddisjudd/bawkseek/main/docs/screenshots/themes.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.3" date="2026-10-11">
+      <url type="details">https://github.com/juddisjudd/bawkseek/releases/tag/v0.1.3</url>
+    </release>
+  </releases>
+</component>
