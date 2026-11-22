@@ -1,0 +1,4 @@
+#!/bin/sh
+printf '%s\n' 'croc terminal' 'Run croc send FILE or croc to receive. Type exit or press Ctrl+D to close.' ''
+cd "$HOME" || exit 1
+exec /bin/sh -i

@@ -1,0 +1,21 @@
+id: io.github.schollz.Croc
+name: croc
+summary: Send files securely between computers
+website: https://github.com/schollz/croc
+source_url: https://github.com/schollz/croc
+build:
+  manifest: io.github.schollz.Croc.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  interface: cli
+  category: Network
+  tags: [File Transfer, Encryption]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # Files are passed by path and received into the current directory.
+    - --filesystem=home
