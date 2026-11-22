@@ -1,0 +1,13 @@
+[Desktop Entry]
+# Upstream's org.openaec.Open3DViewer.desktop from the .deb (v2026.47.5),
+# unchanged but for StartupWMClass=open-3d-viewer, which is left out: the
+# window sets no WM_CLASS (measured empty on X11), so no value would match.
+Type=Application
+Name=Open BIM Suite
+GenericName=3D model viewer
+Comment=View, measure and section 3D models of buildings
+Exec=open-3d-viewer %f
+Icon=org.openaec.Open3DViewer
+Terminal=false
+Categories=Graphics;3DGraphics;Viewer;Engineering;
+MimeType=model/gltf-binary;model/gltf+json;model/obj;model/stl;application/x-ply;model/3mf;application/x-amf;model/vnd.collada+xml;model/vrml;x-world/x-vrml;model/x3d+xml;model/x3d+vrml;image/x-3ds;application/geo+json;application/x-esri-shape;application/vnd.shp;application/gml+xml;model/vnd.usdz+zip;application/vnd.las;application/vnd.laszip;model/e57;chemical/x-xyz;application/x-pcd;model/step;model/step+zip;application/x-step;model/vnd.3dm;application/x-3dm;application/x-samjson;

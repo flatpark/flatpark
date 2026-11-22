@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.Open3DViewer</id>
+  <name>Open BIM Suite</name>
+  <summary>View, measure and section IFC, Revit, SketchUp, Tekla and other building models</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-3.0-or-later</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-bim-suite/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/open-bim-suite/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/open-bim-suite</url>
+  <description>
+    <p>This is a community package of Open BIM Suite (formerly Open 3D Viewer Studio), maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open BIM Suite is a free 3D viewer for building models. It opens IFC (also zipped and IFC5/IFCX), Revit, SketchUp, Tekla Structures, Archicad, Allplan, DWG/DXF, MicroStation DGN, STEP, CityJSON, CityGML, LandXML, glTF, USD, Rhino, OBJ, STL, PLY and many more model formats, as well as LAS, LAZ and E57 point clouds. You walk around the model, pick an element and read its properties, measure distances, angles and areas, cut it open with a section box or plane, pull it apart per storey or per element, and save it as IFC 4 or IFC 4x3.</p>
+    <p>The same window holds the suite's other tools: a modeller (in early development), an IFC validator with IDS checks, clash detection and BCF issues, and a GIS tab that fetches the parcels and buildings around a place. An MCP server lets an AI agent drive the running viewer; point the agent at the command <code>flatpak run --command=open-3d-viewer-mcp org.openaec.Open3DViewer</code>.</p>
+    <p>Sandbox: display, GPU and network (map tiles, GIS data, online libraries and BCF servers). Files are opened and saved through the file chooser. "Render" and the video of "Build film" need a Blender installed on the host, which the sandbox cannot run. Updates come through FlatPark.</p>
+  </description>
+  <launchable type="desktop-id">org.openaec.Open3DViewer.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+    <category>Viewer</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>BIM</keyword>
+    <keyword>IFC</keyword>
+    <keyword>Revit</keyword>
+    <keyword>SketchUp</keyword>
+    <keyword>Tekla</keyword>
+    <keyword>3D viewer</keyword>
+    <keyword>point cloud</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>An IFC apartment building in the viewer, theme Dark</caption>
+      <image>https://open-aec.com/shared/assets/screenshots/open-bim-suite-viewer.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Clash detection between the elements of an IFC model</caption>
+      <image>https://open-aec.com/shared/assets/screenshots/open-bim-validator-clash.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>open-3d-viewer</binary>
+    <binary>open-3d-viewer-mcp</binary>
+    <mediatype>model/gltf-binary</mediatype>
+    <mediatype>model/obj</mediatype>
+    <mediatype>model/stl</mediatype>
+    <mediatype>model/step</mediatype>
+    <mediatype>model/vnd.3dm</mediatype>
+    <mediatype>application/vnd.las</mediatype>
+    <mediatype>model/e57</mediatype>
+  </provides>
+  <releases>
+    <release version="2026.47.5" date="2026-11-19">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-bim-suite/releases/tag/v2026.47.5</url>
+      <description>
+        <p>Official Linux build 2026.47.5.</p>
+      </description>
+    </release>
+  </releases>
+</component>
