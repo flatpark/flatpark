@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# GPUI's font database reads the directories in this file directly.
+export FONTCONFIG_FILE="${FONTCONFIG_FILE:-/app/etc/nano/fonts.conf}"
+# Keep the library, extensions and downloads in persistent app data.
+export NANO_DATA="${NANO_DATA:-$XDG_DATA_HOME/nano}"
+exec /app/extra/nano/nano-reader "$@"
