@@ -1,0 +1,51 @@
+id: io.github.ltc_electrum.ElectrumLTC
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: electrum-ltc
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display and Qt rendering.
+  - --share=ipc
+  - --socket=x11
+  - --device=dri
+  # Litecoin server connections.
+  - --share=network
+  # Preserve wallets and settings across restarts inside the app's data directory.
+  - --persist=.electrum-ltc
+modules:
+  - name: electrum-ltc
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 electrum-ltc-wrapper /app/bin/electrum-ltc
+      - install -Dm644 io.github.ltc_electrum.ElectrumLTC.desktop /app/share/applications/io.github.ltc_electrum.ElectrumLTC.desktop
+      - install -Dm644 io.github.ltc_electrum.ElectrumLTC.metainfo.xml /app/share/metainfo/io.github.ltc_electrum.ElectrumLTC.metainfo.xml
+      - install -Dm644 io.github.ltc_electrum.ElectrumLTC.png /app/share/icons/hicolor/128x128/apps/io.github.ltc_electrum.ElectrumLTC.png
+    sources:
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: electrum-ltc.AppImage
+        only-arches: [x86_64]
+        url: https://github.com/ltc-electrum/electrum-ltc/releases/download/4.8.3.1/electrum-ltc-4.8.3.1-x86_64.AppImage
+        sha256: f6442f77ba0077fa8db35b5001414e212e101402e0ace532929bb3a441788f41
+        size: 97216704
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: electrum-ltc-wrapper
+      - type: file
+        path: io.github.ltc_electrum.ElectrumLTC.desktop
+      - type: file
+        path: io.github.ltc_electrum.ElectrumLTC.metainfo.xml
+      - type: file
+        path: io.github.ltc_electrum.ElectrumLTC.png

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ltc_electrum.ElectrumLTC</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Electrum-LTC</name>
+  <summary>Lightweight Litecoin wallet</summary>
+  <description>
+    <p>Electrum-LTC is a Litecoin wallet that connects to remote servers without downloading the entire blockchain. It supports wallet recovery from a seed and offline wallets.</p>
+    <p>Wallet data is stored in the sandbox. USB hardware wallets require device access and the host’s device rules.</p>
+    <p>Optional permissions:</p>
+    <ul>
+      <li>Tray icon on desktops with a StatusNotifier watcher: <code>flatpak override --user --talk-name=org.kde.StatusNotifierWatcher io.github.ltc_electrum.ElectrumLTC</code></li>
+      <li>Undo overrides: <code>flatpak override --user --reset io.github.ltc_electrum.ElectrumLTC</code></li>
+    </ul>
+  </description>
+  <url type="homepage">https://ltc-electrum.github.io/</url>
+  <url type="bugtracker">https://github.com/ltc-electrum/electrum-ltc/issues</url>
+  <launchable type="desktop-id">io.github.ltc_electrum.ElectrumLTC.desktop</launchable>
+  <developer id="io.github.ltc_electrum"><name>Electrum-LTC developers</name></developer>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Receive request in a Litecoin testnet wallet</caption>
+      <!-- Captured in the Flatpak with a disposable testnet wallet. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.ltc_electrum.ElectrumLTC/screenshots/receive.png</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="4.8.3.1" date="2026-10-27"/></releases>
+</component>
