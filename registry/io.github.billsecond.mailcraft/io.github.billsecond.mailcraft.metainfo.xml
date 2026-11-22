@@ -52,6 +52,10 @@
     <binary>mailcraft-cli</binary>
   </provides>
   <releases>
+    <release version="0.15.0" date="2026-11-22">
+      <url type="details">https://github.com/UCS-Care-Group/mailcraft/releases/tag/v0.15.0</url>
+      <description></description>
+    </release>
     <release version="0.14.0" date="2026-11-19">
       <url type="details">https://github.com/UCS-Care-Group/mailcraft/releases/tag/v0.14.0</url>
       <description></description>

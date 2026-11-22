@@ -68,9 +68,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/Chevey339/kelivo/releases/download/v1.3.6/Kelivo_linux_1.3.6%2B88_amd64.deb
-        sha256: fc14a45055494802d7a59ee51793e471b112e08ed185b731e90be8a5e9261cdc
-        size: 31108020
+        url: https://github.com/Chevey339/kelivo/releases/download/v1.3.7/Kelivo_linux_1.3.7%2B89_amd64.deb
+        sha256: 7574e0e4b3ab1939a8d608030898a9e8efb5f78e04fceb79cff8a47b186d2631
+        size: 31499556
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

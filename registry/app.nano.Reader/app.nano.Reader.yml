@@ -29,13 +29,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: nano.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/SELECT-stupidity-FROM-discord/NanoYomi/releases/download/v0.2.1/nano-linux-x64.tar.gz
         sha256: edc6eed520d21dc7d86c2170eae2ded41bd31f105f0cff1b8c39ac7bacb18036
         size: 63125946
       - type: extra-data
         filename: nano.tar.gz
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/SELECT-stupidity-FROM-discord/NanoYomi/releases/download/v0.2.1/nano-linux-arm64.tar.gz
         sha256: 87819a6f48da05a55a31f24e3ab288bccf3fa56f8986e37956bb443ee7130104
         size: 63124937

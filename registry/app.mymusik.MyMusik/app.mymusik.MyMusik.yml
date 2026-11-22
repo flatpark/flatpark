@@ -41,8 +41,9 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: MyMusik.AppImage
-        only-arches: [x86_64]
-        url: https://shaggai.net/linux/flatpak/mymusik/1.2.8/d07fbd3880e8/MyMusik-x86_64.AppImage
+        only-arches:
+          - x86_64
+        url: https://shaggai.net/linux/client/MyMusik.AppImage
         sha256: d07fbd3880e8c3ff3944d1efd65953b35c4495d92f28ffa7785c7e72ae85d2e5
         size: 211896824
       # END MANAGED EXTRA-DATA

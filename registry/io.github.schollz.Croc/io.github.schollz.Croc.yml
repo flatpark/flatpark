@@ -26,13 +26,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: croc.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/schollz/croc/releases/download/v11.6.6/croc_v11.6.6_Linux-64bit.tar.gz
         sha256: da2299acafe76f6e5aff76965bc5456eeaa77da9e5b8c0bdbb188249ad047d2a
         size: 12691594
       - type: extra-data
         filename: croc.tar.gz
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/schollz/croc/releases/download/v11.6.6/croc_v11.6.6_Linux-ARM64.tar.gz
         sha256: 95bc9aa25c80a2394d5448311fb1af8adb28b86bccb9d9193989ce0af9a6bb4c
         size: 11444295

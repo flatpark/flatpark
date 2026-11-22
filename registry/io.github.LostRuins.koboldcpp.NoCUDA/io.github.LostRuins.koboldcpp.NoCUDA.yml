@@ -32,9 +32,9 @@ modules:
         filename: koboldcpp.bin
         only-arches:
           - x86_64
-        url: https://github.com/LostRuins/koboldcpp/releases/download/v1.125/koboldcpp-linux-x64-nocuda
-        sha256: ed3758032717e540f94d85c530c691dc7a1cbf6641e0d9c06f14e507e08e2d46
-        size: 110709704
+        url: https://github.com/LostRuins/koboldcpp/releases/download/v1.125.1/koboldcpp-linux-x64-nocuda
+        sha256: bac6758da1a72e04175bf619d32cc09c33b1891b8dd224fd6b8afbc182801397
+        size: 110715296
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -42,16 +42,16 @@ modules:
         filename: rustgis.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/opengeos/RustGIS/releases/download/v0.7.0/RustGIS-0.7.0-linux-x86_64.tar.gz
-        sha256: 8330b3fa8f1d817818d03d41d4d5653e7c2367954d0ab2262c8d88d36f6b7e98
-        size: 80000334
+        url: https://github.com/opengeos/RustGIS/releases/download/v0.8.0/RustGIS-0.8.0-linux-x86_64.tar.gz
+        sha256: 72b1f5b96dadb675a90692f410705f03b17da9719abf4958a40aae8d7148b63a
+        size: 93968487
       - type: extra-data
         filename: rustgis.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/opengeos/RustGIS/releases/download/v0.7.0/RustGIS-0.7.0-linux-aarch64.tar.gz
-        sha256: 5ce62779f1ba7cc8227de8d201ecaf384643b566ffa267776fdad1effc270bd1
-        size: 79892715
+        url: https://github.com/opengeos/RustGIS/releases/download/v0.8.0/RustGIS-0.8.0-linux-aarch64.tar.gz
+        sha256: 7b6dd933a0939b71810b146e9295aa580341fb9ae9a1da3c4575879a76c83f4b
+        size: 93697028
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
