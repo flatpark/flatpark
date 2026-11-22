@@ -87,6 +87,11 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="51.1.840.g89b891c28" date="2026-11-22">
+      <description>
+        <p>Fixes Software never getting past the loading page on Fedora Atomic desktops (Silverblue, Kinoite and others): it now finds its rpm-ostree helper in the FlatPark build, and gives up with an error instead of waiting forever.</p>
+      </description>
+    </release>
     <release version="51.1.838.gb52079a57" date="2026-11-20">
       <description></description>
     </release>

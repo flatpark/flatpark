@@ -104,9 +104,9 @@ modules:
         filename: app.tar.xz
         only-arches:
           - x86_64
-        url: https://gitlab.gnome.org/api/v4/projects/user_c1a5830a%2Fgnome-software-next/packages/generic/gnome-software-next/51.1.838.gb52079a57/gnome-software-next-51.1.838.gb52079a57-x86_64.tar.xz
-        sha256: 576ab0081e17ecb83afef172e0306c97829f4ec80803bd1ef34f0d86b815f042
-        size: 8723280
+        url: https://gitlab.gnome.org/api/v4/projects/user_c1a5830a%2Fgnome-software-next/packages/generic/gnome-software-next/51.1.840.g89b891c28/gnome-software-next-51.1.840.g89b891c28-x86_64.tar.xz
+        sha256: 6b33bf996dc112461cba142d650fb303272a8832deac74719adc63b958abb9e8
+        size: 8728040
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
