@@ -1,0 +1,15 @@
+[Desktop Entry]
+# From the .deb's "Open Speech Studio.desktop" (v0.12.3); Categories (empty
+# upstream), GenericName and Keywords are added, and Icon and StartupWMClass
+# are changed for the app id. The app takes no files on its command line.
+Type=Application
+Name=Open Speech Studio
+GenericName=Speech to Text
+Comment=Open source local AI speech-to-text
+Keywords=dictation;transcription;speech;whisper;meeting;voice;
+Exec=open-speech-studio
+TryExec=open-speech-studio
+StartupWMClass=org.openaec.OpenSpeechStudio
+Icon=org.openaec.OpenSpeechStudio
+Terminal=false
+Categories=AudioVideo;Audio;

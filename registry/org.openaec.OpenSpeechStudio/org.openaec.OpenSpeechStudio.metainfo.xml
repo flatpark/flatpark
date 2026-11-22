@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.OpenSpeechStudio</id>
+  <name>Open Speech Studio</name>
+  <summary>Dictate, record meetings and transcribe audio locally with Whisper</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-speech-studio/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/open-speech-studio/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/open-speech-studio</url>
+  <description>
+    <p>This is a community package of Open Speech Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open Speech Studio turns speech into text on your own computer with Whisper. Hold a hotkey and dictate, and the text is typed where your cursor is; record a meeting and watch the transcript grow; or transcribe WAV, MP3, FLAC, OGG and M4A files. It recognises 99 languages. The Whisper "small" model ships with the app, so it works offline with no account; seven other models, from tiny to large-v3, can be downloaded in the app.</p>
+    <p>Typing into other apps and the global hotkeys go through X11: on a Wayland desktop they work with apps running under XWayland. Meetings record the microphone; capturing what the computer plays is available on Windows only. Transcription runs on the CPU. Closing the window keeps the app running in the tray; quit it from the tray menu.</p>
+    <p>Sandbox: display, X11 for hotkeys and typing, GPU for drawing, the microphone, network for model downloads and the optional OpenAEC sign-in, the tray icon and notifications. Files are opened and saved through the file chooser. Updates come through FlatPark.</p>
+    <p>The optional OpenAEC account sign-in (for upstream's remote transcription server) keeps its tokens in the system keyring, which is not granted by default:</p>
+    <ul>
+      <li>Allow the keyring: <code>flatpak override --user --talk-name=org.freedesktop.secrets org.openaec.OpenSpeechStudio</code></li>
+      <li>Undo: <code>flatpak override --user --reset org.openaec.OpenSpeechStudio</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.openaec.OpenSpeechStudio.desktop</launchable>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <keywords>
+    <keyword>dictation</keyword>
+    <keyword>speech to text</keyword>
+    <keyword>transcription</keyword>
+    <keyword>whisper</keyword>
+    <keyword>meeting</keyword>
+  </keywords>
+  <screenshots>
+    <!-- Upstream's screenshots show the Windows build of 0.5 and 0.10; these
+         are from a test run of this package, 0.12.3. -->
+    <screenshot type="default">
+      <caption>A recording transcribed segment by segment as it grows</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/org.openaec.OpenSpeechStudio/screenshots/meeting.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The transcript of an MP3 file</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/org.openaec.OpenSpeechStudio/screenshots/transcribe-file.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Choosing and downloading Whisper models</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/org.openaec.OpenSpeechStudio/screenshots/models.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>open-speech-studio</binary>
+  </provides>
+  <releases>
+    <release version="0.12.3" date="2026-11-06">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-speech-studio/releases/tag/v0.12.3</url>
+      <description>
+        <p>Official Linux build 0.12.3.</p>
+      </description>
+    </release>
+  </releases>
+</component>

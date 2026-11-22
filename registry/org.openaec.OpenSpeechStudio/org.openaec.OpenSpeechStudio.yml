@@ -1,0 +1,100 @@
+id: org.openaec.OpenSpeechStudio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: open-speech-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app. The binary links WebKitGTK 4.1, GTK 3, libsoup 3, ALSA, X11 and
+# XTest, all in GNOME 51, plus libxdo (module below). The .deb also carries its
+# whisper.cpp CLI (statically linked, CPU only) and the Whisper "small" model,
+# so transcription works with nothing downloaded.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # X11, not fallback-x11: dictation types into other windows and listens for
+  # its hotkeys through the X server. tauri-plugin-global-shortcut (the
+  # global-hotkey crate), the rdev Ctrl+Super listener (lib.rs) and enigo's
+  # libxdo typing are all X11-only on Linux; on a Wayland session they reach
+  # XWayland windows. The main window itself stays Wayland-native.
+  - --socket=x11
+  # WebKitGTK renders with the GPU.
+  - --device=dri
+  # Microphone for dictation, meetings and the mic test (cpal on ALSA, which
+  # the runtime routes to PulseAudio), and the app's sound cues.
+  - --socket=pulseaudio
+  # Downloading the other Whisper models from huggingface.co (lib.rs
+  # download_model), and the optional OpenAEC account sign-in and remote
+  # transcription server (account.impertio.app, OAuth redirect to a loopback
+  # port). The in-app updater plugin is not used by this app.
+  - --share=network
+  # Second launch shows the running window. tauri-plugin-single-instance 2.4
+  # owns the Tauri identifier plus .SingleInstance, not the Flatpak app id.
+  - --own-name=org.openaec.speech-studio.SingleInstance
+  # Tray icon (TrayIconBuilder in lib.rs). Closing the window hides it to the
+  # tray, and Quit is in the tray menu. tray-icon writes its icon files under
+  # $XDG_RUNTIME_DIR/tray-icon for the host to read.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # tauri-plugin-notification (notify-rust): "model downloaded" and "no model
+  # loaded" notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Deliberately not granted; the metainfo documents it:
+  #   Secret Service (org.freedesktop.secrets): the optional OpenAEC sign-in
+  #   keeps its tokens there through the keyring crate. Local dictation and
+  #   transcription need no account.
+  # Not needed: files are opened and saved through tauri-plugin-dialog (rfd,
+  # GtkFileChooserNative, the file chooser portal); models and settings live
+  # under $XDG_CONFIG_HOME/open-speech-studio. Capturing what the computer
+  # plays is implemented for Windows only upstream (audio.rs).
+modules:
+  # tray-icon loads libayatana-appindicator, which GNOME 51 doesn't ship;
+  # without it the app panics at start. FlatPark's shared prebuilt stack.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  # The binary has libxdo.so.3 in DT_NEEDED (enigo, for typing dictated text)
+  # and GNOME 51 doesn't ship it, so the app can't start without it.
+  # FlatPark's prebuilt libxdo (xdotool 3.x, soname libxdo.so.3).
+  - name: libxdo
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/libxdo-v2/libxdo-libxdo-v2-gnome-51-x86_64.tar.xz
+        sha256: 6934f6aa6c8264575444e8b00330855b45242a455f0b4a9bff52a89bf9e3aa6a
+  - name: open-speech-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-speech-studio-wrapper /app/bin/open-speech-studio
+      - install -Dm644 org.openaec.OpenSpeechStudio.desktop /app/share/applications/org.openaec.OpenSpeechStudio.desktop
+      - install -Dm644 org.openaec.OpenSpeechStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenSpeechStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenSpeechStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenSpeechStudio.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-speech-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-speech-studio/releases/download/v0.12.3/Open.Speech.Studio_0.12.3_amd64.deb
+        sha256: 7a95bd7be0f41e694f195172769c6e62c794ccf218b817c6be87aabc241d33ee
+        size: 453129898
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-speech-studio-wrapper
+      - type: file
+        path: org.openaec.OpenSpeechStudio.desktop
+      - type: file
+        path: org.openaec.OpenSpeechStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenSpeechStudio.png

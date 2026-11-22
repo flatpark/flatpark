@@ -1,0 +1,25 @@
+id: org.openaec.OpenSpeechStudio
+name: Open Speech Studio
+summary: Dictate, record meetings and transcribe audio locally with Whisper
+website: https://open-aec.com/open-speech-studio/
+source_url: https://github.com/OpenAEC-Foundation/open-speech-studio
+build:
+  manifest: org.openaec.OpenSpeechStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AudioVideo
+  upstream_approved: false
+  tags:
+    - Dictation
+    - Transcription
+    - Speech to Text
+    - Whisper
+    - Meeting
+    - Offline
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
