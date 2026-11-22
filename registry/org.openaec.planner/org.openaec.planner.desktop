@@ -1,0 +1,18 @@
+[Desktop Entry]
+# From the .deb's "Open Planner Studio.desktop" (v2026.47.0); Exec, TryExec,
+# Icon and StartupWMClass are changed for the app id, GenericName, Comment and
+# Keywords added. Upstream registers no file types and 2026.47.0 does not open
+# files given on the command line, so there is no MimeType and no %F.
+Type=Application
+Name=Open Planner Studio
+GenericName=Construction scheduling
+GenericName[nl]=Bouwplanning
+Comment=Plan construction projects with Gantt charts and the critical path
+Comment[nl]=Bouwprojecten plannen met Gantt-diagrammen en het kritieke pad
+Keywords=gantt;schedule;planning;critical path;CPM;construction;MS Project;Primavera;P6;IFC;
+Exec=open-planner-studio
+TryExec=open-planner-studio
+StartupWMClass=org.openaec.planner
+Icon=org.openaec.planner
+Terminal=false
+Categories=Office;ProjectManagement;
