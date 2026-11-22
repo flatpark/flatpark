@@ -17,3 +17,6 @@ site/public/screenshots/
 .superpowers/brainstorm/
 
 .wrangler
+
+# local plans, not tracked
+docs/specs/
