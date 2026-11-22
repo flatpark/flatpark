@@ -5,13 +5,6 @@ order: 1
 
 # About FlatPark
 
-**Installing apps on Linux should be easy.**
-
-Every developer can put their app straight into the hands of Linux users.
-Every app a user wants can be found on FlatPark.
-
-## What it is
-
 FlatPark is a community Flatpak remote for apps that ship an official Linux
 download: an installer, a `.deb`, a tarball or an AppImage at a stable, public
 release URL. FlatPark pins that download by checksum and size, wraps it as a
@@ -24,6 +17,13 @@ community because users need them: apps whose vendor only ships an installer
 from its own site and has never thought about Flatpak. Either way, the bytes are
 the vendor's own, and apps usually update within minutes of an upstream
 release.
+
+## Mission
+
+**Installing apps on Linux should be easy.**
+
+- Every developer can put their app straight into the hands of Linux users.
+- Every app a user wants can be found on FlatPark.
 
 ## What we believe
 

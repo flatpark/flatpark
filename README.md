@@ -1,11 +1,15 @@
-# Installing apps on Linux should be easy.
-
-Every developer can put their app straight into the hands of Linux users.
-Every app a user wants can be found on FlatPark.
+# FlatPark: Yet another Flatpak hub
 
 FlatPark is a community Flatpak remote. Each app is the developer's official
 release, downloaded from their servers at install time and run in a sandbox,
 usually within minutes of upstream shipping it.
+
+## Mission
+
+**Installing apps on Linux should be easy.**
+
+- Every developer can put their app straight into the hands of Linux users.
+- Every app a user wants can be found on FlatPark.
 
 ## What we believe
 
