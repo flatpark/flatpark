@@ -43,9 +43,9 @@ modules:
         filename: katiecad.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/Merecete/KatieCAD/releases/download/v1.1.8/KatieCAD-Linux-x86_64_v1.1.8.tar.xz
-        sha256: 3601fd9c52d2b3890d4ccd2d2a8115e7f8560784f96054d59022958c24c55bfa
-        size: 48382728
+        url: https://github.com/Merecete/KatieCAD/releases/download/v1.2.0/KatieCAD-Linux-x86_64_v1.2.0.tar.xz
+        sha256: 9e572e9c424dcb2f4e29a71756d81609c58e8c0628b17a0dc7622f81f1872214
+        size: 72781780
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

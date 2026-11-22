@@ -102,16 +102,16 @@ modules:
         filename: nyaterm.deb
         only-arches:
           - x86_64
-        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.7/NyaTerm_2.0.7_linux_x64.deb
-        sha256: 78327adb3a79a811c87f657dac66132c3342c64d7a8c17aada2d4d19baf04514
-        size: 67202958
+        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.8/NyaTerm_2.0.8_linux_x64.deb
+        sha256: a8649b2ba134443c2fb6ac9c8f2f76c9ac9b0b1c1bcbae7b3f25d07e37493615
+        size: 67805914
       - type: extra-data
         filename: nyaterm.deb
         only-arches:
           - aarch64
-        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.7/NyaTerm_2.0.7_linux_arm64.deb
-        sha256: dee1e77bb580a41d9e8bc5b306ff9fc024dde7a1c32fa4c0c416405a606a3c8b
-        size: 71161924
+        url: https://github.com/nyakang/nyaterm/releases/download/v2.0.8/NyaTerm_2.0.8_linux_arm64.deb
+        sha256: 615491f13b963910500c08d988b75f5666dd6d05145a40e00d614231d82f5b99
+        size: 71777900
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

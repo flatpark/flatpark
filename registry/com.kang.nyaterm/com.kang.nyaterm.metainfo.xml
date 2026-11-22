@@ -59,6 +59,9 @@
   </provides>
   <launchable type="desktop-id">com.kang.nyaterm.desktop</launchable>
   <releases>
+    <release version="2.0.8" date="2026-11-22">
+      <description></description>
+    </release>
     <release version="2.0.7" date="2026-11-20">
       <description></description>
     </release>
