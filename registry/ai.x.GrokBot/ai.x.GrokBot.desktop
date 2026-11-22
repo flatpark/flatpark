@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Grok Bot
+Comment=Proactive AI desktop agent with a cloud computer
+GenericName=AI Agent
+Keywords=AI;Agent;Assistant;Bot;Grok;xAI;
+Exec=grok-bot -- %U
+Icon=ai.x.GrokBot
+Type=Application
+Terminal=false
+StartupNotify=true
+StartupWMClass=grok-bot
+Categories=Development;
+MimeType=x-scheme-handler/grokbot;x-scheme-handler/sand;
