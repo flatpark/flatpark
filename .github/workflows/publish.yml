@@ -300,7 +300,7 @@ jobs:
       # most recent previous publish. A metadata-only pull (just refs +
       # *.commit) is NOT an alternative: build-update-repo regenerates the
       # merged appstream branch and hard-fails without the full object store.
-      # delist-prune restores this same cache (restore-only): keep `path` and
+      # cleanup.yml restores this same cache (restore-only): keep `path` and
       # the key prefix in step with it.
       - name: Restore repo cache
         if: needs.plan.outputs.scope != 'site'
@@ -315,7 +315,7 @@ jobs:
         if: needs.plan.outputs.scope != 'site'
         run: ./scripts/pull-r2.sh
 
-      # The refs upload is additive (rclone copy), so a ref delist-prune removed
+      # The refs upload is additive (rclone copy), so a ref the cleanup workflow removed
       # only locally survives in R2 and the sync above pulls it back — dangling,
       # because prune already reclaimed its objects. Every summary regeneration
       # then hard-fails ("No such metadata object <commit>.commit"), wedging all

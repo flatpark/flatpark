@@ -40,7 +40,7 @@ three months later.
 
 1. Put the incoming signing subkey in the `production` environment next to the
    outgoing one, and import both in the "Import signing subkey" steps of
-   `publish.yml` and `delist-prune.yml`. Every key CI imports signs every
+   `publish.yml` and `cleanup.yml`. Every key CI imports signs every
    commit and summary (`signing_keys` in `scripts/lib/common.sh`).
 2. Run `publish.yml` by hand with **backfill_signatures** checked. It signs the
    current commit of every published ref with the incoming key, so a client

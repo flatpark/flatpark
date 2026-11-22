@@ -10,7 +10,7 @@
 #
 # The uploads are additive on purpose (copy, not sync), so deletions only ever
 # happen through those two explicit lists — never as a mirror side effect. The
-# one exception is summaries/, which PRUNE_SUMMARIES=1 (delist-prune only)
+# one exception is summaries/, which PRUNE_SUMMARIES=1 (cleanup only)
 # mirrors to the set the freshly written summary.idx references.
 #
 # rclone must have an R2 (S3) remote configured; in CI that is done with
@@ -81,7 +81,7 @@ rclone copy "$repo" "$dest" --max-depth 1 "${MUTABLE_CMP[@]}" --header-upload "$
 # <digest>.gz and <history>-<digest>.delta files in R2 (~75 KB each).
 # `flatpak build-update-repo` already trimmed the local summaries/ to exactly
 # what the new summary.idx needs (the current and history digests, plus the
-# deltas into the current one), so with PRUNE_SUMMARIES=1 (delist-prune only)
+# deltas into the current one), so with PRUNE_SUMMARIES=1 (cleanup only)
 # mirror that set now that the idx is live. A client still holding the
 # previous idx is fine: that idx's digest is in the new history and is kept,
 # and a missing delta makes flatpak fall back to it. Skipped unless the local

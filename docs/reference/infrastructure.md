@@ -37,8 +37,9 @@ shaped to keep it small:
 - **No full source builds by default**: they store the whole compiled app,
   ten to seventy times an extra-data package.
 - **One version per ref.** Publishing only adds; objects leave on the weekly
-  `delist-prune` (Saturday 02:00 UTC, or run by hand), which also prunes old
-  summaries.
+  `cleanup` (Saturday 02:00 UTC, or run by hand), which also prunes old
+  summaries and deletes finished GitHub Actions runs with their logs and
+  artifacts (`scripts/prune-actions-runs.sh` lists the ones it keeps).
 
 R2 reads grow with users instead, and are kept off R2 by the edge cache
 (see the cache rules under [Cloudflare settings](#cloudflare-settings-that-must-stay)).

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Reconcile the local OSTree repo (REPO_DIR) with R2, the authoritative copy.
-# The mirror image of sync-r2.sh, shared by publish and delist-prune.
+# The mirror image of sync-r2.sh, shared by publish and cleanup.
 #
 # REPO_DIR may start empty (a full pull) or as an actions/cache restore of an
 # earlier run; either way it ends identical to R2. That is why both calls are
-# sync, not copy: objects and refs a delist-prune removed from R2 must also
+# sync, not copy: objects and refs the cleanup workflow removed from R2 must also
 # leave a cached copy, or they get re-signed into the summary and re-uploaded.
 # objects/ are content-addressed (same name => same bytes), so a size compare
 # is enough. Everything else (refs, summary, config) is mutable and often

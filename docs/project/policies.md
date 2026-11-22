@@ -134,5 +134,5 @@ developer later publishes it on Flathub either, unless the developer asks.
 
 To remove an app, a PR deletes its directory from the registry and says why,
 linking the request or issue. Once it is merged, the app is gone from the
-catalog, and the weekly `delist-prune` job drops its refs from the repository.
+catalog, and the weekly `cleanup` job drops its refs from the repository.
 Already-installed copies keep working until the user uninstalls them.
