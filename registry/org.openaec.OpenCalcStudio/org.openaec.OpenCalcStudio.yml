@@ -46,7 +46,7 @@ modules:
       - install -Dm644 org.openaec.OpenCalcStudio.desktop /app/share/applications/org.openaec.OpenCalcStudio.desktop
       - install -Dm644 org.openaec.OpenCalcStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenCalcStudio.metainfo.xml
       - install -Dm644 org.openaec.OpenCalcStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenCalcStudio.png
-      # The desktop entry's MimeType needs these definitions; the .deb ships
+      # The desktop entry's MimeType needs this definition; the .deb ships
       # none. Flatpak exports a MIME package only under the app id.
       - install -Dm644 org.openaec.OpenCalcStudio.mime.xml /app/share/mime/packages/org.openaec.OpenCalcStudio.xml
     sources:

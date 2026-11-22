@@ -58,7 +58,6 @@
   <provides>
     <binary>open-calc-studio</binary>
     <mediatype>application/x-ifccalc</mediatype>
-    <mediatype>application/x-wpcalc</mediatype>
   </provides>
   <releases>
     <release version="2026.46.1" date="2026-11-11">

@@ -1,6 +1,7 @@
 [Desktop Entry]
-# From the .deb's "Open Calc Studio.desktop" (v2026.46.1): Name and MimeType
-# kept. Exec, TryExec, Icon and StartupWMClass are set for the app id, %F added
+# From the .deb's "Open Calc Studio.desktop" (v2026.46.1): Name kept, and of
+# its MimeType only application/x-ifccalc (*.calc as application/x-wpcalc is
+# too generic to claim for every .calc file on the host). Exec, TryExec, Icon and StartupWMClass are set for the app id, %F added
 # (the app opens a file passed as its first argument), and Comment, Categories
 # and Keywords written for the app, as the .deb's are Tauri's placeholders.
 Type=Application
@@ -16,4 +17,4 @@ StartupWMClass=org.openaec.OpenCalcStudio
 Icon=org.openaec.OpenCalcStudio
 Terminal=false
 Categories=Office;Finance;
-MimeType=application/x-ifccalc;application/x-wpcalc;
+MimeType=application/x-ifccalc;
