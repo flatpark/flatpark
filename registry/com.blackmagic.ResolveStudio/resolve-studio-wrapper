@@ -12,12 +12,18 @@ set -eu
 PATH="/app/extra/appimage-tools/bin:$PATH"
 export PATH
 
-# Resolve links libGLU.so.1, which the runtime does not ship; its libcrypt.so.1
-# is built into /app/lib by the manifest. Keep libGLU last: the launcher
-# prepends Resolve's own libs to LD_LIBRARY_PATH, so the vendor's copies always
-# win.
-LD_LIBRARY_PATH="/app/extra/libglu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Resolve links libGLU.so.1 (the runtime does not ship it) and libcrypt.so.1
+# (the runtime's libcrypt.so.2 lacks the GLIBC_2.2.5 version libaprutil binds;
+# the tarball ships the glibc-ABI libcrypt.so.1 in libcrypt/). Keep these LAST:
+# the launcher prepends Resolve's own libs to LD_LIBRARY_PATH, so the vendor's
+# copies always win.
+LD_LIBRARY_PATH="/app/extra/resolve-app/libcrypt:/app/extra/libglu/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 export LD_LIBRARY_PATH
+
+# The installer's Python dependencies (requests and friends) are vendored in
+# the extra-data tarball.
+PYTHONPATH="/app/extra/resolve-app/vendor${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONPATH
 
 # Keep the multi-GB download and its extraction scratch inside the app's own data
 # directory instead of the user's Downloads folder.

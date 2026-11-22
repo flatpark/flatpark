@@ -47,44 +47,6 @@ finish-args:
   - --persist=Videos/.gallery
   - --persist=Documents/BlackmagicDesign
 modules:
-  # libcrypt.so.1: Resolve bundles libaprutil-1.so.0, which binds crypt
-  # symbols versioned GLIBC_2.2.5. The runtime ships libxcrypt as libcrypt.so.2,
-  # which defines XCRYPT_* but not GLIBC_2.2.5, so build the obsolete glibc API
-  # here. Flatpak already puts /app/lib on the loader path.
-  - name: libxcrypt
-    buildsystem: autotools
-    config-opts: ["--enable-obsolete-api=glibc"]
-    build-options:
-      cflags: "-Wno-error=discarded-qualifiers"
-    sources:
-      - type: git
-        url: https://github.com/besser82/libxcrypt.git
-        tag: v4.5.2
-
-  # requests is not part of the GNOME runtime; the installer uses it for
-  # Blackmagic's API and download pages.
-  - name: python3-requests
-    buildsystem: simple
-    build-commands:
-      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
-        --prefix=${FLATPAK_DEST} "requests" --no-build-isolation
-    sources:
-      - type: file
-        url: https://files.pythonhosted.org/packages/0b/a7/71ac2cff56fec219ed242bb11b8efb69fcc4bec75db06fb7bfe35de520e6/certifi-2026.7.22-py3-none-any.whl
-        sha256: 62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775
-      - type: file
-        url: https://files.pythonhosted.org/packages/cc/61/d01fc49b8dea277640b55a9e15960dbca9fdc8c9fde18e572d39c59f4019/charset_normalizer-3.5.1-py3-none-any.whl
-        sha256: 6df0ec430f9a831772c23ca5a224cba36517a58a84bb32c32bb59a9fa67c47f6
-      - type: file
-        url: https://files.pythonhosted.org/packages/58/a2/bb081bab032533a855d44de1d56f8e8426114ff1ba5d1f07a438a0a654f8/idna-3.20-py3-none-any.whl
-        sha256: ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c
-      - type: file
-        url: https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl
-        sha256: 2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0
-      - type: file
-        url: https://files.pythonhosted.org/packages/92/9d/c4e665119135114480843e7ab388fa94d8480650450e6f8e26b70d323a4c/urllib3-2.8.0-py3-none-any.whl
-        sha256: 0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3
-
   - name: resolve-studio
     buildsystem: simple
     build-commands:
@@ -126,9 +88,9 @@ modules:
         filename: resolve-flatpak.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.11/resolve-flatpak-0.0.11-x86_64.tar.gz
-        sha256: 3cbff5b352aaec8ad06bafe0349ec4d03f23821ee228fbde7ee4a477453a069a
-        size: 26330
+        url: https://github.com/night199uk/resolve-flatpak/releases/download/v0.0.12/resolve-flatpak-0.0.12-x86_64.tar.gz
+        sha256: 0a0500b3e96f59388ec8f8a661632ee56b276d3ae90b96afb262530babd2fb4f
+        size: 588137
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

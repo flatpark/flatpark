@@ -4,9 +4,10 @@ set -eu
 # Runs offline at install time inside org.gnome.Platform. Three pinned
 # extra-data files arrive alongside this script in /app/extra:
 #
-#   resolve-flatpak.tar.gz  the installer/launcher Python sources built by the
-#                           resolve-flatpak project — the app that fetches and
-#                           installs Resolve
+#   resolve-flatpak.tar.gz  the installer/launcher Python sources, vendored
+#                           requests dependencies and libcrypt.so.1, built by
+#                           the resolve-flatpak project — the app that fetches
+#                           and installs Resolve
 #   appimage-tools.tar.xz   flatpark/prebuilt's appimage-tools, for unsquashfs
 #   libglu1-mesa.deb        libGLU.so.1, which the runtime does not ship
 #
@@ -34,6 +35,10 @@ top="$(find .resolve-unpack -maxdepth 1 -mindepth 1 -type d | head -n 1)"
 mv "$top" resolve-app
 rm -rf .resolve-unpack
 [ -f resolve-app/installer/main.py ] || { echo "resolve installer missing after unpack" >&2; exit 1; }
+[ -e resolve-app/libcrypt/libcrypt.so.1 ] \
+    || { echo "libcrypt.so.1 missing after unpack" >&2; exit 1; }
+[ -d resolve-app/vendor/requests ] \
+    || { echo "vendored requests missing after unpack" >&2; exit 1; }
 
 # 2. appimage-tools -> /app/extra/appimage-tools (unsquashfs).
 rm -rf appimage-tools
