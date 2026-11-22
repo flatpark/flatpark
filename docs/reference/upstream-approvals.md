@@ -126,6 +126,7 @@ that PR link in the table — the PR itself is the evidence.
 | Corvus | `io.github.ada_h00k.Corvus` | Requested by its developer, who asked for the listing and publishes the archive we pin: [flatpark#1361](https://github.com/flatpark/flatpark/issues/1361); asked for the badge in [flatpark#1361 (comment)](https://github.com/flatpark/flatpark/issues/1361#issuecomment-7008376622) — "It would be nice if the Developer-approved badge were added" | 2026-11-19 |
 | Dailies | `io.github.tim_van_oudheusden.Dailies` | Approved by construction — submitted and maintained by its own developer ([flatpark#1397](https://github.com/flatpark/flatpark/pull/1397)) | 2026-11-19 |
 | Steuererklärung | `eu.jumplink.Steuererklaerung` | Approved by construction — submitted and maintained by its own developer ([flatpark#1425](https://github.com/flatpark/flatpark/pull/1425)) | 2026-11 |
+| Metrolist | `com.metrolist.desktop` | [MetrolistGroup/Metrolist#4723 (comment)](https://github.com/MetrolistGroup/Metrolist/issues/4723#issuecomment-7080340667) — nyxiereal, a MetrolistGroup member and the repo's top contributor, answered the blue-shield ask with "you can do that, i approve!"; upstream already lists FlatPark in its README. Listing requested in [flatpark#1267](https://github.com/flatpark/flatpark/issues/1267) | 2026-11-22 |
 
 ## Declined
 
