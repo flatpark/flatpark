@@ -61,7 +61,7 @@ export function screenshotHtml(app, origin) {
 // it goes in escaped as type="html".
 export function appHtml(app, origin) {
   const summary = esc(app.summary);
-  const install = esc(app.installCmd);
+  const install = app.installCmd ? `<pre><code>${esc(app.installCmd)}</code></pre>` : '';
   const icon = app.icon
     ? `<td><img src="${esc(new URL(app.icon, origin + '/').href)}" alt="" width="64" height="64"></td>`
     : '';
