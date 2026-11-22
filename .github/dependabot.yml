@@ -1,0 +1,13 @@
+version: 2
+
+updates:
+  # Only the workflow actions. site/ npm deps move too often for weekly PRs.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns: ["*"]

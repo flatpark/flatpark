@@ -91,7 +91,7 @@ jobs:
         with:
           fetch-depth: 0
       # scan-registry.sh reads the descriptors with node.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       # Every run needs rclone: even a site publish reads the .published-sha
@@ -185,7 +185,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: Install flatpak toolchain
@@ -260,7 +260,7 @@ jobs:
         run: |
           [ "$PLAN" = success ] || { echo "::error::plan job: $PLAN"; exit 1; }
           case "$BUILD" in success|skipped) ;; *) echo "::error::build job: $BUILD"; exit 1 ;; esac
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -325,7 +325,7 @@ jobs:
         if: needs.plan.outputs.scope != 'site'
         run: RECLAIM_REFS="$OUT_DIR/reclaim-refs.txt" ./scripts/drop-dangling-refs.sh
 
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         if: needs.build.result == 'success'
         with:
           pattern: repo-*
