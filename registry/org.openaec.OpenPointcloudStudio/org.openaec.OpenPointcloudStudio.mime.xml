@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  File types of Open Pointcloud Studio for the shared MIME database; installed
+  as /usr/share/mime/packages/org.openaec.OpenPointcloudStudio.xml.
+
+  Magic priorities stay below 80, so a file name that matches is decided by
+  its name and the content only settles files without a known extension.
+  Plain text formats shared with many other programs (.xyz, .txt, .csv, .asc)
+  are not claimed.
+-->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="model/e57">
+    <comment>E57 point cloud</comment>
+    <comment xml:lang="nl">E57-puntenwolk</comment>
+    <glob pattern="*.e57"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="ASTM-E57"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/vnd.las">
+    <comment>LAS point cloud</comment>
+    <comment xml:lang="nl">LAS-puntenwolk</comment>
+    <glob pattern="*.las"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="LASF"/>
+    </magic>
+  </mime-type>
+  <!-- A LAZ file starts with the same four bytes as a LAS file. -->
+  <mime-type type="application/vnd.laszip">
+    <comment>LAZ point cloud (compressed LAS)</comment>
+    <comment xml:lang="nl">LAZ-puntenwolk (gecomprimeerde LAS)</comment>
+    <sub-class-of type="application/vnd.las"/>
+    <glob pattern="*.laz"/>
+  </mime-type>
+  <mime-type type="application/x-ply">
+    <comment>PLY point cloud or mesh</comment>
+    <comment xml:lang="nl">PLY-puntenwolk of -mesh</comment>
+    <glob pattern="*.ply"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="ply\n"/>
+      <match type="string" offset="0" value="ply\r\n"/>
+    </magic>
+  </mime-type>
+  <!-- The extension is also known for a photo format: a higher weight and
+       the first line of the file decide for the point cloud. -->
+  <mime-type type="application/x-pcd">
+    <comment>PCD point cloud</comment>
+    <comment xml:lang="nl">PCD-puntenwolk</comment>
+    <glob pattern="*.pcd" weight="60"/>
+    <magic priority="60">
+      <match type="string" offset="0" value="# .PCD"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-ptx">
+    <comment>PTX point cloud</comment>
+    <comment xml:lang="nl">PTX-puntenwolk</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.ptx"/>
+  </mime-type>
+  <mime-type type="application/x-pts">
+    <comment>PTS point cloud</comment>
+    <comment xml:lang="nl">PTS-puntenwolk</comment>
+    <sub-class-of type="text/plain"/>
+    <glob pattern="*.pts"/>
+  </mime-type>
+  <!-- A scan project file is a ZIP container that lists the scans of a project. -->
+  <mime-type type="application/x-rcp">
+    <comment>Scan project</comment>
+    <comment xml:lang="nl">Scanproject</comment>
+    <sub-class-of type="application/zip"/>
+    <glob pattern="*.rcp"/>
+  </mime-type>
+</mime-info>
