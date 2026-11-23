@@ -3,8 +3,9 @@
 # creds here — it only reads public URLs and opens a PR, which it then merges
 # itself (see the auto-merge block below) and dispatches publish.yml for.
 #
-# This is the pull-mode safety net. The fast path is release-dispatch.yml:
-# upstream CI pings us on release and a single-app PR opens within minutes.
+# This is the pull-mode safety net. The fast path is upstream-publish.yml:
+# upstream CI pings us on release and update-app.yml opens a single-app PR
+# within minutes. update-app.yml also runs by hand for one app.
 # This full sweep still catches everything push mode can't — apps whose
 # upstream never adopted the action, releases whose Linux asset was uploaded
 # after the ping, and resolver hiccups — and its supersede step below cleans
@@ -150,7 +151,7 @@ jobs:
           fi
 
           # Supersede older open auto-update PRs and per-app release PRs
-          # (release-dispatch.yml, auto/release-*): this batch is recomputed
+          # (upstream-publish.yml, auto/release-*): this batch is recomputed
           # against main, so it's a superset of any unmerged earlier one — keep
           # a single open PR.
           new="$(gh pr list --head "$branch" --state open --json number -q '.[0].number')"
@@ -245,8 +246,11 @@ jobs:
               sed 's/|/\\|/g' "$FAILED_OUT" | awk -F'\t' '{ printf "| `%s` | %s |\n", $1, $2 }'
               echo
               echo "Reproduce one with \`./scripts/check-updates.sh <app-id>\` (set"
-              echo "\`GITHUB_TOKEN\`). This issue is rewritten every run and closes itself"
-              echo "once every resolver succeeds."
+              echo "\`GITHUB_TOKEN\`). If it was only upstream lagging (release out, Linux"
+              echo "asset uploaded later) and the resolver passes now, update just that app"
+              echo "with \`gh workflow run update-app.yml -f app_id=<app-id>\` instead of"
+              echo "waiting for the next sweep. This issue is rewritten every run and closes"
+              echo "itself once every resolver succeeds."
             } | ./scripts/ci-alert.sh sync "update-check/resolvers" \
                   "update-check: $n resolver(s) failed"
           elif [ "${sweep_done:-}" = 1 ]; then

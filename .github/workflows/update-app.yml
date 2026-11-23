@@ -1,37 +1,55 @@
-# Push-mode update entry. Upstream CI (flatpark/publish-action -> the
-# hooks.flatpark.org Worker) fires an `app-release` repository_dispatch the
-# moment a release is published; we recompute pins for that one app only and
-# open a focused PR on its own auto/release-<app-id> branch. Several apps
-# releasing the same day just means several small parallel PRs — no shared
-# branch, no races.
+# Single-app update: recompute one app's pins, unpack the new payload with its
+# own apply_extra.sh, open a focused PR on auto/release-<app-id>, merge it and
+# dispatch publish.yml. The one-app counterpart of the update-check.yml sweep.
 #
-# The PR is merged here, on the same terms as the scheduled sweep (see the
+# Two ways in:
+# - workflow_call: upstream-publish.yml, which turns the publish-action
+#   `app-release` ping into these inputs.
+# - workflow_dispatch: by hand, for one app the sweep missed — the typical case
+#   is an upstream that publishes the release first and uploads the Linux asset
+#   later, so the sweep saw no asset and kept the old pin:
+#     gh workflow run update-app.yml -f app_id=<app-id>
+#
+# Several apps updating the same day just means several small parallel PRs: no
+# shared branch, no races. The auto-merge terms are the sweep's (see the
 # auto-merge block below): the diff is one app's pins, and that payload was
-# already unpacked with the app's own apply_extra.sh two steps up. Waiting for
-# a human would only mean the app is late — the same bytes land automatically
-# at the next update-check run (06:17 or 18:17 UTC) anyway.
+# already unpacked two steps up. Waiting for a human would only mean the app is
+# late — the same bytes land at the next update-check run anyway.
 #
-# update-check.yml (the daily full sweep) stays the safety net: it catches
-# releases whose Linux asset was uploaded after the ping, and its supersede
-# step closes any auto/release-* PR still open once the batch covers it.
-# That's also why there is no supersede here — a single-app diff is never a
-# superset of anything else.
-name: release-dispatch
+# update-check.yml stays the safety net, and its supersede step closes any
+# auto/release-* PR still open once its batch covers it. That's also why there
+# is no supersede here — a single-app diff is never a superset of anything else.
+name: update-app
 
 on:
-  repository_dispatch:
-    types: [app-release]
-
-permissions:
-  contents: write
-  pull-requests: write
-  actions: write        # dispatch publish.yml after the auto-merge
-
-# Serialize per app: a re-ping for the same app (retag, workflow re-run)
-# queues behind the running one instead of racing the force-push. Different
-# apps proceed in parallel on disjoint branches.
-concurrency:
-  group: release-dispatch-${{ github.event.client_payload.app_id }}
+  workflow_call:
+    inputs:
+      app_id:
+        description: App id under registry/
+        type: string
+        required: true
+      tag:
+        description: Upstream release tag, if known (the resolver still decides the version)
+        type: string
+        default: ""
+      upstream:
+        description: Upstream owner/repo the release came from, if known
+        type: string
+        default: ""
+      trigger:
+        description: Who asked for this run, for the PR text
+        type: string
+        default: manual
+  workflow_dispatch:
+    inputs:
+      app_id:
+        description: App id under registry/
+        type: string
+        required: true
+      tag:
+        description: Upstream release tag (optional; the resolver decides the version)
+        type: string
+        default: ""
 
 jobs:
   update:
@@ -40,6 +58,25 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # A caller can only narrow these: upstream-publish.yml grants the same set.
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write        # dispatch publish.yml after the auto-merge
+    # Serialize per app: a re-ping for the same app (retag, workflow re-run), or
+    # a manual run racing a ping, queues behind the running one instead of
+    # racing the force-push. Different apps proceed in parallel on disjoint
+    # branches.
+    concurrency:
+      group: update-app-${{ inputs.app_id }}
+    env:
+      # Inputs go through env, never inline ${{ }} inside run — the Worker
+      # validates the ping, but its values still originate outside this repo.
+      APP_ID: ${{ inputs.app_id }}
+      TAG: ${{ inputs.tag }}
+      UPSTREAM: ${{ inputs.upstream }}
+      # workflow_dispatch has no `trigger` input, so it reads empty there.
+      TRIGGER: ${{ inputs.trigger || 'manual' }}
     steps:
       # Check out main's tip, not github.sha. For repository_dispatch, github.sha
       # is main as it was when the event was created, so a second ping for the
@@ -50,6 +87,15 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: main
+      # The id becomes a branch name and a path below; refuse anything that is
+      # not a plain registry directory before it gets there.
+      - name: Check the app id
+        run: |
+          case "$APP_ID" in
+            ""|.*|*[!A-Za-z0-9._-]*) echo "::error::not an app id: '$APP_ID'"; exit 1 ;;
+          esac
+          [ -f "registry/$APP_ID/flatpark.yml" ] \
+            || { echo "::error::no registry/$APP_ID/flatpark.yml"; exit 1; }
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -61,16 +107,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y appstream
-      # Payload values go through env, never inline ${{ }} inside run — the
-      # Worker validates them, but they still originate outside this repo.
-      - name: Recompute pins for the released app
+      - name: Recompute pins
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          APP_ID: ${{ github.event.client_payload.app_id }}
-          TAG: ${{ github.event.client_payload.tag }}
-          UPSTREAM: ${{ github.event.client_payload.repo }}
         run: |
-          echo "upstream release: ${UPSTREAM:-?} ${TAG:-?} -> $APP_ID"
+          echo "update $APP_ID (trigger: $TRIGGER, upstream: ${UPSTREAM:-?} ${TAG:-?})"
           ./scripts/check-updates.sh "$APP_ID"
           # Nothing moved on the common re-ping / not-yet-uploaded path, so the
           # steps below skip instead of re-downloading the current payload.
@@ -88,15 +129,10 @@ jobs:
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Verify the new payload unpacks
         if: env.pins_changed != ''
-        env:
-          APP_ID: ${{ github.event.client_payload.app_id }}
         run: INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$APP_ID"
       - name: Open / update PR if pins changed, then merge it
         env:
           GH_TOKEN: ${{ github.token }}
-          APP_ID: ${{ github.event.client_payload.app_id }}
-          TAG: ${{ github.event.client_payload.tag }}
-          UPSTREAM: ${{ github.event.client_payload.repo }}
           # The same kill switch as the daily sweep, deliberately not a second
           # variable: setting AUTO_MERGE_PINS=false stops both modes at once,
           # which is what anyone reaching for it wants.
@@ -110,17 +146,33 @@ jobs:
           # this needs no git history (the checkout is shallow). Untracked files
           # count too — `git add registry/` below would sweep them in.
           touched="$(git status --porcelain --untracked-files=all -- registry/ | sed 's/^...//')"
+
+          # A manual run usually has no tag; name the PR after the version the
+          # resolver just wrote as the newest metainfo <release>.
+          version="$TAG"
+          if [ -z "$version" ]; then
+            version="$(grep -o -m1 '<release [^>]*version="[^"]*"' "registry/$APP_ID/$APP_ID.metainfo.xml" 2>/dev/null \
+                         | sed 's/.*version="\([^"]*\)".*/\1/')"
+          fi
+          version="${version:-latest}"
+          case "$TRIGGER" in
+            publish-action)
+              origin="$(printf 'Upstream published release `%s` on `%s` and pinged us via flatpark/publish-action.' "${TAG:-?}" "${UPSTREAM:-?}")" ;;
+            *)
+              origin="$(printf 'Single-app update requested by hand (`update-app.yml`, run by `%s`).' "$GITHUB_ACTOR")" ;;
+          esac
+
           branch="auto/release-$APP_ID"
           git config user.name "flatpark-bot"
           git config user.email "bot@flatpark.org"
           git checkout -B "$branch"
           git add registry/
-          git commit -m "chore(update): $APP_ID $TAG (upstream release)"
+          git commit -m "chore(update): $APP_ID $version ($TRIGGER)"
           head_sha="$(git rev-parse HEAD)"   # to find the doomed pr-checks run after --delete-branch
           git push -f origin "$branch"
 
-          title="Update $APP_ID to $TAG"
-          body="$(printf 'Upstream published release `%s` on `%s` and pinged us via flatpark/publish-action.\n\nPins recomputed for `%s` only; the resolver decides the actual version. The payload was unpacked with this app'"'"'s `apply_extra.sh` before the PR opened; merging triggers a rebuild + publish of this app.' "$TAG" "${UPSTREAM:-?}" "$APP_ID")"
+          title="Update $APP_ID to $version"
+          body="$(printf '%s\n\nPins recomputed for `%s` only; the resolver decides the actual version. The payload was unpacked with this app'"'"'s `apply_extra.sh` before the PR opened; merging triggers a rebuild + publish of this app.' "$origin" "$APP_ID")"
 
           if [ -z "$(gh pr list --head "$branch" --state open --json number -q '.[].number')" ]; then
             gh pr create --base main --head "$branch" --title "$title" --body "$body"
@@ -139,7 +191,7 @@ jobs:
           # only ever rewrites that app's manifest and the metainfo beside it, so
           # anything else in the diff means something wrote outside its lane.
           # Stricter than the sweep's regex on two counts, both free here: the
-          # files must belong to the app that was pinged, and they must carry its
+          # files must belong to the app being updated, and they must carry its
           # exact names. Every app in the registry is laid out that way today; one
           # that is not just stays a PR for a human, which is the right failure.
           stray=""
@@ -182,7 +234,7 @@ jobs:
           # rebuilds the app, so that run has nothing to add. Wait for it to
           # appear (the webhook lags the merge) and delete it. Best-effort: a run
           # that never appears, or a GitHub that learns to skip it, both just
-          # mean nothing to clean up. Needs the actions:write granted at the top.
+          # mean nothing to clean up. Needs the actions:write granted above.
           if [ "$(gh pr view "$new" --json state -q .state)" = "MERGED" ]; then
             rid=""
             for _ in $(seq 1 15); do

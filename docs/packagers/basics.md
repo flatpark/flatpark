@@ -424,12 +424,15 @@ the URL it prints downloads.
 
 ### What an update changes
 
-Two triggers run the same steps:
+Three triggers run the same steps:
 
 - **Push:** upstream's release workflow calls FlatPark's hook, and
-  `release-dispatch.yml` handles that one app within minutes.
+  `upstream-publish.yml` hands that one app to `update-app.yml` within minutes.
 - **Pull:** `update-check.yml` runs every resolver twice a day (06:17 and 18:17
   UTC) and catches everything else.
+- **By hand:** `gh workflow run update-app.yml -f app_id=<app-id>` updates one
+  app now. Use it when the sweep missed a release, typically one whose Linux
+  asset was uploaded after the sweep ran.
 
 The steps:
 
