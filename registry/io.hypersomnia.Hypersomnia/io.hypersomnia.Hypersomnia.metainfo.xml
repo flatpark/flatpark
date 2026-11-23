@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.hypersomnia.Hypersomnia</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <name>Hypersomnia</name>
+  <summary>Community-driven multiplayer top-down shooter</summary>
+
+  <description>
+    <p>
+      This is a community package of Hypersomnia, maintained independently. It repackages the
+      official upstream Linux AppImage unmodified: the game is installed from Hypersomnia's own
+      download and receives new versions through Flatpak updates.
+    </p>
+    <p>
+      Hypersomnia is a free, open-source multiplayer top-down shooter with the tactics of
+      Counter-Strike, the pace of Hotline Miami and pixel-art visuals. Fight duels or clan wars
+      across 24 firearms and two game modes, bomb defusal and gun game, on official and community
+      maps. It is written in C++ without a game engine, and its simulation is deterministic across
+      Linux, Windows, macOS and the browser, so native and browser players share the same servers.
+    </p>
+    <ul>
+      <li>Online multiplayer: the server browser, quick play, hosting your own game, and the master server</li>
+      <li>An in-game WYSIWYG map editor that can playtest a work-in-progress map with friends in one click</li>
+      <li>The tutorial and single-player practice range</li>
+      <li>Dedicated-server and tournament tools embedded in the same executable</li>
+    </ul>
+    <p>
+      The launcher disables the game's update check. Settings, keys, logs, demos, editor
+      projects and downloaded maps are stored in
+      ~/.var/app/io.hypersomnia.Hypersomnia/config/Hypersomnia.
+    </p>
+  </description>
+
+  <developer id="io.hypersomnia">
+    <name>Team Hypersomnia</name>
+  </developer>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>The tutorial aboard a space station</caption>
+      <image>https://raw.githubusercontent.com/TeamHypersomnia/PressKit/main/assets/screenshots/space_station_tutorial.jpg</image>
+    </screenshot>
+  </screenshots>
+
+  <launchable type="desktop-id">io.hypersomnia.Hypersomnia.desktop</launchable>
+  <url type="homepage">https://hypersomnia.io/</url>
+  <url type="bugtracker">https://github.com/TeamHypersomnia/Hypersomnia/issues</url>
+  <url type="vcs-browser">https://github.com/TeamHypersomnia/Hypersomnia</url>
+
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>shooter</keyword>
+    <keyword>multiplayer</keyword>
+    <keyword>top-down</keyword>
+    <keyword>arena</keyword>
+    <keyword>map editor</keyword>
+  </keywords>
+
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-fantasy">intense</content_attribute>
+    <content_attribute id="violence-bloodshed">moderate</content_attribute>
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+
+  <provides>
+    <binary>hypersomnia</binary>
+  </provides>
+
+  <releases>
+    <release version="4.5.0" date="2026-11-12">
+      <description>
+        <p>The tutorial is now set on a space station, with calm ambient music, nebulae, stars and planets.</p>
+      </description>
+    </release>
+  </releases>
+</component>
