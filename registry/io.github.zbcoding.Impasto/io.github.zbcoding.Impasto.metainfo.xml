@@ -11,13 +11,13 @@
   <summary>Paint and edit images</summary>
   <description>
     <p>
-      Impasto is a paint and image editing application with a wide range of
-      drawing tools, including freehand, rectangles, circles and lines.
-      It has over 35 effects to apply to your images, and unlimited layers
-      to help organize your creativity.
+      Impasto is an object-based painting app: shapes, text and effects stay
+      editable after you draw them, each with its own undo history. It has
+      layers, a wide set of tools and effects, snapping to the grid, ruler
+      units and canvas edges, and fully remappable keyboard shortcuts.
     </p>
     <p>
-      Impasto is a fork of Pinta.
+      Impasto started as a fork of Pinta, the MIT-licensed painting app.
     </p>
   </description>
   <launchable type="desktop-id">io.github.zbcoding.Impasto.desktop</launchable>
@@ -26,8 +26,12 @@
   </kudos>
   <screenshots>
     <screenshot type="default">
-      <caption>Shapes and text as editable objects, with per-object history</caption>
+      <caption>Shapes and text stay editable objects, with per-object history</caption>
       <image>https://raw.githubusercontent.com/zbcoding/ImpastoPaint/main/docs/screenshots/impasto-object-layers.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Drawing snaps to the grid, ruler units, canvas edges and centre lines</caption>
+      <image>https://raw.githubusercontent.com/zbcoding/ImpastoPaint/main/docs/screenshots/impasto-snap-to-grid.png</image>
     </screenshot>
     <screenshot>
       <caption>The text tool, with the UI preferences dialog open</caption>
