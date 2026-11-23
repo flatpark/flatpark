@@ -52,6 +52,7 @@
   </provides>
   <url type="homepage">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next</url>
   <url type="vcs-browser">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next</url>
+  <url type="bugtracker">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/issues</url>
   <developer id="org.gnome.gitlab.user_c1a5830a">
     <name>gnome-software-next</name>
   </developer>
