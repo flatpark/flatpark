@@ -21,6 +21,7 @@
       <li>Review changes, terminal output and previews in one app.</li>
     </ul>
     <p>Permissions: this package grants network, display, GPU, audio, notifications and keyring access for the core desktop app. It does not grant broad home-directory or host-device access by default; Code project access and Cowork's KVM/QEMU-based environment may require additional user-granted overrides and are not yet verified in this Flatpak package.</p>
+    <p>git comes from the Freedesktop SDK inside the sandbox, not from your system. It reads your ~/.gitconfig and ~/.config/git read-only and uses your SSH agent, so commits carry your identity and SSH remotes work. A credential helper that lives on your system (such as gh or libsecret) is not available, so HTTPS remotes that need it will ask for credentials or fail.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>
