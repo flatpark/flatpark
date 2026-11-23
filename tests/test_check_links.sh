@@ -140,6 +140,7 @@ const srv = createServer((req, res) => {
     return res.end('[]');
   }
   if (req.url === '/users/sign_in') { res.writeHead(200); return res.end('sign in'); }
+  if (req.url === '/api/v4/projects/busy%2Fproject/issues?per_page=1') { res.writeHead(429); return res.end(); }
   // GitLab sends a project that is gone or private to its sign-in page
   if (req.url.startsWith('/private/')) { res.writeHead(302, { location: '/users/sign_in' }); return res.end(); }
   res.writeHead(req.url.startsWith('/other/') ? 410 : 404);
@@ -177,6 +178,17 @@ rc=$?
 set -e
 [ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 for an unknown project, a sign-in redirect, another path, another status and a screenshot, got $rc"; exit 1; }
 printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==5||d.warned!==0){console.error(JSON.stringify(d.results));process.exit(1)}'
+# Any other link that lands on the sign-in page (a homepage of a project that
+# is gone or private) is broken; a 429 from the API is only a warning.
+cat > "$gated/apps/io.flatpark.Gated.json" <<EOF2
+{ "id": "io.flatpark.Gated", "name": "Gated", "screenshots": [], "website": "http://127.0.0.1:$port/private/project", "urls": { "bugtracker": "http://127.0.0.1:$port/busy/project/-/issues" }, "sourceUrl": "" }
+EOF2
+set +e
+out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_GITLAB_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
+rc=$?
+set -e
+[ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 for a homepage on the sign-in page, got $rc"; exit 1; }
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); const w=d.results.find(r=>r.type==="website"); if(d.broken!==1||d.warned!==1||w.ok){console.error(JSON.stringify(d.results));process.exit(1)}'
 kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
 
 # A screenshot committed in the registry is never fetched (its main URL 404s

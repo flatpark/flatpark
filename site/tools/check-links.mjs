@@ -72,7 +72,9 @@ const SOFT_OK_HOSTS = new Set([
 // clients, with 200 when the project's issues are open to everyone and 404
 // when the project is gone or keeps its issues private, so a tracker that
 // really is closed still counts as broken. Never for screenshots, which our
-// pages hotlink.
+// pages hotlink. Any other link that lands on the sign-in page points at a
+// project that is gone or private, and is broken. A 429 from the API (rate
+// limit) says nothing about the link, so it is only a warning.
 // LINK_CHECK_GITLAB_HOSTS adds hosts (used by the tests).
 const GITLAB_ISSUE_HOSTS = new Set([
   'gitlab.gnome.org',
@@ -97,6 +99,18 @@ function gitlabIssuesApi(entry, res) {
   const m = url.pathname.match(/^\/(.+?)\/-\/issues\/?$/);
   if (!m) return null;
   return `${url.origin}/api/v4/projects/${encodeURIComponent(m[1])}/issues?per_page=1`;
+}
+
+// Whether @res for @entry landed on a GitLab host's sign-in page.
+function gitlabSignIn(entry, res) {
+  try {
+    const url = new URL(entry.url);
+    const landed = new URL(res.url || entry.url);
+    return GITLAB_ISSUE_HOSTS.has(url.hostname) && landed.hostname === url.hostname &&
+      landed.pathname === '/users/sign_in';
+  } catch {
+    return false;
+  }
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -207,7 +221,12 @@ async function probe(entry) {
       try { await res.body?.cancel(); } catch {}
       const api = await request('GET', issuesApi);
       try { await api.body?.cancel(); } catch {}
+      if (api.status === 429) return { ...entry, status: `${res.status}, issues API 429`, ok: true, warn: true };
       return { ...entry, status: `${res.status}, issues API ${api.status}`, ok: api.ok };
+    }
+    if (gitlabSignIn(entry, res)) {
+      try { await res.body?.cancel(); } catch {}
+      return { ...entry, status: `${res.status}, sign-in page`, ok: false };
     }
     const out = { ...entry, status: res.status, ok: res.ok };
     try { await res.body?.cancel(); } catch {}
