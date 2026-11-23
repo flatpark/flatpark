@@ -49,9 +49,9 @@ modules:
         filename: open-planner-studio.deb
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/open-planner-studio/releases/download/v2026.47.0/Open.Planner.Studio_2026.47.0_amd64.deb
-        sha256: 97f9252d35b4a9f9196a96e8b54af21d5c0c7625c9bea5c592b00afd746e58c7
-        size: 20062086
+        url: https://github.com/OpenAEC-Foundation/open-planner-studio/releases/download/v2026.48.0/Open.Planner.Studio_2026.48.0_amd64.deb
+        sha256: 7f8c1dbf9276e87ad8d8f97dcd834256891b400d65615f7122e4b66afacf0444
+        size: 20516894
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

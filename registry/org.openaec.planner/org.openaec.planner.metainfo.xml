@@ -63,6 +63,10 @@
     <binary>open-planner-studio</binary>
   </provides>
   <releases>
+    <release version="2026.48.0" date="2026-11-23">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-planner-studio/releases/tag/v2026.48.0</url>
+      <description></description>
+    </release>
     <release version="2026.47.0" date="2026-11-17">
       <url type="details">https://github.com/OpenAEC-Foundation/open-planner-studio/releases/tag/v2026.47.0</url>
       <description>
