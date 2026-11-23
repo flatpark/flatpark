@@ -1,6 +1,7 @@
 // hooks.flatpark.org — turns an unauthenticated "app X released tag Y" ping
 // from upstream CI (flatpark/publish-action) into an authenticated
-// repository_dispatch on flatpark/flatpark, which runs update-check.yml.
+// repository_dispatch on flatpark/flatpark, which runs upstream-publish.yml
+// (a thin adapter over the single-app update-app.yml).
 //
 // Upstream CI holds no FlatPark secrets, so the request itself proves nothing.
 // Trust comes from cross-checking public state instead:

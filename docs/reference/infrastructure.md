@@ -167,7 +167,7 @@ holds.
 
 ### Known gaps
 
-- `update-check` and `release-dispatch` run the unpack check on x86_64 only;
+- `update-check` and `update-app` run the unpack check on x86_64 only;
   an aarch64 payload that doesn't unpack is caught by `pr-checks` when its pin
   changes in a PR, not on an automatic bump.
 - Removing `aarch64` from an app's `build.arches` doesn't prune its arm ref.
