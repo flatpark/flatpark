@@ -101,6 +101,11 @@ flatpak kill <app-id>; kill %1
 3. Repeat from a **fresh first run** with no `~/.var/app/<app-id>` and no
    granted dotdir on the host: `:create` and `--persist` behave differently
    when the folder doesn't exist yet.
+4. For an Electron or Chromium app that keeps a login, repeat on a KDE session
+   too, or check `flatpak info --show-permissions <app-id>`: `org.kde.kwalletd5`
+   and `org.kde.kwalletd6` must sit beside `org.freedesktop.secrets`. Chromium
+   picks KWallet on KDE, and without the grant the login is lost on quit
+   ([keyrings](../packagers/solutions/system-services.md#saved-passwords-and-keyrings)).
 
 Then look where it wrote: `~/.var/app/<app-id>/` and any dotdir the package
 grants. An app that writes into `$HOME/.something` without a grant writes into

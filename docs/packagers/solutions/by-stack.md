@@ -31,7 +31,10 @@ before the PR. Each item links to the page that explains it.
   ([tray placeholder](desktop-integration.md#tray-icon-shows-a-placeholder)).
 - Media: `--own-name=org.mpris.MediaPlayer2.chromium.*`, if the app plays media
   ([media controls](desktop-integration.md#media-controls-mpris-missing)).
-- Saved passwords on Hyprland and Sway: `--password-store=gnome-libsecret`
+- Saved passwords: `--talk-name=org.freedesktop.secrets` plus
+  `--talk-name=org.kde.kwalletd5` and `org.kde.kwalletd6`, because on KDE
+  Chromium picks KWallet itself; on Hyprland and Sway,
+  `--password-store=gnome-libsecret`
   ([keyrings](system-services.md#saved-passwords-and-keyrings)).
 - Data in a `~/.dotdir` (`os.homedir()`): grant it with `:create` or `--persist`
   ([permissions](../permissions.md#home-directory-dotdirs)).

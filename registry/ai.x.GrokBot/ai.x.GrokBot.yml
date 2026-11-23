@@ -30,8 +30,14 @@ finish-args:
   - --socket=pulseaudio
   # Desktop notifications for bot updates and approval prompts.
   - --talk-name=org.freedesktop.Notifications
-  # Encrypt stored login credentials with the session keyring when present.
+  # Encrypt stored login credentials with the desktop keyring. Electron's
+  # safeStorage uses Secret Service, or KWallet on KDE, where Chromium picks
+  # KWallet itself (the wrapper leaves KDE alone). Without the KWallet names
+  # the bus proxy hides kwalletd, safeStorage reports unavailable, and the app
+  # keeps its sign-in in memory only, so every restart logs the user out.
   - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
   # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
   # zypak's spawned child/zygote processes, which the wrapper's own `unset`
   # can't reach — always start as the GUI app rather than as plain Node.
