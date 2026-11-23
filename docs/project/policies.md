@@ -132,7 +132,8 @@ An app is **never** de-listed for how it was written, what toolkit it uses, or
 because someone on the internet called it slop. It isn't removed because its
 developer later publishes it on Flathub either, unless the developer asks.
 
-To remove an app, a PR deletes its directory from the registry and says why,
-linking the request or issue. Once it is merged, the app is gone from the
+To remove an app, a PR deletes its directory from the registry, says why,
+linking the request or issue, and adds the app's row to
+[de-listed apps](../reference/delisted.md). Once it is merged, the app is gone from the
 catalog, and the weekly `cleanup` job drops its refs from the repository.
 Already-installed copies keep working until the user uninstalls them.

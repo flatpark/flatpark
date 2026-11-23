@@ -1,5 +1,5 @@
 ---
-description: Where each upstream maintainer approved their app's listing, and which developers declined one.
+description: Where each upstream maintainer approved their app's listing.
 order: 1
 ---
 
@@ -19,6 +19,9 @@ project. A private channel (email, Discord, …) is not enough on its own: ask t
 maintainer to confirm somewhere public and linkable first. When the upstream
 developer publishes the app themselves, have them open the PR first, then put
 that PR link in the table — the PR itself is the evidence.
+
+Developers who said no to a listing are recorded in
+[de-listed apps](delisted.md#declined), with every app that has left FlatPark.
 
 ## Approved
 
@@ -129,23 +132,3 @@ that PR link in the table — the PR itself is the evidence.
 | Metrolist | `com.metrolist.desktop` | [MetrolistGroup/Metrolist#4723 (comment)](https://github.com/MetrolistGroup/Metrolist/issues/4723#issuecomment-7080340667) — nyxiereal, a MetrolistGroup member and the repo's top contributor, answered the blue-shield ask with "you can do that, i approve!"; upstream already lists FlatPark in its README. Listing requested in [flatpark#1267](https://github.com/flatpark/flatpark/issues/1267) | 2026-11-22 |
 | MyMusik | `app.mymusik.MyMusik` | [flatpark#1434](https://github.com/flatpark/flatpark/issues/1434) | 2026-11-20 |
 | Bloom | `io.github.oatbiscuit.bloom` | [Developer's FlatPark request](https://github.com/flatpark/flatpark/issues/1456) | 2026-11-21 |
-
-## Declined
-
-Apps whose developer said no to a FlatPark listing. Don't package them again and
-don't ask again; the only way back is a new, public yes from the developer. A
-refusal counts however it arrives: unlike an approval, a private email is enough,
-and the listing comes down without argument.
-
-Only explicit refusals go here. A thread that went quiet or was closed without a
-word, a "fine, but it won't be official", or a de-list for some other reason
-(upstream moved to Flathub, renamed the app, or the package stopped working)
-does not make an app Declined.
-
-| App | ID | Refusal | Date |
-|-----|----|---------|------|
-| RichEZFast | `com.gtht.RichEZFast` | Guotai Haitong Securities (formerly Guotai Junan), the publisher, emailed the FlatPark maintainer through its legal team and asked FlatPark to stop distributing the app; de-listed in [flatpark#258](https://github.com/flatpark/flatpark/pull/258) | 2026-08 |
-| LeePanel | `com.leepanel.desktop` | [gna1280072/LeePanel#14 (comment)](https://github.com/gna1280072/LeePanel/issues/14#issuecomment-5372419342): the app's current and planned features need direct access to the local machine, so a sandboxed build doesn't suit it; de-listed in [flatpark#251](https://github.com/flatpark/flatpark/pull/251) | 2026-08-21 |
-| Titanium Inspector | `io.github.justcoding121.TitaniumInspector` | [justcoding121/titanium-web-proxy#1051 (comment)](https://github.com/justcoding121/titanium-web-proxy/issues/1051#issuecomment-5842744780): "we are not going to support a Flatpak install. Please remove the FlatPark listing"; system proxy and root CA trust need the host session; de-listed in [flatpark#448](https://github.com/flatpark/flatpark/pull/448) | 2026-09-26 |
-| Avash | `io.github.AdrienAvalon.avash` | [AdrienAvalon/avash#42 (comment)](https://github.com/AdrienAvalon/avash/issues/42#issuecomment-6013722734): "I'd prefer the listing be removed"; upstream is going to Flathub under the same id and won't vouch for a build pipeline it doesn't run; de-listed in [flatpark#547](https://github.com/flatpark/flatpark/pull/547) | 2026-10-06 |
-| En Croissant | `org.encroissant.app` | [franciscoBSalgueiro/en-croissant#924 (comment)](https://github.com/franciscoBSalgueiro/en-croissant/issues/924#issuecomment-6389505639): "I'm not going to endorse third party builds of En Croissant for safety reasons"; de-listed in [flatpark#839](https://github.com/flatpark/flatpark/pull/839) | 2026-10-24 |

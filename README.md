@@ -52,8 +52,8 @@ to a tested PR. Open this repo in your agent (e.g. Claude Code) and ask:
 Your part is mostly testing: running the app and checking that what you use it
 for works. That makes the people who requested an app the best ones to package
 it, especially when testing needs an account, particular hardware or knowing
-the field. If there's an issue for the app, comment `/claim` on it first so
-nobody else starts on the same one.
+the field. If there's an issue for the app, comment `/claim` on it first
+(`/claim <App>` or `/claim <#>` on a scan issue) so nobody else starts on the same one.
 
 ## For developers
 
