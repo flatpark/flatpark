@@ -102,6 +102,12 @@ It still gets read as code in Phase 4.2 — the distinction is that a contributo
 may bring their own resolver but never edit one the repo already trusts.
 Identify the changed app id(s).
 
+A new app whose id or upstream appears in [de-listed apps](../reference/delisted.md)
+comes back only on the condition its section names: a Declined or "didn't back
+it" app needs the developer's own public yes, linked in the PR (a PR from the
+developer is that yes); a stopped or broken one needs the PR to say what
+changed. Without that, request changes.
+
 ### Phase 2 — Submitter & provenance
 Account age, history, social graph, other repos, prior contributions. Source-repo
 age and corroboration; commit identity (watch for malformed emails); timeline
@@ -263,6 +269,7 @@ open source · 2 = closed source · ★ = all.
 | 0 | Safety | Static-only; nothing executed; artifacts handled in an isolated dir | ★ | | |
 | 1.1 | Scope | Classified: new app / app change / infra | ★ | | |
 | 1.2 | Scope | Touches high-scrutiny surface (`.github/`·`scripts/`·`config/` except `collections.yml`·signing, or an **existing** app's `resolve-update.sh`/`update.command`)? not a maintainer → STOP. A resolver in a brand-new app dir is routine | ★ | | |
+| 1.3 | Scope | New app not in [de-listed apps](../reference/delisted.md), or the PR meets its section's condition (developer's public yes linked / what changed) | ★ | | |
 | 2.1 | Provenance | Submitter account age / history / graph / other repos | ★ | | |
 | 2.2 | Provenance | Source repo age, corroboration | ★ | | |
 | 2.3 | Provenance | Commit identity sane (no malformed email) | ★ | | |

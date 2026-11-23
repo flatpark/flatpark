@@ -24,7 +24,7 @@ What it is about (one per issue, set by the form or when sorting):
 |---|---|
 | `bug` | An app or install that doesn't work |
 | `app-request` | An app, or a set of apps, someone would like listed |
-| `app-discover` | A candidate from a scan ([finding apps](../packagers/finding-apps.md#recording-what-you-found)) |
+| `app-discover` | A scan's candidates, one table per scan ([finding apps](../packagers/finding-apps.md#recording-what-you-found)) |
 | `proposal` | A change to the rules, the process, or how FlatPark works |
 | `rule-question` | How a rule applies, or whether an app can be listed |
 | `site` | flatpark.org and these docs |
@@ -56,11 +56,19 @@ kind of help: `app-request` + `help wanted` is an app anyone may package,
 
 ### Claims
 
-Commenting `/claim` on an open `app-request` or `app-discover` issue assigns it
-to the commenter, so two people don't package the same app; `/unclaim` gives
-it back. The comment must start with the command on its own line. A bot
-reacts 👍 when it worked; if someone else already holds the claim it replies
-with their name and assigns nobody. One claim per issue.
+Commenting `/claim` on an open `app-request` issue assigns it to the
+commenter, so two people don't package the same app; `/unclaim` gives it back.
+The comment must start with the command on its own line. A bot reacts 👍 when
+it worked; if someone else already holds the claim it replies with their name
+and assigns nobody. One claim per request.
+
+A scan issue (`app-discover`) lists many apps, so a claim there names the row,
+by its app or its number as the table gives them: `/claim Letter` or
+`/claim 3`, one row per comment. Each claimer is added to the assignees, so
+several people can work through one scan; a claim on a row someone already
+holds, by either name, gets the same reply, and so does one naming a row the
+table doesn't have. `/unclaim` gives back every
+row the commenter holds.
 
 When an issue first gets either label, a bot comments once: it thanks the
 requester (app requests only), explains `/claim` and links the README's
@@ -86,7 +94,7 @@ directly, or by a bot.
 |---|---|
 | `bug` | `[Bug] <app-id>: <what goes wrong>` |
 | `app-request` | `[App Request] <Name>` |
-| `app-discover` | `[App Discover] <Name>` |
+| `app-discover` | `[App Discover] Scan <YYYY-MM-DD>: <n> candidates` |
 | `proposal` | `[Proposal] <what changes>` |
 | `rule-question` | `[Question] <the question>` |
 | `site` | `[Site] <page or area>: <what>` |

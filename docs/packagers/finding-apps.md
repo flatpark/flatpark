@@ -71,20 +71,27 @@ from, or they've said in an issue they'd like one and lack the time.
 ## For agents
 
 Any agent can run a scan; you don't need to be a maintainer. The output is one
-`[App Discover]` issue per candidate (see [recording what you found](#recording-what-you-found)),
-which anyone can then pick up and package. A run takes `gh` (logged in), `curl`
+`[App Discover]` issue per scan, a table of every candidate it found (see
+[recording what you found](#recording-what-you-found)); anyone can then pick a
+row and package it. A run takes `gh` (logged in), `curl`
 and `python3`.
 
 ### Before you start
 
-Build the list of apps to skip, so you don't propose something already handled:
+Build the list of apps to skip, so you don't propose something already handled.
+Match each candidate by upstream repository URL, then by name, then by id:
 
-- apps in `registry/`: match on the `source_url`, `website` and `name` in each
-  `flatpark.yml`;
-- apps that were removed: `git log --oneline -i --grep='de-list'` names them.
-  A removed app stays out unless something has changed;
-- apps already proposed or requested: `gh issue list -R flatpark/flatpark --state all --label app-discover` and `--label app-request`.
-  An app with an `[App Request]` is skipped, not re-proposed as a discovery.
+- **Listed:** every app in `registry/`, on the `source_url`, `website` and
+  `name` in its `flatpark.yml`.
+- **De-listed or declined:** every row in [de-listed apps](../reference/delisted.md).
+  A developer who declined is skipped unless they have since said in public
+  that they want FlatPark to carry the app; nobody asks them again. Every other
+  row stays out unless the condition its section names has been met.
+- **Already proposed or requested:** the tables in earlier scan issues and
+  every app request, open or closed:
+  `gh issue list -R flatpark/flatpark --state all --label app-discover` and
+  `--label app-request`. An app someone has requested is answered on that
+  request, not proposed again.
 
 ### Flatpak requests on GitHub
 
@@ -202,50 +209,50 @@ decides whether it stays.
 
 ### Recording what you found
 
-Open one issue per app in `flatpark/flatpark`, titled `[App Discover] <Name>`,
-labelled `app-discover`, with this body:
+Open one issue per scan in `flatpark/flatpark`, titled
+`[App Discover] Scan <YYYY-MM-DD>: <n> candidates` and labelled `app-discover`,
+with this body:
 
 ```md
-Found by the app discovery scan (<YYYY-MM-DD>).
+Found by the app discovery scan (<YYYY-MM-DD>), following [finding apps](https://github.com/flatpark/flatpark/blob/main/docs/packagers/finding-apps.md).
 
-| | |
+Scan windows: <what each channel covered, with dates>. Each candidate meets a
+demand signal: <the signals used>. None of them is in the registry, de-listed,
+or already proposed or requested.
+
+| # | App | What it is | Stars | Licence | Demand | Linux files |
+|---|---|---|---:|---|---|---|
+| 1 | [<Name>](https://github.com/owner/repo) | <one line> | <stars> | <SPDX id> | <the signal, linked: request #n with its reaction count and the maintainer's words / stars only / left-behind Flathub package> | <kinds and sizes> |
+
+<Caveats that apply to some rows: a maintainer working on their own Flatpak,
+upstream preferring other channels, a self-hosted remote. Name the rows.>
+
+## Held off
+
+| App | Why |
 |---|---|
-| Upstream | [owner/repo](https://github.com/owner/repo) |
-| What it is | <one line, toolkit, stars> |
-| Licence | <SPDX id> |
-| Latest release | <version>, <date> |
-| Linux files | <kinds and sizes> |
-| Flathub | <not there / EOL / third-party package, with links> |
-| Demand | <Flatpak request on its tracker / 1000+ stars / left-behind Flathub users> |
+| [<Name>](https://github.com/owner/repo) | <the concrete reason, linked> |
 
-## Why there is demand
-
-- <requests on its tracker with links and 👍 counts, stars, the maintainer's
-  own words; earlier Flathub attempts and why they closed, as context>
-
-## Notes for packaging
-
-- <stack, sandbox concerns, permissions it will need, what to prototype>
-
-## Next step
-
-<Package it / Ask upstream first / Prototype X first>
+To package one, comment `/claim <App>` or `/claim <#>` here and follow the
+[per-candidate steps](https://github.com/flatpark/flatpark/blob/main/docs/packagers/finding-apps.md#per-candidate).
 ```
 
-Write it in English and link every claim. Only open an issue for an app that
+Write it in English and link every claim. Order the rows by strength of demand:
+explicit requests first, by reactions, then stars alone. Only list an app that
 meets a [demand signal](#what-counts-as-demand); if it qualifies on stars alone,
-say there is no explicit request yet. Don't rank candidates into tiers or hold
-one back as "too young": demand is enough, and only
-a concrete reason (the developer's own Flathub PR or stated plan, upstream
-declining, a hard sandbox blocker) means waiting. Packaging concerns go under
-Notes, not as reasons to wait. An app you looked at and decided against
-(say upstream prefers distribution packages) can get an issue too, with a
-"Why we're holding off" section instead, so the next scan doesn't propose it
-again.
+the Demand cell says so. Don't rank candidates into tiers or hold one back as
+"too young": demand is enough. Only a concrete reason (the developer's own
+Flathub PR or stated plan, upstream declining, a hard sandbox blocker) moves an
+app to **Held off**, which keeps the next scan from proposing it again; leave
+the section out if it is empty. Packaging concerns are for whoever picks the
+row up, not reasons to hold off.
 
-Then package it with the [playbook](playbook.md), or leave the issue for
-someone else to pick up. Whoever packages it comments `/claim` on the issue
-first ([claims](../reviewers/issues.md#claims)).
+Number the rows from 1; a claim can name a row by its number. Whoever
+packages a row comments `/claim <App>` or `/claim <#>` on the scan issue first
+([claims](../reviewers/issues.md#claims)), and links the issue from the PR
+(`Refs #<n>`, not `Closes`, since the other rows stay open). Close the scan
+issue once every row is packaged or ruled out; a later scan's skip list
+already covers its rows.
 
 ### Answering an app request
 
@@ -259,14 +266,42 @@ asks for nothing else on purpose. Fill in the rest yourself:
    and look for an earlier request:
    `gh issue list -R flatpark/flatpark --state all --search '<name> in:title'`.
    A duplicate gets a link to the earlier issue and is closed as a duplicate.
-3. Comment with the body from [recording what you found](#recording-what-you-found),
-   starting with `Looked up for this request (<YYYY-MM-DD>).` instead of the
-   scan line. Anything the requester wrote (what they use it for, the
-   download, a Flathub package) goes in with credit; under **Why there is
-   demand**, the request itself counts.
+3. Comment with what you found, in this shape:
+
+   ```md
+   Looked up for this request (<YYYY-MM-DD>).
+
+   | | |
+   |---|---|
+   | Upstream | [owner/repo](https://github.com/owner/repo) |
+   | What it is | <one line, toolkit, stars> |
+   | Licence | <SPDX id> |
+   | Latest release | <version>, <date> |
+   | Linux files | <kinds and sizes> |
+   | Flathub | <not there / EOL / third-party package, with links> |
+
+   ## Why there is demand
+
+   - <this request; requests on its tracker with links and 👍 counts; earlier
+     Flathub attempts and why they closed>
+
+   ## Notes for packaging
+
+   - <stack, sandbox concerns, permissions it will need, what to prototype>
+
+   ## Next step
+
+   <Package it / Ask upstream first / Prototype X first>
+   ```
+
+   Anything the requester wrote (what they use it for, the download, a Flathub
+   package) goes in with credit.
 4. Don't edit the requester's text, and don't rename the issue beyond
    `[App Request] <Name>`.
 
 An app that can't be listed gets the same table and a **Why we can't list it**
 section in place of **Next step**, linking the rule; then close the issue as
-not planned.
+not planned. That includes an app in [de-listed apps](../reference/delisted.md)
+whose condition hasn't been met, linking its row. A request from the developer
+of a declined or withdrawn app is the yes those sections wait for: it can be
+listed, and the request is the evidence.
