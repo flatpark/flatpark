@@ -1,5 +1,8 @@
 id: com.anthropic.ClaudeDesktop
-runtime: org.freedesktop.Platform
+# Sdk, not Platform: Code shows diffs and works on repositories through git,
+# which the Platform lacks; the Sdk ships it (with ssh, python3, make and
+# compilers) inside the sandbox (flatpark#1523).
+runtime: org.freedesktop.Sdk
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
 # Electron app: use the Electron base app, which ships zypak. zypak redirects
@@ -33,6 +36,13 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   # Encrypt stored login credentials with the session keyring when present.
   - --talk-name=org.freedesktop.secrets
+  # git identity and settings for the Sdk's git. Read-only: `git config
+  # --global` writes by rename, which a bind-mounted single file can't take
+  # (EBUSY), and the sandbox shouldn't rewrite host config anyway.
+  - --filesystem=~/.gitconfig:ro
+  - --filesystem=xdg-config/git:ro
+  # git over SSH (push, fetch, submodules) with the host's agent.
+  - --socket=ssh-auth
   # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
   # zypak's spawned child/zygote processes, which the wrapper's own `unset`
   # can't reach — always start as the GUI app rather than as plain Node.
