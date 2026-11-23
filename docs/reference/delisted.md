@@ -70,6 +70,7 @@ will. It comes back only if that channel goes away and upstream doesn't object.
 | materialgram | `io.github.kukuruzka165.materialgram` | Flathub | [#604](https://github.com/flatpark/flatpark/pull/604), 2026-10-10 |
 | Bottles | `com.usebottles.bottles` | Flathub, same id | [#606](https://github.com/flatpark/flatpark/pull/606), 2026-10-10 |
 | CodeBurn | `org.agentseal.CodeBurn` | Flathub ([getagentseal/codeburn#1011](https://github.com/getagentseal/codeburn/issues/1011)) | [#985](https://github.com/flatpark/flatpark/pull/985), 2026-11-05 |
+| OneKeePass | `io.github.onekeepass.desktop` | The developer publishes it on Flathub as `com.onekeepass.OneKeePass`; the FlatPark listing never had the developer's approval | [#1516](https://github.com/flatpark/flatpark/pull/1516), 2026-11-23 |
 
 ## Renamed
 

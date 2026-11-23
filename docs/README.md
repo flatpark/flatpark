@@ -30,6 +30,8 @@ the details below it. The same files are rendered at
 - A fix for a listed app: add a row to the [incident list](reference/incidents.md).
 - Removing an app: add its row to [de-listed apps](reference/delisted.md); check
   the same page before proposing or packaging one.
+- Listing an app Flathub also carries: add its row and reason to
+  [apps also on Flathub](reference/flathub-overlap.md).
 - After a run: [cleaning up](packagers/cleanup.md).
 - How decisions are made: [principles](project/principles.md) and
   [governance](project/governance.md).
