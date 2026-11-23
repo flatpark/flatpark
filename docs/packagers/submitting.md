@@ -211,7 +211,10 @@ common reasons a PR is sent back:
   open-source app ([packaging levels](../project/trust.md#packaging-changes)).
 - **A dependency compiled in the manifest** instead of an extra download or a
   [prebuilt stack](prebuilt.md).
-- **Downloading and running unpinned code** at run time. A vendor's own updater
-  writing into the app's data directory is fine.
+- **The package downloading and running unpinned code** at run time, e.g. a
+  wrapper that runs `npm install`. What the unmodified app does itself is fine:
+  its own updater, or a launcher fetching game files and the tools it needs into
+  the app's data directory, even from a moving "latest" URL (Cellar downloading
+  Wine runners after launch is an example).
 - **`policy.proprietary` not set honestly.**
 - **No legitimate purpose:** piracy, malware or trademark impersonation.

@@ -171,13 +171,21 @@ artifact provenance tier (1/2/3).
 ### Phase 4 — Runtime-behavior scan
 Grep manifest + shipped scripts + source for runtime fetch-and-exec
 (`npm install`, `pip install`, `curl|wget`, `nc`, download-then-run).
-**Allowed (vendor self-updater exception):** the vendor's own installer/updater
-that downloads into the app's data/cache dir, when packaging does not patch the
-official behavior, writes stay in the per-app data/cache dir (no host-home),
-endpoints are the vendor's own, and there is no shell pipeline from an arbitrary
-URL. **Rejected:** runtime fetch-and-exec of arbitrary/unpinned third-party code
-as a core mechanism (PR #13's `npm install peerflix`), or an updater whose
-packaging patches official behavior. Review `update.command`/resolve scripts as
+**What is judged is the packaging, not the app.** The question is whether the
+manifest, wrapper or shipped scripts add a fetch-and-exec, or change how the app
+fetches things. **Allowed (upstream behavior):** the unmodified app downloading
+what it needs at run time into its own data/cache dir — its self-updater, game
+files, runtimes, plugins, or a helper tool it runs. `org.flatpark.Cellar` is the
+reference case: after launch it downloads community Wine runners from their
+GitHub releases into its data dir and runs them, and that is normal. This holds
+even when the app pulls the component unpinned from a third party, as long as
+packaging does not patch that behavior, writes stay in the per-app data/cache dir
+(no host-home), and the endpoint is the vendor's or the component's official
+distributor, not a user-supplied/arbitrary URL. Note it in the review as an
+observation; it is not a reject and not a warn. **Rejected:** fetch-and-exec that
+the *packaging* introduces as a core mechanism (PR #13's wrapper running
+`npm install peerflix`), or packaging that patches the app's own download/update
+behavior. Review `update.command`/resolve scripts as
 code. Note network endpoints and broad filesystem×network combos.
 
 ### Phase 5 — Artifact / binary provenance
@@ -243,8 +251,9 @@ artifact before filing it, not from a reading of the diff.
   a shared support stack released from `flatpark/prebuilt`. App payloads and single-app
   dependencies must be `extra-data` — they must not be baked into the ref / shipped from
   R2. (Source-building one app's missing library into `/app` is this reject.)
-- Runtime fetch-and-exec of arbitrary / unpinned code as a core mechanism (the
-  vendor self-updater exception does not count).
+- Runtime fetch-and-exec of unpinned code introduced by the packaging (manifest,
+  wrapper, shipped scripts) as a core mechanism. What the unmodified upstream app
+  downloads at run time into its data dir does not count (Phase 4).
 - `update.command` that is not a simple relative script path.
 - IOC found (traversal / setuid / persistence / miner / reverse-shell / embedded
   payload / RPATH injection).
@@ -289,7 +298,7 @@ open source · 2 = closed source · ★ = all.
 | 3.9 | Manifest | Optional caps not pre-granted: documented as `flatpak override` in metainfo; any broad grant kept in `finish-args` justified in the PR | ★ | | |
 | 3.10 | Manifest | PR body says honestly what was built, installed, launched and used, and what wasn't tested | ★ | | |
 | 3.11 | Manifest | Screenshot present (one `default`), loads, shows this app's current Linux UI, hosted upstream, as a PR attachment or in `registry/<id>/screenshots/`; or its absence justified in the PR body | ★ | | |
-| 4.1 | Runtime | No runtime fetch-and-exec of arbitrary/unpinned code (vendor self-updater to data dir, behavior unpatched = OK) | ★ | | |
+| 4.1 | Runtime | Packaging adds no runtime fetch-and-exec of unpinned code (the unmodified app fetching its own updates/tools into its data dir = OK) | ★ | | |
 | 4.2 | Runtime | `update.command` / resolve script reviewed as code (runs on CI, repo-write) | ★ | | |
 | 4.3 | Runtime | Network endpoints noted; no broad filesystem×network combo | ★ | | |
 | 5.1 | Artifact | extra-data sha256 == manifest pin | ★ | | |
