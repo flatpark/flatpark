@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Hyprism
+Comment=Manage Hytale instances, profiles and mods
+Exec=hyprism
+Icon=io.github.hyprismteam.Hyprism
+Terminal=false
+Type=Application
+Categories=Game;
+StartupWMClass=Hyprism.Desktop
