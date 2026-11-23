@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>io.github.zbcoding.Impasto</id>
+  <!-- Replaces only the app's own previous id; Impasto installs alongside Pinta. -->
+  <replaces>
+    <id>com.github.zbcoding.Impasto</id>
+  </replaces>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Impasto</name>
+  <summary>Paint and edit images</summary>
+  <description>
+    <p>
+      Impasto is a paint and image editing application with a wide range of
+      drawing tools, including freehand, rectangles, circles and lines.
+      It has over 35 effects to apply to your images, and unlimited layers
+      to help organize your creativity.
+    </p>
+    <p>
+      Impasto is a fork of Pinta.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.zbcoding.Impasto.desktop</launchable>
+  <kudos>
+    <kudo>HiDpiIcon</kudo>
+  </kudos>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Shapes and text as editable objects, with per-object history</caption>
+      <image>https://raw.githubusercontent.com/zbcoding/ImpastoPaint/main/docs/screenshots/impasto-object-layers.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The text tool, with the UI preferences dialog open</caption>
+      <image>https://raw.githubusercontent.com/zbcoding/ImpastoPaint/main/docs/screenshots/impasto-text-tool.png</image>
+    </screenshot>
+  </screenshots>
+  <developer id="io.github.zbcoding">
+    <name>zbcoding</name>
+  </developer>
+  <url type="homepage">https://github.com/zbcoding/ImpastoPaint</url>
+  <url type="vcs-browser">https://github.com/zbcoding/ImpastoPaint</url>
+  <url type="bugtracker">https://github.com/zbcoding/ImpastoPaint/issues</url>
+  <url type="help">https://impastopaint.com/docs/</url>
+  <content_rating type="oars-1.0" />
+  <translation type="gettext">impasto</translation>
+  <provides>
+    <binary>impasto</binary>
+  </provides>
+  <releases>
+    <release version="0.7.4" date="2026-11-23">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.7.4</url>
+      <description>
+        <p>The app id is now io.github.zbcoding.Impasto. Flatpak users of com.github.zbcoding.Impasto install the new id once; it copies settings, autosaves and recent files over on first start.</p>
+      </description>
+    </release>
+    <release version="0.7.3" date="2026-11-22">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.7.3</url>
+      <description>
+        <p>A new setting turns off the startup update check. When the check cannot reach GitHub, for example in a sandbox without network access, the File menu offers Check for Updates, which opens the releases page.</p>
+      </description>
+    </release>
+    <release version="0.7.2" date="2026-11-16">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.7.2</url>
+      <description>
+        <p>Repeat Last Effect (Ctrl+F) and Repeat Last Adjustment (Ctrl+Alt+F) apply the last effect or adjustment again with the same settings to the current selection. This release also fixes many cases where dialogs, effect previews, saves and tool drags acted on the wrong image, layer or object, or lost their state.</p>
+      </description>
+    </release>
+    <release version="0.7.1" date="2026-11-04">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.7.1</url>
+      <description>
+        <p>Resizing moved pixels by a grip snaps the dragged corner or edge to other layers' pictures, shapes and text, and to the grid, so a copy can be sized to match another exactly. This release also fixes pixels left outside the marching ants after repeated resizes, grip cursors pointing the wrong way after a mirror, and resize grips that could not be grabbed with snapping on.</p>
+      </description>
+    </release>
+    <release version="0.7.0" date="2026-11-03">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.7.0</url>
+      <description>
+        <p>Painting outside the selection twice in a row makes the selection outline pop outward, showing where painting is limited to.</p>
+      </description>
+    </release>
+    <release version="0.6.1" date="2026-10-29">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.6.1</url>
+      <description>
+        <p>Erasing or painting on a display with fractional scaling no longer flickers thin dark lines next to the brush or leaves a sliver of the stroke undrawn until the canvas repaints.</p>
+      </description>
+    </release>
+    <release version="0.6.0" date="2026-10-14">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.6.0</url>
+      <description>
+        <p>Move Selected Pixels gains Skew, Perspective and 3D modes: slant the selected pixels, fit them onto an angled surface in a photo by dragging each corner, or turn, tilt and push their corners in 3D with an adjustable field of view. Layer thumbnails can be larger and shrink to fit the panel, Rotate / Zoom Layer no longer skips some perspective settings, and Impasto has a new app logo.</p>
+      </description>
+    </release>
+    <release version="0.5.0" date="2026-09-30">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.5.0</url>
+      <description>
+        <p>Photoshop documents open with their layers, names, blend modes and masks, dragging a tool past the edge of a zoomed-in canvas scrolls the view, and moved shapes, text and selections line up with the other objects in the image under a pink guide. The eraser gains Opacity and Feather sliders, a single Escape now deselects, the Text tool's font list can be searched, and a text or shape object can be dragged onto another layer in the Layers panel.</p>
+      </description>
+    </release>
+    <release version="0.4.0" date="2026-09-15">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.4.0</url>
+      <description>
+        <p>File &gt; Save as Impasto project… saves the open image as an OpenRaster file, the only format Impasto exports that keeps layers, masks, text, shapes and effect nodes editable, and the Magic Wand's tolerance slider now retunes the selection you already have instead of needing another click per guess. This release also fixes the Save dialog dropping you back in the folder you started in when it has to correct a file name, aspect ratios that did not reduce crowding the status bar, and the seam dithering left along the right and bottom edge of every region it rendered.</p>
+      </description>
+    </release>
+    <release version="0.3.1" date="2026-09-10">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.3.1</url>
+      <description>
+        <p>Buttons in the always-visible chrome — the toolbox's tool buttons and stacked-tool flyouts, the quick access toolbar, the status bar's zoom buttons, the dock pads' window buttons, and the colors window's swap and reset buttons — now activate on button press instead of button release, so a click whose pointer is still moving registers instead of silently doing nothing. Layer rows select on press for the same reason. The floating Colors window also no longer crashes the application before it opens.</p>
+      </description>
+    </release>
+    <release version="0.3.0" date="2026-09-10">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.3.0</url>
+      <description>
+        <p>The layers pad menu gains a Thumbnail Size slider that grows the layer thumbnails in both the sidebar and the floating layers window, and the side dock collapses to its icon strip once every pad in it is minimized. This release also fixes selection grips grabbing through hidden selections, layer clicks that started drags instead of switching the current layer, text-tool Cut and Copy swallowing the canvas clipboard commands, Cut/Erase/Fill acting on the wrong surface while a mask is the paint target, and redo moving a paste to the canvas's top-left corner.</p>
+      </description>
+    </release>
+    <release version="0.2.1" date="2026-09-05">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.2.1</url>
+      <description>
+        <p>The popover hint preference's middle option is now "Tool buttons" and means it: hints appear on the toolbox's tool buttons and nowhere else. This release also fixes off-by-one data loss along the canvas's far edges in Levels, Feather, Auto Crop, the smooth eraser, the magic wand and paint bucket, and an Align Object placement error.</p>
+      </description>
+    </release>
+    <release version="0.2.0" date="2026-09-02">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.2.0</url>
+      <description>
+        <p>The Line/Curve tool gains a Type dropdown for how new points join their neighbours, a Close shape toggle so fill modes work on a line or curve, and S/D shortcuts to snap a control point's tension. The layers dock now highlights the object being edited on the canvas. Linux releases add a single-file AppImage. This release also fixes a long list of tool-switch crashes, leaks and selection bugs in the shape, text, move and gradient tools.</p>
+      </description>
+    </release>
+    <release version="0.1.1" date="2026-08-28">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.1.1</url>
+      <description>
+        <p>Fixes saving under a file name with no extension. The file is no longer written to a different path than the one chosen, and a dotfile-style name now gets the selected format's extension.</p>
+      </description>
+    </release>
+    <release version="0.1.0" date="2026-08-27">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.1.0</url>
+      <description>
+        <p>Shapes and text are now editable objects with their own layer rows and per-object history, and layer effects are non-destructive and saved in .ora files. This release also adds autosave, a floating Colors window with an eyedropper and CSS color input, per-layer solo visibility, and a range of fixes.</p>
+      </description>
+    </release>
+    <release version="0.0.1" date="2026-08-09">
+      <url>https://github.com/zbcoding/ImpastoPaint/releases/tag/v0.0.1</url>
+      <description>
+        <p>First Impasto release, forked from Pinta 3.1.2.</p>
+      </description>
+    </release>
+    <!-- Pinta 3.1.2 and earlier: see CHANGELOG.md. Software centres show only
+         Impasto releases here; appstream requires this list be version-ordered. -->
+  </releases>
+</component>

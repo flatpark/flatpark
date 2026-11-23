@@ -1,10 +1,10 @@
-id: com.github.zbcoding.Impasto
+id: io.github.zbcoding.Impasto
 name: Impasto
 summary: Paint and edit images, with editable shape and text objects
 website: https://github.com/zbcoding/ImpastoPaint
 source_url: https://github.com/zbcoding/ImpastoPaint
 build:
-  manifest: com.github.zbcoding.Impasto.yml
+  manifest: io.github.zbcoding.Impasto.yml
   branch: stable
   mode: extra-data
 catalog:
