@@ -58,6 +58,7 @@ jobs:
               exit 0
           fi
           claim='If you would like to package it yourself, comment `/claim` and the issue is assigned to you, so nobody else starts on the same app; `/unclaim` gives it back. If it is already assigned, ask that person here before starting.'
+          agent='An AI agent can do most of the packaging: see [package an app with your agent](https://github.com/flatpark/flatpark#package-an-app-with-your-agent).'
           # A request comes from someone outside; a discover issue is one of
           # our own scans, where a thank-you would read oddly.
           if [ "$LABEL" = app-request ]; then
@@ -65,8 +66,8 @@ jobs:
           else
               lead="This app is open for anyone to package."
           fi
-          printf '%s %s ([Claims](https://flatpark.org/docs/reviewers/issues/#claims))\n\n%s\n' \
-              "$lead" "$claim" "$marker" > body.md
+          printf '%s %s ([Claims](https://flatpark.org/docs/reviewers/issues/#claims)) %s\n\n%s\n' \
+              "$lead" "$claim" "$agent" "$marker" > body.md
           gh issue comment "$ISSUE" --body-file body.md >/dev/null
 
   claim:

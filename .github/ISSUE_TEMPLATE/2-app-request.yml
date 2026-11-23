@@ -8,6 +8,9 @@ body:
       value: |
         A name or a link is enough; we look up the rest and reply with what we found.
         Writing in Chinese is fine too.
+
+        Want it sooner, or know the app well? You can also package it yourself with
+        an AI agent: see [package an app with your agent](https://github.com/flatpark/flatpark#package-an-app-with-your-agent).
   - type: textarea
     id: app
     attributes:
