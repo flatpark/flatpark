@@ -6,39 +6,62 @@ order: 0
 # Finding apps
 
 Most apps on FlatPark were found, not submitted. The aim is good desktop apps
-that publish an official Linux build and that Flatpak users can't get yet, or
-can only get in a broken or outdated form. These are the places to look, and
-how to choose.
+that publish an official Linux build and that people want as a Flatpak but
+can't get yet, or can only get in a broken or outdated form. FlatPark goes by
+demand: an app is a candidate because people are asking for it, not because of
+where it came from.
+
+## What counts as demand
+
+A candidate needs at least one of these:
+
+- **Someone asked for a Flatpak.** An issue or discussion on the app's own
+  tracker asking for a Flatpak or a Flathub listing. Reactions and "+1"
+  comments on it add weight; the maintainer's reply says whether they'd
+  welcome one.
+- **It is popular and missing from Flathub.** 1000 GitHub stars or more, and no
+  Flathub package from its developer. At that size enough people run Linux that
+  a Flatpak is wanted even if nobody has written the issue yet.
+- **Its Flathub users were left behind.** A Flathub package that stopped
+  following upstream or was marked end-of-life while upstream kept releasing.
+  The people who installed it are the demand; Flathub's install counts and the
+  issues on `github.com/flathub/<id>` show how many.
+
+Where a lead came from doesn't count as demand by itself. In particular, an
+app having been turned down by Flathub says nothing either way: it neither
+qualifies an app nor rules it out.
 
 ## Where to look
 
-- **Popular apps on GitHub.** Desktop apps built with Electron, Tauri, Flutter,
-  Qt, GTK and the like that publish Linux release files but no Flatpak
-  repository. This is the widest channel.
-- **Flathub submissions turned down for how they were made.** Many new apps
-  submitted to Flathub are closed with an "AI Slop" label or a policy reason
-  (an AI-written manifest, a requirement to build from source). Some are real,
-  working apps, and they fit FlatPark well.
-- **Other closed Flathub submissions.** Vendor apps submitted by third parties
-  as extra-data and closed because the vendor hadn't consented, and apps whose
-  submission went stale.
+- **Flatpak requests on GitHub.** Issues titled with "flatpak" or "flathub" on
+  repositories of desktop apps that publish Linux release files. This is the
+  most direct channel: the demand is already written down.
+- **Popular apps on GitHub.** Desktop apps with 1000 stars or more, built with
+  Electron, Tauri, Flutter, Qt, GTK and the like, that publish Linux release
+  files but aren't on Flathub.
+- **Flathub's closed submissions.** New-app PRs on `flathub/flathub` closed
+  without merging, for whatever reason: a policy, a vendor binary submitted
+  without the vendor's consent, a submission that went stale. Treat the list as
+  names to check, not as candidates: most are young projects with no users yet,
+  and each one still has to show demand like any other.
 - **Flathub packages that fell behind.** Packages maintained by someone other
   than the developer that stopped following upstream releases, and packages
-  Flathub marked end-of-life while upstream kept releasing. Their users are
-  left on an old build with nowhere to go.
-- **Requests.** Issues on FlatPark, and Flatpak requests on the app's own
-  tracker.
+  Flathub marked end-of-life while upstream kept releasing.
+
+`[App Request]` issues on FlatPark aren't a discovery channel: someone has
+already asked, so the app is handled by [answering the request](#answering-an-app-request).
+A scan only checks them so it doesn't propose the same app twice.
 
 ## Choosing
 
-Rank candidates by fit, not popularity. A couple of hundred GitHub stars is
-already enough; past that, stars say nothing. A young project with few stars
-can be a good pick if it is actively released and used. What matters:
+Demand gets an app onto the list; fit decides what to package first. Past the
+demand bar, more stars don't make a better candidate. What matters:
 
 - an official Linux build, released recently, at a stable URL;
 - not on Flathub from its developer ([can it be packaged?](can-it-be-packaged.md));
 - its main feature works in the sandbox;
-- people want it: requests on its tracker, a Flathub attempt that stalled;
+- how strong the demand is: an open request with many reactions beats stars
+  alone;
 - a reasonable download size.
 
 The best openings are developers who already want a Flatpak but haven't got
@@ -61,18 +84,38 @@ Build the list of apps to skip, so you don't propose something already handled:
 - apps that were removed: `git log --oneline -i --grep='de-list'` names them.
   A removed app stays out unless something has changed;
 - apps already proposed or requested: `gh issue list -R flatpark/flatpark --state all --label app-discover` and `--label app-request`.
+  An app with an `[App Request]` is skipped, not re-proposed as a discovery.
+
+### Flatpak requests on GitHub
+
+Search issues across GitHub for Flatpak requests, then keep the repositories
+that are desktop apps with Linux release files. The search API returns at most
+1000 results per query and allows 30 queries a minute, so split by creation
+date and pause between queries:
+
+```sh
+for term in flatpak flathub; do
+  for range in <from>..<mid> <mid>..<to>; do   # narrow the ranges until each returns under 1000
+    gh api -X GET search/issues -f q="$term in:title is:issue created:$range" \
+      -f per_page=100 --paginate \
+      -q '.items[] | [.repository_url, .html_url, .reactions.total_count, .state] | @tsv'
+    sleep 2.5
+  done
+done | sed 's#https://api.github.com/repos/##' | sort -u > requests.tsv
+```
+
+Drop issues that are about the project's own existing Flatpak (bug reports
+against a Flathub package, build failures). Keep open requests, and closed ones
+the maintainer closed as "not now" or "help wanted" rather than "no".
 
 ### GitHub popular apps
 
-Search repositories by toolkit topic, recently pushed, then keep those whose
-latest release has a Linux file. The search API returns at most 1000 results per
-query and allows 30 queries a minute, so split each topic by star range and
-pause between queries:
+Search repositories by toolkit topic, 1000 stars and up, recently pushed:
 
 ```sh
 for t in tauri electron flutter-desktop wails gpui iced egui slint avalonia compose-desktop \
          qt6 gtk4 tauri-app electron-app desktop-app linux-app flutter-app dioxus; do
-  for stars in 200..400 401..2000 '>2000'; do
+  for stars in 1000..3000 '>3000'; do
     gh api -X GET search/repositories -f q="topic:$t stars:$stars pushed:>=<date>" \
       -f per_page=100 --paginate -q '.items[].full_name'
     sleep 2.5
@@ -80,7 +123,9 @@ for t in tauri electron flutter-desktop wails gpui iced egui slint avalonia comp
 done | sort -u > candidates.txt
 ```
 
-For each repository, list its recent releases
+### Release files
+
+For each repository from either list, list its recent releases
 (`gh api 'repos/<repo>/releases?per_page=5'`), take the newest that isn't a
 draft or prerelease, and look for an x86_64 `.deb`, `.tar.gz`, `.zip`, AppImage
 or `.flatpak` published in the last few months. Drop everything on the skip
@@ -109,29 +154,30 @@ list.
 
 ### Flathub's closed submissions
 
-```sh
-# turned down with the AI Slop label
-gh api -X GET search/issues -f q='repo:flathub/flathub is:pr label:"AI Slop" created:>=<date>'
+One list covers every reason a submission was closed:
 
-# closed without merging, other reasons
+```sh
 gh search prs --repo flathub/flathub --state closed --merged=false --base new-pr \
-  --closed '<from>..<to>' --limit 1000 --json number,title,labels,url
+  --closed '<from>..<to>' --limit 1000 --json number,title,url
 ```
 
-For the second list, read the reviewers' comments for the reason, and look at
-the diffs: a `type: extra-data` source marks a vendor binary someone tried to
-submit. Flathub requires the vendor's consent for those; FlatPark doesn't, but
-the vendor still decides whether it stays.
+Don't filter or rank by the labels reviewers put on these PRs; a label is not a
+reason to pick an app or to skip one. For each, find the upstream repository and
+run the [demand check](#per-candidate). Keep only the apps that pass: a request
+on their tracker, 1000 stars or more, or established users (a release history,
+issues from people other than the author).
 
-Most of the AI Slop list is days-old repositories with no users. Look for the
-few that are established: a release history, issues from people other than the
-author, and the author's own submission turned down on policy rather than on
-the app.
+Read the reviewers' comments for why it closed, and look at the diff: a
+`type: extra-data` source marks a vendor binary someone tried to submit. Flathub
+requires the vendor's consent for those; FlatPark doesn't, but the vendor still
+decides whether it stays.
 
 ### Per candidate
 
-- **Demand:** `gh api -X GET search/issues -f q='repo:<owner>/<repo> flatpak in:title,body'`.
-  Read the maintainer's replies; their concerns often name the real blocker.
+- **Demand:** `gh api -X GET search/issues -f q='repo:<owner>/<repo> flatpak in:title,body'`,
+  and the star count. Note which [signal](#what-counts-as-demand) the app
+  meets; without one, it isn't a candidate. Read the maintainer's replies;
+  their concerns often name the real blocker.
 - **Prior attempts:** `gh api -X GET search/issues -f q='repo:flathub/flathub is:pr <name> in:title'`,
   and why each closed.
 - **Upstream's own Flatpak:** read the README. A `.flatpakref` or a
@@ -170,11 +216,12 @@ Found by the app discovery scan (<YYYY-MM-DD>).
 | Latest release | <version>, <date> |
 | Linux files | <kinds and sizes> |
 | Flathub | <not there / EOL / third-party package, with links> |
+| Demand | <Flatpak request on its tracker / 1000+ stars / left-behind Flathub users> |
 
 ## Why there is demand
 
-- <requests on its tracker with links and 👍 counts, closed Flathub attempts
-  and why, the maintainer's own words>
+- <requests on its tracker with links and 👍 counts, stars, the maintainer's
+  own words; earlier Flathub attempts and why they closed, as context>
 
 ## Notes for packaging
 
@@ -185,9 +232,10 @@ Found by the app discovery scan (<YYYY-MM-DD>).
 <Package it / Ask upstream first / Prototype X first>
 ```
 
-Write it in English and link every claim. If there is no explicit demand, say
-so and give the case that remains. Don't rank candidates into tiers or hold
-one back as "too young" or "demand not proven": real demand is enough, and only
+Write it in English and link every claim. Only open an issue for an app that
+meets a [demand signal](#what-counts-as-demand); if it qualifies on stars alone,
+say there is no explicit request yet. Don't rank candidates into tiers or hold
+one back as "too young": demand is enough, and only
 a concrete reason (the developer's own Flathub PR or stated plan, upstream
 declining, a hard sandbox blocker) means waiting. Packaging concerns go under
 Notes, not as reasons to wait. An app you looked at and decided against

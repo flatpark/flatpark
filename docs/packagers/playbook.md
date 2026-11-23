@@ -35,11 +35,11 @@ their own yet. Where this page and a linked page disagree, the linked page wins.
 
 ## 1. Find a candidate
 
-[Finding apps](finding-apps.md): the channels (GitHub popular apps, Flathub's
-closed submissions, Flathub packages that fell behind, requests), the Flathub
-checks, and how to rank by fit. Record demand and prior attempts for each
-candidate; the PR and any upstream message use them. Re-run the searches
-periodically to catch new releases and new Flathub rejections.
+[Finding apps](finding-apps.md): what counts as demand (a Flatpak request on
+the app's tracker, 1000+ stars and not on Flathub, Flathub users left behind),
+the channels, the Flathub checks, and how to rank by fit. Record demand and prior attempts for
+each candidate; the PR and any upstream message use them. Re-run the searches
+periodically to catch new requests and releases.
 
 Before packaging an app that has an `[App Request]` or `[App Discover]` issue,
 check it isn't assigned to someone else, then comment `/claim` on it
