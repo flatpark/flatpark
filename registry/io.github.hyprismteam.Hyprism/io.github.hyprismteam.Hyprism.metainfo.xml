@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.hyprismteam.Hyprism</id>
+  <name>Hyprism</name>
+  <summary>Manage Hytale instances, profiles and mods</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="io.github.hyprismteam"><name>Hyprism Team</name></developer>
+  <description>
+    <p>Hyprism is an unofficial Hytale launcher for managing isolated game instances, profiles and mods. It supports official account authentication and browsing mods.</p>
+    <p>This community package repackages the official upstream Linux build unmodified. A licensed Hytale account is needed to download the game from the official servers.</p>
+  </description>
+  <url type="homepage">https://hyprism.org/</url>
+  <url type="vcs-browser">https://github.com/hyprismteam/Hyprism</url>
+  <url type="bugtracker">https://github.com/hyprismteam/Hyprism/issues</url>
+  <screenshots>
+    <!-- Captured from the packaged Hyprism 4.0.0 test run. -->
+    <screenshot type="default">
+      <caption>Hytale news in Hyprism</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.hyprismteam.Hyprism/screenshots/news.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="4.0.0" date="2026-10-11"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>
