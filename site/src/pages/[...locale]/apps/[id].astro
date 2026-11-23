@@ -68,7 +68,7 @@ const detailRows = [
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
   app.urls?.help && { label: t('detail.row.support'), value: t('detail.row.help'), href: app.urls.help },
   app.sourceUrl && { label: t('detail.row.source'), value: app.name, href: app.sourceUrl },
-  app.packagingUrl && { label: t('detail.row.packaging'), value: 'flatpark/registry', href: app.packagingUrl },
+  app.packagingUrl && { label: t('detail.row.packaging'), value: `registry/${app.id}`, title: `registry/${app.id}`, href: app.packagingUrl },
 ].filter(Boolean);
 
 // Other Flatpak apps it runs with (flatpark.yml `requires:`): installCmd
