@@ -108,8 +108,10 @@ The trust question is **where the bytes you run come from**, not the license:
   reviews them. They are granted only when the app's feature needs them, and
   the app page marks them with a warning.
 - Review looks for obvious malicious behaviour in what is shipped: persistence,
-  miners, reverse shells, downloading and running unpinned code. It doesn't
-  audit the app's source.
+  miners, reverse shells, packaging that downloads and runs unpinned code
+  (what the unmodified app downloads for itself, such as updates, game files or
+  the tools it needs, is the app's own behavior). It doesn't audit the app's
+  source.
 - **Non-FOSS is allowed** — openness is not the bar. We reject on purpose, not
   license: piracy, malware, trademark impersonation, or anything illegal to
   distribute.
