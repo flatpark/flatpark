@@ -63,6 +63,7 @@ jobs:
       contents: write
       pull-requests: write
       actions: write        # dispatch publish.yml after the auto-merge
+      issues: write         # open/close this app's ci-alert issues (scripts/ci-alert.sh)
     # Serialize per app: a re-ping for the same app (retag, workflow re-run), or
     # a manual run racing a ping, queues behind the running one instead of
     # racing the force-push. Different apps proceed in parallel on disjoint
@@ -110,9 +111,21 @@ jobs:
       - name: Recompute pins
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          # check-updates.sh only warns on a resolver failure and exits 0, so
+          # without this a failed resolver read as "no pin changes" and the run
+          # went green.
+          FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
         run: |
           echo "update $APP_ID (trigger: $TRIGGER, upstream: ${UPSTREAM:-?} ${TAG:-?})"
+          : > "$FAILED_OUT"
           ./scripts/check-updates.sh "$APP_ID"
+          if [ -s "$FAILED_OUT" ]; then
+            # The sweep owns the resolver alert (one batch issue it rewrites
+            # every run), so a failure here only turns this run red.
+            echo "::error title=resolver failed for $APP_ID::$(cut -f2 "$FAILED_OUT")"
+            exit 1
+          fi
+          echo "resolved=1" >> "$GITHUB_ENV"
           # Nothing moved on the common re-ping / not-yet-uploaded path, so the
           # steps below skip instead of re-downloading the current payload.
           git diff --quiet -- registry/ || echo "pins_changed=1" >> "$GITHUB_ENV"
@@ -129,7 +142,18 @@ jobs:
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Verify the new payload unpacks
         if: env.pins_changed != ''
-        run: INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$APP_ID"
+        run: |
+          rc=0
+          INSTALL_RUNTIME=1 ./scripts/check-apply-extra.sh "$APP_ID" || rc=$?
+          case "$rc" in
+            0) echo "unpacked=1" >> "$GITHUB_ENV" ;;
+            # The download failed, so the payload was never checked: no alert,
+            # the same as the sweep. Its next run retries.
+            2) echo "::warning title=download failed for $APP_ID::not pinned; the next update-check retries it"
+               exit 1 ;;
+            *) echo "held=1" >> "$GITHUB_ENV"
+               exit 1 ;;
+          esac
       - name: Open / update PR if pins changed, then merge it
         env:
           GH_TOKEN: ${{ github.token }}
@@ -180,6 +204,7 @@ jobs:
             gh pr edit "$branch" --title "$title" --body "$body"
           fi
           new="$(gh pr list --head "$branch" --state open --json number -q '.[0].number')"
+          echo "pr=$new" >> "$GITHUB_ENV"
 
           # Auto-merge, on the daily sweep's terms: nothing here waits for a
           # review, because the diff is pins only and the payload behind it was
@@ -255,4 +280,29 @@ jobs:
             else
               echo "no orphaned pr-checks run appeared for $branch; nothing to clean"
             fi
+          fi
+      # The sweep opens two kinds of alert that can name this app. A manual or
+      # dispatched run reaches nobody when it fails (GitHub only emails failed
+      # *scheduled* runs), so this run keeps both in step itself:
+      # - update-check/resolvers: the batch "resolver(s) failed" issue. A
+      #   resolver that just worked here drops its row; the last row closes it.
+      # - update-check/<id>: "no longer unpacks". Opened when this run holds the
+      #   pin back, closed when it verifies a payload — the sweep's rules.
+      - name: Open / close this app's alerts
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          via=""
+          [ -z "${pr:-}" ] || via=" (#$pr)"
+          if [ "${resolved:-}" = 1 ]; then
+            ./scripts/ci-alert.sh drop-row "update-check/resolvers" "$APP_ID" \
+              "update-check: %d resolver(s) failed" \
+              "\`$APP_ID\` resolved again in a single-app update$via."
+          fi
+          if [ "${held:-}" = 1 ]; then
+            ./scripts/held-back-alert.sh "$APP_ID"
+          elif [ "${unpacked:-}" = 1 ]; then
+            ./scripts/ci-alert.sh resolve "update-check/$APP_ID" \
+              "The new payload for \`$APP_ID\` unpacks again; its pin refreshed$via."
           fi
