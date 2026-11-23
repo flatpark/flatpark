@@ -10,7 +10,7 @@
     <p>Hyprism is an unofficial Hytale launcher for managing isolated game instances, profiles and mods. It supports official account authentication and browsing mods.</p>
     <p>This community package repackages the official upstream Linux build unmodified. A licensed Hytale account is needed to download the game from the official servers.</p>
   </description>
-  <url type="homepage">https://hyprism.org/Hyprism/</url>
+  <url type="homepage">https://hyprism.org/</url>
   <url type="vcs-browser">https://github.com/hyprismteam/Hyprism</url>
   <url type="bugtracker">https://github.com/hyprismteam/Hyprism/issues</url>
   <screenshots>

@@ -1,7 +1,7 @@
 id: io.github.hyprismteam.Hyprism
 name: Hyprism
 summary: Manage Hytale instances, profiles and mods
-website: https://hyprism.org/Hyprism/
+website: https://hyprism.org/
 source_url: https://github.com/hyprismteam/Hyprism
 build:
   manifest: io.github.hyprismteam.Hyprism.yml
