@@ -20,7 +20,7 @@
       <li>Communicate via chat, voice calls, and voice notes with desktop notifications and approval cards.</li>
     </ul>
     <p>An account is required to sign in and use Grok Bot; the desktop app itself is free to install.</p>
-    <p>Permissions: this package keeps a tight sandbox by default — network, display, GPU, audio (for voice and notifications), desktop notifications, and Secret Service keyring access. All application state is kept inside the app's own XDG data directory (<code>~/.var/app/ai.x.GrokBot</code>), with no host filesystem access granted by default. Files selected through the file chooser remain accessible through the desktop portal.</p>
+    <p>Permissions: this package keeps a tight sandbox by default — network, display, GPU, audio (for voice and notifications), desktop notifications, and desktop keyring access (Secret Service or KWallet) for your sign-in. All application state is kept inside the app's own XDG data directory (<code>~/.var/app/ai.x.GrokBot</code>), with no host filesystem access granted by default. Files selected through the file chooser remain accessible through the desktop portal.</p>
     <p>Local command execution is optional in Grok Bot. Inside the sandbox, local commands see only the tools shipped in the Freedesktop runtime (such as <code>bash</code>, <code>python3</code>, <code>curl</code>, <code>jq</code>, <code>ssh</code>, and coreutils), not tools installed on your host system. A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
     <ul>
       <li>Give local tools access to a specific folder: <code>flatpak override --user --filesystem=~/Projects ai.x.GrokBot</code></li>

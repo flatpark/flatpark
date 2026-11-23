@@ -39,6 +39,7 @@ Won't install, won't start, loses data, or its main feature doesn't work.
 | thinkorswim | Blank login dialog | JxBrowser 9's sandbox needs user namespaces | Upstream (probably) | Us | — | [Starts and draws](../reviewers/testing-playbook.md#it-starts-and-draws) |
 | Authme | Crash on start in no-auth mode | 7.x uses the kernel keyring only | Upstream (probably) | Us | — (#527) | [Main feature](../reviewers/testing-playbook.md#the-main-feature) |
 | Filee | Failed to start: portable data directory is read-only | Filee 2.5 portable mode selected `/app/extra/filee/data` | Upstream (v2.5.0) | User | — | [Starts and draws](../reviewers/testing-playbook.md#it-starts-and-draws) |
+| Grok Bot | Logged out on every quit on KDE | Chromium picks KWallet there; `kwalletd5`/`6` weren't granted, so `safeStorage` was unavailable and the sign-in stayed in memory | Listing | User | — | [Data survives](../reviewers/testing-playbook.md#data-survives-a-restart) |
 
 ## Minor
 
