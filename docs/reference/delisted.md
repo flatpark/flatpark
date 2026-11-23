@@ -87,6 +87,7 @@ never comes back.
 | `io.github.francisreboucas.constructcad` | `io.github.francisreboucas.constructcraft` | [#1093](https://github.com/flatpark/flatpark/pull/1093), 2026-11-09 |
 | `com.longbridgeapp.LongbridgePro` | `com.longbridge.Longbridge` | [#1121](https://github.com/flatpark/flatpark/pull/1121), 2026-11-10 |
 | `com.kang.nyaterm.preview` | `com.kang.nyaterm` | [#1396](https://github.com/flatpark/flatpark/pull/1396), 2026-11-19 |
+| `com.github.zbcoding.Impasto` | `io.github.zbcoding.Impasto` | [#1518](https://github.com/flatpark/flatpark/pull/1518), 2026-11-23 |
 
 ## Stopped or broken
 

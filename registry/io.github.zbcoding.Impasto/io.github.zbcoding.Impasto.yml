@@ -1,4 +1,4 @@
-id: com.github.zbcoding.Impasto
+id: io.github.zbcoding.Impasto
 runtime: org.gnome.Platform
 runtime-version: "51"
 sdk: org.gnome.Sdk
@@ -23,32 +23,36 @@ finish-args:
   - --filesystem=xdg-pictures
   - --filesystem=xdg-documents
   - --filesystem=xdg-download
+  # Read-only access to the data of the previous id, com.github.zbcoding.Impasto.
+  # On first start the app copies its settings, autosaves and recent files from
+  # there into its own ~/.var/app directory; it never writes to the old one.
+  - --filesystem=~/.var/app/com.github.zbcoding.Impasto:ro
 modules:
   - name: impasto
     buildsystem: simple
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 impasto-wrapper /app/bin/impasto
-      - install -Dm644 com.github.zbcoding.Impasto.desktop /app/share/applications/com.github.zbcoding.Impasto.desktop
-      - install -Dm644 com.github.zbcoding.Impasto.metainfo.xml /app/share/metainfo/com.github.zbcoding.Impasto.metainfo.xml
-      - install -Dm644 com.github.zbcoding.Impasto.svg /app/share/icons/hicolor/scalable/apps/com.github.zbcoding.Impasto.svg
+      - install -Dm644 io.github.zbcoding.Impasto.desktop /app/share/applications/io.github.zbcoding.Impasto.desktop
+      - install -Dm644 io.github.zbcoding.Impasto.metainfo.xml /app/share/metainfo/io.github.zbcoding.Impasto.metainfo.xml
+      - install -Dm644 io.github.zbcoding.Impasto.svg /app/share/icons/hicolor/scalable/apps/io.github.zbcoding.Impasto.svg
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: impasto.zip
         only-arches:
           - x86_64
-        url: https://github.com/zbcoding/ImpastoPaint/releases/download/v0.7.2/Impasto-linux-dotnet-10.0.x.zip
-        sha256: e791cd792c0e5cc442d42530a138b17fe519b7f00d541fd27539e68eb0048411
-        size: 42302304
+        url: https://github.com/zbcoding/ImpastoPaint/releases/download/v0.7.4/Impasto-linux-dotnet-10.0.x.zip
+        sha256: 7ee1ff4707af2a7a587b591305f267adeed35c761d0aba608bd054b5f12ad865
+        size: 42303349
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
       - type: file
         path: impasto-wrapper
       - type: file
-        path: com.github.zbcoding.Impasto.desktop
+        path: io.github.zbcoding.Impasto.desktop
       - type: file
-        path: com.github.zbcoding.Impasto.metainfo.xml
+        path: io.github.zbcoding.Impasto.metainfo.xml
       - type: file
-        path: com.github.zbcoding.Impasto.svg
+        path: io.github.zbcoding.Impasto.svg
