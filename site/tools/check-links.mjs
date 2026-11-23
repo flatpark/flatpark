@@ -63,27 +63,40 @@ const SOFT_OK_HOSTS = new Set([
   ...(process.env.LINK_CHECK_SOFT_OK_HOSTS || '').split(',').filter(Boolean),
 ]);
 
-// Hosts that answer automated clients with an HTTP error on pages a browser
-// opens fine. gitlab.gnome.org gates its issue trackers: a non-browser client
-// gets a 404, one with a browser User-Agent a 406, while the same URL opens in
-// a browser. Waived only for that status, on the issue tracker paths, and
-// never for screenshots, which our pages hotlink (#1376).
-// LINK_CHECK_BOT_GATED_HOSTS adds hosts with the same rule (used by the tests).
-const BOT_GATED = [
-  { host: 'gitlab.gnome.org', statuses: [404, 406], path: /\/-\/issues\/?$/ },
-  ...(process.env.LINK_CHECK_BOT_GATED_HOSTS || '').split(',').filter(Boolean)
-    .map((host) => ({ host, statuses: [404, 406], path: /\/-\/issues\/?$/ })),
-];
+// GitLab instances that answer automated clients with an HTTP error on issue
+// tracker pages a browser opens fine: gitlab.gnome.org gives a non-browser
+// client a 404 and one with a browser User-Agent a 406 (#1376), and it sends
+// any client to its sign-in page, which answers 200, for a project that is gone
+// or private. For such a page (`<project>/-/issues`), after one of those
+// answers, the GitLab API decides: `api/v4/projects/<project>/issues` answers automated
+// clients, with 200 when the project's issues are open to everyone and 404
+// when the project is gone or keeps its issues private, so a tracker that
+// really is closed still counts as broken. Never for screenshots, which our
+// pages hotlink.
+// LINK_CHECK_GITLAB_HOSTS adds hosts (used by the tests).
+const GITLAB_ISSUE_HOSTS = new Set([
+  'gitlab.gnome.org',
+  ...(process.env.LINK_CHECK_GITLAB_HOSTS || '').split(',').filter(Boolean),
+]);
 
-function botGated(entry, status) {
-  if (entry.type === 'screenshot') return false;
+// The API URL that tells whether the issue tracker at @entry's URL is open,
+// or null when the URL is not one to ask about.
+function gitlabIssuesApi(entry, res) {
+  if (entry.type === 'screenshot') return null;
   let url;
+  let landed;
   try {
     url = new URL(entry.url);
+    landed = new URL(res.url || entry.url);
   } catch {
-    return false;
+    return null;
   }
-  return BOT_GATED.some((g) => g.host === url.hostname && g.statuses.includes(status) && g.path.test(url.pathname));
+  const signIn = landed.hostname === url.hostname && landed.pathname === '/users/sign_in';
+  if (res.status !== 404 && res.status !== 406 && !signIn) return null;
+  if (!GITLAB_ISSUE_HOSTS.has(url.hostname)) return null;
+  const m = url.pathname.match(/^\/(.+?)\/-\/issues\/?$/);
+  if (!m) return null;
+  return `${url.origin}/api/v4/projects/${encodeURIComponent(m[1])}/issues?per_page=1`;
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -189,9 +202,12 @@ async function probe(entry) {
       try { await res.body?.cancel(); } catch {}
       return { ...entry, status: 403, ok: true, warn: true };
     }
-    if (botGated(entry, res.status)) {
+    const issuesApi = gitlabIssuesApi(entry, res);
+    if (issuesApi) {
       try { await res.body?.cancel(); } catch {}
-      return { ...entry, status: res.status, ok: true, warn: true };
+      const api = await request('GET', issuesApi);
+      try { await api.body?.cancel(); } catch {}
+      return { ...entry, status: `${res.status}, issues API ${api.status}`, ok: api.ok };
     }
     const out = { ...entry, status: res.status, ok: res.ok };
     try { await res.body?.cancel(); } catch {}

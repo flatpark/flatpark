@@ -128,45 +128,55 @@ set -e
 printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); const b=d.results.filter(r=>!r.ok&&r.type==="extra-data"); if(d.broken!==2||b.length!==2){console.error(JSON.stringify(d.results));process.exit(1)}'
 kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
 
-# A host that gates its issue tracker (gitlab.gnome.org answers automated
-# clients 404 or 406 there): waived only on /-/issues, only for 404 and 406,
-# and never for a screenshot. A local server plays the host.
-cat > "$tmp/gated-server.mjs" <<'EOF2'
+# A GitLab host that gates its issue tracker (gitlab.gnome.org answers
+# automated clients 404 or 406 there): the API decides, and only for a 404 or
+# 406 on <project>/-/issues, never for a screenshot. A local server plays the
+# host: the page always 404s, the API knows owner/project and not gone/project.
+cat > "$tmp/gitlab-server.mjs" <<'EOF2'
 import { createServer } from 'node:http';
 const srv = createServer((req, res) => {
-  res.writeHead(req.url.startsWith('/gone/') ? 410 : 404);
+  if (req.url === '/api/v4/projects/owner%2Fproject/issues?per_page=1') {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    return res.end('[]');
+  }
+  if (req.url === '/users/sign_in') { res.writeHead(200); return res.end('sign in'); }
+  // GitLab sends a project that is gone or private to its sign-in page
+  if (req.url.startsWith('/private/')) { res.writeHead(302, { location: '/users/sign_in' }); return res.end(); }
+  res.writeHead(req.url.startsWith('/other/') ? 410 : 404);
   res.end();
 });
 srv.listen(0, '127.0.0.1', () => console.log(srv.address().port));
 EOF2
 : > "$tmp/port"
-node "$tmp/gated-server.mjs" > "$tmp/port" &
+node "$tmp/gitlab-server.mjs" > "$tmp/port" &
 srv_pid=$!
 for _ in $(seq 50); do [ -s "$tmp/port" ] && break; sleep 0.1; done
 port="$(cat "$tmp/port")"
-[ -n "$port" ] || { echo "FAIL: gated server did not report a port"; exit 1; }
+[ -n "$port" ] || { echo "FAIL: gitlab server did not report a port"; exit 1; }
 gated="$tmp/gated"; mkdir -p "$gated/apps"
 cat > "$gated/apps/io.flatpark.Gated.json" <<EOF2
 { "id": "io.flatpark.Gated", "name": "Gated", "screenshots": [], "website": "", "urls": { "bugtracker": "http://127.0.0.1:$port/owner/project/-/issues" }, "sourceUrl": "" }
 EOF2
-out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_BOT_GATED_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
-printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==0||d.warned!==1){console.error(JSON.stringify(d.results));process.exit(1)}'
-# Not on the list -> the 404 is a broken link.
+# The API has the project's issues -> OK, not even a warning.
+out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_GITLAB_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==0||d.warned!==0){console.error(JSON.stringify(d.results));process.exit(1)}'
+# Not a GitLab host on the list -> the 404 is a broken link.
 set +e
 FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 node "$ROOT/site/tools/check-links.mjs" >/dev/null 2>&1
 rc=$?
 set -e
-[ "$rc" -eq 1 ] || { echo "FAIL: a 404 from a host not on the gated list should be broken, got $rc"; exit 1; }
-# Another path, another status, or a screenshot on a gated host -> broken.
+[ "$rc" -eq 1 ] || { echo "FAIL: a 404 from a host not on the GitLab list should be broken, got $rc"; exit 1; }
+# A project the API doesn't know, one sent to the sign-in page, another path,
+# another status, and a screenshot of a tracker that is open -> all broken.
 cat > "$gated/apps/io.flatpark.Gated.json" <<EOF2
-{ "id": "io.flatpark.Gated", "name": "Gated", "screenshots": [{ "url": "http://127.0.0.1:$port/owner/project/-/issues" }], "website": "http://127.0.0.1:$port/owner/project/missing", "urls": { "bugtracker": "http://127.0.0.1:$port/gone/-/issues" }, "sourceUrl": "" }
+{ "id": "io.flatpark.Gated", "name": "Gated", "screenshots": [{ "url": "http://127.0.0.1:$port/owner/project/-/issues" }], "website": "http://127.0.0.1:$port/owner/project/missing", "urls": { "bugtracker": "http://127.0.0.1:$port/gone/project/-/issues", "help": "http://127.0.0.1:$port/other/project/-/issues", "contact": "http://127.0.0.1:$port/private/project/-/issues" }, "sourceUrl": "" }
 EOF2
 set +e
-out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_BOT_GATED_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
+out="$(FLATPARK_DATA_DIR="$gated" LINK_CHECK_RETRIES=0 LINK_CHECK_GITLAB_HOSTS=127.0.0.1 node "$ROOT/site/tools/check-links.mjs" --json)"
 rc=$?
 set -e
-[ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 for a gated host's other path, status and screenshot, got $rc"; exit 1; }
-printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==3||d.warned!==0){console.error(JSON.stringify(d.results));process.exit(1)}'
+[ "$rc" -eq 1 ] || { echo "FAIL: expected exit 1 for an unknown project, a sign-in redirect, another path, another status and a screenshot, got $rc"; exit 1; }
+printf '%s' "$out" | node -e 'const d=JSON.parse(require("fs").readFileSync(0,"utf8")); if(d.broken!==5||d.warned!==0){console.error(JSON.stringify(d.results));process.exit(1)}'
 kill "$srv_pid" 2>/dev/null; wait "$srv_pid" 2>/dev/null || true
 
 # A screenshot committed in the registry is never fetched (its main URL 404s
