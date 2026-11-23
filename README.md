@@ -39,12 +39,28 @@ flatpak --user install flatpark <app-id>
 `--user` installs into your home (no admin); drop it from both commands for a
 system-wide install. Browse the catalog at <https://flatpark.org>.
 
+## Package an app with your agent
+
+You don't need to know Flatpak to add an app. This repository's documentation
+is written for AI agents to follow, and the
+[packaging playbook](docs/packagers/playbook.md) takes an agent from a manifest
+to a tested PR. Open this repo in your agent (e.g. Claude Code) and ask:
+
+> I want to publish **\<app or upstream URL\>** to FlatPark. Start from
+> `docs/README.md` and follow the packaging playbook.
+
+Your part is mostly testing: running the app and checking that what you use it
+for works. That makes the people who requested an app the best ones to package
+it, especially when testing needs an account, particular hardware or knowing
+the field. If there's an issue for the app, comment `/claim` on it first so
+nobody else starts on the same one.
+
 ## For developers
 
 - **No gatekeeper.** If it's your official release, it's safe and it works in
   the sandbox, it can be listed: no matter how many users it has, how old it
-  is, or how it was written, AI included. You can also let your agent do the
-  packaging: open this repo in it and ask it to publish your app.
+  is, or how it was written, AI included. You can also
+  [let your agent do the packaging](#package-an-app-with-your-agent).
 - **The full Flatpak experience.** Your users install and update your app like
   any other Flatpak, in a sandbox, with the permissions listed on its page. It
   works with the tools they already use: GNOME Software, KDE Discover,
@@ -64,8 +80,8 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
   banking clients, only ship an installer from the vendor's own site. FlatPark
   packages them for you from that official download, so they install and
   update like any other Flatpak. Missing one?
-  [Open an issue](https://github.com/flatpark/flatpark/issues), or package it
-  yourself and open a PR.
+  [Open an issue](https://github.com/flatpark/flatpark/issues), or
+  [package it yourself](#package-an-app-with-your-agent) with your agent.
 - **If you trust the app, you can trust FlatPark.** Our goal is to get you the
   developer's official release, exactly as published. Each download is pinned
   by checksum and size, and comes straight from the developer's servers; the
@@ -93,13 +109,8 @@ system-wide install. Browse the catalog at <https://flatpark.org>.
    `[App Discover]` issues.
 4. **Package an app.** New apps are very welcome. Pick one from the
    [issues](https://github.com/flatpark/flatpark/issues?q=is%3Aissue+is%3Aopen+%22%5Bapp+discover%5D%22)
-   or bring your own. Open this repo in your agent (e.g. Claude Code) and ask:
-
-   > I want to publish **\<app or upstream URL\>** to FlatPark. Start from
-   > `docs/README.md` and follow the packaging playbook.
-
-   The [packaging playbook](docs/packagers/playbook.md) takes it from manifest
-   to tested PR.
+   or bring your own, and
+   [let your agent package it](#package-an-app-with-your-agent).
 5. **Everything else.** PRs for the website, the documentation and translations
    are just as welcome, and so is any other improvement.
 

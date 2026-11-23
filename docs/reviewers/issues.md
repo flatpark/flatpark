@@ -63,8 +63,10 @@ reacts 👍 when it worked; if someone else already holds the claim it replies
 with their name and assigns nobody. One claim per issue.
 
 When an issue first gets either label, a bot comments once: it thanks the
-requester (app requests only) and explains `/claim`, so whoever reads the issue
-later knows to claim before starting.
+requester (app requests only), explains `/claim` and links the README's
+[package an app with your agent](../../README.md#package-an-app-with-your-agent),
+so whoever reads the issue later knows to claim before starting and how to
+start.
 
 A claim that has gone quiet (no PR, no answer when asked) is released by a
 maintainer: unassign the person, say why in a comment, and add `help wanted`
