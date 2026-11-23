@@ -1,0 +1,23 @@
+id: ai.x.GrokBot
+name: Grok Bot
+summary: Proactive AI desktop agent with a cloud computer
+website: https://x.ai/bot
+source_url: https://x.ai/bot
+build:
+  manifest: ai.x.GrokBot.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: AI
+  tags:
+    - AI
+    - Agents
+    - Assistant
+    - Chat
+    - Electron
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []
