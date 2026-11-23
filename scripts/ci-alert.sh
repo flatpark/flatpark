@@ -20,6 +20,8 @@
 #   ci-alert.sh open    <key> <title> [body-file]   # body on stdin if omitted
 #   ci-alert.sh sync    <key> <title> [body-file]   # open, or rewrite the open one
 #   ci-alert.sh resolve <key> [comment]
+#   ci-alert.sh drop-row <key> <id> <title-format> [comment]
+#                                                   # batch alert: drop one row
 #   ci-alert.sh list    [key-prefix]                # keys with an open alert
 #
 # Needs GH_TOKEN (or GITHUB_TOKEN) with issues:write.
@@ -115,6 +117,37 @@ cmd_resolve() {
     log "ci-alert: closed #$existing for $key"
 }
 
+# A `sync` batch alert lists one thing per markdown table row, keyed by its
+# first cell (`| \`<id>\` | ...`). When one of those recovers outside the batch
+# job — update-app.yml fixing a single app — drop just its row instead of
+# waiting for the next batch run to rewrite the list. <title-format> is the
+# batch title with %d for the rows left; none left closes the issue. A batch run
+# racing this rewrites the whole body anyway, so the worst case is a row that
+# reappears until that run.
+cmd_drop_row() {
+    local key="$1" id="$2" title_fmt="$3" comment="${4:-}" existing body left n
+    [ -n "$key" ] && [ -n "$id" ] && [ -n "$title_fmt" ] \
+        || die "usage: ci-alert.sh drop-row <key> <id> <title-format> [comment]"
+    existing="$(find_open "$key")"
+    [ -n "$existing" ] || return 0
+    # CRLF from GitHub: strip it so the row prefix and the counts match.
+    body="$(gh issue view "$existing" --json body -q .body | tr -d '\r')"
+    left="$(printf '%s\n' "$body" | awk -v row="| \`$id\` |" 'index($0, row) != 1')"
+    if [ "$left" = "$body" ]; then
+        log "ci-alert: $id is not listed in #$existing"
+        return 0
+    fi
+    n="$(printf '%s\n' "$left" | grep -c '^| `' || true)"
+    if [ "$n" = 0 ]; then
+        cmd_resolve "$key" "${comment:-\`$id\` recovered, and it was the last one listed.}"
+        return
+    fi
+    # shellcheck disable=SC2059  # the format is the caller's, by design
+    gh issue edit "$existing" --title "$(prefixed "$(printf "$title_fmt" "$n")")" --body "$left" >&2
+    [ -z "$comment" ] || gh issue comment "$existing" --body "$comment" >&2
+    log "ci-alert: dropped $id from #$existing ($n left)"
+}
+
 # Keys that currently have an open alert, so a caller can ask whether the
 # thing that failed is healthy again. GitHub hands bodies back with CRLF line
 # endings, hence the trailing-whitespace trim.
@@ -131,6 +164,7 @@ case "${1:-}" in
     open)    shift; cmd_open "${1:-}" "${2:-}" "${3:-}" ;;
     sync)    shift; cmd_sync "${1:-}" "${2:-}" "${3:-}" ;;
     resolve) shift; cmd_resolve "${1:-}" "${2:-}" ;;
+    drop-row) shift; cmd_drop_row "${1:-}" "${2:-}" "${3:-}" "${4:-}" ;;
     list)    shift; cmd_list "${1:-}" ;;
-    *) die "usage: ci-alert.sh open|sync|resolve|list ..." ;;
+    *) die "usage: ci-alert.sh open|sync|resolve|drop-row|list ..." ;;
 esac

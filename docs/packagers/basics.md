@@ -432,7 +432,9 @@ Three triggers run the same steps:
   UTC) and catches everything else.
 - **By hand:** `gh workflow run update-app.yml -f app_id=<app-id>` updates one
   app now. Use it when the sweep missed a release, typically one whose Linux
-  asset was uploaded after the sweep ran.
+  asset was uploaded after the sweep ran. It also settles that app's CI alerts: a
+  resolver that works again drops its row from the sweep's resolver-failure
+  issue, and a payload that unpacks closes its "no longer unpacks" issue.
 
 The steps:
 

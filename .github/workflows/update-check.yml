@@ -259,22 +259,7 @@ jobs:
           fi
 
           for id in ${held:-}; do
-            ./scripts/ci-alert.sh open "update-check/$id" \
-              "update-check: $id no longer unpacks" <<EOF
-          The payload upstream is serving for \`$id\` fails this app's
-          \`apply_extra.sh\`, so the pin refresh was held back and the app stays on
-          the last version known to install. Users are not affected until this is
-          fixed and the new version ships.
-
-          Usually upstream repackaged — a renamed launcher, a relocated binary — and
-          \`registry/$id/apply_extra.sh\` needs to follow. Reproduce with:
-
-          \`\`\`
-          ./scripts/check-apply-extra.sh $id
-          \`\`\`
-
-          This issue closes itself once that payload unpacks again.
-          EOF
+            ./scripts/held-back-alert.sh "$id"
           done
 
           # Apps whose new payload verified this run are healthy by definition.
