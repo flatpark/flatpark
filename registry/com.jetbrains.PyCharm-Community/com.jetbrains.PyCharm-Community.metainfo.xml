@@ -10,9 +10,8 @@
     <p>PyCharm Community is an open-source Python IDE with code completion,
     refactoring, an integrated debugger, a test runner and version control.</p>
     <p>This community package installs the unmodified official Community build
-    from JetBrains' intellij-community GitHub releases. It follows the current
-    open-source releases; the discontinued Flathub Community package remains
-    on 2024.3.4. This is the PC product, not the unified Professional build.</p>
+    from JetBrains' intellij-community GitHub releases and picks up each new
+    open-source release soon after it is published. This is the PC product, not the unified Professional build.</p>
     <p>Python, Git and development tools come from the Freedesktop SDK inside
     the sandbox. Host interpreters, host virtual environments and system services
     are not directly usable. Create project virtual environments with the

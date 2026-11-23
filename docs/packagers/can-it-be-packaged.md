@@ -43,8 +43,9 @@ what it does, not by whether someone calls it AI-made
     ([how](permissions.md#declaring-high-risk-permissions));
   - it has fallen far behind upstream, or no longer works at all.
 
-  The reason goes in the PR, and the app's description says how our package
-  differs from the Flathub one.
+  The reason goes in the PR and in
+  [apps also on Flathub](../reference/flathub-overlap.md), and the app's
+  description says how our package differs from the Flathub one.
 - **An app already on FlatPark whose developer later publishes it on Flathub**
   stays, unless the developer asks for it to be removed.
 
