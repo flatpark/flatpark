@@ -29,42 +29,61 @@ url="$api/packages/generic/gnome-software-next/$version/$file"
 
 curl -fsSIL -o /dev/null "$url" || { echo "missing $url" >&2; exit 1; }
 
-# Release notes: the commits between the pinned build and this one. Each
-# package is one CI build of the fork's next branch, named by its commit.
-# Merges are left out, except upstream's releases coming in, and so are the
-# commits that change only the CI, the docs, the tests or translations. Any
-# failure here only drops the notes.
+# Release notes: the fork's changes between the pinned build and this one.
+# Each package is one CI build of the fork's next branch, named by its
+# commit. An upstream release comes in as a "Merge upstream X.Y" commit: it
+# becomes one "Includes GNOME Software X.Y" line, listed first, and the
+# commits that only its upstream side brings in are left out. So are the
+# other merges, and the commits that change only the CI, the docs, the
+# tests or translations. Any failure here only drops the notes.
 project="https://gitlab.gnome.org/user_c1a5830a/gnome-software-next"
 here="$(cd "$(dirname "$0")" && pwd)"
 new_sha="$(jq -r '.pipeline.sha // empty' <<<"$pkg")"
-old_version="$(sed -n 's#.*/packages/generic/gnome-software-next/\([^/]*\)/.*#\1#p' "$here/org.gnome.Software.yml" | head -1)"
+old_version="$(sed -n 's#.*/packages/generic/gnome-software-next/\([^/]*\)/.*#\1#p' "$here/org.gnome.Software.yml" 2>/dev/null | head -1 || true)"
 old_sha="${old_version##*.g}"
 notes=""
 release_url=""
 if [[ "$new_sha" =~ ^[0-9a-f]{40}$ && "$old_sha" =~ ^[0-9a-f]{7,40}$ && "$old_version" != "$version" ]]; then
   if compare="$(curl -fsSL "$api/repository/compare?from=$old_sha&to=$new_sha&straight=true")"; then
     release_url="$project/-/compare/$old_sha...${new_sha:0:9}"
-    notes="$(jq -r --arg url "$release_url" '
-      def esc: gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;");
-      [ .commits[]
-        | if (.parent_ids | length) > 1 then
-            (.title | capture("^Merge upstream (?<tag>[0-9]+[.][0-9]+)$")? | "Includes GNOME Software \(.tag)")
-          elif (.title | test("^(ci|doc|docs|tests?|flows?|po|help|upstream-sync|README|AGENTS|CHANGES[A-Z-]*)(:| )"; "i"))
-               or (.title | test("translation"; "i")) then empty
-          else .title end ] as $items
-      | if ($items | length) == 0 then
-          "<p>Changes to the build, tests and documentation only.</p>"
-        else
-          "<p>Changes since the last build:</p>\n<ul>\n"
-          + ([ $items[:10][] | "  <li>" + esc + "</li>" ] | join("\n"))
-          + "\n</ul>"
-          + (if ($items | length) > 10 then "\n<p>And \($items | length - 10) more.</p>" else "" end)
-        end' <<<"$compare")" || notes=""
+    # The commits each upstream release brings in: those its merge's second
+    # parent (upstream's tag) has and its first parent doesn't.
+    upstream_ids="[]"
+    while read -r first second; do
+      [[ "$first" =~ ^[0-9a-f]{40}$ && "$second" =~ ^[0-9a-f]{40}$ ]] || { upstream_ids=""; break; }
+      ids="$(curl -fsSL "$api/repository/compare?from=$first&to=$second" | jq -c '[.commits[].id]')" \
+        || { upstream_ids=""; break; }
+      upstream_ids="$(jq -cn --argjson a "$upstream_ids" --argjson b "$ids" '$a + $b')"
+    done < <(jq -r '.commits[]
+      | select((.parent_ids | length) > 1 and (.title | test("^Merge upstream [0-9]+[.][0-9]+$")))
+      | "\(.parent_ids[0]) \(.parent_ids[1])"' <<<"$compare")
+    if [ -n "$upstream_ids" ]; then
+      notes="$(jq -r --argjson upstream "$upstream_ids" '
+        def esc: gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;");
+        ($upstream | map({key: ., value: true}) | from_entries) as $up
+        | [ .commits[] | select((.parent_ids | length) > 1)
+            | .title | capture("^Merge upstream (?<tag>[0-9]+[.][0-9]+)$")?
+            | "Includes GNOME Software \(.tag)" ] as $releases
+        | [ .commits[] | select((.parent_ids | length) == 1 and ($up[.id] | not))
+            | .title
+            | select((test("^(ci|doc|docs|tests?|flows?|po|help|upstream-sync|README|AGENTS|CHANGES[A-Z-]*)(:| )"; "i")
+                      or test("translation"; "i")) | not) ] as $changes
+        | ($releases + $changes) as $items
+        | if ($items | length) == 0 then
+            "<p>Changes to the build, tests and documentation only.</p>"
+          else
+            "<p>Changes since the last build:</p>\n<ul>\n"
+            + ([ $items[:10][] | "  <li>" + esc + "</li>" ] | join("\n"))
+            + "\n</ul>"
+            + (if ($items | length) > 10 then "\n<p>And \($items | length - 10) more.</p>" else "" end)
+          end' <<<"$compare")" || notes=""
+    else
+      echo "upstream release commits unavailable; no release notes" >&2
+    fi
   else
     echo "compare $old_sha..$new_sha failed; no release notes" >&2
   fi
 fi
-echo "resolved gnome-software-next $version ($date): $url" >&2
 
 jq -n --arg v "$version" --arg d "$date" --arg u "$url" --arg r "$release_url" --arg n "$notes" \
   '{version:$v, releaseDate:$d, sources:[{filename:"app.tar.xz", url:$u}]}
