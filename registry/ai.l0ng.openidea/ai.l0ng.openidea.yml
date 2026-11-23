@@ -61,9 +61,9 @@ modules:
         filename: libcurl3t64-gnutls.deb
         only-arches:
           - x86_64
-        url: https://deb.debian.org/debian/pool/main/c/curl/libcurl3t64-gnutls_8.14.1-2+deb13u5_amd64.deb
-        sha256: 19da93544615a4c9a3d7df473f5bf8ebca99442454622e9b0460168dadf7b8ae
-        size: 384460
+        url: https://deb.debian.org/debian/pool/main/c/curl/libcurl3t64-gnutls_8.14.1-2+deb13u7_amd64.deb
+        sha256: 9475c591b338b81859ee6d06bf2a9fbb01b52f184c235afa7f6e7f1652136e55
+        size: 384636
       - type: extra-data
         filename: librtmp1.deb
         only-arches:
@@ -117,9 +117,9 @@ modules:
         filename: libcurl3t64-gnutls.deb
         only-arches:
           - aarch64
-        url: https://deb.debian.org/debian/pool/main/c/curl/libcurl3t64-gnutls_8.14.1-2+deb13u5_amd64.deb
-        sha256: 19da93544615a4c9a3d7df473f5bf8ebca99442454622e9b0460168dadf7b8ae
-        size: 384460
+        url: https://deb.debian.org/debian/pool/main/c/curl/libcurl3t64-gnutls_8.14.1-2+deb13u7_amd64.deb
+        sha256: 9475c591b338b81859ee6d06bf2a9fbb01b52f184c235afa7f6e7f1652136e55
+        size: 384636
       - type: extra-data
         filename: librtmp1.deb
         only-arches:
