@@ -76,6 +76,11 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.43.1" date="2026-11-24" type="stable">
+      <description>
+        <p>Release 0.43.1 addresses 4-persona beta-testing feedback: persistent multi-screen popout restoration, DataGrid error surfacing, Elbereth unequal-allocation R verification, WebSync conflict resolution &amp; Adw.StatusPage, expanded Command Palette/Shortcuts, and HIG accessibility fixes.</p>
+      </description>
+    </release>
     <release version="0.43.0" date="2026-11-24" type="stable">
       <description>
         <p>Release 0.43.0 introduces 6-quadrant ultrawide layouts, multi-screen independent panel popouts, Panel Manager, Imladris on Web offline-first sync, and GNOME/Pantheon HIG UI refinements.</p>
