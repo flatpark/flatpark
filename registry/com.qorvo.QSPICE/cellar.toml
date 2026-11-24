@@ -1,0 +1,18 @@
+locale = "en_US"
+font_sets = ["core"]
+
+[drives]
+# The Flatpak exposes Documents under H: and grants other folders on request.
+h = "~"
+
+# Keep the installer's Windows desktop shortcut inside the prefix.
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[[apps]]
+id = "setup"
+name = "QSPICE Setup"
+exe = "/app/extra/InstallQSPICE.exe"

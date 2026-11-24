@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=QSPICE
+GenericName=Circuit Simulator
+Comment=Design and simulate analog and mixed-signal circuits
+Exec=qspice %f
+Icon=com.qorvo.QSPICE
+Terminal=false
+StartupNotify=true
+StartupWMClass=qux.exe
+Categories=Education;Electronics;Engineering;
+Keywords=SPICE;circuits;simulation;schematic;electronics;

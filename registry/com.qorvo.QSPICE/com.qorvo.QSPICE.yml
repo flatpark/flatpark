@@ -1,0 +1,64 @@
+id: com.qorvo.QSPICE
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: qspice
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Wine's X11 client uses shared memory for drawing.
+  - --share=ipc
+  # Qorvo's installer downloads and verifies the application on first launch.
+  - --share=network
+  - --socket=x11
+  # Direct3D rendering through Wine.
+  - --device=dri
+  # Schematics, project models and simulation output.
+  - --filesystem=xdg-documents
+  # The vendor's downloader is 32-bit and requires Wine's WoW64 support.
+  - --allow=multiarch
+  # Read the shared Wine runner from either Flatpak installation.
+  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
+  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
+modules:
+  - name: qspice
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 qspice.sh /app/bin/qspice
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 cellar.toml /app/share/cellar/cellar.toml
+      - install -Dm644 com.qorvo.QSPICE.desktop /app/share/applications/com.qorvo.QSPICE.desktop
+      - install -Dm644 com.qorvo.QSPICE.metainfo.xml /app/share/metainfo/com.qorvo.QSPICE.metainfo.xml
+      - install -Dm644 com.qorvo.QSPICE.png /app/share/icons/hicolor/256x256/apps/com.qorvo.QSPICE.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: InstallQSPICE.exe
+        only-arches:
+          - x86_64
+        url: https://getqspice.com/InstallQSPICE.exe
+        sha256: a3f9699be4afe29a63702e4c03a8db54fee4a6d8b1ee1b658f107ca23563a49f
+        size: 3808136
+      # END MANAGED EXTRA-DATA
+      # FlatPark's shared Cellar launcher, pinned independently of Qorvo.
+      - type: extra-data
+        filename: cellar-cli-x86_64
+        only-arches:
+          - x86_64
+        url: https://github.com/jing2uo/cellar/releases/download/v0.5.1/cellar-cli-x86_64
+        sha256: bddea0982c458ababdac841c5b9c7685fd782cc9979dbd01c1f1ac7a36b2b9cb
+        size: 9691296
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: qspice.sh
+      - type: file
+        path: cellar.toml
+      - type: file
+        path: com.qorvo.QSPICE.desktop
+      - type: file
+        path: com.qorvo.QSPICE.metainfo.xml
+      - type: file
+        path: com.qorvo.QSPICE.png

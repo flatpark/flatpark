@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.qorvo.QSPICE</id>
+  <name>QSPICE</name>
+  <summary>Analog and mixed-signal circuit simulator</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer id="com.qorvo"><name>Qorvo, Inc.</name></developer>
+  <url type="homepage">https://getqspice.com/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>QSPICE combines schematic capture, SPICE simulation and waveform viewing for analog and mixed-signal circuits. It includes component models, example circuits and support for digital blocks written in C++ and Verilog.</p>
+    <p>This community package pins Qorvo's official Windows downloader and runs it unmodified under Wine. First launch requires internet access and interactive setup. The installer presents Qorvo’s software license agreement. Qorvo's downloader fetches and verifies the current application release and installs it into a private, persistent Wine prefix. The package version follows the downloader, and the QSPICE updater handles application releases.</p>
+    <p>Wine is shared with other FlatPark apps. Install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>. Choose Install as User during setup. If setup shows its Windows compatibility warning, choose OK to continue.</p>
+    <p>Save schematics, custom models and simulation output in Documents. Windows file dialogs can reach it through drive <code>H:</code>. To add another project folder, use <code>flatpak override --user --filesystem=/path/to/circuits com.qorvo.QSPICE</code>. To revoke access to that folder, use <code>flatpak override --user --nofilesystem=/path/to/circuits com.qorvo.QSPICE</code>.</p>
+    <p>Audio access is optional. To enable playback in Tone Generator and capture in SoundScope, run <code>flatpak override --user --socket=pulseaudio com.qorvo.QSPICE</code>. To revoke audio access, run <code>flatpak override --user --nosocket=pulseaudio com.qorvo.QSPICE</code>.</p>
+    <p>C++ and Verilog compilation may fail under Wine and has yet to be verified. SCPI instrument control failed in testing because the package lacks a Windows VISA runtime. Compatibility with a separately installed VISA runtime is unverified.</p>
+  </description>
+  <screenshots>
+    <!-- Captured from the QSPICE Flatpak running Qorvo's BodePlot example under Wine 11.0. -->
+    <screenshot type="default">
+      <caption>Switching regulator schematic</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/com.qorvo.QSPICE/screenshots/schematic.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Simulated open-loop gain and phase</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/com.qorvo.QSPICE/screenshots/bode-plot.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Education</category><category>Electronics</category><category>Engineering</category></categories>
+  <keywords><keyword>SPICE</keyword><keyword>circuits</keyword><keyword>simulation</keyword><keyword>schematic</keyword><keyword>Wine</keyword></keywords>
+  <launchable type="desktop-id">com.qorvo.QSPICE.desktop</launchable>
+  <releases>
+    <release version="20260204001734" date="2026-02-04"/>
+  </releases>
+</component>
