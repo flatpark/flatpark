@@ -20,5 +20,8 @@
       <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/app.nano.Reader/screenshots/library.png</image>
     </screenshot>
   </screenshots>
-  <releases><release version="0.2.1" date="2026-11-20"/></releases>
+  <releases>
+    <release version="0.2.2" date="2026-11-23">
+      <description></description>
+    </release><release version="0.2.1" date="2026-11-20"/></releases>
 </component>

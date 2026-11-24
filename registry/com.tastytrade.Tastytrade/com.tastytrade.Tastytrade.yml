@@ -32,16 +32,16 @@ modules:
         filename: tastytrade.deb
         only-arches:
           - x86_64
-        url: https://download.tastytrade.com/desktop-2.0/tastytrade-linux-amd64-0.77.0.deb
-        sha256: f9fb71ac1ec9c10a17af7cf8f368188437c160d631dd1de6d37d6b5d858cd53b
-        size: 135324516
+        url: https://download.tastytrade.com/desktop-2.0/tastytrade-linux-amd64-0.78.0.deb
+        sha256: 8699dd005983278d51c075d2a77638f07ded4b6b39827ed7a5231dd948d23623
+        size: 135066444
       - type: extra-data
         filename: tastytrade.deb
         only-arches:
           - aarch64
-        url: https://download.tastytrade.com/desktop-2.0/tastytrade-linux-arm64-0.77.0.deb
-        sha256: e5ab19db20f926230e35be63ea57c47faa83d634c831aba18ca3193e50f295c4
-        size: 130154360
+        url: https://download.tastytrade.com/desktop-2.0/tastytrade-linux-arm64-0.78.0.deb
+        sha256: 6be987c74e4b99e3cb889535753a893a6c118e4e2e42da03abb81c07ce6874b2
+        size: 129876604
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
