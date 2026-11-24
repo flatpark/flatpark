@@ -1,0 +1,43 @@
+# FlatPark catalog descriptor for HikLens.
+#
+# FlatPark (https://flatpark.org/) is a signed Flatpak remote that repackages
+# official vendor downloads as extra-data - it does not build from source. This
+# file is the catalog entry; io.github.rwnicholas.HikLens.yml is the Flatpak
+# manifest it points at.
+#
+# read-descriptor.mjs in flatpark/flatpark is a line scanner, not a YAML parser,
+# so keep the plain two-space block style below exactly as it is.
+id: io.github.rwnicholas.HikLens
+name: HikLens
+summary: Monitor and play back Hikvision DVR and NVR cameras on Linux and Steam Deck
+website: https://github.com/rwnicholas/HikLens
+source_url: https://github.com/rwnicholas/HikLens
+build:
+  manifest: io.github.rwnicholas.HikLens.yml
+  branch: stable
+  mode: extra-data
+  arches:
+    - x86_64
+catalog:
+  category: AudioVideo
+  upstream_approved: true
+  tags:
+    - CCTV
+    - DVR
+    - NVR
+    - RTSP
+    - Surveillance
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
+upstream:
+  manifest: packaging/flatpak/io.github.rwnicholas.HikLens.yml
+  accept_missing_permissions:
+    # Adding a Non-Steam shortcut writes to the user's Steam userdata folder.
+    # It is an optional Steam Deck integration feature; the metainfo documents
+    # the `flatpak override` command and the app also falls back to the portal
+    # directory chooser when Steam's folder is not mounted in the sandbox.
+    - --filesystem=xdg-data/Steam:rw
+    - --filesystem=~/.steam:rw

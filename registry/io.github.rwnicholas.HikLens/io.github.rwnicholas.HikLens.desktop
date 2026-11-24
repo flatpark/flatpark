@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=HikLens
+GenericName=DVR & CCTV Camera Viewer
+Comment=Monitor and play back Hikvision DVR and NVR cameras
+Exec=hiklens
+Icon=io.github.rwnicholas.HikLens
+Terminal=false
+Type=Application
+StartupWMClass=HikLens
+Categories=AudioVideo;Video;
+Keywords=HikLens;Hikvision;DVR;NVR;CCTV;RTSP;ISAPI;camera;surveillance;
