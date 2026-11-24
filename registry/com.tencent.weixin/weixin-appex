@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# WeChatAppEx is the embedded Chromium behind mini programs and the in-app
+# browser. Its namespace sandbox cannot start inside Flatpak, so since WeChat
+# 4.1.13.29 it fails to open at all; apply_extra moves the real binary to
+# WeChatAppEx.bin and links this wrapper in its place. Same fix as Flathub's
+# com.tencent.WeChat (flathub/com.tencent.WeChat#126).
+exec /app/extra/wechat/RadiumWMPF/runtime/WeChatAppEx.bin --no-sandbox "$@"

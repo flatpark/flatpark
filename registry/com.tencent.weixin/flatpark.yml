@@ -22,3 +22,15 @@ policy:
     # Voice/video calls need camera, microphone and GPU; same grant as Flathub's
     # com.tencent.WeChat.
     - --device=all
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: sandbox-off
+    detail:
+      en: "WeChatAppEx, the embedded Chromium behind mini programs and the in-app browser, runs with --no-sandbox: its own namespace sandbox cannot start inside Flatpak, so the Flatpak sandbox is the only boundary. Same as Flathub's com.tencent.WeChat."
+      zh-Hans: "小程序和内置浏览器所用的内嵌 Chromium（WeChatAppEx）以 --no-sandbox 运行：它自己的命名空间沙箱无法在 Flatpak 里启动，因此 Flatpak 沙箱是唯一的边界。与 Flathub 的 com.tencent.WeChat 做法相同。"
+  - kind: file-change
+    detail:
+      en: "At install, WeChatAppEx is renamed to WeChatAppEx.bin and replaced with a link to a small wrapper that adds that --no-sandbox flag."
+      zh-Hans: "安装时把 WeChatAppEx 改名为 WeChatAppEx.bin，原位置换成指向一个小包装脚本的链接，由它加上 --no-sandbox。"
