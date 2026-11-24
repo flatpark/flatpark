@@ -132,3 +132,4 @@ Developers who said no to a listing are recorded in
 | Metrolist | `com.metrolist.desktop` | [MetrolistGroup/Metrolist#4723 (comment)](https://github.com/MetrolistGroup/Metrolist/issues/4723#issuecomment-7080340667) — nyxiereal, a MetrolistGroup member and the repo's top contributor, answered the blue-shield ask with "you can do that, i approve!"; upstream already lists FlatPark in its README. Listing requested in [flatpark#1267](https://github.com/flatpark/flatpark/issues/1267) | 2026-11-22 |
 | MyMusik | `app.mymusik.MyMusik` | [flatpark#1434](https://github.com/flatpark/flatpark/issues/1434) | 2026-11-20 |
 | Bloom | `io.github.oatbiscuit.bloom` | [Developer's FlatPark request](https://github.com/flatpark/flatpark/issues/1456) | 2026-11-21 |
+| OpenXplorer | `io.winspace.Development` | Submitted by its developer in [flatpark#1548](https://github.com/flatpark/flatpark/pull/1548) | 2026-11-24 |

@@ -1,0 +1,42 @@
+id: io.winspace.Development
+name: OpenXplorer
+summary: Explorer-style local and SMB file manager
+website: https://openxplorer.app
+source_url: https://github.com/AKolenda/openxplorer
+build:
+  manifest: io.winspace.Development.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: System
+  # Submitted by OpenXplorer's own developer (docs/reference/upstream-approvals.md).
+  upstream_approved: true
+  tags:
+    - File manager
+    - SMB
+    - GTK
+    - Rust
+    - Open source
+update:
+  command: ./resolve-update.sh
+upstream:
+  # OpenXplorer publishes its own Flatpak manifest; the update sweep reports
+  # when its finish-args change.
+  manifest: native/packaging/flatpak/io.winspace.Development.yml
+  accept_missing_permissions:
+    # Optional features, off in the app until the user turns them on in its
+    # Settings. The metainfo documents the flatpak override for each.
+    # Open in Terminal and making OpenXplorer the default file manager run
+    # host programs through flatpak-spawn --host.
+    - --talk-name=org.freedesktop.Flatpak
+    # Answering "Show in folder" requests from other apps.
+    - --own-name=org.freedesktop.FileManager1
+    # Format… on a removable drive.
+    - --system-talk-name=org.freedesktop.UDisks2
+    # The update check; Flatpak installs updates either way.
+    - --share=network
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # A file manager: the user's files on every disk, not one folder.
+    - --filesystem=host
