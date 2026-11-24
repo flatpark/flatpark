@@ -2,9 +2,10 @@
 set -eu
 
 # Imladris is a Vala / GTK4 / Libadwaita / WebKitGTK IDE staged by apply_extra
-# to /app/extra/imladris.
+# to /app/extra/imladris from the Flatpak /app tree archive.
 
-# Expose staged extra-data icons and scripts via XDG_DATA_DIRS
+export PATH="/app/extra/bin:${PATH}"
+export LD_LIBRARY_PATH="/app/extra/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 export XDG_DATA_DIRS="/app/extra/share:${XDG_DATA_DIRS:-/app/share:/usr/share}"
 
 # WebKitGTK's DMABUF renderer can render a blank/frozen window under certain
