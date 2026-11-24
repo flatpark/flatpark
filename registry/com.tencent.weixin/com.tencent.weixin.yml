@@ -41,6 +41,7 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 weixin-wrapper /app/bin/weixin
+      - install -Dm755 weixin-appex /app/bin/weixin-appex
       - install -Dm755 dde-file-manager /app/bin/dde-file-manager
       - install -Dm644 com.tencent.weixin.metainfo.xml -t /app/share/metainfo
       - install -Dm644 com.tencent.weixin.png /app/share/icons/hicolor/256x256/apps/com.tencent.weixin.png
@@ -59,6 +60,8 @@ modules:
         path: apply_extra.sh
       - type: file
         path: weixin-wrapper
+      - type: file
+        path: weixin-appex
       - type: file
         path: dde-file-manager
       - type: file
