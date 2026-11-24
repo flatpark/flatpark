@@ -1,0 +1,3 @@
+#!/bin/sh
+# Start the vendor binary unpacked by apply_extra.
+exec /app/extra/kraken_desktop "$@"
