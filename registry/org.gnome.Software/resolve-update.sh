@@ -28,6 +28,7 @@ file="gnome-software-next-$version-x86_64.tar.xz"
 url="$api/packages/generic/gnome-software-next/$version/$file"
 
 curl -fsSIL -o /dev/null "$url" || { echo "missing $url" >&2; exit 1; }
+echo "resolved gnome-software-next $version ($date): $url" >&2
 
 # Release notes: the fork's changes between the pinned build and this one.
 # Each package is one CI build of the fork's next branch, named by its
@@ -47,13 +48,18 @@ if [[ "$new_sha" =~ ^[0-9a-f]{40}$ && "$old_sha" =~ ^[0-9a-f]{7,40}$ && "$old_ve
   if compare="$(curl -fsSL "$api/repository/compare?from=$old_sha&to=$new_sha&straight=true")"; then
     release_url="$project/-/compare/$old_sha...${new_sha:0:9}"
     # The commits each upstream release brings in: those its merge's second
-    # parent (upstream's tag) has and its first parent doesn't.
+    # parent (upstream's tag) has and its first parent doesn't. The commits
+    # API lists them without the diff the compare API would add (a whole
+    # major release), 100 a page.
     upstream_ids="[]"
     while read -r first second; do
       [[ "$first" =~ ^[0-9a-f]{40}$ && "$second" =~ ^[0-9a-f]{40}$ ]] || { upstream_ids=""; break; }
-      ids="$(curl -fsSL "$api/repository/compare?from=$first&to=$second" | jq -c '[.commits[].id]')" \
-        || { upstream_ids=""; break; }
-      upstream_ids="$(jq -cn --argjson a "$upstream_ids" --argjson b "$ids" '$a + $b')"
+      for (( page = 1; page <= 50; page++ )); do
+        ids="$(curl -fsSL "$api/repository/commits?ref_name=$first..$second&per_page=100&page=$page" | jq -c '[.[].id]')" \
+          || { upstream_ids=""; break 2; }
+        upstream_ids="$(jq -cn --argjson a "$upstream_ids" --argjson b "$ids" '$a + $b')"
+        [ "$(jq length <<<"$ids")" -eq 100 ] || break
+      done
     done < <(jq -r '.commits[]
       | select((.parent_ids | length) > 1 and (.title | test("^Merge upstream [0-9]+[.][0-9]+$")))
       | "\(.parent_ids[0]) \(.parent_ids[1])"' <<<"$compare")
