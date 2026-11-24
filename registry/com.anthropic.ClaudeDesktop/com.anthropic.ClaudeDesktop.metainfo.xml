@@ -20,7 +20,13 @@
       <li>Use Claude coding workflows from the Desktop experience.</li>
       <li>Review changes, terminal output and previews in one app.</li>
     </ul>
-    <p>Permissions: this package grants network, display, GPU, audio, notifications and keyring access for the core desktop app. It does not grant broad home-directory or host-device access by default; Code project access and Cowork's KVM/QEMU-based environment may require additional user-granted overrides and are not yet verified in this Flatpak package.</p>
+    <p>Permissions: this package grants network, display, GPU, audio, notifications and keyring access for the core desktop app. It does not grant broad home-directory or host-device access by default; Code project access may require additional user-granted overrides.</p>
+    <p>Cowork is off by default. It runs a QEMU virtual machine, so it needs QEMU, UEFI firmware (OVMF) and virtiofsd installed on your system and three overrides. Together they give the app your devices, a read-only view of your system's files and the right to run any command on your system: the app is then no longer really sandboxed. Turn them on only if you want Cowork:</p>
+    <ul>
+      <li>Enable Cowork: <code>flatpak override --user --device=all --filesystem=host-os:ro --talk-name=org.freedesktop.Flatpak com.anthropic.ClaudeDesktop</code></li>
+      <li>Undo it (this also removes any other overrides you set for this app): <code>flatpak override --user --reset com.anthropic.ClaudeDesktop</code></li>
+    </ul>
+    <p>With those overrides on, and only then, the package preloads a small library (LD_PRELOAD) into the app: it points the app's checks for QEMU, the firmware and virtiofsd at your system's copies, starts the app's own Cowork helper on your system, where QEMU can use /dev/kvm, and connects the app to it. The app's files are not changed. Setup steps per distribution are in COWORK.md in FlatPark's registry.</p>
     <p>git comes from the Freedesktop SDK inside the sandbox, not from your system. It reads your ~/.gitconfig and ~/.config/git read-only and uses your SSH agent, so commits carry your identity and SSH remotes work. A credential helper that lives on your system (such as gh or libsecret) is not available, so HTTPS remotes that need it will ask for credentials or fail.</p>
   </description>
   <content_rating type="oars-1.1"/>

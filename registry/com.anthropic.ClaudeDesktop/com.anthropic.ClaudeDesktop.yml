@@ -49,9 +49,26 @@ finish-args:
   - --unset-env=ELECTRON_RUN_AS_NODE
   # Deliberately not granted by default:
   #   --filesystem=home            -> broad project/workspace access for Code
-  #   --device=all or host devices -> Cowork's KVM/vsock stack
+  #   --device=all, --filesystem=host-os:ro and
+  #   --talk-name=org.freedesktop.Flatpak -> Cowork, an opt-in through
+  #   `flatpak override` (COWORK.md); the wrapper only loads cowork-shim.so
+  #   when all three are present.
   # The core desktop app starts with its data under Flatpak's redirected HOME.
 modules:
+  # Cowork opt-in (COWORK.md): an LD_PRELOAD library and the script that runs
+  # the app's own cowork-linux-helper on the host. Unused without the overrides.
+  - name: cowork
+    buildsystem: simple
+    build-commands:
+      - cc -shared -fPIC -O2 -Wall cowork-shim.c -o cowork-shim.so -ldl
+      - install -Dm755 cowork-shim.so /app/lib/cowork-shim.so
+      - install -Dm755 cowork-host-helper /app/bin/cowork-host-helper
+    sources:
+      - type: file
+        path: cowork-shim.c
+      - type: file
+        path: cowork-host-helper
+
   - name: claude-desktop
     buildsystem: simple
     build-commands:
