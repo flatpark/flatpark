@@ -66,6 +66,10 @@
     <mediatype>application/x-ifcx</mediatype>
   </provides>
   <releases>
+    <release version="2026.48.1" date="2026-11-24">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-paint-studio/releases/tag/v2026.48.1</url>
+      <description></description>
+    </release>
     <release version="2026.45.1" date="2026-11-06">
       <url type="details">https://github.com/OpenAEC-Foundation/open-paint-studio/releases/tag/v2026.45.1</url>
       <description>

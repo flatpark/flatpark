@@ -46,9 +46,9 @@ modules:
         filename: open-paint-studio.deb
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/open-paint-studio/releases/download/v2026.45.1/OpenAEC-Paint-Studio_2026.45.1_amd64.deb
-        sha256: d7519813a4bf5fec00c79d3d87e7fb18aa89a230fb9df3cb40215f95fd660340
-        size: 8930244
+        url: https://github.com/OpenAEC-Foundation/open-paint-studio/releases/download/v2026.48.1/OpenAEC-Paint-Studio_2026.48.1_amd64.deb
+        sha256: e5be45aaedca660457ab2139111b0839d27a9d3ba3b4de199624f75f499a15eb
+        size: 8927872
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

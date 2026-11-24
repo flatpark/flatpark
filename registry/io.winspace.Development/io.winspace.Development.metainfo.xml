@@ -76,6 +76,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.0.25" date="2026-11-24">
+      <description></description>
+    </release>
     <release version="2.0.24" date="2026-11-24">
       <description>
         <p>An item's Properties window can now be made larger from its edges and corners, and Previous Versions' list grows with it, so more versions show at once.</p>

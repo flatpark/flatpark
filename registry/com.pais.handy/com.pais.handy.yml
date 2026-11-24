@@ -53,10 +53,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: handy.deb
-        only-arches: [x86_64]
-        url: https://github.com/cjpais/Handy/releases/download/v0.10.1/Handy_0.10.1_amd64.deb
-        sha256: a59c741e52ddf7148f2ec01590c2675813badc126129bbbd4064269ae214e924
-        size: 34341014
+        only-arches:
+          - x86_64
+        url: https://github.com/cjpais/Handy/releases/download/v0.10.2/Handy_0.10.2_amd64.deb
+        sha256: b0068b6b8971a7842a0362d7adefda7a491a208605067ee3bf1711758200a5b4
+        size: 34360904
       # END MANAGED EXTRA-DATA
       # GNOME 51 lacks GTK layer shell; OpenBLAS is part of Handy's CPU
       # transcription backend. Both are Debian trixie runtime libraries.
