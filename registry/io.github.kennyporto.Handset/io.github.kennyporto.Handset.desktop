@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Handset
+GenericName=Phone Calls
+Comment=Answer your phone calls on your PC
+Exec=handset
+Icon=io.github.kennyporto.Handset
+Terminal=false
+Categories=Network;Telephony;Qt;KDE;
+Keywords=phone;call;calls;dialer;bluetooth;hands-free;handsfree;headset;
+StartupNotify=true
+StartupWMClass=io.github.kennyporto.Handset

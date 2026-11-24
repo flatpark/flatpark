@@ -1,0 +1,51 @@
+id: io.github.kennyporto.Handset
+runtime: org.kde.Platform
+runtime-version: "6.11"
+sdk: org.kde.Sdk
+command: handset
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Calls go through PipeWire's telephony service; answer/decline buttons in
+  # notifications; the tray icon.
+  - --talk-name=org.pipewire.Telephony
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Contacts and recent calls, pulled from the phone over Bluetooth (PBAP).
+  - --talk-name=org.bluez.obex
+  # Connects only the phone's hands-free profile when the app starts.
+  - --system-talk-name=org.bluez
+modules:
+  - name: handset
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 handset-wrapper /app/bin/handset
+      - install -Dm644 io.github.kennyporto.Handset.desktop /app/share/applications/io.github.kennyporto.Handset.desktop
+      - install -Dm644 io.github.kennyporto.Handset.metainfo.xml /app/share/metainfo/io.github.kennyporto.Handset.metainfo.xml
+      - install -Dm644 io.github.kennyporto.Handset.svg /app/share/icons/hicolor/scalable/apps/io.github.kennyporto.Handset.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: handset.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/KennyPorto/handset/releases/download/v0.1.0/handset-linux-x86_64-flatpark.tar.gz
+        sha256: 6f645c7f6517c4cb5bdc0a18d3359220d16c283fe49311c4544039861a26bd43
+        size: 30099598
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: handset-wrapper
+      - type: file
+        path: io.github.kennyporto.Handset.desktop
+      - type: file
+        path: io.github.kennyporto.Handset.metainfo.xml
+      - type: file
+        path: io.github.kennyporto.Handset.svg

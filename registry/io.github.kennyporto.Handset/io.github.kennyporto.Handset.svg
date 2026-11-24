@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef6fc"/>
+      <stop offset="1" stop-color="#c8dff0"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="url(#bg)"/>
+  <!-- penguin -->
+  <ellipse cx="64" cy="72" rx="36" ry="38" fill="#1f2226"/>
+  <ellipse cx="53" cy="70" rx="15" ry="17" fill="#fff"/>
+  <ellipse cx="75" cy="70" rx="15" ry="17" fill="#fff"/>
+  <ellipse cx="64" cy="90" rx="24" ry="17" fill="#fff"/>
+  <circle cx="55" cy="68" r="4.5" fill="#1f2226"/>
+  <circle cx="73" cy="68" r="4.5" fill="#1f2226"/>
+  <circle cx="56.5" cy="66.5" r="1.5" fill="#fff"/>
+  <circle cx="74.5" cy="66.5" r="1.5" fill="#fff"/>
+  <path d="M53 80 Q64 73 75 80 Q64 92 53 80 Z" fill="#f6a623"/>
+  <!-- headset -->
+  <path d="M27 66 A37 37 0 0 1 101 66" fill="none" stroke="#1d8fd0" stroke-width="6" stroke-linecap="round"/>
+  <rect x="19" y="58" width="13" height="24" rx="6" fill="#1d8fd0"/>
+  <rect x="96" y="58" width="13" height="24" rx="6" fill="#1d8fd0"/>
+  <path d="M26 80 Q28 100 46 101" fill="none" stroke="#1d8fd0" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="48" cy="101" r="4.5" fill="#1d8fd0"/>
+</svg>
