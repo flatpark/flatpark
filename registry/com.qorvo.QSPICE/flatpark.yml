@@ -1,0 +1,32 @@
+id: com.qorvo.QSPICE
+name: QSPICE
+summary: Analog and mixed-signal circuit simulator
+website: https://getqspice.com/
+source_url: https://p.qorvo.com/get-qspice
+build:
+  manifest: com.qorvo.QSPICE.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Education
+  tags:
+    - Electronics
+    - Simulation
+    - Engineering
+    - Wine
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --allow=multiarch
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Sets the Windows desktop folder inside the Wine prefix so setup shortcuts stay there."
+      zh-Hans: "将 Windows 桌面目录设在 Wine 环境内，使安装程序创建的快捷方式保留在该环境中。"
