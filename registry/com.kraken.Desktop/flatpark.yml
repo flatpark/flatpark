@@ -1,0 +1,22 @@
+id: com.kraken.Desktop
+name: Kraken Desktop
+summary: Real-time crypto market dashboards and trading
+website: https://www.kraken.com/pro/desktop
+source_url: https://www.kraken.com/pro/desktop
+build:
+  manifest: com.kraken.Desktop.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Finance
+  tags:
+    - Trading
+    - Crypto
+    - Markets
+    - Charts
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions: []

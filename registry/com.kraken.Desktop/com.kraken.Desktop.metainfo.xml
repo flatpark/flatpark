@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.kraken.Desktop</id>
+  <launchable type="desktop-id">com.kraken.Desktop.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.kraken.com/legal</project_license>
+  <name>Kraken Desktop</name>
+  <summary>Real-time crypto market dashboards and trading</summary>
+  <developer id="com.kraken">
+    <name>Kraken</name>
+  </developer>
+  <url type="homepage">https://www.kraken.com/pro/desktop</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>This community package is maintained independently of Kraken. It installs the vendor's unmodified desktop application from its official Linux download.</p>
+    <p>Kraken Desktop is a native trading app for the Kraken exchange. Build real-time crypto market dashboards from any combination of candle charts, order books, time and sales feeds and order entry, spread them across several windows and monitors, and trade from them. A Kraken account is required to sign in.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Chart, order book and order entry on one board</caption>
+      <image>https://assets-cms.kraken.com/images/51n36hrp/facade/6eed12ecb89bee4eb23ddc692a354f34400f0f62-2531x1300.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Finance</category>
+  </categories>
+  <releases>
+    <release version="1.37.0" date="2026-11-19"/>
+  </releases>
+</component>
