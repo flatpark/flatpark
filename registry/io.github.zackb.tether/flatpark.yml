@@ -1,0 +1,19 @@
+id: io.github.zackb.tether
+name: Tether
+summary: Bridge your iPhone to the Linux desktop
+website: https://github.com/zackb/tether
+source_url: https://github.com/zackb/tether
+build:
+  manifest: io.github.zackb.tether.yml
+  branch: stable
+  mode: extra-data
+  # The arm64 .deb is published too; it waits on Debian pins for aarch64.
+  arches: [x86_64]
+catalog:
+  category: Network
+  tags: [iPhone, iOS, Messages, Notifications, Bluetooth]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

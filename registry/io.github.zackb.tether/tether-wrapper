@@ -1,0 +1,15 @@
+#!/bin/sh
+# Installed as tether-gtk, and linked as tether and tetherd: runs upstream's
+# program of the same name.
+set -eu
+root=/app/extra/tether/usr
+name="$(basename "$0")"
+# Upstream's programs start each other (tetherd, tether-dialog) by name or as
+# siblings; btmgmt is the Debian copy beside them.
+export PATH="$root/bin:/app/extra/support/bin:$PATH"
+# Only tether-dialog uses this library, and the runtime has no other copy.
+export LD_LIBRARY_PATH="/app/extra/support/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+# Translations, and the tray and notification icons the app looks up by name.
+export TETHER_LOCALEDIR="$root/share/locale"
+export XDG_DATA_DIRS="$root/share:${XDG_DATA_DIRS:-/app/share:/usr/share}"
+exec "$root/bin/$name" "$@"

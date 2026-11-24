@@ -1,0 +1,86 @@
+id: io.github.zackb.tether
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: tether-gtk
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK 3 window (Wayland first, X11 when there is no Wayland session).
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Wi-Fi route: mDNS discovery and the daemon's mTLS listener.
+  - --share=network
+  # Bluetooth route: BlueZ for the adapter, devices and GATT (ANCS), and the
+  # raw management socket btmgmt uses to read the adapter's settings.
+  - --system-talk-name=org.bluez
+  - --allow=bluetooth
+  # Bonjour advertisement, so the iPhone finds this computer.
+  - --system-talk-name=org.freedesktop.Avahi
+  # MAP messages and PBAP contacts go through BlueZ's OBEX daemon.
+  - --talk-name=org.bluez.obex
+  # Mirrored iPhone notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon: the item registers as org.kde.StatusNotifierItem-<pid>-1, and
+  # Flatpak can only grant that name through the org.kde prefix.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+  # Files sent from the iPhone are saved to Downloads.
+  - --filesystem=xdg-download
+modules:
+  - name: tether
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      # One launcher, installed under each command name upstream's own Flatpak
+      # exposes: the GTK app, the CLI (`--command=tether ... --bt-setup`) and
+      # the daemon the app writes into its user unit (`--command=tetherd`).
+      - install -Dm755 tether-wrapper /app/bin/tether-gtk
+      - ln -s tether-gtk /app/bin/tether
+      - ln -s tether-gtk /app/bin/tetherd
+      - install -Dm644 io.github.zackb.tether.desktop /app/share/applications/io.github.zackb.tether.desktop
+      - install -Dm644 io.github.zackb.tether.metainfo.xml /app/share/metainfo/io.github.zackb.tether.metainfo.xml
+      - install -Dm644 io.github.zackb.tether.png /app/share/icons/hicolor/512x512/apps/io.github.zackb.tether.png
+    sources:
+      # Upstream's Ubuntu 26.04 build: its OpenSSL 3 and FFmpeg 8 (libavcodec62)
+      # sonames match the GNOME 51 runtime. The generic tarball links OpenSSL 4
+      # and libavcodec63, which the runtime doesn't have.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: tether.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/zackb/tether/releases/download/v0.3.6/tether_0.3.6_amd64.ubuntu26.04.deb
+        sha256: bfe05dfc7e5dc76d1854eec83b5fbfecdd0e0c8ce682d465e1a9755ccf049dbb
+        size: 10397416
+      # END MANAGED EXTRA-DATA
+      # The runtime lacks gtk-layer-shell (the pairing prompt, tether-dialog)
+      # and btmgmt (reads whether the adapter has Secure Connections enabled).
+      # BEGIN MANAGED DEBIAN trixie main
+      - type: extra-data
+        filename: libgtk-layer-shell0.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/g/gtk-layer-shell/libgtk-layer-shell0_0.9.0-2_amd64.deb
+        sha256: de8f0e98a4f48cea3bee516f76b5c314e5e6e7e684fff91fc26a87e970f5edbf
+        size: 56592
+      - type: extra-data
+        filename: bluez.deb
+        only-arches:
+          - x86_64
+        url: https://deb.debian.org/debian/pool/main/b/bluez/bluez_5.82-1.1_amd64.deb
+        sha256: 64a680d95abb11cf02f8170b2d57115dbdee4738a6163c2cf25021f546bce8ac
+        size: 1407164
+      # END MANAGED DEBIAN
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: tether-wrapper
+      - type: file
+        path: io.github.zackb.tether.desktop
+      - type: file
+        path: io.github.zackb.tether.metainfo.xml
+      - type: file
+        path: io.github.zackb.tether.png
