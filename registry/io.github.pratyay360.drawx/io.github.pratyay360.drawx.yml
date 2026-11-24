@@ -34,8 +34,8 @@ modules:
         only-arches:
           - x86_64
         url: https://github.com/Pratyay360/drawx/releases/download/v1.0.0/drawx_1.0.0_amd64.deb
-        sha256: 659ec6d5b8b6ded778c3ea0d90e3d21088a9038c75b41fb0781bcfb0ae254732
-        size: 9325264
+        sha256: 88a7bb121328dc3bb9614f5004073e5074339840ae8d999636ceea4716274c76
+        size: 9515552
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
