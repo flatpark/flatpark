@@ -1,0 +1,37 @@
+# FlatPark catalog descriptor for Ladybird.
+#
+# Repackages the Ubuntu 24.04 (noble) .deb from Ladybird's official apt
+# repository. That build carries its own Qt, ICU and FFmpeg under
+# /opt/ladybird, so it runs on org.freedesktop.Platform.
+#
+# The app id is upstream's own: Ladybird publishes a Flatpak of its own,
+# built from source, at flatpak.ladybird.org as org.ladybird.Ladybird, so this
+# package is the same application rather than a rival ref. Its manifest
+# (Meta/CMake/flatpak/org.ladybird.Ladybird.json) is JSON, which
+# check-upstream-manifests.mjs can't read, so there is no `upstream:` block;
+# the finish-args were compared by hand (see the manifest).
+id: org.ladybird.Ladybird
+name: Ladybird
+summary: Truly independent web browser
+website: https://ladybird.org/
+source_url: https://github.com/LadybirdBrowser/ladybird
+build:
+  manifest: org.ladybird.Ladybird.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Network
+  tags:
+    - Web Browser
+    - Browser Engine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Before starting, the launcher removes the single-instance files Ladybird leaves behind after it is killed, but only when no running browser answers on them, so the browser starts again instead of reporting that it is already running."
+      zh-Hans: "启动前，启动器会清理 Ladybird 被强制结束后留下的单实例文件（仅在没有正在运行的浏览器响应时），这样浏览器能重新启动，而不是报告它已在运行。"

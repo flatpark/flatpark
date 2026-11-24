@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.ladybird.Ladybird</id>
+  <launchable type="desktop-id">org.ladybird.Ladybird.desktop</launchable>
+  <name>Ladybird</name>
+  <developer id="org.ladybird">
+    <name>Ladybird Browser Initiative</name>
+  </developer>
+  <summary>Truly independent web browser</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-2-Clause</project_license>
+  <url type="homepage">https://ladybird.org/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/LadybirdBrowser/ladybird</url>
+  <url type="faq">https://ladybird.org/#faq</url>
+  <url type="donation">https://donorbox.org/ladybird</url>
+  <description>
+    <p>Ladybird is a brand-new web browser with its own engine, built from scratch: HTML, CSS, the DOM, layout, JavaScript and WebAssembly are all its own implementations, not a fork of Chromium, WebKit or Gecko. It is developed in the open by a non-profit, guided by web standards.</p>
+    <p>Ladybird is in alpha: some sites don't work yet, the browser can crash, and it makes no security promises yet.</p>
+    <p>This is a community package. It repackages, unmodified, the official Ubuntu 24.04 package from Ladybird's apt repository, downloaded from Ladybird at install time and updated from their releases. Ladybird also publishes its own Flatpak under the same app id at flatpak.ladybird.org; install it from one remote only. Please report problems with this package to FlatPark first.</p>
+    <p>The browser profile is kept in its private Flatpak data directory. Downloads are saved to your Downloads folder; other files are opened and saved through the desktop file chooser.</p>
+    <p>An optional capability is not granted by default; enable it with "flatpak override" if you need it:</p>
+    <ul>
+      <li>Gamepads in web pages: <code>flatpak override --user --device=input org.ladybird.Ladybird</code></li>
+      <li>Undo it: <code>flatpak override --user --reset org.ladybird.Ladybird</code></li>
+    </ul>
+  </description>
+  <categories>
+    <category>Network</category>
+    <category>WebBrowser</category>
+  </categories>
+  <keywords>
+    <keyword>browser</keyword>
+    <keyword>web</keyword>
+    <keyword>internet</keyword>
+  </keywords>
+  <provides>
+    <mediatype>text/html</mediatype>
+    <mediatype>application/xhtml+xml</mediatype>
+    <mediatype>x-scheme-handler/http</mediatype>
+    <mediatype>x-scheme-handler/https</mediatype>
+  </provides>
+  <branding>
+    <color type="primary" scheme_preference="light">#9d7cf2</color>
+    <color type="primary" scheme_preference="dark">#8a64e5</color>
+  </branding>
+  <screenshots>
+    <screenshot type="default">
+      <!-- Upstream's screenshots show the macOS interface; taken from a test run of 2026.47.7. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/org.ladybird.Ladybird/screenshots/browser.png</image>
+      <caption>Browsing a web page</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2026.47.7" date="2026-11-23">
+      <description></description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>
