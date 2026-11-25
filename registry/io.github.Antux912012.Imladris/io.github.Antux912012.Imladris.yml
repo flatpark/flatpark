@@ -35,9 +35,9 @@ modules:
         filename: imladris-flatpak.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/Antux912012/imladris/releases/download/v0.43.1/io.github.Antux912012.Imladris-flatpak-x86_64.tar.gz
-        sha256: 0d9b266c29e254fa53978c35ab9a457bb4a639d8f540d06dd2740c41145fb57a
-        size: 1971089
+        url: https://github.com/Antux912012/imladris/releases/download/v0.43.2/io.github.Antux912012.Imladris-flatpak-x86_64.tar.gz
+        sha256: d8dc51cad2a4d720d043703c0519526e23ee83b4e780eeed300a3c607328430d
+        size: 1939775
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
