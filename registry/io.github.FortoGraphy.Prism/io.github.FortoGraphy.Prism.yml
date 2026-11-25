@@ -1,0 +1,60 @@
+id: io.github.FortoGraphy.Prism
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: prism
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display and WebKit rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Download files and receive notifications.
+  - --share=network
+  - --filesystem=xdg-download
+  - --talk-name=org.freedesktop.Notifications
+  # Tauri tray icon.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # Tauri sends second launches and their arguments to the running instance.
+  - --own-name=dev.prism.manager.SingleInstance
+modules:
+  # Runtime support for the tray library loaded by Prism.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: prism
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 prism-wrapper /app/bin/prism
+      - install -Dm644 io.github.FortoGraphy.Prism.desktop /app/share/applications/io.github.FortoGraphy.Prism.desktop
+      - install -Dm644 io.github.FortoGraphy.Prism.metainfo.xml /app/share/metainfo/io.github.FortoGraphy.Prism.metainfo.xml
+      - install -Dm644 io.github.FortoGraphy.Prism.png /app/share/icons/hicolor/512x512/apps/io.github.FortoGraphy.Prism.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: prism.deb
+        only-arches: [x86_64]
+        url: https://github.com/FortoGraphy/prism-download-manager/releases/download/v1.2.6/Prism_1.2.6_amd64.deb
+        sha256: 8d00eaadd839649625245eceaa4d7104f30756bc938001dd1eef517f7ea7ae0e
+        size: 20000412
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: prism-wrapper
+      - type: file
+        path: io.github.FortoGraphy.Prism.desktop
+      - type: file
+        path: io.github.FortoGraphy.Prism.metainfo.xml
+      - type: file
+        path: io.github.FortoGraphy.Prism.png
