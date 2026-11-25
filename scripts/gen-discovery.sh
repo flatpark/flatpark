@@ -27,7 +27,7 @@ EOF
 
 # An extension is a runtime ref, so a flatpakref to it has to say so.
 is_runtime=false
-[ -z "$APP_EXTENDS" ] || is_runtime=true
+[ -z "$APP_EXTENDS$APP_SHARED" ] || is_runtime=true
 
 # SuggestRemoteName pins the auto-added remote to our canonical name; without
 # it flatpak derives one from the ref (e.g. "tabby-origin") and every

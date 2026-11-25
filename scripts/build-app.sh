@@ -38,6 +38,13 @@ fi
 if [ -n "$APP_EXTENDS" ]; then
     trap '"$ROOT/scripts/install-parent-skeleton.sh" --remove "$APP_EXTENDS"' EXIT
     "$ROOT/scripts/install-parent-skeleton.sh" "$APP_EXTENDS"
+elif [ -n "$APP_SHARED" ]; then
+    # A shared extension builds against the stand-in kept next to it. Like a
+    # parent's stand-in it is installed from a throwaway repo, never exported
+    # to $REPO_DIR, and removed when the build ends.
+    [ -f "$APP_BUILD_PARENT" ] || die "shared extension without its stand-in: $APP_BUILD_PARENT"
+    trap '"$ROOT/scripts/install-parent-skeleton.sh" --remove --manifest "$APP_BUILD_PARENT"' EXIT
+    "$ROOT/scripts/install-parent-skeleton.sh" --manifest "$APP_BUILD_PARENT"
 fi
 
 flatpak_builder --cwd="$APP_SRC" --env=GNUPGHOME="$GNUPGHOME_DIR" -- \

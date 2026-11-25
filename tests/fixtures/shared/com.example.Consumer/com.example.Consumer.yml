@@ -1,0 +1,26 @@
+id: com.example.Consumer
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: consumer
+finish-args:
+  - --share=network
+  - --talk-name=org.freedesktop.Flatpak
+add-extensions:
+  org.flatpark.Spawn:
+    directory: lib/flatpark-spawn
+    version: '1'
+modules:
+  - name: consumer
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/flatpark-spawn
+      - install -Dm755 consumer-wrapper /app/bin/consumer
+    sources:
+      - type: extra-data
+        filename: consumer.tar.gz
+        url: https://example.org/consumer.tar.gz
+        sha256: 2222222222222222222222222222222222222222222222222222222222222222
+        size: 1
+      - type: file
+        path: consumer-wrapper

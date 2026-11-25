@@ -1,0 +1,26 @@
+id: org.flatpark.Spawn
+name: flatpark-spawn
+summary: Lets an app run the host's command-line tools
+website: https://github.com/flatpark/flatpark-spawn
+source_url: https://github.com/flatpark/flatpark-spawn
+build:
+  manifest: org.flatpark.Spawn.yml
+  # The ABI major, which apps name as the extension point's version.
+  branch: '1'
+  mode: extra-data
+  # No parent: every app that declares the extension point mounts it, and
+  # each one passes the flatpark-spawn audit (config/flatpark-spawn.yml).
+  # Built against org.flatpark.Spawn.BuildParent.yml, never published.
+  shared: true
+  arches:
+    - x86_64
+    - aarch64
+catalog:
+  category: Development
+  tags:
+    - Terminal
+    - CLI
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false

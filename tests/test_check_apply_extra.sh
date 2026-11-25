@@ -132,4 +132,28 @@ sed -i 's#install -Dm755 apply_extra.sh /app/bin/apply_extra#true#' "$app/$id.ym
 assert_ok run_check
 assert_contains "$tmp/log" "nothing to check"
 
+# 6. A shared extension (build.shared) unpacks on its stand-in's runtime: its
+#    manifest's runtime is the stand-in, which is never installed here.
+write_apply "--no-same-owner"
+sed -i 's#^      - true$#      - install -Dm755 apply_extra.sh /app/bin/apply_extra#' "$app/$id.yml"
+sed -i 's/^  mode: extra-data/&\n  shared: true/' "$app/flatpark.yml"
+sed -i "s/^runtime: .*/runtime: $id.BuildParent/; s/^runtime-version: .*/runtime-version: master/" "$app/$id.yml"
+cat >"$app/$id.BuildParent.yml" <<EOF
+app-id: $id.BuildParent
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+add-extensions:
+  $id:
+    directory: lib/x
+EOF
+if ! run_check; then
+    echo "FAIL: check-apply-extra did not unpack a shared extension on its stand-in's runtime"
+    cat "$tmp/log"; exit 1
+fi
+assert_contains "$tmp/log" "apply_extra OK"
+sed -i "s/^runtime-version: .*/runtime-version: '25.99'/" "$app/$id.BuildParent.yml"
+if run_check; then echo "FAIL: check-apply-extra ignored the stand-in's runtime"; cat "$tmp/log"; exit 1; fi
+assert_contains "$tmp/log" "runtime not installed: org.freedesktop.Platform//25.99"
+
 echo "test_check_apply_extra: PASS"

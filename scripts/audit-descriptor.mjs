@@ -14,6 +14,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readManifestHead } from './read-extension-points.mjs';
 import { SECTION_MAP } from './catalog-sections.mjs';
+import { SPAWN_DIRECTORY, SPAWN_ID, SPAWN_TALK_NAME, SPAWN_VERSION, readAllowList } from './flatpark-spawn.mjs';
 
 const file = process.argv[2];
 if (!file) {
@@ -49,6 +50,8 @@ let appId = '';
 let sourceUrl = '';
 let manifestName = '';
 let extendsId = '';
+let sharedRaw = null; // build.shared as written
+let buildBranch = '';
 let updateCommand = '';
 let updateAuto = null;
 let proprietary = null;
@@ -97,6 +100,8 @@ const UPSTREAM_LISTS = {
     const [, k, v] = m;
     if (section === 'build' && k === 'manifest') manifestName = unquote(v);
     else if (section === 'build' && k === 'extends') extendsId = unquote(v);
+    else if (section === 'build' && k === 'shared') sharedRaw = unquote(v);
+    else if (section === 'build' && k === 'branch') buildBranch = unquote(v);
     else if (section === 'catalog' && k === 'stars_repo') starsRepo = unquote(v);
     else if (section === 'catalog' && k === 'category') category = unquote(v);
     else if (section === 'catalog' && k === 'interface') iface = unquote(v);
@@ -123,6 +128,11 @@ const UPSTREAM_LISTS = {
 }
 
 if (!manifestName) fail('descriptor missing build.manifest');
+
+// build.shared: an extension no app owns (docs/packagers/extensions.md#shared-extensions).
+const shared = sharedRaw === 'true';
+if (sharedRaw !== null && sharedRaw !== 'true' && sharedRaw !== 'false') fail(`build.shared must be true or false, got: ${sharedRaw}`);
+if (shared && extendsId) fail('build.shared and build.extends exclude each other: a shared extension has no parent');
 
 // Opt-in drift check (scripts/check-upstream-manifests.mjs). A typo here would
 // either point the sweep at the wrong file or hide a real permission change,
@@ -295,12 +305,32 @@ for (const src of sources) {
   }
 }
 
+// Comment lines dropped, for scanning what a file actually does.
+const codeOnly = (text) => text.split('\n').filter((l) => !/^\s*(#|\/\/|\*|\/\*)/.test(l)).join('\n');
+// A command that creates /app/<path> (or ${FLATPAK_DEST}/<path>) itself:
+// flatpak-builder doesn't make an extension point's directory, and bwrap can't
+// mount onto a path missing from a read-only /app.
+const makesDir = (text, path) => {
+  const p = path.replace(/^\/+|\/+$/g, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(^|[\\s;&|'"(])(mkdir|install\\s+(-\\S+\\s+)*-[A-Za-z]*d[A-Za-z0-9]*)\\s[^\\n]*?(/app|\\$\\{?FLATPAK_DEST\\}?)/${p}/?(?=$|[\\s;&|'")])`, 'm').test(codeOnly(text));
+};
+
 // An extension runs inside its parent's sandbox, on its parent's runtime, and
 // the repo only holds what the ref carries: its payload has to be extra-data.
+let own = { points: {} };
 if (manifestName && existsSync(join(dirname(file), manifestName))) {
-  const own = readManifestHead(readText(join(dirname(file), manifestName)));
-  if (own['build-extension'] === 'true' && !extendsId) fail('build-extension: true needs build.extends in the descriptor');
-  if (extendsId) {
+  own = readManifestHead(readText(join(dirname(file), manifestName)));
+}
+const payloadOnly = () => {
+  if (finishArgs.length) fail("an extension has no finish-args: it runs with its parent's");
+  if (!sources.some((s) => s.type === 'extra-data')) fail('an extension carries its payload as extra-data');
+  for (const s of sources) {
+    if (s.type === 'archive' || s.type === 'git') fail(`an extension can't build from a ${s.type} source: only extra-data keeps it out of the repo`);
+  }
+};
+if (manifestName && existsSync(join(dirname(file), manifestName))) {
+  if (own['build-extension'] === 'true' && !extendsId && !shared) fail('build-extension: true needs build.extends (or build.shared) in the descriptor');
+  if (extendsId && !shared) {
     const parentDir = join(dirname(file), '..', extendsId);
     const parentManifest = existsSync(join(parentDir, 'flatpark.yml'))
       ? readText(join(parentDir, 'flatpark.yml')).match(/^\s+manifest:\s*(\S+)\s*$/m)?.[1]
@@ -314,11 +344,7 @@ if (manifestName && existsSync(join(dirname(file), manifestName))) {
       if (!declared) fail(`build.extends: ${extendsId} declares no extension point for ${appId}`);
       if (own['build-extension'] !== 'true') fail('build.extends needs build-extension: true in the manifest');
       if (own.runtime !== extendsId) fail(`build.extends: the manifest's runtime must be ${extendsId}`);
-      if (finishArgs.length) fail("an extension has no finish-args: it runs with its parent's");
-      if (!sources.some((s) => s.type === 'extra-data')) fail('an extension carries its payload as extra-data');
-      for (const s of sources) {
-        if (s.type === 'archive' || s.type === 'git') fail(`an extension can't build from a ${s.type} source: only extra-data keeps it out of the repo`);
-      }
+      payloadOnly();
       const sdkVersion = (own.sdk || '').split('//')[1];
       if (sdkVersion !== parent['runtime-version']) {
         fail(`build.extends: sdk version ${sdkVersion} differs from ${extendsId}'s runtime ${parent['runtime-version']}`);
@@ -339,6 +365,53 @@ if (manifestName && existsSync(join(dirname(file), manifestName))) {
       const missing = ownArches && parentArches ? ownArches.filter((a) => !parentArches.includes(a)) : [];
       if (missing.length) fail(`build.arches: ${extendsId} is not built for ${missing.join(', ')}`);
     }
+  } else if (shared) {
+    // No app owns the extension point, but flatpak-builder only builds an
+    // extension against an installed ref that declares it: the stand-in kept
+    // next to the descriptor, which build-app.sh installs for the build and
+    // never publishes. Its runtime becomes [ExtensionOf] runtime=, the one
+    // apply_extra runs on, so it is held to what a parent would be.
+    const standInId = `${appId}.BuildParent`;
+    const standInFile = `${standInId}.yml`;
+    if (own['build-extension'] !== 'true') fail('build.shared needs build-extension: true in the manifest');
+    if (!existsSync(join(dir, standInFile))) {
+      fail(`build.shared: the stand-in ${standInFile} is missing next to the descriptor`);
+    } else {
+      const standInText = readText(join(dir, standInFile));
+      const standIn = readManifestHead(standInText);
+      if (standIn.id !== standInId) fail(`build.shared: ${standInFile} must have app-id ${standInId}, got: ${standIn.id || 'none'}`);
+      if (own.runtime !== standInId) fail(`build.shared: the manifest's runtime must be the stand-in ${standInId}`);
+      const standInBranch = standIn.branch || 'master';
+      if ((own['runtime-version'] || '') !== standInBranch) {
+        fail(`build.shared: the manifest's runtime-version must be ${standInBranch}, the stand-in's branch`);
+      }
+      if (!standIn.runtime || !standIn['runtime-version']) {
+        fail(`build.shared: ${standInFile} names no runtime and runtime-version, which apply_extra runs on`);
+      }
+      const point = standIn.points[appId];
+      if (!point) {
+        fail(`build.shared: ${standInFile} declares no extension point ${appId}`);
+      } else {
+        const branch = own.branch || buildBranch;
+        if (point.version !== undefined && point.version !== branch) {
+          fail(`build.shared: ${standInFile} declares ${appId} with version ${point.version}, but the extension's branch is ${branch || 'unset'}`);
+        }
+        if (!point.directory) fail(`build.shared: ${standInFile} declares ${appId} with no directory`);
+        else if (!makesDir(standInText, point.directory)) {
+          fail(`build.shared: ${standInFile} has to mkdir -p /app/${point.directory}: flatpak-builder doesn't create an extension point's directory`);
+        }
+      }
+      const sdkVersion = (own.sdk || '').split('//')[1];
+      if (sdkVersion !== standIn['runtime-version']) {
+        fail(`build.shared: sdk version ${sdkVersion} differs from the stand-in's runtime ${standIn['runtime-version']}`);
+      }
+      // The stand-in's id must never be a registry entry: that one would be
+      // built and published.
+      if (existsSync(join(dir, '..', standInId, 'flatpark.yml'))) {
+        fail(`build.shared: ${standInId} is a registry entry; a stand-in is never published`);
+      }
+    }
+    payloadOnly();
   }
 }
 
@@ -384,22 +457,23 @@ for (const text of scan) {
 // G6 — packaging transparency (shown on the site as the packaging level). What
 // the scripts plainly do must be declared under `packaging:`, and an
 // open-source app may not modify the vendor's build at all.
+// What the package's own files run: the manifest, wrappers, scripts and
+// sources, without comments, the descriptor, the resolver and display files.
+let code = '';
+let hasC = false;
+try {
+  for (const f of readdirSync(dir)) {
+    if (/\.(xml|png|svg|desktop|md)$/.test(f) || f === 'flatpark.yml' || f === 'resolve-update.sh') continue;
+    if (/\.c$/.test(f)) hasC = true;
+    try { code += '\n' + codeOnly(readText(join(dir, f))); } catch { /* ignore */ }
+  }
+} catch { /* ignore */ }
 const PACKAGING_KINDS = new Set([
   'support-files', 'seeded-config', 'injected-code', 'file-change', 'runtime-install', 'host-command', 'sandbox-off',
 ]);
 for (const k of packagingKinds) if (!PACKAGING_KINDS.has(k)) fail(`packaging: unknown kind "${k}"`);
 {
   const declared = new Set(packagingKinds);
-  const codeOnly = (text) => text.split('\n').filter((l) => !/^\s*(#|\/\/|\*|\/\*)/.test(l)).join('\n');
-  let code = '';
-  let hasC = false;
-  try {
-    for (const f of readdirSync(dir)) {
-      if (/\.(xml|png|svg|desktop|md)$/.test(f) || f === 'flatpark.yml' || f === 'resolve-update.sh') continue;
-      if (/\.c$/.test(f)) hasC = true;
-      try { code += '\n' + codeOnly(readText(join(dir, f))); } catch { /* ignore */ }
-    }
-  } catch { /* ignore */ }
   const need = (kind, why) => {
     if (!declared.has(kind)) fail(`packaging: ${why}, but packaging: declares no "${kind}" entry`);
   };
@@ -416,6 +490,58 @@ for (const k of packagingKinds) if (!PACKAGING_KINDS.has(k)) fail(`packaging: un
     for (const k of ['injected-code', 'file-change', 'runtime-install']) {
       if (declared.has(k)) fail(`packaging: "${k}" is not allowed for an open-source app (it ships unmodified; the fix belongs upstream)`);
     }
+  }
+}
+
+// G7 — flatpark-spawn takes the sandbox apart on purpose: a command an app's
+// tools run goes to the host, as the user. So an app may use it only when the
+// manifest grants it (the talk-name), the PR argues for it (declared in
+// policy.dangerous_permissions and as `kind: host-command`), and a maintainer
+// has put the app on config/flatpark-spawn.yml. The extension point has to be
+// written the one way that works for every app sharing it
+// (docs/packagers/extensions.md#using-a-shared-extension).
+if (appId && appId !== SPAWN_ID) {
+  const point = own.points[SPAWN_ID];
+  const mentioned = /flatpark-spawn/.test(code);
+  let allowed = [];
+  let allowListError = '';
+  try { allowed = readAllowList(); } catch (e) { allowListError = e.message || String(e); }
+  if (point || mentioned) {
+    const why = `${appId} uses flatpark-spawn`;
+    if (!point) {
+      fail(`${why}, but its manifest doesn't declare ${SPAWN_ID} under add-extensions: use the shared extension, don't bundle it`);
+    } else {
+      if (point.version !== SPAWN_VERSION) {
+        fail(`add-extensions: ${SPAWN_ID} needs version: '${SPAWN_VERSION}' (the extension's branch), got: ${point.version ?? 'none'}`);
+      }
+      if (point.directory !== SPAWN_DIRECTORY) {
+        fail(`add-extensions: ${SPAWN_ID} needs directory: ${SPAWN_DIRECTORY}, got: ${point.directory ?? 'none'}`);
+      }
+      if (point.autodelete === 'true') {
+        fail(`add-extensions: ${SPAWN_ID} can't have autodelete: true: uninstalling this app would delete it under every other app using it`);
+      }
+      if (point['no-autodownload'] === 'true') {
+        fail(`add-extensions: ${SPAWN_ID} can't have no-autodownload: true: it has to install with the app`);
+      }
+      if (!makesDir(code, SPAWN_DIRECTORY)) {
+        fail(`${why}: a build command has to mkdir -p /app/${SPAWN_DIRECTORY}, or the app can't start (bwrap can't mount the extension on a missing directory)`);
+      }
+    }
+    if (!finishArgs.includes(SPAWN_TALK_NAME)) {
+      fail(`${why}: it needs ${SPAWN_TALK_NAME} in finish-args, without which the extension does nothing`);
+    }
+    if (!dangerousPerms.map(baseFs).includes(SPAWN_TALK_NAME)) {
+      fail(`${why}: ${SPAWN_TALK_NAME} must be declared in policy.dangerous_permissions`);
+    }
+    if (!packagingKinds.includes('host-command')) {
+      fail(`${why}: packaging: needs a "host-command" entry, so its page says it runs commands on the host`);
+    }
+    if (allowListError) fail(`${why}, and the allow-list can't be read: ${allowListError}`);
+    else if (!allowed.includes(appId)) {
+      fail(`${why}, but ${appId} is not on the allow-list (config/flatpark-spawn.yml): a maintainer adds it after auditing the app`);
+    }
+  } else if (allowed.includes(appId)) {
+    warn(`${appId} is on the flatpark-spawn allow-list (config/flatpark-spawn.yml) but doesn't declare ${SPAWN_ID}`);
   }
 }
 

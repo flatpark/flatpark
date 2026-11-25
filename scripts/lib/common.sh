@@ -194,7 +194,7 @@ load_app() {
     local desc
     desc="$(node "$ROOT/scripts/read-descriptor.mjs" "$record")" \
         || die "failed to read descriptor: $record"
-    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_ARCHES \
+    local _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_SHARED _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
     # shellcheck disable=SC1090
     eval "$desc"
@@ -204,6 +204,11 @@ load_app() {
     APP_SUMMARY="$_FP_SUMMARY"
     APP_ARCHES="$_FP_ARCHES"   # space-separated, x86_64 when the descriptor is silent
     APP_EXTENDS="$_FP_EXTENDS" # the parent app of an extension, empty for an app
+    # A shared extension (build.shared) has no parent: any app that declares its
+    # extension point mounts it. It builds against a stand-in that is never
+    # published, kept next to it as <id>.BuildParent.yml.
+    APP_SHARED="$_FP_SHARED"   # true, or empty
+    APP_BUILD_PARENT="${APP_SHARED:+$app_dir/$APP_ID.BuildParent.yml}"
     [ "$APP_ID" = "$app_id" ] || die "registry id mismatch: wanted $app_id got $APP_ID"
 
     # Defaults compose the descriptor values; any explicit env override (captured
@@ -226,10 +231,11 @@ load_app() {
         [ -n "${!var-}" ] || die "app registry entry $record did not set $var"
         declare -g "$var=${!var}"
     done
-    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO APP_EXTENDS; do
+    for var in APP_CATEGORY APP_TAGS APP_ICON APP_SOURCE_URL APP_WEBSITE APP_UPDATE_COMMAND APP_UPDATE_AUTO APP_EXTENDS \
+        APP_SHARED APP_BUILD_PARENT; do
         declare -g "$var=${!var}"
     done
-    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_ARCHES \
+    unset _FP_ID _FP_NAME _FP_SUMMARY _FP_BRANCH _FP_MANIFEST _FP_MODE _FP_EXTENDS _FP_SHARED _FP_ARCHES \
           _FP_CATEGORY _FP_TAGS _FP_WEBSITE _FP_SOURCE_URL _FP_UPDATE_COMMAND _FP_UPDATE_AUTO
 }
 
@@ -248,7 +254,10 @@ runtime_moved() {   # <id> <base-rev> <head-rev>
 }
 
 # The registry ids that name this app in build.extends (only under build:,
-# the way read-descriptor.mjs reads it).
+# the way read-descriptor.mjs reads it). A shared extension (build.shared) names
+# no parent and is never listed: the apps that mount it don't build it, and its
+# stand-in lives in its own registry directory, so a change there rebuilds it
+# like any other file of its own.
 extensions_of() {
     local record
     # || true: an empty registry leaves the glob unexpanded, and with pipefail

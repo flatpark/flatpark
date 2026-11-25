@@ -48,7 +48,10 @@ jobs:
           shopt -s nullglob
           base="$(git rev-parse HEAD^1)"
           strict_all=0
-          git diff --quiet "$base" HEAD -- scripts/audit-descriptor.mjs scripts/read-descriptor.mjs scripts/catalog-sections.mjs || strict_all=1
+          # The flatpark-spawn allow-list is read by the audit: taking an app off
+          # it has to fail that app here, not only on its next PR.
+          git diff --quiet "$base" HEAD -- scripts/audit-descriptor.mjs scripts/read-descriptor.mjs scripts/catalog-sections.mjs \
+            scripts/read-extension-points.mjs config/flatpark-spawn.yml || strict_all=1
           changed=" $(./scripts/changed-apps.sh --any-change "$base" HEAD | tr '\n' ' ') "
           rc=0
           log="$(mktemp)"
@@ -248,10 +251,13 @@ jobs:
             # An app newly opted into an arch has pins this arch never unpacked.
             arch_diff="$(git diff -U0 "$base" HEAD -- "registry/$id/flatpark.yml" \
                           | grep -E '^[+-][[:space:]]*arches:' || true)"
-            # An extension unpacks on its parent's runtime, which this PR may move.
+            # An extension unpacks on its parent's runtime, which this PR may move;
+            # a shared extension on its stand-in's (registry/<id>/<id>.BuildParent.yml).
             parent_moved=""
             if ( . scripts/lib/common.sh; load_config "$PWD"; load_app "$id"
-                 [ -n "$APP_EXTENDS" ] && runtime_moved "$APP_EXTENDS" "$base" HEAD ); then
+                 { [ -n "$APP_EXTENDS" ] && runtime_moved "$APP_EXTENDS" "$base" HEAD; } ||
+                 { [ -n "$APP_SHARED" ] && [ -n "$(git diff -U0 "$base" HEAD -- "$APP_BUILD_PARENT" \
+                       | grep -E '^[+-](runtime|runtime-version):' || true)" ]; } ); then
               parent_moved=1
             fi
             if [ -n "$pin_diff" ] || [ -n "$app_diff" ] || [ -n "$arch_diff" ] || [ -n "$parent_moved" ]; then

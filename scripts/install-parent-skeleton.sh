@@ -13,14 +13,32 @@
 # for the build: build-app.sh runs `--remove` when it ends, or the stub would
 # shadow a real parent installed with --system (`flatpak run` prefers the user
 # installation). A parent already in the user installation is used as it is.
+#
+# A shared extension (build.shared) has no parent in the registry. Its stand-in
+# is described by a manifest of its own, registry/<id>/<id>.BuildParent.yml,
+# passed with --manifest: the stand-in is made from it the same way, on the
+# manifest's `branch` (flatpak-builder's default, master, when it has none).
+#
+# Usage: install-parent-skeleton.sh [--remove] <parent-id>
+#        install-parent-skeleton.sh [--remove] --manifest <stand-in.yml>
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 . "$ROOT/scripts/lib/common.sh"
 load_config "$ROOT"
 need flatpak; need node
 remove=0
 [ "${1-}" = "--remove" ] && { remove=1; shift; }
-parent="${1:?usage: install-parent-skeleton.sh [--remove] <parent-id>}"
-load_app "$parent"
+usage="usage: install-parent-skeleton.sh [--remove] <parent-id> | [--remove] --manifest <stand-in.yml>"
+if [ "${1-}" = "--manifest" ]; then
+    MANIFEST="${2:?$usage}"
+    [ -f "$MANIFEST" ] || die "stand-in manifest not found: $MANIFEST"
+    meta="$(node "$ROOT/scripts/read-extension-points.mjs" "$MANIFEST" x86_64)" \
+        || die "cannot read the stand-in manifest $MANIFEST"
+    parent="$(printf '%s\n' "$meta" | sed -n 's/^name=//p')"
+    APP_BRANCH="$(node "$ROOT/scripts/read-extension-points.mjs" --branch "$MANIFEST")"
+else
+    parent="${1:?$usage}"
+    load_app "$parent"
+fi
 remote="$REMOTE_NAME-skeleton"
 origin="$(flatpak --user info --show-origin "$parent" 2>/dev/null || true)"
 if [ "$remove" = 1 ]; then

@@ -1,0 +1,28 @@
+# Apps allowed to use flatpark-spawn (the shared extension org.flatpark.Spawn).
+#
+# ADDING AN APP HERE GRANTS IT A WAY OUT OF THE SANDBOX. An app that declares
+# org.flatpark.Spawn and holds --talk-name=org.freedesktop.Flatpak runs the
+# commands its tools call (git, node, the user's own scripts) on the host, as
+# the user, with everything the user can reach. Narrowing its other
+# permissions does not contain that.
+#
+# So this list is the gate, and it is reviewed like code: every entry is a
+# maintainer's decision, made in the PR that adds it, after the app was audited
+# as completely as we can (docs/packagers/permissions.md#running-commands-on-the-host).
+# The audit (scripts/audit-descriptor.mjs) fails any app whose manifest
+# declares org.flatpark.Spawn, or whose files reference flatpark-spawn, unless
+# its id is listed here, and it also needs the talk-name, the entry in
+# policy.dangerous_permissions and a `kind: host-command` packaging entry.
+# CI treats a change to this file as a change to repo automation
+# (pr-checks.yml, guard-infra) and audits the whole catalog against it.
+#
+# One app id per line, with the PR or issue that granted it:
+#
+#   apps:
+#     - com.example.Editor   # flatpark#1234
+#
+# An app listed here that doesn't declare the extension yet only gets a
+# warning, so the grant can land before the switch. Take an app off the list
+# when it stops using flatpark-spawn or leaves the registry: tests/test_registry.sh
+# fails on an id that isn't in the registry.
+apps: []

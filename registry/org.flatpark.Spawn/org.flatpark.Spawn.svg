@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>flatpark-spawn</title>
+  <!-- A terminal prompt whose command leaves the box it was typed in. -->
+  <rect x="40" y="72" width="432" height="368" rx="56" fill="#1f2a37"/>
+  <rect x="40" y="72" width="432" height="72" rx="56" fill="#2f3d4f"/>
+  <rect x="40" y="116" width="432" height="28" fill="#2f3d4f"/>
+  <circle cx="96" cy="108" r="14" fill="#f87171"/>
+  <circle cx="140" cy="108" r="14" fill="#fbbf24"/>
+  <circle cx="184" cy="108" r="14" fill="#34d399"/>
+  <path d="M104 220 L176 276 L104 332" fill="none" stroke="#e5e7eb" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M212 332 H300" fill="none" stroke="#e5e7eb" stroke-width="30" stroke-linecap="round"/>
+  <path d="M332 300 L432 200" fill="none" stroke="#38bdf8" stroke-width="34" stroke-linecap="round"/>
+  <path d="M352 188 H448 V284" fill="none" stroke="#38bdf8" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
