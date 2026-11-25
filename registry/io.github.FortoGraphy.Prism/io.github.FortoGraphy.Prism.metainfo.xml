@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.FortoGraphy.Prism</id>
+  <name>Prism Download Manager</name>
+  <summary>Multi-connection download manager</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="dev.prism.manager">
+    <name>Jan Sechovec and Prism contributors</name>
+  </developer>
+  <description>
+    <p>Prism downloads files using multiple connections, supports queues, and resumes interrupted downloads.</p>
+    <p>This community package repackages the official upstream build unmodified. Browser integration and media tools have not yet been verified in this package.</p>
+  </description>
+  <url type="homepage">https://prismdl.site/</url>
+  <url type="bugtracker">https://github.com/FortoGraphy/prism-download-manager/issues</url>
+  <launchable type="desktop-id">io.github.FortoGraphy.Prism.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Download queue and connection progress</caption>
+      <image>https://prismdl.site/assets/img/main-dark-1600.webp</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.2.6" date="2026-11-24"/>
+  </releases>
+</component>
