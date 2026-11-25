@@ -28,13 +28,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: moebius.deb
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/michael-lazar/moebius-beyond/releases/download/v3.8.3/MoebiusBeyond-amd64.deb
         sha256: 417ca3183e1aed449a319857fc1a2905bd3aeaa0026223fc7bb12d93c9b378c3
         size: 95031556
       - type: extra-data
         filename: moebius.deb
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/michael-lazar/moebius-beyond/releases/download/v3.8.3/MoebiusBeyond-arm64.deb
         sha256: ed0ee32dec01e540e437134459e37c8f0bffb735bcfcec14cba9574c2a3fc122
         size: 89603520
