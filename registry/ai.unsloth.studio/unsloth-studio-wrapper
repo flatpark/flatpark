@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# This is the .deb build, not the AppImage: do not inherit an AppImage runtime
+# from a host terminal, which would make Tauri look for bundled GTK/WebKit.
+unset APPIMAGE APPDIR
+exec /app/extra/app/bin/unsloth-studio "$@"
