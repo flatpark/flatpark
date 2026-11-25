@@ -54,16 +54,16 @@ modules:
         filename: flatpark-spawn.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/flatpark/flatpark-spawn/releases/download/v0.1.0/flatpark-spawn-0.1.0-x86_64.tar.gz
-        sha256: 15e96f0ddb4b08e37a156c89c4f9ad9f36d4a0704367f59129f9db2f2956465b
-        size: 1394203
+        url: https://github.com/flatpark/flatpark-spawn/releases/download/v0.2.0/flatpark-spawn-0.2.0-x86_64.tar.gz
+        sha256: 2c27c3f40b949f17d4746150d6fa77cc43fdec5439c489d8bfb3f58819fa6089
+        size: 1952999
       - type: extra-data
         filename: flatpark-spawn.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/flatpark/flatpark-spawn/releases/download/v0.1.0/flatpark-spawn-0.1.0-aarch64.tar.gz
-        sha256: d96ef7b9b6f2fb242be2d946d3a615dff4b3bc9151523f10c0afe211dadffee8
-        size: 1268297
+        url: https://github.com/flatpark/flatpark-spawn/releases/download/v0.2.0/flatpark-spawn-0.2.0-aarch64.tar.gz
+        sha256: 989a8d69046a622eeb21ab7e62d7d3fd40713ce4b49d11a61c234b221c3cdba9
+        size: 1758644
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
