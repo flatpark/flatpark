@@ -1,41 +1,47 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time inside org.gnome.Platform. Upstream's .deb
-# carries the native binary at usr/bin/imladris and desktop assets.
+# Runs offline at install time inside org.gnome.Platform. Upstream's Flatpak
+# /app tree tarball carries bin/imladris, optional bundled llama-server,
+# libraries, and desktop/AppStream/schema assets built with --prefix=/app.
 # Stage the binary at /app/extra/imladris, unmodified.
 
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-[ -f imladris.deb ] || { echo "missing extra-data: imladris.deb" >&2; exit 1; }
+[ -f imladris-flatpak.tar.gz ] || { echo "missing extra-data: imladris-flatpak.tar.gz" >&2; exit 1; }
 
-rm -rf stage imladris
+rm -rf stage imladris bin lib share
 mkdir stage
-# Extract data archive: use bsdtar (standard in Flatpak runtimes) or ar/tar fallback
+
 if command -v bsdtar >/dev/null 2>&1; then
-    bsdtar -xOf imladris.deb 'data.tar*' | bsdtar --no-same-owner -xf - -C stage
-elif command -v ar >/dev/null 2>&1; then
-    ar -x imladris.deb
-    tar --no-same-owner -xf data.tar.* -C stage
-    rm -f control.tar.* debian-binary data.tar.*
+    bsdtar --no-same-owner -xf imladris-flatpak.tar.gz -C stage
+elif command -v tar >/dev/null 2>&1; then
+    tar --no-same-owner -xzf imladris-flatpak.tar.gz -C stage
 else
-    echo "Neither bsdtar nor ar found" >&2
+    echo "Neither bsdtar nor tar found" >&2
     exit 1
 fi
-[ -f stage/usr/bin/imladris ] || { echo "imladris binary not found in .deb" >&2; exit 1; }
 
-mv stage/usr/bin/imladris imladris
+[ -f stage/bin/imladris ] || { echo "imladris binary not found in Flatpak archive" >&2; exit 1; }
+
+mv stage/bin/imladris imladris
 chmod +x imladris
 
-if [ -d stage/usr/share/imladris ]; then
-    mkdir -p share/imladris
-    cp -a stage/usr/share/imladris/* share/imladris/
+if [ -d stage/bin ] && [ -n "$(ls -A stage/bin 2>/dev/null)" ]; then
+    mkdir -p bin
+    cp -a stage/bin/* bin/
+    chmod +x bin/* 2>/dev/null || true
 fi
 
-if [ -d stage/usr/share/icons ]; then
-    mkdir -p share/icons
-    cp -a stage/usr/share/icons/* share/icons/
+if [ -d stage/lib ] && [ -n "$(ls -A stage/lib 2>/dev/null)" ]; then
+    mkdir -p lib
+    cp -a stage/lib/* lib/
 fi
 
-rm -rf stage imladris.deb
+if [ -d stage/share ] && [ -n "$(ls -A stage/share 2>/dev/null)" ]; then
+    mkdir -p share
+    cp -a stage/share/* share/
+fi
+
+rm -rf stage imladris-flatpak.tar.gz
