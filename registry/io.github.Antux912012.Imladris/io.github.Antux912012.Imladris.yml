@@ -14,12 +14,10 @@ finish-args:
   - --device=dri
   # Network access for AI models, Shiny live server, and package installations
   - --share=network
-  # Host portal for spawning host scientific toolchains when configured
+  # HostBridge runs R/Python/Julia/Quarto on the host via flatpak-spawn --host
   - --talk-name=org.freedesktop.Flatpak
-  # Workspace file access across user home and shared cache for plots/scripts
+  # Projects live anywhere under home; host kernels must see the same paths
   - --filesystem=home
-  - --filesystem=xdg-cache/imladris:create
-  - --env=WEBKIT_DISABLE_DMABUF_RENDERER=1
 modules:
   - name: imladris
     buildsystem: simple
