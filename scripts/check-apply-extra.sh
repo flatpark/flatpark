@@ -97,10 +97,15 @@ check_one() {
     done < <(node "$ROOT/scripts/read-extra-data.mjs" "$MANIFEST" "$arch")
 
     # An extension's manifest names its parent app as the runtime; what it
-    # unpacks on is the parent's own runtime.
+    # unpacks on is the parent's own runtime. A shared extension's "parent" is
+    # its stand-in, whose runtime becomes [ExtensionOf] runtime= and so the one
+    # Flatpak runs apply_extra on.
     if [ -n "$APP_EXTENDS" ]; then
         IFS=$'\t' read -r kind runtime runtime_version \
             < <(node "$ROOT/scripts/read-extra-data.mjs" "$(manifest_of "$APP_EXTENDS")" "$arch")
+    elif [ -n "$APP_SHARED" ]; then
+        IFS=$'\t' read -r kind runtime runtime_version \
+            < <(node "$ROOT/scripts/read-extra-data.mjs" "$APP_BUILD_PARENT" "$arch")
     fi
 
     if [ "${#sources[@]}" -eq 0 ]; then

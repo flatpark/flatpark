@@ -5,10 +5,13 @@
 // here keep a fixed shape, and the pipeline stays dependency-free.
 //
 // Run directly, it prints the metadata of that stand-in
-// (install-parent-skeleton.sh), or with --bundled the points the app builds
-// itself (`bundle: true`), whose refs ship with it (prune-and-reclaim.sh).
+// (install-parent-skeleton.sh), with --branch the branch the stand-in is
+// installed on (`branch:`, or flatpak-builder's default `master`), or with
+// --bundled the points the app builds itself (`bundle: true`), whose refs ship
+// with it (prune-and-reclaim.sh).
 //
 // Usage: read-extension-points.mjs <manifest.yml> <arch>
+//        read-extension-points.mjs --branch <manifest.yml>
 //        read-extension-points.mjs --bundled <manifest.yml>
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -27,8 +30,9 @@ export function readManifestHead(text) {
     if (indent === 0) {
       inBlock = /^add-extensions:\s*$/.test(raw);
       pointIndent = null;
-      const m = raw.match(/^(id|runtime|runtime-version|sdk|command|build-extension):\s*(.+)$/);
-      if (m) head[m[1]] = strip(m[2]);
+      const m = raw.match(/^(id|app-id|runtime|runtime-version|sdk|command|build-extension|branch):\s*(.+)$/);
+      // flatpak-builder takes `app-id` as another name for `id`.
+      if (m) head[m[1] === 'app-id' ? 'id' : m[1]] = strip(m[2]);
       continue;
     }
     if (!inBlock) continue;
@@ -61,12 +65,16 @@ function skeletonMetadata(head, arch) {
 if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [file, arch] = process.argv.slice(2);
   if (!file || !arch) {
-    process.stderr.write('usage: read-extension-points.mjs <manifest.yml> <arch> | --bundled <manifest.yml>\n');
+    process.stderr.write('usage: read-extension-points.mjs <manifest.yml> <arch> | --branch <manifest.yml> | --bundled <manifest.yml>\n');
     process.exit(2);
   }
   if (file === '--bundled') {
     const { points } = readManifestHead(readFileSync(arch, 'utf8'));
     for (const [name, keys] of Object.entries(points)) if (keys.bundle === 'true') process.stdout.write(`${name}\n`);
+    process.exit(0);
+  }
+  if (file === '--branch') {
+    process.stdout.write(`${readManifestHead(readFileSync(arch, 'utf8')).branch || 'master'}\n`);
     process.exit(0);
   }
   const head = readManifestHead(readFileSync(file, 'utf8'));

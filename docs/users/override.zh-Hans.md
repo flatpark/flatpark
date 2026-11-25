@@ -68,6 +68,8 @@ flatpak override --user --env=UI_SCALE=2 com.schwab.thinkorswim
 flatpak override --user --no-talk-name=org.freedesktop.Flatpak io.enpass.Enpass
 ```
 
+使用 flatpark-spawn 的应用会在页面上注明：它的工具调用的命令（`git`、`node` 之类）会以你的身份在你的系统上执行。同样的 override 可以关掉它，之后应用只能执行沙盒里有的命令。
+
 **应用记不住设置。**如果你关掉过它的某个文件夹（比如在 Flatseal 里），Flatpak 会在原处放一个空的临时文件夹，应用写进去的东西就丢了。用 `--show` 检查，去掉那一项或者 `--reset`。如果你什么都没改过，那是打包问题，请[报告](troubleshooting.md#报告问题)。修好之前，`flatpak override --user --persist=.something <app-id>` 可以把主目录下的隐藏文件夹 `~/.something` 存进应用自己的数据里。
 
 **保存文件时报"Device or resource busy"。**软件包授权的是这一个文件，而不是它所在的文件夹。挂载到文件本身上的授权没法被"写新文件再改名覆盖"的方式替换。改成授权文件夹；文件直接在主目录下时：

@@ -5,7 +5,7 @@
 //
 // This is NOT a general YAML parser: the descriptor schema is small and
 // controlled, so we extract exactly the known paths (id, name, summary,
-// website, source_url, build.{manifest,branch,mode,extends,arches},
+// website, source_url, build.{manifest,branch,mode,extends,shared,arches},
 // catalog.{category,tags},
 // update.{command,auto}). Keeping it dependency-free means the core bash pipeline only
 // needs `node`, not an npm install.
@@ -95,6 +95,7 @@ for (const raw of text.split('\n')) {
     else if (key === 'branch') d.branch = unquote(val);
     else if (key === 'mode') d.mode = unquote(val);
     else if (key === 'extends') d.extends = unquote(val);
+    else if (key === 'shared') d.shared = unquote(val);
   } else if (section === 'catalog') {
     if (key === 'category') d.category = unquote(val);
     else if (key === 'tags') {
@@ -140,6 +141,20 @@ if (d.arches) {
   arches = KNOWN_ARCHES.filter((a) => d.arches.includes(a));
 }
 
+// build.shared: an extension no app owns, which every app that declares its
+// extension point mounts (docs/packagers/extensions.md#shared-extensions). It
+// builds against a stand-in, registry/<id>/<id>.BuildParent.yml, so it can't
+// also name a parent: the build would not know which one to install.
+if (d.shared !== undefined && d.shared !== 'true' && d.shared !== 'false') {
+  process.stderr.write(`descriptor ${file}: build.shared must be true or false, got: ${d.shared}\n`);
+  process.exit(1);
+}
+const shared = d.shared === 'true';
+if (shared && d.extends) {
+  process.stderr.write(`descriptor ${file}: build.shared and build.extends exclude each other\n`);
+  process.exit(1);
+}
+
 function sq(v) {
   return "'" + String(v == null ? '' : v).replace(/'/g, "'\\''") + "'";
 }
@@ -152,6 +167,7 @@ const out = [
   `_FP_MANIFEST=${sq(d.manifest)}`,
   `_FP_MODE=${sq(d.mode || '')}`,
   `_FP_EXTENDS=${sq(d.extends || '')}`,
+  `_FP_SHARED=${sq(shared ? 'true' : '')}`,
   `_FP_ARCHES=${sq(arches.join(' '))}`,
   `_FP_CATEGORY=${sq(d.category || '')}`,
   `_FP_TAGS=${sq((d.tags || []).join(', '))}`,

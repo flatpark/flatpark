@@ -116,13 +116,15 @@ with `DBusClient._openSocket` in the trace.
 ### Commands on the host
 
 An app that needs a host program (`git`, `lsof`, a CLI it manages) can't run it
-from the sandbox. A small script on `PATH` that runs the real command with
-`flatpak-spawn --host` works, at the cost of `--talk-name=org.freedesktop.Flatpak`,
-which lets the app run anything on the host: declare it as `host-command` and
-argue for it in the PR ([permissions](../permissions.md#declaring-high-risk-permissions)).
-Keep detection inside the sandbox: an app that checks whether a tool is
-installed should see the sandbox's answer, and only the actual run goes to the
-host.
+from the sandbox. Use [flatpark-spawn](../permissions.md#running-commands-on-the-host),
+the shared extension that runs the app's commands on the host, rather than a
+script on `PATH` that calls `flatpak-spawn --host`. Either way it costs
+`--talk-name=org.freedesktop.Flatpak`, which lets the app run anything on the
+host: the app must be on flatpark-spawn's allow-list, declare the permission
+and `host-command`, and argue for it in the PR. flatpark-spawn forwards running
+a command, not looking for one: an app that checks whether a tool exists (a
+`stat` along `PATH`, `which`) before running it still sees the sandbox's
+answer.
 
 Things that don't work from a Flatpak however it is granted: seeing host
 processes (`pgrep`, `/proc`), and launching at login through the app's own

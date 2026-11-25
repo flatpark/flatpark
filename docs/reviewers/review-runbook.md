@@ -135,6 +135,12 @@ artifact provenance tier (1/2/3).
   justification**; declared ones go to a maintainer (NEEDS-HUMAN), who grants
   them when the app's feature needs them. Warn on `--device=all`,
   `--filesystem=home`, needless `--share=network`.
+- **flatpark-spawn:** an app that declares `org.flatpark.Spawn` runs its tools'
+  commands on the host. The audit enforces the shape
+  ([permissions](../packagers/permissions.md#what-the-audit-checks-for-flatpark-spawn));
+  the review decides whether the app gets it at all. Adding an id to
+  `config/flatpark-spawn.yml` is a maintainer's call, made after the app is
+  audited as completely as possible, and never in a contributor's PR.
 - **Optional capabilities are opt-in, not pre-granted:** a broad permission that
   the app's *core* feature doesn't need must be absent from `finish-args` and
   instead documented as a `flatpak override` command in the metainfo description
@@ -144,6 +150,11 @@ artifact provenance tier (1/2/3).
   point and the source types ([extensions](../packagers/extensions.md)). Read
   the parent's `finish-args` too: the extension's code runs with all of them, so
   review it as you would a new app with those permissions.
+- **Shared extensions** (`build.shared`): no parent; the code runs inside every
+  app that declares it, with each one's permissions. The audit checks the
+  stand-in it builds against (`<id>.BuildParent.yml`, [extensions](../packagers/extensions.md#shared-extensions));
+  read it too, it should stay a stub: a runtime, the extension point and its
+  `mkdir`.
 - **What was tested:** the PR body says honestly what the submitter built,
   installed, launched and used, and what they couldn't test
   ([testing playbook](testing-playbook.md)). Missing → warn (the reviewer never

@@ -1,5 +1,5 @@
 ---
-description: Add-ons for an app already on FlatPark, published as Flatpak extensions with their payload as extra-data.
+description: Add-ons for an app already on FlatPark, and shared extensions any app can declare, published as Flatpak extensions with their payload as extra-data.
 order: 6
 ---
 
@@ -10,7 +10,9 @@ for a token hub, a plugin for an editor. Users install it next to the app, and
 Flatpak mounts it inside the app's sandbox.
 
 The parent has to be on FlatPark. An extension of something else, such as an SDK
-extension whose parent comes from Flathub, isn't supported yet.
+extension whose parent comes from Flathub, isn't supported yet. The exception is
+a [shared extension](#shared-extensions), which has no parent at all: any app
+that declares it gets it.
 
 ## What to know first
 
@@ -107,6 +109,61 @@ installed with `FLATPARK_VERIFY_KEEP=1`, then install the real parent
 (`flatpak install flatpark <parent>`) and run the feature the extension adds from
 it. An extension that installs and that the parent never loads is not tested.
 
+## Shared extensions
+
+A shared extension belongs to no app. Every app that declares its extension
+point mounts it, on whatever runtime the app uses. FlatPark has one,
+[flatpark-spawn](../../registry/org.flatpark.Spawn/flatpark.yml), which lets an
+app run the host's command-line tools
+([running commands on the host](permissions.md#running-commands-on-the-host)).
+
+- **It has no parent.** `build.shared: true` takes the place of `build.extends`,
+  and the two exclude each other. Its page is filed under Extensions, lists the
+  apps that use it, and shows no permissions: it has none of its own and runs
+  with those of each app that mounts it.
+- **It comes with the apps that use it.** Installing one of them installs it
+  too, and `flatpak uninstall --unused` removes it after the last one goes. It
+  can be installed on its own, but does nothing outside an app.
+- **It builds against a stand-in.** `flatpak-builder` only builds an extension
+  against an installed app that declares its extension point, so the extension
+  carries a small stand-in manifest for that. The stand-in is never published.
+- **It moves on its own.** An app that uses it can change runtime without
+  touching it, and it can be rebuilt without rebuilding them. A change that
+  breaks the apps using it goes on a new branch (the extension point's
+  `version`), not into the existing one.
+
+### Using a shared extension
+
+An app declares it under `add-extensions`, creates the mount point, and
+otherwise leaves it to Flatpak:
+
+```yaml
+add-extensions:
+  org.flatpark.Spawn:
+    directory: lib/flatpark-spawn
+    version: '1'
+modules:
+  - name: app
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/flatpark-spawn
+      # ...
+```
+
+- `version` is the extension's branch, and `directory` is where every app
+  mounts it; both are fixed by the extension.
+- No `no-autodownload`: the extension has to be installed with the app.
+- No `autodelete: true` (leave it out, or write `false`). Flatpak would delete
+  the extension when this app is uninstalled, under every other app still
+  using it.
+- The `mkdir` is required. `flatpak-builder` doesn't create an extension
+  point's directory, and without it `flatpak run` fails before the app starts
+  (`bwrap: Can't create file /app/lib/flatpark-spawn: Read-only file system`),
+  whether or not the extension is installed.
+
+flatpark-spawn asks for more than this; its section in
+[permissions](permissions.md#running-commands-on-the-host) has the rest.
+
 ## For agents
 
 ### What the audit checks
@@ -121,7 +178,32 @@ it. An extension that installs and that the parent never loads is not tested.
 - The version in `sdk` differs from the parent's `runtime-version`.
 - `build.arches` names an arch the parent isn't built for.
 
-A manifest with `build-extension: true` also needs `build.extends`.
+A manifest with `build-extension: true` also needs `build.extends` or
+`build.shared`.
+
+A shared extension (`build.shared: true`) keeps the payload rules above (no
+`finish-args`, extra-data only), and its stand-in,
+`registry/<id>/<id>.BuildParent.yml`, takes the parent's place. The audit fails
+it when:
+
+- `build.extends` is also set, or `build.shared` is something other than
+  `true` or `false`;
+- the stand-in is missing, its `app-id` isn't `<id>.BuildParent`, or a registry
+  entry has that id (it would be published);
+- the manifest's `runtime` isn't the stand-in, or its `runtime-version` isn't the
+  stand-in's branch (`master` unless the stand-in sets `branch:`);
+- the stand-in declares no extension point named `<id>`, declares it with a
+  `version` other than the extension's branch or with no `directory`, or doesn't
+  `mkdir -p /app/<directory>`;
+- the stand-in names no `runtime` and `runtime-version`, or the version in the
+  manifest's `sdk` differs from it.
+
+`build.arches` isn't checked against anything: the stand-in is built for every
+arch the extension is.
+
+An app that declares a shared extension is checked by the rules of that
+extension; for flatpark-spawn, see
+[permissions](permissions.md#what-the-audit-checks-for-flatpark-spawn).
 
 ### How it builds
 
@@ -143,7 +225,44 @@ stand-in.
 `check-apply-extra.sh` runs `apply_extra.sh` on the parent's runtime, and a
 `.flatpakref` to an extension says `IsRuntime=true`.
 
+### How a shared extension builds
+
+`build-app.sh` runs `install-parent-skeleton.sh --manifest
+registry/<id>/<id>.BuildParent.yml`, which makes the same kind of stand-in from
+that manifest instead of from a parent's: its metadata, the extension point's
+folder, a stub command, on the stand-in's branch. It is exported to a throwaway
+repository, installed into the user installation for the build and removed
+when the build ends; it never reaches the published repository, and
+`ostree refs` on a build shows only `runtime/<id>/<arch>/<branch>`.
+
+The built extension's metadata names the stand-in:
+
+```ini
+[ExtensionOf]
+ref=app/org.flatpark.Spawn.BuildParent/x86_64/master
+runtime=org.freedesktop.Platform/x86_64/26.08
+```
+
+Mounting ignores both: Flatpak matches an app's extension point by name and
+`version`, whatever the app's runtime. The `runtime=` line is what counts.
+`apply_extra` runs on it (an extension's metadata has no runtime of its own),
+and installing the extension installs that runtime with it, so it is the
+stand-in's `runtime`, and `check-apply-extra.sh` uses the same one. An
+extension has exactly one such runtime: a user whose only app using it is on
+GNOME also gets the freedesktop runtime. Keep it on the freedesktop runtime most
+apps here use, and move it by editing the stand-in; the PR then runs the
+unpack check again.
+
+Nothing about the apps that use it rebuilds it: `changed-apps.sh` and
+`extensions_of` list only `build.extends`, and the stand-in is one of the
+extension's own files, so a change to it rebuilds the extension like any
+other. A delisted shared extension is dropped by `prune-and-reclaim.sh` like
+any other extension, since its `[ExtensionOf]` names the stand-in, which is
+never in the registry.
+
 ### When the parent changes
+
+(Not for a shared extension, which has none.)
 
 `changed-apps.sh` lists an app's extensions when its `runtime`, `runtime-version`
 or `sdk` changes, and when it leaves the registry. The PR then audits and rebuilds

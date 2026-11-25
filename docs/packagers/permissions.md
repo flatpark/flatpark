@@ -100,7 +100,94 @@ patching Enpass, the package puts small `lsof`, `readlink` and `cat` scripts on
 `PATH` that run the real commands on the host through `flatpak-spawn --host`.
 Nothing is injected into Enpass, but the package needs
 `--talk-name=org.freedesktop.Flatpak`, which lets the app run any host command:
-it declares that, and its page says so.
+it declares that, and its page says so. Enpass's scripts predate
+flatpark-spawn; a new package whose app needs host commands uses
+[flatpark-spawn](#running-commands-on-the-host) instead of scripts of its own.
+
+### Running commands on the host
+
+Some apps are crippled without the host's command-line tools: editors, IDEs,
+and above all AI agent apps, which run `git`, `node`, `gh`, language servers and
+whatever the user has installed. In the sandbox those are missing or the wrong
+versions. For these apps FlatPark has
+[flatpark-spawn](../../registry/org.flatpark.Spawn/flatpark.yml), a
+[shared extension](extensions.md#shared-extensions): when the app runs a
+command the host has, it runs on the host, in the user's login-shell `PATH`, and
+its exit code, output and signals come back as if it had run in the sandbox.
+The app itself is not changed. What runs where, and its limits, are in its
+[README](https://github.com/flatpark/flatpark-spawn#what-runs-where).
+
+Use it rather than writing `flatpak-spawn --host` scripts or bundling another
+host bridge: it is one piece of code, open source and maintained here, and the
+audit below holds every app that uses it to the same rules.
+
+**It takes the sandbox apart, on purpose.** A forwarded command runs on the
+host as the user, with everything the user can reach. Narrowing the app's other
+permissions (no `home`, no `host`) does not contain it. FlatPark allows it
+because users trust FlatPark only as far as they trust the upstream app: a user
+who would install the app on the host with no restrictions wants Flatpak for
+installing and updating it, not for the sandbox. In return, every app that uses
+flatpark-spawn is audited as completely as we can; for a closed-source app from
+a well-known vendor, whose code we can't audit, we guarantee only that we ship
+its build unmodified.
+
+The app grants it, in its own package:
+
+- the extension point, as in [using a shared extension](extensions.md#using-a-shared-extension);
+- `--talk-name=org.freedesktop.Flatpak` in `finish-args`. Without it the
+  extension does nothing, so this is the actual grant;
+- that permission in `policy.dangerous_permissions`, argued in the PR;
+- a `packaging:` entry of kind `host-command`, so its page shows Reduced isolation
+  ([declaring changes](#declaring-changes-to-how-the-app-runs));
+- its id in [`config/flatpark-spawn.yml`](../../config/flatpark-spawn.yml), the
+  allow-list. A maintainer adds the entry, with the PR that granted it, after
+  reviewing the app. CI treats a change to that file as a change to repository
+  automation, which an outside contributor can't make.
+
+And one line in the launcher, before it starts the app:
+
+```sh
+[ -r /app/lib/flatpark-spawn/enable.sh ] && . /app/lib/flatpark-spawn/enable.sh
+exec /app/extra/vendor/app "$@"
+```
+
+It does nothing when the extension or the permission is missing, and works
+under `set -eu`. A command the app has to keep running from its own sandbox
+although the host has one of the same name goes in `FLATPARK_SPAWN_LOCAL`, set
+in the launcher (`export FLATPARK_SPAWN_LOCAL=python3:ssh`).
+
+The metainfo tells users what this means and how to turn it off:
+
+```sh
+flatpak override --user --no-talk-name=org.freedesktop.Flatpak <app-id>
+```
+
+The app then runs only what its sandbox has, as if flatpark-spawn weren't
+there.
+
+#### What the audit checks for flatpark-spawn
+
+`audit-descriptor.mjs` takes an app as using flatpark-spawn when its manifest
+declares `org.flatpark.Spawn` under `add-extensions`, or when any of its files
+(manifest, launcher, scripts; comments, the metainfo and `flatpark.yml` aside)
+mentions `flatpark-spawn`. It then fails the app, saying which, when:
+
+- the manifest doesn't declare `org.flatpark.Spawn` (it bundles or reaches for
+  flatpark-spawn some other way);
+- the extension point's `version` isn't `'1'`, its `directory` isn't
+  `lib/flatpark-spawn`, it has `autodelete: true` or `no-autodownload: true`, or
+  no build command runs `mkdir -p /app/lib/flatpark-spawn`;
+- `finish-args` lacks `--talk-name=org.freedesktop.Flatpak`, or
+  `policy.dangerous_permissions` doesn't declare it;
+- `packaging:` has no `host-command` entry;
+- the app's id isn't in `config/flatpark-spawn.yml`.
+
+An app on the allow-list that doesn't use flatpark-spawn yet gets a warning, so
+the grant can be merged before the app switches. A PR that changes the
+allow-list audits the whole catalog, so taking an app off fails it there. An
+app that leaves the registry leaves the list in the same PR:
+`tests/test_registry.sh` fails on an id that isn't in the registry, which would
+otherwise be granted to the next package with that id.
 
 ### The PipeWire socket
 
@@ -156,7 +243,7 @@ and Chinese. The site shows the resulting
 | `injected-code` | An `LD_PRELOAD` library or other code in the app's process | Modified | Closed source only |
 | `file-change` | Files in the vendor's build added, removed or changed | Modified | Closed source only |
 | `runtime-install` | The vendor's installer runs at first launch with parts stood in for or its result changed (running it unmodified is not a change) | Modified | Closed source only |
-| `host-command` | The app can run commands on the host (`flatpak-spawn --host`) | Reduced isolation | All, declared |
+| `host-command` | The app can run commands on the host ([flatpark-spawn](#running-commands-on-the-host), or `flatpak-spawn --host`) | Reduced isolation | All, declared |
 | `sandbox-off` | The app's own sandbox is turned off (`--no-sandbox`, `WEBKIT_DISABLE_SANDBOX`) | Reduced isolation | All, declared |
 
 `audit-descriptor.mjs` fails a package whose scripts show one of these without
