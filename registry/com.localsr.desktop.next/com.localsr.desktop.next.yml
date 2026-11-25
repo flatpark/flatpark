@@ -46,9 +46,9 @@ modules:
         filename: localsr.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/HerRei/local-upscale/releases/download/v0.5.2-beta/LocalSR-v0.5.2-beta-Linux-CPU-x86_64.AppImage
-        sha256: 6ac68af601e8b93a5e0692caa3401d22ba8af9608665638cd9b5cee24005b234
-        size: 560368120
+        url: https://github.com/HerRei/local-upscale/releases/download/v0.6.0-beta/LocalSR-v0.6.0-beta-Linux-CPU-x86_64.AppImage
+        sha256: 39862b511d9746dcbff6837ff2c1955c1a2213623a76bab9e291258f72add90a
+        size: 561785336
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

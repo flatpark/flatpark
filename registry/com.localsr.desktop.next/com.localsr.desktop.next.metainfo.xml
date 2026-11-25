@@ -48,6 +48,10 @@
     <internet>first-run</internet>
   </supports>
   <releases>
+    <release version="0.6.0-beta" date="2026-11-24">
+      <url type="details">https://github.com/HerRei/local-upscale/releases/tag/v0.6.0-beta</url>
+      <description></description>
+    </release>
     <release version="0.5.2-beta" date="2026-11-23">
       <url type="details">https://github.com/HerRei/local-upscale/releases/tag/v0.5.2-beta</url>
       <description></description>

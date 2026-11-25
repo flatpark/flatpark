@@ -28,9 +28,9 @@ modules:
         filename: ollama.tar.zst
         only-arches:
           - x86_64
-        url: https://github.com/ollama/ollama/releases/download/v0.40.17/ollama-linux-amd64.tar.zst
-        sha256: 1df9d6228bac5a22e420b242708c0d10e5b886db97bab99d446a41760f4e79af
-        size: 1545470208
+        url: https://github.com/ollama/ollama/releases/download/v0.40.18/ollama-linux-amd64.tar.zst
+        sha256: b82649006cb5b54ed1237fa2d1a26a7f939a4fd03150033759acbff7ff315adf
+        size: 1648243083
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

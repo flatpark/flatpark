@@ -196,6 +196,7 @@ collections:
         apps:
           - com.foobar2000.Foobar2000
           - com.analog.LTspice
+          - com.qorvo.QSPICE
   - slug: icp-brasil
     name: ICP-Brasil digital signature
     summary:

@@ -32,9 +32,9 @@ modules:
         filename: corvus.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ada-h00k/Corvus/releases/download/v1.7.3/corvus-linux-x86_64-flatpark.tar.gz
-        sha256: 2717d999b29b3a10d2b08037943e05197976975f61167c13f45e9b0ed9c970e0
-        size: 15672842
+        url: https://github.com/ada-h00k/Corvus/releases/download/v1.8.1/corvus-linux-x86_64-flatpark.tar.gz
+        sha256: 90604b16e8a573f63c23c9bf525541254c58b773830cf34d62452527812a823d
+        size: 15687196
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

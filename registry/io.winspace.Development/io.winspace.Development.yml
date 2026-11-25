@@ -51,9 +51,9 @@ modules:
         filename: openxplorer.deb
         only-arches:
           - x86_64
-        url: https://github.com/AKolenda/openxplorer/releases/download/v2.0.24/openxplorer_2.0.24_all.deb
-        sha256: adbce6dffd70d2384b1bf5b149eacdc6c4de8a588f9f0dfa41df245a1b5a421e
-        size: 8957448
+        url: https://github.com/AKolenda/openxplorer/releases/download/v2.0.25/openxplorer_2.0.25_all.deb
+        sha256: a569ff98fb30bea06f5e0132621fdca5ff3e0212b84ed399053585b4d658531e
+        size: 8983208
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
