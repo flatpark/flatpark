@@ -23,7 +23,7 @@
       <li>On NixOS, the integrated terminal finds the host's shells.</li>
       <li>No Kerberos/Negotiate single sign-on.</li>
     </ul>
-    <p>The app runs in a sandbox and can't see the SDKs on your host. Run host commands with host-spawn, for example by pointing the integrated terminal at it; the note that opens on first start explains how.</p>
+    <p>Commands VS Code, its terminal and its extensions run (git, node, python, your mise or asdf toolchains, ~/.local/bin) run on your system when it has them, through flatpark-spawn, as if VS Code were installed there. They run outside the sandbox, as you. To turn that off: flatpak override --user --no-talk-name=org.freedesktop.Flatpak com.visualstudio.code. The note that opens on first start explains more.</p>
   </description>
   <screenshots>
     <screenshot type="default">

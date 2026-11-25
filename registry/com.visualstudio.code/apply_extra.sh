@@ -3,13 +3,12 @@ set -eu
 
 # Runs offline at install time inside the runtime. Microsoft's .deb installs
 # VS Code under /usr/share/code; keep that tree at the stable path the wrapper
-# executes, /app/extra/vscode. host-spawn is upstream's static binary and goes
-# to /app/extra/bin, which the wrapper puts on PATH.
+# executes, /app/extra/vscode.
 
 extra_root="${EXTRA_ROOT:-/app/extra}"
 cd "$extra_root"
 
-for f in code.deb host-spawn; do
+for f in code.deb; do
   [ -f "$f" ] || {
     echo "missing extra-data: $f" >&2
     exit 1
@@ -17,7 +16,7 @@ for f in code.deb host-spawn; do
 done
 
 rm -rf stage vscode bin
-mkdir stage bin
+mkdir stage
 # The runtime has no ar/dpkg, but bsdtar reads the .deb's ar container directly.
 # --no-same-owner: on a system-wide install apply_extra runs as root with every
 # capability dropped, so restoring the recorded uid/gid would abort the unpack.
@@ -30,8 +29,5 @@ for f in vscode/code vscode/resources/app/out/cli.js; do
     exit 1
   }
 done
-
-mv host-spawn bin/host-spawn
-chmod 755 bin/host-spawn
 
 rm -rf stage code.deb

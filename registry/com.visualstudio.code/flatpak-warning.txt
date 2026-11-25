@@ -5,28 +5,38 @@ https://flatpark.org
 | Warning: You are running an unofficial Flatpak version of Visual Studio Code !!! |
 ------------------------------------------------------------------------------------
 
-This version is running inside a container and is therefore not able
-to access SDKs on your host system!
+This version runs inside a Flatpak sandbox, with flatpark-spawn: when
+VS Code, its terminal or an extension runs a command your system has
+(git, node, python, go, gh, your mise/asdf toolchains, ~/.local/bin),
+it runs on your system, with your PATH and configuration, as if VS Code
+were installed there. Commands only the sandbox has run in the sandbox.
+https://github.com/flatpark/flatpark-spawn
 
-To execute commands on the host system, run inside the sandbox:
+That means these commands run outside the sandbox, as you. To turn it
+off, so that VS Code only uses what the sandbox has:
 
-  $ host-spawn <COMMAND>
+  $ flatpak override --user --no-talk-name=org.freedesktop.Flatpak com.visualstudio.code
 
-To make the Integrated Terminal automatically use the host system's shell,
-you can add this to your profile settings:
+To keep a command in the sandbox although your system has one of the
+same name, list it in FLATPARK_SPAWN_LOCAL:
+
+  $ flatpak override --user --env=FLATPARK_SPAWN_LOCAL=python3:go com.visualstudio.code
+
+To open your system's own login shell in the Integrated Terminal, add a
+profile that runs flatpark-spawn with no command (host-spawn, which this
+package used to bundle, still works in existing profiles):
 
 {
-  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.linux": "host",
   "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "host-spawn",
-      "args": ["bash"]
+    "host": {
+      "path": "flatpark-spawn"
     }
   }
 }
 
-This Flatpak provides a standard development environment (gcc, python, etc).
-To see what's available:
+When your system lacks a command, this Flatpak's own development
+environment (gcc, python, etc.) is used. To see what's available:
 
   $ flatpak run --command=sh com.visualstudio.code
   $ ls /usr/bin (shared runtime)
@@ -43,6 +53,9 @@ Then, for example:
   $ flatpak install flathub org.freedesktop.Sdk.Extension.dotnet
   $ flatpak install flathub org.freedesktop.Sdk.Extension.golang
   $ FLATPAK_ENABLE_SDK_EXT=dotnet,golang flatpak run com.visualstudio.code
+
+A command from an SDK extension that your system also has runs on your
+system; add it to FLATPARK_SPAWN_LOCAL (above) to use the extension's.
 
 Similarly for shells and other tools, also from Flathub:
 

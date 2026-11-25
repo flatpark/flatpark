@@ -14,8 +14,9 @@ if [ ! -f ${FIRST_RUN} ]; then
   touch ${FIRST_RUN}
 fi
 
-# host-spawn, unpacked from extra-data by apply_extra.
-export PATH=$PATH:/app/extra/bin
+# flatpark-spawn's own commands: flatpark-spawn, and host-spawn for terminal
+# profiles written for the host-spawn this package used to bundle.
+export PATH=$PATH:/app/lib/flatpark-spawn/bin
 
 PYTHON_SITEDIR=$(python3 <<EOFPYTHON
 import os
@@ -88,6 +89,11 @@ if [ -f "$FLAGS_FILE" ]; then
     [ -n "$line" ] && EXTRA_ARGS+=("$line")
   done < "$FLAGS_FILE"
 fi
+
+# flatpark-spawn: from here on, a command the host has runs on the host
+# (git, node, the user's mise/asdf toolchains, ~/.local/bin). Does nothing
+# without the extension or the talk-name.
+[ -r /app/lib/flatpark-spawn/enable.sh ] && . /app/lib/flatpark-spawn/enable.sh
 
 exec env ELECTRON_RUN_AS_NODE=1 PATH="${PATH}:${XDG_DATA_HOME}/node_modules/bin" \
   TMPDIR="$XDG_RUNTIME_DIR/app/${FLATPAK_ID:-com.visualstudio.code}" \
