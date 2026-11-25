@@ -72,16 +72,16 @@ modules:
         filename: mark-shot.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/jswysnemc/mark-shot/releases/download/v0.2.4/mark-shot-native-0.2.4-linux-x86_64.tar.gz
-        sha256: 09f14dfa6491829bde886d868a96b4c1f2ec107b2efc71ba420516ed47f4a639
-        size: 30383689
+        url: https://github.com/jswysnemc/mark-shot/releases/download/v0.2.5/mark-shot-native-0.2.5-linux-x86_64.tar.gz
+        sha256: 1898410dd9b00158ddca5e8711d8059dbb22d773af3222192b560332de64eacf
+        size: 30397237
       - type: extra-data
         filename: mark-shot.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/jswysnemc/mark-shot/releases/download/v0.2.4/mark-shot-native-0.2.4-linux-aarch64.tar.gz
-        sha256: a79164e8f7e6dee04c2ab1a01bccda5877b6212d4f136e52f9e6645a12733d84
-        size: 29469237
+        url: https://github.com/jswysnemc/mark-shot/releases/download/v0.2.5/mark-shot-native-0.2.5-linux-aarch64.tar.gz
+        sha256: 41383fcd17c5dd97ef9f95a2ee9edce572c80203cd420e7faa7d1c921608d02e
+        size: 29482726
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

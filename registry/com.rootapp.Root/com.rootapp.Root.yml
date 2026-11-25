@@ -60,16 +60,16 @@ modules:
         filename: root.nupkg
         only-arches:
           - x86_64
-        url: https://installer.rootapp.com/installer/Linux/X64/Root-0.9.164-linux-full.nupkg
-        sha256: bf83f6ec258ac10c8099a6858d98de3a47784a9c13459519a106916886f1af4f
-        size: 507048304
+        url: https://installer.rootapp.com/installer/Linux/X64/Root-0.9.167-linux-full.nupkg
+        sha256: 2948fafdf4f45011f3c7685ea2dc751659832518342eebb10a7f1efd86f706ec
+        size: 510828148
       - type: extra-data
         filename: root.nupkg
         only-arches:
           - aarch64
-        url: https://installer.rootapp.com/installer/Linux/Arm64/Root-0.9.164-linux-full.nupkg
-        sha256: c4a71a5a6503fe4a92967e64b109fc542f6acfb5e3bd5cb0a00bb6d14b2b7bb6
-        size: 483862011
+        url: https://installer.rootapp.com/installer/Linux/Arm64/Root-0.9.167-linux-full.nupkg
+        sha256: 3d337b713f2876be5bbf493d0cad853b183a46ec990888682a94587e81be9bd5
+        size: 487388411
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

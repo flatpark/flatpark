@@ -40,6 +40,9 @@
     <control>pointing</control>
   </recommends>
   <releases>
+    <release version="0.9.167" date="2026-11-25">
+      <description></description>
+    </release>
     <release version="0.9.164" date="2026-11-17">
       <description>
         <p>Official Linux build 0.9.164.</p>
