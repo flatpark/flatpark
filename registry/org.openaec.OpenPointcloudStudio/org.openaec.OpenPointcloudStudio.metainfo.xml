@@ -61,6 +61,10 @@
     <mediatype>application/x-rcp</mediatype>
   </provides>
   <releases>
+    <release version="2026.48.0" date="2026-11-25">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pointcloud-studio/releases/tag/v2026.48.0</url>
+      <description></description>
+    </release>
     <release version="2026.45.1" date="2026-11-03">
       <url type="details">https://github.com/OpenAEC-Foundation/open-pointcloud-studio/releases/tag/v2026.45.1</url>
       <description>

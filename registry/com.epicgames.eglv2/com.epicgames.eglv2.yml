@@ -90,9 +90,9 @@ modules:
         filename: epic.deb
         only-arches:
           - x86_64
-        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.122.0%2Bg2109121/Linux/EpicGamesLauncher-x86_64.deb
-        sha256: 1159942759e32fdccc525a2a4c998f8cc4e7cd7620acce501ade242d508ef915
-        size: 96268748
+        url: https://content-download-egs.distro.on.epicgames.com/Builds/EGLv2/0.123.0%2Bgee1223b/Linux/EpicGamesLauncher-x86_64.deb
+        sha256: 1f786394caf8c2f694e781f71ff34b17bc7e9f9de78e510362cb536a006c8307
+        size: 96438762
       # END MANAGED EXTRA-DATA
       - type: file
         path: ld.so.conf
