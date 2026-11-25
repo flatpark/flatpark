@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Moebius Beyond
+Comment=Create and edit ANSI and ASCII art
+Exec=moebius-beyond %U
+Icon=io.github.michael_lazar.MoebiusBeyond
+Terminal=false
+Categories=Graphics;2DGraphics;
+StartupWMClass=MoebiusBeyond

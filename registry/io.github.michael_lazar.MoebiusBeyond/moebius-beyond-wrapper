@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# zypak supplies the Chromium sandbox within Flatpak.
+unset ELECTRON_RUN_AS_NODE
+launcher=$(cat /app/extra/launcher)
+exec zypak-wrapper "/app/extra/moebius/$launcher" --ozone-platform-hint=auto "$@"
