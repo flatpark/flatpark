@@ -45,9 +45,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://download.todesktop.com/241130tqe9q3y/comfyui-desktop-2-1.2.1-build-261121uldis3ube-amd64.deb
-        sha256: c33cf16ce4de3de8f506ad8c6244cb8063edeb073d72bec6e484bd4bdc4f2c4a
-        size: 163822912
+        url: https://download.todesktop.com/241130tqe9q3y/comfyui-desktop-2-1.2.2-build-261125wtbx8bz4v-amd64.deb
+        sha256: 1f46d11b89467427a58fac7df97a22c165492085cf70cca28223e5fc699ebd6b
+        size: 163009774
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

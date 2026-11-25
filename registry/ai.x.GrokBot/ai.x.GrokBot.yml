@@ -62,16 +62,16 @@ modules:
         filename: grok-bot.deb
         only-arches:
           - x86_64
-        url: https://downloads.cursor.com/grokbot/stable/a5927fa2ba82336a29f9343babd28b4c903abbb2/linux/x64/grok-bot_1.2.3_amd64.deb
-        sha256: 5917521542680b07813a429911f01bfdd191ec6b5409fe5eab623ad5fbf3b08a
-        size: 117301248
+        url: https://downloads.cursor.com/grokbot/stable/bfb372966cec77c6ec2750957965f2a2268da17d/linux/x64/grok-bot_1.3.0_amd64.deb
+        sha256: 87b046b6e4126c3eb466df59135b59c8efbb5f9f10e0de548f0d65ec8ac55528
+        size: 117982212
       - type: extra-data
         filename: grok-bot.deb
         only-arches:
           - aarch64
-        url: https://downloads.cursor.com/grokbot/stable/a5927fa2ba82336a29f9343babd28b4c903abbb2/linux/arm64/grok-bot_1.2.3_arm64.deb
-        sha256: e60b424d5c16d9d17246aa947cd4a288038eec274a749d72f97afcd711c4750e
-        size: 113334432
+        url: https://downloads.cursor.com/grokbot/stable/bfb372966cec77c6ec2750957965f2a2268da17d/linux/arm64/grok-bot_1.3.0_arm64.deb
+        sha256: f9168a4a6182201a24977c18f42751cd964f8daf300289333c37c4f0baf40ed3
+        size: 114013936
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
