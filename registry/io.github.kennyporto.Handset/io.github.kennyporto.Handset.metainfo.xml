@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 KennyPorto -->
+<component type="desktop-application">
+  <id>io.github.kennyporto.Handset</id>
+  <name>Handset</name>
+  <summary>Answer your phone calls on your PC</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.kennyporto">
+    <name>KennyPorto</name>
+  </developer>
+
+  <description>
+    <p>
+      Handset turns your PC into a hands-free kit for your phone, the same way a car does.
+      When your phone rings, answer it on the PC and talk through your headset or speakers
+      while the phone stays in your pocket.
+    </p>
+    <ul>
+      <li>Answer or decline right from the notification</li>
+      <li>Place calls with the built-in dial pad</li>
+      <li>See who's calling, and call your favourites, recent calls or anyone in your contacts, if your phone shares them</li>
+      <li>Mute your microphone and send keypad tones during a call</li>
+      <li>Handle a second incoming call while you're on the first</li>
+      <li>Runs quietly in the system tray, and can start when you log in</li>
+    </ul>
+    <p>
+      Handset connects to your phone for calls only, so music and videos keep playing on the
+      phone. It works with any phone that supports Bluetooth hands-free, Android or iPhone.
+    </p>
+    <p>
+      Your computer needs Bluetooth and PipeWire 1.4 or newer. Pair your
+      phone in the Bluetooth settings before you start.
+    </p>
+    <p>
+      This package installs the unmodified Handset build from Handset's GitHub releases at
+      install time. It runs on the KDE runtime, which provides Qt and Kirigami.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.kennyporto.Handset.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>An incoming call</caption>
+      <image>https://raw.githubusercontent.com/KennyPorto/handset/7bf3fd601fc1b85ce60a4e9c55560b4f9e7a8961/docs/screenshots/incoming.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>During a call</caption>
+      <image>https://raw.githubusercontent.com/KennyPorto/handset/7bf3fd601fc1b85ce60a4e9c55560b4f9e7a8961/docs/screenshots/call.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Placing a call</caption>
+      <image>https://raw.githubusercontent.com/KennyPorto/handset/7bf3fd601fc1b85ce60a4e9c55560b4f9e7a8961/docs/screenshots/dialer.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Favourites and recent calls</caption>
+      <image>https://raw.githubusercontent.com/KennyPorto/handset/7bf3fd601fc1b85ce60a4e9c55560b4f9e7a8961/docs/screenshots/contacts.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/KennyPorto/handset</url>
+  <url type="bugtracker">https://github.com/KennyPorto/handset/issues</url>
+  <url type="vcs-browser">https://github.com/KennyPorto/handset</url>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#d6e8f6</color>
+    <color type="primary" scheme_preference="dark">#174a6e</color>
+  </branding>
+
+  <categories>
+    <category>Network</category>
+    <category>Telephony</category>
+  </categories>
+  <keywords>
+    <keyword>phone</keyword>
+    <keyword>call</keyword>
+    <keyword>dialer</keyword>
+    <keyword>bluetooth</keyword>
+    <keyword>hands-free</keyword>
+  </keywords>
+
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+
+  <provides>
+    <binary>handset</binary>
+  </provides>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-11-24">
+      <description>
+        <p>First release.</p>
+        <ul>
+          <li>Answer, decline and end calls from the window or the notification</li>
+          <li>Dial pad, mute and keypad tones</li>
+          <li>Caller names, favourites, recent calls and contacts</li>
+          <li>Call waiting and hold</li>
+          <li>Tray icon and start at login</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+</component>
