@@ -28,7 +28,12 @@ done
 
 app=$(sed -n 's/^app-path=//p' /.flatpak-info)
 
-exec flatpak-spawn --host --watch-bus --directory=/ sh -c '
+# flatpak-spawn --host passes only --env values, not the sandbox environment.
+# These two are read by cowork-linux-helper; pass them on when they are set.
+accel=${COWORK_VM_ACCEL+--env=COWORK_VM_ACCEL=$COWORK_VM_ACCEL}
+efi=${COWORK_VM_FORCE_EFI+--env=COWORK_VM_FORCE_EFI=$COWORK_VM_FORCE_EFI}
+
+exec flatpak-spawn --host --watch-bus ${accel:+"$accel"} ${efi:+"$efi"} --directory=/ sh -c '
   set -eu
   app=$1
   shift

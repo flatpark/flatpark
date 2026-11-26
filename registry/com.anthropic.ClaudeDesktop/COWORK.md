@@ -46,7 +46,15 @@ package instead (see the end of this page).
    sudo usermod -aG kvm "$USER"
    ```
 
-4. Add the overrides and restart Claude:
+4. Check that `bwrap` is on your `PATH`. Flatpak pulls it in as the
+   `bubblewrap` package on most distributions, but a Flatpak built with its own
+   copy installs it as `flatpak-bwrap` instead:
+
+   ```sh
+   command -v bwrap || echo "install bubblewrap first"
+   ```
+
+5. Add the overrides and restart Claude:
 
    ```sh
    flatpak override --user --device=all --filesystem=host-os:ro \
@@ -60,13 +68,14 @@ asks for about 16 GB free there and won't start Cowork with less.
 ## Turn it off
 
 ```sh
-flatpak override --user --reset com.anthropic.ClaudeDesktop
+flatpak override --user --nodevice=all --nofilesystem=host-os \
+  --no-talk-name=org.freedesktop.Flatpak com.anthropic.ClaudeDesktop
 ```
 
-This removes every override you set for the app, including ones for other
-features. To drop only these three, edit
-`~/.local/share/flatpak/overrides/com.anthropic.ClaudeDesktop`. Once Cowork is
-unavailable, the app deletes its VM image the next time it starts.
+This turns off only the three Cowork settings; your other overrides for the
+app stay, and so does the GPU access the package grants itself. The overrides
+file keeps them as "off" entries (`devices=!all;`), which the next
+`flatpak override` to turn Cowork on replaces. Once Cowork is unavailable, the app deletes its VM image the next time it starts.
 
 ## How it works
 
@@ -86,7 +95,7 @@ folder), which:
   `$XDG_RUNTIME_DIR/app/com.anthropic.ClaudeDesktop/`, the part of the runtime
   directory the sandbox shares with the host.
 
-The host needs `bwrap` (it comes with Flatpak) and the document portal, which
+The host needs `bwrap` (step 4) and the document portal, which
 desktops with Flatpak support already run.
 
 ## Tested
