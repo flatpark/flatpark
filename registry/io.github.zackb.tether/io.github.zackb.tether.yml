@@ -52,9 +52,9 @@ modules:
         filename: tether.deb
         only-arches:
           - x86_64
-        url: https://github.com/zackb/tether/releases/download/v0.3.6/tether_0.3.6_amd64.ubuntu26.04.deb
-        sha256: bfe05dfc7e5dc76d1854eec83b5fbfecdd0e0c8ce682d465e1a9755ccf049dbb
-        size: 10397416
+        url: https://github.com/zackb/tether/releases/download/v0.3.7/tether_0.3.7_amd64.ubuntu26.04.deb
+        sha256: cf14973336c5e3bc01e8ff641fdbaac7652f4b85ae2a346ba84da41688ba9633
+        size: 10696844
       # END MANAGED EXTRA-DATA
       # The runtime lacks gtk-layer-shell (the pairing prompt, tether-dialog)
       # and btmgmt (reads whether the adapter has Secure Connections enabled).

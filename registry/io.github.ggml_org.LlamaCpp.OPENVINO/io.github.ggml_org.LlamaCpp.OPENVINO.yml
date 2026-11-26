@@ -29,9 +29,9 @@ modules:
         filename: llama.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-openvino-2026.4.1-x64.tar.gz
-        sha256: 1db62f87b293588eb34724e074bd298819ea0a176d96c9af4f5b4e3129cf40e6
-        size: 122844716
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12774/llama-b12774-bin-ubuntu-openvino-2026.4.1-x64.tar.gz
+        sha256: c805e6978981d08e22e06ac290e56cd12e43f70cb7f8e433897d64828bba618e
+        size: 123354968
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -64,6 +64,9 @@
   </provides>
   <launchable type="desktop-id">com.tencent.WorkBuddy.desktop</launchable>
   <releases>
+    <release version="5.11.6.44396970-0f347fd9" date="2026-11-19">
+      <description></description>
+    </release>
     <release version="5.6.2.40046327-c7b525f3" date="2026-09-30">
       <description></description>
     </release>
