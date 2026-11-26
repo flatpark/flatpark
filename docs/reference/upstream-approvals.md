@@ -128,3 +128,4 @@ Developers who said no to a listing are recorded in
 | Bloom | `io.github.oatbiscuit.bloom` | [Developer's FlatPark request](https://github.com/flatpark/flatpark/issues/1456) | 2026-11-21 |
 | OpenXplorer | `io.winspace.Development` | Submitted by its developer in [flatpark#1548](https://github.com/flatpark/flatpark/pull/1548) | 2026-11-24 |
 | HikLens | `io.github.rwnicholas.HikLens` | Approved by construction — submitted and maintained by its own developer ([flatpark#1552](https://github.com/flatpark/flatpark/pull/1552)) | 2026-11-24 |
+| Handset | `io.github.kennyporto.Handset` | Submitted by its developer in [flatpark#1556](https://github.com/flatpark/flatpark/pull/1556) | 2026-11-26 |

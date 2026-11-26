@@ -11,6 +11,7 @@ build:
 catalog:
   category: Network
   tags: [Phone, Calls, Bluetooth, Qt, KDE]
+  upstream_approved: true
 update:
   command: ./resolve-update.sh
 policy:
