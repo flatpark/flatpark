@@ -3,9 +3,9 @@
 #
 # Each GitHub release ships a deb, an AppImage, a snap, a Windows installer, a
 # macOS dmg and SHA256SUMS (older ones also .asc signatures and the signing
-# key). Take only OpenAEC-Paint-Studio_<version>_amd64.deb. Among the
-# non-draft, non-prerelease releases that have that archive, pick the highest
-# version number, not the newest publish date.
+# key). Take only OpenAEC-Paint-Studio_<version>_amd64.deb, from
+# releases/latest: every release carries it, so a missing one fails instead of
+# settling on an older release.
 # Prints JSON on stdout:
 #   { "version": "2026.45.1", "releaseDate": "YYYY-MM-DD", "releaseUrl": "...",
 #     "sources": [ { "filename": "open-paint-studio.deb", "arch": "x86_64", "url": "..." } ] }
@@ -18,15 +18,15 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-  "https://api.github.com/repos/$repo/releases?per_page=30" | jq '
-  [ .[] | select((.draft or .prerelease) | not) | . as $r
+  "https://api.github.com/repos/$repo/releases/latest" | jq '
+  [ . as $r
     | .assets[]
     | select(.name | test("^OpenAEC-Paint-Studio_[0-9]+(\\.[0-9]+)*_amd64\\.deb$"))
     | { published: $r.published_at,
         html: $r.html_url,
         url: .browser_download_url,
         ver: (.name | capture("^OpenAEC-Paint-Studio_(?<v>[0-9]+(\\.[0-9]+)*)_amd64\\.deb$").v) } ]
-  | max_by(.ver | split(".") | map(tonumber))')"
+  | if length == 1 then .[0] else null end')"
 
 version="$(jq -r '.ver // empty' <<<"$best")"
 date="$(jq -r '.published // empty' <<<"$best" | cut -c1-10)"

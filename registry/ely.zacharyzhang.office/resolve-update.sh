@@ -10,8 +10,9 @@
 #
 # Not every release carries Linux builds (v0.1.1 and v0.1.2 carry no assets;
 # v0.1.7 never reached GitHub), so this walks the newest releases and takes
-# the first one that has the suite .deb, rather than trusting the latest
-# release.
+# the most recently published one that has the suite .deb, rather than
+# trusting the latest release. Up to v0.1.16 that skips every release, since
+# none has the suite .deb.
 #
 # Prints JSON on stdout, logs on stderr; no hashing, no file writes.
 set -euo pipefail
@@ -30,7 +31,7 @@ out="$(jq -c --arg slug "$slug" '
         | ($r.assets[]
            | select(.name | test("^" + $slug + "_[0-9][0-9A-Za-z.+~]*-[0-9]+_amd64\\.deb$"))
            | {rel: $r, asset: .}) ]
-  | first // empty' <<<"$rels")"
+  | sort_by(.rel.published_at) | last // empty' <<<"$rels")"
 
 [ -n "$out" ] || { echo "no release with ${slug}_*_amd64.deb" >&2; exit 1; }
 

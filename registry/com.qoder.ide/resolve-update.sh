@@ -27,9 +27,12 @@ printf '%s\n' "$json" | jq -e . >/dev/null 2>&1 || {
   exit 1
 }
 
-# Latest stable release; prereleases are never packaged.
-version="$(printf '%s\n' "$json" | jq -r '[.[] | select(.prerelease != true)][0].tag_name // empty' | head -n 1 || true)"
-date="$(printf '%s\n' "$json" | jq -r '[.[] | select(.prerelease != true)][0].published_at // empty' | head -n 1 || true)"
+# Latest stable release; prereleases are never packaged. The list is walked
+# only to skip those (this mirror's /releases/latest is undocumented), and the
+# newest is chosen by published_at, not by its position in the list.
+latest='[.[] | select(.prerelease != true and .published_at != null)] | sort_by(.published_at) | last'
+version="$(printf '%s\n' "$json" | jq -r "$latest | .tag_name // empty" | head -n 1 || true)"
+date="$(printf '%s\n' "$json" | jq -r "$latest | .published_at // empty" | head -n 1 || true)"
 
 [ -n "$version" ] || {
   echo "no stable release found in Qoder changelog API: $api" >&2

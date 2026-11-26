@@ -8,10 +8,12 @@
 #
 # Which release: one that carries both Ycode-<version>-{x86_64,aarch64}.tar.xz
 # (a release still uploading, or one with only the macOS .dmg, is skipped rather
-# than failing the sweep). Ycode has only shipped pre-releases (1.0.0-beta.N),
-# which /releases/latest ignores, so the list is read instead: the newest full
-# release once there is one, otherwise the newest pre-release. A later beta
-# then never replaces a stable release on the stable branch.
+# than failing the sweep). Ycode has only shipped betas (1.0.0-beta.N); they are
+# currently published as full releases, but the package follows betas, and one
+# flagged as a GitHub pre-release would be invisible to /releases/latest. So
+# the list is read instead: the newest (by published_at) full release if there
+# is one, otherwise the newest pre-release. A later pre-release then never
+# replaces a full release on the stable branch.
 set -euo pipefail
 
 repo="MarcoDotIO/Ycode"
@@ -28,13 +30,14 @@ sel="$(jq -c '
     | (.tag_name | ltrimstr("v")) as $v
     | { version: $v,
         pre: .prerelease,
+        published: (.published_at // ""),
         date: (.published_at // "" | .[0:10]),
         page: .html_url,
         x86: ([ .assets[] | select(.name == "Ycode-\($v)-x86_64.tar.xz")  | .browser_download_url ] | first),
         arm: ([ .assets[] | select(.name == "Ycode-\($v)-aarch64.tar.xz") | .browser_download_url ] | first) }
     | select(.x86 != null and .arm != null and .date != "")
   ]
-  | sort_by(.date)
+  | sort_by(.published)
   | (map(select(.pre | not)) | last) // last // empty' <<<"$rels")"
 
 [ -n "$sel" ] || { echo "no Ycode release with both Linux tarballs" >&2; exit 1; }

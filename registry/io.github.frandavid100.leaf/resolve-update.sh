@@ -17,9 +17,11 @@ need curl; need jq
 # Every Leaf release so far is a prerelease (0.1.0-alpha.N), and upstream asked
 # for those to be followed (flatpark#994), so this reads the release list, not
 # releases/latest, which skips prereleases and would return nothing. Drafts are
-# never listed to anonymous callers but are filtered anyway; the list is newest
-# first, and only a release that carries the FlatPark tarball counts, so a
-# release published without it keeps the current pin instead of failing.
+# never listed to anonymous callers but are filtered anyway. Only a release
+# that carries the FlatPark tarball counts: the -windows.N / -macos.N follow-up
+# releases (v0.1.0-alpha.44-windows.1, v0.1.0-alpha.45-macos.1) carry only
+# their platform's build, so they are skipped and the current pin is kept.
+# Of the rest, the most recently published wins (not the list's order).
 rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         "https://api.github.com/repos/$repo/releases?per_page=20")"
 
@@ -27,7 +29,8 @@ rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 # and Leaf-<version>-flatpark-x86_64.tar.xz, the /app tree out of upstream's
 # own flatpak build, published for this package. Only that one is staged here.
 rel="$(jq -c '[.[] | select(.draft | not)
-               | select(any(.assets[]; .name | test("^Leaf-.+-flatpark-x86_64\\.tar\\.xz$")))][0] // empty' <<<"$rels")"
+               | select(any(.assets[]; .name | test("^Leaf-.+-flatpark-x86_64\\.tar\\.xz$")))]
+             | sort_by(.published_at) | last // empty' <<<"$rels")"
 [ -n "$rel" ] || { echo "no leaf release carries a -flatpark-x86_64.tar.xz asset" >&2; exit 1; }
 
 version="$(jq -r '.tag_name | ltrimstr("v")' <<<"$rel")"

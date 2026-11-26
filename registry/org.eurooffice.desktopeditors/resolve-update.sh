@@ -8,11 +8,12 @@
 # URL and computes the extra-data sha256/size at build time. The version is
 # compared against the latest <release> in the AppStream metainfo.
 #
-# Upstream publishes the Linux build as .tar.xz, not .tar.gz. The newest
-# GitHub release is not always the one that ships it (Windows zips, the .deb,
-# the help archive and the aarch64 archive are separate assets), so this walks
-# recent releases and takes the newest non-draft, non-prerelease whose assets
-# include euro-office-euro-office-<version>-x86_64.tar.xz exactly.
+# Upstream publishes the Linux build as .tar.xz, not .tar.gz, beside Windows
+# zips, the .deb, the help archive and the aarch64 archive. Every stable
+# release carries euro-office-euro-office-<version>-x86_64.tar.xz, so this
+# reads releases/latest (which skips the -rc.N prereleases) and fails when the
+# archive is missing instead of settling on an older release. The version is
+# the one in the archive name (9.3.8-0), not the tag.
 # aarch64 is not published: the Kerberos libraries this build needs are
 # re-pinned from Debian's amd64 index, which cannot describe an arm64 package.
 set -euo pipefail
@@ -22,19 +23,16 @@ repo="Euro-Office/DesktopEditors"
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-        "https://api.github.com/repos/$repo/releases?per_page=30")"
+rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
+        "https://api.github.com/repos/$repo/releases/latest")"
 
-# Pick the first release that actually ships the x86_64 archive.
-# releases?per_page is newest-first, so the first hit is the newest such release.
 picked="$(jq -c '
-  [ .[] | select(.draft == false and .prerelease == false)
-    | . as $r
+  [ .published_at as $p
     | .assets[]
     | select(.name | test("^euro-office-euro-office-[0-9].*-x86_64\\.tar\\.xz$"))
-    | {name: .name, url: .browser_download_url, published: $r.published_at}
-  ] | first // empty
-' <<<"$rels")"
+    | {name: .name, url: .browser_download_url, published: $p}
+  ] | if length == 1 then .[0] else empty end
+' <<<"$rel")"
 
 [ -n "$picked" ] || { echo "failed to resolve Euro-Office release" >&2; exit 1; }
 
