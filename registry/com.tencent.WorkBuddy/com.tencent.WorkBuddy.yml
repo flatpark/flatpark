@@ -82,9 +82,9 @@ modules:
         filename: workbuddy-amd64.deb
         only-arches:
           - x86_64
-        url: https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/saas/linux-x64-deb/WorkBuddy-linux-x64-deb-5.6.2.40046327-c7b525f3.deb
-        sha256: 12149ad8c0cd748fd5062d8f62c7827d688d8095427ada99b1ae9e7019897523
-        size: 429829872
+        url: https://acc-1258344699.cos.accelerate.myqcloud.com/workbuddy/saas/linux-x64-deb/WorkBuddy-linux-x64-deb-5.11.6.44396970-0f347fd9.deb
+        sha256: 2eefe5e1e777bc8412b8bfe60b9acb4ccba20595a8a4eedaf120119e3a156de8
+        size: 450428740
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

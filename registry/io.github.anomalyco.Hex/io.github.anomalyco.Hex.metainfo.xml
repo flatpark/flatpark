@@ -23,5 +23,8 @@
       <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.anomalyco.Hex/screenshots/history.png</image>
     </screenshot>
   </screenshots>
-  <releases><release version="3.4.0" date="2026-11-11"/></releases>
+  <releases>
+    <release version="3.5.0" date="2026-11-26">
+      <description></description>
+    </release><release version="3.4.0" date="2026-11-11"/></releases>
 </component>

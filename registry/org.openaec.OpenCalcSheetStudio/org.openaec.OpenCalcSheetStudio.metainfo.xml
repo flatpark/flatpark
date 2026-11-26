@@ -58,6 +58,10 @@
     <binary>open-calcsheet-studio</binary>
   </provides>
   <releases>
+    <release version="2026.48.1" date="2026-11-26">
+      <url type="details">https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/releases/tag/v2026.48.1</url>
+      <description></description>
+    </release>
     <release version="2026.47.3" date="2026-11-21">
       <url type="details">https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/releases/tag/v2026.47.3</url>
       <description>

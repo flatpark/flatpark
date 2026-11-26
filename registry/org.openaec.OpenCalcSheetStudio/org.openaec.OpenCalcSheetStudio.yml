@@ -47,9 +47,9 @@ modules:
         filename: open-calcsheet-studio.deb
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/releases/download/v2026.47.3/Open.CalcSheet.Studio_2026.47.3_amd64.deb
-        sha256: 16daef6e7d669149c7842c149ec9ae3536d580341b8b874be5116b8135c212ed
-        size: 87572644
+        url: https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/releases/download/v2026.48.1/Open.CalcSheet.Studio_2026.48.1_amd64.deb
+        sha256: 585405c218486e4418e6f417d4ab9562cd4f70dfdf53e35b839c45ac7784ab93
+        size: 89079678
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

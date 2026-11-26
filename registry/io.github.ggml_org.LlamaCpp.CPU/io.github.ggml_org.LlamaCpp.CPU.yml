@@ -29,9 +29,9 @@ modules:
         filename: llama.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ggml-org/llama.cpp/releases/download/b12359/llama-b12359-bin-ubuntu-x64.tar.gz
-        sha256: 0bc1f091e8916102b6d8f2cf944233a620e90a0f856c72d0ce41150c65c2e72e
-        size: 23311084
+        url: https://github.com/ggml-org/llama.cpp/releases/download/b12774/llama-b12774-bin-ubuntu-x64.tar.gz
+        sha256: ab5837cca2317cfb7ecb5f85b550934e7355cd9df74cdde6e106581457034dbb
+        size: 23454685
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
