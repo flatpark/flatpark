@@ -49,6 +49,7 @@ collections:
           en: Video and effects
           zh-Hans: 视频与特效
         apps:
+          - ai.storyteller.anicraft
           - ai.storyteller.filmcraft
           - ai.storyteller.effectcraft
       - title:

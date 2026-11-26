@@ -1,0 +1,25 @@
+id: ai.storyteller.anicraft
+name: AniCraft
+summary: Draw and animate 2D vector art on a timeline
+website: https://getartcraft.com/apps/anicraft
+source_url: https://github.com/storytold/anicraft
+build:
+  manifest: ai.storyteller.anicraft.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags: [Animation, Vector, Rust]
+update:
+  command: ./resolve-update.sh
+upstream:
+  manifest: packaging/linux/flatpak/ai.storyteller.anicraft.yml
+  accept_missing_permissions:
+    # Updates are supplied by FlatPark, not the app's own updater.
+    - --filesystem=xdg-data/ArtCraft/versions:ro
+    - --share=network
+    - --talk-name=org.freedesktop.Flatpak
+policy:
+  proprietary: false
+  dangerous_permissions: []
