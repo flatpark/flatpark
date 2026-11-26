@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ahaan_shah.Opentern</id>
+  <launchable type="desktop-id">io.github.ahaan_shah.Opentern.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Opentern</name>
+  <summary>Market charts, backtests and paper trading</summary>
+  <developer id="io.github.ahaan-shah">
+    <name>Ahaan Shah</name>
+  </developer>
+  <url type="homepage">https://github.com/ahaan-shah/opentern</url>
+  <url type="bugtracker">https://github.com/ahaan-shah/opentern/issues</url>
+  <url type="vcs-browser">https://github.com/ahaan-shah/opentern</url>
+  <description>
+    <p>This community package is independently maintained and repackages the official Linux release unmodified.</p>
+    <p>Opentern is a local-first market analysis terminal with charts, indicators, scripts, backtests, alerts and paper trading. It does not place real orders.</p>
+    <p>Market data needs network access. The sandbox does not provide access to Python interpreters or coding agents installed on the host; those integrations may not work. Background alerts that run after the app closes may also be unavailable.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/ahaan-shah/opentern/main/site/media/home-dark.webp</image>
+      <caption>Market chart and watchlist</caption>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Office</category>
+    <category>Finance</category>
+  </categories>
+  <releases>
+    <release version="0.3.7" date="2026-11-26"/>
+  </releases>
+</component>
