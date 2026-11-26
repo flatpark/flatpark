@@ -279,18 +279,19 @@ collections:
       en: >-
         Open-source tools for architecture, engineering and construction from
         the OpenAEC Foundation and its community, built to exchange models in
-        the open IFCX format. FlatPark carries eight of them so far: Open CAD
+        the open IFCX format. FlatPark carries nine of them so far: Open CAD
         Studio, a DWG/DXF CAD application by Hakan Seven, Open BIM Suite for
         viewing building models, Open Pointcloud Studio for laser scans, Open
         Planner Studio for construction schedules, Open CalcSheet Studio for
-        structural calculations, and Open PDF Studio, Open Paint Studio and
-        Open Office Studio for drawings, images and documents.
+        structural calculations, Open Calc Studio for cost estimates, and Open
+        PDF Studio, Open Paint Studio and Open Office Studio for drawings,
+        images and documents.
       zh-Hans: >-
         OpenAEC 基金会及其社区出品的一套开源建筑、工程与施工（AEC）工具，各工具之间用开放的
-        IFCX 格式交换模型。FlatPark 目前收录了其中八个：Hakan Seven
+        IFCX 格式交换模型。FlatPark 目前收录了其中九个：Hakan Seven
         开发的 DWG/DXF 制图软件 Open CAD Studio、建筑模型查看器 Open BIM Suite、激光扫描点云工具
         Open Pointcloud Studio、施工进度计划 Open Planner Studio、结构计算书 Open CalcSheet
-        Studio，以及面向图纸、图片和文档的 Open PDF Studio、Open Paint Studio 和办公套件 Open
+        Studio、工程造价估算 Open Calc Studio，以及面向图纸、图片和文档的 Open PDF Studio、Open Paint Studio 和办公套件 Open
         Office Studio。
     groups:
       - title:
@@ -313,6 +314,7 @@ collections:
         apps:
           - org.openaec.planner
           - org.openaec.OpenCalcSheetStudio
+          - org.openaec.OpenCalcStudio
   - slug: jumplink
     name: JumpLink
     upstream: https://jumplink.eu
