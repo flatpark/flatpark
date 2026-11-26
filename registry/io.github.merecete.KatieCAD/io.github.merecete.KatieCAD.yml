@@ -28,9 +28,9 @@ modules:
       - install -Dm644 io.github.merecete.KatieCAD.mime.xml /app/share/mime/packages/io.github.merecete.KatieCAD.xml
       - install -Dm644 io.github.merecete.KatieCAD.png /app/share/icons/hicolor/512x512/apps/io.github.merecete.KatieCAD.png
     sources:
-      # appimage-offset + unsquashfs. The official tar.xz contains one
-      # AppImage. Outside the managed block, which the updater rebuilds
-      # from the resolver output.
+      # appimage-offset + unsquashfs. The official tar.gz contains the
+      # AppImage (see apply_extra.sh). Outside the managed block, which the
+      # updater rebuilds from the resolver output.
       - type: extra-data
         filename: appimage-tools.tar.xz
         only-arches:
@@ -40,12 +40,12 @@ modules:
         size: 57220
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: katiecad.tar.xz
+        filename: katiecad.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/Merecete/KatieCAD/releases/download/v1.2.0/KatieCAD-Linux-x86_64_v1.2.0.tar.xz
-        sha256: 9e572e9c424dcb2f4e29a71756d81609c58e8c0628b17a0dc7622f81f1872214
-        size: 72781780
+        url: https://github.com/Merecete/KatieCAD/releases/download/v1.2.1/KatieCAD-Linux-x86_64_v1.2.1.tar.gz
+        sha256: 77018c0a189637e652b827f1d5069b3e3dbe253e478595ef993af49aa3fe28b5
+        size: 146183118
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

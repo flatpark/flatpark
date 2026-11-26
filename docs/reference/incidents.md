@@ -60,6 +60,9 @@ One feature or one piece of desktop integration.
 | Yaak | Installed the CEF build instead of WebKitGTK | Loose resolver match | d1d0020 | [Unpacks](../reviewers/testing-playbook.md#it-unpacks-as-a-system-install) |
 | WorkBuddy | Install failed in one region | CDN served different bytes per region | #651 | — (no local check reproduces it) |
 | Cellar | Installer shortcuts written to the host desktop | Desktop path not redirected | #676 | [Home folder](../reviewers/testing-playbook.md#nothing-new-in-the-home-folder) |
+| KatieCAD | Stuck on 1.2.0 | Resolver matched `.tar.xz`; upstream switched to `.tar.gz` | #1598 | [Stale check](../packagers/basics.md#resolve-updatesh) |
+| falconpdf | Missed the 2026.11-r3 re-cut | Resolver took the first list entry (tag-creation order) | #1598 | [Stale check](../packagers/basics.md#resolve-updatesh) |
+| PyCharm Community | Rolled back from 2026.3.0.1 to 2025.3.6.3 | Resolver took the latest-published release, a patch to the previous line | #1598 | — (choose by version; [resolver rules](../packagers/basics.md#resolve-updatesh)) |
 
 ## What the record shows
 

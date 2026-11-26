@@ -21,6 +21,9 @@ rels="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 # out with only the Android .apk files. Take the newest published release that
 # actually carries the Linux .deb, so a platform-partial release is skipped
 # rather than failing the sweep; it is picked up once the .deb is attached.
+# Choose by published_at, not list position: the API orders by tag creation,
+# and a re-cut (2026.11-r3, published 2026-11-22) whose tag was created with
+# 2026.11's lists after it.
 # Exact bundle name pattern: a full release also carries the .rpm, .pacman,
 # AppImage, a .flatpak bundle and the Android/macOS/Windows builds.
 sel="$(jq -c '
@@ -30,7 +33,7 @@ sel="$(jq -c '
         date: .published_at,
         urls: [ .assets[] | select(.name | test("^falconpdf-[0-9][0-9.]*-linux-amd64\\.deb$")) | .browser_download_url ] }
     | select(.urls | length > 0)
-  ] | first // empty' <<<"$rels")"
+  ] | sort_by(.date) | last // empty' <<<"$rels")"
 
 [ -n "$sel" ] || { echo "no falconpdf release with a linux-amd64 .deb asset" >&2; exit 1; }
 

@@ -36,16 +36,16 @@ modules:
         filename: pycharm.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/JetBrains/intellij-community/releases/download/pycharm/2025.3.6.3/pycharm-2025.3.6.3.tar.gz
-        sha256: a326d668bdaeac1d9881a2c3a82acf1be149cff86f43262005423a400f713ca2
-        size: 628816971
+        url: https://github.com/JetBrains/intellij-community/releases/download/pycharm/2026.3.0.1/pycharm-2026.3.0.1.tar.gz
+        sha256: 72e4980d7dcf28931a23f06d3c7205b747b4aef3f08196fb4eb8e7e5c8ed9b0e
+        size: 652173555
       - type: extra-data
         filename: pycharm.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/JetBrains/intellij-community/releases/download/pycharm/2025.3.6.3/pycharm-2025.3.6.3-aarch64.tar.gz
-        sha256: 533c4fe42c690256520c031a391cf3e3ec9a9825683f8e64716b22fd13934a81
-        size: 626052690
+        url: https://github.com/JetBrains/intellij-community/releases/download/pycharm/2026.3.0.1/pycharm-2026.3.0.1-aarch64.tar.gz
+        sha256: 6bf163eb1e06e920d7b86c2b11a5a343d64adc0b39d271181d1633bc3cf57bf9
+        size: 668765469
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
