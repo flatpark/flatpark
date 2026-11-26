@@ -16,6 +16,7 @@
     <p>This community package is independently maintained and repackages the official Linux release unmodified.</p>
     <p>Opentern is a local-first market analysis terminal with charts, indicators, scripts, backtests, alerts and paper trading. It does not place real orders.</p>
     <p>Market data needs network access. The sandbox does not provide access to Python interpreters or coding agents installed on the host; those integrations may not work. Background alerts that run after the app closes may also be unavailable.</p>
+    <p>In-app alerts work by default. Desktop notifications and alert sounds are optional. To let Opentern use the desktop notification service, run <code>flatpak override --user --talk-name=org.freedesktop.Notifications io.github.ahaan_shah.Opentern</code> and restart the app. In the alert editor, enable Notification for desktop notifications and enable Sound as well to hear the alert.</p>
   </description>
   <screenshots>
     <screenshot type="default">
