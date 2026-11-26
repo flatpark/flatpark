@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+# One wrapper for the whole suite, installed as /app/bin/ely-doc and linked as
+# ely-table, ely-show, ely-pdf, ely-mark, ely-tree and ely-mail: the name it is
+# started under picks the app. Each launcher's Exec names its own command, so
+# Flatpak runs it with --command=<app>. apply_extra staged upstream's tree at
+# /app/extra/ely-office, one directory per app; each binary finds its helpers
+# (and ElyDoc, ElyTable and ElyShow the shared LibreOffice kernel) next to
+# itself in bin/.
+app="$(basename "$0")"
+case "$app" in
+  ely-doc|ely-table|ely-show|ely-pdf|ely-mark|ely-tree|ely-mail) ;;
+  *) echo "ely-office-wrapper: unknown app '$app'" >&2; exit 64 ;;
+esac
+
+# The bundled LibreOffice's libcurl needs libgssapi_krb5.so.2, which the
+# runtime lacks; apply_extra staged it at /app/extra/krb5-gss/lib. Appended
+# last, so nothing the app or the runtime ships is shadowed by it.
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}/app/extra/krb5-gss/lib"
+
+# GPUI resolves fonts through cosmic-text/fontdb, which parses one fontconfig
+# file by itself and reads only its <dir> elements, so the host fonts the
+# runtime reaches through a conf.d remap are invisible to it and non-Latin text
+# (CJK above all) comes out as boxes. /app/etc/fonts/fonts.conf lists every
+# font directory explicitly and includes the runtime's own configuration for
+# everything else. It replaces a FONTCONFIG_FILE set for all apps on purpose;
+# to use your own instead:
+#   flatpak override --user --env=ELY_FONTCONFIG_FILE=/path/to/fonts.conf ely.zacharyzhang.office
+export FONTCONFIG_FILE="${ELY_FONTCONFIG_FILE:-/app/etc/fonts/fonts.conf}"
+
+exec "/app/extra/ely-office/$app/bin/$app" "$@"

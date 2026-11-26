@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ely.zacharyzhang.office</id>
+  <name>Ely Office</name>
+  <summary>Offline office suite with documents, spreadsheets, slides, PDF, Markdown, Git and mail</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT AND MPL-2.0 AND AGPL-3.0-or-later AND GPL-2.0-only</project_license>
+  <developer id="com.zacharyzhang">
+    <name>ZacharyZhang</name>
+  </developer>
+  <url type="homepage">https://office.elygpui.com</url>
+  <url type="bugtracker">https://github.com/ELY-Open-Source/ElyOffice/issues</url>
+  <url type="vcs-browser">https://github.com/ELY-Open-Source/ElyOffice</url>
+  <description>
+    <p>This is a community package of Ely Office, maintained independently. It repackages the official upstream Linux build unmodified.</p>
+    <p>Ely Office is a set of offline-first desktop apps written in Rust with GPUI. Upstream ships them as one package, and this package installs all seven, each with its own launcher:</p>
+    <ul>
+      <li>ElyDoc: word processor for DOCX, ODT, DOC and RTF, with LibreOfficeKit as the document engine</li>
+      <li>ElyTable: spreadsheets in XLSX, ODS, XLS, CSV and TSV</li>
+      <li>ElyShow: presentations in PPTX, ODP and PPT, with a full-screen slide show</li>
+      <li>ElyPDF: reads and edits PDF files with MuPDF, recognises text in scanned pages, and signs documents</li>
+      <li>ElyMark: Markdown editor with visual, source and preview modes, math and Mermaid diagrams</li>
+      <li>ElyTree: Git client with its own Git and Git LFS</li>
+      <li>ElyMail: mail for Gmail, Microsoft, iCloud and any IMAP or POP3 and SMTP account</li>
+    </ul>
+    <p>The document apps save back to the original format, keep recovery points every 10 seconds while there are unsaved changes, and work fully offline. ElyTree reaches the network only when you fetch, pull, push or clone; ElyMail only to your mail servers and to the Gmail or Microsoft sign-in page.</p>
+    <p>The package can read and write your home directory, so ElyTree can open repositories wherever you keep them and use your own Git configuration, SSH keys and signing keys, through your ssh-agent and gpg-agent. The other apps open and save through the file chooser too, or take files from your file manager. ElyMail keeps passwords and sign-in tokens in your desktop's keyring (GNOME Keyring, KWallet or another Secret Service provider); without one they last until ElyMail quits. Closing ElyMail's window keeps it in the tray, where it goes on syncing and sending. Settings, recovery points and mail live in ~/.var/app/ely.zacharyzhang.office.</p>
+    <p>To keep the suite to your Documents and Downloads folders instead (ElyTree then sees only repositories there): <code>flatpak override --user --nofilesystem=home --filesystem=xdg-documents --filesystem=xdg-download ely.zacharyzhang.office</code>. Undo with <code>flatpak override --user --reset ely.zacharyzhang.office</code>.</p>
+    <p>This package replaces the seven separate Ely packages FlatPark carried until version 0.1.16 (ely.zacharyzhang.office.doc and the others). Their settings and mail stay in their own ~/.var/app folders and are not moved over.</p>
+    <p>In-app updates are left to Flatpak: new upstream releases arrive as Flatpak updates.</p>
+  </description>
+  <launchable type="desktop-id">ely.zacharyzhang.office.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>WordProcessor</category>
+    <category>Spreadsheet</category>
+    <category>Presentation</category>
+  </categories>
+  <keywords>
+    <keyword>office</keyword>
+    <keyword>word</keyword>
+    <keyword>docx</keyword>
+    <keyword>spreadsheet</keyword>
+    <keyword>xlsx</keyword>
+    <keyword>presentation</keyword>
+    <keyword>pptx</keyword>
+    <keyword>pdf</keyword>
+    <keyword>markdown</keyword>
+    <keyword>git</keyword>
+    <keyword>mail</keyword>
+  </keywords>
+  <content_rating type="oars-1.1" />
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>ely-doc</binary>
+    <binary>ely-table</binary>
+    <binary>ely-show</binary>
+    <binary>ely-pdf</binary>
+    <binary>ely-mark</binary>
+    <binary>ely-tree</binary>
+    <binary>ely-mail</binary>
+    <mediatype>application/vnd.openxmlformats-officedocument.wordprocessingml.document</mediatype>
+    <mediatype>application/vnd.oasis.opendocument.text</mediatype>
+    <mediatype>application/msword</mediatype>
+    <mediatype>application/rtf</mediatype>
+    <mediatype>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mediatype>
+    <mediatype>application/vnd.oasis.opendocument.spreadsheet</mediatype>
+    <mediatype>application/vnd.ms-excel</mediatype>
+    <mediatype>text/csv</mediatype>
+    <mediatype>text/tab-separated-values</mediatype>
+    <mediatype>application/vnd.openxmlformats-officedocument.presentationml.presentation</mediatype>
+    <mediatype>application/vnd.oasis.opendocument.presentation</mediatype>
+    <mediatype>application/vnd.ms-powerpoint</mediatype>
+    <mediatype>application/pdf</mediatype>
+    <mediatype>text/markdown</mediatype>
+    <mediatype>message/rfc822</mediatype>
+  </provides>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Editing a DOCX document in ElyDoc</caption>
+      <image>https://office.elygpui.com/clips/doc.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>A spreadsheet in ElyTable</caption>
+      <image>https://office.elygpui.com/clips/table.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>A slide show in ElyShow</caption>
+      <image>https://office.elygpui.com/clips/show.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Reading a PDF in ElyPDF</caption>
+      <image>https://office.elygpui.com/clips/pdf.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing Markdown in ElyMark</caption>
+      <image>https://office.elygpui.com/clips/mark.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>A repository in ElyTree</caption>
+      <image>https://office.elygpui.com/clips/tree.jpg</image>
+    </screenshot>
+    <screenshot>
+      <caption>Reading mail in ElyMail</caption>
+      <image>https://office.elygpui.com/clips/mail.jpg</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.1.17" date="2026-11-22">
+      <url type="details">https://github.com/ELY-Open-Source/ElyOffice/releases/tag/v0.1.17</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

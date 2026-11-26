@@ -1,0 +1,154 @@
+id: ely.zacharyzhang.office
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Seven apps in one package, as upstream ships them since v0.1.17 (one
+# ely-office .deb for the whole suite). ElyDoc is the main launcher; the other
+# six are exported as ely.zacharyzhang.office.<App>.desktop, each with an Exec
+# naming its own command.
+command: ely-doc
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Every Ely app is a GPUI application. The .deb is a self-contained tree
+  # built with linuxdeploy: it bundles the libraries the runtime might lack
+  # (libxkbcommon, xcb-xkb) and links only glibc, libgcc, dbus, Vulkan,
+  # Wayland and xcb from the system, all in org.freedesktop.Platform 26.08.
+  # GPUI renders through Vulkan on the runtime's Mesa, hence dri, and opens a
+  # Wayland or X11 window, whichever the session has.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Accessibility through AccessKit's AT-SPI adapter, which asks org.a11y.Bus
+  # where the accessibility bus lives.
+  - --talk-name=org.a11y.Bus
+  # ElyTree works on repositories wherever the user keeps them and uses the
+  # user's own Git setup: ~/.gitconfig, ~/.ssh keys and known_hosts, and
+  # signing keys. A repository opened through the directory portal would lose
+  # all of those, and a clone has to land in a real folder the user picks, so
+  # the package grants the home directory (declared in flatpark.yml). With the
+  # suite in one sandbox the document apps share it; they still open and save
+  # through the file-chooser portal, and each .desktop Exec ends in %F, so
+  # files opened from a file manager arrive through the document portal.
+  # Each app's settings, recovery points, logs and instance lock live in
+  # $XDG_DATA_HOME/ElyOffice/<app> (~/.var/app/ely.zacharyzhang.office/data).
+  - --filesystem=home
+  # The network serves three things:
+  # - every app keeps one copy running: a second launch (another file opened
+  #   from the file manager) hands its files to the running copy over a TCP
+  #   connection on 127.0.0.1, whose port the first copy writes to
+  #   instance.door in its data directory. Without --share=network every
+  #   `flatpak run` gets a network namespace of its own, the connection is
+  #   refused and the second launch fails with an error;
+  # - ElyTree's fetch, pull, push and clone over HTTPS and SSH;
+  # - ElyMail's IMAP, POP3 and SMTP to the user's servers, and the Gmail and
+  #   Microsoft sign-in pages: OAuth sign-in opens the browser through the
+  #   OpenURI portal and takes the answer on a listener on 127.0.0.1, which
+  #   the browser outside the sandbox reaches only through the shared network.
+  # The document apps go online for nothing: upstream's help (docs/help.md,
+  # "Offline boundary") says none of them needs a network, account or online
+  # service.
+  - --share=network
+  # ElyTree's credentials come from the user's own agents, as upstream intends
+  # ("Ely never asks for a password in a terminal"): ssh-agent for SSH remotes
+  # and signing, gpg-agent for OpenPGP-signed commits. ssh and gpg come from
+  # the runtime; Git and Git LFS are the ones bundled in the .deb.
+  - --socket=ssh-auth
+  - --socket=gpg-agent
+  # ElyMail's passwords and refresh tokens go to the system credential store
+  # through the Rust keyring crate's Secret Service backend (GNOME Keyring,
+  # KWallet, KeePassXC). Without it ElyMail keeps them in memory only and asks
+  # again after every restart.
+  - --talk-name=org.freedesktop.secrets
+  # ElyMail's new-mail notifications go to org.freedesktop.Notifications
+  # directly, not through the notification portal.
+  - --talk-name=org.freedesktop.Notifications
+  # Closing ElyMail's window keeps it in the tray (StatusNotifierItem with a
+  # dbusmenu), where it goes on syncing and sending. The item owns
+  # org.kde.StatusNotifierItem-<pid>-<n> and registers it with the watcher.
+  # Every sandboxed app is PID 2, so if another Flatpak tray app already holds
+  # the same name, ElyMail starts without a tray and closing the window quits
+  # it, as upstream does on a desktop without a tray host.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
+modules:
+  - name: ely-office
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ely-office-wrapper /app/bin/ely-doc
+      - for app in table show pdf mark tree mail; do ln -s ely-doc /app/bin/ely-$app; done
+      - install -Dm644 fonts.conf /app/etc/fonts/fonts.conf
+      - install -Dm644 ely.zacharyzhang.office.metainfo.xml /app/share/metainfo/ely.zacharyzhang.office.metainfo.xml
+      - install -Dm644 ely.zacharyzhang.office.desktop /app/share/applications/ely.zacharyzhang.office.desktop
+      - install -Dm644 ely.zacharyzhang.office.png /app/share/icons/hicolor/512x512/apps/ely.zacharyzhang.office.png
+      - |
+        for app in Table Show PDF Mark Tree Mail; do
+          install -Dm644 ely.zacharyzhang.office.$app.desktop /app/share/applications/ely.zacharyzhang.office.$app.desktop
+          install -Dm644 ely.zacharyzhang.office.$app.png /app/share/icons/hicolor/512x512/apps/ely.zacharyzhang.office.$app.png
+        done
+    sources:
+      # The LibreOffice kernel the .deb bundles carries its own libcurl, which
+      # has a hard DT_NEEDED on libgssapi_krb5.so.2 (readelf -d). The .deb
+      # Depends on libgssapi-krb5-2 for it; org.freedesktop.Platform 26.08
+      # ships no krb5, so without it the document engine never loads. The
+      # load-time closure of libgssapi_krb5.so.2 from flatpark/prebuilt, the
+      # same archive IBKR Desktop pins; the wrapper puts its lib/ LAST on
+      # LD_LIBRARY_PATH.
+      #
+      # Deliberately OUTSIDE the managed block below: update-pins.mjs rebuilds
+      # that block from the resolver's sources and would drop anything else in it.
+      - type: extra-data
+        filename: krb5-gss.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/krb5-gss-v2/krb5-gss-krb5-gss-v2-fd-26.08-x86_64.tar.xz
+        sha256: 499040be2b155b7a2869cfbe472031bbe336dff887d26809fa54fc5ae318dcf8
+        size: 473004
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ely-office.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/ELY-Open-Source/ElyOffice/releases/download/v0.1.17/ely-office_0.1.17-1_amd64.deb
+        sha256: ecf6820dffa70eb71107a36d1306c88d531cf30ad59b8e0924a30ad323ca753c
+        size: 380070276
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ely-office-wrapper
+      - type: file
+        path: fonts.conf
+      - type: file
+        path: ely.zacharyzhang.office.metainfo.xml
+      - type: file
+        path: ely.zacharyzhang.office.desktop
+      - type: file
+        path: ely.zacharyzhang.office.png
+      - type: file
+        path: ely.zacharyzhang.office.Table.desktop
+      - type: file
+        path: ely.zacharyzhang.office.Table.png
+      - type: file
+        path: ely.zacharyzhang.office.Show.desktop
+      - type: file
+        path: ely.zacharyzhang.office.Show.png
+      - type: file
+        path: ely.zacharyzhang.office.PDF.desktop
+      - type: file
+        path: ely.zacharyzhang.office.PDF.png
+      - type: file
+        path: ely.zacharyzhang.office.Mark.desktop
+      - type: file
+        path: ely.zacharyzhang.office.Mark.png
+      - type: file
+        path: ely.zacharyzhang.office.Tree.desktop
+      - type: file
+        path: ely.zacharyzhang.office.Tree.png
+      - type: file
+        path: ely.zacharyzhang.office.Mail.desktop
+      - type: file
+        path: ely.zacharyzhang.office.Mail.png

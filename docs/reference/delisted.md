@@ -88,6 +88,13 @@ never comes back.
 | `com.longbridgeapp.LongbridgePro` | `com.longbridge.Longbridge` | [#1121](https://github.com/flatpark/flatpark/pull/1121), 2026-11-10 |
 | `com.kang.nyaterm.preview` | `com.kang.nyaterm` | [#1396](https://github.com/flatpark/flatpark/pull/1396), 2026-11-19 |
 | `com.github.zbcoding.Impasto` | `io.github.zbcoding.Impasto` | [#1518](https://github.com/flatpark/flatpark/pull/1518), 2026-11-23 |
+| `ely.zacharyzhang.office.doc` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
+| `ely.zacharyzhang.office.table` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
+| `ely.zacharyzhang.office.show` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
+| `ely.zacharyzhang.office.pdf` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
+| `ely.zacharyzhang.office.mark` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
+| `ely.zacharyzhang.office.tree` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
+| `ely.zacharyzhang.office.mail` | `ely.zacharyzhang.office` (upstream ships the suite as one package since v0.1.17) | [#1590](https://github.com/flatpark/flatpark/pull/1590), 2026-11-26 |
 
 ## Stopped or broken
 
