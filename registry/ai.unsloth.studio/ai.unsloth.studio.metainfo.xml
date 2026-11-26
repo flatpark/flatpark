@@ -8,7 +8,8 @@
   <description>
     <p>Unsloth Studio is a local interface for running and training language and diffusion models. This package installs Unsloth's official Linux desktop build, which opens the Studio interface in a window and serves its backend on 127.0.0.1:8888.</p>
     <p>This is a community package. It downloads the official upstream .deb at install time without modifying it. On first launch the app installs its Python backend, PyTorch and the inference tools it needs into this app's private storage; that download is done by Unsloth itself and can take a while on a slow connection.</p>
-    <p>CPU inference works without extra setup. GPU inference and training need access to the host's GPU devices and driver. AMD GPUs use /dev/kfd and /dev/dri; NVIDIA GPUs also need a matching Flatpak NVIDIA driver extension installed on the host. GPU device access is granted by the package and cannot be removed with a user override. To use models from a folder outside this app's storage, grant it read-only: <code>flatpak override --user --filesystem=/path/to/models:ro ai.unsloth.studio</code>. Undo all overrides with <code>flatpak override --user --reset ai.unsloth.studio</code>.</p>
+    <p>CPU inference works without extra setup. GPU inference and training need access to the host's GPU devices and driver. AMD GPUs use /dev/kfd and /dev/dri; NVIDIA GPUs also need a matching Flatpak NVIDIA driver extension installed on the host. CPU-only users can remove the GPU grant with <code>flatpak override --user --nodevice=all ai.unsloth.studio</code>. To use models from a folder outside this app's storage, grant it read-only: <code>flatpak override --user --filesystem=/path/to/models:ro ai.unsloth.studio</code>. Undo all overrides with <code>flatpak override --user --reset ai.unsloth.studio</code>.</p>
+    <p>The desktop app's own Debian updater cannot work in the sandbox. Updates to the packaged app come through FlatPark; the Python backend and models are managed by the app itself.</p>
     <p>Known limitation: the backend can crash with a segmentation fault in this package. The bundled Python stack fails when pyarrow is imported after torch. That happens through pandas and scikit-learn while browsing the model catalogue, and through the safetensors path used for image generation and training. The UI then reports "Server stopped unexpectedly". The limitation is recorded in the package's pull request, so the package can be reviewed and removed if it does not clear the bar.</p>
   </description>
   <launchable type="desktop-id">ai.unsloth.studio.desktop</launchable>
@@ -17,13 +18,10 @@
   <url type="vcs-browser">https://github.com/unslothai/unsloth</url>
   <developer id="ai.unsloth"><name>Unsloth AI</name></developer>
   <screenshots>
+    <!-- Upstream publishes no Linux screenshot; taken from a test run of 0.1.925-beta. -->
     <screenshot type="default">
-      <caption>Unsloth Studio's model chat interface</caption>
-      <image>https://unsloth.ai/cgi/image/unsloth_qwen3.8_final_ut2eqWnYJ-SLmu0s7x522.png?format=raw</image>
-    </screenshot>
-    <screenshot>
-      <caption>Choosing a model in Unsloth Studio</caption>
-      <image>https://3215535692-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FxhOjnexMCB3dmuQFQ2Zq%2Fuploads%2FNCEVgKLJI0goPqjgcg9B%2Fmodel%20hub%20models.png?alt=media&amp;token=533b5e3c-a901-4b33-963e-4a703cc9d5a6</image>
+      <caption>Unsloth Studio's Linux chat window</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/ai.unsloth.studio/screenshots/studio-linux.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1"/>

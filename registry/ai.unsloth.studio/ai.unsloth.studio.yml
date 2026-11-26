@@ -15,7 +15,12 @@ finish-args:
   # UI to a local webview over loopback.
   - --share=network
   # GPU device nodes for model inference and training; declared in flatpark.yml.
+  # --device=dri already exposes /dev/nvidia*, so the wider grant is for AMD
+  # ROCm's /dev/kfd. Users can remove it with --nodevice=all.
   - --device=all
+  # Tauri's tray icon registers with the host status notifier.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
   # install.sh keeps its environment and the Studio launcher here. Without
   # these grants they land in the sandbox's tmpfs home and vanish on exit.
   - --persist=.unsloth

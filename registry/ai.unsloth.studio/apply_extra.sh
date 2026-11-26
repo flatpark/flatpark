@@ -34,6 +34,8 @@ mv stage/usr/bin stage/usr/lib stage/usr/share app/
 chmod -R a-s app
 
 [ -x "app/bin/$launcher" ] || { echo "launcher missing after unpacking" >&2; exit 1; }
+# Read by the wrapper, so an upstream rename of the binary needs no wrapper edit.
+printf '%s\n' "$launcher" > launcher
 [ -f "app/lib/Unsloth/install.sh" ] || { echo "install.sh not at the Tauri resource path" >&2; exit 1; }
 
 rm -rf stage app.deb

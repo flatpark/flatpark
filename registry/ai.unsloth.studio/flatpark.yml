@@ -16,6 +16,7 @@ update:
 policy:
   proprietary: false
   dangerous_permissions:
-    # Model inference and training read GPU device nodes, including /dev/kfd
-    # on AMD and /dev/nvidia* on NVIDIA. CPU-only users can remove the grant.
+    # --device=dri already exposes /dev/nvidia* for CUDA. The wider grant is
+    # needed for AMD ROCm's /dev/kfd, which inference and training read.
+    # CPU-only users can remove it with --nodevice=all.
     - --device=all
