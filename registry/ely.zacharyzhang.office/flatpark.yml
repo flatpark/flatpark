@@ -1,0 +1,42 @@
+# FlatPark catalog descriptor for Ely Office: ElyDoc, ElyTable, ElyShow, ElyPDF,
+# ElyMark, ElyTree and ElyMail in one package, as upstream ships them since
+# v0.1.17. Replaces the seven per-app packages ely.zacharyzhang.office.{doc,
+# table,show,pdf,mark,tree,mail} (docs/reference/delisted.md).
+#
+# read-descriptor.mjs is a line scanner, not a YAML parser; keep the plain
+# two-space block style below.
+id: ely.zacharyzhang.office
+name: Ely Office
+summary: Offline office suite with documents, spreadsheets, slides, PDF, Markdown, Git and mail
+website: https://office.elygpui.com
+source_url: https://github.com/ELY-Open-Source/ElyOffice
+build:
+  manifest: ely.zacharyzhang.office.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Office
+  upstream_approved: true
+  tags:
+    - Office Suite
+    - Word Processor
+    - Spreadsheet
+    - Presentation
+    - PDF
+    - Markdown
+    - Git
+    - Email
+    - LibreOffice
+    - Offline
+update:
+  command: ./resolve-update.sh
+policy:
+  # MIT AND MPL-2.0 AND AGPL-3.0-or-later AND GPL-2.0-only. Ely's own code is
+  # MIT since 2026-10-19 (upstream LICENSE); the bundled LibreOffice (MPL-2.0),
+  # MuPDF (AGPL-3.0-or-later) and Git (GPL-2.0-only) keep their licences, as
+  # upstream's packaging/apps.tsv declares per app.
+  proprietary: false
+  dangerous_permissions:
+    # ElyTree opens repositories wherever the user keeps them and needs the
+    # user's ~/.gitconfig, ~/.ssh and signing keys; see the manifest.
+    - --filesystem=home

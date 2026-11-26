@@ -39,7 +39,7 @@ it in (see [archive or extra-data](#archive-module-or-extra-data)).
 | `opencv-imgproc` | `opencv-imgproc-v3` | fd 26.08 | 4.4 MB | OpenCV 4.13 core and imgproc | extra-data | WeMeet (loaded by the screen-share hook) |
 | `wemeet-screenshare-hook` | `wemeet-screenshare-hook-v2` | fd 26.08 | 0.1 MB | libportal and the XWayland screen-share hook | archive | WeMeet |
 | `openssl-1.1-compat` | `openssl-1.1-compat-v2` | fd 26.08 | 1.3 MB | `libssl.so.1.1` and `libcrypto.so.1.1` for payloads that predate OpenSSL 3. **1.1.1 is end-of-life**: a last resort | extra-data | Tonghuashun (THS) |
-| `krb5-gss` | `krb5-gss-v2` | fd 26.08 | 0.5 MB | `libgssapi_krb5.so.2` and its load-time closure, for a bundled Qt built with GSSAPI | extra-data | IBKR Desktop, the three Ely Office apps |
+| `krb5-gss` | `krb5-gss-v2` | fd 26.08 | 0.5 MB | `libgssapi_krb5.so.2` and its load-time closure, for a bundled Qt built with GSSAPI | extra-data | IBKR Desktop, Ely Office |
 | `noto-fonts` | `noto-fonts-v1` | any (`noarch`) | 11.2 MB | Noto Sans CJK Regular (`.ttc`, SC/TC/HK/JP/KR) and Noto Sans Regular, byte-identical to upstream, in `share/fonts` | extra-data | Apps whose toolkit builds its own font database (GPUI, Slint): Navop, FluxDown, Zedis, DBFlux, NyaTerm, MeatShell, Concat, Longbridge |
 
 Each stack's manifest in `flatpark/prebuilt` says in its header why it exists,

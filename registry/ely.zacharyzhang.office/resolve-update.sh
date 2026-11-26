@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
-# Update resolver for ElyDoc.
+# Update resolver for Ely Office.
 #
 # Ely Office releases on GitHub (ELY-Open-Source/ElyOffice; it moved there from
-# the developer's own Forgejo in 2026-10). One release carries every app of the
-# suite; each app's Linux x86_64 build is the single
-# `ely-doc_<version>-<revision>_amd64.deb` asset.
+# the developer's own Forgejo in 2026-10). Since v0.1.17 one installer per
+# platform holds every app of the suite; on Linux x86_64 that is the single
+# `ely-office_<version>-<revision>_amd64.deb` asset. Up to v0.1.16 each app had
+# a .deb of its own, and the suite deb carried no Linux build FlatPark could
+# use, so only v0.1.17 and later match.
 #
 # Not every release carries Linux builds (v0.1.1 and v0.1.2 carry no assets;
 # v0.1.7 never reached GitHub), so this walks the newest releases and takes
-# the first one that has this app's .deb, rather than trusting the latest
+# the first one that has the suite .deb, rather than trusting the latest
 # release.
 #
 # Prints JSON on stdout, logs on stderr; no hashing, no file writes.
 set -euo pipefail
 
 api="https://api.github.com/repos/ELY-Open-Source/ElyOffice/releases?per_page=20"
-slug="ely-doc"
+slug="ely-office"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
@@ -45,5 +47,5 @@ jq --arg v "$version" '{
   version: $v,
   releaseDate: (.rel.published_at | .[0:10]),
   releaseUrl: .rel.html_url,
-  sources: [{filename: "ely-doc.deb", url: .asset.browser_download_url, size: .asset.size}]
+  sources: [{filename: "ely-office.deb", url: .asset.browser_download_url, size: .asset.size}]
 }' <<<"$out"
