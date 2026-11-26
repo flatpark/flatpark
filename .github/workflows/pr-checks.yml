@@ -18,15 +18,21 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # node, ostree and rclone come with the image. The base target has no
+    # flatpak-builder, so the build tests self-skip here as they always did.
+    container: ghcr.io/flatpark/ci:base
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0   # the dead-link check diffs against the PR base
-      - uses: actions/setup-node@v7
+      # What setup-node's `cache: npm` did; node itself is in the image.
+      - name: Restore npm cache
+        uses: actions/cache@v6
         with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: site/package-lock.json
+          path: ~/.npm
+          key: npm-${{ hashFiles('site/package-lock.json') }}
+          restore-keys: |
+            npm-
       - name: Validate every registry descriptor
         run: |
           set -e
@@ -79,12 +85,6 @@ jobs:
       - name: Install site deps
         working-directory: site
         run: npm ci || npm install --no-audit --no-fund
-      # The test-repo unit tests run real ostree and rclone (local backend)
-      # and stub flatpak, so these two are all they need beyond the image.
-      - name: Install ostree and rclone for the test-repo tests
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ostree rclone
       - name: Shell test suite (build steps self-skip without flatpak-builder)
         run: bash tests/run-tests.sh
       # Scoped to the apps this PR touches (any file, not just build inputs):
@@ -259,16 +259,17 @@ jobs:
             runner: ubuntu-24.04-arm
     name: build-changed (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
+    # The flatpak toolchain comes with the image, the distro flatpak-builder
+    # rather than the Flathub app (.github/ci-image/Dockerfile). Privileged for
+    # bwrap and rofiles-fuse; untrusted build-commands get no more than they
+    # had on the bare runner, which has passwordless sudo.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      # Decide first, install after: a PR with no build-relevant app changes
-      # skips the whole toolchain setup. Node is the exception: scan-registry.sh
-      # reads the descriptors with it to pick this arch's share.
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
       - name: Determine changed apps
         id: changed
         env:
@@ -320,21 +321,9 @@ jobs:
           done
           echo "payload_ids=${payload_ids# }" >> "$GITHUB_OUTPUT"
           echo "apps needing an apply_extra run: ${payload_ids:-<none>}"
-      - name: Install the Flatpak build toolchain
+      - name: Add the Flathub remote
         if: steps.changed.outputs.ids != ''
-        run: |
-          # ubuntu-24.04-arm ships flatpak 1.14, which rejects finish-args added
-          # since (--device=input, used by OpenTubeX). The x86 runner is 26.04.
-          if [ "$(uname -m)" = aarch64 ]; then
-            sudo add-apt-repository -y ppa:flatpak/stable
-          fi
-          sudo apt-get update
-          # The distro package, not the Flathub app a developer machine uses:
-          # the sandboxed builder reaches the host's flatpak over the session
-          # bus, and this runner has none it can use. build-app.sh picks
-          # whichever is present.
-          sudo apt-get install -y flatpak flatpak-builder ostree
-          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Build changed apps (throwaway signing key, no publish)
         if: steps.changed.outputs.ids != ''
         run: |

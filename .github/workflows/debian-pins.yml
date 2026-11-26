@@ -26,11 +26,12 @@ permissions:
 jobs:
   repin:
     runs-on: ubuntu-24.04
+    # node and flatpak come with the image; privileged for apply_extra's bwrap.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
 
       - name: Re-resolve the Debian pins
         run: |
@@ -43,11 +44,9 @@ jobs:
       # new artifact for this app's apply_extra.sh, and a build says nothing
       # about whether extra-data unpacks. Failing here stops the PR rather than
       # shipping a pin that breaks installs.
-      - name: Install flatpak
+      - name: Add the Flathub remote
         if: env.changed != ''
         run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak bubblewrap
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
       - name: Verify the repinned payloads unpack

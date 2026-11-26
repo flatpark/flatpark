@@ -43,10 +43,13 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # rclone, flatpak, ostree and node come with the image. OUT_DIR, REPO_DIR
+    # and GNUPGHOME_DIR are set in a step: in a container job
+    # ${{ github.workspace }} is the host's path, not the one mounted here.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
     env:
-      OUT_DIR: ${{ github.workspace }}/out
-      REPO_DIR: ${{ github.workspace }}/out/repo
-      GNUPGHOME_DIR: ${{ github.workspace }}/.gnupg-flatpark
       R2_BUCKET: ${{ vars.R2_BUCKET }}
       CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
       RCLONE_CONFIG_R2_TYPE: s3
@@ -64,14 +67,13 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      - name: Install toolchain
+      - name: Job paths
         run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak ostree
-          curl -fsSL https://rclone.org/install.sh | sudo bash
+          {
+            echo "OUT_DIR=$GITHUB_WORKSPACE/out"
+            echo "REPO_DIR=$GITHUB_WORKSPACE/out/repo"
+            echo "GNUPGHOME_DIR=$GITHUB_WORKSPACE/.gnupg-flatpark"
+          } >> "$GITHUB_ENV"
       - name: Import signing subkey
         # Every key here signs everything (scripts/lib/common.sh: signing_keys).
         # During a key rotation both are set; deleting the outgoing one from the

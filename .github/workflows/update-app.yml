@@ -58,6 +58,14 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # node, gh, flatpak and the resolvers' tools come with the image. It also
+    # carries appstreamcli: update-pins validates upstream's release notes
+    # before writing them into the metainfo, and a missing validator makes that
+    # guard a silent no-op. This job writes a <release> entry from notes we do
+    # not control and merges it unattended. Privileged for apply_extra's bwrap.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
     # A caller can only narrow these: upstream-publish.yml grants the same set.
     permissions:
       contents: write
@@ -97,25 +105,15 @@ jobs:
           esac
           [ -f "registry/$APP_ID/flatpark.yml" ] \
             || { echo "::error::no registry/$APP_ID/flatpark.yml"; exit 1; }
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      # update-pins validates upstream's release notes before writing them into
-      # the metainfo, but only if appstreamcli is there — a missing validator
-      # makes that guard a silent no-op. This job writes a <release> entry from
-      # notes we do not control and merges it unattended, so install it.
-      - name: Install appstreamcli
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y appstream
       - name: Recompute pins
         env:
           GITHUB_TOKEN: ${{ github.token }}
           # check-updates.sh only warns on a resolver failure and exits 0, so
           # without this a failed resolver read as "no pin changes" and the run
-          # went green.
-          FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
+          # went green. Under $RUNNER_TEMP, not ${{ runner.temp }}: in a
+          # container job that is the host's path.
         run: |
+          FAILED_OUT="$RUNNER_TEMP/resolve-failures.tsv"; export FAILED_OUT
           echo "update $APP_ID (trigger: $TRIGGER, upstream: ${UPSTREAM:-?} ${TAG:-?})"
           : > "$FAILED_OUT"
           ./scripts/check-updates.sh "$APP_ID"
@@ -134,11 +132,9 @@ jobs:
       # nobody has looked inside. pr-checks re-runs this on the PR, but an
       # upstream that repackages behind an unchanged asset name should never get
       # as far as an open PR (issue #130).
-      - name: Install flatpak
+      - name: Add the Flathub remote
         if: env.pins_changed != ''
         run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak bubblewrap
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Verify the new payload unpacks
         if: env.pins_changed != ''
