@@ -121,7 +121,7 @@ const StarsTag = starsLink ? 'a' : 'span';
 <Base
   title={t('detail.title', { app: app.name, repo: repo.title })}
   description={t('detail.meta', { app: app.name, summary: app.summary })}
-  image={app.icon}
+  image={app.icon ? `/og/${app.id}.png` : undefined}
 >
   <script type="application/ld+json" slot="head" set:html={jsonForScript(ld)} />
   <Topbar repo={repo} />
