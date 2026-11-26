@@ -21,18 +21,16 @@ finish-args:
   # The local REST API for the MCP server binds 127.0.0.1:9742 (api.rs); a
   # host MCP client reaches it only through the shared network namespace.
   - --share=network
-  # Print buttons in the report previews call window.print() (printService.ts),
-  # which opens WebKitGTK's GTK print dialog; it lists printers over IPP to the
-  # CUPS socket. Without it the printer list stays empty.
-  - --socket=cups
   # Not granted; the metainfo documents the overrides:
   #   org.freedesktop.secrets: only "Sign in with OpenAEC" stores tokens in
   #   the keyring (accounts.rs), and sign-in works only when an administrator
   #   sets OPENAEC_ACCOUNTS_CONFIG; without it the app shows "not configured".
   #   ~/.claude: at every start the app writes an MCP configuration for Claude
   #   Code there (lib.rs, write_mcp_config); in the sandbox it lands in a
-  #   temporary home and is dropped. Granted without :create, so the folder is
-  #   only used when Claude Code is installed.
+  #   temporary home and is dropped. The override has no :create, so the
+  #   folder is only used when Claude Code is installed.
+  #   CUPS: Print opens the report PDF in the desktop's viewer (see the
+  #   wrapper), which prints it; the app never talks to CUPS itself.
   #   No filesystem grant: files are opened and saved through the file chooser
   #   (tauri-plugin-dialog, GtkFileChooserNative, i.e. the portal), and a file
   #   opened from the file manager arrives through the document portal.
@@ -55,9 +53,9 @@ modules:
         filename: open-calc-studio.deb
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.1/Open.Calc.Studio_2026.46.1_amd64.deb
-        sha256: 74bb7bf3331f63f5a9bda144d63e3bdfca5ca318ab01a7c5c187b618a045df04
-        size: 81689124
+        url: https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_amd64.deb
+        sha256: a2461781f185cc877ae8921eae497758f95aa33a2be32910accffa892ab54dba
+        size: 85742202
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

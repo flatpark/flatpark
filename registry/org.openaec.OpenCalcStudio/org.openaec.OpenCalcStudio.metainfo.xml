@@ -15,7 +15,7 @@
     <p>This is a community package of Open Calc Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
     <p>Open Calc Studio is a construction cost estimating application. Build an estimate in chapters and cost lines with hours, rates, labour and material, bring in quantities from spreadsheets, PDF drawings and IFC models, review prices and sources in the review center, and prepare reports and quotations as PDF. A guided workflow walks through project details, quantities, costs, markups and VAT. Projects are saved in the open .ifcCalc format; WpCalc and other estimating formats can be imported.</p>
     <p>Upstream describes the project as being in public testing. Check estimates made with it before relying on them.</p>
-    <p>Sandbox: display, GPU, network and printing. Network is for the optional AI assistant (with a service you configure), release notes, the feedback form and the local API that an MCP client on this computer connects to. Files are opened and saved through the file chooser. Updates come through FlatPark.</p>
+    <p>Sandbox: display, GPU and network. Network is for the optional AI assistant (with a service you configure), release notes, the feedback form and the local API that an MCP client on this computer connects to. Files are opened and saved through the file chooser. Print opens the report as a PDF in your PDF viewer, which does the printing. Updates come through FlatPark.</p>
     <p>Optional, not granted by default:</p>
     <ul>
       <li>Let the app write its MCP configuration for Claude Code to ~/.claude: <code>flatpak override --user --filesystem=~/.claude org.openaec.OpenCalcStudio</code></li>
@@ -60,6 +60,10 @@
     <mediatype>application/x-ifccalc</mediatype>
   </provides>
   <releases>
+    <release version="2026.48.0" date="2026-11-24">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.48.0</url>
+      <description></description>
+    </release>
     <release version="2026.46.1" date="2026-11-11">
       <url type="details">https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.46.1</url>
       <description>
