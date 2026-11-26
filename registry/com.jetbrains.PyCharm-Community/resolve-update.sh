@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# Both IntelliJ and PyCharm publish here. Only stable pycharm/* tags qualify.
+# Both IntelliJ and PyCharm publish here. Only stable pycharm/<version> tags
+# qualify: idea/* is the other product, and pycharm/*-rc-* tags are release
+# candidates that GitHub does not flag as prereleases. Of the matching releases
+# on the first page that has any, the highest version is taken, not the most
+# recently published: JetBrains keeps patching the previous yearly line, and
+# 2025.3.6.3 (published 2026-11-23) once rolled users back from 2026.3.0.1.
 set -euo pipefail
 headers=()
 [ -z "${GITHUB_TOKEN:-}" ] || headers=(-H "Authorization: Bearer $GITHUB_TOKEN")
@@ -7,7 +12,8 @@ for page in 1 2 3 4 5; do
     releases="$(curl -fsSL "${headers[@]}" \
         "https://api.github.com/repos/JetBrains/intellij-community/releases?per_page=100&page=$page")"
     release="$(jq -c '[.[] | select(.draft == false and .prerelease == false) |
-        select(.tag_name | test("^pycharm/[0-9]+[.][0-9]+([.][0-9]+)*$"))][0] // empty' <<<"$releases")"
+        select(.tag_name | test("^pycharm/[0-9]+[.][0-9]+([.][0-9]+)*$"))]
+        | sort_by(.tag_name | ltrimstr("pycharm/") | split(".") | map(tonumber)) | last // empty' <<<"$releases")"
     [ -z "$release" ] || break
     [ "$(jq length <<<"$releases")" -gt 0 ] || break
 done
