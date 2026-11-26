@@ -24,9 +24,9 @@
     <p>Cowork is off by default. It runs a QEMU virtual machine, so it needs QEMU, UEFI firmware (OVMF) and virtiofsd installed on your system and three overrides. Together they give the app your devices, a read-only view of your system's files and the right to run any command on your system: the app is then no longer really sandboxed. Turn them on only if you want Cowork:</p>
     <ul>
       <li>Enable Cowork: <code>flatpak override --user --device=all --filesystem=host-os:ro --talk-name=org.freedesktop.Flatpak com.anthropic.ClaudeDesktop</code></li>
-      <li>Undo it (this also removes any other overrides you set for this app): <code>flatpak override --user --reset com.anthropic.ClaudeDesktop</code></li>
+      <li>Turn it off (your other overrides for this app stay): <code>flatpak override --user --nodevice=all --nofilesystem=host-os --no-talk-name=org.freedesktop.Flatpak com.anthropic.ClaudeDesktop</code></li>
     </ul>
-    <p>With those overrides on, and only then, the package preloads a small library (LD_PRELOAD) into the app: it points the app's checks for QEMU, the firmware and virtiofsd at your system's copies, starts the app's own Cowork helper on your system, where QEMU can use /dev/kvm, and connects the app to it. The app's files are not changed. Setup steps per distribution are in COWORK.md in FlatPark's registry.</p>
+    <p>With those overrides on, and only then, the package preloads a small library (LD_PRELOAD) into the app: it points the app's checks for QEMU, the firmware and virtiofsd at your system's copies, starts the app's own Cowork helper on your system, where QEMU can use /dev/kvm, and connects the app to it. The app's files are not changed. Setup steps per distribution are at github.com/flatpark/flatpark/blob/main/registry/com.anthropic.ClaudeDesktop/COWORK.md</p>
     <p>git comes from the Freedesktop SDK inside the sandbox, not from your system. It reads your ~/.gitconfig and ~/.config/git read-only and uses your SSH agent, so commits carry your identity and SSH remotes work. A credential helper that lives on your system (such as gh or libsecret) is not available, so HTTPS remotes that need it will ask for credentials or fail.</p>
   </description>
   <content_rating type="oars-1.1"/>
