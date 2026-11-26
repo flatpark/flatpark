@@ -89,6 +89,7 @@ requires:                     # other Flatpak apps it runs with, if any
     name: Wine
 update:
   command: ./resolve-update.sh
+  stale_ignore: 'Nightly'     # only if newer upstream releases are skipped on purpose
 policy:
   proprietary: true           # honest; drives the licence shown on the site
   dangerous_permissions: []   # high-risk finish-args, each argued in the PR
@@ -388,6 +389,27 @@ else. It does no hashing and touches no file:
   so the pin refresh is what keeps such an app installable.
 - Match the asset name tightly (anchor it, include the arch and extension). A
   loose pattern picks whichever variant sorts first when upstream adds one.
+- A tight match has a failure mode of its own: when upstream renames the
+  asset or the tag prefix, a resolver that walks the release list for the
+  newest match quietly settles on the release already pinned, and the app
+  stops updating without anything failing. Prefer `releases/latest` and let a
+  missing asset fail. Walk the list only when upstream really does publish
+  releases without a Linux build (Windows first, Linux a day later; one repo
+  for several products), and say in a comment which releases you skip and
+  why.
+- When you walk the list, choose by `published_at` or by version, never by
+  list position. The API orders by tag creation, so a re-cut (`2026.11-r3`)
+  whose tag was created before its predecessor was published lists after it.
+- The sweep checks every GitHub-hosted resolver's pick against upstream, and
+  pr-checks (`resolver-check`) does the same for each resolver a PR adds or
+  changes, failing the PR on a hit or on a resolver that exits non-zero: a
+  newer, non-prerelease release that has been out for a day, carries a
+  Linux-looking asset and is not numbered lower lands the app in the "picked
+  an old release" alert. When those releases are other products or another
+  channel, set `update.stale_ignore` in `flatpark.yml` to a regex matching
+  their tag or release name (`'Nightly|Beta'`, `'^(?!ffmpeg-full-)'`), with a
+  comment saying why. Check locally with
+  `printf '%s\t%s\n' <id> "$(cd registry/<id> && ./resolve-update.sh | tr -d '\n')" > /tmp/r.tsv && node scripts/check-stale.mjs /tmp/r.tsv`.
 - Use `${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"}` on GitHub API
   calls; unauthenticated runs are rate-limited and fail.
 - GitHub release assets carry `digest` (`sha256:…`) and `size` in the API, so a

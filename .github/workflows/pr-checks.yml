@@ -174,6 +174,60 @@ jobs:
               exit 1 ;;
           esac
 
+  # Run the resolver of each app whose resolve-update.sh or flatpark.yml this PR
+  # touches (a new app touches both), and check its pick against upstream with
+  # check-stale.mjs: a resolver that already lands on an old release, or one
+  # that fails, is cheaper to fix here than as a sweep alert after merge. Only
+  # those apps run; a pin refresh (manifest + metainfo only) runs none.
+  # Untrusted code, same footing as build-changed: no secrets, read-only token,
+  # fork runs gated by the approval setting.
+  resolver-check:
+    # 24.04 镜像默认的 apt 源 azure.archive.ubuntu.com 挂了, 见上面 lint-and-test。
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Run the resolvers this PR touches and check their picks
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # HEAD^1 is the base this run merged onto, as in the audit step above.
+          base="$(git rev-parse HEAD^1)"
+          ids="$(git diff --name-only "$base" HEAD -- 'registry/*/resolve-update.sh' 'registry/*/flatpark.yml' \
+                   | cut -d/ -f2 | sort -u)"
+          resolved="$RUNNER_TEMP/resolved.tsv"; : > "$resolved"
+          rc=0; n=0
+          for id in $ids; do
+            [ -f "registry/$id/flatpark.yml" ] || continue   # app removed
+            cmd="$(node scripts/read-descriptor.mjs "registry/$id/flatpark.yml" | sed -n "s/^_FP_UPDATE_COMMAND='\(.*\)'$/\1/p")"
+            [ -n "$cmd" ] || { echo "$id: no update command"; continue; }
+            n=$((n+1))
+            echo "::group::resolve $id"
+            if out="$(cd "registry/$id" && timeout 180 "$cmd")"; then
+              printf '%s\n' "$out"
+              printf '%s\t%s\n' "$id" "$(printf '%s' "$out" | tr '\t\n' '  ')" >> "$resolved"
+            else
+              echo "::error file=registry/$id/resolve-update.sh,title=Resolver failed: $id::the resolver exited non-zero; run it in registry/$id/ with GITHUB_TOKEN set"
+              rc=1
+            fi
+            echo "::endgroup::"
+          done
+          [ "$n" -gt 0 ] || { echo "No resolver touched by this PR."; exit 0; }
+          node scripts/check-stale.mjs "$resolved" > "$RUNNER_TEMP/stale.tsv"
+          while IFS=$'\t' read -r id picked newer; do
+            echo "::error file=registry/$id/resolve-update.sh,title=Resolver picked an old release: $id::picked $picked, but upstream has $newer with a Linux build. Match the new naming, or set update.stale_ignore with a reason (docs/packagers/basics.md#resolve-updatesh)"
+            rc=1
+          done < "$RUNNER_TEMP/stale.tsv"
+          [ "$rc" = 0 ] && echo "$n resolver(s) picked upstream's newest release."
+          exit $rc
+
   # Build the changed apps to catch manifest breakage BEFORE merge, and upload
   # the OSTree repo they were exported to (flatpak-repo-<arch>-pr<N>, 7 days).
   # A PR labeled needs-testers gets a test repository made from it by

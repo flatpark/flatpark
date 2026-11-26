@@ -176,6 +176,14 @@ artifact provenance tier (1/2/3).
 - **source URLs** resolve to genuine upstream (no lookalike / fork).
 - **`app-id`** reverse-DNS matches the real vendor (impersonation / typosquat).
 - **`update.command`** is a simple relative script path (e.g. `./resolve-update.sh`).
+- **The resolver finds the newest release**: `releases/latest`, or a list walk
+  that chooses by `published_at`/version (not list position) and says in a
+  comment which releases it skips and why. pr-checks' `resolver-check` job
+  runs it and feeds its output to `scripts/check-stale.mjs`
+  ([how to run it locally](../packagers/basics.md#resolve-updatesh)); a red
+  job means the resolver failed or its pick is already behind upstream. An `update.stale_ignore`
+  carries a comment that the skipped tags really are another product or
+  channel.
 - download host = official vendor domain / upstream, not the
   submitter's personal namespace.
 
@@ -305,6 +313,7 @@ open source · 2 = closed source · ★ = all.
 | 3.5 | Manifest | source URLs = genuine upstream (no lookalike / fork) | ★ | | |
 | 3.6 | Manifest | `app-id` reverse-DNS matches real vendor (no impersonation) | ★ | | |
 | 3.7 | Manifest | `update.command` is a simple relative script path | ★ | | |
+| 3.7b | Manifest | Resolver picks the newest release (`releases/latest`, or list walk sorted by date/version with skips explained); pr-checks `resolver-check` green; any `stale_ignore` justified | ★ | | |
 | 3.8 | Manifest | download host = official vendor domain / upstream, not submitter account | ★ | | |
 | 3.9 | Manifest | Optional caps not pre-granted: documented as `flatpak override` in metainfo; any broad grant kept in `finish-args` justified in the PR | ★ | | |
 | 3.10 | Manifest | PR body says honestly what was built, installed, launched and used, and what wasn't tested | ★ | | |

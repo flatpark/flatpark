@@ -22,6 +22,9 @@ catalog:
     - Origin
 update:
   command: ./resolve-update.sh
+  # brave/brave-browser publishes Nightly and Beta builds as regular (not
+  # pre-)releases with Linux assets; only the stable channel is packaged.
+  stale_ignore: 'Nightly|Beta'
 policy:
   proprietary: false
   dangerous_permissions: []

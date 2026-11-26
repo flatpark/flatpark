@@ -207,6 +207,14 @@ a no.
   `update.command` in `registry/<id>/` with `GITHUB_TOKEN=$(gh auth token)`;
   without a token, resolvers that call the GitHub API share an anonymous
   60-per-hour budget and fail. The full `check-updates.sh` downloads payloads.
+- **A resolver that quietly picks an old release is reported too.** When
+  upstream renames a tag or an asset, a resolver that walks the release list
+  can settle on the release already pinned and exit 0. The sweep compares each
+  GitHub-hosted pick with upstream's newer releases and lists the ones that are
+  behind in `update-check/stale`, rewritten every run like the resolver alert.
+  Fix the resolver for the new naming, or, when those releases are skipped on
+  purpose, set `update.stale_ignore`
+  ([resolve-update.sh](basics.md#resolve-updatesh)).
 - **Runtime majors are not bumped by CI.** `runtime-version` and `base-version`
   are pinned by hand; moving the catalog to a new major is a
   [batch change](../reviewers/batch-changes.md).

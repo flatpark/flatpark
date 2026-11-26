@@ -15,6 +15,9 @@ catalog:
   stars_repo: FFmpeg/FFmpeg
 update:
   command: ./resolve-update.sh
+  # flatpark/prebuilt carries one tag line per library; only ffmpeg-full-v*
+  # is this package.
+  stale_ignore: '^(?!ffmpeg-full-)'
 policy:
   proprietary: false
   dangerous_permissions:
