@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.tangencylabs.pcbcraft</id>
+  <name>PCBCraft</name>
+  <summary>Schematic and PCB editor</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <developer id="io.tangencylabs"><name>Tangency Labs</name></developer>
+  <url type="homepage">https://github.com/tangency-labs/pcbcraft</url>
+  <url type="bugtracker">https://github.com/tangency-labs/pcbcraft/issues</url>
+  <url type="vcs-browser">https://github.com/tangency-labs/pcbcraft</url>
+  <description>
+    <p>PCBCraft is an open-source electronics design application for editing schematics and PCB layouts.</p>
+    <p>Draw schematics, assign footprints and edit boards in a shared project. The application also includes a command-line interface and an MCP server.</p>
+    <p>This community package is maintained independently of Tangency Labs. It installs the upstream Linux build.</p>
+    <p>Project folders in Documents are accessible by path. The desktop file chooser uses a portal. To open projects by path elsewhere in your home directory, run <code>flatpak override --user --filesystem=home io.tangencylabs.pcbcraft</code>.</p>
+    <p>The package runs without network access or access to coding agents installed on the host.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>PCB layout workspace</caption>
+      <image>https://raw.githubusercontent.com/tangency-labs/pcbcraft/7ebef3e95a290a6b6fe83f87ff461a6fe424dc4d/tools/performance/baselines/pcb-route-preview/after-pending-dark-wide.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">io.tangencylabs.pcbcraft.desktop</launchable>
+  <categories><category>Development</category><category>Electronics</category></categories>
+  <content_rating type="oars-1.1"/>
+  <provides><binary>pcbcraft</binary><binary>pcbcraft-cli</binary></provides>
+  <releases><release version="0.1.0~nightly.45739505253" date="2026-11-26"/></releases>
+</component>

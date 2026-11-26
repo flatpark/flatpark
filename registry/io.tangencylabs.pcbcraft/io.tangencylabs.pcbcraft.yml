@@ -1,0 +1,49 @@
+id: io.tangencylabs.pcbcraft
+# DRAFT: the nightly asset is deleted when upstream publishes its next build.
+# Replace the pin with a retained stable release before submitting or merging.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: pcbcraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Winit display and GPU rendering.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # Project folders contain multiple files and are opened and saved by path.
+  - --filesystem=xdg-documents
+modules:
+  - name: pcbcraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 pcbcraft-wrapper /app/bin/pcbcraft
+      - install -Dm755 pcbcraft-cli-wrapper /app/bin/pcbcraft-cli
+      - install -Dm644 io.tangencylabs.pcbcraft.desktop /app/share/applications/io.tangencylabs.pcbcraft.desktop
+      - install -Dm644 io.tangencylabs.pcbcraft.metainfo.xml /app/share/metainfo/io.tangencylabs.pcbcraft.metainfo.xml
+      - install -Dm644 io.tangencylabs.pcbcraft.svg /app/share/icons/hicolor/scalable/apps/io.tangencylabs.pcbcraft.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: pcbcraft.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/tangency-labs/pcbcraft/releases/download/nightly/pcbcraft-nightly-45739505253-1-pcbcraft-0.1.0-linux-x86_64.tar.gz
+        sha256: 2746cac65e59accbea05dff5a3fafc258c8566282d9236cfcf2ad439b16b6cbf
+        size: 40627038
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: pcbcraft-wrapper
+      - type: file
+        path: pcbcraft-cli-wrapper
+      - type: file
+        path: io.tangencylabs.pcbcraft.desktop
+      - type: file
+        path: io.tangencylabs.pcbcraft.metainfo.xml
+      - type: file
+        path: io.tangencylabs.pcbcraft.svg

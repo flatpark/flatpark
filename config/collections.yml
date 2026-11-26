@@ -146,14 +146,13 @@ collections:
     summary:
       en: >-
         Open-source engineering apps built from scratch in pure Rust:
-        SolidCraft, a parametric 3D CAD application, and FieldCraft, one
-        modeler for structures, heat and fluids with its own meshing and
-        solvers. Both are scriptable from a CLI and an MCP server, and FlatPark
-        installs each from the developers' own Linux release.
+        SolidCraft for parametric 3D CAD, FieldCraft for modeling structures,
+        heat and fluids, and PCBCraft for editing schematics and PCB layouts.
+        FlatPark installs each from the developers' own Linux release.
       zh-Hans: >-
-        一套从零用纯 Rust 编写的开源工程应用：参数化 3D CAD 软件 SolidCraft，以及集结构、
-        传热与流体于一体、自带网格划分和求解器的建模工具 FieldCraft。两者都能通过 CLI 和
-        MCP 服务器脚本化操作，FlatPark 直接从开发者自己的 Linux 发行包安装。
+        一套从零用纯 Rust 编写的开源工程应用：用于参数化 3D CAD 的 SolidCraft、用于结构、
+        传热和流体建模的 FieldCraft，以及用于编辑原理图和 PCB 布局的 PCBCraft。
+        FlatPark 直接从开发者自己的 Linux 发行包安装这些应用。
     groups:
       - title:
           en: Engineering
@@ -161,9 +160,7 @@ collections:
         apps:
           - io.github.bherbruck.SolidCraft
           - io.github.jyviko.fieldcraft
-    upcoming:
-      - name: PCBCraft
-        url: https://github.com/tangency-labs/pcbcraft
+          - io.tangencylabs.pcbcraft
   - slug: wine-apps
     name: Wine Apps
     summary:
