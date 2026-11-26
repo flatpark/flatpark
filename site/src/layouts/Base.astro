@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import { jsonForScript } from '../lib/json-script.mjs';
 import en from '../i18n/locales/en.json';
 import { defaultLang, getLangFromUrl, languages, localizePath, locales, sectionLabel, stripLang, useTranslations } from '../i18n';
-const { title, description, image, ogType = 'website' } = Astro.props;
+const { title, description, image, imageWidth, imageHeight, ogType = 'website' } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const ogImage = image ? (Astro.site ? new URL(image, Astro.site).href : image) : null;
 
@@ -92,6 +92,8 @@ const searchMeta = {
       .filter((l) => l !== lang)
       .map((l) => <meta property="og:locale:alternate" content={languages[l].ogLocale} />)}
     {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+    {ogImage && imageHeight && <meta property="og:image:height" content={String(imageHeight)} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}

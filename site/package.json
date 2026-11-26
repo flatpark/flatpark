@@ -12,6 +12,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.12",
     "fast-xml-parser": "^5.12.1",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "yaml": "^2.9.1"
   },

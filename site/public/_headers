@@ -9,6 +9,10 @@
 /icons/*
   Cache-Control: public, max-age=86400
 
+# Link-preview cards (src/pages/og/), rebuilt from the icon: same lifetime.
+/og/*
+  Cache-Control: public, max-age=86400
+
 /catalog.json
   Cache-Control: public, max-age=300, must-revalidate
 
