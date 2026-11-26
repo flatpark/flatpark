@@ -19,6 +19,10 @@ catalog:
     - MCP
 update:
   command: ./resolve-update.sh
+  # fem-server-* releases are the bundled Open FEM Studio server, numbered
+  # like the app and carrying a linux-x64 binary (fem-server-2026.46.3 came out
+  # after v2026.46.1); only v<version> releases are this package.
+  stale_ignore: '^fem-server-'
 policy:
   proprietary: false
   dangerous_permissions: []

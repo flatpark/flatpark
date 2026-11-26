@@ -25,6 +25,10 @@ catalog:
 # time, so a second launcher on the suite could not open Writer directly.
 update:
   command: ./resolve-update.sh
+  # open-spreadsheet-studio-* releases are a separate Snap of one module,
+  # numbered like the suite (open-spreadsheet-studio-2026.46.2 came out after
+  # v2026.46.1); only v<version> releases carry this package's suite .deb.
+  stale_ignore: '^open-spreadsheet-studio-'
 policy:
   proprietary: false
   dangerous_permissions: []

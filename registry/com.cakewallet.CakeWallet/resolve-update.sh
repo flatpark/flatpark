@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-# Resolve the newest official Linux tarball. Linux releases can lag mobile, so
-# select the newest release that actually carries the matching Linux asset.
+# Resolve the newest official Linux tarball. Linux releases can lag mobile:
+# many releases (v6.5.3, v6.5.2, v6.5.0, v6.4.6, ...) carry only the mobile,
+# macOS and Windows builds, and a later release may re-attach an older Linux
+# tarball (v6.5.4 carries Cake_Wallet_v6.4.4_Linux.tar.xz). So this skips
+# releases without Cake_Wallet_v<x.y.z>_Linux.tar.xz and takes the most
+# recently published one that has it.
 set -euo pipefail
 
 repo="cake-tech/cake_wallet"
@@ -16,7 +20,7 @@ release="$(jq -c '
   | map(. as $release
       | .assets |= map(select(.name | test("^Cake_Wallet_v[0-9]+\\.[0-9]+\\.[0-9]+_Linux\\.tar\\.xz$")))
       | select(.assets | length > 0))
-  | .[0] // empty
+  | sort_by(.published_at) | last // empty
 ' <<<"$releases")"
 [ -n "$release" ] || { echo "no official Cake Wallet Linux tarball found" >&2; exit 1; }
 

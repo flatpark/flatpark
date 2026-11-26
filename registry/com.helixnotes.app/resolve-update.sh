@@ -18,22 +18,20 @@ project="ArkHost%2FHelixNotes"
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl; need jq
 
-rels="$(curl -fsSL "https://gitlab.com/api/v4/projects/$project/releases?per_page=20")"
-
-# GitLab returns releases newest-first and has no "prerelease" flag; take the
-# newest published release that actually carries the Linux x86_64 .deb, so a
-# release that ships only some platforms is skipped rather than pinned empty.
+# GitLab's permalink to the latest release (by released_at; it redirects to
+# the release itself). Every release carries the Linux x86_64 .deb, so a
+# missing one fails instead of settling on an older release.
 # upcoming_release is GitLab's scheduled-in-the-future marker.
-sel="$(jq -c '
-  [ .[]
-    | select(.upcoming_release != true)
-    | { tag: .tag_name,
-        date: .released_at,
-        url: ( [ .assets.links[]? | select(.name | test("_amd64\\.deb$")) | .url ] | first ) }
-    | select(.url != null)
-  ] | first // empty' <<<"$rels")"
+rel="$(curl -fsSL "https://gitlab.com/api/v4/projects/$project/releases/permalink/latest")"
 
-[ -n "$sel" ] || { echo "no HelixNotes release with a _amd64.deb asset" >&2; exit 1; }
+sel="$(jq -c '
+  select(.upcoming_release != true)
+  | { tag: .tag_name,
+      date: .released_at,
+      url: ( [ .assets.links[]? | select(.name | test("_amd64\\.deb$")) | .url ] | first ) }
+  | select(.url != null)' <<<"$rel")"
+
+[ -n "$sel" ] || { echo "latest HelixNotes release has no _amd64.deb asset" >&2; exit 1; }
 
 version="$(jq -r '.tag | ltrimstr("v")' <<<"$sel")"
 date="$(jq -r '.date' <<<"$sel" | cut -c1-10)"

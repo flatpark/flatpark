@@ -6,8 +6,9 @@
 # signatures. This package takes the portable tarballs only:
 #   open-3d-viewer_<version>_linux-x64.tar.gz    (x86_64)
 #   open-3d-viewer_<version>_linux-arm64.tar.gz  (aarch64)
-# Among the non-draft, non-prerelease releases that carry both, pick the
-# highest version number, not the newest publish date.
+# Both come from releases/latest (which skips the video/* prerelease): every
+# release since v2026.44.17 carries both, so a missing one fails instead of
+# settling on an older release.
 # Prints JSON on stdout:
 #   { "version": "2026.47.5", "releaseDate": "YYYY-MM-DD", "releaseUrl": "...",
 #     "sources": [ { "filename": "open-3d-viewer.tar.gz", "arch": "x86_64", "url": "..." }, ... ] }
@@ -20,11 +21,11 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-  "https://api.github.com/repos/$repo/releases?per_page=30" | jq '
+  "https://api.github.com/repos/$repo/releases/latest" | jq '
   def asset($rel; $arch):
     [ $rel.assets[]
       | select(.name | test("^open-3d-viewer_[0-9][0-9.]*_linux-" + $arch + "\\.tar\\.gz$")) ][0];
-  [ .[] | select((.draft or .prerelease) | not) | . as $r
+  [ . as $r
     | asset($r; "x64") as $x | asset($r; "arm64") as $a
     | select($x != null and $a != null)
     | ($x.name | capture("^open-3d-viewer_(?<v>[0-9][0-9.]*)_linux-x64\\.tar\\.gz$").v) as $v
@@ -34,7 +35,7 @@ best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         x64: $x.browser_download_url,
         arm64: $a.browser_download_url,
         ver: $v } ]
-  | max_by(.ver | split(".") | map(tonumber))')"
+  | if length == 1 then .[0] else null end')"
 
 version="$(jq -r '.ver // empty' <<<"$best")"
 date="$(jq -r '.published // empty' <<<"$best" | cut -c1-10)"

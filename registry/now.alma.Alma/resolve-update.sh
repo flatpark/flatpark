@@ -9,8 +9,9 @@ need curl
 need jq
 
 # Some releases ship macOS builds only (v0.4.212 and v0.4.213 have no Linux
-# assets), so /releases/latest can point at one without a .deb. Take the newest
-# stable release that carries both Linux .debs.
+# assets), so /releases/latest can point at one without a .deb. Take the most
+# recently published stable release that carries both Linux .debs; the API
+# lists by tag creation, which this repository does not keep in order.
 release="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
   "https://api.github.com/repos/$repo/releases?per_page=20" | jq -ec '
     [.[] | select((.draft | not) and (.prerelease | not))
@@ -18,7 +19,7 @@ release="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} 
          | (.tag_name | ltrimstr("v")) as $v
          | select(any(.assets[]; .name == "alma-\($v)-linux-amd64.deb")
               and any(.assets[]; .name == "alma-\($v)-linux-arm64.deb"))]
-    | first // error("no recent release with Linux .debs")')"
+    | sort_by(.published_at) | last // error("no recent release with Linux .debs")')"
 tag="$(jq -er '.tag_name' <<<"$release")"
 version="${tag#v}"
 date="$(jq -er '.published_at | split("T")[0]' <<<"$release")"

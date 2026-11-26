@@ -3,9 +3,8 @@
 #
 # Each GitHub release carries a deb, rpm, AppImage, snap, Windows and macOS
 # builds, updater signatures and an MCP bundle (.mcpb). Take only
-# Open.Planner.Studio_<version>_amd64.deb. Among the non-draft, non-prerelease
-# releases that have that archive, pick the highest version number, not the
-# newest publish date.
+# Open.Planner.Studio_<version>_amd64.deb, from releases/latest: every release
+# carries it, so a missing one fails instead of settling on an older release.
 # Prints JSON on stdout:
 #   { "version": "2026.47.0", "releaseDate": "YYYY-MM-DD", "releaseUrl": "...",
 #     "sources": [ { "filename": "open-planner-studio.deb", "arch": "x86_64", "url": "..." } ] }
@@ -18,15 +17,15 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-  "https://api.github.com/repos/$repo/releases?per_page=30" | jq '
-  [ .[] | select((.draft or .prerelease) | not) | . as $r
+  "https://api.github.com/repos/$repo/releases/latest" | jq '
+  [ . as $r
     | .assets[]
     | select(.name | test("^Open\\.Planner\\.Studio_[0-9][0-9.]*_amd64\\.deb$"))
     | { published: $r.published_at,
         html: $r.html_url,
         url: .browser_download_url,
         ver: (.name | capture("^Open\\.Planner\\.Studio_(?<v>[0-9][0-9.]*)_amd64\\.deb$").v) } ]
-  | max_by(.ver | split(".") | map(tonumber))')"
+  | if length == 1 then .[0] else null end')"
 
 version="$(jq -r '.ver // empty' <<<"$best")"
 date="$(jq -r '.published // empty' <<<"$best" | cut -c1-10)"

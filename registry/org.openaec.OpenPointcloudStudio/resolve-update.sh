@@ -8,8 +8,8 @@
 # the app's portable tarballs only:
 #   open-pointcloud-studio_<version>_linux-amd64.tar.gz  (x86_64)
 #   open-pointcloud-studio_<version>_linux-arm64.tar.gz  (aarch64)
-# Among the non-draft, non-prerelease releases that carry both, pick the
-# highest version number, not the newest publish date.
+# Both come from releases/latest: every release since v0.8.0 carries both, so
+# a missing one fails instead of settling on an older release.
 # Prints JSON on stdout:
 #   { "version": "2026.45.1", "releaseDate": "YYYY-MM-DD", "releaseUrl": "...",
 #     "sources": [ { "filename": "open-pointcloud-studio.tar.gz", "arch": "x86_64", "url": "..." }, ... ] }
@@ -22,11 +22,11 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; ex
 need curl; need jq
 
 best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
-  "https://api.github.com/repos/$repo/releases?per_page=30" | jq '
+  "https://api.github.com/repos/$repo/releases/latest" | jq '
   def asset($rel; $arch):
     [ $rel.assets[]
       | select(.name | test("^open-pointcloud-studio_[0-9][0-9.]*_linux-" + $arch + "\\.tar\\.gz$")) ][0];
-  [ .[] | select((.draft or .prerelease) | not) | . as $r
+  [ . as $r
     | asset($r; "amd64") as $x | asset($r; "arm64") as $a
     | select($x != null and $a != null)
     | ($x.name | capture("^open-pointcloud-studio_(?<v>[0-9][0-9.]*)_linux-amd64\\.tar\\.gz$").v) as $v
@@ -36,7 +36,7 @@ best="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
         amd64: $x.browser_download_url,
         arm64: $a.browser_download_url,
         ver: $v } ]
-  | max_by(.ver | split(".") | map(tonumber))')"
+  | if length == 1 then .[0] else null end')"
 
 version="$(jq -r '.ver // empty' <<<"$best")"
 date="$(jq -r '.published // empty' <<<"$best" | cut -c1-10)"

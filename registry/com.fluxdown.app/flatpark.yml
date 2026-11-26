@@ -17,6 +17,10 @@ catalog:
     - GPUI
 update:
   command: ./resolve-update.sh
+  # zerx-lab/FluxDown is a monorepo: server-v*, cli-v*, mobile-v* and
+  # extension-v* releases are other products (server and cli carry Linux
+  # tarballs); only the desktop app's bare v<x.y.z> tags are this package.
+  stale_ignore: '^(server|cli|mobile|extension)-v'
 policy:
   proprietary: false
   dangerous_permissions: []

@@ -8,8 +8,8 @@
 #
 # Not every GitHub release carries the tarball. v0.6.5, which
 # releases/latest currently returns, attaches only the Flatpak bundle and
-# the snap. Walk recent releases, newest first, and take the first one that
-# ships IngeCAD-<version>-linux-x86_64.tar.gz.
+# the snap. Walk recent releases and take the most recently published one
+# that ships IngeCAD-<version>-linux-x86_64.tar.gz.
 set -euo pipefail
 
 repo="ingelibre/ingecad"
@@ -26,9 +26,10 @@ picked="$(jq -c '
     | . as $r
     | ($r.assets[]? | select(.name | test("linux-x86_64\\.tar\\.gz$"))) as $a
     | {version: ($r.tag_name | ltrimstr("v")),
+       published: $r.published_at,
        date: ($r.published_at[0:10]),
        url: $a.browser_download_url}
-  ] | .[0] // empty
+  ] | sort_by(.published) | last // empty
 ' <<<"$rels")"
 
 [ -n "$picked" ] || { echo "failed to resolve an ingecad tarball" >&2; exit 1; }
