@@ -68,6 +68,9 @@
   </provides>
   <launchable type="desktop-id">dev.kiro.Kiro.desktop</launchable>
   <releases>
+    <release version="1.5.49" date="2026-11-26">
+      <description></description>
+    </release>
     <release version="1.5.37" date="2026-11-24">
       <description></description>
     </release>

@@ -39,7 +39,7 @@ modules:
         only-arches:
           - x86_64
         url: https://getqspice.com/InstallQSPICE.exe
-        sha256: a3f9699be4afe29a63702e4c03a8db54fee4a6d8b1ee1b658f107ca23563a49f
+        sha256: fde12b8dde314b9eb0fefdcfefae0d69b87053371deffa9a8df3eb3708e0d4b0
         size: 3808136
       # END MANAGED EXTRA-DATA
       # FlatPark's shared Cellar launcher, pinned independently of Qorvo.

@@ -33,6 +33,9 @@
   <keywords><keyword>SPICE</keyword><keyword>circuits</keyword><keyword>simulation</keyword><keyword>schematic</keyword><keyword>Wine</keyword></keywords>
   <launchable type="desktop-id">com.qorvo.QSPICE.desktop</launchable>
   <releases>
+    <release version="20261125193647" date="2026-11-25">
+      <description></description>
+    </release>
     <release version="20260204001734" date="2026-02-04"/>
   </releases>
 </component>
