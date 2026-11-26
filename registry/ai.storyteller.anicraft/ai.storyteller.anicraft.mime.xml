@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- shared-mime-info definitions for AniCraft's own format and the formats it opens as an
+     untitled import (ADR 0009), which the system database doesn't have.
+     Exported through the Flatpak's shared MIME data. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-anicraft">
+    <comment>AniCraft document</comment>
+    <!-- A JSON file (crates/engine/src/format.rs), so text tools can still open it. -->
+    <sub-class-of type="application/json"/>
+    <icon name="ai.storyteller.anicraft"/>
+    <glob pattern="*.anicraft" weight="60"/>
+  </mime-type>
+  <mime-type type="application/x-fla">
+    <comment>FLA document</comment>
+    <generic-icon name="x-office-document"/>
+    <glob pattern="*.fla"/>
+  </mime-type>
+  <mime-type type="application/x-xfl">
+    <comment>XFL document</comment>
+    <generic-icon name="x-office-document"/>
+    <glob pattern="*.xfl"/>
+  </mime-type>
+</mime-info>

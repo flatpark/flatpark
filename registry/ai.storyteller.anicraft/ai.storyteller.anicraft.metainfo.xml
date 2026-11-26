@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.storyteller.anicraft</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <name>AniCraft</name>
+  <summary>Draw and animate 2D vector art on a timeline</summary>
+  <developer id="ai.storyteller">
+    <name>ArtCraft Team</name>
+  </developer>
+  <url type="vcs-browser">https://github.com/storytold/anicraft</url>
+  <description>
+    <p>This community package is maintained independently of the AniCraft project and uses its official Linux release.</p>
+    <p>
+      AniCraft is an open-source, native 2D animation studio. Draw with vector tools, animate on a
+      layered timeline with keyframes, classic, shape and motion tweens, and export frames, GIFs,
+      sprite sheets, SVG, Lottie and video.
+    </p>
+    <ul>
+      <li>Pen, pencil, shapes, paint bucket, text, width and subselection tools for editable vector art</li>
+      <li>Timeline with layers, folders, masks, onion skin, easing and a motion editor</li>
+      <li>Symbols, a library and nested timelines</li>
+      <li>Opens FLA and XFL documents as untitled copies</li>
+      <li>Every action is a command, scriptable from a CLI, a JSON control channel and an MCP server</li>
+    </ul>
+    <p>FlatPark supplies updates. The built-in update helper does not have network or host access in this package. The command-line tool can access Documents, Pictures and Videos; to use paths elsewhere in your home directory, run <code>flatpak override --user --filesystem=home ai.storyteller.anicraft</code>. Undo this with <code>flatpak override --user --nofilesystem=home ai.storyteller.anicraft</code>.</p>
+  </description>
+  <launchable type="desktop-id">ai.storyteller.anicraft.desktop</launchable>
+  <icon type="stock">ai.storyteller.anicraft</icon>
+  <url type="homepage">https://getartcraft.com/apps/anicraft</url>
+  <url type="bugtracker">https://github.com/storytold/AniCraft/issues</url>
+  <url type="help">https://github.com/storytold/AniCraft</url>
+  <categories>
+    <category>Graphics</category>
+    <category>2DGraphics</category>
+    <category>VectorGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>animation</keyword>
+    <keyword>timeline</keyword>
+    <keyword>keyframe</keyword>
+    <keyword>tween</keyword>
+    <keyword>vector</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The sample animation on the stage, with tweens on the timeline and the easing curve in Properties</caption>
+      <image>https://raw.githubusercontent.com/storytold/AniCraft/main/docs/images/shot-1-stage.png</image>
+    </screenshot>
+  </screenshots>
+  <branding>
+    <color type="primary" scheme_preference="light">#f2e66a</color>
+    <color type="primary" scheme_preference="dark">#6b6102</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">760</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>tablet</control>
+  </supports>
+  <provides>
+    <binary>anicraft</binary>
+    <binary>anicraft-cli</binary>
+    <mediatype>application/x-anicraft</mediatype>
+    <mediatype>application/x-fla</mediatype>
+    <mediatype>application/x-xfl</mediatype>
+  </provides>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.2.1" date="2026-11-12"/>
+  </releases>
+</component>

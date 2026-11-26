@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=AniCraft
+GenericName=Animation Studio
+Comment=Draw and animate 2D vector art on a timeline
+Exec=anicraft %f
+TryExec=anicraft
+Icon=ai.storyteller.anicraft
+Terminal=false
+# The native runner does not complete desktop startup-notification handshakes.
+StartupNotify=false
+# The window's Wayland app_id and X11 class (src/platform.rs), so docks match it to this entry.
+StartupWMClass=ai.storyteller.anicraft
+Categories=Graphics;2DGraphics;VectorGraphics;
+Keywords=animation;animator;timeline;keyframe;tween;vector;drawing;cartoon;motion;
+MimeType=application/x-anicraft;application/x-fla;application/x-xfl;
