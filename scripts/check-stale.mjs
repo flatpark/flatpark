@@ -13,8 +13,10 @@
 // releases in that repository are newer. A newer release counts against the
 // app when:
 //   - it is not a draft, and not a prerelease unless the picked one is one,
-//   - it has been out for more than GRACE_HOURS (upstreams that upload the
-//     Linux build, or the second arch, a while after the release are normal),
+//   - it has been out for more than GRACE_HOURS, default 3 (upstreams that
+//     upload the Linux build, or the second arch, after publishing usually
+//     finish within about two hours; a release with no Linux asset yet is
+//     never counted, so this only has to cover a half-uploaded one),
 //   - it carries an asset that looks like a Linux build (see linuxAsset), and
 //   - its tag is not numbered lower than the picked one, and
 //   - neither its tag nor its release name matches the app's
@@ -37,7 +39,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REGISTRY = process.env.FLATPARK_REGISTRY_DIR || join(ROOT, 'registry');
-const GRACE_HOURS = Number(process.env.STALE_GRACE_HOURS || 24);
+const GRACE_HOURS = Number(process.env.STALE_GRACE_HOURS || 3);
 const RECENT = 15;      // newest releases looked at per repository
 const BATCH = 25;       // repositories per GraphQL query
 

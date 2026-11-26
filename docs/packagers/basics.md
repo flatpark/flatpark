@@ -403,7 +403,7 @@ else. It does no hashing and touches no file:
 - The sweep checks every GitHub-hosted resolver's pick against upstream, and
   pr-checks (`resolver-check`) does the same for each resolver a PR adds or
   changes, failing the PR on a hit or on a resolver that exits non-zero: a
-  newer, non-prerelease release that has been out for a day, carries a
+  newer, non-prerelease release that has been out for three hours, carries a
   Linux-looking asset and is not numbered lower lands the app in the "picked
   an old release" alert. When those releases are other products or another
   channel, set `update.stale_ignore` in `flatpark.yml` to a regex matching
