@@ -25,9 +25,9 @@ modules:
         filename: sd.zip
         only-arches:
           - x86_64
-        url: https://github.com/leejet/stable-diffusion.cpp/releases/download/master-1133-52491bd/sd-master-52491bd-bin-Linux-Ubuntu-26.04-x86_64.zip
-        sha256: 49c9c949217ee18fc3f948773243978c4096b5b5cb60e58923dd9ddabf3fe21f
-        size: 30946263
+        url: https://github.com/leejet/stable-diffusion.cpp/releases/download/master-1141-e637c7b/sd-master-e637c7b-bin-Linux-Ubuntu-26.04-x86_64.zip
+        sha256: abe1561e7b706394a1a242c4d9480cc0391845dbc28dcd258843e98eb7948010
+        size: 30952119
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

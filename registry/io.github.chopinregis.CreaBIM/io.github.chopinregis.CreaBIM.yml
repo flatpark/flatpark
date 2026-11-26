@@ -39,9 +39,9 @@ modules:
         filename: creabim.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/chopinregis/CreaBIM/releases/download/v1.1.1/CreaBIM-1.1.1-2026-11-11-linux-x64.tar.gz
-        sha256: 55719002d212f00c467f25318901dd0d872b46dcb354995260acd5fa2056dd7c
-        size: 22859593
+        url: https://github.com/chopinregis/CreaBIM/releases/download/v1.2.0/CreaBIM-1.2.0-2026-11-26-linux-x64.tar.gz
+        sha256: 62ce4bad961b41e74ce0d78a1ddd6956dbc9a9d093248fdcb73c46aef50bf744
+        size: 37174410
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
