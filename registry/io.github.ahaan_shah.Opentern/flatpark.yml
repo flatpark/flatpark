@@ -1,0 +1,18 @@
+id: io.github.ahaan_shah.Opentern
+name: Opentern
+summary: Market charts, backtests and paper trading
+website: https://github.com/ahaan-shah/opentern
+source_url: https://github.com/ahaan-shah/opentern
+build:
+  manifest: io.github.ahaan_shah.Opentern.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Finance
+  tags: [Charts, Trading, Finance, Backtesting]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

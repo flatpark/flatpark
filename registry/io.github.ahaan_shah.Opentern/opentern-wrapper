@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+# Launch the executable named by upstream's desktop entry.
+launcher=$(cat /app/extra/launcher-name)
+exec "/app/extra/opentern/$launcher" "$@"

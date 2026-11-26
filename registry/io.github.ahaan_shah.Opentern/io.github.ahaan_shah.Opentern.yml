@@ -1,0 +1,54 @@
+id: io.github.ahaan_shah.Opentern
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: opentern
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display and GPU rendering.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Market data and online providers.
+  - --share=network
+  # System keychain for provider credentials.
+  - --talk-name=org.freedesktop.secrets
+modules:
+  - name: opentern
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 opentern-wrapper /app/bin/opentern
+      - install -Dm644 io.github.ahaan_shah.Opentern.desktop /app/share/applications/io.github.ahaan_shah.Opentern.desktop
+      - install -Dm644 io.github.ahaan_shah.Opentern.metainfo.xml /app/share/metainfo/io.github.ahaan_shah.Opentern.metainfo.xml
+      - install -Dm644 io.github.ahaan_shah.Opentern.svg /app/share/icons/hicolor/scalable/apps/io.github.ahaan_shah.Opentern.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: opentern-x86_64.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/ahaan-shah/opentern/releases/download/v0.3.7/opentern-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 02497a1a8933c3fc0e35b710ac893b013dfb3c2076894e7d354eb7fa8f9ec5a7
+        size: 20648175
+      - type: extra-data
+        filename: opentern-aarch64.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/ahaan-shah/opentern/releases/download/v0.3.7/opentern-aarch64-unknown-linux-gnu.tar.gz
+        sha256: be77586a0d8d051b0913ae82791da578867a0aa08b3a6924931b032b4b736150
+        size: 19376345
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: opentern-wrapper
+      - type: file
+        path: io.github.ahaan_shah.Opentern.desktop
+      - type: file
+        path: io.github.ahaan_shah.Opentern.metainfo.xml
+      - type: file
+        path: io.github.ahaan_shah.Opentern.svg

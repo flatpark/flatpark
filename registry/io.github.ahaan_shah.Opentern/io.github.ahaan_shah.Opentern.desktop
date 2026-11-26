@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Opentern
+GenericName=Market Analysis
+Comment=Charts, scripts, backtests, alerts and paper trading
+Exec=opentern
+Icon=io.github.ahaan_shah.Opentern
+Terminal=false
+Categories=Office;Finance;
+Keywords=trading;charts;stocks;crypto;backtest;pine;
+StartupWMClass=opentern
