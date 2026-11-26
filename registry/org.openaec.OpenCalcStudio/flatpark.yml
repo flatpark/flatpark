@@ -1,0 +1,24 @@
+id: org.openaec.OpenCalcStudio
+name: Open Calc Studio
+summary: Build construction cost estimates and budgets
+website: https://open-aec.com/open-calc-studio/
+source_url: https://github.com/OpenAEC-Foundation/open-calc-studio
+build:
+  manifest: org.openaec.OpenCalcStudio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Office
+  upstream_approved: false
+  tags:
+    - Estimating
+    - Budget
+    - Construction
+    - IFC
+    - MCP
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

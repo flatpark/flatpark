@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# WebKitGTK's DMABUF renderer paints a blank window under many drivers inside
+# the sandbox. The window is opaque and the app sets no WEBKIT_ variable of its
+# own. Override with WEBKIT_DISABLE_DMABUF_RENDERER=0 to use it.
+export WEBKIT_DISABLE_DMABUF_RENDERER="${WEBKIT_DISABLE_DMABUF_RENDERER:-1}"
+
+# Print renders the report to a PDF in $TMPDIR and hands it to the desktop's
+# PDF viewer through the OpenURI portal. The sandbox's /tmp is private, so the
+# portal refuses the file and the button does nothing. This directory is the
+# same path inside and outside the sandbox.
+export TMPDIR="$XDG_RUNTIME_DIR/app/$FLATPAK_ID"
+
+exec /app/extra/calc/usr/bin/org.openaec.OpenCalcStudio "$@"

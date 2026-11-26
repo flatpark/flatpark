@@ -1,0 +1,71 @@
+id: org.openaec.OpenCalcStudio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: open-calc-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app (src-tauri/ in upstream). The binary links WebKitGTK 4.1, GTK 3,
+# libsoup 3 and OpenSSL 3, all in GNOME 51. Its resources (report template,
+# bundled MCP server, notices) are in the .deb under usr/lib/Open Calc Studio.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # No clipboard plugin (Cargo.toml); copy and paste go through the web view.
+  - --socket=fallback-x11
+  - --device=dri
+  # The Prompt & Estimate assistant calls the AI service the user configures
+  # (ChatPanel.tsx), release notes come from the GitHub API
+  # (ReleaseNotesPanel.tsx), and Send Feedback posts to upstream's service.
+  # The local REST API for the MCP server binds 127.0.0.1:9742 (api.rs); a
+  # host MCP client reaches it only through the shared network namespace.
+  - --share=network
+  # Not granted; the metainfo documents the overrides:
+  #   org.freedesktop.secrets: only "Sign in with OpenAEC" stores tokens in
+  #   the keyring (accounts.rs), and sign-in works only when an administrator
+  #   sets OPENAEC_ACCOUNTS_CONFIG; without it the app shows "not configured".
+  #   ~/.claude: at every start the app writes an MCP configuration for Claude
+  #   Code there (lib.rs, write_mcp_config); in the sandbox it lands in a
+  #   temporary home and is dropped. The override has no :create, so the
+  #   folder is only used when Claude Code is installed.
+  #   CUPS: Print opens the report PDF in the desktop's viewer (see the
+  #   wrapper), which prints it; the app never talks to CUPS itself.
+  #   No filesystem grant: files are opened and saved through the file chooser
+  #   (tauri-plugin-dialog, GtkFileChooserNative, i.e. the portal), and a file
+  #   opened from the file manager arrives through the document portal.
+  #   No single-instance plugin, so no bus name to own.
+modules:
+  - name: open-calc-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-calc-studio-wrapper /app/bin/open-calc-studio
+      - install -Dm644 org.openaec.OpenCalcStudio.desktop /app/share/applications/org.openaec.OpenCalcStudio.desktop
+      - install -Dm644 org.openaec.OpenCalcStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenCalcStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenCalcStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenCalcStudio.png
+      # The desktop entry's MimeType needs this definition; the .deb ships
+      # none. Flatpak exports a MIME package only under the app id.
+      - install -Dm644 org.openaec.OpenCalcStudio.mime.xml /app/share/mime/packages/org.openaec.OpenCalcStudio.xml
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-calc-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_amd64.deb
+        sha256: a2461781f185cc877ae8921eae497758f95aa33a2be32910accffa892ab54dba
+        size: 85742202
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-calc-studio-wrapper
+      - type: file
+        path: org.openaec.OpenCalcStudio.desktop
+      - type: file
+        path: org.openaec.OpenCalcStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenCalcStudio.png
+      - type: file
+        path: org.openaec.OpenCalcStudio.mime.xml

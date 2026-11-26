@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The app's own project format, one of the file types upstream registers
+     (tauri.conf.json fileAssociations). The .deb lists it in its desktop entry
+     but ships no shared-mime-info definition, so without this the desktop
+     cannot map the extension. Upstream's other association, *.calc as
+     application/x-wpcalc, is left out: the extension is too generic to claim
+     on the host for every .calc file. Such files still open from the app. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-ifccalc">
+    <comment>Open Calc Studio estimate</comment>
+    <sub-class-of type="application/json"/>
+    <glob pattern="*.ifcCalc"/>
+  </mime-type>
+</mime-info>
