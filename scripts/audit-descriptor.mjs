@@ -54,6 +54,7 @@ let sharedRaw = null; // build.shared as written
 let buildBranch = '';
 let updateCommand = '';
 let updateAuto = null;
+let staleIgnore = null;
 let proprietary = null;
 let upstreamSeen = false;
 let starsRepo = null;
@@ -107,6 +108,7 @@ const UPSTREAM_LISTS = {
     else if (section === 'catalog' && k === 'interface') iface = unquote(v);
     else if (section === 'update' && k === 'command') updateCommand = unquote(v);
     else if (section === 'update' && k === 'auto') updateAuto = unquote(v);
+    else if (section === 'update' && k === 'stale_ignore') staleIgnore = unquote(v);
     else if (section === 'policy') {
       if (k === 'proprietary') proprietary = unquote(v) === 'true';
       else if (k === 'dangerous_permissions') {
@@ -215,6 +217,11 @@ if (updateCommand && !/^\.\/[A-Za-z0-9._-]+$/.test(updateCommand)) {
 // silently re-enable the sweep.
 if (updateAuto !== null && updateAuto !== 'true' && updateAuto !== 'false') {
   fail(`update.auto must be true or false, got: ${updateAuto}`);
+}
+// check-stale.mjs compiles it with `new RegExp`; a bad one would throw there
+// and take the whole sweep's stale check down with it.
+if (staleIgnore !== null) {
+  try { new RegExp(staleIgnore); } catch (e) { fail(`update.stale_ignore is not a valid regex: ${e.message}`); }
 }
 // check-updates.sh runs it directly, so a missing exec bit only shows up as
 // "Permission denied" in the nightly sweep.

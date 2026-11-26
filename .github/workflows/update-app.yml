@@ -211,7 +211,7 @@ jobs:
           # unpacked by "Verify the new payload unpacks" above — that check, not
           # a human read of a sha256, is what actually catches a bad update.
           #
-          # Guard: check-updates.sh `eval`s the app's `update.command`, so a
+          # Guard: check-updates.sh runs the app's `update.command`, so a
           # resolver can in principle write anywhere in the tree. A pin refresh
           # only ever rewrites that app's manifest and the metainfo beside it, so
           # anything else in the diff means something wrote outside its lane.

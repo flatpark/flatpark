@@ -55,8 +55,11 @@ jobs:
           # neither `changed` nor `held`, so nothing else in this run would
           # notice it (update-check #131 lost 89 that way and went green).
           FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
+          # What each successful resolver picked, for the stale check below.
+          RESOLVED_OUT: ${{ runner.temp }}/resolved.tsv
         run: |
           : > "$FAILED_OUT"
+          : > "$RESOLVED_OUT"
           ids="$(./scripts/check-updates.sh | tr '\n' ' ')"
           echo "changed=$ids" >> "$GITHUB_ENV"
           echo "changed apps: ${ids:-<none>}"
@@ -64,6 +67,24 @@ jobs:
           echo "failed=${failed% }" >> "$GITHUB_ENV"
           echo "failed to resolve: ${failed:-<none>}"
           echo "sweep_done=1" >> "$GITHUB_ENV"
+      # A resolver whose filter stopped matching (upstream renamed its tag
+      # prefix or its Linux asset) still exits 0: it returns the newest release
+      # that matches, which is the pinned one, and the app never updates and
+      # never alerts. KatieCAD sat on v1.2.0 once v1.2.1 switched .tar.xz to
+      # .tar.gz. Compare each picked tag with what upstream actually released.
+      - name: Find resolvers that picked an old release
+        if: env.sweep_done == '1'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RESOLVED_OUT: ${{ runner.temp }}/resolved.tsv
+          STALE_OUT: ${{ runner.temp }}/stale.tsv
+        run: |
+          node scripts/check-stale.mjs "$RESOLVED_OUT" > "$STALE_OUT"
+          stale="$(cut -f1 "$STALE_OUT" | tr '\n' ' ')"
+          echo "stale=${stale% }" >> "$GITHUB_ENV"
+          echo "stale_done=1" >> "$GITHUB_ENV"
+          echo "resolved an old release: ${stale:-<none>}"
       # The auto/update-pins-* PR this job opens is squash-merged seconds later,
       # so the pr-checks run its `opened` event queues never gets to look inside
       # the artifact just pinned (its merge ref is deleted before setup — the
@@ -166,7 +187,7 @@ jobs:
           # apply_extra.sh above — that check, not a human read of a sha256, is
           # what actually catches a bad update.
           #
-          # Guard: check-updates.sh `eval`s each app's `update.command`, so a
+          # Guard: check-updates.sh runs each app's `update.command`, so a
           # resolver can in principle write anywhere in the tree. A pin refresh
           # only ever rewrites the manifest (`registry/<id>/<id>.yml`, where the
           # url/sha256 live) and the metainfo next to it, so anything else in the
@@ -258,6 +279,33 @@ jobs:
               "Every resolver succeeded in this run."
           fi
 
+          # Same shape for resolvers that succeeded on an old release.
+          STALE_OUT="$RUNNER_TEMP/stale.tsv"
+          if [ -s "$STALE_OUT" ]; then
+            n="$(wc -l < "$STALE_OUT")"
+            {
+              echo "These apps' resolvers succeeded but picked an older release than"
+              echo "upstream's newest one with a Linux build, so they never update and"
+              echo "never fail. Usually upstream renamed a tag or an asset and the"
+              echo "resolver's filter no longer matches:"
+              echo
+              echo "| App | Resolver picked | Newer upstream releases |"
+              echo "|---|---|---|"
+              sed 's/|/\\|/g' "$STALE_OUT" | awk -F'\t' '{ printf "| `%s` | `%s` | %s |\n", $1, $2, $3 }'
+              echo
+              echo "Fix the resolver to match the new naming. If those releases are"
+              echo "deliberately skipped (another product in a monorepo, a nightly"
+              echo "channel), set \`update.stale_ignore\` to a regex matching their tag or"
+              echo "release name, with a comment saying why. See"
+              echo "docs/packagers/basics.md#resolve-updatesh. This issue is rewritten"
+              echo "every run and closes itself once no resolver is behind."
+            } | ./scripts/ci-alert.sh sync "update-check/stale" \
+                  "update-check: $n resolver(s) picked an old release"
+          elif [ "${stale_done:-}" = 1 ]; then
+            ./scripts/ci-alert.sh resolve "update-check/stale" \
+              "Every resolver picked upstream's newest Linux release in this run."
+          fi
+
           for id in ${held:-}; do
             ./scripts/held-back-alert.sh "$id"
           done
@@ -275,8 +323,8 @@ jobs:
           stale=""
           for key in $(./scripts/ci-alert.sh list "update-check/"); do
             id="${key#update-check/}"
-            # The batch resolver alert is not an app; it is synced above.
-            [ "$id" = resolvers ] && continue
+            # The batch alerts are not apps; they are synced above.
+            case "$id" in resolvers|stale) continue ;; esac
             case " ${held:-} " in *" $id "*) continue ;; esac
             stale="$stale $id"
           done
@@ -309,9 +357,10 @@ jobs:
 
       # Last, so a held-back app still gets its PR opened for the apps that passed.
       # A red daily run is the point: an upstream that repackaged needs a human.
-      - name: Fail if any pin was held back or failed to resolve
-        if: env.held != '' || env.failed != ''
+      - name: Fail if any pin was held back, failed to resolve, or is behind
+        if: env.held != '' || env.failed != '' || env.stale != ''
         run: |
           [ -z "${held:-}" ] || echo "held back — apply_extra failed against the new payload: $held" >&2
           [ -z "${failed:-}" ] || echo "failed to resolve: $failed" >&2
+          [ -z "${stale:-}" ] || echo "resolved an old release: $stale" >&2
           exit 1
