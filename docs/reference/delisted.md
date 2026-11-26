@@ -112,3 +112,4 @@ what changed and marks the row here as re-listed.
 | Harbor Beta | `site.harbor.Harbor.Beta` | Project shut down | [#675](https://github.com/flatpark/flatpark/pull/675), 2026-10-15 |
 | MyGo Cloud Music | `dev.egoist.cloudmusic` | Taken down after a letter from NetEase Cloud Music; releases gone | [#975](https://github.com/flatpark/flatpark/pull/975), 2026-11-04 |
 | BenchUp | `io.github.BenchUp3D.BenchUp` | Upstream organisation and its releases are gone | [#1371](https://github.com/flatpark/flatpark/pull/1371), 2026-11-19 |
+| Horizon | `dev.playhorizon.Horizon` | Upstream repository and its organisation (`horizon-rust`) are gone; the pinned download 404s | [#1599](https://github.com/flatpark/flatpark/pull/1599), 2026-11-26 |
