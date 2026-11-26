@@ -1,0 +1,22 @@
+id: ai.unsloth.studio
+name: Unsloth Studio
+summary: Run and train local language and diffusion models
+website: https://unsloth.ai/
+source_url: https://github.com/unslothai/unsloth
+build:
+  manifest: ai.unsloth.studio.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: AI
+  tags: [AI, LLM, Training, Diffusion]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # --device=dri already exposes /dev/nvidia* for CUDA. The wider grant is
+    # needed for AMD ROCm's /dev/kfd, which inference and training read.
+    # CPU-only users can remove it with --nodevice=all.
+    - --device=all

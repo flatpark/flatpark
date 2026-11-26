@@ -1,0 +1,66 @@
+id: ai.unsloth.studio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: unsloth-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Tauri's GTK/WebKitGTK window and the model catalogue's rendered pages.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # The app downloads its Python backend on first launch and serves the Studio
+  # UI to a local webview over loopback.
+  - --share=network
+  # GPU device nodes for model inference and training; declared in flatpark.yml.
+  # --device=dri already exposes /dev/nvidia*, so the wider grant is for AMD
+  # ROCm's /dev/kfd. Users can remove it with --nodevice=all.
+  - --device=all
+  # Tauri's tray icon registers with the host status notifier.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --filesystem=xdg-run/tray-icon:create
+  # install.sh keeps its environment and the Studio launcher here. Without
+  # these grants they land in the sandbox's tmpfs home and vanish on exit.
+  - --persist=.unsloth
+  - --persist=.local/share/unsloth
+modules:
+  # Tauri's tray icon dlopens libayatana-appindicator3, which the GNOME runtime
+  # does not carry. FlatPark's shared prebuilt stack is built against this SDK.
+  - name: ayatana-stack
+    buildsystem: simple
+    build-commands:
+      - cp -a ./. /app/
+    sources:
+      - type: archive
+        url: https://github.com/flatpark/prebuilt/releases/download/ayatana-v2/ayatana-stack-ayatana-v2-gnome-51-x86_64.tar.xz
+        sha256: 1051a537f22d335eb79557b8c5a610a12c326712dac74032de8e76e78b876fdc
+  - name: unsloth-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 unsloth-studio-wrapper /app/bin/unsloth-studio
+      - install -Dm644 ai.unsloth.studio.desktop /app/share/applications/ai.unsloth.studio.desktop
+      - install -Dm644 ai.unsloth.studio.metainfo.xml /app/share/metainfo/ai.unsloth.studio.metainfo.xml
+      - install -Dm644 ai.unsloth.studio.png /app/share/icons/hicolor/512x512/apps/ai.unsloth.studio.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: app.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/unslothai/unsloth/releases/download/v0.1.925-beta/Unsloth-Desktop-Ubuntu.deb
+        sha256: 9f44c41eb917609626875027d47e41c0119e4711132a5816af1d4fd2c7e4db32
+        size: 24284554
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: unsloth-studio-wrapper
+      - type: file
+        path: ai.unsloth.studio.desktop
+      - type: file
+        path: ai.unsloth.studio.metainfo.xml
+      - type: file
+        path: ai.unsloth.studio.png

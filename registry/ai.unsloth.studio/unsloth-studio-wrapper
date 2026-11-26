@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+# This is the .deb build, not the AppImage: do not inherit an AppImage runtime
+# from a host terminal, which would make Tauri look for bundled GTK/WebKit.
+unset APPIMAGE APPDIR
+# apply_extra records the launcher name read from the vendor's desktop entry.
+exec "/app/extra/app/bin/$(cat /app/extra/launcher)" "$@"
