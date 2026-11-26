@@ -52,16 +52,16 @@ modules:
         filename: ladybird.deb
         only-arches:
           - x86_64
-        url: https://apt.ladybird.org/pool/main/l/ladybird/ladybird_2026.47.8-1~ubuntu24.04_amd64.deb
-        sha256: f45bd4f822f45ebf1ca8a8c044d42a9da99fa80fabab09b845df73ea8d1d6726
-        size: 82833380
+        url: https://apt.ladybird.org/pool/main/l/ladybird/ladybird_2026.48.0-1~ubuntu24.04_amd64.deb
+        sha256: 405c1c9a23efd1d5094e6d8c2bd58bdbfd5f38e7b28c8cc94050ce15d54fd4f9
+        size: 85536892
       - type: extra-data
         filename: ladybird.deb
         only-arches:
           - aarch64
-        url: https://apt.ladybird.org/pool/main/l/ladybird/ladybird_2026.47.8-1~ubuntu24.04_arm64.deb
-        sha256: 5725720a6326f211e94ade2a2ffe7e6f6f4248f983d16d9f4b19fea73d65a83a
-        size: 71329432
+        url: https://apt.ladybird.org/pool/main/l/ladybird/ladybird_2026.48.0-1~ubuntu24.04_arm64.deb
+        sha256: 6351d4a10b7fbc3c7f52233d697fc9052720833dc0b0ef89fbd11507af34f59b
+        size: 75380028
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
