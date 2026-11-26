@@ -4,9 +4,13 @@
 # public repository assign anyone who has commented on the issue, and the
 # command is that comment.
 #
-# One claim per issue. A second /claim while someone holds it gets a reply
-# naming them instead of a second assignee; a maintainer releases a stale
-# claim by unassigning by hand. Nothing from the repository is checked out
+# An app request is one app, so one claim per issue: a second /claim while
+# someone holds it gets a reply naming them instead of a second assignee. A
+# scan issue ([App Discover] Scan ...) is a table of apps, so a claim there
+# names its row, by app or number (`/claim <App>`, `/claim 2`); several
+# people can hold rows at once, and a second claim on the same row gets the
+# reply instead. A maintainer releases a
+# stale claim by unassigning by hand. Nothing from the repository is checked out
 # and the comment text only reaches the shell through env, so this is safe on
 # comments from anyone.
 #
@@ -58,15 +62,19 @@ jobs:
               exit 0
           fi
           claim='If you would like to package it yourself, comment `/claim` and the issue is assigned to you, so nobody else starts on the same app; `/unclaim` gives it back. If it is already assigned, ask that person here before starting.'
+          if [ "$LABEL" = app-discover ]; then
+              claim='To package one of them, comment `/claim <App>` or `/claim <#>` with the name or row number from the table: you are added to the assignees and nobody else starts on the same app. `/unclaim` gives back every row you hold. If someone already claimed that app, ask them here before starting.'
+          fi
+          agent='An AI agent can do most of the packaging: see [package an app with your agent](https://github.com/flatpark/flatpark#package-an-app-with-your-agent).'
           # A request comes from someone outside; a discover issue is one of
           # our own scans, where a thank-you would read oddly.
           if [ "$LABEL" = app-request ]; then
               lead="Thanks for the request! We'll look the app up and reply here with what we find."
           else
-              lead="This app is open for anyone to package."
+              lead="Every app in this scan is open for anyone to package."
           fi
-          printf '%s %s ([Claims](https://flatpark.org/docs/reviewers/issues/#claims))\n\n%s\n' \
-              "$lead" "$claim" "$marker" > body.md
+          printf '%s %s ([Claims](https://flatpark.org/docs/reviewers/issues/#claims)) %s\n\n%s\n' \
+              "$lead" "$claim" "$agent" "$marker" > body.md
           gh issue comment "$ISSUE" --body-file body.md >/dev/null
 
   claim:
@@ -86,17 +94,28 @@ jobs:
       COMMENT_ID: ${{ github.event.comment.id }}
       ACTOR: ${{ github.event.comment.user.login }}
       BODY: ${{ github.event.comment.body }}
+      DISCOVER: ${{ contains(github.event.issue.labels.*.name, 'app-discover') }}
     steps:
       - name: Handle /claim or /unclaim
         run: |
           set -euo pipefail
           # The command is the comment's first line on its own; "/claim" in
           # the middle of a sentence is someone talking about it.
-          cmd="$(printf '%s\n' "$BODY" | head -n1 | tr -d '\r' | tr '[:upper:]' '[:lower:]' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+          # On a scan issue the rest of that line names the row: its app
+          # (`/claim <App>`) or its number (`/claim 2`).
+          first() { printf '%s\n' "$1" | head -n1 | tr -d '\r' | tr '[:upper:]' '[:lower:]' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//; s/[[:space:]][[:space:]]*/ /g'; }
+          line="$(first "$BODY")"
+          cmd="${line%% *}"
+          app=""
+          [ "$cmd" != "$line" ] && app="${line#* }"
           case "$cmd" in
               /claim|/unclaim) ;;
               *) exit 0 ;;
           esac
+          # Off a scan issue, "/claim" must stand alone, as before.
+          if [ "$DISCOVER" != true ] && [ -n "$app" ]; then
+              exit 0
+          fi
 
           react() {
               gh api -X POST "repos/$GH_REPO/issues/comments/$COMMENT_ID/reactions" \
@@ -110,7 +129,49 @@ jobs:
           mine=false
           for h in "${holders[@]}"; do [ "$h" = "$ACTOR" ] && mine=true; done
 
-          if [ "$cmd" = /claim ]; then
+          if [ "$cmd" = /claim ] && [ "$DISCOVER" = true ]; then
+              if [ -z "$app" ]; then
+                  reply "@$ACTOR Say which row you're taking: \`/claim <App>\` or \`/claim <#>\`, as the table gives it."
+                  react "confused"
+                  exit 0
+              fi
+              # The scan table's rows, "<#>\t<app>": `| 2 | [Name](url) | ...`.
+              rows="$(gh issue view "$ISSUE" --json body -q .body | tr -d '\r' \
+                  | sed -n 's/^|[[:space:]]*\([0-9][0-9]*\)[[:space:]]*|[[:space:]]*\[\{0,1\}\([^]|]*\).*/\1\t\2/p' \
+                  | tr '[:upper:]' '[:lower:]' | sed 's/[[:space:]]*$//')"
+              # A row number for an app name or a number, or nothing.
+              row_of() {
+                  awk -F'\t' -v a="$1" '$1 == a || $2 == a { print $1; exit }' <<<"$rows"
+              }
+              want="$(row_of "$app")"
+              if [ -z "$want" ]; then
+                  reply "@$ACTOR There is no row \`$app\` in this scan's table. Use the app's name or its number, as the table gives it."
+                  react "confused"
+                  exit 0
+              fi
+              # Who else holds this row: a current assignee whose own comment
+              # claimed it, by name or by number.
+              taken=""
+              while IFS=$'\t' read -r who body; do
+                  [ "$who" = "$ACTOR" ] && continue
+                  held=false
+                  for h in "${holders[@]}"; do [ "$h" = "$who" ] && held=true; done
+                  $held || continue
+                  theirs="$(first "$body")"
+                  case "$theirs" in "/claim "*) ;; *) continue ;; esac
+                  [ "$(row_of "${theirs#/claim }")" = "$want" ] && taken="$who"
+              done < <(gh api --paginate "repos/$GH_REPO/issues/$ISSUE/comments" \
+                          -q '.[] | [.user.login, (.body | split("\n")[0])] | @tsv')
+              if [ -n "$taken" ]; then
+                  reply "Row $want is already claimed by @$taken. Ask them here before starting, or a maintainer can release the claim if it has gone quiet."
+                  react "confused"
+              elif $mine || gh issue edit "$ISSUE" --add-assignee "$ACTOR" >/dev/null; then
+                  react "+1"
+              else
+                  reply "@$ACTOR GitHub refused to assign this issue to you. A maintainer will sort it out."
+                  react "confused"
+              fi
+          elif [ "$cmd" = /claim ]; then
               if $mine; then
                   react "+1"
               elif [ "${#holders[@]}" -gt 0 ]; then

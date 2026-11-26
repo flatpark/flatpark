@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.rwnicholas.HikLens</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>HikLens</name>
+  <summary>Monitor and play back Hikvision DVR and NVR cameras on Linux and Steam Deck</summary>
+  <developer id="io.github.rwnicholas">
+    <name>rwnicholas</name>
+  </developer>
+  <description>
+    <p>
+      HikLens lets you monitor Hikvision DVR and NVR security cameras from a
+      Linux desktop or Steam Deck. View HTTP snapshots, embedded RTSP streams,
+      or (with a separately installed official Linux SDK) an encrypted-stream
+      and DVR recordings playback backend. Switch between a camera grid and
+      single-camera view, scrub recorded video on an interactive timeline with
+      0.25x–4x speed controls, and save snapshots or MP4 recordings.
+    </p>
+    <p>
+      The application can also display real-time ISAPI motion events from the
+      DVR, open a stream in ffplay for high-quality playback, and navigate with
+      Steam Deck gamepad controls.
+    </p>
+    <p>
+      This community package repackages the official upstream AppImage
+      unmodified. A few optional capabilities are not granted by default;
+      enable the ones you need with "flatpak override":
+    </p>
+    <ul>
+      <li>Direct Non-Steam shortcut registration on SteamOS / Steam Deck: <code>flatpak override --user --filesystem=xdg-data/Steam:rw --filesystem=~/.steam:rw io.github.rwnicholas.HikLens</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset io.github.rwnicholas.HikLens</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.rwnicholas.HikLens.desktop</launchable>
+  <icon type="stock">io.github.rwnicholas.HikLens</icon>
+  <url type="homepage">https://github.com/rwnicholas/HikLens</url>
+  <url type="bugtracker">https://github.com/rwnicholas/HikLens/issues</url>
+  <url type="vcs-browser">https://github.com/rwnicholas/HikLens</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main camera grid view and DVR recordings playback timeline</caption>
+      <!-- Upstream publishes no screenshot in the repository; taken from a test run of 1.0.10. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.rwnicholas.HikLens/screenshots/main.png</image>
+    </screenshot>
+  </screenshots>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+  </categories>
+  <keywords>
+    <keyword>HikLens</keyword>
+    <keyword>Hikvision</keyword>
+    <keyword>camera</keyword>
+    <keyword>CCTV</keyword>
+    <keyword>DVR</keyword>
+    <keyword>NVR</keyword>
+    <keyword>ISAPI</keyword>
+    <keyword>RTSP</keyword>
+    <keyword>Steam Deck</keyword>
+    <keyword>surveillance</keyword>
+    <keyword>video</keyword>
+  </keywords>
+  <recommends>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+    <control>gamepad</control>
+  </recommends>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="1.0.10" date="2026-11-23">
+      <description></description>
+    </release>
+  </releases>
+</component>

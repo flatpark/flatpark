@@ -1,0 +1,44 @@
+id: io.github.hyprismteam.Hyprism
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: hyprism
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The launcher uses X11 and downloads game versions and mods.
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  # The launcher and game use graphics and audio.
+  - --device=dri
+  - --socket=pulseaudio
+modules:
+  - name: hyprism
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hyprism-wrapper /app/bin/hyprism
+      - install -Dm644 io.github.hyprismteam.Hyprism.desktop /app/share/applications/io.github.hyprismteam.Hyprism.desktop
+      - install -Dm644 io.github.hyprismteam.Hyprism.metainfo.xml /app/share/metainfo/io.github.hyprismteam.Hyprism.metainfo.xml
+      - install -Dm644 io.github.hyprismteam.Hyprism.svg /app/share/icons/hicolor/scalable/apps/io.github.hyprismteam.Hyprism.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: hyprism.tar.xz
+        only-arches: [x86_64]
+        url: https://github.com/hyprismteam/Hyprism/releases/download/v4.0.0/Hyprism-linux-x64-4.0.0.tar.xz
+        sha256: a85071baba256bf36bdefc79fa064721f47e9dedb91d4238de91e3c730b79e5f
+        size: 64254312
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hyprism-wrapper
+      - type: file
+        path: io.github.hyprismteam.Hyprism.desktop
+      - type: file
+        path: io.github.hyprismteam.Hyprism.metainfo.xml
+      - type: file
+        path: io.github.hyprismteam.Hyprism.svg

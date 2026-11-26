@@ -45,9 +45,9 @@ modules:
         filename: openwhispr.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/OpenWhispr/openwhispr/releases/download/v1.12.0/OpenWhispr-1.12.0-linux-x64.tar.gz
-        sha256: d455f71cec4428410ea2237f91c3abc9664807a46bc04cce40bda4b80b942d64
-        size: 540957440
+        url: https://github.com/OpenWhispr/openwhispr/releases/download/v1.12.2/OpenWhispr-1.12.2-linux-x64.tar.gz
+        sha256: 22f20b472b2713200f00f4cba349e6af0f6cc94ab2461c7c943ff412f30f0e4d
+        size: 558355885
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

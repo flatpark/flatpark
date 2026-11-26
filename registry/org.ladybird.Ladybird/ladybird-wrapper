@@ -1,0 +1,60 @@
+#!/bin/sh
+set -eu
+
+# Ladybird is unpacked by apply_extra into /app/extra/ladybird. The browser
+# finds its helper processes (libexec/) and its bundled Qt, plugins and
+# libraries relative to its own binary, so nothing is added to PATH or
+# LD_LIBRARY_PATH here. The profile lives under ~/.var/app/org.ladybird.Ladybird
+# through the usual XDG variables.
+
+# Stale single-instance files after an unclean exit.
+#
+# Ladybird keeps one browser per profile: it writes Ladybird.pid,
+# Ladybird.pid.ui and Ladybird.socket under
+# $XDG_RUNTIME_DIR/Ladybird/Profiles/<profile>/, and a second launch hands its
+# URLs to the browser named there. A clean quit removes them. After
+# `flatpak kill`, an OOM kill or a crash they stay behind, and Flatpak keeps
+# $XDG_RUNTIME_DIR for the app across runs. Every sandbox numbers its
+# processes the same way (Hub is always PID 5), so the next launch finds a
+# live Ladybird process under the recorded PID, takes it for the old browser,
+# and stops with "The browser that is already running did not take what it
+# was asked to open" until the user logs out
+# (https://github.com/LadybirdBrowser/ladybird/issues/15525).
+#
+# Before starting, for each profile: unless another launch holds
+# startup.lock (it is starting right now), try the socket. If nothing accepts
+# the connection, no browser is running, and the three files are removed, as
+# the manual fix in that issue does. A running browser in another instance
+# of this app accepts the connection and is left alone. Nothing in the
+# profile or in /app/extra is touched.
+python3 -I - <<'EOF' || true
+import fcntl, glob, os, socket
+
+root = os.path.join(os.environ.get("XDG_RUNTIME_DIR", ""), "Ladybird", "Profiles")
+for profile in glob.glob(os.path.join(root, "*")):
+    pid_path = os.path.join(profile, "Ladybird.pid")
+    if not os.path.exists(pid_path):
+        continue
+    try:
+        lock = open(os.path.join(profile, "startup.lock"), "a")
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        continue
+    with lock:
+        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s.settimeout(2)
+        try:
+            s.connect(os.path.join(profile, "Ladybird.socket"))
+            continue
+        except OSError:
+            pass
+        finally:
+            s.close()
+        for name in ("Ladybird.pid", "Ladybird.pid.ui", "Ladybird.socket"):
+            try:
+                os.unlink(os.path.join(profile, name))
+            except FileNotFoundError:
+                pass
+EOF
+
+exec /app/extra/ladybird/bin/Ladybird "$@"

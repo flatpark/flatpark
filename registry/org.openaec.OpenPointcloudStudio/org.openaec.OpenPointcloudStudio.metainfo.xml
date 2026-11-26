@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.OpenPointcloudStudio</id>
+  <name>Open Pointcloud Studio</name>
+  <summary>View, measure, edit and export laser scans and point clouds</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <!-- As upstream's own metainfo says: the desktop app is GPL-3.0-only, its
+       point-cloud core LGPL-3.0-or-later (LICENSE.md), and the bundled Open
+       CAD Studio GPL-3.0 (NOTICE.txt in the release). -->
+  <project_license>GPL-3.0-only</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-pointcloud-studio/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/open-pointcloud-studio/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/open-pointcloud-studio</url>
+  <description>
+    <p>This is a community package of Open Pointcloud Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open Pointcloud Studio opens laser scans and other point clouds in the LAS, LAZ, E57, PLY, PCD, PTX and text formats, also when a survey is many gigabytes large: it shows a preview at once and reads the detail for the current view from an index on disk.</p>
+    <p>A whole scan project opens from its folder. Scanner stations are shown with their photos, and you can stand in a station or walk through the scene. Points can be selected, deleted, thinned, moved and scaled, distances and areas measured, views saved with notes, and the result exported as a point cloud, a mesh, or plans and sections in DXF and DWG, which open in the bundled Open CAD Studio. An MCP server lets an AI agent drive the open window; point the agent at the command <code>flatpak run org.openaec.OpenPointcloudStudio --mcp</code>.</p>
+    <p>Sandbox: display, GPU and network (the PDOK base map and 3DBAG buildings for scans in the Netherlands). Files and scan-project folders are opened and saved through the file chooser; the disk indexes of large clouds are kept in the app's cache folder under ~/.var/app. Updates come through FlatPark.</p>
+  </description>
+  <launchable type="desktop-id">org.openaec.OpenPointcloudStudio.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>3DGraphics</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>point cloud</keyword>
+    <keyword>laser scan</keyword>
+    <keyword>lidar</keyword>
+    <keyword>LAS</keyword>
+    <keyword>LAZ</keyword>
+    <keyword>E57</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A house of 24 million points inside a section box, with a plan, a section and a saved view as tabs</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-pointcloud-studio/v2026.45.1/docs/screenshots/start-ribbon-v095.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Points coloured by class, with the display panel under the view cube</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-pointcloud-studio/v2026.45.1/docs/screenshots/view-controls-v095.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>open-pointcloud-studio</binary>
+    <mediatype>model/e57</mediatype>
+    <mediatype>application/vnd.las</mediatype>
+    <mediatype>application/vnd.laszip</mediatype>
+    <mediatype>application/x-ply</mediatype>
+    <mediatype>application/x-pcd</mediatype>
+    <mediatype>application/x-ptx</mediatype>
+    <mediatype>application/x-pts</mediatype>
+    <mediatype>application/x-rcp</mediatype>
+  </provides>
+  <releases>
+    <release version="2026.48.0" date="2026-11-25">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pointcloud-studio/releases/tag/v2026.48.0</url>
+      <description></description>
+    </release>
+    <release version="2026.45.1" date="2026-11-03">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pointcloud-studio/releases/tag/v2026.45.1</url>
+      <description>
+        <p>Official Linux build 2026.45.1.</p>
+      </description>
+    </release>
+  </releases>
+</component>

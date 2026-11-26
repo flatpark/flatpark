@@ -1,5 +1,5 @@
 ---
-description: Where each upstream maintainer approved their app's listing, and which developers declined one.
+description: Where each upstream maintainer approved their app's listing.
 order: 1
 ---
 
@@ -19,6 +19,9 @@ project. A private channel (email, Discord, …) is not enough on its own: ask t
 maintainer to confirm somewhere public and linkable first. When the upstream
 developer publishes the app themselves, have them open the PR first, then put
 that PR link in the table — the PR itself is the evidence.
+
+Developers who said no to a listing are recorded in
+[de-listed apps](delisted.md#declined), with every app that has left FlatPark.
 
 ## Approved
 
@@ -41,7 +44,7 @@ that PR link in the table — the PR itself is the evidence.
 | mDNS Browser | `io.github.hrzlgnm.mdns-browser` | [hrzlgnm/mdns-browser#2447 (comment)](https://github.com/hrzlgnm/mdns-browser/discussions/2447#discussioncomment-17951526) — "I'll add it to the readme as an official install method"; done in [mdns-browser#2449](https://github.com/hrzlgnm/mdns-browser/pull/2449), and the maintainer opened [flatpark#197](https://github.com/flatpark/flatpark/pull/197) himself | 2026-08-09 |
 | MarkFlowy | `io.github.drl990114.MarkFlowy` | [drl990114/MarkFlowy#867 (comment)](https://github.com/drl990114/MarkFlowy/issues/867#issuecomment-5230396784) — "I also agree with releasing Markflowy on Flatpark … I will then include the installation instructions in the readme" | 2026-08-09 |
 | zux | `io.github.hrzlgnm.zux` | Approved by construction — submitted and maintained by its own developer ([flatpark#199](https://github.com/flatpark/flatpark/pull/199)) | 2026-08 |
-| Impasto | `com.github.zbcoding.Impasto` | Approved by construction — submitted and maintained by its own developer ([flatpark#200](https://github.com/flatpark/flatpark/pull/200)) | 2026-08 |
+| Impasto | `io.github.zbcoding.Impasto` | Approved by construction — submitted and maintained by its own developer ([flatpark#200](https://github.com/flatpark/flatpark/pull/200)); carried across the developer's rename from `com.github.zbcoding.Impasto` | 2026-08 |
 | Pi Agent | `io.github.abcwyc.pi-agent-desktop` | [abcwyc/pi-agent-desktop#21 (comment)](https://github.com/abcwyc/pi-agent-desktop/issues/21#issuecomment-5305086844); upstream also added FlatPark install docs ([README.md](https://github.com/abcwyc/pi-agent-desktop/blob/main/README.md), [README.zh-CN.md](https://github.com/abcwyc/pi-agent-desktop/blob/main/README.zh-CN.md)) | 2026-08-16 |
 | Rayburst | `dev.aninsomniacy.rayburst` | Approval given for Motrix Next (`com.motrix.next`, de-listed once 4.x went stable), carried across upstream's own rename: [AnInsomniacy/motrix-next#522 (comment)](https://github.com/AnInsomniacy/motrix-next/issues/522#issuecomment-5322927943) — "没问题的，我后续会在 readme 添加为官方安装办法". Same maintainer and same repository (renamed to [AnInsomniacy/rayburst](https://github.com/AnInsomniacy/rayburst)); the project was renamed from Motrix Next in v4.0.0-beta.1, and this row covers the 4.x line packaged under the new id | 2026-08-18 |
 | Subtitle Edit | `dk.nikse.subtitleedit` | [SubtitleEdit/subtitleedit#13889](https://github.com/SubtitleEdit/subtitleedit/issues/13889) — the author answered the FlatPark listing with "FlatPark is fine too, thx :)" | 2026-08-20 |
@@ -127,23 +130,7 @@ that PR link in the table — the PR itself is the evidence.
 | Dailies | `io.github.tim_van_oudheusden.Dailies` | Approved by construction — submitted and maintained by its own developer ([flatpark#1397](https://github.com/flatpark/flatpark/pull/1397)) | 2026-11-19 |
 | Steuererklärung | `eu.jumplink.Steuererklaerung` | Approved by construction — submitted and maintained by its own developer ([flatpark#1425](https://github.com/flatpark/flatpark/pull/1425)) | 2026-11 |
 | Metrolist | `com.metrolist.desktop` | [MetrolistGroup/Metrolist#4723 (comment)](https://github.com/MetrolistGroup/Metrolist/issues/4723#issuecomment-7080340667) — nyxiereal, a MetrolistGroup member and the repo's top contributor, answered the blue-shield ask with "you can do that, i approve!"; upstream already lists FlatPark in its README. Listing requested in [flatpark#1267](https://github.com/flatpark/flatpark/issues/1267) | 2026-11-22 |
-
-## Declined
-
-Apps whose developer said no to a FlatPark listing. Don't package them again and
-don't ask again; the only way back is a new, public yes from the developer. A
-refusal counts however it arrives: unlike an approval, a private email is enough,
-and the listing comes down without argument.
-
-Only explicit refusals go here. A thread that went quiet or was closed without a
-word, a "fine, but it won't be official", or a de-list for some other reason
-(upstream moved to Flathub, renamed the app, or the package stopped working)
-does not make an app Declined.
-
-| App | ID | Refusal | Date |
-|-----|----|---------|------|
-| RichEZFast | `com.gtht.RichEZFast` | Guotai Haitong Securities (formerly Guotai Junan), the publisher, emailed the FlatPark maintainer through its legal team and asked FlatPark to stop distributing the app; de-listed in [flatpark#258](https://github.com/flatpark/flatpark/pull/258) | 2026-08 |
-| LeePanel | `com.leepanel.desktop` | [gna1280072/LeePanel#14 (comment)](https://github.com/gna1280072/LeePanel/issues/14#issuecomment-5372419342): the app's current and planned features need direct access to the local machine, so a sandboxed build doesn't suit it; de-listed in [flatpark#251](https://github.com/flatpark/flatpark/pull/251) | 2026-08-21 |
-| Titanium Inspector | `io.github.justcoding121.TitaniumInspector` | [justcoding121/titanium-web-proxy#1051 (comment)](https://github.com/justcoding121/titanium-web-proxy/issues/1051#issuecomment-5842744780): "we are not going to support a Flatpak install. Please remove the FlatPark listing"; system proxy and root CA trust need the host session; de-listed in [flatpark#448](https://github.com/flatpark/flatpark/pull/448) | 2026-09-26 |
-| Avash | `io.github.AdrienAvalon.avash` | [AdrienAvalon/avash#42 (comment)](https://github.com/AdrienAvalon/avash/issues/42#issuecomment-6013722734): "I'd prefer the listing be removed"; upstream is going to Flathub under the same id and won't vouch for a build pipeline it doesn't run; de-listed in [flatpark#547](https://github.com/flatpark/flatpark/pull/547) | 2026-10-06 |
-| En Croissant | `org.encroissant.app` | [franciscoBSalgueiro/en-croissant#924 (comment)](https://github.com/franciscoBSalgueiro/en-croissant/issues/924#issuecomment-6389505639): "I'm not going to endorse third party builds of En Croissant for safety reasons"; de-listed in [flatpark#839](https://github.com/flatpark/flatpark/pull/839) | 2026-10-24 |
+| MyMusik | `app.mymusik.MyMusik` | [flatpark#1434](https://github.com/flatpark/flatpark/issues/1434) | 2026-11-20 |
+| Bloom | `io.github.oatbiscuit.bloom` | [Developer's FlatPark request](https://github.com/flatpark/flatpark/issues/1456) | 2026-11-21 |
+| OpenXplorer | `io.winspace.Development` | Submitted by its developer in [flatpark#1548](https://github.com/flatpark/flatpark/pull/1548) | 2026-11-24 |
+| HikLens | `io.github.rwnicholas.HikLens` | Approved by construction — submitted and maintained by its own developer ([flatpark#1552](https://github.com/flatpark/flatpark/pull/1552)) | 2026-11-24 |

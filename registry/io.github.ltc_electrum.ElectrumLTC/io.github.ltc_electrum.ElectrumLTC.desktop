@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Electrum-LTC
+Comment=Lightweight Litecoin wallet
+Exec=electrum-ltc %u
+Icon=io.github.ltc_electrum.ElectrumLTC
+Terminal=false
+Type=Application
+Categories=Office;Finance;
+MimeType=x-scheme-handler/litecoin;x-scheme-handler/lightningltc;x-scheme-handler/lnltcurlp;x-scheme-handler/lnltcurlw;
+StartupWMClass=Electrum-LTC

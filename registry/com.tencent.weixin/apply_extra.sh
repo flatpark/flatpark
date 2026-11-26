@@ -20,4 +20,11 @@ mv opt/wechat wechat
 rmdir opt
 [ -x wechat/wechat ] || { echo "wechat binary not found in .deb" >&2; exit 1; }
 
+# Route WeChatAppEx (embedded Chromium) through /app/bin/weixin-appex, which
+# adds --no-sandbox; see that wrapper.
+appex=wechat/RadiumWMPF/runtime/WeChatAppEx
+[ -x "$appex" ] || { echo "WeChatAppEx not found in .deb" >&2; exit 1; }
+mv "$appex" "$appex.bin"
+ln -s /app/bin/weixin-appex "$appex"
+
 rm -f wechat.deb

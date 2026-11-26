@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>ai.x.GrokBot</id>
+  <name>Grok Bot</name>
+  <summary>Proactive AI desktop agent with a cloud computer</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://cursor.com/en-US/terms/grok-bot</project_license>
+  <developer id="ai.x">
+    <name>xAI</name>
+  </developer>
+  <url type="homepage">https://x.ai/bot</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>This is a community package of Grok Bot, maintained independently and unaffiliated with xAI or Anysphere. It repackages the official upstream Linux Debian build unmodified.</p>
+    <p>Grok Bot is a desktop agent workspace where proactive AI bots work across your connected tools and a hosted cloud computer. Chat, start voice calls or voice notes, schedule recurring routines, and review approvals from a native desktop window.</p>
+    <ul>
+      <li>Delegate multi-step tasks to bots running on a hosted cloud computer.</li>
+      <li>Connect tools such as Slack, Notion, Google Drive, Gmail, Calendar, and custom MCP servers.</li>
+      <li>Communicate via chat, voice calls, and voice notes with desktop notifications and approval cards.</li>
+    </ul>
+    <p>An account is required to sign in and use Grok Bot; the desktop app itself is free to install.</p>
+    <p>Permissions: this package keeps a tight sandbox by default — network, display, GPU, audio (for voice and notifications), desktop notifications, and desktop keyring access (Secret Service or KWallet) for your sign-in. All application state is kept inside the app's own XDG data directory (<code>~/.var/app/ai.x.GrokBot</code>), with no host filesystem access granted by default. Files selected through the file chooser remain accessible through the desktop portal.</p>
+    <p>Local command execution is optional in Grok Bot. Inside the sandbox, local commands see only the tools shipped in the Freedesktop runtime (such as <code>bash</code>, <code>python3</code>, <code>curl</code>, <code>jq</code>, <code>ssh</code>, and coreutils), not tools installed on your host system. A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Give local tools access to a specific folder: <code>flatpak override --user --filesystem=~/Projects ai.x.GrokBot</code></li>
+      <li>Or grant your entire home directory: <code>flatpak override --user --filesystem=home ai.x.GrokBot</code></li>
+      <li>Allow invoking host commands via <code>flatpak-spawn --host</code> (exposes arbitrary host command execution outside the sandbox): <code>flatpak override --user --talk-name=org.freedesktop.Flatpak ai.x.GrokBot</code></li>
+      <li>Undo all overrides: <code>flatpak override --user --reset ai.x.GrokBot</code></li>
+    </ul>
+    <p>Updates come through Flatpak: this package tracks upstream's official Linux download endpoints, so new releases arrive with <code>flatpak update</code> while the built-in updater stays disabled.</p>
+  </description>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>Office</category>
+    <category>Utility</category>
+  </categories>
+  <keywords>
+    <keyword>ai</keyword>
+    <keyword>agent</keyword>
+    <keyword>assistant</keyword>
+    <keyword>bot</keyword>
+    <keyword>chat</keyword>
+    <keyword>grok</keyword>
+    <keyword>xai</keyword>
+  </keywords>
+  <branding>
+    <color type="primary">#000000</color>
+  </branding>
+  <recommends>
+    <display_length compare="ge">800</display_length>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>grok-bot</binary>
+    <mediatype>x-scheme-handler/grokbot</mediatype>
+    <mediatype>x-scheme-handler/sand</mediatype>
+  </provides>
+  <launchable type="desktop-id">ai.x.GrokBot.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <!-- Upstream publishes only promotional banners, not desktop screenshots; taken from a test run of 1.2.3. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/ai.x.GrokBot/screenshots/chat.png</image>
+      <caption>Chatting with bots in Grok Bot</caption>
+    </screenshot>
+    <screenshot>
+      <!-- Taken from a test run of 1.2.3. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/ai.x.GrokBot/screenshots/welcome.png</image>
+      <caption>Grok Bot desktop welcome window</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.3.0" date="2026-11-20">
+      <description></description>
+    </release>
+    <release version="1.2.3" date="2026-11-18">
+      <description></description>
+    </release>
+  </releases>
+</component>

@@ -1,0 +1,31 @@
+# Push-mode update entry. Upstream CI (flatpark/publish-action -> the
+# hooks.flatpark.org Worker) fires an `app-release` repository_dispatch the
+# moment a release is published. This workflow only adapts that payload: the
+# work — recompute one app's pins, unpack, PR on auto/release-<app-id>, merge,
+# publish — is update-app.yml, the same single-app update anyone can run by
+# hand with `gh workflow run update-app.yml -f app_id=<app-id>`.
+#
+# update-check.yml (the twice-daily full sweep) stays the safety net: it
+# catches releases whose Linux asset was uploaded after the ping.
+name: upstream-publish
+
+on:
+  repository_dispatch:
+    types: [app-release]
+
+# Nothing here beyond what update-app.yml's job asks for; a called workflow
+# can only narrow the caller's grant, never widen it.
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  issues: write
+
+jobs:
+  update:
+    uses: ./.github/workflows/update-app.yml
+    with:
+      app_id: ${{ github.event.client_payload.app_id }}
+      tag: ${{ github.event.client_payload.tag }}
+      upstream: ${{ github.event.client_payload.repo }}
+      trigger: publish-action

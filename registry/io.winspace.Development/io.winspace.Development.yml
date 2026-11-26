@@ -1,0 +1,69 @@
+id: io.winspace.Development
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: openxplorer
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # A GTK 4 window drawn with the GPU: Wayland, X11 only where there is no
+  # Wayland, and shared-memory IPC for X11.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # OpenXplorer is a file manager: it shows, copies, renames and deletes the
+  # user's files wherever they are, in the home folder and on other disks
+  # under /media, /run/media and /mnt. The file chooser portal can't give a
+  # file manager its folders one at a time. This is the same grant as the
+  # developer's own Flatpak.
+  - --filesystem=host
+  # SMB shares, phones (MTP), the Recycle Bin (trash:///) and the drive list
+  # come from the host's GVfs daemons: their bus names, their private
+  # peer-to-peer sockets and the FUSE paths of files on shares.
+  - --talk-name=org.gtk.vfs.*
+  - --filesystem=xdg-run/gvfsd
+  - --filesystem=xdg-run/gvfs
+  # SMB passwords the user asks to remember go to the desktop's Secret
+  # Service.
+  - --talk-name=org.freedesktop.secrets
+  # Left out, documented as overrides in the metainfo: org.freedesktop.Flatpak
+  # (Open in Terminal, default file manager), owning
+  # org.freedesktop.FileManager1 (Show in folder), UDisks2 (Format…) and the
+  # network (the update check). Each is off in the app until the user turns
+  # it on, and the app reports that it can't do it without the permission.
+modules:
+  - name: openxplorer
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 openxplorer-wrapper /app/bin/openxplorer
+      - install -Dm644 io.winspace.Development.desktop /app/share/applications/io.winspace.Development.desktop
+      - install -Dm644 io.winspace.Development.metainfo.xml /app/share/metainfo/io.winspace.Development.metainfo.xml
+      - install -Dm644 io.winspace.Development.svg /app/share/icons/hicolor/scalable/apps/io.winspace.Development.svg
+      # D-Bus activation under the app id, as the developer's packages install
+      # it: a notification action starts the app as a GApplication service.
+      - install -Dm644 io.winspace.Development.service /app/share/dbus-1/services/io.winspace.Development.service
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openxplorer.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/AKolenda/openxplorer/releases/download/v2.0.26/openxplorer_2.0.26_all.deb
+        sha256: 79c2c7ddbe8c462f7ee0d4a124796b8e20894c426d4f277cc637b344972633ca
+        size: 9760024
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openxplorer-wrapper
+      - type: file
+        path: io.winspace.Development.desktop
+      - type: file
+        path: io.winspace.Development.metainfo.xml
+      - type: file
+        path: io.winspace.Development.svg
+      - type: file
+        path: io.winspace.Development.service

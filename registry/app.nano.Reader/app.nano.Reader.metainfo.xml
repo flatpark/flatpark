@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.nano.Reader</id>
+  <name>NanoYomi</name>
+  <summary>Desktop manga reader with user-added sources</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MPL-2.0</project_license>
+  <description>
+    <p>NanoYomi is a desktop manga reader compatible with Mihon and Tachiyomi extensions. Add an extension repository to browse sources, build a library and read chapters.</p>
+    <p>It supports reading progress, offline caching, Mihon backups and optional tracking. Extension repositories and content are supplied separately by the user. On Linux, extensions that require hidden WebView calls are not supported.</p>
+    <p>This community package uses the official upstream build unmodified.</p>
+  </description>
+  <launchable type="desktop-id">app.nano.Reader.desktop</launchable>
+  <url type="homepage">https://github.com/SELECT-stupidity-FROM-discord/NanoYomi</url>
+  <url type="bugtracker">https://github.com/SELECT-stupidity-FROM-discord/NanoYomi/issues</url>
+  <screenshots>
+    <!-- Captured from the Linux v0.2.1 test install with an original test comic. -->
+    <screenshot type="default">
+      <caption>Library and reading progress</caption>
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/app.nano.Reader/screenshots/library.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.2.2" date="2026-11-23">
+      <description></description>
+    </release><release version="0.2.1" date="2026-11-20"/></releases>
+</component>

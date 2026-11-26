@@ -32,9 +32,9 @@ modules:
         filename: opentrader.deb
         only-arches:
           - x86_64
-        url: https://github.com/deepentropy/opentrader/releases/download/v0.4.30/OpenTrader_linux_amd64.deb
-        sha256: ccd27d3ac7dc0a4d1b3afc951ab07f0c777121b74d19bffc9b3981e44eaf3675
-        size: 31366560
+        url: https://github.com/deepentropy/opentrader/releases/download/v0.4.33/OpenTrader_linux_amd64.deb
+        sha256: ee753b9ef642ff0d7111e244e7acbedf7e20b4a49bd561e4ab11a8d59d839808
+        size: 31650320
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

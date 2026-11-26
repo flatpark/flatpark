@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Bloom
+GenericName=Health Tracker
+Comment=Track your menstrual cycle and symptoms
+Exec=bloom
+Icon=io.github.oatbiscuit.bloom
+Terminal=false
+Type=Application
+Categories=Science;MedicalSoftware;
+Keywords=period;menstruation;health;tracker;cycle;
+StartupNotify=true
+StartupWMClass=bloom
+X-GNOME-UsesNotifications=true
+DBusActivatable=true

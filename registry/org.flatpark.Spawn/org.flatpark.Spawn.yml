@@ -1,0 +1,71 @@
+# org.flatpark.Spawn: flatpark-spawn as a Flatpak extension shared by every
+# app that declares it (README.md of flatpark/flatpark-spawn, "Using it in an
+# app"):
+#
+#   add-extensions:
+#     org.flatpark.Spawn:
+#       directory: lib/flatpark-spawn
+#       version: '1'
+#
+# The branch is the ABI major; an incompatible change starts branch 2.
+# It holds no compiled code: the release tarball (static flatpark-spawn,
+# libflatpark-spawn.so, enable.sh) is extra-data, downloaded at install
+# time and unpacked by apply_extra.sh into extra/.
+#
+# Same as packaging/org.flatpark.Spawn.yml in flatpark/flatpark-spawn, which
+# its e2e builds; keep the two in step.
+#
+# No app owns the extension point, but flatpak-builder only builds an
+# extension against an installed ref that declares it. The build uses a
+# stand-in, org.flatpark.Spawn.BuildParent.yml next to this file
+# (build.shared in flatpark.yml), which is never published. The resulting
+# metadata reads
+#   [ExtensionOf] ref=app/org.flatpark.Spawn.BuildParent/<arch>/master
+#                 runtime=org.freedesktop.Platform/<arch>/26.08
+# Mounting ignores both (it matches the extension point's name and
+# version, in apps on any runtime); the runtime is what apply_extra runs on
+# and what Flatpak installs along with the extension. See
+# docs/packagers/extensions.md#shared-extensions, and DESIGN.md of
+# flatpark-spawn, "共享扩展机制的验证".
+id: org.flatpark.Spawn
+branch: '1'
+runtime: org.flatpark.Spawn.BuildParent
+runtime-version: master
+sdk: org.freedesktop.Sdk//26.08
+build-extension: true
+separate-locales: false
+modules:
+  - name: flatpark-spawn
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh ${FLATPAK_DEST}/bin/apply_extra
+      - install -Dm644 org.flatpark.Spawn.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo
+      # Stable paths into extra/, which exists only after apply_extra.
+      - ln -s extra/enable.sh ${FLATPAK_DEST}/enable.sh
+      - ln -s ../extra/bin/flatpark-spawn ${FLATPAK_DEST}/bin/flatpark-spawn
+      # host-spawn's command line, for configs that call host-spawn.
+      - ln -s ../extra/bin/flatpark-spawn ${FLATPAK_DEST}/bin/host-spawn
+      - mkdir -p ${FLATPAK_DEST}/lib
+      - ln -s ../extra/lib/libflatpark-spawn.so ${FLATPAK_DEST}/lib/libflatpark-spawn.so
+    sources:
+      # From the release's SHA256SUMS and SIZES (resolve-update.sh).
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: flatpark-spawn.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/flatpark-spawn/releases/download/v0.2.0/flatpark-spawn-0.2.0-x86_64.tar.gz
+        sha256: 2c27c3f40b949f17d4746150d6fa77cc43fdec5439c489d8bfb3f58819fa6089
+        size: 1952999
+      - type: extra-data
+        filename: flatpark-spawn.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/flatpark/flatpark-spawn/releases/download/v0.2.0/flatpark-spawn-0.2.0-aarch64.tar.gz
+        sha256: 989a8d69046a622eeb21ab7e62d7d3fd40713ce4b49d11a61c234b221c3cdba9
+        size: 1758644
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: org.flatpark.Spawn.metainfo.xml

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.OpenPaintStudio</id>
+  <name>Open Paint Studio</name>
+  <!-- The name open-aec.com uses; the program calls itself "OpenAEC Paint Studio" in its window title. -->
+  <summary>Sketch, mark up and edit images, with shapes and text kept editable</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <!-- LICENSE: the editor code is MIT. THIRD_PARTY_NOTICES.md: the OpenAEC
+       brand assets, the theme and ribbon files and the app icon derived from
+       the OpenAEC symbol are CC BY-SA 4.0, and ship in the same binary. -->
+  <project_license>MIT AND CC-BY-SA-4.0</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-paint-studio/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/open-paint-studio/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/open-paint-studio</url>
+  <description>
+    <p>This is a community package of Open Paint Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open Paint Studio is a small image editor in the spirit of MS Paint. Draw with a brush, eraser, fill, eyedropper, lines, rectangles, ellipses and text typed straight onto the canvas; crop, resize, rotate and flip; adjust brightness, contrast and colour. With "Keep vector objects" on, shapes and text stay selectable and editable afterwards and can be exported as editable SVG.</p>
+    <p>It opens PNG, JPEG, WebP, GIF, BMP, TIFF, HEIC, AVIF, PSD, SVG, JPEG XL, camera RAW and more, decoded locally by a bundled ImageMagick WebAssembly build, and exports PNG, JPEG, WebP, SVG and IFCX. The interface opens in Dutch; English is one click away in Settings.</p>
+    <p>Sandbox: display and GPU only. Files are opened and saved through the file chooser, and nothing goes over the network. Updates come through FlatPark.</p>
+    <p>The Automation tab can push the image to upstream's REST API service, a separate Node program on 127.0.0.1:47831 that is not part of this app. If you run that service, allow the connection with "flatpak override":</p>
+    <ul>
+      <li>Connect to the local API: <code>flatpak override --user --share=network org.openaec.OpenPaintStudio</code></li>
+      <li>Undo: <code>flatpak override --user --reset org.openaec.OpenPaintStudio</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.openaec.OpenPaintStudio.desktop</launchable>
+  <categories>
+    <category>Graphics</category>
+    <category>RasterGraphics</category>
+  </categories>
+  <keywords>
+    <keyword>paint</keyword>
+    <keyword>draw</keyword>
+    <keyword>image editor</keyword>
+    <keyword>annotate</keyword>
+    <keyword>vector</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A floor plan annotated with shapes and text in the Home ribbon</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-paint-studio/v2026.45.1/docs/screenshots/paint-studio-overview.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing text inline while the drawn objects stay editable</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-paint-studio/v2026.45.1/docs/screenshots/paint-studio-text-editing.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Forge dark theme with every object selected</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-paint-studio/v2026.45.1/docs/screenshots/paint-studio-dark-theme.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>openaec-paint-studio</binary>
+    <mediatype>image/png</mediatype>
+    <mediatype>image/jpeg</mediatype>
+    <mediatype>image/webp</mediatype>
+    <mediatype>image/vnd.adobe.photoshop</mediatype>
+    <mediatype>application/x-ifcx</mediatype>
+  </provides>
+  <releases>
+    <release version="2026.48.1" date="2026-11-24">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-paint-studio/releases/tag/v2026.48.1</url>
+      <description></description>
+    </release>
+    <release version="2026.45.1" date="2026-11-06">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-paint-studio/releases/tag/v2026.45.1</url>
+      <description>
+        <p>Official Linux build 2026.45.1.</p>
+      </description>
+    </release>
+  </releases>
+</component>

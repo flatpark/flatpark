@@ -1,0 +1,34 @@
+[Desktop Entry]
+Type=Application
+Name=OpenXplorer
+Name[zh_CN]=OpenXplorer
+GenericName=File Explorer
+GenericName[zh_CN]=文件资源管理器
+Keywords=File Explorer;file explorer;File Manager;files;folders;SMB;NAS;network;archives;
+Keywords[zh_CN]=文件资源管理器;文件管理器;文件;文件夹;SMB;NAS;网络;压缩包;
+Comment=Explorer-style local and SMB file manager
+Comment[zh_CN]=资源管理器风格的本地和 SMB 文件管理器
+Exec=openxplorer %U
+TryExec=openxplorer
+Icon=io.winspace.Development
+Terminal=false
+Categories=System;FileTools;FileManager;
+MimeType=inode/directory;x-scheme-handler/smb;application/zip;application/x-zip;application/x-zip-compressed;
+StartupNotify=true
+StartupWMClass=io.winspace.Development
+Actions=NewWindow;Windows;Settings;
+
+[Desktop Action NewWindow]
+Name=New window
+Name[zh_CN]=新窗口
+Exec=openxplorer --new-window
+
+[Desktop Action Windows]
+Name=Open windows…
+Name[zh_CN]=已打开的窗口…
+Exec=openxplorer --windows
+
+[Desktop Action Settings]
+Name=Settings
+Name[zh_CN]=设置
+Exec=openxplorer --settings

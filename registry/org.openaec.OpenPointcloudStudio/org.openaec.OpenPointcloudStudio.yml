@@ -1,0 +1,76 @@
+id: org.openaec.OpenPointcloudStudio
+# Open Pointcloud Studio is not a Tauri app: it is one Rust binary drawn with
+# iced and wgpu that links only libc, libm and libgcc_s, and the Open CAD
+# Studio binary beside it adds libstdc++. Both open the GPU (Vulkan, EGL),
+# Wayland, X11 and xkbcommon libraries at run time, all of which the
+# freedesktop runtime has; neither needs GTK or WebKitGTK.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: open-pointcloud-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # winit's Wayland backend, with X11 for sessions without Wayland. Copy and
+  # paste goes through iced's window_clipboard (smithay-clipboard on
+  # Wayland), so nothing needs X11 on a Wayland session.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  # wgpu renders the point clouds on the GPU (Vulkan, or OpenGL ES through EGL).
+  - --device=dri
+  # Features that fetch from the internet when used: the PDOK base map under a
+  # scan (native/desktop/src/bag_map.rs) and the 3DBAG buildings around it
+  # (native/core/src/bag3d.rs). It also lets the MCP server, run as a second
+  # `flatpak run org.openaec.OpenPointcloudStudio --mcp`, reach the window's
+  # local command API on 127.0.0.1 (native/desktop/src/native_api.rs, mcp/);
+  # without the host network each instance has a loopback of its own. The
+  # app has no update check.
+  - --share=network
+  # Files and scan-project folders are opened and saved through the file
+  # chooser portal (rfd with ashpd), and settings, extensions and the disk
+  # indexes of large clouds go to $XDG_CONFIG_HOME and $XDG_CACHE_HOME under
+  # ~/.var/app, so no filesystem grant.
+modules:
+  - name: open-pointcloud-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-pointcloud-studio-wrapper /app/bin/open-pointcloud-studio
+      - install -Dm644 org.openaec.OpenPointcloudStudio.desktop /app/share/applications/org.openaec.OpenPointcloudStudio.desktop
+      - install -Dm644 org.openaec.OpenPointcloudStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenPointcloudStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenPointcloudStudio.svg /app/share/icons/hicolor/scalable/apps/org.openaec.OpenPointcloudStudio.svg
+      # Upstream's shared-mime-info file (E57, LAS, LAZ, PLY, PCD, PTX, PTS
+      # and .rcp scan projects). Flatpak exports a MIME package only under the
+      # app id.
+      - install -Dm644 org.openaec.OpenPointcloudStudio.mime.xml /app/share/mime/packages/org.openaec.OpenPointcloudStudio.xml
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-pointcloud-studio.tar.gz
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-pointcloud-studio/releases/download/v2026.48.0/open-pointcloud-studio_2026.48.0_linux-amd64.tar.gz
+        sha256: 4dc14733f7f5596702bbde441da225639d1be090687c8ac693f99e06a03320a2
+        size: 63228023
+      - type: extra-data
+        filename: open-pointcloud-studio.tar.gz
+        only-arches:
+          - aarch64
+        url: https://github.com/OpenAEC-Foundation/open-pointcloud-studio/releases/download/v2026.48.0/open-pointcloud-studio_2026.48.0_linux-arm64.tar.gz
+        sha256: 5da06c7532b2e803d19b698f631f3d8b4a7411cb70c000133de930a5f2589cc6
+        size: 60544512
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-pointcloud-studio-wrapper
+      - type: file
+        path: org.openaec.OpenPointcloudStudio.desktop
+      - type: file
+        path: org.openaec.OpenPointcloudStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenPointcloudStudio.svg
+      - type: file
+        path: org.openaec.OpenPointcloudStudio.mime.xml

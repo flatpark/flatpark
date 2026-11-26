@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -r /app/lib/flatpark-spawn/enable.sh ] && . /app/lib/flatpark-spawn/enable.sh
+exec /app/extra/consumer "$@"

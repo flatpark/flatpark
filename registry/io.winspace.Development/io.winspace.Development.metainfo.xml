@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.winspace.Development</id>
+  <name>OpenXplorer</name>
+  <summary>Explorer-style local and SMB file manager</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+  <developer id="app.openxplorer">
+    <name>OpenXplorer contributors</name>
+  </developer>
+  <url type="homepage">https://openxplorer.app</url>
+  <url type="help">https://openxplorer.app/docs/installation/</url>
+  <url type="bugtracker">https://github.com/AKolenda/openxplorer/issues</url>
+  <url type="vcs-browser">https://github.com/AKolenda/openxplorer</url>
+  <description>
+    <p>This package is published by OpenXplorer's developer. It installs the official Debian package from OpenXplorer's GitHub releases, unmodified.</p>
+    <p>Browse local folders, SMB shares and connected phones in a tabbed window styled after Windows 11 File Explorer, with light and dark appearances, a resizable sidebar, indexed filename search and ZIP, TAR and 7z browsing.</p>
+    <p>Installation does not change file associations, browser preferences or network mounts. Making OpenXplorer the default file manager, handling Show in folder requests and the other desktop integrations stay off until you turn them on in Settings.</p>
+    <p>A few of those optional features need a permission that is not granted by default; enable the ones you use with "flatpak override":</p>
+    <ul>
+      <li>Open in Terminal and making OpenXplorer the default file manager (runs host programs, so it lifts the sandbox): <code>flatpak override --user --talk-name=org.freedesktop.Flatpak io.winspace.Development</code></li>
+      <li>Answering Show in folder requests from other apps: <code>flatpak override --user --own-name=org.freedesktop.FileManager1 io.winspace.Development</code></li>
+      <li>Format… on a removable drive: <code>flatpak override --user --system-talk-name=org.freedesktop.UDisks2 io.winspace.Development</code></li>
+      <li>The check for new releases (Flatpak installs updates either way): <code>flatpak override --user --share=network io.winspace.Development</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset io.winspace.Development</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.winspace.Development.desktop</launchable>
+  <provides>
+    <binary>openxplorer</binary>
+    <dbus type="user">io.winspace.Development</dbus>
+  </provides>
+  <categories>
+    <category>System</category>
+    <category>FileManager</category>
+  </categories>
+  <keywords>
+    <keyword>File Explorer</keyword>
+    <keyword>File Manager</keyword>
+    <keyword>files</keyword>
+    <keyword>folders</keyword>
+    <keyword>SMB</keyword>
+    <keyword>NAS</keyword>
+    <keyword>network</keyword>
+    <keyword>ZIP</keyword>
+  </keywords>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <branding>
+    <color type="primary" scheme_preference="light">#fcd53f</color>
+    <color type="primary" scheme_preference="dark">#7a5c00</color>
+  </branding>
+  <!-- The optional update check asks GitHub's API for the latest release. -->
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  <!-- Upstream's own screenshots, published on openxplorer.app. -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>Folders in a tabbed window with the navigation and details panes</caption>
+      <image>https://openxplorer.app/assets/screenshots/explorer-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The dark appearance</caption>
+      <image>https://openxplorer.app/assets/screenshots/explorer-dark.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Two folders side by side in split panes</caption>
+      <image>https://openxplorer.app/assets/screenshots/split-view.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Search results with the searched word highlighted</caption>
+      <image>https://openxplorer.app/assets/screenshots/cached-search.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="2.0.26" date="2026-11-25">
+      <description></description>
+    </release>
+    <release version="2.0.25" date="2026-11-24">
+      <description></description>
+    </release>
+    <release version="2.0.24" date="2026-11-24">
+      <description>
+        <p>An item's Properties window can now be made larger from its edges and corners, and Previous Versions' list grows with it, so more versions show at once.</p>
+      </description>
+    </release>
+  </releases>
+</component>

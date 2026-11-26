@@ -102,6 +102,12 @@ It still gets read as code in Phase 4.2 — the distinction is that a contributo
 may bring their own resolver but never edit one the repo already trusts.
 Identify the changed app id(s).
 
+A new app whose id or upstream appears in [de-listed apps](../reference/delisted.md)
+comes back only on the condition its section names: a Declined or "didn't back
+it" app needs the developer's own public yes, linked in the PR (a PR from the
+developer is that yes); a stopped or broken one needs the PR to say what
+changed. Without that, request changes.
+
 ### Phase 2 — Submitter & provenance
 Account age, history, social graph, other repos, prior contributions. Source-repo
 age and corroboration; commit identity (watch for malformed emails); timeline
@@ -129,6 +135,12 @@ artifact provenance tier (1/2/3).
   justification**; declared ones go to a maintainer (NEEDS-HUMAN), who grants
   them when the app's feature needs them. Warn on `--device=all`,
   `--filesystem=home`, needless `--share=network`.
+- **flatpark-spawn:** an app that declares `org.flatpark.Spawn` runs its tools'
+  commands on the host. The audit enforces the shape
+  ([permissions](../packagers/permissions.md#what-the-audit-checks-for-flatpark-spawn));
+  the review decides whether the app gets it at all. Adding an id to
+  `config/flatpark-spawn.yml` is a maintainer's call, made after the app is
+  audited as completely as possible, and never in a contributor's PR.
 - **Optional capabilities are opt-in, not pre-granted:** a broad permission that
   the app's *core* feature doesn't need must be absent from `finish-args` and
   instead documented as a `flatpak override` command in the metainfo description
@@ -138,6 +150,11 @@ artifact provenance tier (1/2/3).
   point and the source types ([extensions](../packagers/extensions.md)). Read
   the parent's `finish-args` too: the extension's code runs with all of them, so
   review it as you would a new app with those permissions.
+- **Shared extensions** (`build.shared`): no parent; the code runs inside every
+  app that declares it, with each one's permissions. The audit checks the
+  stand-in it builds against (`<id>.BuildParent.yml`, [extensions](../packagers/extensions.md#shared-extensions));
+  read it too, it should stay a stub: a runtime, the extension point and its
+  `mkdir`.
 - **What was tested:** the PR body says honestly what the submitter built,
   installed, launched and used, and what they couldn't test
   ([testing playbook](testing-playbook.md)). Missing → warn (the reviewer never
@@ -165,13 +182,21 @@ artifact provenance tier (1/2/3).
 ### Phase 4 — Runtime-behavior scan
 Grep manifest + shipped scripts + source for runtime fetch-and-exec
 (`npm install`, `pip install`, `curl|wget`, `nc`, download-then-run).
-**Allowed (vendor self-updater exception):** the vendor's own installer/updater
-that downloads into the app's data/cache dir, when packaging does not patch the
-official behavior, writes stay in the per-app data/cache dir (no host-home),
-endpoints are the vendor's own, and there is no shell pipeline from an arbitrary
-URL. **Rejected:** runtime fetch-and-exec of arbitrary/unpinned third-party code
-as a core mechanism (PR #13's `npm install peerflix`), or an updater whose
-packaging patches official behavior. Review `update.command`/resolve scripts as
+**What is judged is the packaging, not the app.** The question is whether the
+manifest, wrapper or shipped scripts add a fetch-and-exec, or change how the app
+fetches things. **Allowed (upstream behavior):** the unmodified app downloading
+what it needs at run time into its own data/cache dir — its self-updater, game
+files, runtimes, plugins, or a helper tool it runs. `org.flatpark.Cellar` is the
+reference case: after launch it downloads community Wine runners from their
+GitHub releases into its data dir and runs them, and that is normal. This holds
+even when the app pulls the component unpinned from a third party, as long as
+packaging does not patch that behavior, writes stay in the per-app data/cache dir
+(no host-home), and the endpoint is the vendor's or the component's official
+distributor, not a user-supplied/arbitrary URL. Note it in the review as an
+observation; it is not a reject and not a warn. **Rejected:** fetch-and-exec that
+the *packaging* introduces as a core mechanism (PR #13's wrapper running
+`npm install peerflix`), or packaging that patches the app's own download/update
+behavior. Review `update.command`/resolve scripts as
 code. Note network endpoints and broad filesystem×network combos.
 
 ### Phase 5 — Artifact / binary provenance
@@ -237,8 +262,9 @@ artifact before filing it, not from a reading of the diff.
   a shared support stack released from `flatpark/prebuilt`. App payloads and single-app
   dependencies must be `extra-data` — they must not be baked into the ref / shipped from
   R2. (Source-building one app's missing library into `/app` is this reject.)
-- Runtime fetch-and-exec of arbitrary / unpinned code as a core mechanism (the
-  vendor self-updater exception does not count).
+- Runtime fetch-and-exec of unpinned code introduced by the packaging (manifest,
+  wrapper, shipped scripts) as a core mechanism. What the unmodified upstream app
+  downloads at run time into its data dir does not count (Phase 4).
 - `update.command` that is not a simple relative script path.
 - IOC found (traversal / setuid / persistence / miner / reverse-shell / embedded
   payload / RPATH injection).
@@ -263,6 +289,7 @@ open source · 2 = closed source · ★ = all.
 | 0 | Safety | Static-only; nothing executed; artifacts handled in an isolated dir | ★ | | |
 | 1.1 | Scope | Classified: new app / app change / infra | ★ | | |
 | 1.2 | Scope | Touches high-scrutiny surface (`.github/`·`scripts/`·`config/` except `collections.yml`·signing, or an **existing** app's `resolve-update.sh`/`update.command`)? not a maintainer → STOP. A resolver in a brand-new app dir is routine | ★ | | |
+| 1.3 | Scope | New app not in [de-listed apps](../reference/delisted.md), or the PR meets its section's condition (developer's public yes linked / what changed) | ★ | | |
 | 2.1 | Provenance | Submitter account age / history / graph / other repos | ★ | | |
 | 2.2 | Provenance | Source repo age, corroboration | ★ | | |
 | 2.3 | Provenance | Commit identity sane (no malformed email) | ★ | | |
@@ -282,7 +309,7 @@ open source · 2 = closed source · ★ = all.
 | 3.9 | Manifest | Optional caps not pre-granted: documented as `flatpak override` in metainfo; any broad grant kept in `finish-args` justified in the PR | ★ | | |
 | 3.10 | Manifest | PR body says honestly what was built, installed, launched and used, and what wasn't tested | ★ | | |
 | 3.11 | Manifest | Screenshot present (one `default`), loads, shows this app's current Linux UI, hosted upstream, as a PR attachment or in `registry/<id>/screenshots/`; or its absence justified in the PR body | ★ | | |
-| 4.1 | Runtime | No runtime fetch-and-exec of arbitrary/unpinned code (vendor self-updater to data dir, behavior unpatched = OK) | ★ | | |
+| 4.1 | Runtime | Packaging adds no runtime fetch-and-exec of unpinned code (the unmodified app fetching its own updates/tools into its data dir = OK) | ★ | | |
 | 4.2 | Runtime | `update.command` / resolve script reviewed as code (runs on CI, repo-write) | ★ | | |
 | 4.3 | Runtime | Network endpoints noted; no broad filesystem×network combo | ★ | | |
 | 5.1 | Artifact | extra-data sha256 == manifest pin | ★ | | |

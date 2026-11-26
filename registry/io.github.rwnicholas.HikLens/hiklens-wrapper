@@ -1,0 +1,4 @@
+#!/bin/sh
+# Runs the vendor's own AppRun from the AppImage tree apply_extra unpacked.
+# AppRun prepends usr/bin to PATH and execs usr/lib/hiklens/HikLens.
+exec /app/extra/hiklens/AppRun "$@"

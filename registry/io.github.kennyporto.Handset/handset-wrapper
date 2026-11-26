@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+# Handset is a Python app; the runtime provides python3, Qt and Kirigami, and
+# the archive under /app/extra/handset provides Handset and its Python modules.
+export PYTHONPATH="/app/extra/handset/site-packages${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m handset "$@"

@@ -60,6 +60,9 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="2.3.0" date="2026-11-25">
+      <description></description>
+    </release>
     <release version="2.2.0" date="2026-07-17">
       <description>
         <p>System clipboard integration with other apps, box selection, linked split view, link handling, password-protected ZIP archives, extension API expansions, Hebrew language support and navigator polish.</p>

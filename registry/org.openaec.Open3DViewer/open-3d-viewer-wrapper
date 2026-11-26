@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# The viewer is a self-contained iced + wgpu binary; it opens the GPU,
+# Wayland, X11 and xkbcommon libraries of the runtime at run time and needs
+# nothing set.
+exec /app/extra/open-3d-viewer/open-3d-viewer "$@"

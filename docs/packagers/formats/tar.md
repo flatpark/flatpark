@@ -17,7 +17,7 @@ Start from one of these:
 - [Electerm](../../../registry/org.electerm.Electerm/apply_extra.sh): an
   Electron app with a version-stamped top directory, on the freedesktop runtime
   with the Electron base app.
-- [Impasto](../../../registry/com.github.zbcoding.Impasto/apply_extra.sh): a zip.
+- [Impasto](../../../registry/io.github.zbcoding.Impasto/apply_extra.sh): a zip.
 
 ## For agents
 

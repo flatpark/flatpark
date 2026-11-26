@@ -108,8 +108,10 @@ The trust question is **where the bytes you run come from**, not the license:
   reviews them. They are granted only when the app's feature needs them, and
   the app page marks them with a warning.
 - Review looks for obvious malicious behaviour in what is shipped: persistence,
-  miners, reverse shells, downloading and running unpinned code. It doesn't
-  audit the app's source.
+  miners, reverse shells, packaging that downloads and runs unpinned code
+  (what the unmodified app downloads for itself, such as updates, game files or
+  the tools it needs, is the app's own behavior). It doesn't audit the app's
+  source.
 - **Non-FOSS is allowed** — openness is not the bar. We reject on purpose, not
   license: piracy, malware, trademark impersonation, or anything illegal to
   distribute.
@@ -132,7 +134,8 @@ An app is **never** de-listed for how it was written, what toolkit it uses, or
 because someone on the internet called it slop. It isn't removed because its
 developer later publishes it on Flathub either, unless the developer asks.
 
-To remove an app, a PR deletes its directory from the registry and says why,
-linking the request or issue. Once it is merged, the app is gone from the
+To remove an app, a PR deletes its directory from the registry, says why,
+linking the request or issue, and adds the app's row to
+[de-listed apps](../reference/delisted.md). Once it is merged, the app is gone from the
 catalog, and the weekly `cleanup` job drops its refs from the repository.
 Already-installed copies keep working until the user uninstalls them.

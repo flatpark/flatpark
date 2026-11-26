@@ -31,9 +31,3 @@ upstream:
     # Upstream compiles the app with a JDK module; the official AppImage
     # pinned here carries its own Java runtime.
     - openjdk
-  accept_extra_permissions:
-    # The tray icon: upstream's manifest doesn't grant the StatusNotifierItem
-    # names, and without them the bundled tray library's name is refused and
-    # no icon shows (seen with --log-session-bus).
-    - --talk-name=org.kde.StatusNotifierWatcher
-    - --own-name=org.kde.StatusNotifierItem-2-1

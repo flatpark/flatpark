@@ -7,5 +7,5 @@ Terminal=false
 Type=Application
 Categories=Development;IDE;Science;DataVisualization;NumericalAnalysis;GTK;GNOME;
 Keywords=markdown;editor;quarto;notebook;rstudio;jupyter;science;r;python;data-science;biostatistics;bioinformatics;copilot;mcp;mallorn;odt;odp;
-MimeType=text/markdown;text/x-markdown;text/plain;application/x-ipynb+json;application/json;text/x-r-markdown;
+MimeType=text/markdown;text/x-markdown;text/plain;application/x-ipynb+json;application/json;text/x-r-markdown;text/x-tex;application/typescript;text/typescript;text/x-r;text/x-python;text/x-bibtex;text/html;application/rtf;text/rtf;
 StartupNotify=true

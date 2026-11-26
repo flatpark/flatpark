@@ -33,16 +33,16 @@ modules:
         filename: Antigravity IDE.tar.gz
         only-arches:
           - x86_64
-        url: https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/2.8.0-6733682917113856/linux-x64/Antigravity%20IDE.tar.gz
-        sha256: 7baa36baab285cb46101af958b8f7be6305458db9a44d8b3d0938d61f38597d7
-        size: 195291447
+        url: https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/2.9.0-4671306730438656/linux-x64/Antigravity%20IDE.tar.gz
+        sha256: f0193df2558e35ff98fafe829a5c318a1ae0957942343597eb9f97098e276b23
+        size: 195321688
       - type: extra-data
         filename: Antigravity IDE.tar.gz
         only-arches:
           - aarch64
-        url: https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/2.8.0-6733682917113856/linux-arm/Antigravity%20IDE.tar.gz
-        sha256: d8f85ce40306587a80a7478af4de85cb10b83cf26dd9179b902afa9933fcf9f2
-        size: 193704263
+        url: https://edgedl.me.gvt1.com/edgedl/release2/j0qc3/antigravity/stable/2.9.0-4671306730438656/linux-arm/Antigravity%20IDE.tar.gz
+        sha256: 3a926e31e5bcdb46f9d0dace37d9ba48243427d48518b7ea779d6b875962de0a
+        size: 193735586
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

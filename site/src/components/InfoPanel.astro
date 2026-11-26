@@ -1,6 +1,13 @@
 ---
 import { getLangFromUrl, localizePath, packagingDot, packagingText, permissionText, useTranslations } from '../i18n';
-const { rows = [], permissions = [], packaging = null, parent = null } = Astro.props;
+const {
+  rows = [],
+  permissions = [],
+  packaging = null,
+  parent = null,
+  shared = false,
+  hostCommands = false,
+} = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const dot = {
@@ -53,8 +60,17 @@ const packItems = (packaging?.items ?? []).map((i) => ({ ...i, ...packagingText(
       }
     </div>
     {parent && <p class="mt-2 text-sm text-muted">{t('panel.parent', { name: parent.name })}</p>}
+    {/* A shared extension has no parent and no permissions of its own. */}
     {
-      sorted.length === 0 ? (
+      shared && (
+        <p class="mt-2 text-sm text-muted">
+          {hostCommands ? `${t('panel.shared')} ${t('panel.shared.spawn')}` : t('panel.shared')}
+        </p>
+      )
+    }
+    {!shared && hostCommands && <p class="mt-2 text-sm text-muted">{t('panel.spawn')}</p>}
+    {
+      shared ? null : sorted.length === 0 ? (
         <p class="mt-2 text-sm text-muted">{t('panel.none')}</p>
       ) : (
         <ul class="mt-3 flex flex-col gap-3">

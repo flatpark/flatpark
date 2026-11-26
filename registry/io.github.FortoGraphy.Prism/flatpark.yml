@@ -1,0 +1,17 @@
+id: io.github.FortoGraphy.Prism
+name: Prism Download Manager
+summary: Multi-connection download manager
+website: https://prismdl.site/
+source_url: https://github.com/FortoGraphy/prism-download-manager
+build:
+  manifest: io.github.FortoGraphy.Prism.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Network
+  tags: [Downloads, Torrents]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

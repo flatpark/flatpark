@@ -52,6 +52,22 @@
     <mediatype>application/pdf</mediatype>
   </provides>
   <releases>
+    <release version="2026.48.28" date="2026-11-25">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.48.28</url>
+      <description></description>
+    </release>
+    <release version="2026.48.8" date="2026-11-24">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.48.8</url>
+      <description></description>
+    </release>
+    <release version="2026.48.5" date="2026-11-24">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.48.5</url>
+      <description></description>
+    </release>
+    <release version="2026.48.3" date="2026-11-23">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.48.3</url>
+      <description></description>
+    </release>
     <release version="2026.48.2" date="2026-11-21">
       <url type="details">https://github.com/OpenAEC-Foundation/open-pdf-studio/releases/tag/v2026.48.2</url>
       <description></description>

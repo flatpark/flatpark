@@ -12,6 +12,7 @@ import sharp from 'sharp';
 import { requiresOf, installWith } from '../src/lib/requires.mjs';
 import { starsRepoOf, fetchStars } from '../src/lib/stars.mjs';
 import { sectionFor } from '../../scripts/catalog-sections.mjs';
+import { SPAWN_ID, SPAWN_TALK_NAME } from '../../scripts/flatpark-spawn.mjs';
 
 
 // How a terminal launcher is used is a property of how the app runs, not what
@@ -166,6 +167,40 @@ const starsByApp = await (async () => {
     console.warn(`[enrich] upstream stars unavailable: ${e.message}`);
     return null;
   }
+})();
+
+// Shared extensions (build.shared) and the apps that mount them. A shared
+// extension has no parent: any app that declares its extension point under
+// add-extensions gets it. Its page lists those apps, and theirs link back.
+const isSharedDescriptor = (fy) => fy?.build?.shared === true || fy?.build?.shared === 'true';
+const sharedLinks = (() => {
+  const users = new Map(); // shared extension id -> [{ id, name }]
+  const uses = new Map(); // app id -> [{ id, name }]
+  if (!existsSync(appsDir)) return { users, uses };
+  const shared = new Map();
+  const points = [];
+  for (const f of readdirSync(appsDir).filter((x) => x.endsWith('.json'))) {
+    try {
+      const base = JSON.parse(readFileSync(join(appsDir, f), 'utf8'));
+      if (isSharedDescriptor(readDescriptor(base._srcDir))) shared.set(base.id, base.name);
+      if (base._manifest && existsSync(base._manifest)) {
+        const declared = parseManifest(base._manifest)?.['add-extensions'];
+        if (declared && typeof declared === 'object') points.push([base.id, base.name, Object.keys(declared)]);
+      }
+    } catch {
+      // the per-app pass reports a broken file
+    }
+  }
+  for (const [id, name, names] of points) {
+    for (const ext of names) {
+      if (!shared.has(ext) || ext === id) continue;
+      users.set(ext, [...(users.get(ext) ?? []), { id, name }]);
+      uses.set(id, [...(uses.get(id) ?? []), { id: ext, name: shared.get(ext) }]);
+    }
+  }
+  const byName = (a, b) => a.name.localeCompare(b.name);
+  for (const list of users.values()) list.sort(byName);
+  return { users, uses };
 })();
 
 // Ids seen during enrichment, to flag stale picks (removed/renamed apps).
@@ -717,14 +752,40 @@ async function enrichOne(file) {
       // An extension has no permissions or runtime of its own: it runs inside
       // its parent with all of the parent's. A page that can't say so must
       // not say "fully sandboxed", so a missing parent stops the build.
+      // A shared extension (build.shared) has no parent at all: it runs in
+      // each app that declares it, on that app's runtime and with that app's
+      // permissions, so its page lists none of its own and names those apps.
+      // Its manifest's runtime is the build stand-in, never shown.
       const fy = readDescriptor(srcDir);
-      const parent = fy?.build?.extends ? parentOf(srcDir, fy.build.extends) : null;
+      const shared = isSharedDescriptor(fy);
+      const parent = fy?.build?.extends && !shared ? parentOf(srcDir, fy.build.extends) : null;
       const host = parent ? parent.manifest : m;
       if (parent) out.parent = { id: fy.build.extends, name: parent.name };
-      out.runtime = host.runtime || '';
-      out.runtimeVersion = host['runtime-version'] ? String(host['runtime-version']) : '';
+      if (shared) {
+        out.shared = true;
+        out.consumers = sharedLinks.users.get(base.id) ?? [];
+      } else {
+        out.runtime = host.runtime || '';
+        out.runtimeVersion = host['runtime-version'] ? String(host['runtime-version']) : '';
+        out.permissions = toArray(host['finish-args']).map(describePermission).filter(Boolean);
+      }
       out.command = m.command || '';
-      out.permissions = toArray(host['finish-args']).map(describePermission).filter(Boolean);
+      // The shared extensions this app mounts. With flatpark-spawn the
+      // Flatpak talk-name is not an occasional flatpak-spawn: every command
+      // its tools run can go to the host, and the page says so.
+      const uses = sharedLinks.uses.get(base.id) ?? [];
+      if (uses.length) out.uses = uses;
+      // hostCommands: the page says the app (or, for flatpark-spawn itself,
+      // an app using it) can run commands on the host through it.
+      if (base.id === SPAWN_ID) out.hostCommands = true;
+      if (uses.some((u) => u.id === SPAWN_ID)) {
+        out.hostCommands = true;
+        out.permissions = out.permissions.map((p) =>
+          `--${p.flag}=${p.value}` === SPAWN_TALK_NAME
+            ? { ...p, key: 'talk_name.flatpark_spawn', level: 'warning',
+                detail: 'Runs the commands its tools call on the host, as you, through flatpark-spawn' }
+            : p);
+      }
       supportDerived = supportFiles(m, readFileSync(base._manifest, 'utf8'));
       if (toArray(m.tags).includes('proprietary')) out.proprietary = true;
     }
@@ -813,7 +874,7 @@ async function enrichOne(file) {
   // Catalog facets for sort + filter (homepage / browse page). An extension
   // is not an app of its own: it files under the `extensions` section, which
   // the lists leave out unless it is asked for, and its parent's page lists it.
-  out.section = out.parent ? 'extensions' : sectionFor(out.category);
+  out.section = out.parent || out.shared ? 'extensions' : sectionFor(out.category);
   out.upstreamApproved = out.upstreamApproved || false;
   // Editor's pick and the shield are independent axes: a pick needs no
   // approval, an approval earns no pick.

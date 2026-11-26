@@ -14,9 +14,10 @@ finish-args:
   - --device=dri
   # Network access for AI models, Shiny live server, and package installations
   - --share=network
-  # Workspace file access across standard user directories for data science notebooks & projects
-  - --filesystem=xdg-documents
-  - --filesystem=xdg-download
+  # HostBridge runs R/Python/Julia/Quarto on the host via flatpak-spawn --host
+  - --talk-name=org.freedesktop.Flatpak
+  # Projects live anywhere under home; host kernels must see the same paths
+  - --filesystem=home
 modules:
   - name: imladris
     buildsystem: simple
@@ -31,12 +32,12 @@ modules:
     sources:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
-        filename: imladris.deb
+        filename: imladris-flatpak.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/Antux912012/imladris/releases/download/v0.40.0/imladris_0.40.0_amd64.deb
-        sha256: 37ea093b502287b0fdb1cec13c51bb5e019523e2bf04a7f0a589e1bd0c4c0496
-        size: 1360884
+        url: https://github.com/Antux912012/imladris/releases/download/v0.43.2/io.github.Antux912012.Imladris-flatpak-x86_64.tar.gz
+        sha256: d8dc51cad2a4d720d043703c0519526e23ee83b4e780eeed300a3c607328430d
+        size: 1939775
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

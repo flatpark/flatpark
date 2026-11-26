@@ -1,0 +1,28 @@
+id: org.openaec.Open3DViewer
+name: Open BIM Suite
+summary: View, measure and section IFC, Revit, SketchUp, Tekla and other building models
+website: https://open-aec.com/open-bim-suite/
+source_url: https://github.com/OpenAEC-Foundation/open-bim-suite
+build:
+  manifest: org.openaec.Open3DViewer.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  upstream_approved: false
+  tags:
+    - BIM
+    - IFC
+    - CAD
+    - 3D
+    - Point Cloud
+# The app id is upstream's own: the desktop file, icon and MIME package in its
+# .deb are named org.openaec.Open3DViewer. The repository and the app were
+# renamed from Open 3D Viewer Studio to Open BIM Suite in 2026.46; the release
+# assets are still named open-3d-viewer_*.
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

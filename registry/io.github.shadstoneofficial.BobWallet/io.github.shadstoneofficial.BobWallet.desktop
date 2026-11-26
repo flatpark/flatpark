@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Bob LearnHNS
+Comment=Manage Handshake wallets, names and auctions
+Exec=bob-wallet %U
+Icon=io.github.shadstoneofficial.BobWallet
+Terminal=false
+Categories=Office;Finance;
+StartupWMClass=bob-learnhns
+MimeType=x-scheme-handler/bob-learnhns;

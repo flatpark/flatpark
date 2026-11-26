@@ -54,8 +54,8 @@ modules:
         only-arches:
           - x86_64
         url: https://downloads.sourceforge.net/project/itk-snap/itk-snap/4.6.0/itksnap-4.6.0-linux-x64.tar.gz
-        sha256: 6b8951fba774fb7ad991f8859c64942dd427d508e48cd659529f5fc2e35d68a3
-        size: 222460879
+        sha256: eae220d843cdaf0217ce1a2386de1d058b7636f7e7c529e5563b3552e8b59f27
+        size: 222453845
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

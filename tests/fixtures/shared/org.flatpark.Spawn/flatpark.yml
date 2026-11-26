@@ -1,0 +1,16 @@
+id: org.flatpark.Spawn
+name: flatpark-spawn
+summary: Synthetic shared extension
+source_url: https://github.com/flatpark/flatpark-spawn
+build:
+  manifest: org.flatpark.Spawn.yml
+  branch: '1'
+  mode: extra-data
+  shared: true
+  arches:
+    - x86_64
+    - aarch64
+catalog:
+  category: Development
+policy:
+  proprietary: false

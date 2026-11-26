@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Unsloth Studio
+Comment=Run and train local models; Studio opens at http://127.0.0.1:8888
+Exec=unsloth-studio %u
+Icon=ai.unsloth.studio
+Terminal=false
+Categories=Development;Science;
+StartupWMClass=unsloth-studio
+MimeType=x-scheme-handler/unsloth;

@@ -3,7 +3,7 @@
 <component type="desktop-application">
   <id>io.github.Antux912012.Imladris</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
+  <project_license>Apache-2.0</project_license>
   <name>Imladris</name>
   <summary>Scientific notebook and Quarto IDE</summary>
   <description>
@@ -11,10 +11,11 @@
       Imladris is a scientific workbench and polyglot IDE that unifies interactive R, Python, and Julia execution, Quarto publishing, biostatistics, and AI-assisted research into a single studio for researchers, biostatisticians, and data scientists.
     </p>
     <p>
-      Imladris provides dual-mode operation: a distraction-free single-pane writer for Markdown and HTML, and an RStudio-style 4-quadrant workbench for computational documents (.qmd, .Rmd, .ipynb, .R, .py) with real-time KaTeX mathematics, live charts, and interactive REPL consoles.
+      Imladris provides adaptive dual-mode operation: a distraction-free single-pane writer for Markdown and HTML, and an RStudio-style 4-quadrant or 6-quadrant ultrawide workbench with multi-screen independent panel popouts for computational documents (.qmd, .Rmd, .ipynb, .R, .py), real-time KaTeX mathematics, live charts, and interactive REPL consoles.
     </p>
     <ul>
-      <li>4-Quadrant Scientific Workbench: Integrated source editor, interactive R/Python/Julia REPL consoles, variable inspector, and live document preview.</li>
+      <li>4-Quadrant &amp; 6-Quadrant Ultrawide Workbench: Integrated source editor, interactive R/Python/Julia REPL consoles, variable inspector, live preview, Panel Manager, and independent multi-screen popout windows.</li>
+      <li>Imladris on Web Offline-First Sync: Share documents to Imladris on Web, work offline, and reconcile changes with git-style commits on reconnect.</li>
       <li>Positron/RStudio-Style Direct Editor Writing: In-place code generation and chunk replacement preserving Quarto cell options (#|) and single-step Ctrl+Z undo.</li>
       <li>Multi-Tier AI Orchestration: Offline local LLMs via local llama.cpp, Ollama, or LM Studio servers, GitHub Copilot OAuth Device Flow, and automatic HTTP 429 quota failover across Groq, Cerebras, OpenRouter, and GitHub Models.</li>
       <li>Reproducible Sandboxes &amp; .mallorn Format: Isolated renv and venv project environments with 1:1 bidirectional RStudio compatibility and portable archive bundles.</li>
@@ -75,32 +76,157 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="0.40.0" date="2026-11-20">
+    <release version="0.43.2" date="2026-11-25">
       <description></description>
+    </release>
+    <release version="0.43.1" date="2026-11-24" type="stable">
+      <description>
+        <p>Release 0.43.1 addresses 4-persona beta-testing feedback: persistent multi-screen popout restoration, DataGrid error surfacing, Elbereth unequal-allocation R verification, WebSync conflict resolution &amp; Adw.StatusPage, expanded Command Palette/Shortcuts, and HIG accessibility fixes.</p>
+      </description>
+    </release>
+    <release version="0.43.0" date="2026-11-24" type="stable">
+      <description>
+        <p>Release 0.43.0 introduces 6-quadrant ultrawide layouts, multi-screen independent panel popouts, Panel Manager, Imladris on Web offline-first sync, and GNOME/Pantheon HIG UI refinements.</p>
+      </description>
+    </release>
+    <release version="0.42.1" date="2026-11-23" type="stable">
+      <description>
+        <p>Release 0.42.1 fixes the Rich Text (.rtf) creation crash and delivers comprehensive security, thread-safety, and packaging hardening:</p>
+        <ul>
+          <li>RTF Creation Crash &amp; Editor Fixes: Fixed null GtkSource.Language SIGSEGV when creating .rtf/.txt/.csv/.tsv files, added native RTF scaffolding, UTF-8/non-BMP codec fixes, crash-recovery snapshotting, and full RTF ribbon/PDF/ODT parity.</li>
+          <li>Security &amp; Sandbox Hardening: Hardened PluginManager archive/community-registry consent checks and asset confinement, blocked Markdown raw-HTML XSS passthrough in DocumentAdapter, required explicit workspace and output validation in McpServer, and isolated ExportService subprocess environments.</li>
+          <li>Thread &amp; C Memory Safety: Added per-call PangoFontMap in export_native.c, mutex-guarded static regex caches, and overflow-safe 64-bit disk calculations in toolchain_native.c.</li>
+          <li>License &amp; Distribution Coherence: Unified Apache-2.0 license metadata across AppStream, NixOS flake, and FlatPark changelogs.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.42.0" date="2026-11-22" type="stable">
+      <description>
+        <p>Release 0.42.0 introduces Elrond AI Hardware Auto-Optimization, the Flatpak Host Bridge with Quarto/R/Python kernel routing, and a redesigned native GTK4/Libadwaita Elrond AI chat panel:</p>
+        <ul>
+          <li>Elrond AI Hardware Auto-Optimizer: Automatic 5-tier Vulkan GPU/iGPU/CPU probing via llama-server --list-devices, tailored launch profiles, 15s /health startup monitoring with automatic CPU fallback, and Preferences profile badge.</li>
+          <li>Flatpak Host Bridge &amp; Kernel Routing: Added HostBridge (--watch-bus orphan prevention), single-shot EnvDiscovery (uv, Conda, venv, multi-version rig R, Quarto), ExecutionRouter with Quarto/R/Python kernel selector, Host/Sandbox scope toggle, and latest unpinned R/CRAN support.</li>
+          <li>Redesigned Elrond AI Chat UI: Native Adw.ToolbarView layout, searchable past sessions, Adw.StatusPage empty state, tactile floating composer with context chips and @ mentions, 30ms throttled streaming Markdown, collapsible reasoning row, and syntax-highlighted GtkSourceView code blocks.</li>
+          <li>Codebase Audit &amp; Optimization: Unified Flatpak/bytes helpers, cached compiled regular expressions, and added HTTP session timeouts.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.41.0" date="2026-11-22" type="stable">
+      <description>
+        <p>Release 0.41.0 improves MCP automation, offline LaTeX and Quarto builds, scientific toolchains, and enterprise security controls:</p>
+        <ul>
+          <li>CLI and MCP D-Bus Bridge: Added --mcp-server to --help and connected stdio MCP clients to active GUI windows over D-Bus.</li>
+          <li>Headless MCP Tools: Added file_path support, compile_latex, get_environment_summary, read-only mode, and canonical path checks.</li>
+          <li>Quarto and Tectonic Offline Readiness: Fixed QUARTO_DENO_DOM paths, added Tectonic bundle warmup during setup, and added an offline readiness check in Preferences.</li>
+          <li>Scientific Packages and Profiles: Expanded default Python and R packages, added domain profiles, and added external Conda environment discovery.</li>
+          <li>Security Guardrails: Added Air-Gapped Mode, PHI/PII Data Lock, policy.json administrator locks, Free LLM RAM control, and lfm25-1.2b model naming.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.40.0" date="2026-11-20" type="stable">
+      <description>
+        <p>Most Stable Release (v0.40.0): Transitions Imladris Core to the Apache-2.0 Hybrid Open-Core license for frictionless Academic &amp; Enterprise R&amp;D adoption, and delivers major editor and Flatpak stability upgrades:</p>
+        <ul>
+          <li>Apache-2.0 Hybrid Open-Core Licensing: Relicensed core studio from GPL-3.0-or-later to Apache-2.0 with explicit patent protection, clean JSC.Context/MCP extension boundaries, and Commercial Enterprise Pack readiness.</li>
+          <li>VS Code &amp; RStudio-Grade Autocompletion: Live keystroke refiltering, fuzzy match highlighting, Markdown/Quarto prose snippets &amp; cross-references (@fig-*, @tbl-*, @sec-*), HTML5 tag &amp; smart closing tag completion, R library()/parameter completions, Python DataFrame methods, live REPL DataFrame column discovery, and paired BackSpace/triple-backtick handling.</li>
+          <li>Quick Table Picker Popover: Cursor-anchored 8x8 hover grid and custom Rows/Cols dialog (Ctrl+Alt+T) with format-aware Markdown, HTML, LaTeX, and RTF table generation.</li>
+          <li>Flatpak WebKitGTK 6.0 Live Preview Fix: Fixed WebKitWebContext vs. JSC.Context initialization order so live preview renders reliably in Flatpak sandboxes.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.33.1" date="2026-11-19">
-      <description></description>
+      <description>
+        <p>Release v0.33.1 introduces Apple TextEdit-style WYSIWYG .rtf editing, rock-solid WebKitGTK 6.0 live preview across Flatpak and host builds, unified single-package toolchains, and a comprehensive security and C/Vala memory audit:</p>
+        <ul>
+          <li>WYSIWYG Rich Text (.rtf) Editor: Added native RTF 1.x codec (RtfCodec) and TextEdit-style formatting bar (RtfEditorView) supporting font family/size, Bold/Italic/Underline/Strikethrough (Ctrl+B/I/U), text and highlight colors, paragraph alignment, bullet lists, and live WebKitGTK 6.0 preview.</li>
+          <li>WebKitGTK 6.0 Preview &amp; Flatpak Parity: Fixed GTK4 unrealize/map reparenting across Apostrophe and RStudio modes, zero-allocation deferral during revealer/paned transitions, cancelled-load filtering, proportional editor-to-preview scroll sync, and synchronized Flatpak finish-args.</li>
+          <li>Unified Single-Package Distribution: Merged scientific runtime dependencies (R, Python, pip/venv, Pandoc, curl, bzip2, git) directly into the main .deb, .rpm, AUR PKGBUILD, and Nix Flake packages.</li>
+          <li>Security &amp; Privacy Hardening: Defaulted AI configuration to local/offline (Ollama), removed process-wide GALAXY_API_KEY propagation, enforced 0600 permissions on recovery .shadow files, sanitized bioinformatics/Galaxy code generators, and hardened C export bounds and UTF-8 handling in export_native.c.</li>
+          <li>Scientific &amp; Citation Fixes: Fixed Zotero/DOI bibliography path resolution (bibliography/references.bib), CAYW locator conversion, PubMed BibTeX escaping, pre-2007 arXiv IDs, session refcount cleanup, and inline math/code rendering order.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.33.0" date="2026-11-18">
-      <description></description>
+      <description>
+        <p>Release v0.33.0 delivers researcher, data scientist, and first-time writer improvements:</p>
+        <ul>
+          <li>LaTeX &amp; Citation Fixes: 3-pass BibTeX/Biber builds, HeaderBar TeX engine selection, native .tex PDF export, arXiv ID lookup, and .tex-aware @ citation completion.</li>
+          <li>DataGridViewer &amp; Polyglot Notebooks: RFC-4180 CSV/TSV parsing, local-file pagination, R rownames, NA-safe sorting, polyglot environment preservation, and Alt+- / Ctrl+Shift+M shortcuts.</li>
+          <li>UI/UX Polish: Fixed Preferences AI provider mapping (all 19 providers), Command Palette tokenized search &amp; shortcuts, Libadwaita Keyboard Shortcuts dialog (Ctrl+?), and Skip-aware onboarding tour.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.32.0" date="2026-11-18">
-      <description></description>
+      <description>
+        <p>Release v0.32.0 adds publisher LaTeX templates, academic citation styles, a first-launch feature tour, open-source presentation decks, and security/stability hardening:</p>
+        <ul>
+          <li>Top 10 LaTeX Publisher Templates &amp; Citation Styles: IEEE, ACM, Springer LNCS, Elsevier, Nature, PLOS, APS, NeurIPS, ICML, and MDPI paired with 10 citation styles.</li>
+          <li>First-Launch Feature Tour: GNOME Tour-style onboarding carousel shown on first startup and via Feature Tour in the app menu.</li>
+          <li>Open-Source Presentation &amp; Beamer Decks: Added LaTeX Beamer, Marp/Lecture Markdown, and TypeScript Reveal.js/Slidev templates.</li>
+          <li>Security, FFI &amp; UI Hardening: Fixed FFI strv termination, outline regex null-dereference, subprocess escaping, archive traversal parsing, and Pango markup warnings.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.31.1" date="2026-11-18">
-      <description></description>
+      <description>
+        <p>Release v0.31.1 fixes a crash when creating a new document:</p>
+        <ul>
+          <li>Fixed a segmentation fault in DocumentPage.ensure_bundled_language_specs() where a non-null-terminated GLib.GenericArray&lt;string&gt;.data pointer array was passed to GtkSource.LanguageManager.set_search_path(), replacing it with a null-terminated Vala string[] array.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.31.0" date="2026-11-18">
-      <description></description>
+      <description>
+        <p>Release v0.31.0 introduces interactive Micromamba toolchain setup on startup, multi-version Python switching, and out-of-the-box PDF/ODT/RTF export:</p>
+        <ul>
+          <li>Interactive Micromamba Setup &amp; Updates: Select only Python, R, LaTeX, HTML/CSS, TypeScript, and Quarto on first launch, update installed components, or install/switch to older Python versions (3.12, 3.11, 3.10, 3.9).</li>
+          <li>Native C Linux Toolchain Backend: Fast uname(2), statvfs(2), fts(3) hardlink-deduplicated disk usage, and conda-meta version detection.</li>
+          <li>Built-in PDF, ODT, and RTF Export: Added a native Cairo/Pango A4 PDF report renderer and zero-dependency zlib OASIS ZIP packager so PDF, ODT, and RTF exports succeed out of the box without external CLI tools.</li>
+        </ul>
+      </description>
     </release>
-    <release version="0.26.0" date="2026-11-15">
-      <description></description>
+    <release version="0.30.0" date="2026-11-18">
+      <description>
+        <p>Release v0.30.0 expands format-aware editing, Elrond AI model control, local inference, and optional toolchain setup:</p>
+        <ul>
+          <li>Additional Document Formats: Added format detection and editor profiles for plain text, CSV, TSV, RStudio projects (.Rproj), and bibliography files.</li>
+          <li>AI Model Controls: Discover and select Gemini models, tune response detail and temperature, or download curated Hugging Face GGUF models for managed llama.cpp.</li>
+          <li>Low-Memory Local Inference: Compact models use capped context and quantized KV caches, CPU-only inference, one sequence, and retained mmap defaults; this reduces memory use but is not a hard RSS cap.</li>
+          <li>Optional Toolchains: Choose the micromamba install folder and select only the R, Python, Quarto, Node/TypeScript, and TeX components needed.</li>
+          <li>Pure Vala/C Native Core: Replaced the Rust FFI layer with native Vala/GLib parsing and rendering, removing Cargo build overhead and streamlining Flatpak builds.</li>
+          <li>Elrond Routing: Configured cloud-provider requests are no longer intercepted by a ready local Elrond server.</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.27.1" date="2026-11-16">
+      <description>
+        <p>Release v0.27.1 resolves Flatpak/CI offline Rust build failures and FlatPark packaging synchronization:</p>
+        <ul>
+          <li>CI &amp; Offline Cargo Fix: Anchored .gitignore build/repo rules and restored complete vendored syn test sources so offline Flatpak and GitHub Actions builds succeed reliably.</li>
+          <li>FlatPark &amp; Toolchain Extension Fix: Synchronized release metadata and marked the optional Toolchain Flatpak add-on with no-autodownload=true to prevent install blocks.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.27.0" date="2026-11-16">
-      <description></description>
+      <description>
+        <p>Release v0.27.0 expands Elrond AI, Rust core manuscript analytics, Quarto engines, and Linux distribution packaging:</p>
+        <ul>
+          <li>Elrond AI Routing &amp; Streaming: Added local intent routing, multi-turn conversation history, and SSE token streaming.</li>
+          <li>Rust Core &amp; Quarto Analytics: Added zero-copy line parsing, expanded Quarto engines/options, and exposed imladris_analyze_manuscript_json via VAPI and NativeCore.</li>
+          <li>Distribution Toolchain Packaging: Added toolchain meta-packages (.deb/.rpm), Flatpak Toolchain add-on extension, and updated landing page documentation.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.26.0" date="2026-11-15">
-      <description></description>
+      <description>
+        <p>Release v0.26.0 introduces the hybrid Rust core (imladris_core) + Vala/GTK4 architecture, format-adaptive UI across all 7 scientific formats (.qmd, .Rmd, .ipynb, .md, .tex, .ts, .html), sequential chunk execution, LaTeX/TypeScript runners, and Flatpak/security hardening:</p>
+        <ul>
+          <li>Hybrid Rust Core (imladris_core): CommonMark + GFM + math/mermaid rendering, lossless Jupyter (.ipynb) round-trip serialization, YAML frontmatter, LaTeX, and TypeScript symbol analyzers over C-ABI.</li>
+          <li>Format-Adaptive UI &amp; Syntax Highlighting: FormatProfile-driven ribbon, headerbar, comments, citations, and embedded GtkSourceView 5 language specs for Quarto, R Markdown, LaTeX, and TypeScript.</li>
+          <li>Polyglot Execution &amp; Compilers: Per-project/tab PersistentSessionManager pool, sequential Gtk.TextMark chunk execution, LatexBuildRunner (.log diagnostics), TypeScriptRunner (tsc/tsx/node/deno/bun), and polyglot R + Python EnvironmentController.</li>
+          <li>Flatpak &amp; Security Hardening: Unified Flatpak permissions (--talk-name=org.freedesktop.Flatpak), hardened Mallorn/plugin archive validation, sanitized CRAN/GitHub package installation, and atomic RecoveryService.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.25.0" date="2026-11-14">
       <description>

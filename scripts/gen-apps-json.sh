@@ -113,7 +113,9 @@ for app_id in "${apps[@]}"; do
     # No --user: flatpak routes to whichever single remote the user configured
     # (system or user). Forcing --user would break a system-only setup. The
     # /setup page still teaches the explicit per-user vs system commands.
-    # An extension installs with its parent, in the same command.
+    # An extension installs with its parent, in the same command. A shared
+    # extension (build.shared) has none: it comes with each app that declares
+    # it, and the command installs it on its own.
     install_cmd="flatpak install $REMOTE_NAME${APP_EXTENDS:+ $APP_EXTENDS} $APP_ID"
     packaging_url="${PACKAGING_REPO_URL%/}/tree/$PACKAGING_BRANCH/registry/$APP_ID"
     {

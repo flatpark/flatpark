@@ -1,0 +1,65 @@
+id: org.openaec.planner
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: open-planner-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app (src-tauri/ in upstream). The binary links WebKitGTK 4.1, GTK 3
+# and libsoup 3, all in GNOME 51; the .deb has nothing beside it.
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # tauri-plugin-clipboard-manager is used only to copy the screenshot in the
+  # feedback dialog (feedbackService.ts). Copy and paste of tasks goes through
+  # the web view's own clipboard, which works on Wayland, so X11 is only the
+  # fallback here; the metainfo documents the --socket=x11 override.
+  - --socket=fallback-x11
+  - --device=dri
+  # The MCP server (AI tab, off by default) binds 127.0.0.1 in mcp_bridge.rs;
+  # an AI client on the host reaches it only when the network namespace is
+  # shared. Also the feedback button (POST to open-feedback-studio.pages.dev),
+  # the extension catalog (extensionService.ts, raw.githubusercontent.com) and
+  # tauri-plugin-updater's release check.
+  - --share=network
+  # No --own-name: tauri-plugin-single-instance 2.4.3 (Cargo.lock; main.rs,
+  # a second launch focuses the running window) owns the Tauri identifier plus
+  # .SingleInstance, org.openaec.planner.SingleInstance. The app id is that
+  # identifier, and Flatpak lets an app own names under its own id.
+  # Not granted:
+  #   No filesystem grant. Files are opened and saved through the file chooser
+  #   (tauri-plugin-dialog 2.7 uses rfd's GtkFileChooserNative, i.e. the
+  #   portal); the plugin adds each chosen path to the fs scope and
+  #   tauri-plugin-persisted-scope keeps it for Recent. Autosave and recovery
+  #   write to the app data dir, which is ~/.var/app/<id>/data.
+  #   No CUPS: reports are exported to PDF, nothing calls the print dialog.
+modules:
+  - name: open-planner-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-planner-studio-wrapper /app/bin/open-planner-studio
+      - install -Dm644 org.openaec.planner.desktop /app/share/applications/org.openaec.planner.desktop
+      - install -Dm644 org.openaec.planner.metainfo.xml /app/share/metainfo/org.openaec.planner.metainfo.xml
+      - install -Dm644 org.openaec.planner.png /app/share/icons/hicolor/512x512/apps/org.openaec.planner.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-planner-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-planner-studio/releases/download/v2026.48.0/Open.Planner.Studio_2026.48.0_amd64.deb
+        sha256: 7f8c1dbf9276e87ad8d8f97dcd834256891b400d65615f7122e4b66afacf0444
+        size: 20516894
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-planner-studio-wrapper
+      - type: file
+        path: org.openaec.planner.desktop
+      - type: file
+        path: org.openaec.planner.metainfo.xml
+      - type: file
+        path: org.openaec.planner.png

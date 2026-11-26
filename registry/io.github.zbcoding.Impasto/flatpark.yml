@@ -1,0 +1,22 @@
+id: io.github.zbcoding.Impasto
+name: Impasto
+summary: Paint and edit images, with editable shape and text objects
+website: https://github.com/zbcoding/ImpastoPaint
+source_url: https://github.com/zbcoding/ImpastoPaint
+build:
+  manifest: io.github.zbcoding.Impasto.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Graphics
+  upstream_approved: true
+  tags:
+    - Paint
+    - ImageEditor
+    - Graphics
+    - GTK
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,60 @@
+id: com.kraken.Desktop
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: kraken
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Live market data and trading over the network.
+  - --share=network
+  # winit window with a wgpu (Vulkan/GL) renderer: Wayland first, X11 when
+  # there is no Wayland session, and the GPU for drawing.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Alert sounds (the binary plays through ALSA, which reaches the desktop's
+  # sound server through this socket).
+  - --socket=pulseaudio
+  # The signed-in session is kept in the Secret Service keyring.
+  - --talk-name=org.freedesktop.secrets
+  # Price and order alerts are posted as desktop notifications.
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: kraken
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 kraken-wrapper /app/bin/kraken
+      - install -Dm644 com.kraken.Desktop.desktop /app/share/applications/com.kraken.Desktop.desktop
+      - install -Dm644 com.kraken.Desktop.metainfo.xml /app/share/metainfo/com.kraken.Desktop.metainfo.xml
+      - install -Dm644 com.kraken.Desktop.png /app/share/icons/hicolor/512x512/apps/com.kraken.Desktop.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: kraken.deb
+        only-arches:
+          - x86_64
+        url: https://desktop-downloads.kraken.com/a68c30e1e1f6f8003b2da0321f5a993143d866b3/kraken-x86_64-debian-linux-gnu.deb
+        sha256: 9049b91f0d627562c2fd8f9e7a4a8034608902fdc10dac56f0db362ba8fa0eff
+        size: 75781132
+      - type: extra-data
+        filename: kraken.deb
+        only-arches:
+          - aarch64
+        url: https://desktop-downloads.kraken.com/a68c30e1e1f6f8003b2da0321f5a993143d866b3/kraken-aarch64-debian-linux-gnu.deb
+        sha256: b0b8d08d64f587f484d297bd8879340467cda52bba6b343b74245e667962aeca
+        size: 73922544
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: kraken-wrapper
+      - type: file
+        path: com.kraken.Desktop.desktop
+      - type: file
+        path: com.kraken.Desktop.metainfo.xml
+      - type: file
+        path: com.kraken.Desktop.png

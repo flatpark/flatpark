@@ -1,0 +1,17 @@
+id: io.github.shadstoneofficial.BobWallet
+name: Bob LearnHNS
+summary: Manage Handshake wallets, names and auctions
+website: https://bobwallet.org/
+source_url: https://github.com/shadstoneofficial/bob-wallet
+build:
+  manifest: io.github.shadstoneofficial.BobWallet.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags: [Wallet, Handshake, DNS, Electron]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

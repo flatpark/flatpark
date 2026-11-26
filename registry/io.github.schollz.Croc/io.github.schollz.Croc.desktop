@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=croc
+GenericName=File Transfer
+Comment=Send and receive files from the terminal
+Exec=croc-desktop
+Terminal=true
+Type=Application
+Categories=Network;FileTransfer;ConsoleOnly;
+StartupNotify=false
+Icon=io.github.schollz.Croc

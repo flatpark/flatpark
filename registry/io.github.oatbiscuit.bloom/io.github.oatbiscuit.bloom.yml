@@ -1,0 +1,53 @@
+id: io.github.oatbiscuit.bloom
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: bloom
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # GTK desktop rendering on Wayland or X11.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+modules:
+  - name: bloom
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 bloom-wrapper /app/bin/bloom
+      - install -Dm644 io.github.oatbiscuit.bloom.desktop /app/share/applications/io.github.oatbiscuit.bloom.desktop
+      - install -Dm644 io.github.oatbiscuit.bloom.service /app/share/dbus-1/services/io.github.oatbiscuit.bloom.service
+      - install -Dm644 io.github.oatbiscuit.bloom.metainfo.xml /app/share/metainfo/io.github.oatbiscuit.bloom.metainfo.xml
+      - install -Dm644 io.github.oatbiscuit.bloom.svg /app/share/icons/hicolor/scalable/apps/io.github.oatbiscuit.bloom.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: bloom.rpm
+        only-arches:
+          - x86_64
+        url: https://github.com/oatbiscuit/bloom/releases/download/v1.1.0/bloom-1.1.0-1.fc45.x86_64.rpm
+        sha256: eb6f3a99d91f4d3013e691ca70bad1ab87f31d2c4b7aa0a02c954808d2d9504d
+        size: 57694
+      - type: extra-data
+        filename: bloom.rpm
+        only-arches:
+          - aarch64
+        url: https://github.com/oatbiscuit/bloom/releases/download/v1.1.0/bloom-1.1.0-1.fc45.aarch64.rpm
+        sha256: 22877bc1ed8bcadbca09eeb656d115f9e2aa67cef26d76f2ab4bdecef3b95719
+        size: 56849
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: bloom-wrapper
+      - type: file
+        path: io.github.oatbiscuit.bloom.desktop
+      - type: file
+        path: io.github.oatbiscuit.bloom.service
+      - type: file
+        path: io.github.oatbiscuit.bloom.metainfo.xml
+      - type: file
+        path: io.github.oatbiscuit.bloom.svg

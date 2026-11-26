@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.zackb.tether</id>
+  <name>Tether</name>
+  <summary>Bridge your iPhone to the Linux desktop</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.zackb"><name>Zack Bartel</name></developer>
+  <url type="homepage">https://github.com/zackb/tether</url>
+  <url type="bugtracker">https://github.com/zackb/tether/issues</url>
+  <url type="vcs-browser">https://github.com/zackb/tether</url>
+  <description>
+    <p>This is a community package of Tether. It runs the official Ubuntu 26.04 build from upstream's releases unmodified, with gtk-layer-shell and btmgmt from Debian added beside it.</p>
+    <p>Tether brings iPhone continuity features to Linux: messages and contacts, notification mirroring, file transfer, phone calls and AirPods, over Wi-Fi and Bluetooth LE.</p>
+    <p>The Bluetooth features need a one-time setup on the host system. This command prints the commands for your machine:</p>
+    <ul>
+      <li><code>flatpak run --command=tether io.github.zackb.tether --bt-setup</code></li>
+    </ul>
+    <p>On a firewalled system, open TCP port 5134 and UDP port 5353 for the Wi-Fi route. Received files are saved to your Downloads folder.</p>
+    <p>Clipboard sync is not available in this package: it needs a Wayland protocol that compositors don't offer to sandboxed apps.</p>
+  </description>
+  <launchable type="desktop-id">io.github.zackb.tether.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A conversation in the Messages view, with the conversation list beside it</caption>
+      <image>https://raw.githubusercontent.com/zackb/tether/v0.3.6/docs/img/messages.webp</image>
+    </screenshot>
+  </screenshots>
+  <categories><category>Network</category><category>Utility</category></categories>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+  </content_rating>
+  <branding>
+    <color type="primary" scheme_preference="light">#eaeef2</color>
+    <color type="primary" scheme_preference="dark">#21262d</color>
+  </branding>
+  <provides><binary>tether-gtk</binary></provides>
+  <releases>
+    <release version="0.3.6" date="2026-11-18">
+      <description></description>
+    </release>
+  </releases>
+</component>

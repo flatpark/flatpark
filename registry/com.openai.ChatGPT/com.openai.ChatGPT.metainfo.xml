@@ -22,8 +22,7 @@
     <p>Permissions: this package grants network, display, GPU, audio, tray and keyring access, plus the two directories Codex owns on the host — ~/.codex for its configuration, credentials and session history, and ~/.cache/codex-runtimes for the runtimes it downloads — so the app and a Codex CLI installed on the host share one login and one runtime cache. Nothing else in your home directory is visible. To let Codex work on a project, grant that directory yourself, one at a time:</p>
     <p>flatpak override --user --filesystem=~/code/myproject com.openai.ChatGPT</p>
     <p>Review or undo what you have granted with "flatpak override --user --show com.openai.ChatGPT" and "flatpak override --user --reset com.openai.ChatGPT". Commands the agent runs otherwise execute inside the sandbox, against the runtime's tools rather than your host toolchain. OpenAI's Linux preview does not include Computer Use.</p>
-    <p>One exception, and it is worth understanding before you use the agent on a repository: the runtime ships no git, so this package puts a shim on the path that runs your host's git through flatpak-spawn. That is what makes the agent work with your own ~/.gitconfig, credential helper and SSH keys, and it is also a hole in the sandbox — git runs hooks, aliases, pagers and core.sshCommand, so anything reached that way executes on the host. Close it, at the cost of git support, with:</p>
-    <p>flatpak override --user --no-talk-name=org.freedesktop.Flatpak com.openai.ChatGPT</p>
+    <p>git comes from the Freedesktop SDK inside the sandbox, not from your system. It reads your ~/.gitconfig and ~/.config/git read-only and uses your SSH agent, so commits carry your identity and SSH remotes work; hooks and aliases run inside the sandbox. A credential helper that lives on your system (such as gh or libsecret) is not available, so HTTPS remotes that need it will ask for credentials or fail.</p>
   </description>
   <content_rating type="oars-1.1"/>
   <categories>
@@ -53,6 +52,12 @@
   </provides>
   <launchable type="desktop-id">com.openai.ChatGPT.desktop</launchable>
   <releases>
+    <release version="26.1120.50957" date="2026-11-25">
+      <description></description>
+    </release>
+    <release version="26.1120.41243" date="2026-11-24">
+      <description></description>
+    </release>
     <release version="26.1117.41037" date="2026-11-21">
       <description></description>
     </release>

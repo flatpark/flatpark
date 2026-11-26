@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- File types the viewer opens that shared-mime-info does not define, so that the MimeType
+     entries of org.openaec.Open3DViewer.desktop match files. Installed to
+     /usr/share/mime/packages; the shared-mime-info package triggers update-mime-database. -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="model/vnd.3dm">
+    <comment>Rhino 3D model</comment>
+    <alias type="application/x-3dm"/>
+    <glob pattern="*.3dm"/>
+    <magic priority="50">
+      <match type="string" value="3D Geometry File Format " offset="0"/>
+    </magic>
+  </mime-type>
+  <mime-type type="application/x-samjson">
+    <comment>Structural analysis model (sam-json)</comment>
+    <sub-class-of type="application/json"/>
+    <glob pattern="*.samjson"/>
+  </mime-type>
+</mime-info>

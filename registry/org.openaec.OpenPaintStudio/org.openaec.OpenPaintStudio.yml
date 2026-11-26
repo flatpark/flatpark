@@ -1,0 +1,64 @@
+id: org.openaec.OpenPaintStudio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: openaec-paint-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app. The binary links WebKitGTK 4.1, GTK 3 and libsoup 3, all in
+# GNOME 51; the .deb has nothing beside it (Depends: libwebkit2gtk-4.1-0,
+# libgtk-3-0). Its only plugins are dialog, fs and store (src-tauri/Cargo.toml):
+# no single-instance, clipboard-manager or updater, so no bus name, X11 or
+# network grant follows from them.
+finish-args:
+  # Display. The window is drawn by WebKitGTK; GTK picks Wayland when it can.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # WebKitGTK renders the canvas with the GPU.
+  - --device=dri
+  # Deliberately not granted:
+  #   Files: opening goes through an <input type=file> (WebKitGTK's
+  #   GtkFileChooserNative) and saving through tauri-plugin-dialog (rfd 0.16,
+  #   gtk_file_chooser_native_new), both of which use the file chooser portal;
+  #   the written path is the one the portal returns. Files opened from the
+  #   file manager come through the document portal.
+  #   Network: the editor, its ImageMagick WebAssembly decoder and its fonts
+  #   are local. The only network use is Automation > Connect API, which talks
+  #   to upstream's separate Node API service on 127.0.0.1:47831; that service
+  #   is not part of the desktop build. The metainfo gives the override.
+modules:
+  - name: open-paint-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-paint-studio-wrapper /app/bin/openaec-paint-studio
+      - install -Dm644 org.openaec.OpenPaintStudio.desktop /app/share/applications/org.openaec.OpenPaintStudio.desktop
+      - install -Dm644 org.openaec.OpenPaintStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenPaintStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenPaintStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenPaintStudio.png
+      # The .deb's shared-mime-info file (.ifcx and .ifcxb). Flatpak exports a
+      # MIME package only under the app id.
+      - install -Dm644 org.openaec.OpenPaintStudio.mime.xml /app/share/mime/packages/org.openaec.OpenPaintStudio.xml
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-paint-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/open-paint-studio/releases/download/v2026.48.1/OpenAEC-Paint-Studio_2026.48.1_amd64.deb
+        sha256: e5be45aaedca660457ab2139111b0839d27a9d3ba3b4de199624f75f499a15eb
+        size: 8927872
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-paint-studio-wrapper
+      - type: file
+        path: org.openaec.OpenPaintStudio.desktop
+      - type: file
+        path: org.openaec.OpenPaintStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenPaintStudio.png
+      - type: file
+        path: org.openaec.OpenPaintStudio.mime.xml

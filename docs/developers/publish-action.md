@@ -102,10 +102,11 @@ workflow never holds a FlatPark credential.
   unknown app id, 400 for a tag that isn't a release, 403 for a repository
   that isn't the app's source, 422 for an app without a GitHub source, 429 when
   rate-limited.
-- **`release-dispatch.yml`** recomputes that one app's pins, unpacks the new
-  payload with `check-apply-extra.sh`, opens `auto/release-<app-id>`, and merges
-  it when the diff stays within the app's manifest and metainfo, the same
-  terms as the twice-daily `update-check.yml`. The repository variable
+- **`upstream-publish.yml`** passes the ping to `update-app.yml`, the
+  single-app update (also runnable by hand). It recomputes that app's pins,
+  unpacks the new payload with `check-apply-extra.sh`, opens
+  `auto/release-<app-id>`, and merges it when the diff stays within the app's
+  manifest and metainfo, the same terms as the twice-daily `update-check.yml`. The repository variable
   `AUTO_MERGE_PINS=false` stops both from merging.
 - **Several releases on one day** give several small PRs, each published on its
   own. The twice-daily sweep supersedes any per-app PR still open.

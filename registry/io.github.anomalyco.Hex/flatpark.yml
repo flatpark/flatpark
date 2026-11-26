@@ -1,0 +1,18 @@
+id: io.github.anomalyco.Hex
+name: Hex
+summary: Local voice dictation for your desktop
+website: https://anoma.ly/hex/
+source_url: https://github.com/anomalyco/hex
+build:
+  manifest: io.github.anomalyco.Hex.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Utility
+  tags: [Dictation, Accessibility, Speech]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

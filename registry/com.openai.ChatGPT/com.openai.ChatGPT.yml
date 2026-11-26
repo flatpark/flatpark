@@ -1,5 +1,9 @@
 id: com.openai.ChatGPT
-runtime: org.freedesktop.Platform
+# Sdk, not Platform: the bundled Codex agent shells out to git constantly, and
+# the Sdk ships git (with ssh, python3, make and compilers) inside the sandbox.
+# This replaced a flatpak-spawn shim to the host's git, which needed
+# --talk-name=org.freedesktop.Flatpak and ran hooks and aliases on the host.
+runtime: org.freedesktop.Sdk
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
 # Electron app: use the Electron base app, which ships zypak. zypak redirects
@@ -42,16 +46,13 @@ finish-args:
   # bind and loses everything it writes.
   - --filesystem=~/.codex:create
   - --filesystem=~/.cache/codex-runtimes:create
-  # The Freedesktop runtime ships no git, and the bundled Codex agent shells out
-  # to it constantly. /app/bin/git is a shim that runs the host's git through
-  # flatpak-spawn (see git-host), so the agent works with the user's own
-  # ~/.gitconfig, credential helper and SSH keys on the directories they granted.
-  # This is a genuine widening: git executes hooks, aliases, pagers and
-  # core.sshCommand, so what goes through the shim runs on the host, outside the
-  # sandbox. Declared in flatpark.yml policy.dangerous_permissions and spelled
-  # out in the metainfo so a user can turn it off with
-  # `flatpak override --user --no-talk-name=org.freedesktop.Flatpak`.
-  - --talk-name=org.freedesktop.Flatpak
+  # git identity and settings for the Sdk's git. Read-only: `git config
+  # --global` writes by rename, which a bind-mounted single file can't take
+  # (EBUSY), and the sandbox shouldn't rewrite host config anyway.
+  - --filesystem=~/.gitconfig:ro
+  - --filesystem=xdg-config/git:ro
+  # git over SSH (push, fetch, submodules) with the host's agent.
+  - --socket=ssh-auth
   # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
   # zypak's spawned child/zygote processes, which the wrapper's own `unset`
   # can't reach — always start as the GUI app rather than as plain Node.
@@ -70,7 +71,6 @@ modules:
     build-commands:
       - install -Dm755 apply_extra.sh /app/bin/apply_extra
       - install -Dm755 chatgpt-wrapper /app/bin/chatgpt
-      - install -Dm755 git-host /app/bin/git
       - install -Dm644 com.openai.ChatGPT.desktop /app/share/applications/com.openai.ChatGPT.desktop
       - install -Dm644 com.openai.ChatGPT.metainfo.xml /app/share/metainfo/com.openai.ChatGPT.metainfo.xml
       - install -Dm644 com.openai.ChatGPT.png /app/share/icons/hicolor/512x512/apps/com.openai.ChatGPT.png
@@ -80,23 +80,21 @@ modules:
         filename: chatgpt.deb
         only-arches:
           - x86_64
-        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1117.41037_amd64.deb
-        sha256: 830e251b6ca4ad45fe6904127a790e8f00f7c26ed4c8039473f7323c7c4e2692
-        size: 534451850
+        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1120.50957_amd64.deb
+        sha256: e8ab38df96d6070fd5d4582a606490637728243bb529e9edae19b3f0a6e664d2
+        size: 501426562
       - type: extra-data
         filename: chatgpt.deb
         only-arches:
           - aarch64
-        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1117.41037_arm64.deb
-        sha256: 714146e9c667b26a1bd4e57633c544334a9ed47c399989bfd98cf764140bdc53
-        size: 519472018
+        url: https://persistent.oaistatic.com/codex-app-prod/linux/deb/pool/main/c/chatgpt/chatgpt_26.1120.50957_arm64.deb
+        sha256: d11adb9a13d21bc5f514885924207af0e8689a978328550e3a43895a69603d89
+        size: 486767614
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
       - type: file
         path: chatgpt-wrapper
-      - type: file
-        path: git-host
       - type: file
         path: com.openai.ChatGPT.desktop
       - type: file

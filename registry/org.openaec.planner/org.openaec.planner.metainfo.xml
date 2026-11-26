@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openaec.planner</id>
+  <name>Open Planner Studio</name>
+  <summary>Plan construction projects with Gantt charts and the critical path</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-3.0-or-later</project_license>
+  <developer id="org.openaec">
+    <name>OpenAEC Foundation</name>
+  </developer>
+  <url type="homepage">https://open-aec.com/open-planner-studio/</url>
+  <url type="bugtracker">https://github.com/OpenAEC-Foundation/open-planner-studio/issues</url>
+  <url type="vcs-browser">https://github.com/OpenAEC-Foundation/open-planner-studio</url>
+  <description>
+    <p>This is a community package of Open Planner Studio, maintained independently and unaffiliated with the OpenAEC Foundation. It repackages the official upstream Linux build unmodified.</p>
+    <p>Open Planner Studio is a scheduling application for the construction industry. It calculates a schedule with the Critical Path Method and shows it as a Gantt chart with float, baselines, progress, resources and levelling, work calendars and public and building-trade holidays. Calculation profiles follow Primavera P6, Microsoft Project or its own conventions.</p>
+    <p>It opens Microsoft Project (MPP and XML) and Primavera P6 (XER and XML) files, exports MS Project XML, P6 XML and CSV, and saves projects as IFC 4.3. Eleven report types export to PDF. A built-in MCP server, off by default, lets an AI assistant read and edit the open schedule.</p>
+    <p>Sandbox: display, GPU and network. Network is for the MCP server, which listens on localhost for an AI client on this computer, and for the feedback button and the extension catalog. Connect an AI client with the address and token shown in the AI tab's connection details. Files are opened and saved through the file chooser. The app's own update check may report a new version before it reaches FlatPark; updates are installed with flatpak update.</p>
+    <p>Optional, not granted by default:</p>
+    <ul>
+      <li>Copy the screenshot in the feedback dialog to the clipboard: <code>flatpak override --user --socket=x11 org.openaec.planner</code></li>
+      <li>Undo: <code>flatpak override --user --reset org.openaec.planner</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">org.openaec.planner.desktop</launchable>
+  <categories>
+    <category>Office</category>
+    <category>ProjectManagement</category>
+  </categories>
+  <keywords>
+    <keyword>gantt</keyword>
+    <keyword>schedule</keyword>
+    <keyword>critical path</keyword>
+    <keyword>construction</keyword>
+    <keyword>Primavera</keyword>
+    <keyword>MS Project</keyword>
+    <keyword>IFC</keyword>
+  </keywords>
+  <screenshots>
+    <screenshot type="default">
+      <caption>A construction schedule with the critical path and float</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-planner-studio/v2026.47.0/docs/images/readme/critical-path.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Editing tasks in the spreadsheet-style table</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-planner-studio/v2026.47.0/docs/images/readme/table-editing.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The resource histogram with overallocation</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-planner-studio/v2026.47.0/docs/images/readme/resources-histogram.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A report with live preview</caption>
+      <image>https://raw.githubusercontent.com/OpenAEC-Foundation/open-planner-studio/v2026.47.0/docs/images/readme/report-preview.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  <provides>
+    <binary>open-planner-studio</binary>
+  </provides>
+  <releases>
+    <release version="2026.48.0" date="2026-11-23">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-planner-studio/releases/tag/v2026.48.0</url>
+      <description></description>
+    </release>
+    <release version="2026.47.0" date="2026-11-17">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-planner-studio/releases/tag/v2026.47.0</url>
+      <description>
+        <p>Official Linux build 2026.47.0.</p>
+      </description>
+    </release>
+  </releases>
+</component>

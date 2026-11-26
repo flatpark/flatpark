@@ -19,9 +19,11 @@ Check these before writing anything. An app can be listed when:
   asks), and if a third party packages it there, that package is missing a
   feature, has fallen behind or has stopped working
   ([below](#apps-already-on-flathub)).
-- **Its developer hasn't declined a listing.** Apps in the
-  [Declined](../reference/upstream-approvals.md#declined) table are not
-  packaged again, and their developers are not asked again.
+- **It hasn't been de-listed or declined.** Apps in
+  [de-listed apps](../reference/delisted.md) come back only on the condition
+  their section names. A developer who [declined](../reference/delisted.md#declined)
+  or [didn't back](../reference/delisted.md#upstream-didnt-back-it) the listing
+  is not asked again; only their own public yes brings the app back.
 
 The toolkit doesn't matter (Electron and Tauri apps are welcome), the licence
 doesn't matter, and neither does how the app was written: an app is judged by
@@ -41,8 +43,9 @@ what it does, not by whether someone calls it AI-made
     ([how](permissions.md#declaring-high-risk-permissions));
   - it has fallen far behind upstream, or no longer works at all.
 
-  The reason goes in the PR, and the app's description says how our package
-  differs from the Flathub one.
+  The reason goes in the PR and in
+  [apps also on Flathub](../reference/flathub-overlap.md), and the app's
+  description says how our package differs from the Flathub one.
 - **An app already on FlatPark whose developer later publishes it on Flathub**
   stays, unless the developer asks for it to be removed.
 

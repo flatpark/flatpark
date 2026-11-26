@@ -43,16 +43,16 @@ modules:
         filename: yt-dlp.zip
         only-arches:
           - x86_64
-        url: https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp_linux.zip
-        sha256: f34053415136e55073dd64ba5326d161ecc23ce0e98c081d8752867b37809450
-        size: 41236547
+        url: https://github.com/yt-dlp/yt-dlp/releases/download/2026.11.23/yt-dlp_linux.zip
+        sha256: cc4a3aa98fb438a1dac04a6fb006fe57acbeed00fc12db9ec84e3036dbbe6ccb
+        size: 41243981
       - type: extra-data
         filename: yt-dlp.zip
         only-arches:
           - aarch64
-        url: https://github.com/yt-dlp/yt-dlp/releases/download/2026.10.26/yt-dlp_linux_aarch64.zip
-        sha256: 74708e707e8fa8177c8347e58152337edf320149cd7b225defd453f7cde47822
-        size: 40835009
+        url: https://github.com/yt-dlp/yt-dlp/releases/download/2026.11.23/yt-dlp_linux_aarch64.zip
+        sha256: e80b05e7e7ae5e2b7ff480937b51699c733563bfa5c185a19dfceadc4e6191bf
+        size: 40843663
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -1,0 +1,18 @@
+id: io.github.michael_lazar.MoebiusBeyond
+name: Moebius Beyond
+summary: Create and edit ANSI and ASCII art
+website: https://github.com/michael-lazar/moebius-beyond
+source_url: https://github.com/michael-lazar/moebius-beyond
+build:
+  manifest: io.github.michael_lazar.MoebiusBeyond.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags: [ANSI, ASCII, Art, Editor, Electron]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

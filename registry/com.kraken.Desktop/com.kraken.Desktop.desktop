@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Kraken Desktop
+Comment=Real-time crypto market dashboards and trading
+Exec=kraken %u
+Icon=com.kraken.Desktop
+Terminal=false
+StartupWMClass=kraken
+Categories=Office;Finance;
+Keywords=crypto;bitcoin;trading;exchange;charts;
+MimeType=x-scheme-handler/kraken;

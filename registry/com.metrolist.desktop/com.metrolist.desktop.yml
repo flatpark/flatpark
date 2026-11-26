@@ -14,12 +14,17 @@ separate-locales: false
 build-options:
   no-debuginfo: true
 finish-args:
-  # Java/Compose Desktop app with its own bundled Java runtime. Java's AWT is
-  # X11-only, and upstream's launcher keeps GDK on x11 so the embedded GTK
-  # sign-in window can be parented to the AWT window. It runs on XWayland in a
-  # Wayland session, so x11 (not fallback-x11) is granted.
+  # Java/Compose Desktop app with its own bundled Java runtime. Both display
+  # sockets, as upstream's manifest grants. With DISPLAY set the app keeps to
+  # AWT on X11 (XWayland in a Wayland session) and GDK on x11, so the embedded
+  # GTK sign-in window can be parented to the AWT window; x11, not
+  # fallback-x11, keeps that path. The Wayland socket is for upstream's native
+  # Wayland mode (MetrolistGroup/Metrolist#5264): with no DISPLAY, or with
+  # METROLIST_USE_WAYLAND=1, windows open through the Tao backend and sign-in
+  # pages through a WebKitGTK view drawn on Wayland.
   - --share=ipc
   - --socket=x11
+  - --socket=wayland
   # GPU-accelerated Compose rendering and FFmpeg's VA-API decoding.
   - --device=dri
   # Playback.

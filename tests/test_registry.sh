@@ -78,4 +78,11 @@ sed -i 's/^  arches: .*/  arches: [x86_64, riscv64]/' "$reg/io.flatpark.TestArm/
 if node "$ROOT/scripts/read-descriptor.mjs" "$reg/io.flatpark.TestArm/flatpark.yml" >/dev/null 2>&1; then
     echo "FAIL: unknown arch accepted"; exit 1
 fi
+# Every app on the flatpark-spawn allow-list is in the registry: an id left
+# there after the app leaves would hand the next package with that id a way
+# out of the sandbox without review.
+while IFS= read -r id; do
+    [ -f "$ROOT/registry/$id/flatpark.yml" ] \
+        || { echo "FAIL: config/flatpark-spawn.yml lists $id, which is not in the registry"; exit 1; }
+done < <(node "$ROOT/scripts/flatpark-spawn.mjs")
 echo "test_registry: PASS"

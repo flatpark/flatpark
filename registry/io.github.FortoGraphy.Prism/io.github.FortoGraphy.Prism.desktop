@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Prism Download Manager
+Comment=Multi-connection download manager
+Exec=prism %U
+Icon=io.github.FortoGraphy.Prism
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+StartupWMClass=Prism

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.michael_lazar.MoebiusBeyond</id>
+  <launchable type="desktop-id">io.github.michael_lazar.MoebiusBeyond.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <name>Moebius Beyond</name>
+  <summary>Create and edit ANSI and ASCII art</summary>
+  <developer id="io.github.michael_lazar"><name>Michael Lazar</name></developer>
+  <url type="homepage">https://github.com/michael-lazar/moebius-beyond</url>
+  <url type="bugtracker">https://github.com/michael-lazar/moebius-beyond/issues</url>
+  <url type="vcs-browser">https://github.com/michael-lazar/moebius-beyond</url>
+  <description>
+    <p>Moebius Beyond is an editor for ANSI and ASCII art, with support for custom fonts and colours, reference images, and XBin files.</p>
+    <p>This community package is independently maintained and repackages the official Linux build unmodified.</p>
+  </description>
+  <screenshots><screenshot type="default"><image>https://raw.githubusercontent.com/michael-lazar/moebius-beyond/main/example.png</image><caption>Editing ANSI art with a reference image</caption></screenshot></screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Graphics</category><category>2DGraphics</category></categories>
+  <releases><release version="3.8.3" date="2026-09-20"/></releases>
+</component>

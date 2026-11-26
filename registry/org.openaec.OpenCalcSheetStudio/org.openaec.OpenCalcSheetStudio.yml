@@ -1,0 +1,63 @@
+id: org.openaec.OpenCalcSheetStudio
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: open-calcsheet-studio
+separate-locales: false
+build-options:
+  no-debuginfo: true
+# Tauri 2 app (packages/desktop/src-tauri/ in upstream). The binary links
+# WebKitGTK 4.1, GTK 3 and libsoup 3, all in GNOME 51. The .deb carries its
+# resources in usr/lib/Open CalcSheet Studio: the JupyterLite/Pyodide bundle
+# (runs inside the web view) and the Open FEM Studio server (links only libc).
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  # No clipboard plugin (Cargo.toml); copy and paste go through the web view.
+  - --socket=fallback-x11
+  - --device=dri
+  # The weights library and the module library are fetched from upstream's
+  # GitHub repositories (store/library.ts, store/moduleBibliotheek.ts); the
+  # location picker loads OpenStreetMap tiles; ERPNext and the feedback form
+  # are online. The MCP bridge binds 127.0.0.1 (mcp_bridge.rs); a host AI
+  # client reaches it only through the shared network namespace.
+  - --share=network
+  # The report goes out through the print dialog (Ctrl+P, App.tsx
+  # window.print()); the direct-to-PDF export is not offered on Linux. The GTK
+  # print dialog lists printers over IPP to the CUPS socket.
+  - --socket=cups
+  # Not granted; the metainfo documents the override:
+  #   org.freedesktop.secrets: only the optional ERPNext connection keeps its
+  #   API secret in the keyring (erpnext.rs).
+  #   No filesystem grant: projects are opened and saved through the file
+  #   chooser (tauri-plugin-dialog, GtkFileChooserNative, i.e. the portal).
+  #   No single-instance plugin, so no bus name to own.
+modules:
+  - name: open-calcsheet-studio
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 open-calcsheet-studio-wrapper /app/bin/open-calcsheet-studio
+      - install -Dm644 org.openaec.OpenCalcSheetStudio.desktop /app/share/applications/org.openaec.OpenCalcSheetStudio.desktop
+      - install -Dm644 org.openaec.OpenCalcSheetStudio.metainfo.xml /app/share/metainfo/org.openaec.OpenCalcSheetStudio.metainfo.xml
+      - install -Dm644 org.openaec.OpenCalcSheetStudio.png /app/share/icons/hicolor/512x512/apps/org.openaec.OpenCalcSheetStudio.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: open-calcsheet-studio.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/OpenAEC-Foundation/Open-CalcSheet-Studio/releases/download/v2026.47.3/Open.CalcSheet.Studio_2026.47.3_amd64.deb
+        sha256: 16daef6e7d669149c7842c149ec9ae3536d580341b8b874be5116b8135c212ed
+        size: 87572644
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: open-calcsheet-studio-wrapper
+      - type: file
+        path: org.openaec.OpenCalcSheetStudio.desktop
+      - type: file
+        path: org.openaec.OpenCalcSheetStudio.metainfo.xml
+      - type: file
+        path: org.openaec.OpenCalcSheetStudio.png

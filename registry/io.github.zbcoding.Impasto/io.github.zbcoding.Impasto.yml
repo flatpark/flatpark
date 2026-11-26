@@ -1,0 +1,58 @@
+id: io.github.zbcoding.Impasto
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: impasto
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Impasto is a self-contained .NET / GTK4 (libadwaita) app: the upstream zip
+  # bundles its own CoreCLR, so only libgtk-4, libadwaita, cairo, pango and ICU
+  # are resolved from the GNOME runtime.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Printing (Image > Print) talks to the CUPS socket.
+  - --socket=cups
+  # No --share=network: Impasto is fully offline. Images are opened and saved
+  # through the file-chooser portal, which grants access to whatever the user
+  # picks; the three xdg dirs below just make the common defaults work without a
+  # portal round-trip. There is no static grant on $HOME.
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  # Read-only access to the data of the previous id, com.github.zbcoding.Impasto.
+  # On first start the app copies its settings, autosaves and recent files from
+  # there into its own ~/.var/app directory; it never writes to the old one.
+  - --filesystem=~/.var/app/com.github.zbcoding.Impasto:ro
+modules:
+  - name: impasto
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 impasto-wrapper /app/bin/impasto
+      - install -Dm644 io.github.zbcoding.Impasto.desktop /app/share/applications/io.github.zbcoding.Impasto.desktop
+      - install -Dm644 io.github.zbcoding.Impasto.metainfo.xml /app/share/metainfo/io.github.zbcoding.Impasto.metainfo.xml
+      - install -Dm644 io.github.zbcoding.Impasto.svg /app/share/icons/hicolor/scalable/apps/io.github.zbcoding.Impasto.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: impasto.zip
+        only-arches:
+          - x86_64
+        url: https://github.com/zbcoding/ImpastoPaint/releases/download/v0.7.6/Impasto-linux-dotnet-10.0.x.zip
+        sha256: 0f777b1e2339810cedd432e44ffd9253314a086ebedfd575051c0d8cdb2744b0
+        size: 42336709
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: impasto-wrapper
+      - type: file
+        path: io.github.zbcoding.Impasto.desktop
+      - type: file
+        path: io.github.zbcoding.Impasto.metainfo.xml
+      - type: file
+        path: io.github.zbcoding.Impasto.svg

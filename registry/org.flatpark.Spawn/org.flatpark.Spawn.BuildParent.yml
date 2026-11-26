@@ -1,0 +1,25 @@
+# Build-time stand-in for the parent org.flatpark.Spawn does not have
+# (build.shared in flatpark.yml). flatpak-builder needs an installed ref
+# declaring the extension point to build an extension (`build-extension:
+# true`); build-app.sh makes that ref from this manifest
+# (install-parent-skeleton.sh --manifest), installs it into the user
+# installation for the build and removes it afterwards. It is never built
+# into the published repo. Its runtime becomes the extension's apply_extra
+# runtime. Same as packaging/build-parent/ in flatpark/flatpark-spawn.
+app-id: org.flatpark.Spawn.BuildParent
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: build-parent
+add-extensions:
+  org.flatpark.Spawn:
+    directory: lib/flatpark-spawn
+    version: '1'
+modules:
+  - name: build-parent
+    buildsystem: simple
+    build-commands:
+      - printf '#!/bin/sh\nexit 0\n' > build-parent
+      - install -Dm755 build-parent /app/bin/build-parent
+      # flatpak-builder mounts the extension being built here.
+      - mkdir -p /app/lib/flatpark-spawn

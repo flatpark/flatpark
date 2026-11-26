@@ -1,0 +1,69 @@
+id: io.hypersomnia.Hypersomnia
+# The AppImage bundles its C++ runtime libraries. Freedesktop supplies the
+# graphics, windowing and audio libraries, and the wrapper points the game
+# at its sandboxed XDG_CONFIG_HOME.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: hypersomnia
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # X11 shared memory, for the fallback path on X11 sessions.
+  - --share=ipc
+  # GLFW is built with both backends: a native Wayland window on Wayland
+  # sessions, X11 elsewhere.
+  - --socket=wayland
+  - --socket=fallback-x11
+  # OpenGL rendering of the game and the map editor.
+  - --device=dri
+  # Sound effects and music through OpenAL, which uses the runtime's PulseAudio
+  # socket (PipeWire-pulse on current desktops).
+  - --socket=pulseaudio
+  # The main feature is online multiplayer: the master server list, joining and
+  # hosting a game, the tournament server, and the in-game server browser.
+  - --share=network
+  # No filesystem grants. Everything the game keeps - config, keys, logs,
+  # demos, editor projects and downloaded maps - lives under
+  # $XDG_CONFIG_HOME/Hypersomnia, which Flatpak points at
+  # ~/.var/app/io.hypersomnia.Hypersomnia/config/Hypersomnia.
+modules:
+  - name: hypersomnia
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hypersomnia-wrapper /app/bin/hypersomnia
+      - install -Dm644 io.hypersomnia.Hypersomnia.desktop /app/share/applications/io.hypersomnia.Hypersomnia.desktop
+      - install -Dm644 io.hypersomnia.Hypersomnia.metainfo.xml /app/share/metainfo/io.hypersomnia.Hypersomnia.metainfo.xml
+      - install -Dm644 io.hypersomnia.Hypersomnia.png /app/share/icons/hicolor/256x256/apps/io.hypersomnia.Hypersomnia.png
+    sources:
+      # Kept outside the managed block, which update-pins rebuilds from the
+      # resolver's output. The runtime has no SquashFS tool, so apply_extra
+      # uses this stack to open the AppImage without running it.
+      - type: extra-data
+        filename: appimage-tools.tar.xz
+        only-arches:
+          - x86_64
+        url: https://github.com/flatpark/prebuilt/releases/download/appimage-tools-v2/appimage-tools-appimage-tools-v2-fd-26.08-x86_64.tar.xz
+        sha256: 01ff0b363031060c3d9877bc61b026a1a7422308fd9e5cfda53cc24971b12304
+        size: 57220
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: Hypersomnia.AppImage
+        only-arches:
+          - x86_64
+        url: https://hypersomnia.io/builds/4.5.0/Hypersomnia.AppImage
+        sha256: a448497e8031f206fd3b6f261d389640f6f8430e1fa640eb7c244a4904205ff0
+        size: 44055032
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hypersomnia-wrapper
+      - type: file
+        path: io.hypersomnia.Hypersomnia.desktop
+      - type: file
+        path: io.hypersomnia.Hypersomnia.metainfo.xml
+      - type: file
+        path: io.hypersomnia.Hypersomnia.png

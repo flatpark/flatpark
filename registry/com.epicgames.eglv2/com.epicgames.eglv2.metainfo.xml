@@ -21,7 +21,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Browse and launch games from your library</caption>
-      <image>https://launcher.epicgames.com/speed/library-v7.webp</image>
+      <image>https://launcher.epicgames.com/speed/library-v8.webp</image>
     </screenshot>
     <screenshot>
       <caption>Manage game downloads and installations</caption>
@@ -50,6 +50,15 @@
     <binary>epic-games-launcher</binary>
   </provides>
   <releases>
+    <release version="0.123.0" date="2026-11-25">
+      <description></description>
+    </release>
+    <release version="0.122.0" date="2026-11-24">
+      <description></description>
+    </release>
+    <release version="0.121.0" date="2026-11-23">
+      <description></description>
+    </release>
     <release version="0.120.0" date="2026-11-21">
       <description></description>
     </release>

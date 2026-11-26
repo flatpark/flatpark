@@ -1,0 +1,85 @@
+id: ai.x.GrokBot
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: use the Electron base app, which ships zypak. zypak redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox so the app keeps an internal
+# sandbox (the wrapper runs it via zypak-wrapper) instead of --no-sandbox. The
+# base is a prebuilt ref merged into the app at build time; the official
+# upstream application tree is fetched as extra-data and left unmodified.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: grok-bot
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron desktop app for Grok Bot. The official Debian package bundles the
+  # Chromium/Electron application tree and native Node addons; the GTK3, NSS,
+  # ATK, CUPS, DRM/GBM, ALSA and X11 stacks it links come from
+  # org.freedesktop.Platform 26.08.
+  - --share=ipc
+  # Account sign-in, chat, cloud computer connections, MCP integrations and
+  # optional desktop egress routing.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Chromium compositing and GPU rasterisation.
+  - --device=dri
+  # Voice calls, voice notes and notification sounds.
+  - --socket=pulseaudio
+  # Desktop notifications for bot updates and approval prompts.
+  - --talk-name=org.freedesktop.Notifications
+  # Encrypt stored login credentials with the desktop keyring. Electron's
+  # safeStorage uses Secret Service, or KWallet on KDE, where Chromium picks
+  # KWallet itself (the wrapper leaves KDE alone). Without the KWallet names
+  # the bus proxy hides kwalletd, safeStorage reports unavailable, and the app
+  # keeps its sign-in in memory only, so every restart logs the user out.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Strip a leaked ELECTRON_RUN_AS_NODE from the sandbox env so the binary — and
+  # zypak's spawned child/zygote processes, which the wrapper's own `unset`
+  # can't reach — always start as the GUI app rather than as plain Node.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+  # Deliberately NOT granted by default (documented as opt-in in the metainfo):
+  #   --filesystem=~/Projects or =home     -> local project/file access
+  #   --talk-name=org.freedesktop.Flatpak  -> running host commands via flatpak-spawn
+  # The core app works with its cloud computer and keeps all local state under
+  # Flatpak's redirected XDG directories (SAND_DATA_ROOT=$XDG_DATA_HOME/grokbot).
+modules:
+  - name: grok-bot
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 grok-bot-wrapper /app/bin/grok-bot
+      - install -Dm644 ai.x.GrokBot.desktop /app/share/applications/ai.x.GrokBot.desktop
+      - install -Dm644 ai.x.GrokBot.metainfo.xml /app/share/metainfo/ai.x.GrokBot.metainfo.xml
+      - install -Dm644 ai.x.GrokBot.png /app/share/icons/hicolor/512x512/apps/ai.x.GrokBot.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: grok-bot.deb
+        only-arches:
+          - x86_64
+        url: https://downloads.cursor.com/grokbot/stable/bfb372966cec77c6ec2750957965f2a2268da17d/linux/x64/grok-bot_1.3.0_amd64.deb
+        sha256: 87b046b6e4126c3eb466df59135b59c8efbb5f9f10e0de548f0d65ec8ac55528
+        size: 117982212
+      - type: extra-data
+        filename: grok-bot.deb
+        only-arches:
+          - aarch64
+        url: https://downloads.cursor.com/grokbot/stable/bfb372966cec77c6ec2750957965f2a2268da17d/linux/arm64/grok-bot_1.3.0_arm64.deb
+        sha256: f9168a4a6182201a24977c18f42751cd964f8daf300289333c37c4f0baf40ed3
+        size: 114013936
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: grok-bot-wrapper
+      - type: file
+        path: ai.x.GrokBot.desktop
+      - type: file
+        path: ai.x.GrokBot.metainfo.xml
+      - type: file
+        path: ai.x.GrokBot.png

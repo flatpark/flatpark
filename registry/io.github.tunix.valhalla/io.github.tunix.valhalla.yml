@@ -44,16 +44,16 @@ modules:
         filename: valhalla.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/tunix/valhalla/releases/download/v1.6.2/valhalla-v1.6.2-x86_64.tar.gz
-        sha256: 5854367074afe154af2771972cc05cae197bffe215a422397d9181a54771136c
-        size: 4710690
+        url: https://github.com/tunix/valhalla/releases/download/v1.7.1/valhalla-v1.7.1-x86_64.tar.gz
+        sha256: 55f0f4e101f88f9f7106970f41c1f7f97d52cfe8bbf197ebabd8365db791906e
+        size: 7026375
       - type: extra-data
         filename: valhalla.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/tunix/valhalla/releases/download/v1.6.2/valhalla-v1.6.2-aarch64.tar.gz
-        sha256: c18e8d7474da7ce31d9a1373976af8b9b67682d21eae83e2dd362277949bdb04
-        size: 4350192
+        url: https://github.com/tunix/valhalla/releases/download/v1.7.1/valhalla-v1.7.1-aarch64.tar.gz
+        sha256: 1bc02c567522d71e37837791ebd7f075a80308277baed658858c2085d26775fa
+        size: 6457618
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

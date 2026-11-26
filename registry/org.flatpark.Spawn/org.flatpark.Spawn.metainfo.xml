@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>org.flatpark.Spawn</id>
+  <name>flatpark-spawn</name>
+  <summary>Lets an app run the host's command-line tools</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <url type="homepage">https://github.com/flatpark/flatpark-spawn</url>
+  <description>
+    <p>
+      Shared by the apps that declare it. An app that holds the
+      org.freedesktop.Flatpak permission runs the commands its tools call
+      (git, node, gh, the user's own scripts) on the host, in the user's
+      login-shell PATH, as if they were installed in the sandbox. This runs
+      outside the sandbox on purpose; an app without that permission is
+      not affected.
+    </p>
+  </description>
+  <releases>
+    <release version="0.2.0" date="2026-11-25">
+      <url type="details">https://github.com/flatpark/flatpark-spawn/releases/tag/v0.2.0</url>
+      <description></description>
+    </release>
+    <release version="0.1.0" date="2026-11-25"/>
+  </releases>
+</component>

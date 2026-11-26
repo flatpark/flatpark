@@ -11,6 +11,13 @@ export async function GET() {
   const extensions = all.filter(isExtension);
   const docs = flattenNav(buildNav(await getDocsFor('en')));
   const site = (repo.homepage || 'https://flatpark.org').replace(/\/$/, '');
+  // A shared extension (build.shared) has no parent to name.
+  const extensionOf = (a) =>
+    a.parent
+      ? `extension for ${a.parent.name}`
+      : a.consumers?.length
+        ? `shared extension, used by ${a.consumers.map((c) => c.name).join(', ')}`
+        : 'shared extension';
 
   const lines = [
     `# ${repo.title}`,
@@ -36,11 +43,11 @@ export async function GET() {
       ? [
           '## Extensions',
           '',
-          'Add-ons that run inside another app; the install command brings the app along.',
+          'Add-ons that run inside another app; the install command brings the app along. A shared extension has no app of its own: it comes with each app that uses it.',
           '',
           ...extensions.map(
             (a) =>
-              `- [${a.name}](${site}/apps/${a.id}/): ${a.summary} (extension for ${a.parent.name}). Install: \`${a.installCmd}\``,
+              `- [${a.name}](${site}/apps/${a.id}/): ${a.summary} (${extensionOf(a)}). Install: \`${a.installCmd}\``,
           ),
           '',
         ]

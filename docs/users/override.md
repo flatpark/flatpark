@@ -90,6 +90,10 @@ only that feature stops (for Enpass, the browser extension):
 flatpak override --user --no-talk-name=org.freedesktop.Flatpak io.enpass.Enpass
 ```
 
+An app that uses flatpark-spawn says so on its page: the commands its tools run
+(`git`, `node` and the like) run on your system, as you. The same override
+turns that off; the app then runs only what its sandbox has.
+
 **The app forgets its settings.** If you turned off one of its folders (in
 Flatseal, say), Flatpak puts an empty temporary folder in its place and the app
 loses what it writes there. Check `--show`, and remove that entry or `--reset`.

@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+# OpenXplorer's own binary, unpacked by apply_extra to /app/extra/openxplorer.
+# It links only libraries in org.gnome.Platform (GTK 4, libsoup 3, GStreamer,
+# SQLite). It detects the Flatpak sandbox itself (/.flatpak-info) and then
+# leaves updates to Flatpak and runs host programs through flatpak-spawn.
+
+# It looks for its translations in share/locale of each XDG data directory;
+# the .deb's catalogues are unpacked under /app/extra/openxplorer/share.
+export XDG_DATA_DIRS="/app/extra/openxplorer/share:${XDG_DATA_DIRS:-/app/share:/usr/share}"
+
+exec /app/extra/openxplorer/bin/openxplorer "$@"

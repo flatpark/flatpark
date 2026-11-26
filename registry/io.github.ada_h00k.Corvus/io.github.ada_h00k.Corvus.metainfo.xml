@@ -42,6 +42,42 @@
     <content_attribute id="social-audio">intense</content_attribute>
   </content_rating>
   <releases>
+    <release version="1.8.4" date="2026-11-25">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.8.4</url>
+      <description></description>
+    </release>
+    <release version="1.8.3" date="2026-11-25">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.8.3</url>
+      <description></description>
+    </release>
+    <release version="1.8.2" date="2026-11-25">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.8.2</url>
+      <description></description>
+    </release>
+    <release version="1.8.1" date="2026-11-24">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.8.1</url>
+      <description></description>
+    </release>
+    <release version="1.8.0" date="2026-11-24">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.8.0</url>
+      <description></description>
+    </release>
+    <release version="1.7.3" date="2026-11-23">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.7.3</url>
+      <description></description>
+    </release>
+    <release version="1.7.2" date="2026-11-23">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.7.2</url>
+      <description></description>
+    </release>
+    <release version="1.7.1" date="2026-11-22">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.7.1</url>
+      <description></description>
+    </release>
+    <release version="1.7.0" date="2026-11-22">
+      <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.7.0</url>
+      <description></description>
+    </release>
     <release version="1.6.1" date="2026-11-22">
       <url type="details">https://github.com/ada-h00k/Corvus/releases/tag/v1.6.1</url>
       <description></description>

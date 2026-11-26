@@ -1,0 +1,17 @@
+id: io.github.hyprismteam.Hyprism
+name: Hyprism
+summary: Manage Hytale instances, profiles and mods
+website: https://hyprism.org/
+source_url: https://github.com/hyprismteam/Hyprism
+build:
+  manifest: io.github.hyprismteam.Hyprism.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  tags: [Hytale, Launcher, Mods]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

@@ -1,0 +1,75 @@
+id: org.ladybird.Ladybird
+# Ladybird's Ubuntu 24.04 .deb puts everything under /opt/ladybird: the
+# browser, its helper processes in libexec/, and its own Qt 6, ICU, libidn2,
+# libdwarf and FFmpeg build in lib/ (RUNPATH $ORIGIN/../lib). Outside that it
+# links only GL, Vulkan, Wayland, xcb, xkbcommon, PulseAudio and GLib, all in
+# org.freedesktop.Platform 26.08, so nothing Qt comes from the runtime. The
+# 26.04 .deb links the system Qt instead and is not used.
+# Ladybird sandboxes its renderer processes with seccomp and Landlock, which
+# work inside the Flatpak sandbox as they are; no namespaces are involved.
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: ladybird
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Upstream's own Flatpak grants the same display, GPU, audio and network
+  # set. Native Wayland, with X11 as a fallback.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPU painting and compositing go through Vulkan.
+  - --device=dri
+  - --socket=pulseaudio
+  - --share=network
+  # Downloads are saved here without a dialog; anywhere else goes through
+  # the file chooser portal.
+  - --filesystem=xdg-download
+  # Upstream's Flatpak reads the desktop's window button layout from here.
+  - --filesystem=xdg-config/gtk-3.0:ro
+  # Web notifications. Upstream's Flatpak grants the whole session bus; the
+  # only other names the browser uses are the portal (always reachable) and
+  # its own org.ladybird.Ladybird (an app may always own its own id).
+  - --talk-name=org.freedesktop.Notifications
+  # Not granted: --device=input (upstream grants it, for gamepads); the
+  # metainfo documents the override.
+modules:
+  - name: ladybird
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 ladybird-wrapper /app/bin/ladybird
+      - install -Dm644 org.ladybird.Ladybird.desktop /app/share/applications/org.ladybird.Ladybird.desktop
+      - install -Dm644 org.ladybird.Ladybird.metainfo.xml /app/share/metainfo/org.ladybird.Ladybird.metainfo.xml
+      - install -Dm644 org.ladybird.Ladybird.svg /app/share/icons/hicolor/scalable/apps/org.ladybird.Ladybird.svg
+    sources:
+      # The apt pool keeps versioned file names; the resolver reads the URL,
+      # size and sha256 from the noble Packages index.
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ladybird.deb
+        only-arches:
+          - x86_64
+        url: https://apt.ladybird.org/pool/main/l/ladybird/ladybird_2026.47.8-1~ubuntu24.04_amd64.deb
+        sha256: f45bd4f822f45ebf1ca8a8c044d42a9da99fa80fabab09b845df73ea8d1d6726
+        size: 82833380
+      - type: extra-data
+        filename: ladybird.deb
+        only-arches:
+          - aarch64
+        url: https://apt.ladybird.org/pool/main/l/ladybird/ladybird_2026.47.8-1~ubuntu24.04_arm64.deb
+        sha256: 5725720a6326f211e94ade2a2ffe7e6f6f4248f983d16d9f4b19fea73d65a83a
+        size: 71329432
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ladybird-wrapper
+      - type: file
+        path: org.ladybird.Ladybird.desktop
+      - type: file
+        path: org.ladybird.Ladybird.metainfo.xml
+      - type: file
+        path: org.ladybird.Ladybird.svg

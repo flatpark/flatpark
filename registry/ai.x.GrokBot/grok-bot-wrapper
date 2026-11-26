@@ -1,0 +1,52 @@
+#!/bin/sh
+set -eu
+
+# Grok Bot is an Electron app staged by apply_extra to /app/extra/grok-bot.
+# Run it through zypak-wrapper from org.electronjs.Electron2.BaseApp so
+# Chromium keeps its internal sandbox inside Flatpak instead of --no-sandbox.
+# --ozone-platform-hint=auto uses Wayland when available and X11 otherwise.
+
+# Defensively clear ELECTRON_RUN_AS_NODE so launching from an IDE terminal
+# starts the GUI app rather than plain Node.
+unset ELECTRON_RUN_AS_NODE
+
+# Updates arrive through `flatpak update`; Grok Bot honors
+# SAND_DISABLE_UPDATES=1 (disabled-by-env) so its built-in updater stays inert
+# inside a read-only Flatpak install.
+export SAND_DISABLE_UPDATES=1
+
+# Grok Bot defaults to ~/.grokbot for its local-exec daemon state, lock files
+# and settings. Pointing SAND_DATA_ROOT into XDG_DATA_HOME keeps all app data
+# inside ~/.var/app/ai.x.GrokBot/data/grokbot following XDG conventions, with
+# no host home dotdir grant needed.
+export SAND_DATA_ROOT="${XDG_DATA_HOME}/grokbot"
+
+# Chromium writes notification/media/tray temp files to $TMPDIR and passes
+# their paths to the desktop. Point TMPDIR at the per-app runtime dir, which
+# shares the same path inside and outside the sandbox.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
+# Electron safeStorage picks its keyring backend from XDG_CURRENT_DESKTOP; on
+# desktops Chromium does not recognise (Hyprland, Sway, ...) it falls back to
+# plain text and reports encryption unavailable. Point it at Secret Service
+# there while leaving KDE alone to pick KWallet, and honour any explicit
+# --password-store passed on the command line.
+store=
+case ":${XDG_CURRENT_DESKTOP:-}:" in
+  *:KDE:*) ;;
+  *)
+    case " $* " in
+      *" --password-store="*) ;;
+      *) store=--password-store=gnome-libsecret ;;
+    esac
+    ;;
+esac
+
+extra_root=/app/extra
+launcher="grok-bot"
+if [ -r "$extra_root/grok-bot-launcher" ]; then
+  read -r recorded < "$extra_root/grok-bot-launcher" || recorded=""
+  [ -n "$recorded" ] && launcher="$recorded"
+fi
+
+exec zypak-wrapper "$extra_root/grok-bot/$launcher" --ozone-platform-hint=auto ${store:+"$store"} "$@"

@@ -52,6 +52,7 @@
   </provides>
   <url type="homepage">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next</url>
   <url type="vcs-browser">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next</url>
+  <url type="bugtracker">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/issues</url>
   <developer id="org.gnome.gitlab.user_c1a5830a">
     <name>gnome-software-next</name>
   </developer>
@@ -87,6 +88,16 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="51.1.856.g2563d8c03" date="2026-11-24">
+      <url type="details">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/compare/89b891c28...2563d8c03</url>
+      <description>
+        <p>Changes since the last build:</p>
+        <ul>
+          <li>flatpark: leave build-only files out of the tarball</li>
+          <li>details-page: Keep an installed app opened from a link on its source</li>
+        </ul>
+      </description>
+    </release>
     <release version="51.1.840.g89b891c28" date="2026-11-22">
       <description>
         <p>Fixes Software never getting past the loading page on Fedora Atomic desktops (Silverblue, Kinoite and others): it now finds its rpm-ostree helper in the FlatPark build, and gives up with an error instead of waiting forever.</p>

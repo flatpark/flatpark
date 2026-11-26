@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=NanoYomi
+Comment=Read manga from sources you add
+Exec=nano-reader
+Icon=app.nano.Reader
+Terminal=false
+Type=Application
+Categories=Office;Viewer;

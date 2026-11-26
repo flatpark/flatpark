@@ -72,9 +72,9 @@ modules:
         filename: sigma-file-manager.deb
         only-arches:
           - x86_64
-        url: https://github.com/aleksey-hoffman/sigma-file-manager/releases/download/v2.2.0/Sigma-File-Manager-2.2.0-linux.deb
-        sha256: 31f7ab37f472d419a2c4bd95c49e7cc7e17994a48d4e3ef022cfa54bb3c2dff1
-        size: 22945030
+        url: https://github.com/aleksey-hoffman/sigma-file-manager/releases/download/v2.3.0/Sigma-File-Manager-2.3.0-linux.deb
+        sha256: 74e39362251479cf10ce0f220ad1192aa4d4e82f524a9231d61015f24f4742f4
+        size: 24714572
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

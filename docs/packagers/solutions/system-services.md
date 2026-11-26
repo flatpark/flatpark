@@ -44,6 +44,17 @@ This is not compositor-specific; the same build behaves the same everywhere.
   fails even with the grant. A native install behaves the same. Pass
   `--password-store=gnome-libsecret` from the wrapper on desktops other than
   KDE, unless the user already passed one (Min's wrapper does this).
+- **Electron and Chromium on KDE**: Chromium picks KWallet on its own
+  (`Selected backend for OSCrypt: KWALLET6`) and talks to `org.kde.kwalletd6`
+  (`kwalletd5` on a Plasma 5 session). With only `org.freedesktop.secrets`
+  granted, the bus proxy hides kwalletd, OSCrypt logs
+  `OSCrypt did not initialize a backend`, and `safeStorage` reports
+  unavailable. An app that refuses to save a login in plain text then keeps it
+  in memory and logs the user out on every quit
+  ([Grok Bot](../../../registry/ai.x.GrokBot/ai.x.GrokBot.yml)). Grant both
+  `org.kde.kwalletd5` and `org.kde.kwalletd6`. To check, run with
+  `--enable-logging=stderr --v=0 --vmodule=*key_storage*=3` on a KDE session and
+  look for `OSCrypt using KWallet as backend`.
 - **The kernel keyring** (`keyctl`, `add_key`; the Rust `keyring` crate's
   `linux-native` backend) is blocked by Flatpak's seccomp filter. An app using
   only that backend can't store secrets in a Flatpak; the fix is upstream
@@ -105,13 +116,15 @@ with `DBusClient._openSocket` in the trace.
 ### Commands on the host
 
 An app that needs a host program (`git`, `lsof`, a CLI it manages) can't run it
-from the sandbox. A small script on `PATH` that runs the real command with
-`flatpak-spawn --host` works, at the cost of `--talk-name=org.freedesktop.Flatpak`,
-which lets the app run anything on the host: declare it as `host-command` and
-argue for it in the PR ([permissions](../permissions.md#declaring-high-risk-permissions)).
-Keep detection inside the sandbox: an app that checks whether a tool is
-installed should see the sandbox's answer, and only the actual run goes to the
-host.
+from the sandbox. Use [flatpark-spawn](../permissions.md#running-commands-on-the-host),
+the shared extension that runs the app's commands on the host, rather than a
+script on `PATH` that calls `flatpak-spawn --host`. Either way it costs
+`--talk-name=org.freedesktop.Flatpak`, which lets the app run anything on the
+host: the app must be on flatpark-spawn's allow-list, declare the permission
+and `host-command`, and argue for it in the PR. flatpark-spawn forwards running
+a command, not looking for one: an app that checks whether a tool exists (a
+`stat` along `PATH`, `which`) before running it still sees the sandbox's
+answer.
 
 Things that don't work from a Flatpak however it is granted: seeing host
 processes (`pgrep`, `/proc`), and launching at login through the app's own

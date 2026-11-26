@@ -1,0 +1,17 @@
+id: io.github.kennyporto.Handset
+name: Handset
+summary: Answer your phone calls on your PC
+website: https://github.com/KennyPorto/handset
+source_url: https://github.com/KennyPorto/handset
+build:
+  manifest: io.github.kennyporto.Handset.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Network
+  tags: [Phone, Calls, Bluetooth, Qt, KDE]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false

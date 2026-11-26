@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>app.mymusik.MyMusik</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <name>MyMusik</name>
+  <summary>Play and organize your own music collection</summary>
+  <description>
+    <p>MyMusik plays and organizes your own music collection. Import local audio, browse albums and artists, build playlists, and edit track details and artwork. Local playback works offline without an account.</p>
+    <p>Optional cloud synchronization, community features and AI assistance require an account and internet access.</p>
+    <p>MyMusik’s file chooser can see your Music folder by default. To import from another folder, grant read access with <code>flatpak override --user --filesystem=/path/to/music:ro app.mymusik.MyMusik</code>, then restart MyMusik. To remove all user overrides for this app, run <code>flatpak override --user --reset app.mymusik.MyMusik</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default"><caption>Browse the album library</caption><image>https://raw.githubusercontent.com/shagg-ai/flathub/56f5dadbf411b608bc3e90f8388ef68462976ae7/screenshots/album-library.png</image></screenshot>
+  </screenshots>
+  <launchable type="desktop-id">app.mymusik.MyMusik.desktop</launchable>
+  <url type="homepage">https://mymusik.app/en/</url>
+  <developer id="net.shaggai"><name>Shaggai GmbH</name></developer>
+  <categories><category>AudioVideo</category><category>Audio</category><category>Player</category></categories>
+  <content_rating type="oars-1.1" />
+  <releases><release version="1.2.8" date="2026-11-22" /></releases>
+</component>

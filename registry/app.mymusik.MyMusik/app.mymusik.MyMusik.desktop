@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=MyMusik
+Comment=Play and organize your own music collection
+Exec=mymusik %F
+Icon=app.mymusik.MyMusik
+Terminal=false
+Categories=AudioVideo;Audio;Player;
+StartupWMClass=MyMusik
+MimeType=audio/mpeg;audio/flac;audio/ogg;audio/x-wav;audio/mp4;

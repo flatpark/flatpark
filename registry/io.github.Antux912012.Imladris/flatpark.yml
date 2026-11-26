@@ -23,3 +23,11 @@ update:
   command: ./resolve-update.sh
 policy:
   proprietary: false
+  dangerous_permissions:
+    - --filesystem=home
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail:
+      en: "R, Python, Julia and Quarto run on your system through Imladris's host bridge (flatpak-spawn), outside the sandbox, so the consoles and renders use the toolchains you installed. The permission this needs would let the app start any command on the host."
+      zh-Hans: "R、Python、Julia 和 Quarto 通过 Imladris 的宿主桥（flatpak-spawn）在你的系统上、沙箱之外运行，控制台和渲染用的是你自己装的工具链。这需要的权限本身允许应用在宿主机上启动任意命令。"

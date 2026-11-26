@@ -1,0 +1,57 @@
+id: io.github.anomalyco.Hex
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: hex
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # X11 handles global shortcuts and inserts text into focused X11 clients.
+  - --share=ipc
+  - --socket=x11
+  # Accelerated window rendering and local inference where supported.
+  - --device=dri
+  # First-use speech model downloads.
+  - --share=network
+  # Microphone capture and audio feedback through PulseAudio.
+  - --socket=pulseaudio
+  # Tray menu and desktop notifications.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.Notifications
+modules:
+  - name: hex
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hex-wrapper /app/bin/hex
+      - install -Dm644 io.github.anomalyco.Hex.desktop /app/share/applications/io.github.anomalyco.Hex.desktop
+      - install -Dm644 io.github.anomalyco.Hex.metainfo.xml /app/share/metainfo/io.github.anomalyco.Hex.metainfo.xml
+      - install -Dm644 io.github.anomalyco.Hex.png /app/share/icons/hicolor/512x512/apps/io.github.anomalyco.Hex.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: hex.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/anomalyco/hex/releases/download/v3.4.0/hex-3.4.0-linux-x64.deb
+        sha256: 8626eba4ff6aff8710631e5ec7d9a716f30306cff26aad9f1ba10b2d1707a7f7
+        size: 37470224
+      - type: extra-data
+        filename: hex.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/anomalyco/hex/releases/download/v3.4.0/hex-3.4.0-linux-arm64.deb
+        sha256: 258299f9f27217713e8bf85d89a190c9c593ca1b10d48d442f56035cbd082ddd
+        size: 35977150
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hex-wrapper
+      - type: file
+        path: io.github.anomalyco.Hex.desktop
+      - type: file
+        path: io.github.anomalyco.Hex.metainfo.xml
+      - type: file
+        path: io.github.anomalyco.Hex.png

@@ -1,0 +1,53 @@
+id: io.github.michael_lazar.MoebiusBeyond
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '26.08'
+command: moebius-beyond
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display and graphics for the Electron editor.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: moebius-beyond
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 moebius-beyond-wrapper /app/bin/moebius-beyond
+      - install -Dm644 io.github.michael_lazar.MoebiusBeyond.desktop /app/share/applications/io.github.michael_lazar.MoebiusBeyond.desktop
+      - install -Dm644 io.github.michael_lazar.MoebiusBeyond.metainfo.xml /app/share/metainfo/io.github.michael_lazar.MoebiusBeyond.metainfo.xml
+      - install -Dm644 io.github.michael_lazar.MoebiusBeyond.png /app/share/icons/hicolor/512x512/apps/io.github.michael_lazar.MoebiusBeyond.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: moebius.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/michael-lazar/moebius-beyond/releases/download/v3.8.3/MoebiusBeyond-amd64.deb
+        sha256: 417ca3183e1aed449a319857fc1a2905bd3aeaa0026223fc7bb12d93c9b378c3
+        size: 95031556
+      - type: extra-data
+        filename: moebius.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/michael-lazar/moebius-beyond/releases/download/v3.8.3/MoebiusBeyond-arm64.deb
+        sha256: ed0ee32dec01e540e437134459e37c8f0bffb735bcfcec14cba9574c2a3fc122
+        size: 89603520
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: moebius-beyond-wrapper
+      - type: file
+        path: io.github.michael_lazar.MoebiusBeyond.desktop
+      - type: file
+        path: io.github.michael_lazar.MoebiusBeyond.metainfo.xml
+      - type: file
+        path: io.github.michael_lazar.MoebiusBeyond.png

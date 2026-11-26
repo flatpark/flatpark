@@ -29,22 +29,29 @@ their own yet. Where this page and a linked page disagree, the linked page wins.
    third workaround to run, report what you found and let the maintainer
    decide; don't keep adding them.
 6. **De-list on request, no argument.** If upstream says "please don't," remove
-   it right away and don't re-post.
+   it right away, record it in [de-listed apps](../reference/delisted.md), and
+   don't re-post.
 
 ---
 
 ## 1. Find a candidate
 
-[Finding apps](finding-apps.md): the channels (GitHub popular apps, Flathub's
-closed submissions, Flathub packages that fell behind, requests), the Flathub
-checks, and how to rank by fit. Record demand and prior attempts for each
-candidate; the PR and any upstream message use them. Re-run the searches
-periodically to catch new releases and new Flathub rejections.
+[Finding apps](finding-apps.md): what counts as demand (a Flatpak request on
+the app's tracker, 1000+ stars and not on Flathub, Flathub users left behind),
+the channels, the Flathub checks, and how to rank by fit. Record demand and prior attempts for
+each candidate; the PR and any upstream message use them. Re-run the searches
+periodically to catch new requests and releases.
 
-Before packaging an app that has an `[App Request]` or `[App Discover]` issue,
-check it isn't assigned to someone else, then comment `/claim` on it
-([claims](../reviewers/issues.md#claims)). Link the issue from the PR
-(`Closes #<n>`).
+Check the app isn't handled already: not in `registry/`, and not in
+[de-listed apps](../reference/delisted.md) unless the condition for its
+section is met. A developer who declined, or whose upstream didn't back the
+listing, is not asked again; only their own public yes brings the app back.
+
+Before packaging an app from an `[App Request]` issue, check it isn't assigned
+to someone else, then comment `/claim` on it; for a row of an `[App Discover]`
+scan, comment `/claim <App>` or `/claim <#>`
+([claims](../reviewers/issues.md#claims)). Link the issue from the PR:
+`Closes #<n>` for a request, `Refs #<n>` for a scan.
 
 ## 2. Check it can be packaged
 

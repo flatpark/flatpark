@@ -1,0 +1,15 @@
+id: com.example.Consumer
+name: Consumer
+summary: Synthetic app that uses flatpark-spawn
+build:
+  manifest: com.example.Consumer.yml
+  mode: extra-data
+catalog:
+  category: Development
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --talk-name=org.freedesktop.Flatpak
+packaging:
+  - kind: host-command
+    detail: Its tools run the host's commands through flatpark-spawn.

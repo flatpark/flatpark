@@ -25,12 +25,14 @@ export function getStaticPaths() {
         collections: collectionsOf(apps, app.id),
         // The lists leave extensions out, so their parent's page is where they are found.
         extensions: apps.filter((a) => a.parent?.id === app.id),
+        // A shared extension has no parent; its page lists the apps that use it.
+        consumers: app.shared ? apps.filter((a) => a.uses?.some((u) => u.id === app.id)) : [],
       },
     })),
   );
 }
 
-const { app, repo, collections, extensions } = Astro.props;
+const { app, repo, collections, extensions, consumers } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const fallback = (app.name.match(/[A-Za-z0-9]/g) ?? []).slice(0, 2).join('').toUpperCase();
@@ -68,7 +70,7 @@ const detailRows = [
   app.website && { label: t('detail.row.website'), value: t('detail.row.homepage'), href: app.website },
   app.urls?.help && { label: t('detail.row.support'), value: t('detail.row.help'), href: app.urls.help },
   app.sourceUrl && { label: t('detail.row.source'), value: app.name, href: app.sourceUrl },
-  app.packagingUrl && { label: t('detail.row.packaging'), value: 'flatpark/registry', href: app.packagingUrl },
+  app.packagingUrl && { label: t('detail.row.packaging'), value: `registry/${app.id}`, title: `registry/${app.id}`, href: app.packagingUrl },
 ].filter(Boolean);
 
 // Other Flatpak apps it runs with (flatpark.yml `requires:`): installCmd
@@ -164,7 +166,7 @@ const StarsTag = starsLink ? 'a' : 'span';
           </p>
           <p class="mt-2 max-w-2xl text-muted">{app.summary}</p>
           {/* One link per line: an extension can have both a parent and a collection. */}
-          {(app.parent || collections.length > 0) && (
+          {(app.parent || app.uses?.length > 0 || collections.length > 0) && (
             <div class="mt-2 flex flex-col items-start gap-1">
               {app.parent && (
                 <a
@@ -172,6 +174,12 @@ const StarsTag = starsLink ? 'a' : 'span';
                   class="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
                 >{t('detail.extension', { name: app.parent.name })} &rarr;</a>
               )}
+              {(app.uses ?? []).map((u) => (
+                <a
+                  href={localizePath(`/apps/${u.id}/`, lang)}
+                  class="inline-flex items-center gap-1 text-sm font-semibold text-brand hover:underline"
+                >{t('detail.uses', { name: u.name })} &rarr;</a>
+              ))}
               {collections.map((c) => (
                 <a
                   href={localizePath(`/collections/${c.slug}/`, lang)}
@@ -332,6 +340,24 @@ const StarsTag = starsLink ? 'a' : 'span';
         }
 
         {
+          app.shared && (
+            <div id="consumers">
+              <h2 class="text-lg font-bold">{t('detail.consumers')}</h2>
+              {consumers.length > 0 ? (
+                <>
+                  <p class="mt-1 text-sm text-muted">{t('detail.consumers.body', { name: app.name })}</p>
+                  <div class="mt-3 grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-3">
+                    {consumers.map((c) => <AppCard app={c} />)}
+                  </div>
+                </>
+              ) : (
+                <p class="mt-1 text-sm text-muted">{t('detail.consumers.none')}</p>
+              )}
+            </div>
+          )
+        }
+
+        {
           extensions.length > 0 && (
             <div id="extensions">
               <h2 class="text-lg font-bold">{t('detail.extensions')}</h2>
@@ -343,7 +369,14 @@ const StarsTag = starsLink ? 'a' : 'span';
           )
         }
       </div>
-      <InfoPanel rows={detailRows} permissions={app.permissions} packaging={app.packaging} parent={app.parent} />
+      <InfoPanel
+        rows={detailRows}
+        permissions={app.permissions}
+        packaging={app.packaging}
+        parent={app.parent}
+        shared={app.shared}
+        hostCommands={app.hostCommands}
+      />
     </section>
   </main>
 
