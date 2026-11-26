@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.keptaduona.Wickline</id>
+  <name>Wickline</name>
+  <summary>Chart stocks, crypto, forex and futures</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.keptaduona"><name>Wickline contributors</name></developer>
+  <url type="homepage">https://github.com/keptaduona/wickline</url>
+  <url type="bugtracker">https://github.com/keptaduona/wickline/issues</url>
+  <url type="vcs-browser">https://github.com/keptaduona/wickline</url>
+  <description>
+    <p>Wickline charts stocks, crypto, forex and futures, with live market data, technical indicators, drawing tools and alerts. It supports JavaScript indicators and strategies, backtesting, option chains and a community script library.</p>
+    <p>This community package repackages the official Wickline Linux build unmodified.</p>
+  </description>
+  <launchable type="desktop-id">io.github.keptaduona.Wickline.desktop</launchable>
+  <categories><category>Office</category><category>Finance</category></categories>
+  <content_rating type="oars-1.1" />
+  <screenshots>
+    <screenshot type="default">
+      <caption>Live market chart with technical indicators</caption>
+      <!-- Captured from the FlatPark package of Wickline 0.1.11. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.keptaduona.Wickline/screenshots/chart.png</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="0.1.11" date="2026-11-25" /></releases>
+</component>

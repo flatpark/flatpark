@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+unset ELECTRON_RUN_AS_NODE
+export LD_LIBRARY_PATH="/app/extra/app/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+launcher="$(cat /app/extra/launcher)"
+exec zypak-wrapper "/app/extra/app/$launcher" --ozone-platform-hint=auto "$@"
