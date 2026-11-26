@@ -56,9 +56,9 @@ modules:
         filename: dinox.AppImage
         only-arches:
           - x86_64
-        url: https://git.dinox.im/dinoxim/dinox/releases/download/v2.3.9/DinoX-2.3.9-x86_64.AppImage
-        sha256: 7ed29e7882e7e15ef207f377e98a266084d879c1dad124167f0c1318f2ea070c
-        size: 194628088
+        url: https://git.dinox.im/dinoxim/dinox/releases/download/v2.4.0/DinoX-2.4.0-x86_64.AppImage
+        sha256: 35d1a06eff9f886d0df83b2a3f716fc8eb850e6490dd5de80741864bd6bdc7c8
+        size: 194783736
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

@@ -55,9 +55,9 @@ modules:
         filename: hiklens.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/rwnicholas/HikLens/releases/download/v1.0.10/HikLens-v1.0.10-x86_64.AppImage
-        sha256: 213b51b084b4b80ea7f21567f9e29a51a913d945d129454fd1646ac944caa749
-        size: 54307320
+        url: https://github.com/rwnicholas/HikLens/releases/download/v1.0.12/HikLens-v1.0.12-x86_64.AppImage
+        sha256: 71d391be52610da685e2ec339c3fa06a8f36a9a9699b3b8cdc94c774f931a062
+        size: 54303224
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

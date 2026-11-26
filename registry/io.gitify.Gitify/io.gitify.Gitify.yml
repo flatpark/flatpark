@@ -55,9 +55,9 @@ modules:
         filename: app.deb
         only-arches:
           - x86_64
-        url: https://github.com/gitify-app/gitify/releases/download/v8.2.0/gitify_8.2.0_amd64.deb
-        sha256: 48ca23c9f4d31c0de2bbfa0d23d9154a56a1629febd19a0788b43e694e8100b7
-        size: 101684088
+        url: https://github.com/gitify-app/gitify/releases/download/v8.3.0/gitify_8.3.0_amd64.deb
+        sha256: d53642d64d4aaffff192eff8a8743f03a22f8340508c68f84fc9a4e8a00992a6
+        size: 101298552
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
