@@ -1,0 +1,102 @@
+# Builds the CI image (.github/ci-image/Dockerfile) that the other workflows run
+# their jobs in, instead of apt-get / curl | bash on every job:
+#
+#   ghcr.io/flatpark/ci:base    node, rclone, gh, ostree + resolver tools
+#   ghcr.io/flatpark/ci:build   base + flatpak, flatpak-builder, bwrap
+#
+# Each arch is built natively (no QEMU), pushed as <target>-<arch>, and the
+# two are joined into the multi-arch <target> tag the workflows pull.
+#
+# On a PR it builds without pushing, so a Dockerfile change is proven before
+# merge. Monthly it rebuilds on its own to pick up Ubuntu security updates.
+#
+# The package must stay public: pr-checks pulls it for fork PRs, which get no
+# token that can read a private package.
+name: ci-image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/ci-image/**"
+      - ".github/workflows/ci-image.yml"
+  pull_request:
+    paths:
+      - ".github/ci-image/**"
+      - ".github/workflows/ci-image.yml"
+  schedule:
+    - cron: "0 3 1 * *"   # 1st of the month, 03:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: ci-image-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/ci
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    name: build (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: write
+    env:
+      PUSH: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Log in to ghcr.io
+        if: env.PUSH == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: printf '%s\n' "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Build and smoke-test both targets
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: |
+          set -euo pipefail
+          for target in base build; do
+            echo "::group::build $target"
+            docker build --pull --target "$target" -t "$IMAGE:$target-$ARCH" .github/ci-image
+            echo "::endgroup::"
+          done
+          docker run --rm "$IMAGE:base-$ARCH" sh -c \
+            'node --version && rclone version | head -1 && gh --version | head -1 && ostree --version | head -2 && jq --version'
+          docker run --rm --privileged "$IMAGE:build-$ARCH" sh -c \
+            'flatpak --version && flatpak-builder --version && bwrap --unshare-all --ro-bind / / true && appstreamcli --version'
+      - name: Push
+        if: env.PUSH == 'true'
+        env:
+          ARCH: ${{ matrix.arch }}
+        run: |
+          for target in base build; do docker push "$IMAGE:$target-$ARCH"; done
+
+  manifest:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Join the arches into multi-arch tags
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          printf '%s\n' "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          for target in base build; do
+            docker buildx imagetools create -t "$IMAGE:$target" "$IMAGE:$target-amd64" "$IMAGE:$target-arm64"
+            docker buildx imagetools inspect "$IMAGE:$target" | head -20
+          done
