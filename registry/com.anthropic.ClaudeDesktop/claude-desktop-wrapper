@@ -18,5 +18,14 @@ unset ELECTRON_RUN_AS_NODE
 # path inside and outside.
 export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
 
+# Cowork is opt-in (COWORK.md). Only when the user has added all three of its
+# overrides (host devices, the host OS read-only and the Flatpak portal) is
+# cowork-shim.so preloaded; otherwise the app starts exactly as before.
+# zypak sets LD_PRELOAD itself and passes ZYPAK_LD_PRELOAD on.
+if [ -e /dev/kvm ] && [ -d /run/host/usr ] &&
+  grep -qx 'org.freedesktop.Flatpak=talk' /.flatpak-info; then
+  export ZYPAK_LD_PRELOAD="/app/lib/cowork-shim.so${ZYPAK_LD_PRELOAD:+:$ZYPAK_LD_PRELOAD}"
+fi
+
 cd /app/extra/claude-desktop
 exec zypak-wrapper ./claude-desktop --ozone-platform-hint=auto "$@"

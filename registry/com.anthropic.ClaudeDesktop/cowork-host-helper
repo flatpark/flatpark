@@ -1,0 +1,54 @@
+#!/bin/sh
+set -eu
+
+# Cowork opt-in (see COWORK.md). cowork-shim.so starts this in place of the
+# app's cowork-linux-helper. It runs that same helper, unmodified, on the host,
+# where QEMU, virtiofsd and /dev/kvm are, through the Flatpak portal
+# (flatpak-spawn --host, which needs --talk-name=org.freedesktop.Flatpak).
+#
+# The helper is given paths as the sandbox sees them, so on the host it runs
+# inside bwrap with the host's own directories plus two sandbox paths: the
+# app at /app (the helper and the files next to it live under /app/extra) and the
+# document portal at /run/flatpak/doc (the folders picked for Cowork).
+# --watch-bus stops the host process when the app exits.
+
+# The app passes -socket $XDG_RUNTIME_DIR/claude-cowork-vm.sock, a path that
+# only exists inside the sandbox; listen in the per-app runtime dir instead,
+# which the host shares (cowork-shim.so points the app's connect() there).
+private_sock="$XDG_RUNTIME_DIR/claude-cowork-vm.sock"
+shared_sock="$XDG_RUNTIME_DIR/app/$FLATPAK_ID/claude-cowork-vm.sock"
+n=$#
+while [ "$n" -gt 0 ]; do
+  arg=$1
+  shift
+  [ "$arg" = "$private_sock" ] && arg=$shared_sock
+  set -- "$@" "$arg"
+  n=$((n - 1))
+done
+
+app=$(sed -n 's/^app-path=//p' /.flatpak-info)
+
+exec flatpak-spawn --host --watch-bus --directory=/ sh -c '
+  set -eu
+  app=$1
+  shift
+  n=$#
+  # Root is a tmpfs holding the host top-level dirs, so /app can be added
+  # without writing to the host root.
+  for d in /*; do
+    case $d in /proc|/dev|/app|/run) continue ;; esac
+    if [ -L "$d" ]; then set -- "$@" --symlink "$(readlink "$d")" "$d"
+    else set -- "$@" --bind "$d" "$d"; fi
+  done
+  set -- "$@" --tmpfs /run
+  for d in /run/*; do
+    if [ -L "$d" ]; then set -- "$@" --symlink "$(readlink "$d")" "$d"
+    else set -- "$@" --bind "$d" "$d"; fi
+  done
+  set -- "$@" --bind "/run/user/$(id -u)/doc" /run/flatpak/doc \
+    --dev-bind /dev /dev --proc /proc --ro-bind "$app" /app \
+    /app/extra/claude-desktop/resources/cowork-linux-helper
+  # Move the helper arguments (passed first) behind the bwrap options.
+  while [ "$n" -gt 0 ]; do set -- "$@" "$1"; shift; n=$((n - 1)); done
+  exec bwrap "$@"
+' sh "$app" "$@"

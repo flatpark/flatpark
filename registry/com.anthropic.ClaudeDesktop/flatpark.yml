@@ -21,3 +21,15 @@ update:
 policy:
   proprietary: true
   dangerous_permissions: []
+
+# What this package does around the vendor's build; shown on the site as the
+# packaging level. See docs/packagers/playbook.md (golden rule 1).
+packaging:
+  - kind: injected-code
+    detail:
+      en: "Only for Cowork, which is off by default: once the user adds its overrides, a small LD_PRELOAD library points the app's checks for QEMU, UEFI firmware and virtiofsd at the host's copies, starts the app's own Cowork helper on the host, and points the app at that helper's socket. Without the overrides it is not loaded."
+      zh-Hans: "仅用于默认关闭的 Cowork：用户添加相应的 override 后，一个小型 LD_PRELOAD 库会把应用对 QEMU、UEFI 固件和 virtiofsd 的检查指向宿主机上的文件，在宿主机上启动应用自带的 Cowork 辅助程序，并让应用连接该程序的套接字。没有这些 override 时不会加载。"
+  - kind: host-command
+    detail:
+      en: "Only for Cowork, which is off by default: the app's own Cowork helper runs on your system through flatpak-spawn, because it starts QEMU with /dev/kvm. The override this needs lets the app start any command on the host, so the app is no longer really sandboxed."
+      zh-Hans: "仅用于默认关闭的 Cowork：应用自带的 Cowork 辅助程序通过 flatpak-spawn 在你的系统上运行，因为它要用 /dev/kvm 启动 QEMU。这需要的 override 允许应用在宿主机上启动任意命令，应用因此不再真正处于沙箱之中。"
