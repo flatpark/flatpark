@@ -1,0 +1,23 @@
+id: de.qucsstudio.uSimmics
+name: uSimmics
+summary: Circuit simulator and schematic editor
+website: https://qucsstudio.de/
+source_url: https://qucsstudio.de/download/
+build:
+  manifest: de.qucsstudio.uSimmics.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Education
+  tags: [Electronics, Simulation, Engineering, Wine]
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --allow=multiarch

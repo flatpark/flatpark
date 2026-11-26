@@ -1,0 +1,16 @@
+locale = "en_US"
+font_sets = ["core"]
+
+[install]
+source = "usimmics.zip"
+method = "extract"
+target = 'C:\uSimmics'
+
+[drives]
+h = "~"
+
+[[apps]]
+id = "usimmics"
+name = "uSimmics"
+exe = 'C:\uSimmics\bin\uSimmics.exe'
+workdir = 'C:\uSimmics\bin'

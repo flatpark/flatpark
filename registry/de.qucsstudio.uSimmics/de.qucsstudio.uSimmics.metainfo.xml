@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>de.qucsstudio.uSimmics</id>
+  <name>uSimmics</name>
+  <summary>Circuit simulator and schematic editor</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://qucsstudio.de/legal/</project_license>
+  <developer id="de.qucsstudio"><name>Michael Margraf</name></developer>
+  <url type="homepage">https://qucsstudio.de/</url>
+  <url type="help">https://qucsstudio.de/faq-en/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>uSimmics, formerly QucsStudio, is a circuit simulator with schematic capture, simulation, and tools for analyzing electronic circuits.</p>
+    <p>This community package downloads the official Windows archive and runs it using Wine and a private persistent Cellar prefix. Wine is a separate dependency: install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
+    <p>Microstrip simulations may fail under Wine because of the Microsoft Visual C++ runtime DLLs. See the upstream FAQ for details. Hardware access has not been tested with this package.</p>
+    <p>Your Documents folder is available on drive H: for circuits and simulation output. To use another folder, run <code>flatpak override --user --filesystem=/path/to/circuits de.qucsstudio.uSimmics</code>. Undo permissions with <code>flatpak override --user --reset de.qucsstudio.uSimmics</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Simulating a transistor circuit</caption>
+      <!-- Captured from uSimmics 5.9 running under Wine. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/de.qucsstudio.uSimmics/screenshots/simulation.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Education</category><category>Science</category><category>Electronics</category><category>Engineering</category></categories>
+  <keywords><keyword>circuits</keyword><keyword>simulation</keyword><keyword>QucsStudio</keyword><keyword>Wine</keyword></keywords>
+  <launchable type="desktop-id">de.qucsstudio.uSimmics.desktop</launchable>
+  <releases><release version="5.9-20260429170208" date="2026-04-29"/></releases>
+</component>

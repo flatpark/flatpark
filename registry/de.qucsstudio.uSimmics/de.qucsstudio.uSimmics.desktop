@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=uSimmics
+GenericName=Circuit Simulator
+Comment=Design and simulate electronic circuits
+Exec=cellar
+Icon=de.qucsstudio.uSimmics
+Terminal=false
+StartupNotify=true
+StartupWMClass=usimmics.exe
+Categories=Education;Science;Electronics;Engineering;
+Keywords=circuit;simulation;schematic;electronics;QucsStudio;
