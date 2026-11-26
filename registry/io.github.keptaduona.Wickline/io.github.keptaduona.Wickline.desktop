@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Wickline
+Comment=Chart stocks, crypto, forex and futures
+Exec=wickline %U
+Icon=io.github.keptaduona.Wickline
+Terminal=false
+Categories=Office;Finance;
+StartupWMClass=Wickline

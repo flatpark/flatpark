@@ -1,0 +1,17 @@
+id: io.github.keptaduona.Wickline
+name: Wickline
+summary: Chart stocks, crypto, forex and futures
+website: https://github.com/keptaduona/wickline
+source_url: https://github.com/keptaduona/wickline
+build:
+  manifest: io.github.keptaduona.Wickline.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Finance
+  tags: [Charts, Finance, Trading]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
