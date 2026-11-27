@@ -28,6 +28,10 @@ jobs:
     # node and rclone come with the image. STATS_DIR and REGISTRY_DIR are set
     # in a step: in a container job ${{ github.workspace }} is the host's path.
     container: ghcr.io/flatpark/ci:base
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     env:
       R2_BUCKET: ${{ vars.R2_BUCKET }}
       # Analytics Engine SQL API: a token with Account Analytics: Read only.

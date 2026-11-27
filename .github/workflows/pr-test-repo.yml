@@ -100,6 +100,10 @@ jobs:
       pull-requests: read
       contents: read
     container: ghcr.io/flatpark/ci:base   # rclone, gh
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     outputs:
       prs: ${{ steps.plan.outputs.prs }}
     env:
@@ -148,6 +152,10 @@ jobs:
     container:
       image: ghcr.io/flatpark/ci:build
       options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     env:
       GH_TOKEN: ${{ github.token }}
       PR: ${{ matrix.pr }}

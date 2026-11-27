@@ -66,6 +66,10 @@ jobs:
     container:
       image: ghcr.io/flatpark/ci:build
       options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     # A caller can only narrow these: upstream-publish.yml grants the same set.
     permissions:
       contents: write

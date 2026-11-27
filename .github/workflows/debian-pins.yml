@@ -30,6 +30,10 @@ jobs:
     container:
       image: ghcr.io/flatpark/ci:build
       options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
 

@@ -75,6 +75,10 @@ jobs:
     runs-on: ubuntu-26.04
     # node and rclone come with the image (.github/ci-image/Dockerfile).
     container: ghcr.io/flatpark/ci:base
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     outputs:
       scope: ${{ steps.scope.outputs.scope }}
       ids_x86_64: ${{ steps.apps.outputs.ids_x86_64 }}
@@ -183,6 +187,10 @@ jobs:
     container:
       image: ghcr.io/flatpark/ci:build
       options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
       - name: Add the Flathub remote
@@ -225,6 +233,10 @@ jobs:
     container:
       image: ghcr.io/flatpark/ci:build
       options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     env:
       R2_BUCKET: ${{ vars.R2_BUCKET }}
       CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}

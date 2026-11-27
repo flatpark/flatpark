@@ -21,6 +21,10 @@ jobs:
     # node, ostree and rclone come with the image. The base target has no
     # flatpak-builder, so the build tests self-skip here as they always did.
     container: ghcr.io/flatpark/ci:base
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
         with:
@@ -266,6 +270,10 @@ jobs:
     container:
       image: ghcr.io/flatpark/ci:build
       options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
         with:
