@@ -1,0 +1,27 @@
+id: com.epri.OpenDSS
+name: OpenDSS
+summary: Electric power distribution system simulator
+website: https://opendss.epri.com/
+source_url: https://sourceforge.net/p/electricdss/code/HEAD/tree/trunk/
+build:
+  manifest: com.epri.OpenDSS.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  tags: [Electricity, Simulation, Engineering, Wine]
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  dangerous_permissions:
+    - --allow=multiarch
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Registers the bundled DSSpyServer in the private Wine prefix on first launch."
+      zh-Hans: "首次启动时在专用 Wine 环境中注册随 OpenDSS 提供的 DSSpyServer。"

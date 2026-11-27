@@ -1,0 +1,84 @@
+id: com.epri.OpenDSS
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: opendss
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Wine uses X11 for the Windows interface.
+  - --socket=x11
+  - --device=dri
+  # Circuit models and output.
+  - --filesystem=xdg-documents
+  # New-WoW64 requires 32-bit system calls.
+  - --allow=multiarch
+  # The shared Wine installation, available to Cellar read-only.
+  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
+  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
+modules:
+  - name: opendss
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 opendss.sh /app/bin/opendss
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 cellar.toml /app/share/cellar/cellar.toml
+      - install -Dm644 com.epri.OpenDSS.desktop /app/share/applications/com.epri.OpenDSS.desktop
+      - install -Dm644 com.epri.OpenDSS.metainfo.xml /app/share/metainfo/com.epri.OpenDSS.metainfo.xml
+      - install -Dm644 com.epri.OpenDSS.png /app/share/icons/hicolor/256x256/apps/com.epri.OpenDSS.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: OpenDSSInstaller.exe
+        only-arches:
+          - x86_64
+        url: https://downloads.sourceforge.net/project/electricdss/OpenDSS/OpenDSSInstaller_1100_1.exe
+        sha256: a4b7cc6cef616e4d923dd69dbf14c1b704be959594ab9fb5c86a9ddd7566d985
+        size: 148463752
+      # END MANAGED EXTRA-DATA
+      # Shared Cellar launcher.
+      - type: extra-data
+        filename: cellar-cli-x86_64
+        only-arches:
+          - x86_64
+        url: https://github.com/jing2uo/cellar/releases/download/v0.5.1/cellar-cli-x86_64
+        sha256: bddea0982c458ababdac841c5b9c7685fd782cc9979dbd01c1f1ac7a36b2b9cb
+        size: 9691296
+      # DSSpyServer uses implicit exec() locals to retain state between calls.
+      # Python 3.13 changed those semantics; keep the Windows Python 3.12 ABI.
+      - type: extra-data
+        filename: pycontrol-python.zip
+        only-arches:
+          - x86_64
+        url: https://www.python.org/ftp/python/3.12.10/python-3.12.10-embed-amd64.zip
+        sha256: 4acbed6dd1c744b0376e3b1cf57ce906f9dc9e95e68824584c8099a63025a3c3
+        size: 11133606
+      - type: extra-data
+        filename: pycontrol-numpy.whl
+        only-arches:
+          - x86_64
+        url: https://files.pythonhosted.org/packages/36/fa/8c9210162ca1b88529ab76b41ba02d433fd54fecaf6feb70ef9f124683f1/numpy-2.2.6-cp312-cp312-win_amd64.whl
+        sha256: c1f9540be57940698ed329904db803cf7a402f3fc200bfe599334c9bd84a40b2
+        size: 12614190
+      - type: extra-data
+        filename: pycontrol-pywin32.whl
+        only-arches:
+          - x86_64
+        url: https://files.pythonhosted.org/packages/03/d9/77040d3b43df3f3be32ea289433d660d2727f5ba327bc73be835127d9d60/pywin32-312-cp312-cp312-win_amd64.whl
+        sha256: b457f6d628a47e8a7346ce22acb7e1a46a4a78b52e1d17e1af56871bd19a93bc
+        size: 6914841
+      - type: file
+        path: opendss.sh
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cellar.toml
+      - type: file
+        path: com.epri.OpenDSS.desktop
+      - type: file
+        path: com.epri.OpenDSS.metainfo.xml
+      - type: file
+        path: com.epri.OpenDSS.png
