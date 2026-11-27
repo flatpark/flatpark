@@ -17,5 +17,8 @@
   <url type="vcs-browser">https://github.com/schollz/croc</url>
   <categories><category>Network</category><category>FileTransfer</category></categories>
   <content_rating type="oars-1.1"/>
-  <releases><release version="11.6.6" date="2026-11-21"/></releases>
+  <releases>
+    <release version="11.6.7" date="2026-11-26">
+      <description></description>
+    </release><release version="11.6.6" date="2026-11-21"/></releases>
 </component>
