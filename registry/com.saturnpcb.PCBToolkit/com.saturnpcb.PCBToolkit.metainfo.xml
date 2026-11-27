@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.saturnpcb.PCBToolkit</id>
+  <name>Saturn PCB Toolkit</name>
+  <summary>PCB design and engineering calculators</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://www.saturnpcb.com/wp-content/Toolkit/EULA.pdf</project_license>
+  <developer id="com.saturnpcb"><name>Saturn PCB Design, Inc.</name></developer>
+  <url type="homepage">https://saturnpcb.com/saturn-pcb-toolkit/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>Saturn PCB Toolkit provides calculators for printed circuit board design, including trace and via current, impedance, differential pairs, crosstalk and padstacks.</p>
+    <p>This community package downloads the official Windows installer from Saturn PCB Design and runs it with Wine in a private prefix. The first launch takes longer while installation completes. Wine is a separate dependency: install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, close Saturn PCB Toolkit, change the DPI, and then reopen it.</p>
+    <ul>
+      <li>Use a larger scale with <code>flatpak run --command=cellar com.saturnpcb.PCBToolkit config dpi=168</code>.</li>
+      <li>Restore automatic scaling with <code>flatpak run --command=cellar com.saturnpcb.PCBToolkit config dpi=auto</code>.</li>
+    </ul>
+  </description>
+  <screenshots><screenshot type="default"><caption>Via calculator</caption><image>https://saturnpcb.com/wp-content/uploads/via_843.png</image></screenshot></screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Science</category><category>Electronics</category><category>Engineering</category></categories>
+  <launchable type="desktop-id">com.saturnpcb.PCBToolkit.desktop</launchable>
+  <releases><release version="8.48" date="2026-10-14"/></releases>
+</component>
