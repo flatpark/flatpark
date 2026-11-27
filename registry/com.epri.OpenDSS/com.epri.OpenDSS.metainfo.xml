@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.epri.OpenDSS</id>
+  <name>OpenDSS</name>
+  <summary>Electric power distribution system simulator</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>BSD-3-Clause</project_license>
+  <developer id="com.epri">
+    <name>Electric Power Research Institute</name>
+  </developer>
+  <url type="homepage">https://opendss.epri.com/</url>
+  <url type="vcs-browser">https://sourceforge.net/p/electricdss/code/HEAD/tree/trunk/</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>OpenDSS models electric power distribution feeders for power flow and time-series studies, including studies of distributed energy resources. Edit DSS scripts, solve circuits, plot feeder results, and export voltages and power flows as CSV files.</p>
+    <p>This community package downloads EPRI’s official Windows installer at Flatpak install time. Cellar runs it unmodified under Wine and sets up a private, persistent Wine prefix on first launch. The first launch takes longer while the installer runs.</p>
+    <p>Wine is a separate dependency shared with other Wine apps. Install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
+    <p>Open and save models and reports in <code>H:\Documents</code>. To give OpenDSS access to another folder in your home directory, for example <code>H:\Models</code>, run <code>flatpak override --user --filesystem="$HOME/Models" com.epri.OpenDSS</code>. Reset overrides with <code>flatpak override --user --reset com.epri.OpenDSS</code>.</p>
+    <p>The package supplies Windows Python 3.12, NumPy and pywin32 for pyControl and registers EPRI’s bundled DSSpyServer unless a registration already exists. Add <code>set pyPath=P:\python</code> before creating a pyControl object. If an example already sets <code>pyPath</code>, replace that line in your copy of the model.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Solving a simple circuit</caption>
+      <!-- Captured from the FlatPark test run of 11.0.0.1. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/com.epri.OpenDSS/screenshots/solve.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Science</category>
+    <category>Engineering</category>
+  </categories>
+  <keywords>
+    <keyword>power flow</keyword>
+    <keyword>distribution feeder</keyword>
+    <keyword>grid simulation</keyword>
+    <keyword>time-series analysis</keyword>
+    <keyword>pyControl</keyword>
+  </keywords>
+  <launchable type="desktop-id">com.epri.OpenDSS.desktop</launchable>
+  <releases>
+    <release version="11.0.0.1" date="2026-01-30"/>
+  </releases>
+</component>

@@ -1,0 +1,17 @@
+locale = "en_US"
+font_sets = ["core"]
+
+[install]
+source = "OpenDSSInstaller.exe"
+method = "run"
+args = ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", '/DIR=C:\OpenDSS']
+
+[drives]
+h = "~"
+# Windows Python for models using pyControl.
+p = "/app/extra/pycontrol"
+
+[[apps]]
+id = "opendss"
+name = "OpenDSS"
+exe = 'C:\OpenDSS\x64\OpenDSS.exe'

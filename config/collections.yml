@@ -161,6 +161,7 @@ collections:
           - com.analog.LTspice
           - com.qorvo.QSPICE
           - de.qucsstudio.uSimmics
+          - com.epri.OpenDSS
   - slug: icp-brasil
     name: ICP-Brasil digital signature
     summary:

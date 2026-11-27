@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=OpenDSS
+GenericName=Distribution System Simulator
+Comment=Model and simulate electric power distribution systems
+Exec=opendss %F
+Icon=com.epri.OpenDSS
+Terminal=false
+StartupNotify=true
+StartupWMClass=opendss.exe
+Categories=Science;Education;Engineering;
+Keywords=power;distribution;simulation;electricity;
