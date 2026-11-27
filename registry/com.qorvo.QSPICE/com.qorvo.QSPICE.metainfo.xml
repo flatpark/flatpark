@@ -16,6 +16,11 @@
     <p>Save schematics, custom models and simulation output in Documents. Windows file dialogs can reach it through drive <code>H:</code>. To add another project folder, use <code>flatpak override --user --filesystem=/path/to/circuits com.qorvo.QSPICE</code>. To revoke access to that folder, use <code>flatpak override --user --nofilesystem=/path/to/circuits com.qorvo.QSPICE</code>.</p>
     <p>Audio access is optional. To enable playback in Tone Generator and capture in SoundScope, run <code>flatpak override --user --socket=pulseaudio com.qorvo.QSPICE</code>. To revoke audio access, run <code>flatpak override --user --nosocket=pulseaudio com.qorvo.QSPICE</code>.</p>
     <p>C++ and Verilog compilation may fail under Wine and has yet to be verified. SCPI instrument control failed in testing because the package lacks a Windows VISA runtime. Compatibility with a separately installed VISA runtime is unverified.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, choose a larger size. Restart QSPICE after changing the setting.</p>
+    <ul>
+      <li>Example for larger text and controls: <code>flatpak run --command=cellar com.qorvo.QSPICE config dpi=168</code></li>
+      <li>Restore automatic scaling: <code>flatpak run --command=cellar com.qorvo.QSPICE config dpi=auto</code></li>
+    </ul>
   </description>
   <screenshots>
     <!-- Captured from the QSPICE Flatpak running Qorvo's BodePlot example under Wine 11.0. -->
