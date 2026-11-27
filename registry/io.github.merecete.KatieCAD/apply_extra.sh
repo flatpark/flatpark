@@ -1,8 +1,9 @@
 #!/bin/sh
 set -eu
 
-# Runs offline at install time. The official Linux archive is a tar.gz
-# (tar.xz up to v1.2.0). Since v1.2.1 it holds release/KatieCAD.AppImage
+# Runs offline at install time. The official Linux archive is a tar.xz
+# (a tar.gz in v1.2.1), always saved as katiecad.tar.gz; bsdtar detects
+# the format. Since v1.2.1 it holds release/KatieCAD.AppImage
 # plus release/KatieCAD.tar.gz, which only wraps the same AppImage again;
 # earlier archives held the AppImage alone at the top level. Exactly one
 # AppImage at either depth is taken. It is read here, never executed and

@@ -14,6 +14,11 @@ catalog:
   tags: [AI, LLM, Inference, CPU]
 update:
   command: ./resolve-update.sh
+  # The resolver follows the stable release's nightly-tag.txt pointer to
+  # the b<N> build upstream picked for it; the newer b<N> builds are the
+  # nightly channel and are skipped on purpose. Should the pointer go
+  # away, the resolver fails instead (stable releases carry no Linux asset).
+  stale_ignore: '^b[0-9]+$'
 policy:
   proprietary: false
   dangerous_permissions: []
