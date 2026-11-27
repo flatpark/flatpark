@@ -4,9 +4,11 @@
 # The same GitHub release also ships a .deb, a Windows installer and a
 # macOS disk image. Take the official Linux x86_64 tarball from
 # releases/latest: every release carries one, so a missing or renamed one
-# fails instead of settling on an older release. Up to v1.2.0 it was
-# KatieCAD-Linux-x86_64_v<version>.tar.xz; from v1.2.1 it is .tar.gz.
-# There is no desktop aarch64 archive.
+# fails instead of settling on an older release. It is
+# KatieCAD-Linux-x86_64_v<version>.tar.xz, except v1.2.1 which shipped
+# .tar.gz; accept either, but exactly one. The extra-data keeps the name
+# katiecad.tar.gz for both, since apply_extra.sh lets bsdtar detect the
+# format. There is no desktop aarch64 archive.
 # Prints JSON on stdout:
 #   { "version": "1.2.1", "releaseDate": "YYYY-MM-DD", "releaseUrl": "...",
 #     "sources": [ { "filename": "katiecad.tar.gz", "url": "..." } ] }
@@ -23,8 +25,9 @@ rel="$(curl -fsSL ${GITHUB_TOKEN:+-H "Authorization: Bearer $GITHUB_TOKEN"} \
 version="$(jq -r '.tag_name | select(test("^v[0-9]+(\\.[0-9]+)*$")) | ltrimstr("v")' <<<"$rel")"
 date="$(jq -r '.published_at // empty' <<<"$rel" | cut -c1-10)"
 release_url="$(jq -r '.html_url // empty' <<<"$rel")"
-url="$(jq -r --arg n "KatieCAD-Linux-x86_64_v$version.tar.gz" \
-  '[ .assets[] | select(.name == $n) ] | if length == 1 then .[0].browser_download_url else empty end' <<<"$rel")"
+url="$(jq -r --arg n "KatieCAD-Linux-x86_64_v$version" \
+  '[ .assets[] | select(.name == ($n + ".tar.xz") or .name == ($n + ".tar.gz")) ]
+   | if length == 1 then .[0].browser_download_url else empty end' <<<"$rel")"
 
 [ -n "$version" ] && [ -n "$url" ] || { echo "failed to resolve KatieCAD release" >&2; exit 1; }
 echo "resolved KatieCAD $version ($date)" >&2
