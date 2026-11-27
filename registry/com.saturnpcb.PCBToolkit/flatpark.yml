@@ -1,0 +1,23 @@
+id: com.saturnpcb.PCBToolkit
+name: Saturn PCB Toolkit
+summary: PCB design and engineering calculators
+website: https://saturnpcb.com/saturn-pcb-toolkit/
+source_url: https://saturnpcb.com/saturn-pcb-toolkit/
+build:
+  manifest: com.saturnpcb.PCBToolkit.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  tags: [Electronics, PCB, Engineering, Wine]
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --allow=multiarch

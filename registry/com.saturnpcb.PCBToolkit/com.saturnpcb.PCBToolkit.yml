@@ -1,0 +1,57 @@
+id: com.saturnpcb.PCBToolkit
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: saturn-pcb-toolkit
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Wine uses X11 for its windows.
+  - --socket=x11
+  - --device=dri
+  # Wine's WoW64 mode requires 32-bit system calls.
+  - --allow=multiarch
+  # Cellar uses the separately installed Wine app.
+  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
+  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
+modules:
+  - name: saturn-pcb-toolkit
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 saturn-launcher /app/bin/saturn-pcb-toolkit
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 cellar.toml /app/share/cellar/cellar.toml
+      - install -Dm644 com.saturnpcb.PCBToolkit.desktop /app/share/applications/com.saturnpcb.PCBToolkit.desktop
+      - install -Dm644 com.saturnpcb.PCBToolkit.metainfo.xml /app/share/metainfo/com.saturnpcb.PCBToolkit.metainfo.xml
+      - install -Dm644 com.saturnpcb.PCBToolkit.png /app/share/icons/hicolor/64x64/apps/com.saturnpcb.PCBToolkit.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: saturn.msi
+        only-arches: [x86_64]
+        url: https://www.saturnpcb.com/wp-content/Toolkit/Saturn_PCB_Toolkit_V8.48_Setup_MSI.msi
+        sha256: ac85d886a3843eb87aa43723dba763b6f5b5237f861b6c61c76847466e91e492
+        size: 17905152
+      # END MANAGED EXTRA-DATA
+      # Shared Cellar CLI.
+      - type: extra-data
+        filename: cellar-cli-x86_64
+        only-arches: [x86_64]
+        url: https://github.com/jing2uo/cellar/releases/download/v0.5.1/cellar-cli-x86_64
+        sha256: bddea0982c458ababdac841c5b9c7685fd782cc9979dbd01c1f1ac7a36b2b9cb
+        size: 9691296
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: saturn-launcher
+      - type: file
+        path: cellar.toml
+      - type: file
+        path: com.saturnpcb.PCBToolkit.desktop
+      - type: file
+        path: com.saturnpcb.PCBToolkit.metainfo.xml
+      - type: file
+        path: com.saturnpcb.PCBToolkit.png

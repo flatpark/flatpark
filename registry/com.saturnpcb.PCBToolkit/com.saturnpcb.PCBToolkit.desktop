@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Saturn PCB Toolkit
+Comment=PCB design and engineering calculators
+Exec=saturn-pcb-toolkit
+Icon=com.saturnpcb.PCBToolkit
+Terminal=false
+StartupWMClass=pcb toolkit v8.48.exe
+Categories=Science;Electronics;Engineering;
+Keywords=PCB;impedance;calculator;electronics;
