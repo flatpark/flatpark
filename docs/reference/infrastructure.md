@@ -107,7 +107,36 @@ holds.
 - **Lifecycle rule**: R2 deletes objects under `pr/` after 120 days. It is a
   backstop for a purge that never ran, not part of the normal lifecycle.
 
+### CI image
+
+Every job that used to `apt-get install` or `curl | bash` a tool runs in
+`ghcr.io/flatpark/ci` instead, built from
+[`.github/ci-image/Dockerfile`](../../.github/ci-image/Dockerfile) by
+`ci-image.yml` for amd64 and arm64. A job that installed nothing still runs on
+the bare runner.
+
+- **`:base`**: node 24, rclone, gh, ostree, and the tools resolvers call on
+  the host (jq, curl, python3, file, xz, zstd, ar, 7z, bsdtar, gpg). It has no
+  flatpak-builder, so `lint-and-test` skips the build tests as before.
+- **`:build`**: base plus flatpak, flatpak-builder, bubblewrap, fuse3 and
+  appstream. Jobs run it with `options: --privileged` for bwrap and
+  rofiles-fuse. That gives a PR's build-commands no more than the bare runner
+  did, since it has passwordless sudo.
+
+Flathub runtimes are not in the image; `build-app.sh` installs what each
+manifest asks for. rclone and gh are pinned by version and sha256 in the
+Dockerfile. The image rebuilds when the Dockerfile changes and on the 1st of
+each month for Ubuntu updates. A PR that changes it gets built but not pushed.
+
+Inside a container job, `${{ github.workspace }}` and `${{ runner.temp }}`
+expand to the host's paths, which are not mounted at that spelling. Use
+`$GITHUB_WORKSPACE` and `$RUNNER_TEMP` in the shell, or write them to
+`$GITHUB_ENV` in a first step, as `publish.yml` does for `OUT_DIR`.
+
 ### GitHub settings that must stay
+
+- **The `ci` package on ghcr.io is public.** `pr-checks` pulls it for fork PRs,
+  whose token can't read a private package.
 
 - **Fork PR workflow runs need approval for all external contributors.**
   GitHub counts everyone outside the flatpark organization as external.

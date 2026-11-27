@@ -30,19 +30,29 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # node, gh, flatpak and the resolvers' tools come with the image. It also
+    # carries appstreamcli: update-pins validates any upstream release notes
+    # before writing them into a metainfo, and without it that guard silently
+    # no-ops in the one place it actually runs unattended. Privileged for
+    # apply_extra's bwrap.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      # update-pins validates any upstream release notes before writing them
-      # into a metainfo. Without appstreamcli that guard silently no-ops, so
-      # install it up front rather than leaving the check off in the one place
-      # it actually runs unattended.
-      - name: Install appstreamcli
+      # Set here, not as ${{ runner.temp }}: in a container job that is the
+      # host's path, not the one mounted here.
+      - name: Job paths
         run: |
-          sudo apt-get update
-          sudo apt-get install -y appstream
+          {
+            echo "FAILED_OUT=$RUNNER_TEMP/resolve-failures.tsv"
+            echo "RESOLVED_OUT=$RUNNER_TEMP/resolved.tsv"
+            echo "STALE_OUT=$RUNNER_TEMP/stale.tsv"
+          } >> "$GITHUB_ENV"
       - name: Recompute pins from upstream
         env:
           # Every resolver that reaches the GitHub API already reads this, 131 of
@@ -51,12 +61,11 @@ jobs:
           # it is gone fail to resolve instead of being held back, so they keep
           # their pins and the run still goes green (update-check #131 lost 89).
           GITHUB_TOKEN: ${{ github.token }}
-          # A resolver that fails keeps its app on the current pin and is in
-          # neither `changed` nor `held`, so nothing else in this run would
-          # notice it (update-check #131 lost 89 that way and went green).
-          FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
-          # What each successful resolver picked, for the stale check below.
-          RESOLVED_OUT: ${{ runner.temp }}/resolved.tsv
+          # FAILED_OUT (Job paths): a resolver that fails keeps its app on the
+          # current pin and is in neither `changed` nor `held`, so nothing else
+          # in this run would notice it (update-check #131 lost 89 that way and
+          # went green). RESOLVED_OUT: what each successful resolver picked, for
+          # the stale check below.
         run: |
           : > "$FAILED_OUT"
           : > "$RESOLVED_OUT"
@@ -77,8 +86,6 @@ jobs:
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          RESOLVED_OUT: ${{ runner.temp }}/resolved.tsv
-          STALE_OUT: ${{ runner.temp }}/stale.tsv
         run: |
           node scripts/check-stale.mjs "$RESOLVED_OUT" > "$STALE_OUT"
           stale="$(cut -f1 "$STALE_OUT" | tr '\n' ' ')"
@@ -94,11 +101,9 @@ jobs:
       # with `apply_extra script failed, exit status 256` (issue #130). Unpack
       # each new payload here, the way an install does, and hold back the pins
       # that no longer unpack instead of shipping them.
-      - name: Install flatpak
+      - name: Add the Flathub remote
         if: env.changed != ''
         run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak bubblewrap
           flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Verify the new payloads unpack
         if: env.changed != ''
@@ -252,7 +257,6 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
-          FAILED_OUT: ${{ runner.temp }}/resolve-failures.tsv
         run: |
           # Resolver failures are one alert for the whole batch, rewritten each
           # run with that day's list, so they get fixed together in one PR.
@@ -280,7 +284,6 @@ jobs:
           fi
 
           # Same shape for resolvers that succeeded on an old release.
-          STALE_OUT="$RUNNER_TEMP/stale.tsv"
           if [ -s "$STALE_OUT" ]; then
             n="$(wc -l < "$STALE_OUT")"
             {
@@ -329,8 +332,6 @@ jobs:
             stale="$stale $id"
           done
           if [ -n "$stale" ]; then
-            command -v flatpak >/dev/null || \
-              sudo apt-get install -y flatpak bubblewrap
             flatpak remote-add --user --if-not-exists flathub \
               https://dl.flathub.org/repo/flathub.flatpakrepo
             for id in $stale; do

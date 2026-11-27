@@ -25,10 +25,15 @@ jobs:
     # write access cannot read them.
     environment: production
     runs-on: ubuntu-latest
+    # node and rclone come with the image. STATS_DIR and REGISTRY_DIR are set
+    # in a step: in a container job ${{ github.workspace }} is the host's path.
+    container: ghcr.io/flatpark/ci:base
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     env:
       R2_BUCKET: ${{ vars.R2_BUCKET }}
-      STATS_DIR: ${{ github.workspace }}/out/stats
-      REGISTRY_DIR: ${{ github.workspace }}/registry
       # Analytics Engine SQL API: a token with Account Analytics: Read only.
       CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
@@ -41,11 +46,10 @@ jobs:
       RCLONE_CONFIG_R2_NO_CHECK_BUCKET: "true"
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      - name: Install rclone
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
+      - name: Job paths
+        run: |
+          echo "STATS_DIR=$GITHUB_WORKSPACE/out/stats" >> "$GITHUB_ENV"
+          echo "REGISTRY_DIR=$GITHUB_WORKSPACE/registry" >> "$GITHUB_ENV"
 
       - name: Pull existing stats from R2
         run: |

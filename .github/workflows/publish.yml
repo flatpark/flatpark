@@ -73,6 +73,12 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # node and rclone come with the image (.github/ci-image/Dockerfile).
+    container: ghcr.io/flatpark/ci:base
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     outputs:
       scope: ${{ steps.scope.outputs.scope }}
       ids_x86_64: ${{ steps.apps.outputs.ids_x86_64 }}
@@ -90,14 +96,6 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      # scan-registry.sh reads the descriptors with node.
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      # Every run needs rclone: even a site publish reads the .published-sha
-      # marker from R2 to know what it is diffing against.
-      - name: Install rclone
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
 
       - name: Decide publish scope
         id: scope
@@ -183,25 +181,20 @@ jobs:
     # x86_64 runs on 26.04 to dodge the broken azure apt mirror (see plan);
     # the arm images take apt from ports.ubuntu.com instead.
     runs-on: ${{ matrix.runner }}
+    # The flatpak toolchain comes with the image, the distro flatpak-builder
+    # rather than the Flathub app (.github/ci-image/Dockerfile). Privileged for
+    # bwrap and rofiles-fuse; the runner VM is root-capable anyway.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      - name: Install flatpak toolchain
-        run: |
-          # ubuntu-24.04-arm ships flatpak 1.14, which rejects finish-args added
-          # since (--device=input, used by OpenTubeX). The x86 runner is 26.04.
-          if [ "$(uname -m)" = aarch64 ]; then
-            sudo add-apt-repository -y ppa:flatpak/stable
-          fi
-          sudo apt-get update
-          # The distro package, not the Flathub app a developer machine uses:
-          # the sandboxed builder reaches the host's flatpak over the session
-          # bus, and this runner has none it can use. build-app.sh picks
-          # whichever is present.
-          sudo apt-get install -y flatpak flatpak-builder ostree
-          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      - name: Add the Flathub remote
+        run: flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       - name: Build ${{ matrix.arch }} apps (throwaway signing key)
         env:
           IDS: ${{ needs.plan.outputs[format('ids_{0}', matrix.arch)] }}
@@ -234,10 +227,17 @@ jobs:
     # 68 分钟。26.04 不走那个源。它目前是 public preview,只当作绕开手段,
     # 那边的源恢复之后换回 ubuntu-latest。
     runs-on: ubuntu-26.04
+    # rclone, flatpak, ostree and node come with the image. OUT_DIR, REPO_DIR
+    # and GNUPGHOME_DIR are set in the first step: in a container job
+    # ${{ github.workspace }} is the host's path, not the one mounted here.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     env:
-      OUT_DIR: ${{ github.workspace }}/out
-      REPO_DIR: ${{ github.workspace }}/out/repo
-      GNUPGHOME_DIR: ${{ github.workspace }}/.gnupg-flatpark
       R2_BUCKET: ${{ vars.R2_BUCKET }}
       CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT }}
       # rclone S3 remote "r2" — the name must be a single token (no _/-), since
@@ -253,6 +253,13 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      - name: Job paths
+        run: |
+          {
+            echo "OUT_DIR=$GITHUB_WORKSPACE/out"
+            echo "REPO_DIR=$GITHUB_WORKSPACE/out/repo"
+            echo "GNUPGHOME_DIR=$GITHUB_WORKSPACE/.gnupg-flatpark"
+          } >> "$GITHUB_ENV"
       - name: Require the plan and the builds
         env:
           PLAN: ${{ needs.plan.result }}
@@ -260,22 +267,14 @@ jobs:
         run: |
           [ "$PLAN" = success ] || { echo "::error::plan job: $PLAN"; exit 1; }
           case "$BUILD" in success|skipped) ;; *) echo "::error::build job: $BUILD"; exit 1 ;; esac
-      - uses: actions/setup-node@v7
+      # What setup-node's `cache: npm` did; node itself is in the image.
+      - name: Restore npm cache
+        uses: actions/cache@v6
         with:
-          node-version: 24
-          cache: npm
-          cache-dependency-path: site/package-lock.json
-      - name: Install rclone
-        if: needs.plan.outputs.scope != 'site'
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
-
-      - name: Install flatpak toolchain
-        if: needs.plan.outputs.scope != 'site'
-        run: |
-          sudo apt-get update
-          # Nothing is built here, so no flatpak-builder: this job only imports
-          # the build jobs' refs, signs, and regenerates the summary.
-          sudo apt-get install -y flatpak ostree
+          path: ~/.npm
+          key: npm-${{ hashFiles('site/package-lock.json') }}
+          restore-keys: |
+            npm-
 
       - name: Import signing subkey (master never reaches CI)
         if: needs.plan.outputs.scope != 'site'
@@ -330,11 +329,12 @@ jobs:
         with:
           pattern: repo-*
           merge-multiple: true
-          path: ${{ runner.temp }}/handover
+          # Relative (to the workspace): ${{ runner.temp }} is the host's path.
+          path: .handover
       - name: Import the builds, signed with the FlatPark key
         if: needs.build.result == 'success'
         run: |
-          for tar in "$RUNNER_TEMP"/handover/repo-*.tar; do
+          for tar in "$GITHUB_WORKSPACE"/.handover/repo-*.tar; do
             arch="$(basename "$tar" .tar)"; arch="${arch#repo-}"
             mkdir -p "$RUNNER_TEMP/$arch"
             tar -C "$RUNNER_TEMP/$arch" -xf "$tar"

@@ -99,6 +99,11 @@ jobs:
     permissions:
       pull-requests: read
       contents: read
+    container: ghcr.io/flatpark/ci:base   # rclone, gh
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     outputs:
       prs: ${{ steps.plan.outputs.prs }}
     env:
@@ -113,8 +118,6 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
-      - name: Install rclone
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
       - id: plan
         env:
           GH_TOKEN: ${{ github.token }}
@@ -145,6 +148,14 @@ jobs:
       actions: write         # download pr-checks artifacts; re-run a run whose artifacts expired
       pull-requests: write   # the test-repo comment
       contents: read
+    # rclone, gh, flatpak and ostree come with the image.
+    container:
+      image: ghcr.io/flatpark/ci:build
+      options: --privileged
+    # A container job's run steps default to sh; these scripts are bash.
+    defaults:
+      run:
+        shell: bash
     env:
       GH_TOKEN: ${{ github.token }}
       PR: ${{ matrix.pr }}
@@ -160,19 +171,9 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
-      - name: Install rclone
-        run: curl -fsSL https://rclone.org/install.sh | sudo bash
       - name: Decide
         id: decide
         run: echo "action=$(./scripts/test-repo-reconcile.sh --decide "$PR")" >> "$GITHUB_OUTPUT"
-      # Only a publish (a build is ready) or a retire builds a repo. A check
-      # (waiting on a re-run, or no build to publish) is gh only, so a PR
-      # whose newest push awaits approval or failed costs no install hourly.
-      - name: Install flatpak and ostree
-        if: steps.decide.outputs.action == 'publish' || steps.decide.outputs.action == 'retire'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak ostree
       - name: Reconcile
         if: steps.decide.outputs.action != 'none'
         env:
