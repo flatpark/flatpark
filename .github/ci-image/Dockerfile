@@ -43,6 +43,11 @@ RUN apt-get update \
       ostree \
  && rm -rf /var/lib/apt/lists/*
 
+# The job runs as root on a checkout owned by the runner's uid, and
+# actions/checkout only trusts it for its own step: every later git call would
+# die with "detected dubious ownership".
+RUN git config --system --add safe.directory '*'
+
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
