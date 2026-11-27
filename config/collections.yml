@@ -164,6 +164,8 @@ collections:
           - com.epri.OpenDSS
           - net.qsl._4nec2
           - io.github.ip7z.SevenZipGUI
+          - com.saturnpcb.PCBToolkit
+          - com.loxone.Config
   - slug: icp-brasil
     name: ICP-Brasil digital signature
     summary:

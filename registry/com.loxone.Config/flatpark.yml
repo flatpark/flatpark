@@ -1,0 +1,22 @@
+id: com.loxone.Config
+name: Loxone Config
+summary: Design and simulate building automation projects
+website: https://www.loxone.com/int/products/software/config/
+source_url: https://www.loxone.com/int/downloads/
+build:
+  manifest: com.loxone.Config.yml
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Utility
+  tags: [Building Automation, Smart Home, Wine]
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --allow=multiarch

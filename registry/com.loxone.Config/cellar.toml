@@ -1,0 +1,21 @@
+locale = "en_US"
+font_sets = ["core"]
+
+[install]
+source = "LoxoneConfigSetup.exe"
+method = "run"
+args = ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/MERGETASKS=!desktopicon"]
+
+[drives]
+h = "~"
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[[apps]]
+id = "loxone-config"
+name = "Loxone Config"
+exe = 'C:\Program Files (x86)\Loxone\LoxoneConfig\LoxoneConfig.exe'

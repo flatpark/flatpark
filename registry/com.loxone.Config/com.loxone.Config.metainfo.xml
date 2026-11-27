@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.loxone.Config</id>
+  <name>Loxone Config</name>
+  <summary>Design and simulate building automation projects</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+  <developer id="com.loxone"><name>Loxone Electronics GmbH</name></developer>
+  <description>
+    <p>Design automation projects for Loxone installations. Organize rooms and devices, connect function blocks, and simulate automation logic before deploying it to a Miniserver.</p>
+    <p>This package runs the official Windows release using Wine.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, choose a larger size. Restart Loxone Config after changing the setting.</p>
+    <ul>
+      <li>Example for larger text and controls: <code>flatpak run --command=cellar com.loxone.Config config dpi=168</code></li>
+      <li>Restore automatic scaling: <code>flatpak run --command=cellar com.loxone.Config config dpi=auto</code></li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">com.loxone.Config.desktop</launchable>
+  <url type="homepage">https://www.loxone.com/int/products/software/config/</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Simulating an inverted digital input connected to a relay</caption>
+      <!-- Captured in the FlatPark test build of Loxone Config 17.3.11.23. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/com.loxone.Config/screenshots/simulation.png</image>
+    </screenshot>
+  </screenshots>
+  <releases><release version="17.3.11.23" date="2026-11-23"/></releases>
+  <content_rating type="oars-1.1"/>
+</component>
