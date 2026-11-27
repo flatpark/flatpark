@@ -34,16 +34,16 @@ modules:
         filename: hex.deb
         only-arches:
           - x86_64
-        url: https://github.com/anomalyco/hex/releases/download/v3.5.1/hex-3.5.1-linux-x64.deb
-        sha256: 804d695cf8c11dd20c415395b9fee184c8d1605691096d40c7b34407d08cf648
-        size: 37429386
+        url: https://github.com/anomalyco/hex/releases/download/v3.5.2/hex-3.5.2-linux-x64.deb
+        sha256: 785cb502bb556865cda6da9eecb41a52f50734ecef3dfbde99155f776d7f3462
+        size: 37429750
       - type: extra-data
         filename: hex.deb
         only-arches:
           - aarch64
-        url: https://github.com/anomalyco/hex/releases/download/v3.5.1/hex-3.5.1-linux-arm64.deb
-        sha256: 3b02b7bab516bacf8fa49cd9a0fb6bd23952eca2ba511f883ff02941fbffaedb
-        size: 35797460
+        url: https://github.com/anomalyco/hex/releases/download/v3.5.2/hex-3.5.2-linux-arm64.deb
+        sha256: 02a38cbfd701bdc0387fec3ac2c03824881621f160e306f6b0d76e170c1898ca
+        size: 35789920
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

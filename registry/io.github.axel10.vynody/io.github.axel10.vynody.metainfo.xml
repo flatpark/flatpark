@@ -83,6 +83,9 @@
     <binary>vynody</binary>
   </provides>
   <releases>
+    <release version="3.6.0-1" date="2026-11-27">
+      <description></description>
+    </release>
     <release version="3.5.3-1" date="2026-11-26">
       <description></description>
     </release>

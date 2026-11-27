@@ -45,9 +45,9 @@ modules:
         filename: prism.deb
         only-arches:
           - x86_64
-        url: https://github.com/FortoGraphy/prism-download-manager/releases/download/v1.2.7/Prism_1.2.7_amd64.deb
-        sha256: a23ec8998b816cf8ba85b27b3522e7549d05168d607287f1fcbcbb1d7a622043
-        size: 20038564
+        url: https://github.com/FortoGraphy/prism-download-manager/releases/download/v1.2.8/Prism_1.2.8_amd64.deb
+        sha256: be0f63bf0270cd9457d343e2c83e4f6030e384b93beec36d1d4cba23a56139b2
+        size: 20160474
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
