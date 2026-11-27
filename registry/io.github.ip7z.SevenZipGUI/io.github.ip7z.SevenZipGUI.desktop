@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=7-Zip GUI
+GenericName=Archive Manager
+Comment=Create and extract archives
+Exec=cellar %F
+Icon=io.github.ip7z.SevenZipGUI
+Terminal=false
+StartupNotify=true
+StartupWMClass=7zfm.exe
+Categories=Utility;Archiving;Compression;
+Keywords=7z;zip;archives;compression;

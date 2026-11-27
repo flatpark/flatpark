@@ -1,0 +1,21 @@
+locale = "en_US"
+font_sets = ["core"]
+
+# Use the scalable core font for Wine's Windows interface fonts.
+[registry.'HKLM\Software\Microsoft\Windows NT\CurrentVersion\FontSubstitutes']
+'MS Shell Dlg' = 'Liberation Sans'
+'MS Shell Dlg 2' = 'Liberation Sans'
+Tahoma = 'Liberation Sans'
+
+[install]
+source = "7zip.exe"
+method = "run"
+args = ["/S"]
+
+[drives]
+h = "~"
+
+[[apps]]
+id = "sevenzip"
+name = "7-Zip GUI"
+exe = 'C:\Program Files\7-Zip\7zFM.exe'

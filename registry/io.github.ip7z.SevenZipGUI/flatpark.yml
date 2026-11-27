@@ -1,0 +1,29 @@
+id: io.github.ip7z.SevenZipGUI
+name: 7-Zip GUI
+summary: Compress and extract archives with the 7-Zip file manager
+website: https://www.7-zip.org/
+source_url: https://github.com/ip7z/7zip
+build:
+  manifest: io.github.ip7z.SevenZipGUI.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Utility
+  tags: [Archives, Compression, Wine]
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions:
+    - --allow=multiarch
+    - --filesystem=home
+packaging:
+  - kind: seeded-config
+    detail:
+      en: "Uses Liberation Sans for Wine interface fonts."
+      zh-Hans: "在 Wine 界面中使用 Liberation Sans 字体。"

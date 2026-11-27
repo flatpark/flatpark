@@ -1,0 +1,59 @@
+id: io.github.ip7z.SevenZipGUI
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: cellar
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Wine uses X11 and shared memory.
+  - --share=ipc
+  - --socket=x11
+  # Rendering support for Wine.
+  - --device=dri
+  # The file manager browses and creates archives throughout the home directory.
+  - --filesystem=home
+  # Wine new-WoW64 requires 32-bit system calls.
+  - --allow=multiarch
+  # Read the separately installed Wine application.
+  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
+  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
+modules:
+  - name: sevenzip
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 cellar.toml /app/share/cellar/cellar.toml
+      - install -Dm644 io.github.ip7z.SevenZipGUI.desktop /app/share/applications/io.github.ip7z.SevenZipGUI.desktop
+      - install -Dm644 io.github.ip7z.SevenZipGUI.metainfo.xml /app/share/metainfo/io.github.ip7z.SevenZipGUI.metainfo.xml
+      - install -Dm644 io.github.ip7z.SevenZipGUI.png /app/share/icons/hicolor/256x256/apps/io.github.ip7z.SevenZipGUI.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: 7zip.exe
+        only-arches:
+          - x86_64
+        url: https://github.com/ip7z/7zip/releases/download/26.06/7z2606-x64.exe
+        sha256: 9b697f65ecc2d9b0152f5ee96d72dde522a7827690349d9307935dacf40f42ec
+        size: 1659704
+      # END MANAGED EXTRA-DATA
+      # Cellar launcher, pinned separately from the upstream installer.
+      - type: extra-data
+        filename: cellar-cli-x86_64
+        only-arches:
+          - x86_64
+        url: https://github.com/jing2uo/cellar/releases/download/v0.5.1/cellar-cli-x86_64
+        sha256: bddea0982c458ababdac841c5b9c7685fd782cc9979dbd01c1f1ac7a36b2b9cb
+        size: 9691296
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cellar.toml
+      - type: file
+        path: io.github.ip7z.SevenZipGUI.desktop
+      - type: file
+        path: io.github.ip7z.SevenZipGUI.metainfo.xml
+      - type: file
+        path: io.github.ip7z.SevenZipGUI.png
