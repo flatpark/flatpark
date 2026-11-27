@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=PCBCraft
+GenericName=Electronics Design
+Comment=Schematic and PCB editor
+Exec=pcbcraft %f
+Icon=io.tangencylabs.pcbcraft
+Terminal=false
+StartupWMClass=PCBCraft
+Categories=Development;Electronics;
+Keywords=electronics;PCB;schematic;EDA;
