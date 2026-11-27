@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Loxone Config
+Comment=Design and simulate building automation projects
+Exec=cellar %f
+Icon=com.loxone.Config
+Terminal=false
+StartupWMClass=loxoneconfig.exe
+Categories=Utility;Engineering;
