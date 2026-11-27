@@ -63,6 +63,7 @@ One feature or one piece of desktop integration.
 | KatieCAD | Stuck on 1.2.0 | Resolver matched `.tar.xz`; upstream switched to `.tar.gz` | #1598 | [Stale check](../packagers/basics.md#resolve-updatesh) |
 | falconpdf | Missed the 2026.11-r3 re-cut | Resolver took the first list entry (tag-creation order) | #1598 | [Stale check](../packagers/basics.md#resolve-updatesh) |
 | PyCharm Community | Rolled back from 2026.3.0.1 to 2025.3.6.3 | Resolver took the latest-published release, a patch to the previous line | #1598 | — (choose by version; [resolver rules](../packagers/basics.md#resolve-updatesh)) |
+| Grok Bot | No tray icon | Electron 43 owns `org.kde.StatusNotifierItem-<pid>-<n>`; neither it nor the watcher was granted | this PR | [Bus names](../reviewers/testing-playbook.md#bus-names-tray-media-second-launch) |
 
 ## What the record shows
 

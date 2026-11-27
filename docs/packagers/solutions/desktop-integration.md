@@ -81,6 +81,7 @@ toolkit:
 | Flutter `tray_manager` / desktop tray plugin | `--own-name=org.fluttertray.*` ([Vynody](../../../registry/io.github.axel10.vynody/io.github.axel10.vynody.yml)) |
 | Rust `ksni` (without `disable_dbus_name`) | Owns `org.kde.StatusNotifierItem-2-<n>`, `<n>` counting from 1; a refused name means no tray. Grant that exact name ([Rayburst](../../../registry/dev.aninsomniacy.rayburst/dev.aninsomniacy.rayburst.yml)) |
 | Avalonia (.NET) | Owns `org.kde.StatusNotifierItem-2-0`: `--own-name=org.kde.*` ([XerahS](../../../registry/com.xerahs.XerahS/com.xerahs.XerahS.yml)) |
+| Electron before 45 (Chromium before 155) | Owns `org.kde.StatusNotifierItem-<pid>-<n>`: `--own-name=org.kde.*` ([Grok Bot](../../../registry/ai.x.GrokBot/ai.x.GrokBot.yml), Electron 43) |
 | Qt 6 (Enpass 6.12), Electron 45 and later, Chromium 155 and later | Register under their unique connection name; the watcher grant alone is enough |
 | Wails v3 | Unique connection name; the watcher grant alone |
 
