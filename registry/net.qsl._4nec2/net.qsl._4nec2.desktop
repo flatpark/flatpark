@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=4nec2
+GenericName=Antenna Modeler
+Comment=Model and simulate antennas
+Exec=4nec2
+Icon=net.qsl._4nec2
+Terminal=false
+StartupNotify=true
+StartupWMClass=4nec2.exe
+Categories=Science;Engineering;
+Keywords=antenna;NEC;simulation;radio;

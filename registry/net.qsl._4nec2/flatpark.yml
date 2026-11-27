@@ -1,0 +1,28 @@
+id: net.qsl._4nec2
+name: 4nec2
+summary: Antenna modeling and simulation
+website: https://qsl.net/4nec2/Home.htm
+source_url: https://qsl.net/4nec2/Home.htm
+build:
+  manifest: net.qsl._4nec2.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64]
+catalog:
+  category: Science
+  tags: [Antennas, Simulation, Engineering, Wine]
+requires:
+  - remote: flathub
+    ref: org.winehq.Wine//stable-26.08
+    name: Wine
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: true
+  dangerous_permissions:
+    - --allow=multiarch
+packaging:
+  - kind: runtime-install
+    detail:
+      en: "The package installs the DirectX 8 library from the official 4nec2 installer into the Wine prefix for the 3D viewer."
+      zh-Hans: "此软件包将 4nec2 官方安装程序中的 DirectX 8 库安装到 Wine 前缀中，供 3D 查看器使用。"

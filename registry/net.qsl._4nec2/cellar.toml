@@ -1,0 +1,24 @@
+locale = "en_US"
+font_sets = ["core"]
+
+[install]
+source = "Setup_4nec2.exe"
+method = "run"
+args = ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART"]
+
+[dll_overrides]
+dx8vb = "native,builtin"
+
+[drives]
+h = "~"
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[[apps]]
+id = "4nec2"
+name = "4nec2"
+exe = 'C:\4nec2\exe\4nec2.exe'

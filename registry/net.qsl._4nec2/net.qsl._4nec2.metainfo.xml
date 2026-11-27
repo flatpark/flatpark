@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.qsl._4nec2</id>
+  <name>4nec2</name>
+  <summary>Antenna modeling and simulation</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary=https://qsl.net/4nec2/Home.htm</project_license>
+  <developer id="net.qsl._4nec2"><name>Arie Voors</name></developer>
+  <url type="homepage">https://qsl.net/4nec2/Home.htm</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>4nec2 models and analyzes antennas using NEC. It provides geometry editing, radiation patterns, frequency sweeps and optimization.</p>
+    <p>This community package downloads the official Windows installer and runs it unmodified under Wine. Cellar installs it into a private persistent Wine prefix on first launch. The package also stages the installer’s DirectX 8 library in that prefix for the 3D viewer. Wine is a separate dependency; install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
+    <p>Windows file dialogs show your accessible home folders on drive H:. Browse to Documents to open models or save output. To allow another folder, run <code>flatpak override --user --filesystem=/path/to/models net.qsl._4nec2</code>. Undo overrides with <code>flatpak override --user --reset net.qsl._4nec2</code>.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Calculating the bundled dipole example</caption>
+      <!-- Taken from the FlatPark test run of 5.9.3. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/net.qsl._4nec2/screenshots/example.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Science</category><category>Engineering</category></categories>
+  <launchable type="desktop-id">net.qsl._4nec2.desktop</launchable>
+  <releases><release version="5.9.3-20210429143430" date="2021-04-29"/></releases>
+</component>

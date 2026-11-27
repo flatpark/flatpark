@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+prefix=${CELLAR_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/cellar}
+library=/app/extra/dx8vb.dll
+destination=$prefix/pfx/drive_c/windows/syswow64/dx8vb.dll
+
+# Apply installer updates before placing the matching 32-bit library.
+/app/bin/cellar apply
+if ! cmp -s "$library" "$destination"; then
+    temporary=$(mktemp "${destination}.XXXXXX")
+    trap 'rm -f "$temporary"' EXIT
+    install -m644 "$library" "$temporary"
+    mv -f "$temporary" "$destination"
+    trap - EXIT
+fi
+
+exec /app/bin/cellar "$@"

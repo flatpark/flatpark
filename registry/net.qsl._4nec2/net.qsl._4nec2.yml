@@ -1,0 +1,66 @@
+id: net.qsl._4nec2
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: 4nec2
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  - --share=ipc
+  # Wine's display driver uses X11.
+  - --socket=x11
+  - --device=dri
+  # User antenna models and output.
+  - --filesystem=xdg-documents
+  # Wine's new WoW64 mode needs 32-bit system calls.
+  - --allow=multiarch
+  # The separately installed Wine app is shared with other Cellar packages.
+  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
+  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
+modules:
+  - name: 4nec2
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 4nec2-launcher /app/bin/4nec2
+      - ln -s /app/extra/cellar /app/bin/cellar
+      - install -Dm644 cellar.toml /app/share/cellar/cellar.toml
+      - install -Dm644 net.qsl._4nec2.desktop /app/share/applications/net.qsl._4nec2.desktop
+      - install -Dm644 net.qsl._4nec2.metainfo.xml /app/share/metainfo/net.qsl._4nec2.metainfo.xml
+      - install -Dm644 net.qsl._4nec2.svg /app/share/icons/hicolor/scalable/apps/net.qsl._4nec2.svg
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: 4nec2.zip
+        only-arches: [x86_64]
+        url: https://qsl.net/4nec2/4nec2.zip
+        sha256: 8a4a1a0397de8781dce81d768f5a7de4bb37d9dd9452b33fd4c4ddce0a69f5a2
+        size: 4281177
+      # END MANAGED EXTRA-DATA
+      # Shared Cellar CLI, kept outside the managed upstream pin.
+      - type: extra-data
+        filename: cellar-cli-x86_64
+        only-arches: [x86_64]
+        url: https://github.com/jing2uo/cellar/releases/download/v0.5.1/cellar-cli-x86_64
+        sha256: bddea0982c458ababdac841c5b9c7685fd782cc9979dbd01c1f1ac7a36b2b9cb
+        size: 9691296
+      # Offline extraction of the vendor's DirectX library from Inno Setup.
+      - type: extra-data
+        filename: innoextract-1.9-linux.tar.xz
+        only-arches: [x86_64]
+        url: https://constexpr.org/innoextract/files/innoextract-1.9-linux.tar.xz
+        sha256: 008efe5011476ccc4aae17c3e22038b5a1bc5c7aad2b9d4d869537bf3874d21f
+        size: 890320
+      - type: file
+        path: 4nec2-launcher
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: cellar.toml
+      - type: file
+        path: net.qsl._4nec2.desktop
+      - type: file
+        path: net.qsl._4nec2.metainfo.xml
+      - type: file
+        path: net.qsl._4nec2.svg

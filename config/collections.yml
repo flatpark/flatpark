@@ -162,6 +162,7 @@ collections:
           - com.qorvo.QSPICE
           - de.qucsstudio.uSimmics
           - com.epri.OpenDSS
+          - net.qsl._4nec2
   - slug: icp-brasil
     name: ICP-Brasil digital signature
     summary:
