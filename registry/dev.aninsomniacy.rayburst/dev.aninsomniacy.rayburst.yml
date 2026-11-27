@@ -92,9 +92,9 @@ modules:
         filename: rayburst.AppImage
         only-arches:
           - x86_64
-        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.1.3-beta.2/Rayburst_4.1.3-beta.2_amd64.AppImage
-        sha256: 7a2a0af77780de99c56d667de7e9905838c3297282f01fce2f8aaf77043bd0bf
-        size: 104319480
+        url: https://github.com/AnInsomniacy/rayburst/releases/download/v4.1.3/Rayburst_4.1.3_amd64.AppImage
+        sha256: ad179fe9ad9296f00e29e1adbbfe27bdc2432e7c3b681f07821f312c3db7770e
+        size: 104331768
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

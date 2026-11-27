@@ -31,16 +31,16 @@ modules:
         filename: blastqr.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/blastapps/blastqr/releases/download/v3.3.1/blastqr-v3.3.1-linux-x64.tar.gz
-        sha256: 05b31ae733bf549858e6b5525b45375d044239fa1eda08a543ddd4eb4f073978
-        size: 14298422
+        url: https://github.com/blastapps/blastqr/releases/download/v3.3.2/blastqr-v3.3.2-linux-x64.tar.gz
+        sha256: 723d1cb78d3a2b76c96a620e77a2c68d4c06499b46757d6853a8e7209dbd8006
+        size: 14335700
       - type: extra-data
         filename: blastqr.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/blastapps/blastqr/releases/download/v3.3.1/blastqr-v3.3.1-linux-arm64.tar.gz
-        sha256: 43f607afd664c3f0dd5cf3d8a427efec115873906f54d56796fe1173dc6130ee
-        size: 13761520
+        url: https://github.com/blastapps/blastqr/releases/download/v3.3.2/blastqr-v3.3.2-linux-arm64.tar.gz
+        sha256: 939f3a40c2b0c34f5367674b92aff91a47be8d663f2a47cb810355a98b1090e3
+        size: 13796028
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

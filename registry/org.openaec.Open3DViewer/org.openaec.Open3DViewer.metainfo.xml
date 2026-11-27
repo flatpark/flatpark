@@ -60,6 +60,10 @@
     <mediatype>model/e57</mediatype>
   </provides>
   <releases>
+    <release version="2026.48.2" date="2026-11-27">
+      <url type="details">https://github.com/OpenAEC-Foundation/open-bim-suite/releases/tag/v2026.48.2</url>
+      <description></description>
+    </release>
     <release version="2026.48.1" date="2026-11-25">
       <url type="details">https://github.com/OpenAEC-Foundation/open-bim-suite/releases/tag/v2026.48.1</url>
       <description></description>

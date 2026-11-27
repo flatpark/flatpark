@@ -88,6 +88,15 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="51.1.863.gadd9dcc60" date="2026-11-27">
+      <url type="details">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/compare/fd09165e4...add9dcc60</url>
+      <description>
+        <p>Changes since the last build:</p>
+        <ul>
+          <li>screenshot-viewer: Move a swiped screenshot with the fingers</li>
+        </ul>
+      </description>
+    </release>
     <release version="51.1.858.gfd09165e4" date="2026-11-26">
       <url type="details">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/compare/2563d8c03...fd09165e4</url>
       <description>

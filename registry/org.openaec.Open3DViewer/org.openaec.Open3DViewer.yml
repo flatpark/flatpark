@@ -58,16 +58,16 @@ modules:
         filename: open-3d-viewer.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/OpenAEC-Foundation/open-bim-suite/releases/download/v2026.48.1/open-3d-viewer_2026.48.1_linux-x64.tar.gz
-        sha256: 870aafa7cd5f4c40d85f08f7f80289229c20da39ad2d15d40546874779335930
-        size: 50845707
+        url: https://github.com/OpenAEC-Foundation/open-bim-suite/releases/download/v2026.48.2/open-3d-viewer_2026.48.2_linux-x64.tar.gz
+        sha256: 8a089dfa8b0d30ad20d6fa4d65b5ec0660177666d8f9ca62235420c01dcd04c1
+        size: 51282555
       - type: extra-data
         filename: open-3d-viewer.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/OpenAEC-Foundation/open-bim-suite/releases/download/v2026.48.1/open-3d-viewer_2026.48.1_linux-arm64.tar.gz
-        sha256: 879dbf3b2160eb7762a40a6f4d05c63e4353237f1e653476d14fb1f5e13bdaad
-        size: 48012745
+        url: https://github.com/OpenAEC-Foundation/open-bim-suite/releases/download/v2026.48.2/open-3d-viewer_2026.48.2_linux-arm64.tar.gz
+        sha256: 40cc2a54a7d02cdb1a375b6d48007fe8463d37b931e9a2f96de41883b3fdd2ce
+        size: 46770098
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
