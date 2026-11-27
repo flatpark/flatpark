@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.ip7z.SevenZipGUI</id>
+  <name>7-Zip GUI</name>
+  <summary>Compress and extract archives with the 7-Zip file manager</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-2.1-or-later AND BSD-3-Clause AND BSD-2-Clause AND LicenseRef-unRAR</project_license>
+  <developer id="io.github.ip7z"><name>Igor Pavlov</name></developer>
+  <url type="homepage">https://www.7-zip.org/</url>
+  <url type="vcs-browser">https://github.com/ip7z/7zip</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="help">https://github.com/flatpark/flatpark/issues</url>
+  <description>
+    <p>7-Zip GUI provides the Windows 7-Zip file manager for creating, browsing and extracting archives. It supports 7z, ZIP and many other formats, including password-protected archives.</p>
+    <p>This community package downloads the official Windows x64 installer at install time. On first launch, Cellar runs the installer in a private Wine prefix. Install the shared Wine dependency with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
+    <p>The file manager can access your home directory to work with archives. Windows shell integration does not integrate with your Linux file manager.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, choose a larger size. Restart 7-Zip after changing the setting.</p>
+    <ul>
+      <li>Example for larger text and controls: <code>flatpak run --command=cellar io.github.ip7z.SevenZipGUI config dpi=168</code></li>
+      <li>Restore automatic scaling: <code>flatpak run --command=cellar io.github.ip7z.SevenZipGUI config dpi=auto</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>7-Zip file manager running under Wine</caption>
+      <!-- Captured from the local test run of 7-Zip 26.06. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.ip7z.SevenZipGUI/screenshots/file-manager.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <categories><category>Utility</category><category>Archiving</category><category>Compression</category></categories>
+  <keywords><keyword>7z</keyword><keyword>ZIP</keyword><keyword>archive</keyword><keyword>compression</keyword><keyword>extraction</keyword></keywords>
+  <launchable type="desktop-id">io.github.ip7z.SevenZipGUI.desktop</launchable>
+  <releases><release version="26.06" date="2026-11-07"/></releases>
+</component>
