@@ -14,6 +14,11 @@
     <p>This community package downloads the official Windows archive and runs it using Wine and a private persistent Cellar prefix. Wine is a separate dependency: install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
     <p>Microstrip simulations may fail under Wine because of the Microsoft Visual C++ runtime DLLs. See the upstream FAQ for details. Hardware access has not been tested with this package.</p>
     <p>Your Documents folder is available on drive H: for circuits and simulation output. To use another folder, run <code>flatpak override --user --filesystem=/path/to/circuits de.qucsstudio.uSimmics</code>. Undo permissions with <code>flatpak override --user --reset de.qucsstudio.uSimmics</code>.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, choose a larger size. Restart uSimmics after changing the setting.</p>
+    <ul>
+      <li>Example for larger text and controls: <code>flatpak run --command=cellar de.qucsstudio.uSimmics config dpi=168</code></li>
+      <li>Restore automatic scaling: <code>flatpak run --command=cellar de.qucsstudio.uSimmics config dpi=auto</code></li>
+    </ul>
   </description>
   <screenshots>
     <screenshot type="default">

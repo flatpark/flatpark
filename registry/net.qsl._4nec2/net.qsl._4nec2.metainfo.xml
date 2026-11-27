@@ -13,6 +13,11 @@
     <p>4nec2 models and analyzes antennas using NEC. It provides geometry editing, radiation patterns, frequency sweeps and optimization.</p>
     <p>This community package downloads the official Windows installer and runs it unmodified under Wine. Cellar installs it into a private persistent Wine prefix on first launch. The package also stages the installer’s DirectX 8 library in that prefix for the 3D viewer. Wine is a separate dependency; install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
     <p>Windows file dialogs show your accessible home folders on drive H:. Browse to Documents to open models or save output. To allow another folder, run <code>flatpak override --user --filesystem=/path/to/models net.qsl._4nec2</code>. Undo overrides with <code>flatpak override --user --reset net.qsl._4nec2</code>.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, choose a larger size. Restart 4nec2 after changing the setting.</p>
+    <ul>
+      <li>Example for larger text and controls: <code>flatpak run --command=cellar net.qsl._4nec2 config dpi=168</code></li>
+      <li>Restore automatic scaling: <code>flatpak run --command=cellar net.qsl._4nec2 config dpi=auto</code></li>
+    </ul>
   </description>
   <screenshots>
     <screenshot type="default">

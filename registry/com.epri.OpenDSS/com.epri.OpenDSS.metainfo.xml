@@ -18,6 +18,11 @@
     <p>Wine is a separate dependency shared with other Wine apps. Install it with <code>flatpak install flathub org.winehq.Wine//stable-26.08</code>.</p>
     <p>Open and save models and reports in <code>H:\Documents</code>. To give OpenDSS access to another folder in your home directory, for example <code>H:\Models</code>, run <code>flatpak override --user --filesystem="$HOME/Models" com.epri.OpenDSS</code>. Reset overrides with <code>flatpak override --user --reset com.epri.OpenDSS</code>.</p>
     <p>The package supplies Windows Python 3.12, NumPy and pywin32 for pyControl and registers EPRI’s bundled DSSpyServer unless a registration already exists. Add <code>set pyPath=P:\python</code> before creating a pyControl object. If an example already sets <code>pyPath</code>, replace that line in your copy of the model.</p>
+    <p>The interface follows your desktop scale by default. If the text or controls are too small, choose a larger size. Restart OpenDSS after changing the setting.</p>
+    <ul>
+      <li>Example for larger text and controls: <code>flatpak run --command=cellar com.epri.OpenDSS config dpi=168</code></li>
+      <li>Restore automatic scaling: <code>flatpak run --command=cellar com.epri.OpenDSS config dpi=auto</code></li>
+    </ul>
   </description>
   <screenshots>
     <screenshot type="default">
