@@ -1,0 +1,13 @@
+locale = "en_US"
+font_sets = ["core"]
+
+[install]
+source = "saturn.msi"
+method = "run"
+args = ["/qn", "/norestart", 'APPDIR=C:\SaturnPCB']
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders']
+Desktop = 'C:\users\Public\Desktop'
+
+[registry.'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders']
+Desktop = 'C:\users\Public\Desktop'

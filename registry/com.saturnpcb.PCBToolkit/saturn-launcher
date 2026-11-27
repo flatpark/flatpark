@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+# Installer names its executable after the version; find the installed program
+# after Cellar has applied the current installer, rejecting ambiguous matches.
+/app/bin/cellar apply
+prefix=${CELLAR_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/cellar}
+set -- "$prefix"/pfx/drive_c/SaturnPCB/'PCB Toolkit V'*.exe
+[ "$#" -eq 1 ] && [ -f "$1" ] || { echo 'Expected one Saturn PCB Toolkit executable' >&2; exit 1; }
+exec /app/bin/cellar run --exe "$1"
