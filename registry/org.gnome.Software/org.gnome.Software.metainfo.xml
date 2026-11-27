@@ -88,6 +88,15 @@
     <control>touch</control>
   </supports>
   <releases>
+    <release version="51.1.858.gfd09165e4" date="2026-11-26">
+      <url type="details">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/compare/2563d8c03...fd09165e4</url>
+      <description>
+        <p>Changes since the last build:</p>
+        <ul>
+          <li>update-monitor: Run one daily update check at a time</li>
+        </ul>
+      </description>
+    </release>
     <release version="51.1.856.g2563d8c03" date="2026-11-24">
       <url type="details">https://gitlab.gnome.org/user_c1a5830a/gnome-software-next/-/compare/89b891c28...2563d8c03</url>
       <description>
