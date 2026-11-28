@@ -13,7 +13,7 @@
 # until a gnome-51 aarch64 stack exists.
 set -euo pipefail
 
-repo="chen08209/FlClash"
+repo="Vialibrex/FlClash"
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "missing command: $1" >&2; exit 1; }; }
 need curl
