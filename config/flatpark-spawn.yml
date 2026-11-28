@@ -25,4 +25,5 @@
 # warning, so the grant can land before the switch. Take an app off the list
 # when it stops using flatpark-spawn or leaves the registry: tests/test_registry.sh
 # fails on an id that isn't in the registry.
-apps: []
+apps:
+  - com.visualstudio.code   # flatpark#1565

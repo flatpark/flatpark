@@ -117,7 +117,11 @@ printf '# c\napps:\n  - a.B   # flatpark#1\n  # - c.D\n  - "e.F"\nother:\n  - g.
 assert_eq "$(node "$tmp/scripts/flatpark-spawn.mjs" "$tmp/list.yml" | paste -sd' ')" "a.B e.F"
 printf 'apps: [a.B, e.F]\n' > "$tmp/list.yml"
 assert_eq "$(node "$tmp/scripts/flatpark-spawn.mjs" "$tmp/list.yml" | paste -sd' ')" "a.B e.F"
-assert_eq "$(node "$ROOT/scripts/flatpark-spawn.mjs" "$ROOT/config/flatpark-spawn.yml" | wc -l)" "0"
+# Every app on the repository's allow-list passes its audit.
+for id in $(node "$ROOT/scripts/flatpark-spawn.mjs" "$ROOT/config/flatpark-spawn.yml"); do
+    node "$ROOT/scripts/audit-descriptor.mjs" "$ROOT/registry/$id/flatpark.yml" >/dev/null 2>&1
+    assert_eq "$id:$?" "$id:0"
+done
 
 # --- The stand-in --------------------------------------------------------
 meta="$(node "$tmp/scripts/read-extension-points.mjs" "$reg/$E/$E.BuildParent.yml" x86_64)"

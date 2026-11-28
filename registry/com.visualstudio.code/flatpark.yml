@@ -25,15 +25,15 @@ policy:
     - --filesystem=host
     # Serial ports, USB debuggers and other devices extensions talk to.
     - --device=all
-    # host-spawn: the integrated terminal and host toolchains run outside the
-    # sandbox.
+    # flatpark-spawn: commands VS Code, its terminal and its extensions run go
+    # to the host when the host has them, outside the sandbox.
     - --talk-name=org.freedesktop.Flatpak
 
 packaging:
   - kind: host-command
     detail:
-      en: "The bundled host-spawn runs commands on your system through flatpak-spawn, outside the sandbox with your user's access. The integrated terminal can be pointed at it to use your host shell and toolchains."
-      zh-Hans: "随附的 host-spawn 通过 flatpak-spawn 在你的系统上运行命令，在沙箱之外、拥有你这个用户的权限。可以将集成终端设置为使用它，以便使用宿主机的 shell 和工具链。"
+      en: "Uses flatpark-spawn: commands VS Code, its integrated terminal and its extensions run (git, node, your mise or asdf toolchains, ~/.local/bin) run on your system when it has them, outside the sandbox with your user's access, as if VS Code were installed there. Turn it off with flatpak override --user --no-talk-name=org.freedesktop.Flatpak com.visualstudio.code."
+      zh-Hans: "使用 flatpark-spawn：VS Code、集成终端和扩展运行的命令（git、node、mise 或 asdf 工具链、~/.local/bin），只要你的系统上有，就在系统上运行，在沙箱之外、拥有你这个用户的权限，就像 VS Code 直接装在系统上一样。可以用 flatpak override --user --no-talk-name=org.freedesktop.Flatpak com.visualstudio.code 关闭。"
   - kind: seeded-config
     detail:
       en: "The launcher opens a note about the sandbox on first start, reads extra Electron flags from code-flags.conf, keeps extensions in the app's data directory, points TMPDIR at the per-app runtime directory, and links the host's /etc/shells into the sandbox so the terminal finds host shells."
