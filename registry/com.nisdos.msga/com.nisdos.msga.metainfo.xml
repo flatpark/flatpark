@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.nisdos.msga</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>MSGA</name>
+  <summary>Fast native Slack client</summary>
+  <developer id="com.nisdos">
+    <name>Nisdos</name>
+  </developer>
+
+  <description>
+    <p>
+      This package is maintained by the MSGA developer. It runs the official MSGA Linux release
+      build, unmodified, downloaded from the project's GitHub releases at install time.
+    </p>
+    <p>
+      MSGA is an unofficial Slack client that starts in under a second, needs a fraction of the
+      memory of the official app and uses no CPU while idle. It is native code from top to bottom:
+      no Electron, no web view, no GUI toolkit.
+    </p>
+    <p>Everything you expect from Slack works:</p>
+    <ul>
+      <li>Channels, direct messages and threads</li>
+      <li>Reactions, custom emoji, files, images and GIFs</li>
+      <li>Notifications and a tray icon with unread counts</li>
+      <li>Several workspaces side by side</li>
+      <li>Sign-in with your browser session, or with your own Slack app for live updates</li>
+    </ul>
+    <p>
+      MSGA can also show your Claude Code sessions next to your workspaces, each one as a direct
+      message: read them, answer them and start new ones, on this computer or on a server over
+      ssh. Claude Code itself is not included; MSGA uses the one installed on your system.
+    </p>
+    <p>
+      MSGA is not affiliated with, endorsed by or sponsored by Slack Technologies or Salesforce.
+    </p>
+    <p>
+      Claude Code sessions and the "Sign in with Google Chrome" button run programs on the host
+      (the claude CLI, git, ssh, the browser), so they are not granted by default. Turn them on
+      with "flatpak override":
+    </p>
+    <ul>
+      <li>Claude Code and the Chrome sign-in: <code>flatpak override --user --talk-name=org.freedesktop.Flatpak --filesystem=host --filesystem=/tmp com.nisdos.msga</code></li>
+      <li>Undo it: <code>flatpak override --user --reset com.nisdos.msga</code></li>
+    </ul>
+    <p>
+      Without them, sign in with your own Slack app or by pasting a session token; files are
+      uploaded and saved through the file chooser.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">com.nisdos.msga.desktop</launchable>
+  <provides>
+    <binary>msga</binary>
+  </provides>
+
+  <url type="homepage">https://msga.app</url>
+  <url type="bugtracker">https://github.com/punarinta/make-slack-great-again/issues</url>
+  <url type="vcs-browser">https://github.com/punarinta/make-slack-great-again</url>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#f6dca4</color>
+    <color type="primary" scheme_preference="dark">#5c4310</color>
+  </branding>
+
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <keywords>
+    <keyword>Slack</keyword>
+    <keyword>chat</keyword>
+    <keyword>messaging</keyword>
+    <keyword>Claude Code</keyword>
+  </keywords>
+
+  <!-- Upstream's own screenshots: demo mode, a made-up workspace. -->
+  <screenshots>
+    <screenshot type="default">
+      <caption>A Slack channel with images, files and reactions</caption>
+      <image type="source" width="1200" height="800">https://raw.githubusercontent.com/punarinta/make-slack-great-again/master/gfx/screenshots/flathub-1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A Claude Code session as a direct message</caption>
+      <image type="source" width="1200" height="800">https://raw.githubusercontent.com/punarinta/make-slack-great-again/master/gfx/screenshots/flathub-2.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Threads, canvases and unread counts</caption>
+      <image type="source" width="1200" height="800">https://raw.githubusercontent.com/punarinta/make-slack-great-again/master/gfx/screenshots/flathub-3.png</image>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+  <requires>
+    <internet>always</internet>
+  </requires>
+
+  <releases>
+    <release version="2026-11-28" date="2026-11-28"/>
+  </releases>
+</component>

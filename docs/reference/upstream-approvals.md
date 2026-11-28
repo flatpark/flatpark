@@ -129,3 +129,4 @@ Developers who said no to a listing are recorded in
 | OpenXplorer | `io.winspace.Development` | Submitted by its developer in [flatpark#1548](https://github.com/flatpark/flatpark/pull/1548) | 2026-11-24 |
 | HikLens | `io.github.rwnicholas.HikLens` | Approved by construction — submitted and maintained by its own developer ([flatpark#1552](https://github.com/flatpark/flatpark/pull/1552)) | 2026-11-24 |
 | Handset | `io.github.kennyporto.Handset` | Submitted by its developer in [flatpark#1556](https://github.com/flatpark/flatpark/pull/1556) | 2026-11-26 |
+| MSGA | `com.nisdos.msga` | Submitted by its developer in [flatpark#1651](https://github.com/flatpark/flatpark/pull/1651) | 2026-11-28 |
