@@ -1,0 +1,56 @@
+id: com.nisdos.msga
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: msga
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The window: msga draws it itself (no toolkit, no GPU) on Wayland or X11.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # Slack's API and websocket.
+  - --share=network
+  # Notification sounds, the inline audio player, voice input.
+  - --socket=pulseaudio
+  # Notifications with the sender's avatar, and the tray icon with unread
+  # counts (StatusNotifierItem).
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Reconnecting right after the computer wakes up (PrepareForSleep).
+  - --system-talk-name=org.freedesktop.login1
+  # No file access: uploads and downloads go through the file chooser portal.
+  # Claude Code and the "Sign in with Google Chrome" button run programs on
+  # the host and are off by default; the metainfo has the override that turns
+  # them on.
+modules:
+  - name: msga
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 msga-wrapper /app/bin/msga
+      - install -Dm644 com.nisdos.msga.desktop /app/share/applications/com.nisdos.msga.desktop
+      - install -Dm644 com.nisdos.msga.metainfo.xml /app/share/metainfo/com.nisdos.msga.metainfo.xml
+      - install -Dm644 com.nisdos.msga.png /app/share/icons/hicolor/256x256/apps/com.nisdos.msga.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: msga-linux-x86_64
+        only-arches:
+          - x86_64
+        url: https://github.com/punarinta/make-slack-great-again/releases/download/2026-11-28/msga-linux-x86_64
+        sha256: 8b9259861e1135815cf2ec9d9f09aee08f7393eb5e71fde32125bcf91de3c17a
+        size: 4936744
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: msga-wrapper
+      - type: file
+        path: com.nisdos.msga.desktop
+      - type: file
+        path: com.nisdos.msga.metainfo.xml
+      - type: file
+        path: com.nisdos.msga.png

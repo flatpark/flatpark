@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# msga is one static executable, staged by apply_extra at /app/extra/msga.
+# It needs nothing set here: inside a Flatpak it turns off its own updater
+# and launcher entry, uses the app id com.nisdos.msga, and keeps its data in
+# the XDG folders Flatpak redirects into ~/.var/app/com.nisdos.msga.
+exec /app/extra/msga "$@"

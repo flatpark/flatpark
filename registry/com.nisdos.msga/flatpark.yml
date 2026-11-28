@@ -1,0 +1,22 @@
+id: com.nisdos.msga
+name: MSGA
+summary: Fast native Slack client
+website: https://msga.app/
+source_url: https://github.com/punarinta/make-slack-great-again
+build:
+  manifest: com.nisdos.msga.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  upstream_approved: true
+  category: Network
+  tags:
+    - Slack
+    - Chat
+    - Messaging
+    - Claude Code
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
