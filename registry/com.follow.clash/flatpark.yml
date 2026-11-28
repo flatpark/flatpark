@@ -1,8 +1,8 @@
 id: com.follow.clash
 name: FlClash
 summary: Graphical client for the ClashMeta and mihomo proxy cores
-website: https://chen08209.github.io/FlClash
-source_url: https://github.com/chen08209/FlClash
+website: https://vialibrex.github.io/FlClash/
+source_url: https://github.com/Vialibrex/FlClash
 build:
   manifest: com.follow.clash.yml
   branch: stable
