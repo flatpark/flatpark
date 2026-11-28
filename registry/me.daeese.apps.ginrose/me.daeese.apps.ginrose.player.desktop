@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Roblox
+GenericName=Roblox (Ginrose)
+Comment=Play Roblox through Ginrose
+Exec=ginrose launch %u
+Icon=me.daeese.apps.ginrose
+Categories=Game;
+MimeType=x-scheme-handler/roblox-player;x-scheme-handler/roblox;
+StartupNotify=false
+StartupWMClass=me.daeese.apps.ginrose.player
