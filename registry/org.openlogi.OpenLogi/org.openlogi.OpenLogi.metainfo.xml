@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.openlogi.OpenLogi</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0 OR MIT</project_license>
+  <name>OpenLogi</name>
+  <summary>Control Logitech mice and keyboards</summary>
+  <developer id="org.openlogi">
+    <name>AprilNEA</name>
+  </developer>
+  <url type="homepage">https://openlogi.org</url>
+  <url type="bugtracker">https://github.com/AprilNEA/OpenLogi/issues</url>
+  <url type="vcs-browser">https://github.com/AprilNEA/OpenLogi</url>
+  <description>
+    <p>This is a community package of OpenLogi: it repackages the official upstream Debian build unmodified, fetched from upstream's releases at install time.</p>
+    <p>OpenLogi is a native, local-first alternative to Logitech Options+. It remaps buttons, sets DPI, tunes SmartShift, and applies per-application profiles to Logitech HID++ devices: over a Bolt or Unifying receiver, over Bluetooth, or wired. There is no account and no telemetry; configuration is a plain TOML file.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Remap buttons, including gesture and Actions Ring bindings</li>
+      <li>Set DPI and cycle between DPI presets</li>
+      <li>Configure SmartShift and wheel behaviour</li>
+      <li>Per-application profiles that switch on the focused window</li>
+      <li>Battery level for connected devices</li>
+    </ul>
+    <p>One setup step is needed after installing: device nodes are owned by root, so OpenLogi's udev rules have to be installed on the host, which a Flatpak cannot do itself. Until then no devices are listed. Run this once in a terminal, then unplug and replug the receiver or device and restart the app:</p>
+    <p><code>flatpak run --command=cat org.openlogi.OpenLogi /app/share/openlogi/udev/70-openlogi.rules | sudo tee /etc/udev/rules.d/70-openlogi.rules &gt;/dev/null &amp;&amp; sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger</code></p>
+    <p>The app's Settings, Permissions page shows whether access is granted.</p>
+    <p>The "Launch at login" setting has no effect in this package: it registers a systemd user service, which the sandbox cannot reach. Button remapping and per-application profiles run in OpenLogi's background agent, which starts when you open the app, so open OpenLogi once after logging in.</p>
+  </description>
+  <screenshots>
+    <!-- Upstream's README screenshots are taken on macOS; the GPUI interface
+         is the same on Linux. -->
+    <screenshot type="default">
+      <caption>Device list</caption>
+      <image>https://assets.openlogi.org/screenshots/macos/light/devices-grid.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Button remapping</caption>
+      <image>https://assets.openlogi.org/screenshots/macos/light/cards/buttons.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>DPI presets</caption>
+      <image>https://assets.openlogi.org/screenshots/macos/light/cards/dpi.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">org.openlogi.OpenLogi.desktop</launchable>
+  <categories>
+    <category>Settings</category>
+    <category>HardwareSettings</category>
+  </categories>
+  <keywords>
+    <keyword>logitech</keyword>
+    <keyword>mouse</keyword>
+    <keyword>keyboard</keyword>
+    <keyword>dpi</keyword>
+    <keyword>remap</keyword>
+  </keywords>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <content_rating type="oars-1.1"/>
+  <provides>
+    <binary>openlogi</binary>
+    <binary>openlogi-desktop</binary>
+  </provides>
+  <releases>
+    <release version="0.9.0" date="2026-11-03"/>
+  </releases>
+</component>

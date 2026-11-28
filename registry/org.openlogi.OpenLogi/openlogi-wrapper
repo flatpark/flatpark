@@ -1,0 +1,4 @@
+#!/bin/sh
+# Starts upstream's GUI from /app/extra. It launches openlogi-agent (device I/O)
+# and openlogi-overlay from the same directory.
+exec /app/extra/openlogi/openlogi-desktop "$@"
