@@ -130,12 +130,17 @@ collections:
     name: Wine Apps
     summary:
       en: >-
-        Windows apps packaged for Linux, each running its vendor's unmodified
-        installer under Wine. They share one Wine install, org.winehq.Wine from
-        Flathub, and each keeps its own prefix.
+        Windows apps packaged for Linux. Each one downloads its vendor's
+        unmodified installer and, on first launch, runs it under Wine in a
+        prefix of its own, kept in the app's data folder. They all use one
+        Wine install, org.winehq.Wine from Flathub, which the install button
+        brings along. Every app here is installed, updated and removed like any
+        other Flatpak, and Cellar manages all of them from one window.
       zh-Hans: >-
-        打包成 Linux 应用的 Windows 程序，每个都在 Wine 里运行厂商原版、未经修改的安装程序。
-        它们共用 Flathub 上的同一份 Wine（org.winehq.Wine），各自使用独立的前缀。
+        打包成 Linux 应用的 Windows 程序。每个应用都下载厂商原版、未经修改的安装程序，
+        第一次启动时在 Wine 里把它装进自己独立的前缀，前缀保存在应用自己的数据目录中。
+        它们共用 Flathub 上的同一份 Wine（org.winehq.Wine），点安装时会一并装上。
+        这里的每个应用都像普通 Flatpak 应用一样安装、更新和卸载，并且都可以在 Cellar 里统一管理。
     howto:
       label:
         en: How to package a Windows app with Wine
@@ -147,25 +152,46 @@ collections:
           zh-Hans: 管理工具
         summary:
           en: >-
-            Cellar manages Wine prefixes and the Windows programs in them, with
-            a GUI and a CLI. Every app below is launched by it.
+            Cellar is a Wine prefix manager with a GUI and a CLI, and the
+            launcher every app below is built on. Installed on its own, it
+            finds the Wine apps you have from FlatPark and lists them next to
+            its own prefixes: change an app's DPI, virtual desktop, locale,
+            Windows version and fonts, add winetricks dependencies, see its
+            logs and running processes, end them, or open winecfg and regedit
+            in its prefix. Changes made while the app runs reach it at once;
+            the rest apply on its next launch. An app shows up in Cellar after
+            it has been started once from its own launcher. Cellar is
+            optional: every app runs without it.
           zh-Hans: >-
-            Cellar 用来管理 Wine 前缀和其中的 Windows 程序，有图形界面也有命令行。下面每个应用都由它启动。
+            Cellar 是 Wine 前缀管理器，有图形界面也有命令行，下面每个应用都用它作为启动器。
+            单独安装 Cellar 后，它会找到你从 FlatPark 安装的 Wine 应用，和它自己的前缀列在一起：
+            可以调整应用的 DPI、虚拟桌面、区域、Windows 版本和字体，添加 winetricks 依赖，
+            查看日志和正在运行的进程并结束它们，或者在应用的前缀里打开 winecfg 和 regedit。
+            应用运行时做的修改会立即生效，其余的在应用下次启动时生效。应用需要先从自己的启动器启动一次，
+            之后才会出现在 Cellar 里。Cellar 不是必装的：没有它，每个应用也都能正常运行。
         apps:
           - org.flatpark.Cellar
       - title:
-          en: Apps
-          zh-Hans: 应用
+          en: Circuit simulation
+          zh-Hans: 电路仿真
         apps:
-          - com.foobar2000.Foobar2000
           - com.analog.LTspice
           - com.qorvo.QSPICE
           - de.qucsstudio.uSimmics
-          - com.epri.OpenDSS
-          - net.qsl._4nec2
-          - io.github.ip7z.SevenZipGUI
+      - title:
+          en: Engineering and electronics tools
+          zh-Hans: 工程与电子工具
+        apps:
           - com.saturnpcb.PCBToolkit
+          - net.qsl._4nec2
+          - com.epri.OpenDSS
           - com.loxone.Config
+      - title:
+          en: Everyday apps
+          zh-Hans: 日常工具
+        apps:
+          - com.foobar2000.Foobar2000
+          - io.github.ip7z.SevenZipGUI
   - slug: icp-brasil
     name: ICP-Brasil digital signature
     summary:
