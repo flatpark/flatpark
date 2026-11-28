@@ -21,11 +21,13 @@
       <li>Reproducible Sandboxes &amp; .mallorn Format: Isolated renv and venv project environments with 1:1 bidirectional RStudio compatibility and portable archive bundles.</li>
       <li>Full Jupyter Parity: Lossless round-trip .ipynb (nbformat 4.5) editing preserving cell IDs, execution counts, outputs, and metadata.</li>
       <li>Integrated Domain Studios: Galaxy Project workflow bridge, AlphaFold DB structure inspection, ICH E9 biostatistics calculators, and Natural Math/Chem studios.</li>
-      <li>Scientific Publishing Pipeline: Export to PDF, HTML, OpenDocument Text (.odt), OpenDocument Presentation (.odp), and RTF with cryptographic SHA-256 GxP provenance manifests.</li>
-      <li>Model Context Protocol (MCP): Hardened built-in stdio MCP server for agentic document analysis and data retrieval.</li>
+      <li>Qualitative Analysis &amp; Cytoscape Network Integration: Plain-text Pandoc {.qual} spans with SQLite WAL (.imladris-qual.db), SHA-256 SDV, immutable ALCOA+ audit_log, Blinded Dual-Coding, Cohen's/Fleiss' Kappa, Krippendorff's Alpha, Fisher's Exact enrichment, Thematic Saturation Curves, bidirectional Cytoscape CyREST bridge (CX2/GraphML), and native GTK4/Cairo Qualitative Graph View.</li>
+      <li>11-Domain Help Hub &amp; Hardware Guard: Offline-first F1 symbol lookup with manual ETag/SHA-256 caching and adaptive GSK_RENDERER guard from Intel 4th-Gen (Haswell) to modern GPUs.</li>
+      <li>Scientific Publishing Pipeline: Export to PDF, DOCX, HTML, OpenDocument Text (.odt), OpenDocument Presentation (.odp), and RTF with cryptographic SHA-256 GxP provenance manifests.</li>
+      <li>Model Context Protocol (MCP): Hardened built-in stdio MCP server (execution gated by IMLADRIS_MCP_ALLOW_EXEC=1, workspace-confined, read-only and JSONL audit modes).</li>
     </ul>
     <p>
-      AI Transparency &amp; Privacy Disclosure: In-app Elrond AI features are strictly opt-in (supporting 100% offline local inference via llama.cpp/Ollama or consent-gated cloud providers). Imladris is architected and maintained by Antonio De Gaetano with AI pair-programming assistance (Google Gemini and Anthropic Claude) used in developing and auditing source code and documentation.
+      AI Transparency, Privacy &amp; Legal Compliance: Imladris is local-first with zero telemetry, zero HTTP cookies, and local system fonts only. Run imladris --purge-user-data for deterministic GDPR Art. 17 local erasure. In-app Elrond AI features are strictly opt-in (100% offline local inference via llama.cpp/Ollama or consent-gated cloud providers). Core studio code is licensed under Apache-2.0 (bundled Papirus symbolic icons under GPL-3.0-or-later). Architected and maintained by Antonio De Gaetano with AI pair-programming assistance (Google Gemini and Anthropic Claude) used in developing and auditing source code and documentation.
     </p>
     <p>
       Note: This application is independently developed and is not affiliated with or endorsed by Posit, RStudio, or Project Jupyter.
@@ -76,14 +78,40 @@
   </developer>
   <content_rating type="oars-1.1"/>
   <releases>
-    <release version="0.45.0" date="2026-11-28">
-      <description></description>
+    <release version="0.45.0" date="2026-11-28" type="stable">
+      <description>
+        <p>Release 0.45.0: Qualitative Analysis Engine, Bidirectional Cytoscape Bridge, 11-Domain Help Hub, Haswell-to-Modern Hardware Guard, Security Hardening, and Global Legal Compliance:</p>
+        <ul>
+          <li>Plain-text Pandoc {.qual} spans with SQLite WAL sidecar (.imladris-qual.db), SHA-256 SDV, and immutable ALCOA+ audit_log.</li>
+          <li>Blinded Dual-Coding mode, hierarchical Codebook Sidebar, and virtualized Evidence Matrix with Quarto/CSV/TSV exports.</li>
+          <li>Biostatistical Engine: Cohen's Kappa, Fleiss' Kappa, Krippendorff's Alpha, Fisher's Exact enrichment, and Thematic Saturation Curves.</li>
+          <li>Bidirectional Cytoscape CyREST bridge, lossless CX2/GraphML exchange, and native GTK4/Cairo Qualitative Graph View.</li>
+          <li>11-domain Help &amp; Documentation Hub with manual ETag updates, SHA-256 offline cache, F1 symbol lookup, and Haswell-to-modern GSK renderer guard.</li>
+          <li>Security &amp; Legal Compliance: Hardened WebKitGTK file/universal URL isolation, no-shell-escape LaTeX exports, IMLADRIS_MCP_ALLOW_EXEC=1 gate on MCP .tex execution, Apache-2.0 / Papirus GPL-3.0-or-later license alignment, and full EU/UK/US compliance register in docs/legal/.</li>
+          <li>Verified: All 18/18 Meson and Vala test suites passing.</li>
+        </ul>
+      </description>
     </release>
-    <release version="0.44.0" date="2026-11-26">
-      <description></description>
+    <release version="0.44.0" date="2026-11-26" type="stable">
+      <description>
+        <p>Major release featuring threaded Review Notes Sidebar, Ptyxis/Rewaita Color Palettes, DOCX export, Polars/AnnData/Seurat/DESeq2 DataGrid support, and 12-suite test coverage:</p>
+        <ul>
+          <li>Added Left/Right collapsible Review Notes Sidebar with sidecar JSON persistence, Gtk.TextMark line-range anchoring, fuzzy re-anchoring, multi-reviewer merge, and Markdown rebuttal export.</li>
+          <li>Added Ptyxis-inspired Rewaita Color Palette selector (18 palettes) alongside GNOME Accent Color and Eye-Friendly theming.</li>
+          <li>Added DOCX export support, Polars/AnnData/Seurat/DESeqDataSet DataGrid inspection with column pagination and .gz/.vcf/.bed/.gtf preview, and multi-species Ensembl support in Yavanna.</li>
+          <li>Improved kernel interrupt/timeout stability, unsaved document close guards, malformed .ipynb/layout resilience, and Elrond AI inline diff preview.</li>
+        </ul>
+      </description>
     </release>
-    <release version="0.43.2" date="2026-11-25">
-      <description></description>
+    <release version="0.43.2" date="2026-11-25" type="stable">
+      <description>
+        <p>Release 0.43.2 enforces strict in-sandbox toolchain isolation for Flatpak builds:</p>
+        <ul>
+          <li>Zero Host Toolchain Access in Flatpak: Removed org.freedesktop.Flatpak host-spawn permission and disabled host runtime fallback inside Flatpak so the sandboxed app never accesses preinstalled host R, Python, or Quarto binaries.</li>
+          <li>Out-of-the-Box &amp; Multi-Version Environments: Bundles micromamba, uv, quarto, and pandoc inside /app/toolchain/bin so users can create isolated environments with different R and Python versions purely inside the Flatpak sandbox.</li>
+          <li>Native Builds Unchanged: Debian (.deb), Fedora/openSUSE (.rpm), and local native installs continue to support host environments normally.</li>
+        </ul>
+      </description>
     </release>
     <release version="0.43.1" date="2026-11-24" type="stable">
       <description>
