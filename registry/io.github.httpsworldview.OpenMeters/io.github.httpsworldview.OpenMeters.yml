@@ -37,9 +37,9 @@ modules:
         filename: openmeters.tar.xz
         only-arches:
           - x86_64
-        url: https://github.com/httpsworldview/openmeters/releases/download/v1.18.0/openmeters-1.18.0-x86_64-linux-gnu.tar.xz
-        sha256: 1227e8324037c2aa4ea5919b8f26f15edd54cf78b3f5d73a71589c4a9255b6e5
-        size: 4368564
+        url: https://github.com/httpsworldview/openmeters/releases/download/v1.19.0/openmeters-1.19.0-x86_64-linux-gnu.tar.xz
+        sha256: eb78c5d18b5dec4d8db0a5363dbce8df77602962b34dd87ff95024f2d6670681
+        size: 4363020
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

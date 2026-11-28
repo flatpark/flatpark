@@ -39,10 +39,11 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: app.AppImage
-        only-arches: [x86_64]
-        url: https://github.com/keptaduona/wickline/releases/download/v0.1.11/Wickline-Linux-0.1.11.AppImage
-        sha256: 178c00eef9529f71acf5553f33f24d4b0f24413978c44e63e07dabdea64aa26d
-        size: 126859241
+        only-arches:
+          - x86_64
+        url: https://github.com/keptaduona/wickline/releases/download/v0.1.16/Wickline-Linux-0.1.16.AppImage
+        sha256: 07ab7ddf8df9270dd0405fee02be258b58f2d8a95fb36a1d769dd458aa759abb
+        size: 127433097
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
