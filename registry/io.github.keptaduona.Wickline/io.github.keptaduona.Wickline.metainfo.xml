@@ -23,5 +23,8 @@
       <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.keptaduona.Wickline/screenshots/chart.png</image>
     </screenshot>
   </screenshots>
-  <releases><release version="0.1.11" date="2026-11-25" /></releases>
+  <releases>
+    <release version="0.1.16" date="2026-11-27">
+      <description></description>
+    </release><release version="0.1.11" date="2026-11-25" /></releases>
 </component>

@@ -43,6 +43,10 @@
     <binary>openmeters</binary>
   </provides>
   <releases>
+    <release version="1.19.0" date="2026-11-28">
+      <url type="details">https://github.com/httpsworldview/openmeters/releases/tag/v1.19.0</url>
+      <description></description>
+    </release>
     <release version="1.18.0" date="2026-11-14">
       <url type="details">https://github.com/httpsworldview/openmeters/releases/tag/v1.18.0</url>
     </release>

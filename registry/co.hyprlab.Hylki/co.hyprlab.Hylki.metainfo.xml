@@ -324,6 +324,9 @@
   <update_contact>hyprlab@proton.me</update_contact>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.50.1" date="2026-11-27">
+      <description></description>
+    </release>
     <release version="1.50.0" date="2026-11-26">
       <description></description>
     </release>

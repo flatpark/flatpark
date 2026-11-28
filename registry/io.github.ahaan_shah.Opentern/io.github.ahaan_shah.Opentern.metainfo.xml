@@ -30,6 +30,9 @@
     <category>Finance</category>
   </categories>
   <releases>
+    <release version="0.3.8" date="2026-11-27">
+      <description></description>
+    </release>
     <release version="0.3.7" date="2026-11-26"/>
   </releases>
 </component>

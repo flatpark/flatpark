@@ -31,16 +31,16 @@ modules:
         filename: opentern-x86_64.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/ahaan-shah/opentern/releases/download/v0.3.7/opentern-x86_64-unknown-linux-gnu.tar.gz
-        sha256: 02497a1a8933c3fc0e35b710ac893b013dfb3c2076894e7d354eb7fa8f9ec5a7
-        size: 20648175
+        url: https://github.com/ahaan-shah/opentern/releases/download/v0.3.8/opentern-x86_64-unknown-linux-gnu.tar.gz
+        sha256: 56f2efdb500bb1c12b7b112a6b5500dd25641af8b1b91de188765714d5ed34ab
+        size: 20942445
       - type: extra-data
         filename: opentern-aarch64.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/ahaan-shah/opentern/releases/download/v0.3.7/opentern-aarch64-unknown-linux-gnu.tar.gz
-        sha256: be77586a0d8d051b0913ae82791da578867a0aa08b3a6924931b032b4b736150
-        size: 19376345
+        url: https://github.com/ahaan-shah/opentern/releases/download/v0.3.8/opentern-aarch64-unknown-linux-gnu.tar.gz
+        sha256: 0e42a47b40231e5fa27df5de49c8a5adc91b59bb8189972c19c6e730d835bb11
+        size: 19646750
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
