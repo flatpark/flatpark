@@ -95,6 +95,10 @@
   <content_rating type="oars-1.1"/>
 
   <releases>
+    <release version="0.1.2" date="2026-11-28">
+      <url type="details">https://github.com/KennyPorto/handset/releases/tag/v0.1.2</url>
+      <description></description>
+    </release>
     <release version="0.1.1" date="2026-11-26">
       <url type="details">https://github.com/KennyPorto/handset/releases/tag/v0.1.1</url>
       <description></description>

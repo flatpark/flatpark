@@ -35,16 +35,16 @@ modules:
         filename: anicraft.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/storytold/anicraft/releases/download/v0.2.1/anicraft-0.2.1-linux-x86_64.tar.gz
-        sha256: a3a8795bd6aea4b4bc5ca0f26c226a072330d38fe93f4edf5526360ebf7156fd
-        size: 19705850
+        url: https://github.com/storytold/anicraft/releases/download/v0.3.0/anicraft-0.3.0-linux-x86_64.tar.gz
+        sha256: c83b78c1293bf37920aefe8bdca4443cf1d53fec450499872fc7fe5243eb114d
+        size: 35773176
       - type: extra-data
         filename: anicraft.tar.gz
         only-arches:
           - aarch64
-        url: https://github.com/storytold/anicraft/releases/download/v0.2.1/anicraft-0.2.1-linux-aarch64.tar.gz
-        sha256: aba2a43b3d96b61905386d738af9d636809de23ddbae1e6cabb473ee79db28ad
-        size: 18392152
+        url: https://github.com/storytold/anicraft/releases/download/v0.3.0/anicraft-0.3.0-linux-aarch64.tar.gz
+        sha256: 3244bd8b26ffd96602559524a9f3a068777a0f421ce870d5c57dd578a6d30e82
+        size: 33669950
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh
