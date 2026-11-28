@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=ProCraft
+GenericName=Painting
+Comment=Paint, draw and sketch
+Exec=procraft %F
+Icon=io.github.artcraft_android.ProCraft
+Terminal=false
+Categories=Graphics;2DGraphics;RasterGraphics;
+Keywords=paint;draw;sketch;brush;art;
+StartupWMClass=procraft

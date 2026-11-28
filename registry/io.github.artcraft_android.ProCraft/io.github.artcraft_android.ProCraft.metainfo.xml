@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.artcraft_android.ProCraft</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT OR Apache-2.0</project_license>
+  <name>ProCraft</name>
+  <summary>Paint and draw with brushes, layers and animation</summary>
+  <description>
+    <p>ProCraft is a painting app with pressure-sensitive brushes, layers, colour adjustments, selection and transform tools. It also includes animation and 3D painting features.</p>
+    <p>PDF import requires Poppler tools, which this package does not currently provide.</p>
+  </description>
+  <developer id="io.github.artcraft_android"><name>ArtCraft-android</name></developer>
+  <url type="homepage">https://github.com/artcraft-android/procraft</url>
+  <url type="vcs-browser">https://github.com/artcraft-android/procraft</url>
+  <url type="bugtracker">https://github.com/artcraft-android/procraft/issues</url>
+  <launchable type="desktop-id">io.github.artcraft_android.ProCraft.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Drawing on a canvas</caption>
+      <!-- Taken from the FlatPark test build of ProCraft 0.0.8-beta. -->
+      <image>https://raw.githubusercontent.com/flatpark/flatpark/main/registry/io.github.artcraft_android.ProCraft/screenshots/canvas.png</image>
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.0" />
+  <releases><release version="0.0.8-beta" date="2026-11-25" /></releases>
+</component>
