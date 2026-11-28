@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github._0xShug0.AudioCpp.ROCM10</id>
+  <name>audio.cpp (ROCm 10)</name>
+  <summary>Run local audio AI models with the ROCm 10 backend</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <developer><name>audio.cpp contributors</name></developer>
+  <description>
+    <p>Run speech synthesis, speech recognition, voice conversion and music generation locally with audio.cpp. This community package uses the unmodified official experimental ROCm 10.0.0 Linux test release.</p>
+    <p>The launcher starts a local server in a terminal; the package has no native application window. Open 127.0.0.1:8083 in your browser to use its embedded WebUI. Close the server with Ctrl+C. Models and voices are stored in this app's private data directory. Model weights have their own licenses.</p>
+    <p>This package includes the native model manager in the server. Workflows requiring Python conversion or additional host tools are unavailable. The CPU, CUDA, Vulkan and ROCm 10 editions use separate model stores and ports.</p>
+    <p>For command line inference use flatpak run --command=audio-cpp-cli io.github._0xShug0.AudioCpp.ROCM10. To access an existing models folder, grant it with flatpak override --user --filesystem=/path/to/models:ro io.github._0xShug0.AudioCpp.ROCM10. Undo custom grants with flatpak override --user --reset io.github._0xShug0.AudioCpp.ROCM10.</p>
+    <p>GPU acceleration requires a supported AMD GPU and a host kernel driver exposing /dev/kfd. This package grants broad device access for ROCm, which also exposes other host devices. The matching ROCm 10 runtime and kernels are downloaded from AMD at install time; no host ROCm SDK is needed. The Linux binaries require an AVX2/FMA/F16C-capable x86-64 CPU. Upstream labels this build experimental; GPU compatibility and model coverage are still being validated.</p>
+  </description>
+  <launchable type="desktop-id">io.github._0xShug0.AudioCpp.ROCM10.desktop</launchable>
+  <url type="homepage">https://github.com/0xShug0/audio.cpp</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/0xShug0/audio.cpp</url>
+  <categories><category>AudioVideo</category><category>Audio</category></categories>
+  <releases><release version="0.9.5" date="2026-11-14"/></releases>
+  <content_rating type="oars-1.1"/>
+</component>
