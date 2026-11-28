@@ -30,6 +30,13 @@ finish-args:
   - --socket=pulseaudio
   # Desktop notifications for bot updates and approval prompts.
   - --talk-name=org.freedesktop.Notifications
+  # Tray icon. Electron 43 (Chromium 150) owns org.kde.StatusNotifierItem-<pid>-<n>
+  # and registers it with the watcher; only Electron 45 and later use the unique
+  # connection name. Without the own-name the bus proxy refuses it and no tray
+  # appears. A D-Bus name pattern can only end in a whole element, hence
+  # org.kde.*. Re-check on the Electron 45 bump: the own-name can then go.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --own-name=org.kde.*
   # Encrypt stored login credentials with the desktop keyring. Electron's
   # safeStorage uses Secret Service, or KWallet on KDE, where Chromium picks
   # KWallet itself (the wrapper leaves KDE alone). Without the KWallet names
