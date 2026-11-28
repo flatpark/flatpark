@@ -1,0 +1,33 @@
+id: org.openlogi.OpenLogi
+name: OpenLogi
+summary: Control Logitech mice and keyboards
+website: https://openlogi.org
+source_url: https://github.com/AprilNEA/OpenLogi
+build:
+  manifest: org.openlogi.OpenLogi.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: System
+  tags:
+    - Logitech
+    - Mouse
+    - Keyboard
+    - HID++
+    - Button Remapping
+update:
+  command: ./resolve-update.sh
+upstream:
+  # Upstream builds its own .flatpak bundle from this manifest (same app id).
+  # We pin their .deb as extra-data instead, so the build modules differ on
+  # purpose; the diff keeps the finish-args in step.
+  manifest: packaging/linux/flatpak/org.openlogi.OpenLogi.yml
+policy:
+  proprietary: false
+  dangerous_permissions:
+    # HID++ talks to the receiver or device over /dev/hidraw*, and the button
+    # remapping hook reads /dev/input/event* and writes /dev/uinput. Only
+    # --device=all exposes hidraw and uinput. Upstream's own Flatpak grants the
+    # same.
+    - --device=all

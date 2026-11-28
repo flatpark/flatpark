@@ -1,0 +1,77 @@
+id: org.openlogi.OpenLogi
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+command: openlogi-desktop
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # The same set as upstream's own Flatpak manifest
+  # (packaging/linux/flatpak/org.openlogi.OpenLogi.yml).
+  #
+  # GPUI app; the binaries link only libxkbcommon(-x11), libxcb and libc, all
+  # in the freedesktop runtime. Native Wayland, X11 as a fallback.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # GPUI renders through wgpu/Vulkan.
+  - --device=dri
+  # /dev/hidraw* for HID++ device I/O, /dev/input/event* and /dev/uinput for
+  # the button remapping hook. Only --device=all exposes hidraw and uinput.
+  # The kernel still needs upstream's udev rules on the host before the user
+  # may open those nodes; the metainfo says how. Declared in
+  # policy.dangerous_permissions.
+  - --device=all
+  # Device render images are fetched from upstream's asset mirrors and cached
+  # in the app's data directory.
+  - --share=network
+  # Media-key actions drive whatever player is on the bus, over MPRIS.
+  - --talk-name=org.mpris.MediaPlayer2.*
+modules:
+  - name: openlogi
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      # The launcher and the CLI exec the vendor binaries from /app/extra. The
+      # GUI starts openlogi-agent from beside its own executable, so all four
+      # binaries stay together in /app/extra/openlogi.
+      - install -Dm755 openlogi-wrapper /app/bin/openlogi-desktop
+      - ln -s /app/extra/openlogi/openlogi /app/bin/openlogi
+      # The app's Settings > Permissions page, inside a Flatpak, shows
+      # `flatpak run --command=cat org.openlogi.OpenLogi
+      # /app/share/openlogi/udev/70-openlogi.rules | sudo tee ...` as the way
+      # to install the udev rules on the host, the same path upstream's own
+      # Flatpak uses. The rules come from the .deb; this link points at them.
+      - install -d /app/share/openlogi/udev
+      - ln -s /app/extra/openlogi/70-openlogi.rules /app/share/openlogi/udev/70-openlogi.rules
+      - install -Dm644 org.openlogi.OpenLogi.desktop /app/share/applications/org.openlogi.OpenLogi.desktop
+      - install -Dm644 org.openlogi.OpenLogi.metainfo.xml /app/share/metainfo/org.openlogi.OpenLogi.metainfo.xml
+      - install -Dm644 org.openlogi.OpenLogi.png /app/share/icons/hicolor/512x512/apps/org.openlogi.OpenLogi.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: openlogi.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/AprilNEA/OpenLogi/releases/download/v0.9.0/openlogi-v0.9.0-linux-amd64.deb
+        sha256: a53d485ba25db1dc71c3d49f82eee0ce9ba8b449f05a50f110895b310ef2cefb
+        size: 21742764
+      - type: extra-data
+        filename: openlogi.deb
+        only-arches:
+          - aarch64
+        url: https://github.com/AprilNEA/OpenLogi/releases/download/v0.9.0/openlogi-v0.9.0-linux-arm64.deb
+        sha256: 5cc68f026bcf7791dc459399212017b1769c3b5e681f96561a6450d9f217248c
+        size: 19002416
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: openlogi-wrapper
+      - type: file
+        path: org.openlogi.OpenLogi.desktop
+      - type: file
+        path: org.openlogi.OpenLogi.metainfo.xml
+      - type: file
+        path: org.openlogi.OpenLogi.png
