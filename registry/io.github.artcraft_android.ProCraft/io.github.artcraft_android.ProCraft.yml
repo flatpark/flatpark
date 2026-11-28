@@ -1,0 +1,48 @@
+id: io.github.artcraft_android.ProCraft
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: procraft
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Display and GPU rendering for the canvas.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+modules:
+  - name: procraft
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 procraft-wrapper /app/bin/procraft
+      - install -Dm644 io.github.artcraft_android.ProCraft.desktop /app/share/applications/io.github.artcraft_android.ProCraft.desktop
+      - install -Dm644 io.github.artcraft_android.ProCraft.metainfo.xml /app/share/metainfo/io.github.artcraft_android.ProCraft.metainfo.xml
+      - install -Dm644 io.github.artcraft_android.ProCraft.png /app/share/icons/hicolor/512x512/apps/io.github.artcraft_android.ProCraft.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: procraft.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/artcraft-android/procraft/releases/download/v0.0.8-beta/procraft-0.0.8-beta-linux-x86_64.tar.gz
+        sha256: bbae734a6d31ff6a35e8f83048b4107e331950fa9eac1c7a3758d84bd339cf26
+        size: 26384076
+      - type: extra-data
+        filename: procraft.tar.gz
+        only-arches: [aarch64]
+        url: https://github.com/artcraft-android/procraft/releases/download/v0.0.8-beta/procraft-0.0.8-beta-linux-aarch64.tar.gz
+        sha256: d43f92a1ab10b170c7a8e2cafd18561b5f6e7897cbf580bb9543ac61b432ae1f
+        size: 25269449
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: procraft-wrapper
+      - type: file
+        path: io.github.artcraft_android.ProCraft.desktop
+      - type: file
+        path: io.github.artcraft_android.ProCraft.metainfo.xml
+      - type: file
+        path: io.github.artcraft_android.ProCraft.png

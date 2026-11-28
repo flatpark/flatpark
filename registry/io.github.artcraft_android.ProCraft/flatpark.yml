@@ -1,0 +1,18 @@
+id: io.github.artcraft_android.ProCraft
+name: ProCraft
+summary: Paint and draw with brushes, layers and animation
+website: https://github.com/artcraft-android/procraft
+source_url: https://github.com/artcraft-android/procraft
+build:
+  manifest: io.github.artcraft_android.ProCraft.yml
+  branch: stable
+  mode: extra-data
+  arches: [x86_64, aarch64]
+catalog:
+  category: Graphics
+  tags: [Paint, Drawing, Animation]
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []
