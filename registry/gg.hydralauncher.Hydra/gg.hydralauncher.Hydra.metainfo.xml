@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>gg.hydralauncher.Hydra</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Hydra Launcher</name>
+  <summary>Game launcher and library manager</summary>
+  <developer id="gg.hydralauncher">
+    <name>Hydra Launcher</name>
+  </developer>
+  <url type="homepage">https://hydralauncher.gg</url>
+  <url type="help">https://help.hydralauncher.gg</url>
+  <url type="bugtracker">https://github.com/hydralauncher/hydra/issues</url>
+  <url type="vcs-browser">https://github.com/hydralauncher/hydra</url>
+  <description>
+    <p>This is a community package of Hydra Launcher: it repackages the official upstream Debian build unmodified, fetched from upstream's releases at install time.</p>
+    <p>Hydra Launcher is a gaming platform for managing your game library in one place, from PC games to the classics.</p>
+    <ul>
+      <li>Add games you own or any executable, import your Steam library and playtime, and link your Epic Games account</li>
+      <li>Track playtime and achievements, with cloud saves and a social profile</li>
+      <li>A built-in download manager with a queue, pause and resume</li>
+      <li>Hydra Classics: point it at your ROM folders and play through supported emulators</li>
+      <li>Run Windows games through Proton and UMU</li>
+    </ul>
+    <p>Games run inside this package's sandbox. Hydra downloads and installs to your Downloads folder by default; other locations need a grant. Starting emulators that are themselves installed as Flatpaks does not work from the sandbox. Updates come through Flatpak; leave Hydra's own automatic install option off.</p>
+    <p>A few optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>A game folder outside Downloads: <code>flatpak override --user --filesystem=/path/to/games gg.hydralauncher.Hydra</code></li>
+      <li>Use the Proton versions installed by Steam: <code>flatpak override --user --filesystem=~/.steam:ro --filesystem=~/.local/share/Steam:ro gg.hydralauncher.Hydra</code></li>
+      <li>Undo all of these: <code>flatpak override --user --reset gg.hydralauncher.Hydra</code></li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Home page</caption>
+      <image>https://raw.githubusercontent.com/hydralauncher/hydra/main/docs/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">gg.hydralauncher.Hydra.desktop</launchable>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>games</keyword>
+    <keyword>launcher</keyword>
+    <keyword>library</keyword>
+    <keyword>proton</keyword>
+  </keywords>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+    <control>gamepad</control>
+  </recommends>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  <provides>
+    <binary>hydralauncher</binary>
+  </provides>
+  <releases>
+    <release version="4.4.1" date="2026-11-12"/>
+  </releases>
+</component>

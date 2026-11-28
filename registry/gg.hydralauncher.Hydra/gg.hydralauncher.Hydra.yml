@@ -1,0 +1,72 @@
+id: gg.hydralauncher.Hydra
+runtime: org.freedesktop.Platform
+runtime-version: "26.08"
+sdk: org.freedesktop.Sdk
+# Electron app: the Electron base app brings zypak, which redirects Chromium's
+# SUID sandbox onto the Flatpak sandbox, and the tray libraries.
+base: org.electronjs.Electron2.BaseApp
+base-version: "26.08"
+command: hydralauncher
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Electron (Chromium) client; upstream's electron-builder .deb, unmodified.
+  # GTK3, NSS, libsecret, libnotify and the X11 libraries it links come from the
+  # runtime. The torrent addon and the bundled tools (umu-run, legendary,
+  # ludusavi, 7zzs) link only libc/libstdc++ or are static.
+  - --share=ipc
+  # Catalogue, accounts, cloud saves and downloads.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Achievement and chat sounds, and the games Hydra launches.
+  - --socket=pulseaudio
+  # Download-finished and achievement notifications.
+  - --talk-name=org.freedesktop.Notifications
+  # Tray icon (Electron Tray through the base app's libappindicator).
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # Electron safeStorage keeps the RetroAchievements token in the keyring.
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Hydra's default download folder is Downloads; games are installed and
+  # launched from there.
+  - --filesystem=xdg-download
+  # Gamepads for Big Picture mode and for the games Hydra launches, which run
+  # inside this sandbox. --device=input exposes /dev/input only.
+  - --device=input
+  # Not granted; documented as overrides in the metainfo: game folders outside
+  # Downloads, and Steam's own Proton builds under ~/.steam or
+  # ~/.local/share/Steam.
+  - --unset-env=ELECTRON_RUN_AS_NODE
+modules:
+  - name: hydra
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      - install -Dm755 hydra-wrapper /app/bin/hydralauncher
+      - install -Dm644 gg.hydralauncher.Hydra.desktop /app/share/applications/gg.hydralauncher.Hydra.desktop
+      - install -Dm644 gg.hydralauncher.Hydra.metainfo.xml /app/share/metainfo/gg.hydralauncher.Hydra.metainfo.xml
+      - install -Dm644 gg.hydralauncher.Hydra.png /app/share/icons/hicolor/512x512/apps/gg.hydralauncher.Hydra.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: hydra.deb
+        only-arches:
+          - x86_64
+        url: https://github.com/hydralauncher/hydra/releases/download/v4.4.1/hydralauncher_4.4.1_amd64.deb
+        sha256: 0527fe3fec945b3463f14d7b61a6ff12f76215b9e5d3ba338a677d0c20c92cb8
+        size: 179249704
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: hydra-wrapper
+      - type: file
+        path: gg.hydralauncher.Hydra.desktop
+      - type: file
+        path: gg.hydralauncher.Hydra.metainfo.xml
+      - type: file
+        path: gg.hydralauncher.Hydra.png
