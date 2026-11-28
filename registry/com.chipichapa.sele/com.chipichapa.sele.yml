@@ -1,5 +1,9 @@
 id: com.chipichapa.sele
-runtime: org.freedesktop.Platform
+# Sdk, not Platform: Sele 4.x runs its agents, git and terminals as child
+# processes inside the sandbox (no flatpak-spawn any more), and the Platform
+# has no git. The Sdk ships git, ssh, bash, python3, make and compilers there,
+# as for com.openai.ChatGPT and com.anthropic.ClaudeDesktop.
+runtime: org.freedesktop.Sdk
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
@@ -15,12 +19,22 @@ finish-args:
   - --device=dri
   # Provider connections, the embedded browser and remote development.
   - --share=network
-  # Sele opens, reads and edits arbitrary local repositories. Its upstream
+  # Sele opens, reads and edits arbitrary local repositories, creates git
+  # worktrees under ~/.t3, and runs the agent CLIs the user installed in their
+  # home (~/.local/bin, mise, npm, bun, cargo; see sele-wrapper). Its upstream
   # Flatpak uses the same grant; see policy.dangerous_permissions and the PR.
   - --filesystem=host
-  # The core provider, Git and terminal paths use flatpak-spawn --host to run
-  # the user's installed/authenticated CLIs and toolchains, not bundled ones.
-  - --talk-name=org.freedesktop.Flatpak
+  # git and agents over SSH (push, fetch, remote environments) with the host's
+  # agent; the socket lives under /run, which --filesystem=host doesn't cover.
+  - --socket=ssh-auth
+  # Provider tokens and the Electron safeStorage key go to the login keyring
+  # (org.freedesktop.secrets; KWallet on KDE, which Chromium picks there).
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd6
+  # Not granted: --talk-name=org.freedesktop.Flatpak. Sele 1.x-3.x ran its
+  # tools through flatpak-spawn --host; 4.x has no Flatpak code path and runs
+  # everything in the sandbox, so the grant would only widen the attack surface.
   - --unset-env=ELECTRON_RUN_AS_NODE
 modules:
   - name: sele

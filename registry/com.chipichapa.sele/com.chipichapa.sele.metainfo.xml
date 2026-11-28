@@ -5,7 +5,7 @@
   <summary>A focused desktop workspace for AI coding agents</summary>
 
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0-only</project_license>
+  <project_license>MIT</project_license>
 
   <developer id="com.chipichapa">
     <name>Chipi Chapa Corp</name>
@@ -13,27 +13,25 @@
 
   <description>
     <p>
-      Sele is a desktop AI harness for working with OpenAI Codex, Anthropic
-      Claude Code, GitHub Copilot, and OpenCode
-      across local projects.
-      It brings conversations, project context, code changes, file editing, and
-      terminal sessions together in one focused workspace.
-    </p>
-    <p>
-      Review changes as you work, move between projects and conversations, and
-      keep the tools needed for agent-assisted development close at hand.
+      Sele is a desktop workspace for AI coding agents, an unofficial fork of
+      the open-source T3 Code. It runs Claude Code, Codex, Cursor, OpenCode and
+      other agents already installed on your computer, and brings
+      conversations, diffs, worktrees and terminal sessions together in one
+      window, for local and remote projects.
     </p>
     <p>
       This FlatPark package repackages the official upstream build unmodified.
-      Install and authenticate the coding-agent CLI you want to use on your
-      host system before starting Sele. These tools are not bundled here.
+      Sele runs agents, Git and terminals inside the Flatpak sandbox, which
+      provides Git, SSH, Bash, Python and a C toolchain. Agent CLIs you install
+      in your home folder are found there: ~/.local/bin, ~/bin, mise shims,
+      npm, pnpm, Bun, Deno, Cargo, Volta and Go. CLIs installed system-wide
+      (for example in /usr/bin by your distribution) are not visible; install
+      them per user instead.
     </p>
     <p>
-      The Flatpak uses host command execution and filesystem access so that
-      coding agents, Git, shells, and developer tools installed on the computer
-      remain fully available to Sele and its AI agents. This grants the app
-      permission to execute arbitrary host commands and read and edit host
-      files, beyond the Flatpak sandbox.
+      The Flatpak has read and write access to all host files, so that Sele and
+      its agents can work on your repositories. It does not run commands on
+      the host.
     </p>
   </description>
 
@@ -52,7 +50,7 @@
   <keywords>
     <keyword>AI</keyword>
     <keyword>Codex</keyword>
-    <keyword>Copilot</keyword>
+    <keyword>Claude</keyword>
     <keyword>developer</keyword>
     <keyword>terminal</keyword>
   </keywords>
@@ -63,14 +61,9 @@
   </supports>
   <content_rating type="oars-1.1" />
 
-  <screenshots>
-    <screenshot type="default">
-      <image type="source" width="1745" height="984">
-        https://raw.githubusercontent.com/Chipi-Chapa-Corp/sele/main/screenshots/sele-main.png
-      </image>
-      <caption>Work with an AI coding agent alongside project files and code changes</caption>
-    </screenshot>
-  </screenshots>
+  <!-- No screenshot: upstream dropped the 1.x-3.x one with the 4.0 rewrite and
+       publishes only a promotional composite (README hero, phone mock-up);
+       a real one needs a signed-in agent. -->
 
   <releases>
     <release version="4.1.0" date="2026-11-27">

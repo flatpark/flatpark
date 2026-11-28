@@ -23,9 +23,8 @@ policy:
   proprietary: false
   dangerous_permissions:
     - --filesystem=host
-    - --talk-name=org.freedesktop.Flatpak
 packaging:
-  - kind: host-command
+  - kind: seeded-config
     detail:
-      en: "Sele runs your installed coding-agent CLIs, Git and shells on the host through flatpak-spawn, and reads and edits local project files. These permissions allow arbitrary host commands and access to host files."
-      zh-Hans: "Sele 通过 flatpak-spawn 在宿主机上运行已安装的编程代理 CLI、Git 和 shell，并读取和编辑本地项目文件。这些权限允许执行任意宿主机命令并访问宿主机文件。"
+      en: "Before each start the launcher creates the empty marker file Sele itself writes after its first launch (~/.t3/userdata/cli-command-first-launch). Without it, Sele links a t3 command into ~/.local/bin that points inside the sandbox and fails on the host. The t3 command can still be installed from Settings."
+      zh-Hans: "每次启动前，启动脚本会创建 Sele 首次启动后自己也会写入的空标记文件（~/.t3/userdata/cli-command-first-launch）。否则 Sele 会在 ~/.local/bin 里链接一个指向沙箱内部、在宿主机上无法运行的 t3 命令。仍可在设置中手动安装 t3 命令。"

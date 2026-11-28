@@ -2,9 +2,49 @@
 set -eu
 
 unset ELECTRON_RUN_AS_NODE
+
+# The agents and the tools they call (mise shims, gh, npm, git) keep their
+# config, trust lists, installs and logins under the XDG directories, which
+# Flatpak points at the app's private ~/.var/app folder. Point them back at the
+# host's, which --filesystem=host exposes, as a native install sees them (as
+# ai.usemagpie.Magpie does). Sele's own state is in ~/.t3 either way.
+export XDG_CONFIG_HOME="${HOST_XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${HOST_XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${HOST_XDG_STATE_HOME:-$HOME/.local/state}"
+export XDG_CACHE_HOME="${HOST_XDG_CACHE_HOME:-$HOME/.cache}"
+
+# Sele 4.x starts the agent CLIs (Claude Code, Codex, Pi, OpenCode, ...) as
+# child processes in the sandbox and finds them on PATH, read from a login
+# shell. The sandbox shell is the Sdk's bash, which doesn't read the user's
+# zsh/fish setup, so add the usual per-user install locations that the
+# --filesystem=host grant already makes visible. Only existing directories,
+# after the runtime's own /app/bin:/usr/bin so host copies never shadow them.
+for dir in \
+    "$HOME/.local/bin" \
+    "$HOME/bin" \
+    "$XDG_DATA_HOME/mise/shims" \
+    "$XDG_DATA_HOME/pnpm" \
+    "$HOME/.npm-global/bin" \
+    "$HOME/.bun/bin" \
+    "$HOME/.deno/bin" \
+    "$HOME/.cargo/bin" \
+    "$HOME/.volta/bin" \
+    "$HOME/.opencode/bin" \
+    "$HOME/go/bin"; do
+    case ":$PATH:" in *":$dir:"*) ;; *) if [ -d "$dir" ]; then PATH="$PATH:$dir"; fi ;; esac
+done
+export PATH
+
+# On a fresh install Sele links a `t3` command into ~/.local/bin, pointing at
+# /app/extra/..., which doesn't exist on the host. It skips that once this
+# marker (which it writes itself after the first launch) exists; users can
+# still install the command from Settings. T3CODE_HOME is Sele's override.
+state="${T3CODE_HOME:-$HOME/.t3}/userdata"
+mkdir -p "$state" && : >>"$state/cli-command-first-launch" || true
+
 # Zypak, supplied by the Electron base app, preserves Chromium's sandbox.
-# Electron 38 uses --ozone-platform; select the exposed Wayland socket, with
-# X11 as the fallback when Flatpak has not exposed one.
+# Electron (44 as of Sele 4.x) uses --ozone-platform; select the exposed
+# Wayland socket, with X11 as the fallback when Flatpak has not exposed one.
 if [ -n "${WAYLAND_DISPLAY:-}" ]; then
     set -- --ozone-platform=wayland "$@"
 fi
