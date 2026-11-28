@@ -55,9 +55,9 @@ modules:
         filename: cellar-cli-x86_64
         only-arches:
           - x86_64
-        url: https://github.com/jing2uo/cellar/releases/download/v0.5.1/cellar-cli-x86_64
-        sha256: bddea0982c458ababdac841c5b9c7685fd782cc9979dbd01c1f1ac7a36b2b9cb
-        size: 9691296
+        url: https://github.com/jing2uo/cellar/releases/download/v0.6.0/cellar-cli-x86_64
+        sha256: 03a6b0032a25828c8fbd3da2e1919ef252279e4cb333ddea915ba6c0ee1e45ec
+        size: 9760928
       - type: file
         path: apply_extra.sh
       - type: file

@@ -25,3 +25,6 @@ policy:
     # Flatpak's seccomp filter otherwise kills new-WoW64 Wine's 32-bit
     # processes.
     - --allow=multiarch
+    # Cellar manages the prefixes of FlatPark Wine apps, which live in each
+    # app's data folder; it writes nothing else there.
+    - --filesystem=~/.var/app
