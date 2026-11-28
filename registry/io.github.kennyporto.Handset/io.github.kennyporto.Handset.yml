@@ -35,9 +35,9 @@ modules:
         filename: handset.tar.gz
         only-arches:
           - x86_64
-        url: https://github.com/KennyPorto/handset/releases/download/v0.1.1/handset-linux-x86_64-flatpark.tar.gz
-        sha256: e4017e3b5ed135eec6fd422dc0f22ef8420f3fc407bb86e2992473a17ad44cdc
-        size: 8389853
+        url: https://github.com/KennyPorto/handset/releases/download/v0.1.2/handset-linux-x86_64-flatpark.tar.gz
+        sha256: 63e330942a713f1e6d592e7466ecf56798df90883d55418549292fbcdd063dd2
+        size: 8392074
       # END MANAGED EXTRA-DATA
       - type: file
         path: apply_extra.sh

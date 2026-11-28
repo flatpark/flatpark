@@ -25,13 +25,15 @@ modules:
       # BEGIN MANAGED EXTRA-DATA
       - type: extra-data
         filename: procraft.tar.gz
-        only-arches: [x86_64]
+        only-arches:
+          - x86_64
         url: https://github.com/artcraft-android/procraft/releases/download/v0.0.8-beta/procraft-0.0.8-beta-linux-x86_64.tar.gz
         sha256: bbae734a6d31ff6a35e8f83048b4107e331950fa9eac1c7a3758d84bd339cf26
         size: 26384076
       - type: extra-data
         filename: procraft.tar.gz
-        only-arches: [aarch64]
+        only-arches:
+          - aarch64
         url: https://github.com/artcraft-android/procraft/releases/download/v0.0.8-beta/procraft-0.0.8-beta-linux-aarch64.tar.gz
         sha256: d43f92a1ab10b170c7a8e2cafd18561b5f6e7897cbf580bb9543ac61b432ae1f
         size: 25269449

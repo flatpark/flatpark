@@ -52,6 +52,10 @@
     <binary>photoncam</binary>
   </provides>
   <releases>
+    <release version="2.0.0" date="2026-11-28">
+      <url type="details">https://github.com/pietini69/photoncam/releases/tag/v2.0.0</url>
+      <description></description>
+    </release>
     <release version="1.2.11" date="2026-11-15">
       <url type="details">https://github.com/pietini69/photoncam/releases/tag/v1.2.11</url>
       <description></description>
