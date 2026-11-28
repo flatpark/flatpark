@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Hydra
+Comment=Game launcher and library manager
+Exec=hydralauncher %U
+Terminal=false
+Type=Application
+Icon=gg.hydralauncher.Hydra
+StartupWMClass=hydralauncher
+MimeType=x-scheme-handler/hydralauncher;
+Categories=Game;
+Keywords=games;launcher;library;proton;emulator;

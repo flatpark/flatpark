@@ -1,0 +1,22 @@
+id: gg.hydralauncher.Hydra
+name: Hydra Launcher
+summary: Game launcher and library manager
+website: https://hydralauncher.gg
+source_url: https://github.com/hydralauncher/hydra
+build:
+  manifest: gg.hydralauncher.Hydra.yml
+  branch: stable
+  mode: extra-data
+catalog:
+  category: Game
+  tags:
+    - Game Launcher
+    - Game Library
+    - Proton
+    - Emulators
+    - Achievements
+update:
+  command: ./resolve-update.sh
+policy:
+  proprietary: false
+  dangerous_permissions: []

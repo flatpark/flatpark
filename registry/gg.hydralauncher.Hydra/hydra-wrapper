@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+# Hydra is an Electron app staged by apply_extra at /app/extra/hydra from
+# upstream's .deb. zypak-wrapper (from the Electron base app) redirects
+# Chromium's SUID sandbox onto the Flatpak sandbox, so the app keeps its own
+# sandbox instead of running with --no-sandbox. Hydra sets
+# --ozone-platform-hint=auto itself.
+unset ELECTRON_RUN_AS_NODE
+
+# Chromium writes the tray icon to a file in $TMPDIR and hands the desktop its
+# path; the sandbox's /tmp is private. The per-app runtime dir is the same path
+# inside and outside.
+export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
+
+# apply_extra reads the launcher name from the .deb's desktop entry.
+launcher="$(cat /app/extra/launcher 2>/dev/null || true)"
+[ -n "$launcher" ] || launcher=hydralauncher
+exec zypak-wrapper "/app/extra/hydra/$launcher" "$@"
