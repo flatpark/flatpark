@@ -172,6 +172,10 @@ before the PR. Each item links to the page that explains it.
   the vendor's Windows installer is the managed extra-data download, and
   `cellar-cli` a second, fixed one outside the managed block. Cellar runs the
   installer, unmodified, into the user's prefix on first launch.
+- Keep every Wine app's `cellar-cli` on one release, bumped together with
+  Cellar. Cellar finds the Wine apps installed and manages each one's prefix
+  by running that app's own `cellar-cli` (v0.6.0 or later), so the app's
+  settings are always read and written by the version it ships.
 - Wine is not bundled: it is `org.winehq.Wine` from Flathub, one install every
   Wine app shares. Grant its install paths read-only
   (`~/.local/share/flatpak/app/org.winehq.Wine:ro` and

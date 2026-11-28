@@ -33,10 +33,16 @@ finish-args:
   # Host menu launchers for prefix apps (`cellar desktop`, the GUI's launcher
   # button) go to ~/.local/share/applications.
   - --filesystem=xdg-data/applications:create
-  # org.winehq.Wine where flatpak installs it, per user and system-wide: the
-  # "system" runner. An app, so it can't be mounted as an extension.
-  - --filesystem=~/.local/share/flatpak/app/org.winehq.Wine:ro
-  - --filesystem=/var/lib/flatpak/app/org.winehq.Wine:ro
+  # The data of FlatPark Wine apps, ~/.var/app/<id>/data/cellar: their
+  # prefixes, which Cellar manages through each app's own cellar, and the run
+  # locks and agent socket the two sandboxes share (they don't share /tmp).
+  - --filesystem=~/.var/app
+  # Installed apps, per user and system-wide, read-only: to find FlatPark Wine
+  # apps (share/cellar/cellar.toml in their deploy) and run each one's own
+  # cellar. This covers org.winehq.Wine too, the "system" runner (an app, so it
+  # can't be mounted as an extension).
+  - --filesystem=~/.local/share/flatpak/app:ro
+  - --filesystem=/var/lib/flatpak/app:ro
   # New-WoW64 Wine runs 32-bit Windows code with no 32-bit Linux libraries,
   # but Flatpak's default seccomp filter still kills it: without this every
   # 32-bit program fails in NtCreateUserProcess.
