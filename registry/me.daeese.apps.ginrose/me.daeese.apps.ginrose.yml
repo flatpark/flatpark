@@ -1,0 +1,69 @@
+id: me.daeese.apps.ginrose
+runtime: org.gnome.Platform
+runtime-version: "51"
+sdk: org.gnome.Sdk
+command: ginrose
+separate-locales: false
+build-options:
+  no-debuginfo: true
+finish-args:
+  # Setup downloads the Roblox client from Roblox's CDN, and playing connects
+  # to Roblox's servers. The optional server-location notice asks ipinfo.io.
+  - --share=network
+  - --share=ipc
+  # The launcher is GTK 4 / libadwaita; the Roblox window is drawn by Rosemary
+  # (SDL 3), which uses Wayland or X11 and renders through Vulkan.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Game sound and the microphone for voice chat.
+  - --socket=pulseaudio
+  # Gamepads: Roblox supports controllers, and the game runs inside this
+  # sandbox. --device=input exposes /dev/input only (Flatpak 1.15.6 or later).
+  - --device=input
+  - --require-version=1.16.0
+  # Not granted; documented as overrides in the metainfo: Discord Rich
+  # Presence, which needs Discord's local socket.
+modules:
+  - name: ginrose
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 apply_extra.sh /app/bin/apply_extra
+      # The downloads are unpacked into /app/extra at install time. The wrapper
+      # starts the launcher from there, and the link points at the Rosemary
+      # apply_extra.sh puts there: Ginrose's Flatpak mode starts the Rosemary at
+      # /app/bin/rosemary and no other.
+      - install -Dm755 ginrose-wrapper /app/bin/ginrose
+      - ln -s /app/extra/rosemary /app/bin/rosemary
+      - install -Dm644 me.daeese.apps.ginrose.desktop /app/share/applications/me.daeese.apps.ginrose.desktop
+      # The entry that opens roblox.com's Play buttons (roblox-player: links).
+      - install -Dm644 me.daeese.apps.ginrose.player.desktop /app/share/applications/me.daeese.apps.ginrose.player.desktop
+      - install -Dm644 me.daeese.apps.ginrose.metainfo.xml /app/share/metainfo/me.daeese.apps.ginrose.metainfo.xml
+      - install -Dm644 me.daeese.apps.ginrose.png /app/share/icons/hicolor/512x512/apps/me.daeese.apps.ginrose.png
+    sources:
+      # BEGIN MANAGED EXTRA-DATA
+      - type: extra-data
+        filename: ginrose.tar.gz
+        only-arches: [x86_64]
+        url: https://github.com/nunreasonable/ginrose-flatpak/releases/download/v26.0.5.1/ginrose-26.0.5.1-x86_64.tar.gz
+        sha256: 9eb93a51c27830b68b10996ddd3c3c2ec1ba9d52af9804c3156352d07b232f7b
+        size: 3596210
+      - type: extra-data
+        filename: rosemary
+        only-arches: [x86_64]
+        url: https://github.com/nunreasonable/ginrose-flatpak/releases/download/v26.0.5.1/rosemary-ginrose-x86_64
+        sha256: 7010d7e1c5a1d2bd7bf20ec7a3597f623c16d8cd9e89270a2e844916f22a3f7b
+        size: 32171744
+      # END MANAGED EXTRA-DATA
+      - type: file
+        path: apply_extra.sh
+      - type: file
+        path: ginrose-wrapper
+      - type: file
+        path: me.daeese.apps.ginrose.desktop
+      - type: file
+        path: me.daeese.apps.ginrose.player.desktop
+      - type: file
+        path: me.daeese.apps.ginrose.metainfo.xml
+      - type: file
+        path: me.daeese.apps.ginrose.png

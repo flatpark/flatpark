@@ -1,0 +1,7 @@
+#!/bin/bash
+# GTK takes the X11 window class from argv[0], so started as `ginrose` the
+# launcher's window is "ginrose" while the desktop entry's StartupWMClass is
+# the app id (which is what Wayland reports), and an X11 desktop leaves the
+# window ungrouped. Start the same binary under the app id's name. bash, not
+# sh: `exec -a` is not POSIX, and the runtime's /bin/sh is bash.
+exec -a me.daeese.apps.ginrose /app/extra/ginrose/ginrose "$@"

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>me.daeese.apps.ginrose</id>
+  <launchable type="desktop-id">me.daeese.apps.ginrose.desktop</launchable>
+  <name>Ginrose</name>
+  <developer id="me.daeese">
+    <name>nunreasonable</name>
+  </developer>
+  <summary>Run the official macOS Roblox client on Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <url type="homepage">https://apps.daeese.me/ginrose</url>
+  <url type="bugtracker">https://github.com/flatpark/flatpark/issues</url>
+  <url type="vcs-browser">https://github.com/nunreasonable/ginrose</url>
+  <description>
+    <p>Ginrose runs the official macOS Roblox client on Linux through Rosemary, a macOS compatibility layer. It downloads the client straight from Roblox, keeps it up to date, and sets it up to run well. The client is never modified, and Ginrose refuses to run one that was: before every launch it checks Roblox's own code signature on every file.</p>
+    <ul>
+      <li>Uncapped frame rate, and FastFlags from Roblox's allowlist with a one-click preset.</li>
+      <li>Per-game profiles for graphics level, frame cap and flags.</li>
+      <li>Ctrl for copy and paste, and the Play buttons on roblox.com open the game.</li>
+      <li>Discord Rich Presence, and an optional notice of where the server you joined is (off by default; it asks ipinfo.io about the server's address).</li>
+    </ul>
+    <p>Ginrose and Rosemary are experimental, and so is running Roblox on them: the developer has tested it on one computer. Setup downloads Roblox on the first run. Ginrose is not affiliated with or endorsed by Roblox Corporation.</p>
+    <p>This is a community package. It repackages, unmodified, the official Ginrose tarball and Ginrose's build of Rosemary from the developer's releases at github.com/nunreasonable/ginrose-flatpak, downloaded at install time and updated from their releases. The developer also publishes a Flatpak bundle under the same app id; install Ginrose from one source only. Please report problems with this package to FlatPark first.</p>
+    <p>Optional capabilities are not granted by default; enable the ones you need with "flatpak override":</p>
+    <ul>
+      <li>Discord Rich Presence needs Discord's local socket. For the Discord app on your system: <code>flatpak override --user --filesystem=xdg-run/discord-ipc-0 me.daeese.apps.ginrose</code>. For the Flatpak Discord: <code>flatpak override --user --filesystem=xdg-run/app/com.discordapp.Discord me.daeese.apps.ginrose</code>. Start Discord before Ginrose.</li>
+      <li>Undo them: <code>flatpak override --user --reset me.daeese.apps.ginrose</code></li>
+    </ul>
+    <p>To have it open the Play buttons on roblox.com when another app already does, run this once on your system: <code>xdg-mime default me.daeese.apps.ginrose.player.desktop x-scheme-handler/roblox-player x-scheme-handler/roblox</code></p>
+    <p>The MangoHud overlay in Ginrose's settings needs MangoHud's Vulkan layer, which is a Flatpak extension you install once: <code>flatpak install flathub org.freedesktop.Platform.VulkanLayer.MangoHud//26.08</code></p>
+  </description>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <keywords>
+    <keyword>Roblox</keyword>
+    <keyword>launcher</keyword>
+    <keyword>Rosemary</keyword>
+  </keywords>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://apps.daeese.me/ginrose/assets/shot-launcher.webp</image>
+      <caption>The Ginrose launcher</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://apps.daeese.me/ginrose/assets/shot-roblox.webp</image>
+      <caption>The Roblox client running through Ginrose</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="26.0.5.1" date="2026-11-26">
+      <url type="details">https://github.com/nunreasonable/ginrose-flatpak/releases/tag/v26.0.5.1</url>
+      <description></description>
+    </release>
+  </releases>
+</component>

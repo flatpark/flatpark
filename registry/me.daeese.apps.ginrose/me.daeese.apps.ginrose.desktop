@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Ginrose
+Comment=Roblox launcher and settings
+Exec=ginrose
+Icon=me.daeese.apps.ginrose
+Categories=Game;
+StartupWMClass=me.daeese.apps.ginrose
